@@ -1,0 +1,108 @@
+{
+  "recorded_utc": "2026-10-01T23:32:46.798881+00:00",
+  "scope": "Read-only USB topology, descriptors, permissions and sysfs inspection. No serial open, switching, reset, authorization change, sysfs write or VBUS measurement.",
+  "target": {
+    "vid_pid": "10c4:ea60",
+    "bridge": "CP2102",
+    "kernel_device_path": "1-1.4.3",
+    "immediate_hub": "1-1.4",
+    "immediate_port": 3,
+    "hub_vid_pid": "0bda:5411",
+    "hub_bcdDevice": "1.36",
+    "hub_self_powered_descriptor": true
+  },
+  "usb3_peer": {
+    "hub_path": "2-3.4",
+    "hub_vid_pid": "0bda:0411",
+    "port": 3,
+    "kernel_peer_link_confirmed": true
+  },
+  "shared_path": {
+    "immediate_port2": "RTL-SDR receiver",
+    "immediate_port4": "Another hub with webcam, FTDI UART and wireless HID receiver",
+    "upstream_hub_port1": "Stream Deck HID"
+  },
+  "uhubctl_found_on_path": false,
+  "capabilities": "CapEff 0000000000000000",
+  "nodes": {
+    "usb2_hub_usbfs": {
+      "path": "/dev/bus/usb/001/006",
+      "mode": "0o664",
+      "owner_uid": 0,
+      "group_gid": 0,
+      "readable_by_operator": true,
+      "writable_by_operator": false
+    },
+    "usb3_peer_hub_usbfs": {
+      "path": "/dev/bus/usb/002/003",
+      "mode": "0o664",
+      "owner_uid": 0,
+      "group_gid": 0,
+      "readable_by_operator": true,
+      "writable_by_operator": false
+    },
+    "usb2_esp_port_disable": {
+      "path": "/sys/bus/usb/devices/1-1.4:1.0/1-1.4-port3/disable",
+      "mode": "0o644",
+      "owner_uid": 0,
+      "group_gid": 0,
+      "readable_by_operator": true,
+      "writable_by_operator": false
+    },
+    "usb3_peer_port_disable": {
+      "path": "/sys/bus/usb/devices/2-3.4:1.0/2-3.4-port3/disable",
+      "mode": "0o644",
+      "owner_uid": 0,
+      "group_gid": 0,
+      "readable_by_operator": true,
+      "writable_by_operator": false
+    },
+    "esp_device_authorized": {
+      "path": "/sys/bus/usb/devices/1-1.4.3/authorized",
+      "mode": "0o644",
+      "owner_uid": 0,
+      "group_gid": 0,
+      "readable_by_operator": true,
+      "writable_by_operator": false
+    }
+  },
+  "hub_descriptor": {
+    "lsusb_standard_cached_descriptors_read": true,
+    "cached_descriptor_bytes": 59,
+    "class_descriptor_obtained": false,
+    "lsusb_diagnostic": "Couldn't open device, some information will be missing",
+    "wHubCharacteristics": null,
+    "per_port_switching": "unknown",
+    "electrical_VBUS_switching": "unmeasured"
+  },
+  "safe_host_control_assessment": "No currently usable verified electrical power-cycle route: control nodes not writable, hub power-switching descriptor unavailable, actual VBUS switching/backpower unmeasured.",
+  "is_recovery_proof": false,
+  "commands": [
+    "lsusb -t",
+    "lsusb -v -s 001:006",
+    "lsusb -v -s 002:003",
+    "getfacl -p /dev/bus/usb/001/006 /dev/bus/usb/002/003",
+    "readlink -f /sys/class/tty/ttyUSB0/device",
+    "readlink -f /sys/bus/usb/devices/1-1.4:1.0/1-1.4-port3/peer",
+    "Read sysfs disable, state, power/runtime_status and power/pm_qos_no_power_off; os.access read/write checks"
+  ],
+  "sources": [
+    "https://github.com/mvp/uhubctl",
+    "https://www.kernel.org/doc/html/latest/driver-api/usb/power-management.html#usb-port-power-control",
+    "https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-usb"
+  ],
+  "usb2_esp_port": {
+    "disable": "0",
+    "state": "suspended",
+    "connect_type": "unknown",
+    "power/runtime_status": "active",
+    "power/pm_qos_no_power_off": "1"
+  },
+  "usb3_peer_port": {
+    "disable": "0",
+    "state": "not attached",
+    "connect_type": "unknown",
+    "power/runtime_status": "active",
+    "power/pm_qos_no_power_off": "1"
+  }
+}
