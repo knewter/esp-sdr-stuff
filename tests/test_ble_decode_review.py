@@ -9,6 +9,7 @@ import unittest
 
 import numpy as np
 from scipy.ndimage import gaussian_filter1d
+from scipy.signal import resample_poly
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 import ble_decode_iq as decoder
@@ -98,15 +99,30 @@ class IndependentBLEReview(unittest.TestCase):
         self.assertEqual(decoder.decode_packet(bits, 37, MARKER)["status"], "crc_failed")
 
     def test_many_slicer_timings_do_not_duplicate_one_packet(self):
-        frames = decoder.decode_iq(modulate_packets([200]), 16_000_000, 37, MARKER)
-        owned = [frame for frame in frames if frame["status"] == "valid_owned"]
-        self.assertEqual(len(owned), 1)
+        for refine in [False, True]:
+            with self.subTest(refine=refine):
+                frames = decoder.decode_iq(modulate_packets([200]), 16_000_000, 37, MARKER, refine=refine)
+                owned = [frame for frame in frames if frame["status"] == "valid_owned"]
+                self.assertEqual(len(owned), 1)
 
     def test_repeated_payload_at_two_distinct_positions_counts_two_packets(self):
-        frames = decoder.decode_iq(modulate_packets([150, 600]), 16_000_000, 37, MARKER)
-        owned = [frame for frame in frames if frame["status"] == "valid_owned"]
-        self.assertEqual(len(owned), 2)
-        self.assertEqual(owned[0]["pdu_sha256"], owned[1]["pdu_sha256"])
+        for refine in [False, True]:
+            with self.subTest(refine=refine):
+                frames = decoder.decode_iq(modulate_packets([150, 600]), 16_000_000, 37, MARKER, refine=refine)
+                owned = [frame for frame in frames if frame["status"] == "valid_owned"]
+                self.assertEqual(len(owned), 2)
+                self.assertEqual(owned[0]["pdu_sha256"], owned[1]["pdu_sha256"])
+
+    def test_blind_refinement_uses_independent_wire_and_bounded_hypotheses(self):
+        iq = modulate_packets([200])
+        iq *= np.exp(-2j * np.pi * 1_000_000 * np.arange(len(iq)) / 16_000_000)
+        base = resample_poly(iq - iq.mean(), 1, 4)
+        phase = np.angle(base[1:] * np.conj(base[:-1]))
+        result = decoder.refine_packet(phase, (200 * 16 + 3 + 128) / 4, 4, 37, MARKER)
+        self.assertEqual(result["status"], "valid_owned")
+        self.assertTrue(result["complete_preamble_and_pdu_crc_within_capture_nominal"])
+        self.assertLessEqual(result["receiver_hypotheses_checked"], 13 * 17 * 37)
+        self.assertGreater(result["crc_valid_receiver_hypotheses"], 0)
 
 
 if __name__ == "__main__":
