@@ -443,6 +443,8 @@ def hand_authored_citations(repo_root: Path) -> list[tuple[str, str]]:
         return found
     for page in sorted(src.rglob("*.astro")):
         text = page.read_text(encoding="utf-8", errors="replace")
+        # Upstream URLs can contain docs/ paths which are not local evidence.
+        text = re.sub(r"https?://[^\s\"'<>)]*", "", text)
         for match in BARE_DOCS_PATH.finditer(text):
             path = match.group(0)
             if path in seen:
