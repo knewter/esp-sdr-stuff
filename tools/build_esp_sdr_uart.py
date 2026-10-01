@@ -23,7 +23,7 @@ def main():
     parser.add_argument('--build',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--evidence',type=Path,required=True)
-    parser.add_argument('--baud',type=int,default=1000000,choices=[1000000,2000000])
+    parser.add_argument('--baud',type=int,default=1000000,choices=[115200,460800,921600,1000000,2000000])
     parser.add_argument('--jobs',type=int,default=4)
     args=parser.parse_args()
     source=args.source.resolve();sdk=args.sdk.resolve();build=args.build.resolve();output=args.output.resolve()
@@ -42,7 +42,8 @@ def main():
     assert defaults.count('CONFIG_ESP_SDR_UART_BAUD=2000000')==1
     defaults=defaults.replace('CONFIG_ESP_SDR_UART_BAUD=2000000',f'CONFIG_ESP_SDR_UART_BAUD={args.baud}')
     (build/'defaults.esp32').write_text(defaults)
-    version=f'550fade-uart{args.baud//1000000}m'
+    suffix = f'{args.baud//1000000}m' if args.baud % 1000000 == 0 else str(args.baud)
+    version=f'550fade-uart{suffix}'
     env=dict(os.environ, IDF_PY_BUILD_JOBS=str(args.jobs), IDF_COMPONENT_MANAGER='0')
     command=[sys.executable,str(sdk/'tools/idf.py'),'-C',str(source),'-B',str(build),
              '-DIDF_TARGET=esp32','-DSDKCONFIG='+str(build/'sdkconfig'),

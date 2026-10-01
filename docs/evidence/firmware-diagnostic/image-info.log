@@ -1,0 +1,47 @@
+esptool v5.4.0
+Image size: 666224 bytes
+
+ESP32 Image Header
+==================
+Image version: 1
+Entry point: 0x40081328
+Segments: 6
+Flash size: 2MB
+Flash freq: 40m
+Flash mode: DIO
+
+ESP32 Extended Image Header
+===========================
+WP pin: 0xee (disabled)
+Flash pins drive settings: clk_drv: 0x0, q_drv: 0x0, d_drv: 0x0, cs0_drv: 0x0, hd_drv: 0x0, wp_drv: 0x0
+Chip ID: 0 (ESP32)
+Minimal chip revision: v0.0, (legacy min_rev = 0)
+Maximal chip revision: v3.99
+
+Segments Information
+====================
+Segment   Length   Load addr   File offs  Memory types
+-------  -------  ----------  ----------  ------------
+      0  0x159bc  0x3f400020  0x00000018  DROM
+      1  0x03ba8  0x3ffb0000  0x000159dc  BYTE_ACCESSIBLE, DRAM
+      2  0x06a84  0x40080000  0x0001958c  IRAM
+      3  0x7aeec  0x400d0020  0x00020018  IROM
+      4  0x07b04  0x40086a84  0x0009af0c  IRAM
+      5  0x00028  0x50000000  0x000a2a18  RTC_DATA
+
+ESP32 Image Footer
+==================
+Checksum: 0x9a (valid)
+Validation hash: cc9ca8e95de460f67a230060ff6b5e5a71fc00f0999eca0179dd147a376baa5d (valid)
+
+Application Information
+=======================
+Project name: esp_sdr
+App version: 550fade-diag115k
+Compile time: Oct  1 2026 17:18:57
+ELF file SHA256: dec13e476b5c9374c32643bc58ea9de5899d52ede5e4fbbfa34371e2718e8347
+ESP-IDF: 25fe69f9
+Minimal eFuse block revision: 0.0
+Maximal eFuse block revision: 0.99
+MMU page size: 64 KB
+Secure version: 0

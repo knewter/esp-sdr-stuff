@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "version": "550fade-diag115k",
+  "variants": {
+    "esp32": {
+      "revision": "esp32",
+      "label": "ESP32 diagnostic115200 step markers",
+      "target": "esp32",
+      "chip": "ESP32",
+      "version": "550fade-diag115k",
+      "flash_size": "2MB",
+      "flash_size_policy": "minimum",
+      "flash_settings": {
+        "flash_mode": "dio",
+        "flash_size": "2MB",
+        "flash_freq": "40m"
+      },
+      "esptool_args": {
+        "after": "hard-reset",
+        "before": "default-reset",
+        "stub": true,
+        "chip": "esp32"
+      },
+      "parts": [
+        {
+          "name": "0-bootloader.bin",
+          "offset": 4096,
+          "size": 25792,
+          "sha256": "6fd2b7358212b161e7b73a080362bfd924bc3eb6fa19645cc41dba1533c47d28",
+          "md5": "b7c2db1cdd31a45687c100d7404f9270"
+        },
+        {
+          "name": "1-partition-table.bin",
+          "offset": 32768,
+          "size": 3072,
+          "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+          "md5": "5d61d196adc3dba01928f264eb169be7"
+        },
+        {
+          "name": "2-esp_sdr.bin",
+          "offset": 65536,
+          "size": 666224,
+          "sha256": "c10cac4cd68f45ce0c979a6c9a4f8bb13ec0a5626862b2df24ac664428372c17",
+          "md5": "f687ea6c98b4fb69ec490043ace19392"
+        }
+      ],
+      "build_date": "2026-10-01"
+    }
+  }
+}

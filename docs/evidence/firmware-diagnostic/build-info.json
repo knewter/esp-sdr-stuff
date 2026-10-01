@@ -1,0 +1,13 @@
+{
+  "kind": "diagnostic build; not an RF baseline",
+  "source_base_commit": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "idf_commit": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+  "app_version": "550fade-diag115k",
+  "target": "esp32",
+  "baud_default": 115200,
+  "source_patch_sha256": "fb2d465c97f8385b199b51cc8878ed5988790584f22c758c62a0a26dfee7698c",
+  "source_patch": "diagnostic.patch",
+  "patch_purpose": "ROM UART startup markers around NVS, Wi-Fi, radio initialization and transport driver setup",
+  "configuration": "OriginalESP32defaults except UART115200; CPU240MHz singlecore",
+  "compiler_version": "xtensa-esp-elf-gcc (crosstool-NG esp-16.1.0_20260609) 16.1.0"
+}

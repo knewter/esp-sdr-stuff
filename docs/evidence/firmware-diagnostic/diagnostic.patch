@@ -1,0 +1,107 @@
+diff --git a/main/common/burst_serial.c b/main/common/burst_serial.c
+index 1aab382..b719a04 100644
+--- a/main/common/burst_serial.c
++++ b/main/common/burst_serial.c
+@@ -7,6 +7,7 @@
+ #include "esp_attr.h"
+ #include "esp_check.h"
+ #include "esp_timer.h"
++#include "esp_rom_sys.h"
+ #include "freertos/FreeRTOS.h"
+ #include "freertos/task.h"
+ #include "soc/soc_caps.h"
+@@ -85,14 +86,20 @@ void burst_serial_init(void) {
+         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+         .source_clk = UART_SCLK_DEFAULT,
+     };
++    esp_rom_printf("DIAG uart_param_config-enter\n");
+     ESP_ERROR_CHECK(uart_param_config(UART_NUM_0, &config));
++    esp_rom_printf("DIAG uart_param_config-done\n");
+     ESP_ERROR_CHECK(uart_set_pin(UART_NUM_0, CONFIG_ESP_SDR_UART_TX_PIN,
+                                 CONFIG_ESP_SDR_UART_RX_PIN,
+                                 UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
+     /* Interrupt-driven RX keeps uploads buffered while the command is parsed.
+      * TX uses the FIFO directly so all waits have a bounded deadline. */
++    esp_rom_printf("DIAG uart_driver_install-enter\n");
+     ESP_ERROR_CHECK(uart_driver_install(UART_NUM_0, 8192, 0, 0, NULL, 0));
++    esp_rom_printf("DIAG uart_driver_install-done\n");
++    esp_rom_printf("DIAG uart_flush_input-enter\n");
+     ESP_ERROR_CHECK(uart_flush_input(UART_NUM_0));
++    esp_rom_printf("DIAG uart_flush_input-done\n");
+ #endif
+ }
+ 
+diff --git a/main/targets/esp32/receiver.c b/main/targets/esp32/receiver.c
+index f1a7786..68194db 100644
+--- a/main/targets/esp32/receiver.c
++++ b/main/targets/esp32/receiver.c
+@@ -71,10 +71,18 @@ static void reply(const char *fmt, ...) {
+ }
+ 
+ static void prepare_rx(void) {
++    esp_rom_printf("DIAG rom_pbus_workmode-enter\n");
+     rom_pbus_workmode();
++    esp_rom_printf("DIAG rom_pbus_workmode-done\n");
++    esp_rom_printf("DIAG rom_pbus_xpd_tx_off-enter\n");
+     rom_pbus_xpd_tx_off();
++    esp_rom_printf("DIAG rom_pbus_xpd_tx_off-done\n");
++    esp_rom_printf("DIAG rom_pbus_xpd_rx_on-enter\n");
+     rom_pbus_xpd_rx_on(1);
++    esp_rom_printf("DIAG rom_pbus_xpd_rx_on-done\n");
++    esp_rom_printf("DIAG rom_set_rxclk_en-enter\n");
+     rom_set_rxclk_en(1);
++    esp_rom_printf("DIAG rom_set_rxclk_en-done\n");
+ }
+ 
+ /* Clock selectors: 0=16 MS/s, 1=80 MS/s, 2=40 MS/s. Hardware sampling,
+@@ -232,27 +240,50 @@ static void command(const char *line) {
+ }
+ 
+ void app_main(void) {
++    esp_rom_printf("DIAG app-main-enter\n");
+     esp_log_level_set("*", ESP_LOG_NONE);
++    esp_rom_printf("DIAG nvs-init-enter\n");
+     esp_err_t e = nvs_flash_init();
++    esp_rom_printf("DIAG nvs-init-result %d\n", (int)e);
+     if (e == ESP_ERR_NVS_NO_FREE_PAGES || e == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+         ESP_ERROR_CHECK(nvs_flash_erase());
+         e = nvs_flash_init();
+     }
+     ESP_ERROR_CHECK(e);
++    esp_rom_printf("DIAG event_loop_create_default-enter\n");
+     ESP_ERROR_CHECK(esp_event_loop_create_default());
++    esp_rom_printf("DIAG event_loop_create_default-done\n");
+     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
++    esp_rom_printf("DIAG wifi_init-enter\n");
+     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
++    esp_rom_printf("DIAG wifi_init-done\n");
++    esp_rom_printf("DIAG wifi_set_storage-enter\n");
+     ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
++    esp_rom_printf("DIAG wifi_set_storage-done\n");
++    esp_rom_printf("DIAG wifi_set_mode-enter\n");
+     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_NULL));
++    esp_rom_printf("DIAG wifi_set_mode-done\n");
++    esp_rom_printf("DIAG wifi_start-enter\n");
+     ESP_ERROR_CHECK(esp_wifi_start());
++    esp_rom_printf("DIAG wifi_start-done\n");
++    esp_rom_printf("DIAG wifi_set_ps-enter\n");
+     ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
++    esp_rom_printf("DIAG wifi_set_ps-done\n");
++    esp_rom_printf("DIAG wifi_set_promiscuous-enter\n");
+     ESP_ERROR_CHECK(esp_wifi_set_promiscuous(true));
++    esp_rom_printf("DIAG wifi_set_promiscuous-done\n");
++    esp_rom_printf("DIAG wifi_set_channel-enter\n");
+     ESP_ERROR_CHECK(esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE));
++    esp_rom_printf("DIAG wifi_set_channel-done\n");
+     prepare_rx();
++    esp_rom_printf("DIAG gain-register-enter\n");
+     gain_max = (REG_READ(RX_GAIN) >> 8) & 127;
++    esp_rom_printf("DIAG gain-register-done\n");
+     REG_CLR_BIT(RX_GAIN, BIT(23)); /* Hardware AGC is the default. */
+     fflush(stdout);
++    esp_rom_printf("DIAG transport-init-enter\n");
+     burst_serial_init();
++    esp_rom_printf("DIAG transport-init-done command-loop-ready\n");
+     char line[128];
+     for (;;) {
+         int status = burst_serial_poll_line(line, sizeof(line));

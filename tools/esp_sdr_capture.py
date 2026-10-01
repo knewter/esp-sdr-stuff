@@ -234,7 +234,7 @@ def run_snapshots(port, output, private, count, samples, bits_list, rates, confi
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port', default=STABLE_PORT)
-    parser.add_argument('--baud', type=int, default=2000000, choices=[1000000, 2000000])
+    parser.add_argument('--baud', type=int, default=2000000, choices=[115200, 460800, 921600, 1000000, 2000000])
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--private', type=Path, required=True)
     parser.add_argument('--count', type=int, default=100)
