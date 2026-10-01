@@ -39,6 +39,7 @@ jobs:
       - name: Verify host capture, BLE decoder, and measurement parsers
         run: |
           python3 -m unittest discover -s tests -p 'test_esp_sdr_capture.py'
+          python3 -m unittest discover -s tests -p 'test_flash_trial.py'
           python3 -m unittest discover -s tests -p 'test_spectrum_trial_integrity.py'
           python3 -m unittest discover -s tests -p 'test_rtl_*.py'
           python3 -m unittest discover -s tests -p 'test_ble_*.py'
