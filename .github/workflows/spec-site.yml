@@ -30,7 +30,7 @@ jobs:
         run: |
           npm ci --prefix site
           npm install -g @fission-ai/openspec@1.11.0
-          python3 -m pip install -r tools/requirements-ble.txt
+          python3 -m pip install -r tools/requirements-ble.txt -r tools/requirements-analysis.txt
       - name: Validate proposals and evidence renderers
         run: |
           openspec validate --all --strict --no-interactive

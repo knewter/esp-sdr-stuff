@@ -1,0 +1,2 @@
+# Plotting/analysis tools and the FM analysis regressions.
+matplotlib>=3.8,<4

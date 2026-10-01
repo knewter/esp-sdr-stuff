@@ -36,7 +36,7 @@ Use Node 22+, Python 3.12+ and OpenSpec CLI 1.11.0. Run:
 ```sh
 npm ci --prefix site
 openspec validate --all --strict --no-interactive
-python3 -m pip install -r tools/requirements-ble.txt
+python3 -m pip install -r tools/requirements-ble.txt -r tools/requirements-analysis.txt
 python3 -m unittest discover -s tests -p 'test_render_specs.py'
 python3 -m unittest discover -s tests -p 'test_work_board.py'
 python3 scripts/build_site.py --local
