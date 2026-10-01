@@ -1,7 +1,14 @@
 ## 1. Build the pinned baseline
 
-- [ ] 1.1 Record ESP-SDR/SDK revisions and the original ESP32 target configuration; verify the build identifies esp32 rather than esp32s3.
-- [ ] 1.2 Check the preservation prerequisite before installing; record flash verification and the first SDR boot.
+- [x] 1.1 Record ESP-SDR/SDK revisions and the original ESP32 target configuration; verify the build identifies esp32 rather than esp32s3.
+- [x] 1.2 Check the preservation prerequisite before installing; record flash verification and the first SDR boot.
+
+Proof: [pinned build](docs/evidence/firmware-uart1m/README.md),
+[preservation](docs/evidence/firmware-preservation/README.md), and
+[actual installation and first SDR boot](docs/evidence/sdr-installation/README.md).
+The first two transport rates failed protocol synchronization;
+[115200 diagnostic replies](docs/evidence/sdr-diagnostic-trial/README.md)
+prove initialization, not capture integrity.
 
 ## 2. Measure capture integrity
 
