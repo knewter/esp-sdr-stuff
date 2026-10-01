@@ -6,6 +6,7 @@ traffic and all unspecified fields before writing metadata. Controller event
 counts are explicitly distinguished from independently observed RF emissions.
 """
 import argparse
+import ctypes
 import json
 from pathlib import Path
 import socket
@@ -13,6 +14,19 @@ import struct
 import time
 
 ADV_OPCODES = {0x2006, 0x200A, 0x2036, 0x2039}
+
+
+def bind_monitor(monitor):
+    # CPython's HCI tuple converter does not populate hci_channel. An apparent
+    # bind((device, 3)) can silently bind RAW instead of MONITOR on this host.
+    # Pass Linux sockaddr_hci explicitly; no command is sent by this call.
+    address = ctypes.create_string_buffer(struct.pack('=HHH', socket.AF_BLUETOOTH, 0xffff, 3))
+    libc = ctypes.CDLL(None, use_errno=True)
+    libc.bind.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_uint]
+    libc.bind.restype = ctypes.c_int
+    if libc.bind(monitor.fileno(), address, 6) != 0:
+        error = ctypes.get_errno()
+        raise OSError(error, 'Cannot open the explicit read-only HCI monitor channel')
 
 
 def sanitized_packet(packet):
@@ -75,9 +89,10 @@ def main():
     record = {'schema': 1, 'kind': 'read-only sanitized HCI0 advertising control',
               'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
               'independently_observed_air_emission_count': None, 'records': [],
+              'packet_counts_by_monitor_kind': {},
               'limitations': 'HCI commands and controller-reported events are control-plane evidence. No independent RF emission counter. Unknown socket loss; unrelated traffic and addresses discarded before storage.'}
     with socket.socket(socket.AF_BLUETOOTH, socket.SOCK_RAW, socket.BTPROTO_HCI) as monitor:
-        monitor.bind((0xffff, 3))  # HCI_DEV_NONE, HCI_CHANNEL_MONITOR
+        bind_monitor(monitor)
         monitor.settimeout(.2)
         print('MONITOR_READY read-only HCI0 sanitized metadata', flush=True)
         until = time.monotonic() + args.seconds
@@ -86,6 +101,10 @@ def main():
                 packet = monitor.recv(65535)
             except TimeoutError:
                 continue
+            if len(packet) >= 6:
+                kind = struct.unpack_from('<H', packet)[0]
+                key = str(kind)
+                record['packet_counts_by_monitor_kind'][key] = record['packet_counts_by_monitor_kind'].get(key, 0) + 1
             sanitized = sanitized_packet(packet)
             if sanitized is not None:
                 sanitized['monotonic_ns'] = time.monotonic_ns()

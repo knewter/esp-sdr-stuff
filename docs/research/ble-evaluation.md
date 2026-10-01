@@ -29,9 +29,14 @@ allows observing HCI control traffic separately from the BlueZ API.
 controller commands. It stores a strict whitelist: advertising intervals,
 channel map, PHY, enable/disable, command status and optional controller-reported
 completed extended advertising events. All addresses and advertising bytes are
-discarded before storage. An unprivileged monitor socket opened successfully
-and was closed without receiving during preparation on 2026-10-01. This is
-access feasibility, not a measurement of any emission.
+discarded before storage. An explicit Linux `sockaddr_hci` monitor-channel bind
+opened successfully and was closed without receiving while the source was off
+during preparation on 2026-10-01. This is access feasibility, not a measurement
+of any emission. The first implementation used a Python HCI address tuple,
+which silently selected the raw channel on this host; its zero-frame results
+are invalid as monitor evidence. The corrected tool uses the explicit channel
+field because [CPython 3.14's tuple converter](https://github.com/python/cpython/blob/3.14/Modules/socketmodule.c)
+does not populate it.
 
 ## Source and packet budget
 
