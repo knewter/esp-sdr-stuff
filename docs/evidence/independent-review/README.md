@@ -217,3 +217,64 @@ it is not an authenticity proof against arbitrary alteration of those trusted
 records. The stable path was physically identified before operations, and
 esptool checks ESP32 silicon. The flash wrapper restricts the selected path
 but does not independently query the USB VID/PID on every invocation.
+
+## Peer acceptance: physical snapshot and browser baseline
+
+The raw-snapshot review covers root checkpoint `a76167c`; firmware/build
+provenance covers `205ba74` and physical installation `f934b7e`. The
+[independent numerical receipt](snapshot-verification.json) records the
+recomputed results. The reviewer read **all 600 private payload files**,
+totalling **22,113,000 bytes**, without opening the receiver. Every SHA-256,
+CRC32 and payload length matched its public CSV row; every requested and
+returned count was 16,380 complex pairs. Each of the six format/rate groups
+has exactly 100 distinct attempts. Host command/header/payload time deltas,
+group durations, nominal coverage, medians and 95th percentiles reconcile
+with the public results and plotted summary.
+
+The reviewer separately read all three actual clean 921600-baud binary parts:
+lengths/hashes match both the build manifest and physical installation manifest.
+The actual source checkout is pinned to `550fadea` with no tracked changes;
+the actual SDK checkout is pinned to `25fe69f9` with no tracked changes.
+Boot and query records identify the configuration-only original-ESP32 image.
+The updated retry/fence handshake passes its two startup regressions, giving
+12 capture/protocol tests plus nine independent session-integrity tests.
+
+The subsequent [512-bin browser session](../spectrum-baseline/README.md)
+was independently checked against its private stream, public CSV/result
+records and visually inspected completed-browser still. The
+[independent spectrum receipt](spectrum-verification.json) records the audit:
+
+- 3,928,960 private bytes reproduce the operator's stream SHA-256.
+- All **7,205 spectrum frames** and **236 statistics frames** have valid CRC32.
+- Spectrum sequences are contiguous from 0 through 7,204; sample indices
+  increase, frame shape/sample totals match, and every spectrum marks gaps.
+- Every public per-frame field and min/max/mean power aggregate matches the
+  private bytes. Firmware totals reconcile to 7,205 FFTs and 3,688,960 pairs,
+  zero final status and no user-stop flag.
+- Firmware duration is **60.005197 s** and host duration **60.005218725 s**.
+  Nominal sampled time is 0.046112 s, giving **0.076846649%** nominal coverage.
+  The completed still displays the same settings, frame count and gap warning.
+
+The final firmware end report is retained as public metadata rather than inside
+the private binary file. The checked private frames substantiate its count/
+pair totals; software/host timestamps still do not calibrate the sample clock.
+The still labels uncalibrated power and nominal rates and makes no identified-
+signal claim. The [earlier 1024-bin failure](../spectrum-baseline-1024-failed/README.md)
+remains visible. A successful 512-bin trial does not erase that CRC failure
+or establish reliability for every advertised FFT profile.
+
+**Peer decision:** every named snapshot-proposal gate now has supporting
+physical evidence. Commit the browser evidence and matching task/spec updates
+before archiving this proposal. Its fulfilled installation dependency is the
+verified full-flash preservation gate; physical power-cycle recovery remains
+a separate open task. This acceptance covers raw-I/Q transport and bounded
+display with documented gaps. It does not accept controlled-source RF response,
+PLL lock, sensitivity, calibrated clocks, event-hit probability, payload
+decoding, FPGA integration or completion of the overall goal.
+
+The reviewer also checked the
+[measured recommendations](../../research/measured-recommendations.md) at
+`28d13a6`: they distinguish manufacturer coverage, measured USB continuity,
+nominal ESP windows, unverified known-signal/antenna claims, disjoint direct
+bands and unresolved FPGA electrical/transport gates. The recommendations
+fit the measured scope; the remaining proposal tasks should stay open.

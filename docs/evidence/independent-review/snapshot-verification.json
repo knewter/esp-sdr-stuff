@@ -1,0 +1,79 @@
+{
+  "evidence_class": "Independent offline verification of physical payloads and committed numerical records",
+  "reviewed_root_revision": "a76167ca4032a39d7b3e47a1cd5a51836c3190ba",
+  "reviewed_utc": "2026-10-01T22:36:37.515801+00:00",
+  "private_payload_files_verified": 600,
+  "private_payload_bytes_verified": 22113000,
+  "all_payload_sha256_and_crc32_match_public_records": true,
+  "all_requested_and_returned_pair_counts": 16380,
+  "all_six_groups_have_100_unique_attempts": true,
+  "host_time_deltas_reconciled": true,
+  "firmware_source_base": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "sdk_revision": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+  "source_tracked_clean_at_review": true,
+  "sdk_tracked_clean_at_review": true,
+  "all_three_actual_binary_parts_match_build_and_install_manifest": true,
+  "groups": [
+    {
+      "bits_per_component": 8,
+      "nominal_rate_hz": 16000000,
+      "independently_verified_payloads": 100,
+      "wall_ms": 36402.795464999996,
+      "nominal_sampled_ms": 102.375,
+      "nominal_coverage_fraction": 0.0028122840208365304,
+      "median_round_trip_ms": 361.8354785,
+      "p95_round_trip_ms": 362.48017635
+    },
+    {
+      "bits_per_component": 8,
+      "nominal_rate_hz": 40000000,
+      "independently_verified_payloads": 100,
+      "wall_ms": 36287.461468,
+      "nominal_sampled_ms": 40.949999999999996,
+      "nominal_coverage_fraction": 0.0011284889695607845,
+      "median_round_trip_ms": 361.3635175,
+      "p95_round_trip_ms": 361.88869125
+    },
+    {
+      "bits_per_component": 8,
+      "nominal_rate_hz": 80000000,
+      "independently_verified_payloads": 100,
+      "wall_ms": 36264.50618099999,
+      "nominal_sampled_ms": 20.474999999999998,
+      "nominal_coverage_fraction": 0.000564601649276764,
+      "median_round_trip_ms": 360.94494899999995,
+      "p95_round_trip_ms": 361.7541826
+    },
+    {
+      "bits_per_component": 10,
+      "nominal_rate_hz": 16000000,
+      "independently_verified_payloads": 100,
+      "wall_ms": 45357.95574399999,
+      "nominal_sampled_ms": 102.375,
+      "nominal_coverage_fraction": 0.0022570461635838227,
+      "median_round_trip_ms": 451.477005,
+      "p95_round_trip_ms": 452.265216
+    },
+    {
+      "bits_per_component": 10,
+      "nominal_rate_hz": 40000000,
+      "independently_verified_payloads": 100,
+      "wall_ms": 45448.54604300001,
+      "nominal_sampled_ms": 40.949999999999996,
+      "nominal_coverage_fraction": 0.0009010189228332228,
+      "median_round_trip_ms": 450.93887700000005,
+      "p95_round_trip_ms": 451.6228952
+    },
+    {
+      "bits_per_component": 10,
+      "nominal_rate_hz": 80000000,
+      "independently_verified_payloads": 100,
+      "wall_ms": 45394.84998299999,
+      "nominal_sampled_ms": 20.474999999999998,
+      "nominal_coverage_fraction": 0.0004510423540923193,
+      "median_round_trip_ms": 450.76705000000004,
+      "p95_round_trip_ms": 451.90913145
+    }
+  ],
+  "limitations": "No device handle opened. Nominal windows/coverage retain advertised-rate assumptions. This does not calibrate ADC timing or demonstrate known-source RF reception. GUI session acceptance remains separate."
+}
