@@ -30,11 +30,18 @@ jobs:
         run: |
           npm ci --prefix site
           npm install -g @fission-ai/openspec@1.11.0
+          python3 -m pip install -r tools/requirements-ble.txt
       - name: Validate proposals and evidence renderers
         run: |
           openspec validate --all --strict --no-interactive
           python3 -m unittest discover -s tests -p 'test_render_specs.py'
           python3 -m unittest discover -s tests -p 'test_work_board.py'
+      - name: Verify host capture, BLE decoder, and measurement parsers
+        run: |
+          python3 -m unittest discover -s tests -p 'test_esp_sdr_capture.py'
+          python3 -m unittest discover -s tests -p 'test_spectrum_trial_integrity.py'
+          python3 -m unittest discover -s tests -p 'test_rtl_*.py'
+          python3 -m unittest discover -s tests -p 'test_ble_*.py'
       - name: Build and check the published site
         env:
           ASTRO_BASE: /esp-sdr-stuff/
