@@ -13,7 +13,20 @@ import socket
 import struct
 import time
 
-ADV_OPCODES = {0x2006, 0x200A, 0x2036, 0x2039}
+ADV_OPCODES = {0x2006, 0x2008, 0x200A, 0x2036, 0x2037, 0x2039}
+OWNED_MARKER_AD = bytes.fromhex('0fffffff4553502d5344522d4556414c')
+
+
+def owned_ad_match(data):
+    offset = 0
+    while offset < len(data):
+        length = data[offset]
+        if length == 0 or offset + length + 1 > len(data):
+            break
+        if data[offset:offset + length + 1] == OWNED_MARKER_AD:
+            return True
+        offset += length + 1
+    return False
 
 
 def bind_monitor(monitor):
@@ -48,6 +61,13 @@ def sanitized_packet(packet):
                           advertising_type=payload[4], primary_channel_map=payload[13])
         elif opcode == 0x200A and len(payload) == 1:
             result['enabled'] = bool(payload[0])
+        elif opcode == 0x2008 and len(payload) == 32 and payload[0] <= 31:
+            result.update(advertising_data_length=payload[0],
+                          owned_manufacturer_ad_exact_match=owned_ad_match(payload[1:1 + payload[0]]))
+        elif opcode == 0x2037 and len(payload) >= 4 and payload[3] == len(payload) - 4:
+            result.update(advertising_handle=payload[0], advertising_data_length=payload[3],
+                          fragment_operation=payload[1],
+                          owned_manufacturer_ad_exact_match=owned_ad_match(payload[4:]) if payload[1] == 3 else None)
         elif opcode == 0x2036 and len(payload) == 25:
             result.update(advertising_handle=payload[0], event_properties=struct.unpack_from('<H', payload, 1)[0],
                           interval_min_ms=int.from_bytes(payload[3:6], 'little') * .625,

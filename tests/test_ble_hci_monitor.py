@@ -39,6 +39,19 @@ class HCIMonitorTests(unittest.TestCase):
         self.assertIsNone(sanitized_packet(b'bad'))
         self.assertIsNone(sanitized_packet(command(0x200a, bytes([1]))[:-1]))
 
+    def test_owned_controller_data_is_matched_then_discarded(self):
+        marker = bytes.fromhex('0fffffff4553502d5344522d4556414c')
+        legacy = bytes([len(marker)]) + marker + bytes(31 - len(marker))
+        result = sanitized_packet(command(0x2008, legacy))
+        self.assertTrue(result['owned_manufacturer_ad_exact_match'])
+        self.assertNotIn('455350', json.dumps(result))
+        foreign = bytes([7]) + b'\x06\xffABCDE' + bytes(24)
+        self.assertFalse(sanitized_packet(command(0x2008, foreign))['owned_manufacturer_ad_exact_match'])
+        extended = bytes([2, 3, 1, len(marker)]) + marker
+        self.assertTrue(sanitized_packet(command(0x2037, extended))['owned_manufacturer_ad_exact_match'])
+        extended = bytes([2, 1, 1, len(marker)]) + marker
+        self.assertIsNone(sanitized_packet(command(0x2037, extended))['owned_manufacturer_ad_exact_match'])
+
 
 if __name__ == '__main__':
     unittest.main()

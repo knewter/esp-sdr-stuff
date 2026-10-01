@@ -27,7 +27,8 @@ The [Linux monitor packet header](https://github.com/torvalds/linux/blob/master/
 allows observing HCI control traffic separately from the BlueZ API.
 `tools/ble_hci_monitor.py` opens only a read-only monitor socket; it never sends
 controller commands. It stores a strict whitelist: advertising intervals,
-channel map, PHY, enable/disable, command status and optional controller-reported
+channel map, PHY, enable/disable, command status, exact owned-marker match in
+controller advertising-data configuration, and optional controller-reported
 completed extended advertising events. All addresses and advertising bytes are
 discarded before storage. An explicit Linux `sockaddr_hci` monitor-channel bind
 opened successfully and was closed without receiving while the source was off
@@ -89,7 +90,7 @@ python3 -m pip install -r tools/requirements-ble.txt
 python3 -m unittest discover -s tests -p 'test_ble*.py' -v
 ```
 
-Ten tests passed during preparation. No real IQ input was used in these tests.
+Eleven tests passed during preparation. No real IQ input was used in these tests.
 The recorded host used Python 3.14.7, NumPy 2.5.2, SciPy 1.18.0 and
 dbus-next 0.2.3. The source and monitor require Linux/BlueZ; packet/decoder
 tests have no Bluetooth-device dependency.
