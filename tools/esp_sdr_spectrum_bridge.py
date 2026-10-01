@@ -1,0 +1,204 @@
+#!/usr/bin/env python3
+"""Live browser spectrum via one host-owned UART, with CRC evidence.
+
+Browser uses localhost HTTP; this is explicitly a UART bridge, not Web Serial.
+Device access begins only when the local viewer starts the bounded trial.
+"""
+import argparse
+import csv
+import hashlib
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+import json
+from pathlib import Path
+import struct
+import threading
+import time
+import zlib
+from esp_sdr_capture import STABLE_PORT, RATE_CODES, SOURCE_REVISION, command, exact, line, open_board, queries, settings, synchronize, ProtocolError
+
+
+def spectrum_frame(port, bins):
+    magic = exact(port, 4)
+    if magic == b'SPEC':
+        report = (magic.decode() + line(port)).split()
+        if len(report) != 13 or report[0] != 'SPECEND':
+            raise ProtocolError('invalid SPECEND report')
+        return {'kind': 'end', 'report': [int(v) for v in report[1:]]}, None
+    if magic == b'SPS1':
+        raw = magic + exact(port, 36)
+        if zlib.crc32(raw[:-4]) != int.from_bytes(raw[-4:], 'little'):
+            raise ProtocolError('statistics CRC mismatch')
+        return {'kind': 'statistics'}, raw
+    if magic != b'SPC1':
+        raise ProtocolError('spectrum framing lost')
+    raw = magic + exact(port, bins + 28)
+    expected = int.from_bytes(raw[-4:], 'little')
+    if zlib.crc32(raw[:-4]) != expected:
+        raise ProtocolError('spectrum CRC mismatch')
+    if 1 << raw[26] != bins or raw[27] != 2:
+        raise ProtocolError('unexpected spectrum encoding')
+    return {'kind': 'spectrum', 'sequence': int.from_bytes(raw[4:8], 'little'),
+            'sample_index': int.from_bytes(raw[8:16], 'little'),
+            'samples_processed': int.from_bytes(raw[16:20], 'little'),
+            'ffts': int.from_bytes(raw[20:22], 'little'), 'flags': raw[22], 'gain_code': raw[23],
+            'crc32': f'{expected:08x}', 'power_codes': list(raw[28:-4])}, raw
+
+
+HTML = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Measured ESP32 spectrum</title><style>
+body{background:#09151c;color:#dce7ed;font:17px system-ui;margin:32px auto;max-width:1120px;padding:0 20px}h1{font-size:42px}p{line-height:1.5}small{color:#a3bac5}button{background:#83e1bd;padding:14px 24px;border:0;border-radius:8px;font-weight:bold}canvas{width:100%;height:360px;background:#0c202a;border:1px solid #446170}pre{white-space:pre-wrap;padding:16px;background:#0c202a}strong{color:#83e1bd}</style>
+<h1>ESP32: a measured spectrum</h1><p><strong>Live hardware trial · host UART bridge</strong><br>This viewer receives CRC-checked on-device FFT frames from the confirmed original ESP32. The browser communicates with localhost HTTP; the host owns the CP2102 UART. Every frame is a separate snapshot with reception gaps.</p>
+<p id="settings"></p><button id="start">Start bounded trial</button><p id="status">Ready. No device handle is open.</p><canvas width="1080" height="360" id="spectrum"></canvas><small>X: frequency in MHz. Y: firmware power code 0–255 (uncalibrated, not dBm). No signal identification is inferred.</small><pre id="stats"></pre><script>
+const c=document.querySelector('canvas'),x=c.getContext('2d');let active=false;
+function draw(s){x.clearRect(0,0,c.width,c.height);x.font='15px monospace';x.fillStyle='#a3bac5';for(let j=0;j<5;j++){let xx=55+j*(c.width-85)/4;x.fillText((s.frequency_mhz+(j/4-.5)*s.rate_hz/1e6).toFixed(1),xx-20,c.height-12);x.strokeStyle='#28424f';x.beginPath();x.moveTo(xx,20);x.lineTo(xx,c.height-36);x.stroke()}for(let j=0;j<5;j++){let yy=20+j*(c.height-56)/4;x.fillText(String(Math.round(255*(1-j/4))),10,yy+5)}if(!s.power_codes)return;x.strokeStyle='#83e1bd';x.lineWidth=2;x.beginPath();let n=s.power_codes.length;for(let j=0;j<n;j++){let yy=20+(255-s.power_codes[(j+n/2)%n])*(c.height-56)/255,xx=55+j*(c.width-85)/(n-1);j?x.lineTo(xx,yy):x.moveTo(xx,yy)}x.stroke()}
+async function poll(){let s=await(await fetch('/state')).json();document.querySelector('#settings').textContent=`${s.frequency_mhz}MHz · ${s.rate_hz/1e6}MS/s nominal · ${s.bins} FFT bins · hardware AGC · ${s.duration_seconds}s requested`;
+document.querySelector('#status').textContent=s.status;document.querySelector('#stats').textContent=JSON.stringify({frames:s.frames,crc_failures:s.crc_failures,elapsed_seconds:s.elapsed_seconds,snapshot_gap_flag:s.snapshot_gap_flag,nominal_coverage_fraction:s.nominal_coverage_fraction,error:s.error},null,2);draw(s);setTimeout(poll,200)}
+document.querySelector('#start').onclick=async()=>{document.querySelector('#start').disabled=true;await fetch('/start',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'})};poll();
+</script></html>'''
+
+
+class Trial:
+    def __init__(self, args):
+        self.args = args
+        self.lock = threading.Lock()
+        self.state = {'status': 'Ready', 'frames': 0, 'crc_failures': 0, 'elapsed_seconds': 0,
+                      'frequency_mhz': args.frequency, 'rate_hz': args.rate, 'bins': args.bins,
+                      'duration_seconds': args.seconds, 'transport': 'host UART bridge, localhost HTTP browser'}
+        self.started = False
+
+    def update(self, **values):
+        with self.lock:
+            self.state.update(values)
+
+    def start(self):
+        with self.lock:
+            if self.started:
+                return False
+            self.started = True
+        threading.Thread(target=self.run, daemon=True).start()
+        return True
+
+    def run(self):
+        a = self.args
+        port = None
+        rows = []
+        record = {'schema': 1, 'firmware_revision_asserted_from_install_record': SOURCE_REVISION,
+                  'browser_transport': 'localhost HTTP polling a host UART reader; not native Web Serial',
+                  'settings': {'frequency_mhz': a.frequency, 'rate_hz': a.rate, 'bins': a.bins, 'gain': a.gain,
+                               'bandwidth_mhz': a.bandwidth, 'seconds_requested': a.seconds},
+                  'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+                  'limitations': 'Snapshot FFTs contain gaps. Codes are uncalibrated. Hardware nominal clock and synthesized sample index do not independently prove actual sample rate.'}
+        try:
+            a.output.mkdir(parents=True, exist_ok=False)
+            a.private.mkdir(parents=True, exist_ok=False)
+            port = open_board(a.port, a.baud)
+            synchronize(port)
+            record['queries'] = queries(port)
+            record['setting_replies'] = settings(port, a.frequency, a.bandwidth, a.gain)
+            profile = command(port, f'SPEC {a.seconds * 1000} 1 1 0 {RATE_CODES[a.rate]} {a.bins} 1').split()
+            if len(profile) != 5 or profile[0] != 'SPEC' or [int(v) for v in profile[1:]] != [a.bins, a.rate, a.bins, a.frequency]:
+                raise ProtocolError('spectrum start does not match requested settings')
+            t0 = time.monotonic()
+            previous = -1
+            sampled = 0
+            raw_hash = hashlib.sha256()
+            self.update(status='Acquiring real hardware spectra')
+            with (a.private / 'spectrum-frames.bin').open('wb') as stream:
+                while True:
+                    frame, raw = spectrum_frame(port, a.bins)
+                    elapsed = time.monotonic() - t0
+                    if frame['kind'] == 'end':
+                        record['end_report'] = frame['report']
+                        if frame['report'][0] != 0:
+                            raise ProtocolError('firmware reported failed spectrum session')
+                        break
+                    stream.write(raw); raw_hash.update(raw)
+                    if frame['kind'] == 'statistics':
+                        continue
+                    if frame['sample_index'] <= previous or not frame['ffts']:
+                        raise ProtocolError('non-monotonic or empty FFT frame')
+                    previous = frame['sample_index']
+                    sampled += frame['samples_processed']
+                    power = frame.pop('power_codes')
+                    row = {**frame, 'received_relative_seconds': elapsed,
+                           'minimum_power_code': min(power), 'maximum_power_code': max(power),
+                           'mean_power_code': sum(power) / len(power)}
+                    rows.append(row)
+                    self.update(frames=len(rows), elapsed_seconds=elapsed, power_codes=power,
+                                snapshot_gap_flag=bool(frame['flags'] & 8),
+                                nominal_coverage_fraction=sampled / a.rate / elapsed if elapsed else 0)
+            record['private_frames_sha256'] = raw_hash.hexdigest()
+            record['frames'] = len(rows)
+            record['elapsed_seconds'] = time.monotonic() - t0
+            record['nominal_sampled_seconds'] = sampled / a.rate
+            record['nominal_coverage_fraction'] = sampled / a.rate / record['elapsed_seconds']
+            record['status'] = 'completed'
+            if not rows or record['elapsed_seconds'] < a.seconds * .95:
+                raise ProtocolError('bounded duration not established')
+            self.update(status='Completed real hardware trial; UART released')
+        except Exception as error:
+            record['status'] = 'failed'
+            record['error_kind'] = type(error).__name__
+            record['error'] = str(error)[:240]
+            self.update(status='Failed', error=str(error)[:240], crc_failures=int('CRC' in str(error)))
+        finally:
+            if port is not None:
+                try:
+                    command(port, 'RELEASE')
+                except Exception:
+                    pass
+                port.close()
+            record['ended_utc'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+            if a.output.exists():
+                (a.output / 'results.json').write_text(json.dumps(record, indent=2) + '\n')
+                if rows:
+                    with (a.output / 'spectra.csv').open('w', newline='') as stream:
+                        writer = csv.DictWriter(stream, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
+            print(json.dumps({k:v for k,v in record.items() if k in {'status','frames','elapsed_seconds','error'} }), flush=True)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--port', default=STABLE_PORT)
+    parser.add_argument('--baud', type=int, default=2000000)
+    parser.add_argument('--http-port', type=int, default=4340)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--private', type=Path, required=True)
+    parser.add_argument('--seconds', type=int, default=60)
+    parser.add_argument('--rate', type=int, default=80000000, choices=RATE_CODES)
+    parser.add_argument('--bins', type=int, default=1024, choices=[256,512,1024,2048])
+    parser.add_argument('--frequency', type=int, default=2412)
+    parser.add_argument('--bandwidth', type=int, default=20)
+    parser.add_argument('--gain', default='hardware')
+    args = parser.parse_args()
+    if not 1 <= args.seconds <= 3600:
+        parser.error('seconds must be 1..3600')
+    private = args.private.resolve()
+    if not any(p in {'.scratch','backups'} for p in private.parts) or any(p in {'site','docs'} for p in private.parts):
+        parser.error('private payload directory must be under ignored .scratch/ or backups/, outside site/docs')
+    trial = Trial(args)
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            if self.path == '/':
+                body = HTML.encode(); content_type = 'text/html'
+            elif self.path == '/state':
+                with trial.lock:
+                    body = json.dumps(trial.state).encode()
+                content_type = 'application/json'
+            else:
+                self.send_error(404); return
+            self.send_response(200); self.send_header('Content-Type', content_type)
+            self.send_header('Cache-Control','no-store'); self.end_headers(); self.wfile.write(body)
+        def do_POST(self):
+            origin = self.headers.get('Origin')
+            if self.path != '/start' or (origin and origin not in {f'http://127.0.0.1:{args.http_port}', f'http://localhost:{args.http_port}'}):
+                self.send_error(403); return
+            self.rfile.read(int(self.headers.get('Content-Length','0')))
+            self.send_response(202 if trial.start() else 409); self.end_headers()
+        def log_message(self, *_):
+            pass
+    print(f'UART bridge viewer: http://127.0.0.1:{args.http_port}; device opens only after Start', flush=True)
+    ThreadingHTTPServer(('127.0.0.1', args.http_port), Handler).serve_forever()
+
+
+if __name__ == '__main__':
+    main()

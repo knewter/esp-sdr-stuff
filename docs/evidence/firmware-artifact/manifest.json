@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "version": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "variants": {
+    "esp32": {
+      "revision": "esp32",
+      "label": "ESP32 (2 MB or larger, UART)",
+      "target": "esp32",
+      "chip": "ESP32",
+      "version": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+      "flash_size": "2MB",
+      "flash_size_policy": "minimum",
+      "flash_settings": {
+        "flash_mode": "dio",
+        "flash_size": "2MB",
+        "flash_freq": "40m"
+      },
+      "esptool_args": {
+        "after": "hard-reset",
+        "before": "default-reset",
+        "stub": true,
+        "chip": "esp32"
+      },
+      "parts": [
+        {
+          "name": "0-bootloader.bin",
+          "offset": 4096,
+          "size": 25792,
+          "sha256": "285a9d949fe6f6ea16ec2d5db15b07136d00db15a51c4440b954e791a0266a1b",
+          "md5": "3914f0d5d2d889d700b2313b78193f01",
+          "verified_sha256": "285a9d949fe6f6ea16ec2d5db15b07136d00db15a51c4440b954e791a0266a1b"
+        },
+        {
+          "name": "1-partition-table.bin",
+          "offset": 32768,
+          "size": 3072,
+          "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+          "md5": "5d61d196adc3dba01928f264eb169be7",
+          "verified_sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+        },
+        {
+          "name": "2-esp_sdr.bin",
+          "offset": 65536,
+          "size": 664592,
+          "sha256": "6090b5cfc188f7e260740b926d73675fe95c2f082414fd67e892564a6c4267f4",
+          "md5": "1284e9c56abed383f8613f90c7074d5f",
+          "verified_sha256": "6090b5cfc188f7e260740b926d73675fe95c2f082414fd67e892564a6c4267f4"
+        }
+      ],
+      "build_date": "2026-10-01"
+    }
+  },
+  "acquisition": {
+    "kind": "upstream GitHub Actions build artifact",
+    "run_id": 36905645289,
+    "artifact_id": 11182889552,
+    "run_url": "https://github.com/ESPARGOS/esp-sdr/actions/runs/36905645289",
+    "artifact_name": "firmware-esp32",
+    "build_info": {
+      "profile": "esp32",
+      "version": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+      "idf_commit": "25fe69f946311abdaf9ad56591f25fedbc20ac98"
+    },
+    "archive_digest_verification": "not independently verified; extracted part lengths and SHA256 verified against artifact manifest"
+  }
+}
