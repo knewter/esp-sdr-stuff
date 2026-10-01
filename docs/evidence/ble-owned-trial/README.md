@@ -30,8 +30,11 @@ interval and any observed BlueZ Release callbacks. Every episode removed its
 registration; after completion a separate read-only `busctl` check returned
 `ActiveInstances = 0`. All source and monitor handles are closed.
 
-[Monitor record](hci-control.json) contains **zero received monitor frames**.
-An explicit monitor-channel bind succeeded, but that is insufficient to verify
+[Monitor record](hci-control.json) retains a **zero-frame invalid attempt**.
+The script used HCI channel 3 (CONTROL), not channel 2 (MONITOR). A successful
+CONTROL bind did not establish monitor access. The subsequently corrected
+MONITOR2 bind is denied to this unprivileged operator; see
+[permission evidence](../ble-monitor-permission/README.md). These attempts cannot verify
 the accepted interval, channel map, advertising data or completed event count.
 The 20 ms interval remains a configuration request. No actual emission count
 can be inferred from registration success, episode duration or `ActiveInstances`.

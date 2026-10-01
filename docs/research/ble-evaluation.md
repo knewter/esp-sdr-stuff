@@ -30,14 +30,15 @@ controller commands. It stores a strict whitelist: advertising intervals,
 channel map, PHY, enable/disable, command status, exact owned-marker match in
 controller advertising-data configuration, and optional controller-reported
 completed extended advertising events. All addresses and advertising bytes are
-discarded before storage. An explicit Linux `sockaddr_hci` monitor-channel bind
-opened successfully and was closed without receiving while the source was off
-during preparation on 2026-10-01. This is access feasibility, not a measurement
-of any emission. The first implementation used a Python HCI address tuple,
-which silently selected the raw channel on this host; its zero-frame results
-are invalid as monitor evidence. The corrected tool uses the explicit channel
-field because [CPython 3.14's tuple converter](https://github.com/python/cpython/blob/3.14/Modules/socketmodule.c)
-does not populate it.
+discarded before storage. Two binding mistakes were found and corrected: the
+Python HCI address tuple silently selected RAW on this host, and the subsequent
+explicit channel value 3 selected CONTROL. All prior zero-frame attempts are
+invalid as monitor evidence. [CPython 3.14's tuple converter](https://github.com/python/cpython/blob/3.14/Modules/socketmodule.c)
+does not populate the channel field; [Linux hci_sock.h](https://github.com/torvalds/linux/blob/master/include/net/bluetooth/hci_sock.h)
+defines MONITOR as **2**, CONTROL as 3. The corrected explicit MONITOR2 bind
+fails with permission error 1 on this unprivileged host; noninteractive sudo
+requires a password. Actual HCI settings/events remain unobserved. A successful
+bind to a different channel never established monitor access or RF absence.
 
 ## Source and packet budget
 
@@ -102,7 +103,7 @@ python3 -m pip install -r tools/requirements-ble.txt
 python3 -m unittest discover -s tests -p 'test_ble*.py' -v
 ```
 
-Thirteen tests passed during preparation. No real IQ input was used in these tests.
+Fourteen tests passed during preparation. No real IQ input was used in these tests.
 The source-lifecycle regression simulates BlueZ releasing an advertisement on
 unregistration, and verifies that all three subsequent episodes still remove
 their own registration. This is simulated control behavior, not RF evidence.

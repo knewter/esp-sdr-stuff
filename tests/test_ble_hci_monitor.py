@@ -6,7 +6,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
-from ble_hci_monitor import sanitized_packet
+from ble_hci_monitor import sanitized_packet, monitor_sockaddr
 
 
 def command(opcode, payload, index=0):
@@ -15,6 +15,11 @@ def command(opcode, payload, index=0):
 
 
 class HCIMonitorTests(unittest.TestCase):
+    def test_actual_monitor_sockaddr_uses_linux_channel_two(self):
+        # Linux include/net/bluetooth/hci_sock.h: RAW0 USER1 MONITOR2 CONTROL3.
+        # Channel3 binds successfully but receives no raw HCI monitor frames.
+        import socket
+        self.assertEqual(struct.unpack('=HHH', monitor_sockaddr()), (socket.AF_BLUETOOTH, 0xffff, 2))
     def test_legacy_parameters_discard_peer_address(self):
         payload = struct.pack('<HHBBB', 0x800, 0x800, 3, 0, 0) + b'SECRET' + bytes([7, 0])
         result = sanitized_packet(command(0x2006, payload))

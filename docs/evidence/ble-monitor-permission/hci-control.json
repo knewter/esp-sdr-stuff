@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "read-only sanitized HCI0 advertising control",
+  "hci_channel": 2,
+  "started_utc": "2026-10-01T23:02:51Z",
+  "independently_observed_air_emission_count": null,
+  "records": [],
+  "packet_counts_by_monitor_kind": {},
+  "limitations": "HCI commands and controller-reported events are control-plane evidence. No independent RF emission counter. Unknown socket loss; unrelated traffic and addresses discarded before storage.",
+  "status": "monitor_channel_bind_failed",
+  "bind_error_errno": 1,
+  "bind_error_kind": "PermissionError"
+}

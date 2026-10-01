@@ -15,6 +15,11 @@ import time
 
 ADV_OPCODES = {0x2006, 0x2008, 0x200A, 0x2036, 0x2037, 0x2039}
 OWNED_MARKER_AD = bytes.fromhex('0fffffff4553502d5344522d4556414c')
+HCI_CHANNEL_MONITOR = 2  # Linux include/net/bluetooth/hci_sock.h; CONTROL is3.
+
+
+def monitor_sockaddr():
+    return struct.pack('=HHH', socket.AF_BLUETOOTH, 0xffff, HCI_CHANNEL_MONITOR)
 
 
 def owned_ad_match(data):
@@ -33,7 +38,7 @@ def bind_monitor(monitor):
     # CPython's HCI tuple converter does not populate hci_channel. An apparent
     # bind((device, 3)) can silently bind RAW instead of MONITOR on this host.
     # Pass Linux sockaddr_hci explicitly; no command is sent by this call.
-    address = ctypes.create_string_buffer(struct.pack('=HHH', socket.AF_BLUETOOTH, 0xffff, 3))
+    address = ctypes.create_string_buffer(monitor_sockaddr())
     libc = ctypes.CDLL(None, use_errno=True)
     libc.bind.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_uint]
     libc.bind.restype = ctypes.c_int
@@ -107,12 +112,22 @@ def main():
     if not .1 <= args.seconds <= 3600 or args.output.exists():
         parser.error('Use bounded seconds and a fresh output path')
     record = {'schema': 1, 'kind': 'read-only sanitized HCI0 advertising control',
+              'hci_channel':HCI_CHANNEL_MONITOR,
               'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
               'independently_observed_air_emission_count': None, 'records': [],
               'packet_counts_by_monitor_kind': {},
               'limitations': 'HCI commands and controller-reported events are control-plane evidence. No independent RF emission counter. Unknown socket loss; unrelated traffic and addresses discarded before storage.'}
     with socket.socket(socket.AF_BLUETOOTH, socket.SOCK_RAW, socket.BTPROTO_HCI) as monitor:
-        bind_monitor(monitor)
+        try:
+            bind_monitor(monitor)
+        except OSError as error:
+            record['status']='monitor_channel_bind_failed'
+            record['bind_error_errno']=error.errno
+            record['bind_error_kind']=type(error).__name__
+            args.output.parent.mkdir(parents=True,exist_ok=True)
+            args.output.write_text(json.dumps(record,indent=2)+'\n')
+            print(f'MONITOR_UNAVAILABLE channel={HCI_CHANNEL_MONITOR} errno={error.errno}',flush=True)
+            raise SystemExit(2)
         monitor.settimeout(.2)
         print('MONITOR_READY read-only HCI0 sanitized metadata', flush=True)
         until = time.monotonic() + args.seconds
@@ -133,6 +148,7 @@ def main():
                     record['stopped_at_record_bound'] = True
                     break
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    record['status']='completed'
     args.output.write_text(json.dumps(record, indent=2) + '\n')
     print(f'MONITOR_CLOSED sanitized_records={len(record["records"])}', flush=True)
 
