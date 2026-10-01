@@ -278,3 +278,77 @@ The reviewer also checked the
 nominal ESP windows, unverified known-signal/antenna claims, disjoint direct
 bands and unresolved FPGA electrical/transport gates. The recommendations
 fit the measured scope; the remaining proposal tasks should stay open.
+
+## Independent BLE reception and known-payload review
+
+The reviewer inspected bounded decoder revision `a73148e`, then independently
+replayed all **549 physical captures** from the owned-source experiment.
+All 549 private files match their public transport CRC32, SHA-256 and 16,380-
+pair records. The replay reports exactly **four distinct CRC-valid owned
+packets** and zero CRC-valid foreign packets, at captures **435, 464, 499 and
+511**. [Independent receipt](ble-verification.json) retains record hashes,
+receiver-search bounds and the four protected-packet checks. No raw I/Q,
+addresses or foreign payloads were published by this review.
+
+The bounded refinement searches 13 nominal symbol periods, 17 start offsets
+and 37 slicer biases per access-address candidate cluster. Candidate training
+uses the public advertising access address, not known manufacturer payload
+bits. Each receiver hypothesis slices the measured phase samples, dewhitens
+and checks the complete PDU's CRC; no payload-bit repair occurs. Selection
+among CRC-valid hypotheses uses access-address correlation, not marker
+agreement. The independently selected source marker is checked afterward as
+a complete advertising-data structure.
+
+For each of the four packets, the reviewer reran the decoder and separately
+reconstructed the sliced bitstream from its reported timing/threshold settings.
+A separate reflected/right-shift CRC implementation and register-based
+whitening implementation reproduced the published Bluetooth SIG channel-38
+test vector and independently validated each physical packet's CRC24. Each
+protected PDU has length 22 and the exact independently chosen 16-byte
+manufacturer AD structure. The decoded packet type is **0 (ADV_IND)**;
+BlueZ's requested `broadcast` mode must not be presented as a verified
+nonconnectable wire type. Source/controller requests and measured packet fields
+are distinct evidence.
+
+All four nominal preamble-to-CRC windows fit inside the actual capture buffers.
+Preamble Hamming errors are **1, 0, 1 and 0**, respectively; access-address
+errors are retained in the numerical receipt. The unprotected preamble and
+access address are not claimed bit-perfect. Full protected-PDU CRC and exact
+known AD agreement supply the payload verification. Identical PDU hashes
+represent repeated advertisements; unique raw hashes and separate capture
+times distinguish four received packet instances. Alternative CRC-valid
+slicer timings are counted as hypotheses, not additional physical packets.
+
+Each selected command/header interval lies inside source episode 2. This is
+same-host scheduling alignment, not a calibrated hardware RF timestamp.
+The carrier estimate, frequency translation and packet window geometry remain
+algorithm-derived/nominal; they do not establish calibrated LO accuracy,
+sample-clock rate or PLL lock. A count of four decoded captures out of 549
+capture attempts is not a four-packet hit rate against emitted packets.
+
+The independent decoder regressions use separate CRC/whitening fixture
+generation, exact-marker classification, corruption rejection, one packet
+under multiple slicer timings, two identical payloads at different waveform
+positions and bounded refinement. **Eight tests pass**, including both coarse
+and refined duplicate-count policies. These synthetic tests complement the
+physical replay rather than substitute for it.
+
+**Peer decision:** known-marker legacy BLE PDU reception/decoding is supported
+for the exact recorded board, firmware and receiver settings. The burst
+proposal's known-payload decoder task can cite this evidence. The required
+100 counted emissions and missed-event denominator remain open; controlled
+filter/gain and wider usable-band claims require their own physical evidence.
+
+During source-monitor review, root found that the earlier explicit HCI bind
+used channel **3**, which is CONTROL. The reviewer independently checked
+Linux's primary `hci_sock.h` and the host Bluetooth header: MONITOR is **2**,
+CONTROL is **3**. The corrected tool encodes channel 2 in its six-byte
+`sockaddr_hci`, and its regression checks that exact ABI value. Historical
+zero-frame channel-3 records are invalid as monitor evidence; they must be
+retained and relabeled, not interpreted as absence of controller activity.
+Actual corrected-monitor results and any event-count units remain separate
+physical gates.
+
+Primary protocol references: [Bluetooth SIG independent sample packet](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/sample-data.html),
+[link-layer specification](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html),
+and [Linux HCI socket ABI](https://github.com/torvalds/linux/blob/master/include/net/bluetooth/hci_sock.h).

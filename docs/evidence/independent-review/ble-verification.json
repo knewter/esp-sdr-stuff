@@ -1,0 +1,115 @@
+{
+  "evidence_class": "Independent offline replay of private physical capture artifacts; no hardware access",
+  "reviewed_utc": "2026-10-01T23:07:58.254442+00:00",
+  "decoder_revision": "a73148e",
+  "receiver_manifest_sha256": "82aa5bec54b487bb92d84cded57339aac8b6153ebea46abb222e77a11d562ff7",
+  "receiver_csv_sha256": "35f385b6ca0661b0cab13a26a8dd0feeffcb5f90a3bb078764dbb6107fb5a4e0",
+  "captures_independently_hash_crc_and_count_verified": 549,
+  "private_raw_bytes_verified": 17985240,
+  "channel": 37,
+  "frequency_translation_hz": -1000000,
+  "blind_receiver_refinement": {
+    "samples_per_symbol_min": 3.97,
+    "samples_per_symbol_max": 4.03,
+    "samples_per_symbol_step": 0.005,
+    "start_search_half_width_samples_at_4msps": 2,
+    "start_search_step_samples_at_4msps": 0.25,
+    "threshold_bias_min_deviation_fraction": -0.45,
+    "threshold_bias_max_deviation_fraction": 0.45,
+    "threshold_bias_step_deviation_fraction": 0.025,
+    "maximum_candidate_clusters_per_capture": 32
+  },
+  "replay_runtime_seconds": 6.56895849108696,
+  "unique_crc_valid_owned_packets": 4,
+  "crc_valid_foreign_packets_redacted": 0,
+  "independent_protected_packet_checks": [
+    {
+      "capture_index": 435,
+      "private_payload_sha256": "d4925c17a250914f473f6beb4290a0dfb94dd0b8968d524dbf45e51557263511",
+      "owned_packets_independently_verified": 1,
+      "pdu_type": 0,
+      "pdu_length": 22,
+      "independent_reflected_crc24_matches": true,
+      "complete_ad_exact_matches_independent_source": true,
+      "access_address_hamming_errors": 1,
+      "preamble_hamming_errors": 1,
+      "nominal_packet_start_sample": 8645.0,
+      "nominal_packet_end_sample": 12741.0,
+      "source_episode_aligned": [
+        2
+      ],
+      "command_start_monotonic_ns": 701621310808906,
+      "decoder_receiver_hypotheses_checked": 4781,
+      "crc_valid_slicing_hypotheses_not_packet_count": 46
+    },
+    {
+      "capture_index": 464,
+      "private_payload_sha256": "ff85a5b964a44953f412d09316ae4a84098adf28cd9d881ef558af1d504600bb",
+      "owned_packets_independently_verified": 1,
+      "pdu_type": 0,
+      "pdu_length": 22,
+      "independent_reflected_crc24_matches": true,
+      "complete_ad_exact_matches_independent_source": true,
+      "access_address_hamming_errors": 0,
+      "preamble_hamming_errors": 0,
+      "nominal_packet_start_sample": 1397.0,
+      "nominal_packet_end_sample": 5493.0,
+      "source_episode_aligned": [
+        2
+      ],
+      "command_start_monotonic_ns": 701631868132648,
+      "decoder_receiver_hypotheses_checked": 5037,
+      "crc_valid_slicing_hypotheses_not_packet_count": 2
+    },
+    {
+      "capture_index": 499,
+      "private_payload_sha256": "316991ddef635556ed4ed02fa5d4ce7877d9a2e28d288aa6f084d539dff7e6da",
+      "owned_packets_independently_verified": 1,
+      "pdu_type": 0,
+      "pdu_length": 22,
+      "independent_reflected_crc24_matches": true,
+      "complete_ad_exact_matches_independent_source": true,
+      "access_address_hamming_errors": 0,
+      "preamble_hamming_errors": 1,
+      "nominal_packet_start_sample": 5543.16,
+      "nominal_packet_end_sample": 9634.04,
+      "source_episode_aligned": [
+        2
+      ],
+      "command_start_monotonic_ns": 701644617136745,
+      "decoder_receiver_hypotheses_checked": 5170,
+      "crc_valid_slicing_hypotheses_not_packet_count": 51
+    },
+    {
+      "capture_index": 511,
+      "private_payload_sha256": "d6eb84668b5f22af1a0b71fe3b611bea2d1ec5600d84e04cd0eecdaee41c3c2f",
+      "owned_packets_independently_verified": 1,
+      "pdu_type": 0,
+      "pdu_length": 22,
+      "independent_reflected_crc24_matches": true,
+      "complete_ad_exact_matches_independent_source": true,
+      "access_address_hamming_errors": 1,
+      "preamble_hamming_errors": 0,
+      "nominal_packet_start_sample": 1702.16,
+      "nominal_packet_end_sample": 5793.04,
+      "source_episode_aligned": [
+        2
+      ],
+      "command_start_monotonic_ns": 701648981535301,
+      "decoder_receiver_hypotheses_checked": 4963,
+      "crc_valid_slicing_hypotheses_not_packet_count": 101
+    }
+  ],
+  "linux_hci_monitor_channel_abi_verified": 2,
+  "limitations": [
+    "Four captures are distinct observations of repeated identical protected PDUs, not four payload types.",
+    "Actual wire PDU type is 0 (ADV_IND), although the source requested broadcast.",
+    "Two decoded packets have one unprotected preamble bit error; protected PDU CRCs independently match.",
+    "Bluetooth monitor attempts bound to channel 3 were invalid monitor evidence; corrected channel 2 cannot be opened without permission on this host.",
+    "No actual RF emission denominator, 100-event success rate, calibrated clock, or known-source RF sweep acceptance."
+  ],
+  "primary_sources": [
+    "https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/sample-data.html",
+    "https://raw.githubusercontent.com/torvalds/linux/master/include/net/bluetooth/hci_sock.h"
+  ]
+}
