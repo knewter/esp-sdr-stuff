@@ -8,6 +8,111 @@
       "next": "Deferred by user; excluded from the active evaluation goal.",
       "rationale": "The user clarified AtomVM need not be integrated. Preserve the proposal with unchecked tasks for possible future work.",
       "reviewRevision": "8089592836bf1d4a5149e38a62c9dbba2c4730d9"
+    },
+    "the-board-can-be-restored-after-an-sdr-trial": {
+      "lane": "in-progress",
+      "source": "in-progress",
+      "physical": "pending",
+      "next": "Record an actual power-removal/reapplication boot and finish recovery acceptance.",
+      "rationale": "Two matching complete flash reads are proven; first post-trial restore/readback matches and resets. Cold power-cycle proof remains open.",
+      "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
+      "dependencies": [],
+      "evidence": [
+        "docs/evidence/firmware-preservation/README.md",
+        "docs/evidence/first-restoration/README.md"
+      ]
+    },
+    "the-board-captures-repeatable-radio-snapshots": {
+      "lane": "archived",
+      "source": "archived",
+      "physical": "verified",
+      "next": "Accepted capture-transport record; controlled RF evaluation continues in separate proposals.",
+      "rationale": "Independent review accepted all five capture tasks and synced two grounded requirements. Scope is CRC/count integrity, measured delivery timing and display provenance, not calibrated or known-signal RF reception.",
+      "reviewRevision": "ce2f976",
+      "dependencies": [
+        "the-board-can-be-restored-after-an-sdr-trial"
+      ],
+      "evidence": [
+        "docs/evidence/firmware-artifact/README.md",
+        "docs/evidence/sdr-installation/README.md",
+        "docs/evidence/sdr-installation-uart1m/README.md",
+        "docs/evidence/sdr-diagnostic-trial/README.md",
+        "docs/evidence/sdr-installation-uart921600/README.md",
+        "docs/evidence/snapshot-baseline/README.md",
+        "docs/evidence/spectrum-baseline-1024-failed/README.md",
+        "docs/evidence/spectrum-baseline/README.md"
+      ],
+      "cover": {
+        "path": "docs/evidence/snapshot-baseline/snapshot-timing.svg",
+        "caption": "Measured ESP snapshot timing and calculated nominal time coverage",
+        "provenance": "Board capture"
+      }
+    },
+    "the-spectrum-reveals-controlled-24ghz-signals": {
+      "lane": "in-progress",
+      "source": "in-progress",
+      "physical": "pending",
+      "next": "Measure controlled source-on/source-off responses with verified settings and uncertainties.",
+      "rationale": "Integrity-checked spectrum tooling and an owned BLE source exist; source registration alone does not establish receiver response.",
+      "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
+      "dependencies": [
+        "the-board-captures-repeatable-radio-snapshots"
+      ],
+      "evidence": [
+        "docs/evidence/ble-source-registration/README.md"
+      ]
+    },
+    "the-receiver-can-observe-and-decode-short-bursts": {
+      "lane": "in-progress",
+      "source": "in-progress",
+      "physical": "pending",
+      "next": "Capture counted repeat events and verify payloads before claiming detection or decoding reliability.",
+      "rationale": "Bounded BLE source/decoder tools are tested; commanded advertising intervals do not supply exact over-the-air emission counts.",
+      "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
+      "dependencies": [
+        "the-board-captures-repeatable-radio-snapshots",
+        "the-spectrum-reveals-controlled-24ghz-signals"
+      ],
+      "evidence": [
+        "docs/evidence/ble-source-registration/README.md"
+      ]
+    },
+    "the-fpga-route-has-a-measured-feasibility-decision": {
+      "lane": "in-progress",
+      "source": "in-progress",
+      "physical": "pending",
+      "next": "Identify the actual Forgix revision and electrical interface before a bounded synthetic transport trial.",
+      "rationale": "Source review and reproducible budgets select a bounded route. No FPGA programming, transport/DMA or RF benchmark has run.",
+      "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
+      "dependencies": [
+        "the-board-captures-repeatable-radio-snapshots"
+      ],
+      "evidence": [
+        "docs/evidence/fpga-inventory/README.md"
+      ]
+    },
+    "the-two-receivers-have-a-measured-division-of-labor": {
+      "lane": "in-progress",
+      "source": "in-progress",
+      "physical": "pending",
+      "next": "Verify the RTL antenna/source application and physically inventory the common-signal conversion path.",
+      "rationale": "RTL delivery/FM artifacts and ESP snapshot timing support published practical recommendations. Known-source application and shared-signal conversion gates remain open.",
+      "reviewRevision": "28d13a6",
+      "dependencies": [
+        "the-board-captures-repeatable-radio-snapshots",
+        "the-spectrum-reveals-controlled-24ghz-signals"
+      ],
+      "evidence": [
+        "docs/evidence/rtl-continuity/README.md",
+        "docs/evidence/rtl-fm-survey/README.md",
+        "docs/evidence/independent-review/README.md",
+        "docs/evidence/snapshot-baseline/README.md"
+      ],
+      "cover": {
+        "path": "docs/evidence/rtl-fm-survey/fm-structure.png",
+        "caption": "Measured RTL FM candidate: antenna and station unverified",
+        "provenance": "Board capture"
+      }
     }
   }
 }

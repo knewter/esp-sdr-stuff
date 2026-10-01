@@ -1,0 +1,10 @@
+---
+import results from "../../../docs/evidence/spectrum-baseline/results.json";
+import observation from "../../../docs/evidence/spectrum-baseline/browser-observation.json";
+import { evidenceUrl, evidenceAsset } from "../lib/specs";
+---
+<div class="browser-session">
+  <div class="fact-strip"><div><small>CRC-CHECKED FFT FRAMES</small><strong>{results.frames.toLocaleString("en-US")}</strong><span>512 bins · 80 MS/s nominal</span></div><div><small>MEASURED SESSION</small><strong>{results.elapsed_seconds.toFixed(3)} s</strong><span>Matching end totals</span></div><div><small>REPORTED CRC FAILURES</small><strong>{observation.crc_failures}</strong><span>Selected bounded profile</span></div><div><small>NOMINAL TIME COVERAGE</small><strong>{(results.nominal_coverage_fraction*100).toFixed(5)}%</strong><span>All frames explicitly flag gaps</span></div></div>
+  <a class="measurement-preview measurement-table" href={evidenceUrl("docs/evidence/spectrum-baseline/README.md")}><img src={evidenceAsset("docs/evidence/spectrum-baseline/live-browser.png")} alt="Actual live browser display of the CRC-checked ESP32 spectrum session; uncalibrated power and separate snapshots" loading="lazy" /><span>Physical spectrum session and browser display · UART via localhost HTTP · no known-source RF claim ↗</span></a>
+  <p class="calc-note">Smooth display updates do not mean continuous reception. The processed samples cover 46.112 ms of nominal RF time in this minute; sample indices are synthesized and power codes are uncalibrated. The earlier 1,024-bin session stopped on a CRC failure after 40.88 seconds; <a href={evidenceUrl("docs/evidence/spectrum-baseline-1024-failed/README.md")}>its evidence remains on file</a>.</p>
+</div>

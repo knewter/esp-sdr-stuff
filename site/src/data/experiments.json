@@ -2,7 +2,7 @@
   {
     "id": "the-board-can-be-restored-after-an-sdr-trial",
     "short": "Preserve & recover",
-    "summary": "An SDR installation replaces the current firmware. We need a complete, identifiable fallback before experimenting with the only confirmed board.",
+    "summary": "Two matching full 4 MiB reads preserve the original image. A post-trial restoration matches byte-for-byte and resets correctly; actual power-cycle proof remains open.",
     "gate": "A 4,194,304-byte backup with SHA-256 plus a recorded restoration boot; a backup alone does not close recovery proof.",
     "depends": [],
     "number": 1,
@@ -11,13 +11,13 @@
   {
     "id": "the-board-captures-repeatable-radio-snapshots",
     "short": "Establish I/Q capture",
-    "summary": "Upstream lists our chip as supported, but we have not captured a single RF sample on this board. A repeatable baseline must establish what actually works before application claims.",
+    "summary": "Accepted and archived after independent review: 600/600 CRC/count-valid snapshots, measured transfer timing and a 60-second 512-bin browser session. Known-signal RF validation is outside this accepted transport scope.",
     "gate": "At least 100 CRC-checked snapshots per advertised rate with failures and timestamps counted; 60 seconds of browser display with gaps documented.",
     "depends": [
       "the-board-can-be-restored-after-an-sdr-trial"
     ],
     "number": 2,
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "the-spectrum-reveals-controlled-24ghz-signals",
@@ -45,7 +45,7 @@
   {
     "id": "the-fpga-route-has-a-measured-feasibility-decision",
     "short": "Evaluate FPGA assistance",
-    "summary": "The user already has FPGA boards, but faster USB alone does not remove the original ESP32 capture-path limits. We need to establish where an FPGA can actually help before wiring a high-rate bus.",
+    "summary": "Pinned source review selects a bounded snapshot/SPI route and quantifies the USB/RAM limits. Actual Forgix revision, wiring and sustained transport remain physical gates.",
     "gate": "An inventory plus sustained payload, loss/backlog and timing measurements. 80 MS/s \u00d7 20 bits requires 200 MB/s before framing; lower-rate or spectral output alternatives get separate budgets.",
     "depends": [
       "the-board-captures-repeatable-radio-snapshots"
@@ -68,7 +68,7 @@
   {
     "id": "the-two-receivers-have-a-measured-division-of-labor",
     "short": "Compare with the RTL-SDR V4",
-    "summary": "The existing Blog V4 and the ESP32 offer different frequency coverage and continuity. We need a measured division of labor so the new experiment adds capability instead of duplicating the working receiver.",
+    "summary": "RTL transport/FM artifacts and ESP snapshot timing are measured. Known-source applications, controlled ESP response and common-signal conversion inventory remain open.",
     "gate": "At least 60 seconds per V4 sample rate with lost-sample counts, plus measured ESP snapshot gaps. Each chosen application states the receiver, coverage, continuity and proof status.",
     "depends": [
       "the-board-captures-repeatable-radio-snapshots",

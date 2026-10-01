@@ -101,7 +101,7 @@
       "kind": "Primary / runtime integration",
       "url": "https://www.atomvm.net/doc/master/programmers-guide.html",
       "claim": "Native extensions and ports provide integration boundaries for low-level work.",
-      "limit": "No ready-made ESP-SDR binding has been verified here. Do not run high-rate I/Q handling in ordinary Erlang processes."
+      "limit": "Deferred by user and excluded from the active evaluation goal. No integration capability is claimed."
     },
     {
       "id": "openspec",
@@ -117,15 +117,57 @@
       "kind": "Primary / FPGA board",
       "url": "https://forgix.tech/",
       "claim": "RP2354, Trion T8F49 with 7,384 logic elements, PSRAM, USB 1.1 and 3.3 V I/O.",
-      "limit": "User-reported ownership; actual board revision, wiring and firmware are not inspected."
+      "limit": "Primary design, not this board inspection: PSRAM belongs to RP QSPI; the FPGA has 15 KiB block RAM. Revision, oscillator and actual wiring remain physical gates."
     },
     {
       "id": "forgix-litex",
       "label": "Forgix LiteX / SPIBone demonstration",
       "kind": "Primary / development example",
-      "url": "https://github.com/enjoy-digital/aduivo_forgix_test",
+      "url": "https://github.com/enjoy-digital/aduivo_forgix_test/tree/e7c71b750ca61690a70bc79ebd6ff5fbc65cedad",
       "claim": "A demonstrated MicroPython and CPU-less LiteX route uses passive configuration pins for a bounded SPI transport.",
-      "limit": "A development example, not proof of our board or a high-rate SDR transport."
+      "limit": "Pinned development example, not our transport benchmark. LiteX FPGA-grade/32 MHz assumptions differ from the reviewed schematic; resolve on the physical board.",
+      "revision": "e7c71b750ca61690a70bc79ebd6ff5fbc65cedad"
+    },
+    {
+      "id": "forgix-schematic",
+      "label": "Adiuvo Forgix pinned schematic",
+      "kind": "Primary / reviewed design",
+      "url": "https://bitbucket.org/adiuvo-engineering/forgix_public/raw/c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f/Schematic/RP2350_FPGA_eensy.pdf",
+      "revision": "c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f",
+      "claim": "T8F49I2X, RP configuration/SPI wiring and PSRAM connected to RP QSPI. Drawing dated February 24, 2026 with a blank revision.",
+      "limit": "Oscillator part is a placeholder; actual board revision and physical clock remain unverified."
+    },
+    {
+      "id": "rp-usb",
+      "label": "RP2350 USB controller specification",
+      "kind": "Primary / silicon specification",
+      "url": "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
+      "claim": "Section 12.7 specifies 12 Mb/s full-speed USB, an ideal 1.5 MB/s wire ceiling.",
+      "limit": "Wire capacity exceeds useful application throughput; no Forgix bridge benchmark was performed."
+    },
+    {
+      "id": "t8-memory",
+      "label": "Efinix Trion T8 datasheet v5.5",
+      "kind": "Primary / FPGA package specification",
+      "url": "https://www.efinixinc.com/docs/trion8-ds-v5.5.pdf",
+      "claim": "F49 has 24 memory blocks totalling 122,880 bits, eight multipliers, 33 GPIO and no dedicated JTAG pins.",
+      "limit": "Silicon resources are not a measured FIFO allocation, transport capacity or installed bitstream."
+    },
+    {
+      "id": "cp2102",
+      "label": "Silicon Labs CP2102/9 datasheet",
+      "kind": "Primary / UART bridge specification",
+      "url": "https://www.silabs.com/documents/public/data-sheets/CP2102-9.pdf",
+      "claim": "Classic CP2102 default rates include 921,600; custom baud configuration is documented separately.",
+      "limit": "Requested Linux termios rate is not a measurement of physical UART timing. 2 M/1 M trials failed; the 115,200 diagnostic and clean 921,600-baud baseline answered commands."
+    },
+    {
+      "id": "fm-pilot",
+      "label": "ITU-R BS.450-4 FM pilot-tone system",
+      "kind": "Primary / signal-format reference",
+      "url": "https://www.itu.int/rec/R-REC-BS.450/en",
+      "claim": "Pilot-tone stereo multiplex includes a 19 kHz pilot and 38 kHz suppressed subcarrier.",
+      "limit": "A matching 19 kHz feature is consistent with FM but does not identify the station or validate a decoder."
     }
   ]
 }

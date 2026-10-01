@@ -1,0 +1,14 @@
+---
+import summary from "../../../docs/evidence/snapshot-baseline/summary.json";
+import { evidenceUrl, evidenceAsset } from "../lib/specs";
+interface Props { compact?: boolean }
+const {compact=false}=Astro.props;
+const successes=summary.runs.reduce((sum,run)=>sum+run.success,0);
+const attempts=summary.runs.reduce((sum,run)=>sum+run.attempts,0);
+---
+<figure class="snapshot-results">
+  <a class="measurement-preview" href={evidenceUrl("docs/evidence/snapshot-baseline/README.md")}><img src={evidenceAsset("docs/evidence/snapshot-baseline/snapshot-timing.svg")} alt="Actual ESP32 snapshot command-to-payload timings with nominal time coverage calculated from measured series duration" loading="lazy"/><span>{successes}/{attempts} CRC and count passes · clean 921,600-baud firmware · known-signal RF response unverified ↗</span></a>
+  {!compact && <div class="table-scroll measurement-table"><table class="lab-table"><thead><tr><th>Nominal rate</th><th>Output</th><th>Valid / attempted</th><th>Median command-to-payload</th><th>Nominal time coverage</th></tr></thead><tbody>{summary.runs.map(run=><tr><th scope="row">{run.rate_hz/1e6} MS/s</th><td>{run.bits}-bit I/Q</td><td>{run.success}/{run.attempts}</td><td>{run.median_round_trip_ms.toFixed(3)} ms</td><td>{(run.nominal_coverage_fraction*100).toFixed(4)}%</td></tr>)}</tbody></table></div>}
+  <figcaption>Timing is measured on the host. Coverage divides successful nominal listening windows by whole-series wall time, including analysis gaps; it is not measured event hit probability, calibrated ADC clock, or continuous recording. No known signal is established by CRC success.</figcaption>
+</figure>
+<style>.snapshot-results{margin:0}.snapshot-results figcaption{margin-top:16px;font-size:11px;line-height:1.8;color:var(--muted)}</style>

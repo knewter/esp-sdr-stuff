@@ -1,0 +1,23 @@
+---
+import capture from "../../../docs/evidence/rtl-continuity/capture.json";
+import { evidenceUrl } from "../lib/specs";
+const runs = capture.runs;
+---
+<figure class="measured-chart">
+  <div class="chart-head"><span>RTL-SDR V4 / MEASURED USB DELIVERY</span><span>INTERNAL TEST PATTERN</span></div>
+  <svg viewBox="0 0 670 265" role="img" aria-labelledby="rtl-chart-title rtl-chart-description">
+    <title id="rtl-chart-title">Four measured RTL-SDR continuous transport trials</title>
+    <desc id="rtl-chart-description">All four sample rates streamed for at least 65 seconds. At 2.048 million pairs per second, one discontinuity reported at least 80 missing bytes. No discontinuities were reported at the other three rates. These are internal-pattern USB tests, not radio reception.</desc>
+    <g stroke="var(--rule)" stroke-width="1">{[0,20,40,60].map(seconds => <line x1={120+seconds/70*360} y1="25" x2={120+seconds/70*360} y2="218" />)}</g>
+    {runs.map((run,index) => <g>
+      <text x="8" y={53+index*48} fill="var(--ink)">{run.requested_rate_hz/1e6} MS/s</text>
+      <rect x="120" y={34+index*48} width={run.observed_stream_before_sigint_s/70*360} height="24" rx="3" fill="var(--accent)" opacity=".8" />
+      <text x="490" y={51+index*48} fill={run.loss_reports ? "var(--unverified)" : "var(--ink-2)"}>{run.observed_stream_before_sigint_s.toFixed(3)} s · {run.loss_reports ? `≥${run.reported_lost_bytes_lower_bound} bytes lost` : "no gaps reported"}</text>
+    </g>)}
+    <g fill="var(--muted)">{[0,20,40,60].map(seconds => <text x={120+seconds/70*360} y="237" text-anchor="middle">{seconds}s</text>)}<text x="120" y="260">Time from async-start message to SIGINT</text></g>
+  </svg>
+  <figcaption>Loss counts are lower bounds. A zero integer-per-million summary can conceal a small reported gap. <a href={evidenceUrl("docs/evidence/rtl-continuity/README.md")}>Read logs and limitations ↗</a></figcaption>
+</figure>
+<style>
+  .measured-chart{margin:0;border:1px solid var(--rule);border-radius:10px;padding:20px;background:var(--surface)}.chart-head{display:flex;justify-content:space-between;gap:12px;font:9px var(--mono);color:var(--muted)}.chart-head span:last-child{color:var(--accent)}svg{display:block;width:100%;height:auto;margin:20px 0 10px;font:11px var(--mono)}figcaption{font-size:11px;color:var(--muted);line-height:1.8}figcaption a{color:var(--accent)}
+</style>
