@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "firmware_revision_asserted_from_install_record": "550fade-uart921600",
+  "firmware_source_base_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "browser_transport": "localhost HTTP polling a host UART reader; not native Web Serial",
+  "settings": {
+    "frequency_mhz": 2412,
+    "rate_hz": 80000000,
+    "bins": 512,
+    "gain": "hardware",
+    "bandwidth_mhz": 20,
+    "seconds_requested": 60
+  },
+  "started_utc": "2026-10-01T22:33:36Z",
+  "limitations": "Snapshot FFTs contain gaps. Codes are uncalibrated. Hardware nominal clock and synthesized sample index do not independently prove actual sample rate.",
+  "queries": {
+    "INFO": "ESP32SDR 6 burst 16380",
+    "CAPS": "CAPS SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8",
+    "LIMITS?": "LIMITS {\"gain\":[0,72,1],\"bandwidth\":[12,67,1,0],\"rates\":[80000000,40000000,16000000],\"bits\":[8,10]}",
+    "RANGE?": "RANGE 100 6000 1",
+    "TRANSPORT?": "TRANSPORT UART 921600",
+    "SPECINFO?": "SPECINFO {\"continuous\":false,\"transports\":[\"USB\",\"UART\"],\"profiles\":[[80000000,0,256,1,1,0],[80000000,0,512,1,1,0],[80000000,0,1024,1,1,0],[80000000,0,2048,1,1,0],[40000000,1,256,1,1,0],[40000000,1,512,1,1,0],[40000000,1,1024,1,1,0],[40000000,1,2048,1,1,0],[16000000,6,256,1,1,0],[16000000,6,512,1,1,0],[16000000,6,1024,1,1,0],[16000000,6,2048,1,1,0]]}",
+    "GAIN?": "GAIN HARDWARE -1 0 72 0",
+    "BAUD?": "BAUD 921600",
+    "parsed_limits": {
+      "gain": [
+        0,
+        72,
+        1
+      ],
+      "bandwidth": [
+        12,
+        67,
+        1,
+        0
+      ],
+      "rates": [
+        80000000,
+        40000000,
+        16000000
+      ],
+      "bits": [
+        8,
+        10
+      ]
+    }
+  },
+  "setting_replies": {
+    "FREQ 2412": "OK",
+    "BANDWIDTH 20": "OK",
+    "GAIN HARDWARE": "OK"
+  },
+  "end_report": [
+    0,
+    0,
+    7205,
+    3688960,
+    60005197,
+    0,
+    0,
+    7205,
+    0,
+    0,
+    7205,
+    0
+  ],
+  "private_frames_sha256": "e481b398564399f1d891601067ee1142bc38214ab2a8523a9814958d6a496bcc",
+  "frames": 7205,
+  "elapsed_seconds": 60.00521872495301,
+  "nominal_sampled_seconds": 0.046112,
+  "nominal_coverage_fraction": 0.0007684664930789503,
+  "status": "completed",
+  "ended_utc": "2026-10-01T22:34:38Z"
+}

@@ -14,7 +14,7 @@ prove initialization, not capture integrity.
 
 - [x] 2.1 Query INFO, CAPS, LIMITS?, RANGE? and TRANSPORT?; retain replies with firmware revision. Proof: [clean 921600 physical replies](docs/evidence/sdr-installation-uart921600/README.md).
 - [x] 2.2 Collect at least 100 snapshots at each advertised rate; verify CRC, sample counts and wall-clock gaps in a CSV. Proof: [600 physical snapshots](docs/evidence/snapshot-baseline/README.md).
-- [ ] 2.3 Capture a 60-second browser spectrum session and save a still plus the acquisition settings; describe missed-event limits.
+- [x] 2.3 Capture a 60-second browser spectrum session and save a still plus the acquisition settings; describe missed-event limits. Proof: [60.005-second hardware/display session](docs/evidence/spectrum-baseline/README.md); [failed first profile](docs/evidence/spectrum-baseline-1024-failed/README.md) retained separately.
 
 ## Proof procedure
 

@@ -15,7 +15,7 @@ def export():
         requested.update(item["evidence"])
         requested.update(doc["path"] for doc in item["details"])
     for path in data["trackedPaths"]:
-        if path.startswith(("docs/", "openspec/", "scripts/", "tools/", ".skills/")) or path in ("README.md", "AGENTS.md"):
+        if path.startswith(("docs/", "openspec/", "scripts/", "tools/", "tests/", ".skills/")) or path in ("README.md", "AGENTS.md"):
             requested.add(path)
     known = set(data["trackedPaths"])
     for path in sorted(requested):

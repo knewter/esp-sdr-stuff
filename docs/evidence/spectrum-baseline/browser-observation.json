@@ -1,0 +1,13 @@
+{
+  "status": "Completed real hardware trial; UART released",
+  "frames": 7205,
+  "crc_failures": 0,
+  "elapsed_seconds": 60.003879601019435,
+  "frequency_mhz": 2412,
+  "rate_hz": 80000000,
+  "bins": 512,
+  "duration_seconds": 60,
+  "transport": "host UART bridge, localhost HTTP browser",
+  "snapshot_gap_flag": true,
+  "nominal_coverage_fraction": 0.0007684836431679092
+}

@@ -18,7 +18,7 @@ The receiver evaluation SHALL count successful and failed CRC-checked snapshots 
 
 The evaluation SHALL associate a spectrum screenshot with its receiver, firmware, RF settings and capture gaps.
 
-<!-- UNVERIFIED: The proposed experiment has not run on the physical hardware. -->
+*Grounding: [60.005-second physical spectrum session](docs/evidence/spectrum-baseline/README.md) links live/completed browser stills, firmware/settings, 7205 consecutive CRC-checked frames, final totals and explicit snapshot gaps. Power remains uncalibrated and no known RF signal is inferred.*
 
 #### Scenario: Evaluation result is inspected
 - **WHEN** a spectrum image is published
