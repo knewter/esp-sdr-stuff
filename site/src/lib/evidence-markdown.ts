@@ -33,7 +33,8 @@ export function evidenceMarkdownLinks(
             let relative: string;
             try { relative = decodeURIComponent(match[1]); }
             catch { relative = match[1]; }
-            const target = path.posix.normalize(path.posix.join(path.posix.dirname(sourcePath), relative));
+            const repositoryRootPath = /^(?:docs|openspec|tools|scripts|tests|\.skills)\//.test(relative);
+            const target = path.posix.normalize(repositoryRootPath ? relative : path.posix.join(path.posix.dirname(sourcePath), relative));
             if (target !== ".." && !target.startsWith("../")) {
               const page = pages.get(target);
               node.properties![key] = page && (node.tagName === "a" || page.kind !== "image")
