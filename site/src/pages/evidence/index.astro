@@ -2,5 +2,6 @@
 import Base from "../../layouts/Base.astro";
 import { specs, url, evidenceUrl } from "../../lib/specs";
 const records = specs.evidence.filter((file) => file.path.endsWith("README.md") || file.path.endsWith("source-index.md"));
+const preview = evidenceUrl("docs/evidence/site-preview/README.md");
 ---
 <Base title="Evidence library"><header class="page-title"><p class="eyebrow">RECORDS / PROVENANCE MATTERS</p><h1>Show the work.<br />Keep the limits attached.</h1><p class="lede">Board captures identify the receivers. Design illustrations explain proposals. Host screenshots prove the site. None stand in for an RF measurement we haven’t made.</p><a href={evidenceUrl("docs/evidence/workflow-origin/README.md")}>Tracking workflow origin →</a></header><div class="record-list">{records.map((file) => <article class="record"><p class="eyebrow">{file.path.startsWith("docs/design/") ? "DESIGN ILLUSTRATION / NOT MEASURED" : file.path.includes("site-preview") ? "HOST CAPTURE / SITE VERIFICATION" : file.path.includes("identification") ? "BOARD CAPTURE / IDENTITY" : "RESEARCH / WORKFLOW RECORD"}</p><h2>{file.path.split("/").at(-2)?.replaceAll("-", " ")}</h2><p>{file.path}</p><a href={url(`evidence/${file.slug}/`)}>Inspect record and related files ↗</a></article>)}</div></Base>

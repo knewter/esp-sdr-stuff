@@ -23,6 +23,7 @@ def main():
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.on("response", lambda response: failures.append(response.url) if response.status >= 400 and response.url.startswith(base) else None)
         assert page.goto(base, wait_until="networkidle").status == 200
+        revision = page.request.get(base + "revision.json").json()["revision"]
         page.evaluate("document.fonts.ready")
         assert page.locator("#capture-duration").inner_text() == "0.205 ms"
         page.locator("#sample-rate").select_option("16")
@@ -69,6 +70,7 @@ def main():
     assert not failures, failures
     (output / "capture.json").write_text(json.dumps({
         "captured": datetime.now(timezone.utc).isoformat(), "url": base,
+        "source_revision": revision,
         "evidence_class": "Host browser capture; no hardware reception measured",
         "checks": ["desktop and mobile navigation", "no horizontal page overflow", "capture budget calculator", "theme toggle", "seven proposal cards", "proposal deep link", "gallery image loaded", "dialog focus restored", "boot evidence link", "no page errors or local HTTP failures"],
         "result": "passed"

@@ -1,0 +1,19 @@
+{
+  "captured": "2026-10-01T21:31:10.358709+00:00",
+  "url": "http://localhost:4321/",
+  "source_revision": "46309a86e453909aade4ffdd05223117a3ac6d52",
+  "evidence_class": "Host browser capture; no hardware reception measured",
+  "checks": [
+    "desktop and mobile navigation",
+    "no horizontal page overflow",
+    "capture budget calculator",
+    "theme toggle",
+    "seven proposal cards",
+    "proposal deep link",
+    "gallery image loaded",
+    "dialog focus restored",
+    "boot evidence link",
+    "no page errors or local HTTP failures"
+  ],
+  "result": "passed"
+}

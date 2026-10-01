@@ -5,8 +5,10 @@ context: |
   Boot identifies ESP-IDF v5.4-dirty hello_world GPIO toggling at 160 MHz.
   AtomVM was expected but was not observed. SDR reception is untested.
   ESPARGOS ESP-SDR supports this family with snapshot capture. eSpDR uses
-  an ESP32-S3 plus FPGA; C5VRX requires a C5. The user has unspecified
-  FPGA boards: inventory them before designing a transport.
+  an ESP32-S3 plus FPGA; C5VRX requires a C5. The user reports Adiuvo
+  Forgix ownership (official design: Trion T8F49, RP2354, USB 1.1).
+  Host PCIe enumeration finds dabc:1017, associated with an AS02MC04/XCKU3P
+  in prior local research. Verify board markings and bring-up separately.
   Use the copied Astro work board from tdisplay-k230. Local committed history
   is the work snapshot. Radio experiments remain proposals, not installed
   firmware. Read AGENTS.md and .skills/sdr-spec-change/SKILL.md.
