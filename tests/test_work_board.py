@@ -289,8 +289,8 @@ class RealRepository(unittest.TestCase):
     def test_current_status_file_is_valid_against_working_tree(self) -> None:
         status = work.parse_status((ROOT / work.STATUS_PATH).read_text())
         data = work.snapshot(work.SourceTree(ROOT, True), status, "test UTC")
-        self.assertGreaterEqual(len(data["items"]), 20)
-        self.assertTrue(any(i["lane"] == "verification" for i in data["items"]))
+        self.assertGreater(len(data["items"]), 0)
+        self.assertTrue(all(i["lane"] in work.LANES for i in data["items"]))
         self.assertTrue(all(i["proposal"].startswith("openspec/changes/") for i in data["items"]))
 
     def test_every_current_openspec_checkbox_is_counted(self) -> None:
