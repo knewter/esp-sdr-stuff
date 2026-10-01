@@ -68,6 +68,18 @@ Only an exact complete owned manufacturer AD structure qualifies as owned.
 LE2M, coded PHY, extended advertising, hopping sessions and encrypted payloads
 are outside this decoder.
 
+`--frequency-translation-hz` records a digital translation before resampling;
+it does not calibrate the hardware LO. `--refine` adds a bounded blind receiver
+search per access-address cluster: 13 symbol periods from 3.97 to 4.03 samples
+per symbol, 17 start positions within ±2 samples at 4 MS/s, and 37 slicing
+threshold biases from −0.45 to +0.45 of the AA-estimated deviation. Correlation
+must exceed 0.78 and the sliced public 32-bit AA must have at most two errors.
+At most 32 clusters are refined per capture. Each receiver hypothesis slices
+the original waveform and validates the complete PDU's 24-bit CRC. The known
+marker is consulted only after CRC validation; no payload bit repair is used.
+Among valid hypotheses, selection uses AA correlation without preferring an
+owned payload. All timing hypotheses for one AA cluster count as one packet.
+
 ## Physical gate
 
 Use at least three paired source-on/source-off trials with pinned receiver
@@ -90,7 +102,7 @@ python3 -m pip install -r tools/requirements-ble.txt
 python3 -m unittest discover -s tests -p 'test_ble*.py' -v
 ```
 
-Twelve tests passed during preparation. No real IQ input was used in these tests.
+Thirteen tests passed during preparation. No real IQ input was used in these tests.
 The source-lifecycle regression simulates BlueZ releasing an advertisement on
 unregistration, and verifies that all three subsequent episodes still remove
 their own registration. This is simulated control behavior, not RF evidence.

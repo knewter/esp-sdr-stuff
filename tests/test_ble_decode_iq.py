@@ -5,13 +5,15 @@ Bit strings are chronological, not conventional big-endian hex notation.
 """
 import sys
 import unittest
+import json
 from pathlib import Path
 
 import numpy as np
 from scipy.ndimage import gaussian_filter1d
+from scipy.signal import resample_poly
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
-from ble_decode_iq import bits_of, bytes_of, crc_bits, whiten, decode_packet, decode_iq
+from ble_decode_iq import bits_of, bytes_of, crc_bits, whiten, decode_packet, decode_iq, refine_packet
 
 PDU = '01000010 10010000 01100101 10100101 00100101 11000101 01000101 10000011 10000000 01000000 11000000'
 CRC = '10110101 00101101 11010111'
@@ -88,6 +90,19 @@ class BLEDecoderTests(unittest.TestCase):
         rng = np.random.default_rng(17)
         iq = rng.normal(size=16380) + 1j * rng.normal(size=16380)
         self.assertFalse(any(frame['status'].startswith('valid') for frame in decode_iq(iq, 16000000, 37)))
+
+    def test_blind_refinement_uses_independent_published_packet(self):
+        iq = independent_vector_iq(cfo=120000, noise=.02)
+        direct = [frame for frame in decode_iq(iq, 16000000, 38) if frame['status'].startswith('valid')][0]
+        base = resample_poly(iq-iq.mean(), 1, 4)
+        phase = np.angle(base[1:] * np.conj(base[:-1]))
+        refined = refine_packet(phase, direct['access_address_sample_offset']/4, 4, 38, bytes.fromhex('0fffffff4553502d5344522d4556414c'))
+        self.assertEqual(refined['status'], 'valid_other_redacted')
+        self.assertTrue(refined['crc24_ok'])
+        self.assertTrue(refined['complete_preamble_and_pdu_crc_within_capture_nominal'])
+        self.assertGreater(refined['crc_valid_receiver_hypotheses'], 0)
+        self.assertLessEqual(refined['receiver_hypotheses_checked'], 13*17*37)
+        json.dumps(refined)
 
 
 if __name__ == '__main__':
