@@ -11,15 +11,17 @@ import json
 from pathlib import Path
 import socket
 import struct
+import sys
 import time
 
 ADV_OPCODES = {0x2006, 0x2008, 0x200A, 0x2036, 0x2037, 0x2039}
 OWNED_MARKER_AD = bytes.fromhex('0fffffff4553502d5344522d4556414c')
+AF_BLUETOOTH_LINUX = 31  # Linux socket ABI, independent of CPython build flags.
 HCI_CHANNEL_MONITOR = 2  # Linux include/net/bluetooth/hci_sock.h; CONTROL is3.
 
 
 def monitor_sockaddr():
-    return struct.pack('=HHH', socket.AF_BLUETOOTH, 0xffff, HCI_CHANNEL_MONITOR)
+    return struct.pack('=HHH', AF_BLUETOOTH_LINUX, 0xffff, HCI_CHANNEL_MONITOR)
 
 
 def owned_ad_match(data):
@@ -111,6 +113,8 @@ def main():
     args = parser.parse_args()
     if not .1 <= args.seconds <= 3600 or args.output.exists():
         parser.error('Use bounded seconds and a fresh output path')
+    if sys.platform != 'linux' or not all(hasattr(socket, name) for name in ('AF_BLUETOOTH', 'BTPROTO_HCI')):
+        parser.error('Live monitoring requires Linux and a Python build with Bluetooth socket support')
     record = {'schema': 1, 'kind': 'read-only sanitized HCI0 advertising control',
               'hci_channel':HCI_CHANNEL_MONITOR,
               'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),

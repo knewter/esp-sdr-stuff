@@ -4,8 +4,11 @@ from pathlib import Path
 import struct
 import sys
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
+import ble_hci_monitor as monitor_module
 from ble_hci_monitor import sanitized_packet, monitor_sockaddr
 
 
@@ -18,8 +21,13 @@ class HCIMonitorTests(unittest.TestCase):
     def test_actual_monitor_sockaddr_uses_linux_channel_two(self):
         # Linux include/net/bluetooth/hci_sock.h: RAW0 USER1 MONITOR2 CONTROL3.
         # Channel3 binds successfully but receives no raw HCI monitor frames.
-        import socket
-        self.assertEqual(struct.unpack('=HHH', monitor_sockaddr()), (socket.AF_BLUETOOTH, 0xffff, 2))
+        self.assertEqual(struct.unpack('=HHH', monitor_sockaddr()), (31, 0xffff, 2))
+
+    def test_sockaddr_remains_inspectable_without_python_bluetooth_support(self):
+        # GitHub's Python can omit Bluetooth constants even on Linux.
+        # Packing the ABI for host review must not open or require a socket.
+        with patch.object(monitor_module, 'socket', SimpleNamespace()):
+            self.assertEqual(struct.unpack('=HHH', monitor_sockaddr()), (31, 0xffff, 2))
     def test_legacy_parameters_discard_peer_address(self):
         payload = struct.pack('<HHBBB', 0x800, 0x800, 3, 0, 0) + b'SECRET' + bytes([7, 0])
         result = sanitized_packet(command(0x2006, payload))
