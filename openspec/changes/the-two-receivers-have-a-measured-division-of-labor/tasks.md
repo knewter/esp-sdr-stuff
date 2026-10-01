@@ -23,9 +23,12 @@ reported at least 80 bytes lost even though the integer-per-million summary
 rounded to zero; the other trials had no reported discontinuities. This is an
 internal-pattern USB test, not RF reception or an absolute loss-free guarantee.
 
-[Passive FM-band and demodulation evidence](docs/evidence/rtl-fm-survey/README.md)
-records an unverified-source 101.1 MHz candidate with 19 kHz structure. Antenna
-identity and a known source/application result remain missing, so task 1.2 stays
-open. Tasks 2.1 and 2.3 need the actual ESP acquisition/transfer results. Converter
-and reference equipment require physical inventory; no cross-receiver sensitivity
+[The initial passive FM survey](docs/evidence/rtl-fm-survey/README.md)
+recorded an unidentified 101.1 MHz candidate with 19 kHz structure.
+[Subsequent no-FEC RDS evidence](docs/evidence/rtl-rds-trial/README.md)
+and [independent replay](docs/evidence/rtl-rds-independent-review/README.md)
+verify the selected WXJC application under the current receive path. Antenna
+identity and attachment remain uninspected, so task 1.2 stays open pending that
+physical inventory. The measured application matrix completes tasks 2.1/2.3;
+conversion/reference equipment still requires physical inventory. No sensitivity
 ranking or task 2.2 completion is claimed.

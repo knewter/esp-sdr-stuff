@@ -6,13 +6,14 @@ An evidence-based evaluation of an original ESP32 as an experimental SDR, alongs
 - [Experiment board](https://knewter.github.io/esp-sdr-stuff/work/)
 - [Primary sources](docs/research/source-index.md)
 - [Chip identification](docs/evidence/board-identification/README.md)
+- [Current results and remaining physical gates](docs/evidence/evaluation-checkpoint/README.md)
 - [Measured recommendations](docs/research/measured-recommendations.md)
 - [Accepted snapshot and display experiment](docs/evidence/snapshot-baseline/README.md)
 
 The connected chip is ESP32-D0WD-V3 revision 3.1, with 4 MB physical flash.
 Its original image is an ESP-IDF hello_world/pin-toggle program. Two complete
-backup reads match; the first post-trial restoration also matches every byte
-and boots after reset. Actual power-removal recovery remains a separate gate.
+backup reads match; the final post-trial restoration also matches every byte
+and boots after reset. The board currently runs its original GPIO firmware. Actual power-removal recovery remains a separate gate.
 
 The clean ESP-SDR UART921600 build passed all 600 full-size snapshot CRC/count
 checks across three rates and two formats. A 512-bin browser spectrum session
@@ -23,9 +24,10 @@ about 361–451 ms, giving only 0.045–0.281% nominal RF time coverage in the s
 
 Five evaluations remain active: complete recovery, controlled RF,
 burst applications, FPGA feasibility and receiver comparison. AtomVM is
-deferred by user. Owned BLE trials and physical RTL transport/FM captures
-remain distinct from unverified calibration, emitted-event counts and FPGA
-bring-up. Design illustrations are labeled separately from actual captures.
+deferred by user. Five owned BLE packets now pass protected-PDU CRC and exact known-marker
+verification; RTL no-FEC RDS identifies WXJC at 101.1 MHz. These actual
+applications remain distinct from unverified calibration, emitted-event counts,
+antennas and FPGA bring-up. Design illustrations are labeled separately from actual captures.
 
 ## Development
 

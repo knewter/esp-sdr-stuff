@@ -2,7 +2,7 @@
   {
     "id": "the-board-can-be-restored-after-an-sdr-trial",
     "short": "Preserve & recover",
-    "summary": "Two matching full 4 MiB reads preserve the original image. A post-trial restoration matches byte-for-byte and resets correctly; actual power-cycle proof remains open.",
+    "summary": "Two matching full 4 MiB reads preserve the original image. Final post-trial restoration matches byte-for-byte and resets correctly; actual power-cycle proof remains open.",
     "gate": "A 4,194,304-byte backup with SHA-256 plus a recorded restoration boot; a backup alone does not close recovery proof.",
     "depends": [],
     "number": 1,
@@ -22,7 +22,7 @@
   {
     "id": "the-spectrum-reveals-controlled-24ghz-signals",
     "short": "Characterize the RF path",
-    "summary": "A plausible waterfall could show aliases or internal noise. We need controlled signals to learn usable bandwidth, tuning accuracy and overload behavior.",
+    "summary": "Five owned BLE packets prove narrow known-signal reception. Three-cycle RF repeatability, calibrated filtering/gain and extended tuning references remain open.",
     "gate": "Three repeatable source-on/source-off pairs with known center frequencies; each claimed extra tuning point has an independently known signal and uncertainty.",
     "depends": [
       "the-board-captures-repeatable-radio-snapshots"
@@ -33,7 +33,7 @@
   {
     "id": "the-receiver-can-observe-and-decode-short-bursts",
     "short": "Test real applications",
-    "summary": "Seeing activity is useful but does not establish packet decoding or reliable event detection. We need an honest application shortlist based on finite capture windows.",
+    "summary": "Five complete owned BLE packets decode with exact known data and protected-PDU CRC. Counted emissions and capture hit/miss reliability remain open.",
     "gate": "At least 100 deliberately emitted repeat events with ground-truth counts and capture hit rate; a decoding claim includes a complete waveform and verified payload.",
     "depends": [
       "the-board-captures-repeatable-radio-snapshots",
@@ -68,7 +68,7 @@
   {
     "id": "the-two-receivers-have-a-measured-division-of-labor",
     "short": "Compare with the RTL-SDR V4",
-    "summary": "RTL transport/FM artifacts and ESP snapshot timing are measured. Known-source applications, controlled ESP response and common-signal conversion inventory remain open.",
+    "summary": "V4 no-FEC RDS identifies WXJC; ESP decodes owned BLE packets with measured snapshot gaps. Antenna/converter inventory and same-signal sensitivity remain open.",
     "gate": "At least 60 seconds per V4 sample rate with lost-sample counts, plus measured ESP snapshot gaps. Each chosen application states the receiver, coverage, continuity and proof status.",
     "depends": [
       "the-board-captures-repeatable-radio-snapshots",

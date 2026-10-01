@@ -14,12 +14,14 @@
       "source": "in-progress",
       "physical": "pending",
       "next": "Record an actual power-removal/reapplication boot and finish recovery acceptance.",
-      "rationale": "Two matching complete flash reads are proven; first post-trial restore/readback matches and resets. Cold power-cycle proof remains open.",
-      "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
+      "rationale": "Two matching complete flash reads and final post-trial restore/readback match; original GPIO firmware is running. Actual physical power-cycle proof remains open.",
+      "reviewRevision": "82708e7",
       "dependencies": [],
       "evidence": [
         "docs/evidence/firmware-preservation/README.md",
-        "docs/evidence/first-restoration/README.md"
+        "docs/evidence/first-restoration/README.md",
+        "docs/evidence/final-restoration/README.md",
+        "docs/evidence/power-cycle-wait/README.md"
       ]
     },
     "the-board-captures-repeatable-radio-snapshots": {
@@ -52,30 +54,41 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Measure controlled source-on/source-off responses with verified settings and uncertainties.",
-      "rationale": "Integrity-checked spectrum tooling and an owned BLE source exist; source registration alone does not establish receiver response.",
-      "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
+      "next": "Establish repeatable source-on/off responses and calibrated filter/gain/tuning references.",
+      "rationale": "Five owned BLE packets prove narrow known-signal reception. Three-cycle RF repeatability, calibrated filtering/gain and extended tuning references remain open.",
+      "reviewRevision": "82708e7",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
       "evidence": [
-        "docs/evidence/ble-source-registration/README.md"
+        "docs/evidence/ble-reception-trial/README.md",
+        "docs/evidence/rf-controls-trial/README.md",
+        "docs/evidence/ble-controls-decoding/README.md",
+        "docs/evidence/independent-review/requirement-audit.md"
       ]
     },
     "the-receiver-can-observe-and-decode-short-bursts": {
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Capture counted repeat events and verify payloads before claiming detection or decoding reliability.",
-      "rationale": "Bounded BLE source/decoder tools are tested; commanded advertising intervals do not supply exact over-the-air emission counts.",
-      "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
+      "next": "Obtain at least 100 independently counted RF emissions and measure hits/misses/truncations.",
+      "rationale": "Five complete owned BLE packets decode with exact known data and protected-PDU CRC. Counted emissions and capture hit/miss reliability remain open.",
+      "reviewRevision": "82708e7",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
       ],
       "evidence": [
-        "docs/evidence/ble-source-registration/README.md"
-      ]
+        "docs/evidence/ble-owned-decoding/README.md",
+        "docs/evidence/ble-controls-decoding/README.md",
+        "docs/evidence/ble-monitor-permission/README.md",
+        "docs/evidence/independent-review/README.md"
+      ],
+      "cover": {
+        "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",
+        "caption": "Four actual owned BLE packet amplitude windows, independently CRC/marker verified",
+        "provenance": "Board capture"
+      }
     },
     "the-fpga-route-has-a-measured-feasibility-decision": {
       "lane": "in-progress",
@@ -95,9 +108,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Verify the RTL antenna/source application and physically inventory the common-signal conversion path.",
-      "rationale": "RTL delivery/FM artifacts and ESP snapshot timing support published practical recommendations. Known-source application and shared-signal conversion gates remain open.",
-      "reviewRevision": "28d13a6",
+      "next": "Inspect the RTL antenna and physically inventory available conversion/reference equipment.",
+      "rationale": "V4 no-FEC RDS identifies WXJC; ESP decodes owned BLE packets with measured snapshot gaps. Antenna/converter inventory and same-signal sensitivity remain open.",
+      "reviewRevision": "82708e7",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -106,11 +119,14 @@
         "docs/evidence/rtl-continuity/README.md",
         "docs/evidence/rtl-fm-survey/README.md",
         "docs/evidence/independent-review/README.md",
-        "docs/evidence/snapshot-baseline/README.md"
+        "docs/evidence/snapshot-baseline/README.md",
+        "docs/evidence/rtl-rds-trial/README.md",
+        "docs/evidence/rtl-rds-independent-review/README.md",
+        "docs/research/measured-recommendations.md"
       ],
       "cover": {
-        "path": "docs/evidence/rtl-fm-survey/fm-structure.png",
-        "caption": "Measured RTL FM candidate: antenna and station unverified",
+        "path": "docs/evidence/rtl-rds-trial/rds-decoding.png",
+        "caption": "Actual no-FEC RDS decoding of WXJC at 101.1 MHz; antenna inventory pending",
         "provenance": "Board capture"
       }
     }

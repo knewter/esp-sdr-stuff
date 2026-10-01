@@ -1,0 +1,8 @@
+{
+  "started_utc": "2026-10-01T22:59:58.498227+00:00",
+  "user_confirmed_actual_power_removal": false,
+  "power_cycle_proven": false,
+  "port_handle_closed_during_wait": true,
+  "limitations": "USB disappearance/reappearance alone does not prove physical power removal. User confirmation is required. Opening UART may cause an additional reset.",
+  "status": "no_disconnect_observed_before_timeout"
+}

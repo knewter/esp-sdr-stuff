@@ -29,6 +29,12 @@ def main():
         page.locator("#sample-rate").select_option("16")
         assert page.locator("#capture-duration").inner_text() == "1.024 ms"
         page.locator("#sample-rate").select_option("80")
+        assert page.locator("[data-known-applications] img").count() == 2
+        for measured_image in page.locator("[data-known-applications] img").all():
+            measured_image.scroll_into_view_if_needed()
+            page.wait_for_function("image => image.complete && image.naturalWidth > 0", arg=measured_image.element_handle())
+        assert "WXJC" in page.locator("#content").inner_text()
+        assert "Five known BLE packets" in page.locator("#content").inner_text()
         page.screenshot(path=str(output / "overview-desktop.png"), full_page=True)
         theme = page.locator("html").get_attribute("data-theme")
         page.locator("#theme-toggle").click()
@@ -56,6 +62,11 @@ def main():
         page.keyboard.press("Escape")
         for route in ("compare/", "fpga/", "sources/", "ledger/", "evidence/"):
             assert page.goto(base + route, wait_until="networkidle").status == 200
+        # Archival must preserve the original stable proposal URL.
+        page.goto(base + "work/?work=the-board-captures-repeatable-radio-snapshots", wait_until="networkidle")
+        page.locator("#work-detail-dialog[open]").wait_for()
+        assert "Archived" in page.locator("#work-detail-content").inner_text()
+        page.keyboard.press("Escape")
         page.goto(base + "evidence/docs-evidence-board-identification-readme-md/", wait_until="networkidle")
         page.get_by_role("link", name="Boot log", exact=True).click()
         assert "hello_world" in page.locator(".ev-text").inner_text()
@@ -72,7 +83,7 @@ def main():
         "captured": datetime.now(timezone.utc).isoformat(), "url": base,
         "source_revision": revision,
         "evidence_class": "Host browser capture; no hardware reception measured",
-        "checks": ["desktop and mobile navigation", "no horizontal page overflow", "capture budget calculator", "theme toggle", "seven proposal cards", "proposal deep link", "gallery image loaded", "dialog focus restored", "boot evidence link", "no page errors or local HTTP failures"],
+        "checks": ["desktop and mobile navigation", "no horizontal page overflow", "capture budget calculator", "theme toggle", "seven proposal cards", "proposal deep link", "gallery image loaded", "dialog focus restored", "boot evidence link", "actual BLE/RDS images loaded", "archived proposal stable URL", "no page errors or local HTTP failures"],
         "result": "passed"
     }, indent=2) + "\n")
     print("Browser checks passed; host screenshots recorded at", output)
