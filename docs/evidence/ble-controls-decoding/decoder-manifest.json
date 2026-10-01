@@ -1,0 +1,4055 @@
+{
+  "schema": 1,
+  "kind": "blind BLE controls replay",
+  "decoder": "tools/ble_decode_iq.py",
+  "primary_protocol_source": "https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html",
+  "independent_published_test_vectors": "https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/sample-data.html",
+  "nominal_rate_hz": 16000000,
+  "bits_per_component": 10,
+  "samples_per_capture": 16380,
+  "channel": 37,
+  "owned_marker_ad_hex": "0fffffff4553502d5344522d4556414c",
+  "blind_receiver_refinement": {
+    "samples_per_symbol_min": 3.97,
+    "samples_per_symbol_max": 4.03,
+    "samples_per_symbol_step": 0.005,
+    "start_search_half_width_samples_at_4msps": 2,
+    "start_search_step_samples_at_4msps": 0.25,
+    "threshold_bias_min_deviation_fraction": -0.45,
+    "threshold_bias_max_deviation_fraction": 0.45,
+    "threshold_bias_step_deviation_fraction": 0.025,
+    "maximum_candidate_clusters_per_capture": 32
+  },
+  "captures": [
+    {
+      "capture_index": 0,
+      "capture_filename": "iq-0000.bin",
+      "payload_sha256": "0e910e79ce3ee851ff5f48941129429127fd6c89b316da1931e616f31bc05338",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702238619753064,
+      "header_received_ns": 702238627623761
+    },
+    {
+      "capture_index": 1,
+      "capture_filename": "iq-0001.bin",
+      "payload_sha256": "6ef6f395f889662eb85c1f8f31657c01f9fb3644cb7538311bd6f79d8d0ac3e9",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702239182109042,
+      "header_received_ns": 702239188917922
+    },
+    {
+      "capture_index": 2,
+      "capture_filename": "iq-0002.bin",
+      "payload_sha256": "2214ca4615cccf79c12911b4fcd3ca7c4839cd6501790eb4d46ac6dc972f4601",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702239637121439,
+      "header_received_ns": 702239644030298
+    },
+    {
+      "capture_index": 3,
+      "capture_filename": "iq-0003.bin",
+      "payload_sha256": "54d8fbef074201ea1232e0780e0239213cf2d32111852715705ec74dbdae137d",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702240211069168,
+      "header_received_ns": 702240217893848
+    },
+    {
+      "capture_index": 4,
+      "capture_filename": "iq-0004.bin",
+      "payload_sha256": "02900641dd973e99ba6a7c96a19cd5c31c73a9e394352e57dc7c44072611528d",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702240663869953,
+      "header_received_ns": 702240670933645
+    },
+    {
+      "capture_index": 5,
+      "capture_filename": "iq-0005.bin",
+      "payload_sha256": "91ee14a7b77a90af92e89471209eaab661ca4937772b264bedcbd9989df829f3",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702241117903880,
+      "header_received_ns": 702241124948967
+    },
+    {
+      "capture_index": 6,
+      "capture_filename": "iq-0006.bin",
+      "payload_sha256": "aba7974cd32cfba3caaf5ffe3feab369be34b4536733c258856041e449805054",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702241570374722,
+      "header_received_ns": 702241577928160
+    },
+    {
+      "capture_index": 7,
+      "capture_filename": "iq-0007.bin",
+      "payload_sha256": "a64b90123519e1aef80f7ca2fddaefb9b0c699bae54e70a1785bd30a5c74c572",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702242024788376,
+      "header_received_ns": 702242031963448
+    },
+    {
+      "capture_index": 8,
+      "capture_filename": "iq-0008.bin",
+      "payload_sha256": "9d9b21905bb839c6a2b85813d60fffce882277a1f0d8961fec1ec6fca56c12ed",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702242477811411,
+      "header_received_ns": 702242485016010
+    },
+    {
+      "capture_index": 9,
+      "capture_filename": "iq-0009.bin",
+      "payload_sha256": "29d0718e1eeec5a24d3dd968de4ec8d383386b0f9ecbf5200e26a7d0cdf52a1e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702242930385237,
+      "header_received_ns": 702242937971978
+    },
+    {
+      "capture_index": 10,
+      "capture_filename": "iq-0010.bin",
+      "payload_sha256": "1a5a6c1246b12af8f284c74ec593988768074a83d097895d434a4008a6a62d3d",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702243383427930,
+      "header_received_ns": 702243391026793
+    },
+    {
+      "capture_index": 11,
+      "capture_filename": "iq-0011.bin",
+      "payload_sha256": "daa6fcd1f93d24d7c0ad2aed4df38c4d565bf17027681cc9fb51bc0e1794e2b5",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702243836982399,
+      "header_received_ns": 702243844025913
+    },
+    {
+      "capture_index": 12,
+      "capture_filename": "iq-0012.bin",
+      "payload_sha256": "bb8bdb6ec32d61cd72429cc3a151bb7e497f5cc435b1a7a0989ff27d6d831f86",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702244289582424,
+      "header_received_ns": 702244297044559
+    },
+    {
+      "capture_index": 13,
+      "capture_filename": "iq-0013.bin",
+      "payload_sha256": "c0ed4d48b74d4eb76f8576492b7de4cc2179ed569b09cfeb0f02263009553af3",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702244745324659,
+      "header_received_ns": 702244753121246
+    },
+    {
+      "capture_index": 14,
+      "capture_filename": "iq-0014.bin",
+      "payload_sha256": "9cd2173b523daa0034f72dd191ecbe9997c636d13f5b99cba2c037d776614c89",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702245198960572,
+      "header_received_ns": 702245206045634
+    },
+    {
+      "capture_index": 15,
+      "capture_filename": "iq-0015.bin",
+      "payload_sha256": "13ac726f06731db18cd256a072957b08f72032d1dbc942386a459366545c520a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702245652364726,
+      "header_received_ns": 702245660055814
+    },
+    {
+      "capture_index": 16,
+      "capture_filename": "iq-0016.bin",
+      "payload_sha256": "03afa24e21b84238172b1562f68d8d6b33fe40118cd38f0e9077970787cf6c9b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702246106369376,
+      "header_received_ns": 702246114060884
+    },
+    {
+      "capture_index": 17,
+      "capture_filename": "iq-0017.bin",
+      "payload_sha256": "45b6507d2abf161921a2b204ce42a881959c68fafd8439011ef71844381529d8",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702246560800822,
+      "header_received_ns": 702246568044584
+    },
+    {
+      "capture_index": 18,
+      "capture_filename": "iq-0018.bin",
+      "payload_sha256": "c401e8abd3469f18ea2b0e9039c6a76554ab4d784df6e487d5fccf2820db8686",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702247014039884,
+      "header_received_ns": 702247021131649
+    },
+    {
+      "capture_index": 19,
+      "capture_filename": "iq-0019.bin",
+      "payload_sha256": "9f1be4926bc204dda19846cb3a7103737d9d1e9992d06bef1b68404ed0ba460b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702247466851829,
+      "header_received_ns": 702247474102404
+    },
+    {
+      "capture_index": 20,
+      "capture_filename": "iq-0020.bin",
+      "payload_sha256": "6e3806a9ce1c5ab511925ad22bb6f3a8f493410f90495c1ee6fef82ea6308eac",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702247919986022,
+      "header_received_ns": 702247927113144
+    },
+    {
+      "capture_index": 21,
+      "capture_filename": "iq-0021.bin",
+      "payload_sha256": "22db2d518f04d0d049374b86328b5b2d4c240f88e9746f7e00691438c6e4081c",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702248372980151,
+      "header_received_ns": 702248380095500
+    },
+    {
+      "capture_index": 22,
+      "capture_filename": "iq-0022.bin",
+      "payload_sha256": "6a2911b80d8feb201a13b77f86e6d3921e416cd4d7412b6ac9d7454fef5bb846",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702248826221236,
+      "header_received_ns": 702248833098495
+    },
+    {
+      "capture_index": 23,
+      "capture_filename": "iq-0023.bin",
+      "payload_sha256": "3d3f3c5ac8cb58c68e430fca2c0eefe8aaf9d71321ee0eabd890ab61b03a40dd",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702249279630529,
+      "header_received_ns": 702249288142929
+    },
+    {
+      "capture_index": 24,
+      "capture_filename": "iq-0024.bin",
+      "payload_sha256": "ea472ff300831ae2df4bc9e1efbc859054ff1263081edcabbeda3cdad8299f8e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702249733206838,
+      "header_received_ns": 702249740167244
+    },
+    {
+      "capture_index": 25,
+      "capture_filename": "iq-0025.bin",
+      "payload_sha256": "17c4369450d3533d027f11d1888ed058df9de75be357fc78bef4ca0d9999db2d",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702250185915216,
+      "header_received_ns": 702250193194615
+    },
+    {
+      "capture_index": 26,
+      "capture_filename": "iq-0026.bin",
+      "payload_sha256": "b9e52ba6f1f12c8e45585c6e5ca26d4d0db9030bf192cbf66822d64d8e3f577c",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702250640729023,
+      "header_received_ns": 702250648160159
+    },
+    {
+      "capture_index": 27,
+      "capture_filename": "iq-0027.bin",
+      "payload_sha256": "5d6f16afe7468d33c88357fb5d119480e228fb35572cd0099431c5c6e216381d",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702251095268462,
+      "header_received_ns": 702251103143968
+    },
+    {
+      "capture_index": 28,
+      "capture_filename": "iq-0028.bin",
+      "payload_sha256": "1bb1d1933b8a915d232e947e7bcb25987a5723576b0b8b21f13ab335fd0f10e6",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702251551643610,
+      "header_received_ns": 702251559227415
+    },
+    {
+      "capture_index": 29,
+      "capture_filename": "iq-0029.bin",
+      "payload_sha256": "ab3511452a18642e258482888d4afdcf7c5df3f2ecff5e1c56a7378cc409c7c2",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_off_before"
+      },
+      "frames": [],
+      "source_control_phase": "source_off_before",
+      "command_start_ns": 702252006458719,
+      "header_received_ns": 702252014223857
+    },
+    {
+      "capture_index": 30,
+      "capture_filename": "iq-0030.bin",
+      "payload_sha256": "f9f73efff53b1c37048b0c15cfa2b9f89b19e064556ef035d91de14e050b0996",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702303704800603,
+      "header_received_ns": 702303712692660
+    },
+    {
+      "capture_index": 31,
+      "capture_filename": "iq-0031.bin",
+      "payload_sha256": "6e08e879d6a1a008c0b3aa2c323032db1be3b142a770df9e2ef3a26cdd925512",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702304158958953,
+      "header_received_ns": 702304166644029
+    },
+    {
+      "capture_index": 32,
+      "capture_filename": "iq-0032.bin",
+      "payload_sha256": "20ec04046b52ba044b1c60a371ac4d9242a3f7767d0ccf5440c2b4ef20118aab",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702304613328563,
+      "header_received_ns": 702304620630835
+    },
+    {
+      "capture_index": 33,
+      "capture_filename": "iq-0033.bin",
+      "payload_sha256": "966ecd20164c5bae75b6762339c2ab88a728652262ea2972d286fb0b319a89a0",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702305066926925,
+      "header_received_ns": 702305074631668
+    },
+    {
+      "capture_index": 34,
+      "capture_filename": "iq-0034.bin",
+      "payload_sha256": "0fd0dd83dacee88956edb188a0844026e430ef414fa111edbb2d580429baabac",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702305520911366,
+      "header_received_ns": 702305527972853
+    },
+    {
+      "capture_index": 35,
+      "capture_filename": "iq-0035.bin",
+      "payload_sha256": "29b6b1339bfb92fbbcf09500e014eac2fcac98add44ddcf15a8d1110a178c6d6",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702306007968310,
+      "header_received_ns": 702306015644910
+    },
+    {
+      "capture_index": 36,
+      "capture_filename": "iq-0036.bin",
+      "payload_sha256": "eb108bbbbffd29bb7465613892f1f67ef3e4d11fa17f30e8aa777f189a7c366f",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702306461262225,
+      "header_received_ns": 702306467953814
+    },
+    {
+      "capture_index": 37,
+      "capture_filename": "iq-0037.bin",
+      "payload_sha256": "caf24a9d8e91b7cd5d95932af054613702b6fd49f6f2f7d19006dc0b76f97021",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702306914030518,
+      "header_received_ns": 702306920954926
+    },
+    {
+      "capture_index": 38,
+      "capture_filename": "iq-0038.bin",
+      "payload_sha256": "dd106ee768869e2ed6b970f88feed869aa48bcfa28dd5d460469bdb56e441a08",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702307367008616,
+      "header_received_ns": 702307374041219
+    },
+    {
+      "capture_index": 39,
+      "capture_filename": "iq-0039.bin",
+      "payload_sha256": "8cafb97b075d4040d172d20249953659924311015a3e8fbf5c98c33cb7932b7b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702307819593692,
+      "header_received_ns": 702307826984161
+    },
+    {
+      "capture_index": 40,
+      "capture_filename": "iq-0040.bin",
+      "payload_sha256": "1aee4afc1f2b241dc288b7fbfd1030dc3dcc5bad724342c09e8fe301d26e7e3f",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702308273211670,
+      "header_received_ns": 702308279977068
+    },
+    {
+      "capture_index": 41,
+      "capture_filename": "iq-0041.bin",
+      "payload_sha256": "0af88d15d647a0acafe1a635c0693b08d8d96654c8dc03166eb6ae82a4263803",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702308725975443,
+      "header_received_ns": 702308732991324
+    },
+    {
+      "capture_index": 42,
+      "capture_filename": "iq-0042.bin",
+      "payload_sha256": "def145a0385accc0dd2b0309ec46f89cf19c251dc7b1a398e300544c52d27bbe",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702309188793670,
+      "header_received_ns": 702309196046259
+    },
+    {
+      "capture_index": 43,
+      "capture_filename": "iq-0043.bin",
+      "payload_sha256": "a6e04c2d9d05d29fc1665b0da027cf936ee2c380db29e942ba84ef24f474c9a5",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702309641392301,
+      "header_received_ns": 702309647984982
+    },
+    {
+      "capture_index": 44,
+      "capture_filename": "iq-0044.bin",
+      "payload_sha256": "d903f6e8101ea86b66735ac5f57b27ef0fa6dab219f61e6fc8450956f01a7650",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702310093863160,
+      "header_received_ns": 702310101045706
+    },
+    {
+      "capture_index": 45,
+      "capture_filename": "iq-0045.bin",
+      "payload_sha256": "dfe382aa0565a59ef02b7d1c65c2522e931098feb231cc2be091d3ba96f5b9e3",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702310548403491,
+      "header_received_ns": 702310556121449
+    },
+    {
+      "capture_index": 46,
+      "capture_filename": "iq-0046.bin",
+      "payload_sha256": "307c047901153d3e52b44db1f661372cf9e3058aca06a6b6ab9cb69b68e70be3",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702311002091200,
+      "header_received_ns": 702311009063458
+    },
+    {
+      "capture_index": 47,
+      "capture_filename": "iq-0047.bin",
+      "payload_sha256": "241b3a0c619bc5b4923eed2237442bff47b69246b43ce1eb033471674a76741b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702311455288261,
+      "header_received_ns": 702311462051194
+    },
+    {
+      "capture_index": 48,
+      "capture_filename": "iq-0048.bin",
+      "payload_sha256": "4c58c3d860cf992a91bffef1dd0921f66b922e36ff20958a0e4505942b3b9d05",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702311909246751,
+      "header_received_ns": 702311916068365
+    },
+    {
+      "capture_index": 49,
+      "capture_filename": "iq-0049.bin",
+      "payload_sha256": "7ae197e66ab778bcc7c8caefc17691ca15df08cd9191b662e466766062b65e5a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702312438079535,
+      "header_received_ns": 702312445109974
+    },
+    {
+      "capture_index": 50,
+      "capture_filename": "iq-0050.bin",
+      "payload_sha256": "f252d8a37934bf7a880d6e0a2ecaec293e23d193995acb71183e28695806b1dc",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702312891076047,
+      "header_received_ns": 702312898117356
+    },
+    {
+      "capture_index": 51,
+      "capture_filename": "iq-0051.bin",
+      "payload_sha256": "3c97594a8409fa57c9b37f319f77bb25acba9d51eeb0b0cc9120f3015796bd55",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702313343831042,
+      "header_received_ns": 702313351091866
+    },
+    {
+      "capture_index": 52,
+      "capture_filename": "iq-0052.bin",
+      "payload_sha256": "4a2c6529f82bd01144b3f82e7d4d14b3360e8e9a26795b45b4cc1f7906cf16c0",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702313797020759,
+      "header_received_ns": 702313804123834
+    },
+    {
+      "capture_index": 53,
+      "capture_filename": "iq-0053.bin",
+      "payload_sha256": "a26f03a56817c6990b62a0bb7502cb529855b3e13699bfc591801baa27a9aa10",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702314249740978,
+      "header_received_ns": 702314257083867
+    },
+    {
+      "capture_index": 54,
+      "capture_filename": "iq-0054.bin",
+      "payload_sha256": "d277aa6da15c90c532f6dc7fe89db49c571746f8fa97bac472e06a118eef2f93",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702314713957436,
+      "header_received_ns": 702314721149861
+    },
+    {
+      "capture_index": 55,
+      "capture_filename": "iq-0055.bin",
+      "payload_sha256": "fc0e0777c02668a28fc85d78623e5c9a698f7303bf370a4b916078871643623e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702315166492014,
+      "header_received_ns": 702315174093773
+    },
+    {
+      "capture_index": 56,
+      "capture_filename": "iq-0056.bin",
+      "payload_sha256": "a23b30d7591ef707ca19938a946afa65277ec16d387c2a748373544bb71a0409",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702315619600437,
+      "header_received_ns": 702315627201043
+    },
+    {
+      "capture_index": 57,
+      "capture_filename": "iq-0057.bin",
+      "payload_sha256": "95a2097cf34520cd1495c59cf66de9850191050024e5afe83f89110c6007cd92",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702316072521835,
+      "header_received_ns": 702316080147249
+    },
+    {
+      "capture_index": 58,
+      "capture_filename": "iq-0058.bin",
+      "payload_sha256": "7f24882c08536212160c60c6aedebf5dce56907148b56bfe9e3370bb2536c6d7",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702316526180017,
+      "header_received_ns": 702316533163406
+    },
+    {
+      "capture_index": 59,
+      "capture_filename": "iq-0059.bin",
+      "payload_sha256": "1c5785271e509a01ff43f17b8208a80cb92e93a062ad17ef2ce0c718c2707a52",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702316978921275,
+      "header_received_ns": 702316986176007
+    },
+    {
+      "capture_index": 60,
+      "capture_filename": "iq-0060.bin",
+      "payload_sha256": "e497fe83b59e628c440ffebb6b0be7dbe44f194d36a3cec0e9783cf916aac830",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702317431603070,
+      "header_received_ns": 702317439267056
+    },
+    {
+      "capture_index": 61,
+      "capture_filename": "iq-0061.bin",
+      "payload_sha256": "0669ea2892cd90e488145b6e752aa8f3b5c1080d3cc0743ac579cd6b0154bba7",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702317885382390,
+      "header_received_ns": 702317893201980
+    },
+    {
+      "capture_index": 62,
+      "capture_filename": "iq-0062.bin",
+      "payload_sha256": "b608771c7627f0d4f946bacfb87d6d435a682cc9580894f9f3f622781ca8d793",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702318338751685,
+      "header_received_ns": 702318346157813
+    },
+    {
+      "capture_index": 63,
+      "capture_filename": "iq-0063.bin",
+      "payload_sha256": "fd11e1a3c997df97520ee32894868b3aea83c7c55bac819fae6c76d0dd15d7c8",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [
+        {
+          "status": "crc_failed",
+          "pdu_length": 22,
+          "access_address_hamming_errors": 1,
+          "access_address_sample_offset": 9720,
+          "access_correlation": 0.9416287198880536,
+          "estimated_carrier_offset_hz": 861077.9675471704,
+          "iq_polarity": -1,
+          "timing_phase_at_4msps": 2,
+          "refinement_attempted": true
+        }
+      ],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702318792830951,
+      "header_received_ns": 702318800234816
+    },
+    {
+      "capture_index": 64,
+      "capture_filename": "iq-0064.bin",
+      "payload_sha256": "bc68dbb354f602c86142762b6df7eba4f90426d7a317ea99c049cf8120eb59c0",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702319246038209,
+      "header_received_ns": 702319253191801
+    },
+    {
+      "capture_index": 65,
+      "capture_filename": "iq-0065.bin",
+      "payload_sha256": "dfe095e084a9f161b8c473586a0d21f68b9c94430a1a3d33aa87de2773a76154",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702319698675720,
+      "header_received_ns": 702319706174254
+    },
+    {
+      "capture_index": 66,
+      "capture_filename": "iq-0066.bin",
+      "payload_sha256": "64e80a50a7fe91c6a843181e964bed0aa6ff57e8eb7b6dcdf9140ce7cb2abbc0",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702320160974082,
+      "header_received_ns": 702320168235908
+    },
+    {
+      "capture_index": 67,
+      "capture_filename": "iq-0067.bin",
+      "payload_sha256": "606c6d8f136d21f189515065c2d57d8ee03e1da13d9f142540cf4e42e428b0ce",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702320613768259,
+      "header_received_ns": 702320621306497
+    },
+    {
+      "capture_index": 68,
+      "capture_filename": "iq-0068.bin",
+      "payload_sha256": "43290e1a5fb1cf90cf076346729861c5520ea4b070ef36438bd87fd0782d74b7",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702321067259413,
+      "header_received_ns": 702321075298408
+    },
+    {
+      "capture_index": 69,
+      "capture_filename": "iq-0069.bin",
+      "payload_sha256": "0498e66c4dabf0e40625175fb5c12b4a86d7d0fbfae6b8720ad0b1641466f2ac",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702321521048871,
+      "header_received_ns": 702321528321116
+    },
+    {
+      "capture_index": 70,
+      "capture_filename": "iq-0070.bin",
+      "payload_sha256": "9beff697730b97e4ff9c94a1465fed18991dd80a92a338d1796689c17204688a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702321974123046,
+      "header_received_ns": 702321981226132
+    },
+    {
+      "capture_index": 71,
+      "capture_filename": "iq-0071.bin",
+      "payload_sha256": "04b58ace979b7519dd6df025f57cba2f4a56594cb2823654ab265d0a348e91fd",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702322427612748,
+      "header_received_ns": 702322435239413
+    },
+    {
+      "capture_index": 72,
+      "capture_filename": "iq-0072.bin",
+      "payload_sha256": "9313537b2d1a4118b3bb1efb558844a0d918b044c4bd769b362eadf7d860bdd8",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702322882215913,
+      "header_received_ns": 702322890323037
+    },
+    {
+      "capture_index": 73,
+      "capture_filename": "iq-0073.bin",
+      "payload_sha256": "076120b1809f88cc2c260a775dc14fd2ec0985dd968c702acb699b838f1317ae",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702323335464197,
+      "header_received_ns": 702323343281744
+    },
+    {
+      "capture_index": 74,
+      "capture_filename": "iq-0074.bin",
+      "payload_sha256": "376f75e71b0144efde840a5345cb4cd2227fddf8393b3e3cb24694dc172505e6",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702323789077061,
+      "header_received_ns": 702323796301476
+    },
+    {
+      "capture_index": 75,
+      "capture_filename": "iq-0075.bin",
+      "payload_sha256": "80b0f8882161f94d79d9991cf68aa564560ec1421d2b6c54a096483ba564b659",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702324241951929,
+      "header_received_ns": 702324249241327
+    },
+    {
+      "capture_index": 76,
+      "capture_filename": "iq-0076.bin",
+      "payload_sha256": "9a460b496293003be1d905d718348b80605193e781fc9fa48706553d19584924",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702324694864138,
+      "header_received_ns": 702324702286217
+    },
+    {
+      "capture_index": 77,
+      "capture_filename": "iq-0077.bin",
+      "payload_sha256": "6530e797aee9ce5d098dd46d0ba191c73ad70dbc2b0608740a56f2469092f395",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "12",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702325148241005,
+      "header_received_ns": 702325156307892
+    },
+    {
+      "capture_index": 78,
+      "capture_filename": "iq-0078.bin",
+      "payload_sha256": "d78fa0f453cf7539fbf740c6acbd1b6e8741be2db55df503dce0d8aa697bdee6",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702325610147524,
+      "header_received_ns": 702325617277040
+    },
+    {
+      "capture_index": 79,
+      "capture_filename": "iq-0079.bin",
+      "payload_sha256": "499da0972210ac98849b9650e3cf603f551bd34987f5422be5bc9e9e49864ee7",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702326062977487,
+      "header_received_ns": 702326070283075
+    },
+    {
+      "capture_index": 80,
+      "capture_filename": "iq-0080.bin",
+      "payload_sha256": "37f82c4e690bf01e803ac663149f8cad2b11c174a5c14ce5c0e0b522214daa82",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702326516127174,
+      "header_received_ns": 702326523238886
+    },
+    {
+      "capture_index": 81,
+      "capture_filename": "iq-0081.bin",
+      "payload_sha256": "46d6cdae065c5f5f49b5ade771a2be8e55090a73954894b1f3662350b6186a52",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702326969421053,
+      "header_received_ns": 702326977252456
+    },
+    {
+      "capture_index": 82,
+      "capture_filename": "iq-0082.bin",
+      "payload_sha256": "bd6493461f7e98e16d341a4d5571c76f2ff2e0b1d8840c00cf6d8a2394fd96bf",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702327422704102,
+      "header_received_ns": 702327430191835
+    },
+    {
+      "capture_index": 83,
+      "capture_filename": "iq-0083.bin",
+      "payload_sha256": "b5f98966ac688061ed5259dc5c932f18d503745a421a90a26e61e1f9afae414c",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702327877857226,
+      "header_received_ns": 702327885214602
+    },
+    {
+      "capture_index": 84,
+      "capture_filename": "iq-0084.bin",
+      "payload_sha256": "b7c69019a26603a6b26c4f44e80207690bce79fef9804d61c1dac033ae5e26f9",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702328331115077,
+      "header_received_ns": 702328339221579
+    },
+    {
+      "capture_index": 85,
+      "capture_filename": "iq-0085.bin",
+      "payload_sha256": "2609955a0a7ddbec289ed4d19c606a75a2ed4261300a687598089587517c1b13",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702328785135980,
+      "header_received_ns": 702328793173712
+    },
+    {
+      "capture_index": 86,
+      "capture_filename": "iq-0086.bin",
+      "payload_sha256": "3978641f580805e6490beeca99d98363782a0343dff9583f09e32a01c9183c66",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702329296864518,
+      "header_received_ns": 702329304222726
+    },
+    {
+      "capture_index": 87,
+      "capture_filename": "iq-0087.bin",
+      "payload_sha256": "2e8f624cda66529ef1920937db617e84547ba4a5c1dc0b6d05ae135780ccba8c",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702329751049441,
+      "header_received_ns": 702329758246374
+    },
+    {
+      "capture_index": 88,
+      "capture_filename": "iq-0088.bin",
+      "payload_sha256": "2944eb8f4468fe391e1985f292989495df065f22c59e6a0e5016e7451dfe3418",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702330203890864,
+      "header_received_ns": 702330211159313
+    },
+    {
+      "capture_index": 89,
+      "capture_filename": "iq-0089.bin",
+      "payload_sha256": "523b0b1aeb2f9378aa780e68e409ef5dee7f17659e68968ab04fc57ebfb6dbad",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702330657055328,
+      "header_received_ns": 702330664113679
+    },
+    {
+      "capture_index": 90,
+      "capture_filename": "iq-0090.bin",
+      "payload_sha256": "eb7794a9d689cc3efd962ce184da3fcc15f38f3628f149467185355345219966",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702331121145623,
+      "header_received_ns": 702331129246255
+    },
+    {
+      "capture_index": 91,
+      "capture_filename": "iq-0091.bin",
+      "payload_sha256": "298830ec6716a59e46436d174b7dc3637e1f68be6b9603fd84b24752b2626b36",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702331575013486,
+      "header_received_ns": 702331582174702
+    },
+    {
+      "capture_index": 92,
+      "capture_filename": "iq-0092.bin",
+      "payload_sha256": "1c2a546597193f94625435787e05dd25f12785b40ad4761a8106154fea4ad1e5",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702332027944308,
+      "header_received_ns": 702332035135771
+    },
+    {
+      "capture_index": 93,
+      "capture_filename": "iq-0093.bin",
+      "payload_sha256": "af44b84c32bb5375676eb0a0c70c959bfea1eba012faeaa382511b4f62c3b481",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702332481084826,
+      "header_received_ns": 702332489257924
+    },
+    {
+      "capture_index": 94,
+      "capture_filename": "iq-0094.bin",
+      "payload_sha256": "cd80e675d71ddc78416d589305f402f972290cd8d5f9e7223d77b8c9b4faa510",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702332935071894,
+      "header_received_ns": 702332943338769
+    },
+    {
+      "capture_index": 95,
+      "capture_filename": "iq-0095.bin",
+      "payload_sha256": "f258550d058ad7ddf6eb8bd7581a233ba5309f3b2242d1b4df64b8ee6770307d",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702333388799882,
+      "header_received_ns": 702333396109638
+    },
+    {
+      "capture_index": 96,
+      "capture_filename": "iq-0096.bin",
+      "payload_sha256": "79baba89a875af97e44e979f4495c8f47aff545af85aa98f715b2f5453f7cd8b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702333842240076,
+      "header_received_ns": 702333850117515
+    },
+    {
+      "capture_index": 97,
+      "capture_filename": "iq-0097.bin",
+      "payload_sha256": "ed8ab63c54560cdd50904a66de8d2bf3489553f8074adff23047067688f826d6",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702334296423284,
+      "header_received_ns": 702334304100946
+    },
+    {
+      "capture_index": 98,
+      "capture_filename": "iq-0098.bin",
+      "payload_sha256": "7402b565211e90576b4e44b9e2a1031efe20e5bbcff02fbbe266043c0e89080b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702334749691954,
+      "header_received_ns": 702334757109394
+    },
+    {
+      "capture_index": 99,
+      "capture_filename": "iq-0099.bin",
+      "payload_sha256": "a89ac8950a9f8d665d34c0bf05588ce0fbf2ed6e71b98c68c5916b4d7c8f46df",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702335202973207,
+      "header_received_ns": 702335210142858
+    },
+    {
+      "capture_index": 100,
+      "capture_filename": "iq-0100.bin",
+      "payload_sha256": "a7e9d77a17813bc5840f2b221a30f613dbf5cd9fb9051d746fec5169439900df",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702335656768802,
+      "header_received_ns": 702335664091393
+    },
+    {
+      "capture_index": 101,
+      "capture_filename": "iq-0101.bin",
+      "payload_sha256": "3aa287008e84147cb18cdb49ba2a6f6b612229b8bac4a834312fbac956d8cff6",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702336110155945,
+      "header_received_ns": 702336118193297
+    },
+    {
+      "capture_index": 102,
+      "capture_filename": "iq-0102.bin",
+      "payload_sha256": "67a2103a8f81d3a6cf6ea79351768cd81a760ca3c922eeba649bc5fd48f7b5bc",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702336572243924,
+      "header_received_ns": 702336580111444
+    },
+    {
+      "capture_index": 103,
+      "capture_filename": "iq-0103.bin",
+      "payload_sha256": "d447221c076a09d79bcdb40e0309c2b5e39ca7a8f0c7593edb9faec4ede5a20b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [
+        {
+          "status": "valid_owned",
+          "pdu_type": 0,
+          "pdu_length": 22,
+          "crc24_ok": true,
+          "owned_manufacturer_ad_exact_match": true,
+          "packet_duration_us": 256,
+          "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+          "access_address_hamming_errors": 0,
+          "access_address_sample_offset": 7592.0,
+          "access_correlation": 0.941612718979215,
+          "estimated_carrier_offset_hz": 869732.3899635436,
+          "iq_polarity": -1,
+          "samples_per_symbol_at_4msps": 4.0,
+          "threshold_bias_deviation_fraction": 0.2750000000000001,
+          "nominal_packet_start_sample": 7464.0,
+          "nominal_packet_end_sample": 11560.0,
+          "complete_preamble_and_pdu_crc_within_capture_nominal": true,
+          "preamble_hamming_errors": 1,
+          "refined": true,
+          "crc_valid_receiver_hypotheses": 8,
+          "receiver_hypotheses_checked": 5249
+        }
+      ],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702337025875589,
+      "header_received_ns": 702337033148445
+    },
+    {
+      "capture_index": 104,
+      "capture_filename": "iq-0104.bin",
+      "payload_sha256": "2677254f85de247fffd9931f75a83707468434708c0054781d0c231394de5c3a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702337479150379,
+      "header_received_ns": 702337487121866
+    },
+    {
+      "capture_index": 105,
+      "capture_filename": "iq-0105.bin",
+      "payload_sha256": "467ef2866a788dd23c010c4502059c951b913cc6ccc2d422746317fb4c135fc1",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702337933163254,
+      "header_received_ns": 702337941146503
+    },
+    {
+      "capture_index": 106,
+      "capture_filename": "iq-0106.bin",
+      "payload_sha256": "3468e7d3705d94c9a94ff769073185b0acc2528806fadd4134bca5c42e570759",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702338387465436,
+      "header_received_ns": 702338395162785
+    },
+    {
+      "capture_index": 107,
+      "capture_filename": "iq-0107.bin",
+      "payload_sha256": "b7496716e8ea3e9d036fd11ea461c07a7c14286488cf8688fe554046f647ed34",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702338840743232,
+      "header_received_ns": 702338848151735
+    },
+    {
+      "capture_index": 108,
+      "capture_filename": "iq-0108.bin",
+      "payload_sha256": "0196f953d5594a86718abb029bcd4a83e35dd8876383ec85af1574da51cf0e9a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702339293624197,
+      "header_received_ns": 702339300529328
+    },
+    {
+      "capture_index": 109,
+      "capture_filename": "iq-0109.bin",
+      "payload_sha256": "0624144a2cfdc6b05ce45564c503f60ce180a4c542db5a8f9a5b4fad882636e9",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702339746327114,
+      "header_received_ns": 702339753477158
+    },
+    {
+      "capture_index": 110,
+      "capture_filename": "iq-0110.bin",
+      "payload_sha256": "f1384f36acfd7c85dc93069900e6677dc6a099af5d486d962b475a5d9df45a88",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702340199157293,
+      "header_received_ns": 702340206487248
+    },
+    {
+      "capture_index": 111,
+      "capture_filename": "iq-0111.bin",
+      "payload_sha256": "4699c9cd3278260f991933c48374e7b2ab22ef9c01680a29dcf6aa500987eef4",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702340652277871,
+      "header_received_ns": 702340659455117
+    },
+    {
+      "capture_index": 112,
+      "capture_filename": "iq-0112.bin",
+      "payload_sha256": "8e7cdf8620a56f7c115ba98e68eebfef7a328cec3527424a9f54fdecf32faf28",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702341105302677,
+      "header_received_ns": 702341112557801
+    },
+    {
+      "capture_index": 113,
+      "capture_filename": "iq-0113.bin",
+      "payload_sha256": "27d5dc332086a769126b5de0e33321ad1a3353bb23038c3e09e328607f026478",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702341558746566,
+      "header_received_ns": 702341565550496
+    },
+    {
+      "capture_index": 114,
+      "capture_filename": "iq-0114.bin",
+      "payload_sha256": "d2dd99ac64836191b963e344b0f557ae08110f5eeab2b9d3b23efda06cd29d41",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702342020406384,
+      "header_received_ns": 702342027523205
+    },
+    {
+      "capture_index": 115,
+      "capture_filename": "iq-0115.bin",
+      "payload_sha256": "5511202ffc7db2538c8317112022273b57a0bb9b0f923783d4e298c5c5e0abe8",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702342473213829,
+      "header_received_ns": 702342480570825
+    },
+    {
+      "capture_index": 116,
+      "capture_filename": "iq-0116.bin",
+      "payload_sha256": "a0ad074b1ae08fae24fb3e874f1bc392222d8985067f6e66931dfa75a21c171d",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702342928383549,
+      "header_received_ns": 702342935551638
+    },
+    {
+      "capture_index": 117,
+      "capture_filename": "iq-0117.bin",
+      "payload_sha256": "9d129ee33a19ab89b2bf080b72577d488237cb9da49c13df9c8668675e3c512e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702343381947715,
+      "header_received_ns": 702343389559532
+    },
+    {
+      "capture_index": 118,
+      "capture_filename": "iq-0118.bin",
+      "payload_sha256": "90d222ad0f89d943e2616844acb4a00bf7e1f84734e481010261e36c171f0ae2",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702343835160727,
+      "header_received_ns": 702343842529044
+    },
+    {
+      "capture_index": 119,
+      "capture_filename": "iq-0119.bin",
+      "payload_sha256": "2be6bb5e5a61e0ee81c291aea800cb928cc39eca575b0195f76529fc40bb02e4",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702344287947082,
+      "header_received_ns": 702344295556314
+    },
+    {
+      "capture_index": 120,
+      "capture_filename": "iq-0120.bin",
+      "payload_sha256": "be08d60575c10fa07f6ea31de4f6af40c958beec0b75613af7e3fef0c9c471ae",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702344740864274,
+      "header_received_ns": 702344747578705
+    },
+    {
+      "capture_index": 121,
+      "capture_filename": "iq-0121.bin",
+      "payload_sha256": "68a7e91aad4afb631b72646bff2330ba059976bb3d876459530c8477722fd259",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702345193550149,
+      "header_received_ns": 702345200613459
+    },
+    {
+      "capture_index": 122,
+      "capture_filename": "iq-0122.bin",
+      "payload_sha256": "2d5893086a91aa218b6bb1b4b4ce653b52ed84bc8dc9a6e34adc7d328a0a400e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702345646564745,
+      "header_received_ns": 702345653667490
+    },
+    {
+      "capture_index": 123,
+      "capture_filename": "iq-0123.bin",
+      "payload_sha256": "1c72f1bf9ef9e09335c242bd6750ff034bc415b1d0db5e1973e4104bf65ae698",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702346099614447,
+      "header_received_ns": 702346106614949
+    },
+    {
+      "capture_index": 124,
+      "capture_filename": "iq-0124.bin",
+      "payload_sha256": "5d323eb2a0c0c8a7267078d918c977d06f8e8143140a5ddca4f4ba83aa16a4fc",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702346552389790,
+      "header_received_ns": 702346559619345
+    },
+    {
+      "capture_index": 125,
+      "capture_filename": "iq-0125.bin",
+      "payload_sha256": "60d7c9ccd82ccf25ef8e4f58d6be587c4a8baf9e81cae8c019c641a8c8becdcc",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "20",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702347005163441,
+      "header_received_ns": 702347012638079
+    },
+    {
+      "capture_index": 126,
+      "capture_filename": "iq-0126.bin",
+      "payload_sha256": "99a11d2bb5ee4e7bf6f551a59011082497332d0a9dc3767c4f301e705d022833",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702347465397802,
+      "header_received_ns": 702347472602099
+    },
+    {
+      "capture_index": 127,
+      "capture_filename": "iq-0127.bin",
+      "payload_sha256": "1c30251ba4a0d0e5c763ac6bc624f0e07296f829d6aa687f5b7b93be60dbc60f",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702347918817473,
+      "header_received_ns": 702347925572792
+    },
+    {
+      "capture_index": 128,
+      "capture_filename": "iq-0128.bin",
+      "payload_sha256": "1e48c8428014cbc9722ce1c22e297ded933a8c2b3f2beae2959d851683e0ca62",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702348370848810,
+      "header_received_ns": 702348378635979
+    },
+    {
+      "capture_index": 129,
+      "capture_filename": "iq-0129.bin",
+      "payload_sha256": "28f66e8d1c6fd6c6332bf7366c4cd1e81fffae99a81c2e5647e28522f1956596",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702348823990405,
+      "header_received_ns": 702348831626378
+    },
+    {
+      "capture_index": 130,
+      "capture_filename": "iq-0130.bin",
+      "payload_sha256": "fddb0a1b37fc5cfa2917774c200abf84ef956b9c3c6df7090592b6100bccbf74",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702349277276914,
+      "header_received_ns": 702349284727447
+    },
+    {
+      "capture_index": 131,
+      "capture_filename": "iq-0131.bin",
+      "payload_sha256": "f06bc96691e0028d33af4171e1236f1afeaf8e760cd4cbb52f2659211fb4ee9a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702349730760135,
+      "header_received_ns": 702349737668022
+    },
+    {
+      "capture_index": 132,
+      "capture_filename": "iq-0132.bin",
+      "payload_sha256": "433345087622d15cfca384e7e0ee259e087d9fe4a46d803e76757792a0b052ca",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702350183971612,
+      "header_received_ns": 702350191667208
+    },
+    {
+      "capture_index": 133,
+      "capture_filename": "iq-0133.bin",
+      "payload_sha256": "5f9a17cefb23feac997e2f6c0a501bb2103381de0be7c99d1eb9bd406a6d7bba",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702350637328974,
+      "header_received_ns": 702350644646696
+    },
+    {
+      "capture_index": 134,
+      "capture_filename": "iq-0134.bin",
+      "payload_sha256": "fac188516a144b036d8034d62c731be5b119113642defac0ebc1b5699ddcf9c3",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702351091425855,
+      "header_received_ns": 702351098784123
+    },
+    {
+      "capture_index": 135,
+      "capture_filename": "iq-0135.bin",
+      "payload_sha256": "da45567285ab2ea56c095c6ddf09b3a94330739802a575ffddc53a9967aa7f7c",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702351544919454,
+      "header_received_ns": 702351552713516
+    },
+    {
+      "capture_index": 136,
+      "capture_filename": "iq-0136.bin",
+      "payload_sha256": "117a36b9c331fe0f551e56d7bfbc19980308e754f527388af6967a9437bc3a47",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702351999200733,
+      "header_received_ns": 702352006738270
+    },
+    {
+      "capture_index": 137,
+      "capture_filename": "iq-0137.bin",
+      "payload_sha256": "bb23fe0cf156ffbd6fece938ae2ebf8233aaa0a943f583c6189ed4fca8150bc2",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702352453019587,
+      "header_received_ns": 702352460684124
+    },
+    {
+      "capture_index": 138,
+      "capture_filename": "iq-0138.bin",
+      "payload_sha256": "21ce9e5c708b388b2abba98a7abb234fce1c9543b0cf75a8a281d941b161d0a5",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702352916487579,
+      "header_received_ns": 702352923689161
+    },
+    {
+      "capture_index": 139,
+      "capture_filename": "iq-0139.bin",
+      "payload_sha256": "968a0e22e7145df714ad4d7c12e6d2c075778feb55754dca9e9f088a49638185",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702353369276647,
+      "header_received_ns": 702353376705318
+    },
+    {
+      "capture_index": 140,
+      "capture_filename": "iq-0140.bin",
+      "payload_sha256": "fcb518a3b6260bf2c3afc9fd1b4cbf275ac643d97101a6dd60fb48ebc60c4961",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702353822157277,
+      "header_received_ns": 702353829810122
+    },
+    {
+      "capture_index": 141,
+      "capture_filename": "iq-0141.bin",
+      "payload_sha256": "db8dd20334e3d6279a5551884de7d5db788639ba3871204699dc4181ee106a6e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702354275414640,
+      "header_received_ns": 702354282843200
+    },
+    {
+      "capture_index": 142,
+      "capture_filename": "iq-0142.bin",
+      "payload_sha256": "7755386f014120b7ccc20880775cb4d0bc57b00d759e72b5966fd820eee5a6e0",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702354728184440,
+      "header_received_ns": 702354735869787
+    },
+    {
+      "capture_index": 143,
+      "capture_filename": "iq-0143.bin",
+      "payload_sha256": "1f19a9f1cad4114675d53262c2eecb8620a82d07ad5daf7e7eaa24087b1c64df",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702355181325152,
+      "header_received_ns": 702355188802535
+    },
+    {
+      "capture_index": 144,
+      "capture_filename": "iq-0144.bin",
+      "payload_sha256": "5534d007568f1d35a00e121cd0d84d79a92b348afe4b40516df9fb33ac5e2505",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702355634230058,
+      "header_received_ns": 702355641784617
+    },
+    {
+      "capture_index": 145,
+      "capture_filename": "iq-0145.bin",
+      "payload_sha256": "aefab0ffb4755deb16b3a2f05a381bbfc30a238be62d0f73542ce5d90147b794",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702356087482039,
+      "header_received_ns": 702356094818506
+    },
+    {
+      "capture_index": 146,
+      "capture_filename": "iq-0146.bin",
+      "payload_sha256": "9bf0feb5e7c4aae3e67c2ecf300fdd70843a1a71b3e7619e817d92f4cfd4b41e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702356540210371,
+      "header_received_ns": 702356547770912
+    },
+    {
+      "capture_index": 147,
+      "capture_filename": "iq-0147.bin",
+      "payload_sha256": "a785d0b2edf6064a94186b811159f5e3f4b63de0d83384b77666656dc689ecbe",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702356993686216,
+      "header_received_ns": 702357000880133
+    },
+    {
+      "capture_index": 148,
+      "capture_filename": "iq-0148.bin",
+      "payload_sha256": "ffa88ea415f21d6cc19dcd50d213c884c8e1604f8d7aa181815a97c3e2c360c8",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702357446121243,
+      "header_received_ns": 702357453827659
+    },
+    {
+      "capture_index": 149,
+      "capture_filename": "iq-0149.bin",
+      "payload_sha256": "ab6f7563c974fc3407176d979a9cd97eca50cea41a47bbf1c503aebea68bdd1a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702357899532325,
+      "header_received_ns": 702357906751801
+    },
+    {
+      "capture_index": 150,
+      "capture_filename": "iq-0150.bin",
+      "payload_sha256": "a78c91835827e2feea12c0a97fb69074e344618dae991ddabeb5e4a4a172cdf1",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702358361575282,
+      "header_received_ns": 702358368838320
+    },
+    {
+      "capture_index": 151,
+      "capture_filename": "iq-0151.bin",
+      "payload_sha256": "845d45841365b1a501bd55bba717bed151903e8f9871934f0d3b4cf26da4138a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702358814509943,
+      "header_received_ns": 702358821832233
+    },
+    {
+      "capture_index": 152,
+      "capture_filename": "iq-0152.bin",
+      "payload_sha256": "3a375f81872ebee222b9d1963ee0dc2ecdde679c163f30ce0b86357788ed4270",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702359267595550,
+      "header_received_ns": 702359274841786
+    },
+    {
+      "capture_index": 153,
+      "capture_filename": "iq-0153.bin",
+      "payload_sha256": "ce1e556300458e0da4b2d98975337b29642b2eb10e79d59c9322cf58093f8593",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702359720921069,
+      "header_received_ns": 702359728798218
+    },
+    {
+      "capture_index": 154,
+      "capture_filename": "iq-0154.bin",
+      "payload_sha256": "5cc7c1a4d3607033d01c6b6534c164844b7c99733e760d2a59a11e7b401ca2d1",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702360176474490,
+      "header_received_ns": 702360183770190
+    },
+    {
+      "capture_index": 155,
+      "capture_filename": "iq-0155.bin",
+      "payload_sha256": "d03c47dc0ed69df34f1a2357c6e6ba89efce9f87ef1f8f8922fb1df81cb5b64e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702360629396787,
+      "header_received_ns": 702360636731731
+    },
+    {
+      "capture_index": 156,
+      "capture_filename": "iq-0156.bin",
+      "payload_sha256": "9323924c548c9da5d43d51d9ce3f5881c37b57d5bb99e5cdf1d14480594ae17d",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702361082267767,
+      "header_received_ns": 702361089726245
+    },
+    {
+      "capture_index": 157,
+      "capture_filename": "iq-0157.bin",
+      "payload_sha256": "9f124a68b7aac77225ca748f28e7ef8437d6be389ede365d533063b1f145a4d4",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702361535869248,
+      "header_received_ns": 702361543803906
+    },
+    {
+      "capture_index": 158,
+      "capture_filename": "iq-0158.bin",
+      "payload_sha256": "0be452322cc50bb7b340d176309fbeba368b0fcf0c8087e842af63c5ffa1b374",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [
+        {
+          "status": "truncated_packet",
+          "pdu_length": 22,
+          "access_address_hamming_errors": 2,
+          "access_address_sample_offset": 13212,
+          "access_correlation": 0.9053707201073169,
+          "estimated_carrier_offset_hz": 853919.8459846284,
+          "iq_polarity": -1,
+          "timing_phase_at_4msps": 3,
+          "refinement_attempted": true
+        }
+      ],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702361989680215,
+      "header_received_ns": 702361997753574
+    },
+    {
+      "capture_index": 159,
+      "capture_filename": "iq-0159.bin",
+      "payload_sha256": "c4bc6973d3d25cb1901ffbee0f76d3c62f5552774a8bb032a03be33d8c2f8bf0",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702362443467657,
+      "header_received_ns": 702362450794666
+    },
+    {
+      "capture_index": 160,
+      "capture_filename": "iq-0160.bin",
+      "payload_sha256": "7bb021eb93f5cdff20c9c617156cfa3d43d62106baae37306f30f682fa77ed05",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702362896431782,
+      "header_received_ns": 702362903710169
+    },
+    {
+      "capture_index": 161,
+      "capture_filename": "iq-0161.bin",
+      "payload_sha256": "fa5f71e8b65d993d23b0cb13506e666f324b82c3b0f053654080feb37ce47f34",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702363349461181,
+      "header_received_ns": 702363356772110
+    },
+    {
+      "capture_index": 162,
+      "capture_filename": "iq-0162.bin",
+      "payload_sha256": "3f8919b2be07725314a19abb79aa3e1300612e0281caa9767d3bc45d9e09dc95",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702363812651215,
+      "header_received_ns": 702363820778296
+    },
+    {
+      "capture_index": 163,
+      "capture_filename": "iq-0163.bin",
+      "payload_sha256": "0410832be19401f256269617f212174b1d4bce523ff2a52e24fbf0e264c7bd92",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702364266464505,
+      "header_received_ns": 702364273694311
+    },
+    {
+      "capture_index": 164,
+      "capture_filename": "iq-0164.bin",
+      "payload_sha256": "9e156cb4772b95b50935c734c65e6bf0dfabe70faf2722ff7fee556985c3f560",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702364720187234,
+      "header_received_ns": 702364727652094
+    },
+    {
+      "capture_index": 165,
+      "capture_filename": "iq-0165.bin",
+      "payload_sha256": "dd7dfc8b74f6ffe7be387bd2db21c8025758782852ab5e4d693dcc5cf30ae0a8",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702365173536628,
+      "header_received_ns": 702365180752757
+    },
+    {
+      "capture_index": 166,
+      "capture_filename": "iq-0166.bin",
+      "payload_sha256": "399f257ef6b838d3f96f4e5db944a8b05c6af94f33c8c247bc63419afd184f17",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702365626585833,
+      "header_received_ns": 702365634645517
+    },
+    {
+      "capture_index": 167,
+      "capture_filename": "iq-0167.bin",
+      "payload_sha256": "d8557767f83198259cf196ec123782acb5b0f421b653e794568b6c93a122e594",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [
+        {
+          "status": "unsupported_or_invalid_header",
+          "access_address_hamming_errors": 0,
+          "access_address_sample_offset": 884,
+          "access_correlation": 0.8961405009053177,
+          "estimated_carrier_offset_hz": 50262.376462938446,
+          "iq_polarity": -1,
+          "timing_phase_at_4msps": 1,
+          "refinement_attempted": true
+        }
+      ],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702366080556811,
+      "header_received_ns": 702366088624019
+    },
+    {
+      "capture_index": 168,
+      "capture_filename": "iq-0168.bin",
+      "payload_sha256": "87e6307862084ccc63b608de3b1f23ba2e12f2a636e833dc6587286185ecd333",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702366534291903,
+      "header_received_ns": 702366541692401
+    },
+    {
+      "capture_index": 169,
+      "capture_filename": "iq-0169.bin",
+      "payload_sha256": "4627bbf0531b616de4d152dc50382e0ef49533ec8b089ce01cdaa4dfebcc8082",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702366988316783,
+      "header_received_ns": 702366995612352
+    },
+    {
+      "capture_index": 170,
+      "capture_filename": "iq-0170.bin",
+      "payload_sha256": "1e115574e82bc81e9811c8f9069244b01b6b0ad53432f7460b7557fbd5474885",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702367442068416,
+      "header_received_ns": 702367449599440
+    },
+    {
+      "capture_index": 171,
+      "capture_filename": "iq-0171.bin",
+      "payload_sha256": "ffb17b74ab721ff6fde36f7107bf91c5de46583ec958c66261717f8a20b511c7",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702367895397350,
+      "header_received_ns": 702367902622035
+    },
+    {
+      "capture_index": 172,
+      "capture_filename": "iq-0172.bin",
+      "payload_sha256": "211ce601357e8ff43042f8e16eab018ded4aeeb397f94e6346694f6053a6c5d2",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702368348822235,
+      "header_received_ns": 702368356670138
+    },
+    {
+      "capture_index": 173,
+      "capture_filename": "iq-0173.bin",
+      "payload_sha256": "c43b7d98f6892ab8a0644ace354bcd96209656ea2b01b745bbf1326d71be8c4b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "40",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702368802697902,
+      "header_received_ns": 702368810613223
+    },
+    {
+      "capture_index": 174,
+      "capture_filename": "iq-0174.bin",
+      "payload_sha256": "74c2b2fe3f17ac9c9134b3a191eea7f1b19498870fd9509ddcf482dd42a0b7c0",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702369262742028,
+      "header_received_ns": 702369270662388
+    },
+    {
+      "capture_index": 175,
+      "capture_filename": "iq-0175.bin",
+      "payload_sha256": "5213ed2612ce77f13e50fe2852208a2a6ef9ce68e5bae7158803cbdf55bd29cf",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702369716505622,
+      "header_received_ns": 702369723642562
+    },
+    {
+      "capture_index": 176,
+      "capture_filename": "iq-0176.bin",
+      "payload_sha256": "bfeaacc27234f75e10e3ef188bcbd95a23656d741089bd5009571bffb33fc86b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702370170385447,
+      "header_received_ns": 702370177670957
+    },
+    {
+      "capture_index": 177,
+      "capture_filename": "iq-0177.bin",
+      "payload_sha256": "afa8e4ac47784adf2804035413826910117a5dc3b175ce4d3c090fde1793d277",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702370624546903,
+      "header_received_ns": 702370632673233
+    },
+    {
+      "capture_index": 178,
+      "capture_filename": "iq-0178.bin",
+      "payload_sha256": "0bce8a9ab627c6a77fee8cb3ad24dfc4ff0c65d7337bb2b56ba6628a8aebab3e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702371078350323,
+      "header_received_ns": 702371085655471
+    },
+    {
+      "capture_index": 179,
+      "capture_filename": "iq-0179.bin",
+      "payload_sha256": "dcfe0251d68dc225beeff82f717cef4aead826d745de838b0bdf34003bd5217b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702371531348802,
+      "header_received_ns": 702371538666503
+    },
+    {
+      "capture_index": 180,
+      "capture_filename": "iq-0180.bin",
+      "payload_sha256": "b5c6ccf47231b29d62b4a9fbf462c17d8aa7dc59b0237a4e717efe259c01bd26",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702371984305571,
+      "header_received_ns": 702371991657797
+    },
+    {
+      "capture_index": 181,
+      "capture_filename": "iq-0181.bin",
+      "payload_sha256": "4488369fca7a988b477c4518dedfa829242cf3a84719ca08542686e77c3e619b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702372436999543,
+      "header_received_ns": 702372444662086
+    },
+    {
+      "capture_index": 182,
+      "capture_filename": "iq-0182.bin",
+      "payload_sha256": "446df39bd02d997fce8a3f72feea059b80da7df5a42af53f64fd729c35c54c02",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702372893887853,
+      "header_received_ns": 702372901658881
+    },
+    {
+      "capture_index": 183,
+      "capture_filename": "iq-0183.bin",
+      "payload_sha256": "5d9d8eb120e8a38a35916e3c394c882a9248371679983d4ab2ab0d9a080f9fc9",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702373346457260,
+      "header_received_ns": 702373352973526
+    },
+    {
+      "capture_index": 184,
+      "capture_filename": "iq-0184.bin",
+      "payload_sha256": "b7e438d0ccc9da4a17384db547c928fcb9fd2e608e0d7f945b19dc80334620a8",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702373798453974,
+      "header_received_ns": 702373805012540
+    },
+    {
+      "capture_index": 185,
+      "capture_filename": "iq-0185.bin",
+      "payload_sha256": "44887969f9073ff9be8a9fac0774a4a2ae951a7ed015af1337c1ddad63dc26b9",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "hardware",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702374251288161,
+      "header_received_ns": 702374258107891
+    },
+    {
+      "capture_index": 186,
+      "capture_filename": "iq-0186.bin",
+      "payload_sha256": "c1b3de5497251b099453d53b1a9a1abe2ea9aebd1f9d6a3c42c14da02841f4ca",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702374713830207,
+      "header_received_ns": 702374721093305
+    },
+    {
+      "capture_index": 187,
+      "capture_filename": "iq-0187.bin",
+      "payload_sha256": "1ba2314c87ac56a3940c071a14b5e15732bb83966ab667bc17740eafc11b8a8b",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702375167216878,
+      "header_received_ns": 702375174042078
+    },
+    {
+      "capture_index": 188,
+      "capture_filename": "iq-0188.bin",
+      "payload_sha256": "5501499c745a85da73dc3a4d1a0987504ba3fc99b19a78492ceb44094f1ef51d",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702375620247426,
+      "header_received_ns": 702375627092824
+    },
+    {
+      "capture_index": 189,
+      "capture_filename": "iq-0189.bin",
+      "payload_sha256": "6fbcc784a88ec49e6499e03c7d5e0e481835113110336a34c8ec483d53586ed2",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702376073042017,
+      "header_received_ns": 702376080064621
+    },
+    {
+      "capture_index": 190,
+      "capture_filename": "iq-0190.bin",
+      "payload_sha256": "2971b0cec0615d66baad4fc020ffc4a708df5153d2b190353b6eb0c430639b59",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702376525602967,
+      "header_received_ns": 702376533072014
+    },
+    {
+      "capture_index": 191,
+      "capture_filename": "iq-0191.bin",
+      "payload_sha256": "9dfd30a25a24df38c7d98f065100f62fbbd3f4843ee9d556cba4dc634c4890d0",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702376979526202,
+      "header_received_ns": 702376987111298
+    },
+    {
+      "capture_index": 192,
+      "capture_filename": "iq-0192.bin",
+      "payload_sha256": "3a875e23730d9cf8b89e288999a4badb00649cdbb8ab142cf2c768a20b38dba9",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702377433211607,
+      "header_received_ns": 702377440162975
+    },
+    {
+      "capture_index": 193,
+      "capture_filename": "iq-0193.bin",
+      "payload_sha256": "519c343e0f24446449e9469a75d444ff254fa8b0d362c4576adc64c3f2cb080a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702377885816679,
+      "header_received_ns": 702377893208911
+    },
+    {
+      "capture_index": 194,
+      "capture_filename": "iq-0194.bin",
+      "payload_sha256": "31861580a52ddf66ad237e40811ca637eed219d4e23d267fc9dd43a1312391b5",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702378338837077,
+      "header_received_ns": 702378346102680
+    },
+    {
+      "capture_index": 195,
+      "capture_filename": "iq-0195.bin",
+      "payload_sha256": "5abd2013eb646b0004237d1195b12ce4d2a75975421f222092ea67c5b739bee4",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702378791778285,
+      "header_received_ns": 702378799070508
+    },
+    {
+      "capture_index": 196,
+      "capture_filename": "iq-0196.bin",
+      "payload_sha256": "f206f898c50a732e95991dd75505feae7df9df9b02f94d3dd54de37f372fdd42",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702379244723691,
+      "header_received_ns": 702379252113178
+    },
+    {
+      "capture_index": 197,
+      "capture_filename": "iq-0197.bin",
+      "payload_sha256": "86dd1c6d6c55479ed1f8376342dff75b9f06428b44c8946528598d5f169b0523",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "24",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702379697415277,
+      "header_received_ns": 702379705115451
+    },
+    {
+      "capture_index": 198,
+      "capture_filename": "iq-0198.bin",
+      "payload_sha256": "7713b8a48078372e2433a9441868261a30a5f4371172ac6f44b0d3e2c577ca93",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702380160966118,
+      "header_received_ns": 702380168247781
+    },
+    {
+      "capture_index": 199,
+      "capture_filename": "iq-0199.bin",
+      "payload_sha256": "28cff22fae841d4502a67433f3932e5b3363443e2ecdeb2d111ce56e535d1381",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [
+        {
+          "status": "crc_failed",
+          "pdu_length": 22,
+          "access_address_hamming_errors": 0,
+          "access_address_sample_offset": 5336,
+          "access_correlation": 0.9224278423610446,
+          "estimated_carrier_offset_hz": 833762.3577519624,
+          "iq_polarity": -1,
+          "timing_phase_at_4msps": 2,
+          "refinement_attempted": true
+        }
+      ],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702380614114317,
+      "header_received_ns": 702380621123474
+    },
+    {
+      "capture_index": 200,
+      "capture_filename": "iq-0200.bin",
+      "payload_sha256": "7c582b7219ae996b7f34218574c901960e7ecbb05796ebe8d6c2212565bc2f3f",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702381066992234,
+      "header_received_ns": 702381074158069
+    },
+    {
+      "capture_index": 201,
+      "capture_filename": "iq-0201.bin",
+      "payload_sha256": "385ab11a711c7dcf6deec769a943d0ec29c9c543f51d9d0eb668b115f916868e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702381519504922,
+      "header_received_ns": 702381527243408
+    },
+    {
+      "capture_index": 202,
+      "capture_filename": "iq-0202.bin",
+      "payload_sha256": "2b0edfba8112e83a51f7bf4bdb14a8331d27bd23556a9f7eb5ef26e272b09f10",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702381973768789,
+      "header_received_ns": 702381981181389
+    },
+    {
+      "capture_index": 203,
+      "capture_filename": "iq-0203.bin",
+      "payload_sha256": "a4c79baec3bedc9dec14c17d919117d809019d8eff6ab1eb3a435d31deab40a5",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702382426928248,
+      "header_received_ns": 702382434174775
+    },
+    {
+      "capture_index": 204,
+      "capture_filename": "iq-0204.bin",
+      "payload_sha256": "0a9473b8298074185e9757fefcf158e5e7ff718d46cb6f3632d9640959e8826f",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702382879552656,
+      "header_received_ns": 702382887191094
+    },
+    {
+      "capture_index": 205,
+      "capture_filename": "iq-0205.bin",
+      "payload_sha256": "699226c1ef70aa770c8294ddc4c1b0a2bd1be2d8f0582f7e276af4826628a1af",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702383332255833,
+      "header_received_ns": 702383339157378
+    },
+    {
+      "capture_index": 206,
+      "capture_filename": "iq-0206.bin",
+      "payload_sha256": "f601de4f428a1b22a302fc6e660d5dbe9e23fc279faa99a2f8ec335345e1ad82",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702383784631210,
+      "header_received_ns": 702383792262524
+    },
+    {
+      "capture_index": 207,
+      "capture_filename": "iq-0207.bin",
+      "payload_sha256": "dae672ffac2f46ffa17560265119370b7ddd37af372ba9ea15251fdf1cc5383e",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702384237747407,
+      "header_received_ns": 702384245220703
+    },
+    {
+      "capture_index": 208,
+      "capture_filename": "iq-0208.bin",
+      "payload_sha256": "178732985d1a90a3080c635645259f963e2d42a7691acc47596486cd914f82b3",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702384691461314,
+      "header_received_ns": 702384699405470
+    },
+    {
+      "capture_index": 209,
+      "capture_filename": "iq-0209.bin",
+      "payload_sha256": "d8cc9ccae7b5b15085edd798d15bde404bc6c8f15c9f8d3eda68f8414f551642",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "48",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702385145542305,
+      "header_received_ns": 702385153203976
+    },
+    {
+      "capture_index": 210,
+      "capture_filename": "iq-0210.bin",
+      "payload_sha256": "b106fd0014acdecd18aaecabc20c9cbb64803dae54539acc976951d6cf5872d1",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702385609027821,
+      "header_received_ns": 702385616260171
+    },
+    {
+      "capture_index": 211,
+      "capture_filename": "iq-0211.bin",
+      "payload_sha256": "e99545706750cb9ae5ecc5b18a42740f4d82d6be9b74198ccf110284925df732",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702386062319940,
+      "header_received_ns": 702386070208540
+    },
+    {
+      "capture_index": 212,
+      "capture_filename": "iq-0212.bin",
+      "payload_sha256": "ac7713e241d649da0cd7ad026b49829e1535a3b4d83666e989955ccc2ba376fc",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702386516073752,
+      "header_received_ns": 702386523250447
+    },
+    {
+      "capture_index": 213,
+      "capture_filename": "iq-0213.bin",
+      "payload_sha256": "8d12f33dc39023a6cb4169001943bf7875027254639f60b728e1b7e8bbb8a058",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702386968653124,
+      "header_received_ns": 702386976256385
+    },
+    {
+      "capture_index": 214,
+      "capture_filename": "iq-0214.bin",
+      "payload_sha256": "ab853763fcef43d7210aad3f853b1953be573f2a407f1e92aed4062b17c218c9",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702387421890649,
+      "header_received_ns": 702387429345099
+    },
+    {
+      "capture_index": 215,
+      "capture_filename": "iq-0215.bin",
+      "payload_sha256": "232ffa95ede432a324c79486d46fefcefefe4c6bdc24560aa380edde1c6da2cd",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702387874496762,
+      "header_received_ns": 702387882355245
+    },
+    {
+      "capture_index": 216,
+      "capture_filename": "iq-0216.bin",
+      "payload_sha256": "5fbf557bfd5088f4ea3872890eb30a78d1cfc0b7a30adf4b9e068428f0c7b8ad",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702388327709250,
+      "header_received_ns": 702388335309515
+    },
+    {
+      "capture_index": 217,
+      "capture_filename": "iq-0217.bin",
+      "payload_sha256": "15d083d61a3b9d3518376763d3fca905afb19aaeb5d1fd7e7c05a7cc8f83add6",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702388780975319,
+      "header_received_ns": 702388788300825
+    },
+    {
+      "capture_index": 218,
+      "capture_filename": "iq-0218.bin",
+      "payload_sha256": "f6f25ac03215caca567f7ac8b9fade3ed2bd7621c5b3067a70e5774ede9c5926",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702389233895124,
+      "header_received_ns": 702389241374440
+    },
+    {
+      "capture_index": 219,
+      "capture_filename": "iq-0219.bin",
+      "payload_sha256": "fed1f6377a0d3d9f4117398724e4f9f3e5d86501ac57c9ec1bcce4d05c9f25fa",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702389686923233,
+      "header_received_ns": 702389694324151
+    },
+    {
+      "capture_index": 220,
+      "capture_filename": "iq-0220.bin",
+      "payload_sha256": "f32bd31d3ef5ce4c226e179ef724fb833511ce077df0c417c795d5fd25d0eb36",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702390139691481,
+      "header_received_ns": 702390147314329
+    },
+    {
+      "capture_index": 221,
+      "capture_filename": "iq-0221.bin",
+      "payload_sha256": "d0699f7bdd196673070560ba726f9aa6a1f93a3be22b2384214526ac2c831c8a",
+      "frequency_translation_hz": -1000000,
+      "condition": {
+        "frequency_mhz": "2401",
+        "bandwidth_mhz": "67",
+        "gain": "72",
+        "phase": "source_registered_control_sweep"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702390593031389,
+      "header_received_ns": 702390600298335
+    },
+    {
+      "capture_index": 222,
+      "capture_filename": "iq-0222.bin",
+      "payload_sha256": "f06cdd32f16059fbabee7f713087213b896caebf012ae4143394437add66e6ef",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702391053105826,
+      "header_received_ns": 702391060425722
+    },
+    {
+      "capture_index": 223,
+      "capture_filename": "iq-0223.bin",
+      "payload_sha256": "1162e8c063bccf5a4dd81671157a865c44787200797b2b75605b97b36052466d",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702391506438781,
+      "header_received_ns": 702391514281996
+    },
+    {
+      "capture_index": 224,
+      "capture_filename": "iq-0224.bin",
+      "payload_sha256": "505d5cc9110c9554f1f373e250989bf0db52efb3241b60cc5644ccecc804874c",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702391960929344,
+      "header_received_ns": 702391968340162
+    },
+    {
+      "capture_index": 225,
+      "capture_filename": "iq-0225.bin",
+      "payload_sha256": "8ac600ccdb92d69d19706835cc231fb87aea5e4d3990c58d8cf23073ba1fc174",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702392414819342,
+      "header_received_ns": 702392422404028
+    },
+    {
+      "capture_index": 226,
+      "capture_filename": "iq-0226.bin",
+      "payload_sha256": "ebd1d91df40c00e99d8880dc5491bfa99a7e3472ab762840633a15f1f7f9b8b7",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702392868832272,
+      "header_received_ns": 702392876323942
+    },
+    {
+      "capture_index": 227,
+      "capture_filename": "iq-0227.bin",
+      "payload_sha256": "459b3db167668496883d9bcebd4e9fb9efa11f4996a83752d2f449476cbccf94",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702393322082851,
+      "header_received_ns": 702393329275235
+    },
+    {
+      "capture_index": 228,
+      "capture_filename": "iq-0228.bin",
+      "payload_sha256": "46969e34d7ad43501a7fa0a03ae30d41779b1d702a44131106e62d89a448f25e",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702393774960775,
+      "header_received_ns": 702393782332428
+    },
+    {
+      "capture_index": 229,
+      "capture_filename": "iq-0229.bin",
+      "payload_sha256": "b9db102a33575f7331816a0c885c166b586a738f6ab5ff27b0b2637265827fe4",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702394229020553,
+      "header_received_ns": 702394236395963
+    },
+    {
+      "capture_index": 230,
+      "capture_filename": "iq-0230.bin",
+      "payload_sha256": "7224349fdba4568e59cb2bb5c05ed6fdd75545d12fcc904c91401c7814919131",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702394681909728,
+      "header_received_ns": 702394689218633
+    },
+    {
+      "capture_index": 231,
+      "capture_filename": "iq-0231.bin",
+      "payload_sha256": "921349a75af588f58f725ed0dc8baf9b5a0a079d177d25651c591239239421a9",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702395135192427,
+      "header_received_ns": 702395143260707
+    },
+    {
+      "capture_index": 232,
+      "capture_filename": "iq-0232.bin",
+      "payload_sha256": "3ea911142a32d588cfa83bc61b8857ba9391cae859aa909dba724348a74d00be",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702395588617095,
+      "header_received_ns": 702395596225926
+    },
+    {
+      "capture_index": 233,
+      "capture_filename": "iq-0233.bin",
+      "payload_sha256": "ce3dac9997bd9df71169c159b91e3cd4e1367409d5c6d5dd5885c015f7faa6de",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702396041864887,
+      "header_received_ns": 702396049305872
+    },
+    {
+      "capture_index": 234,
+      "capture_filename": "iq-0234.bin",
+      "payload_sha256": "e1d42949c0800c2b50974846f0ccfb8a9f326551955dc6cac7e2bdd23adf5587",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702396496369976,
+      "header_received_ns": 702396504260400
+    },
+    {
+      "capture_index": 235,
+      "capture_filename": "iq-0235.bin",
+      "payload_sha256": "47af6e4170d344d46efc28f7c1b6a28cdb0060126e9146baa86459fafa441d59",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702396949628189,
+      "header_received_ns": 702396957255335
+    },
+    {
+      "capture_index": 236,
+      "capture_filename": "iq-0236.bin",
+      "payload_sha256": "612fbcd769339bdcde9ab78657eb7021d8aa5e0e48daec14a7f21c7559a0696a",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702397402675903,
+      "header_received_ns": 702397410373612
+    },
+    {
+      "capture_index": 237,
+      "capture_filename": "iq-0237.bin",
+      "payload_sha256": "22046ee341f6b9ad4c2e9ceae4150a452a748f2f253d486d30c12a9b741fdee3",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702397855810041,
+      "header_received_ns": 702397863335384
+    },
+    {
+      "capture_index": 238,
+      "capture_filename": "iq-0238.bin",
+      "payload_sha256": "f3d372a725be0fbdc8cb8c6034a2ab9c27bb0ffade9e2d65ff305ccecfbda188",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702398308682914,
+      "header_received_ns": 702398316202707
+    },
+    {
+      "capture_index": 239,
+      "capture_filename": "iq-0239.bin",
+      "payload_sha256": "5aa9841d4f4f8887d24364803ad0800fb9e7198b82c946a8649a7d8712a22a4c",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702398762275488,
+      "header_received_ns": 702398770197080
+    },
+    {
+      "capture_index": 240,
+      "capture_filename": "iq-0240.bin",
+      "payload_sha256": "c196d358a83e043e51a5c84b56924427676b63efbfbc32e87a351bf0ac16c0e2",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702399216862121,
+      "header_received_ns": 702399224213856
+    },
+    {
+      "capture_index": 241,
+      "capture_filename": "iq-0241.bin",
+      "payload_sha256": "477fa4026354a89db8427b3bcfaa57be08922ccf9dce0cb531bd71b625b1a92f",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702399669770110,
+      "header_received_ns": 702399677247854
+    },
+    {
+      "capture_index": 242,
+      "capture_filename": "iq-0242.bin",
+      "payload_sha256": "a03d22683caf49b1147bc9bc489add8e0c5d69691fdb6a4c70c2acf3f541101b",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702400122863430,
+      "header_received_ns": 702400130124815
+    },
+    {
+      "capture_index": 243,
+      "capture_filename": "iq-0243.bin",
+      "payload_sha256": "044a67738e434de38ca948065748fa46ea601d7984e89403a7fd2bedd0e6a241",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702400576568676,
+      "header_received_ns": 702400584164353
+    },
+    {
+      "capture_index": 244,
+      "capture_filename": "iq-0244.bin",
+      "payload_sha256": "3426aa61b744d099d040a8b2c45cb630f3e0d880ca3058da4288ccd27b92b05e",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702401030304780,
+      "header_received_ns": 702401038159827
+    },
+    {
+      "capture_index": 245,
+      "capture_filename": "iq-0245.bin",
+      "payload_sha256": "325a548b09486a427e87e95f8168dd6978d7a98c070555dc03dfef8020745e5b",
+      "frequency_translation_hz": 0,
+      "condition": {
+        "frequency_mhz": "2402",
+        "bandwidth_mhz": "12",
+        "gain": "hardware",
+        "phase": "source_registered_LO_check"
+      },
+      "frames": [],
+      "source_control_phase": "source_on_episode_0",
+      "command_start_ns": 702401483904337,
+      "header_received_ns": 702401491138159
+    }
+  ],
+  "limitations": "One owned packet per capture/access-start cluster. Digital translation from declared source2402MHz minus requested LO, not calibrated hardware tuning. Source air-event denominator unavailable.",
+  "captures_analyzed": 246,
+  "crc_valid_owned_packets": 1,
+  "crc_valid_other_packets_redacted": 0,
+  "runtime_seconds": 9.533759630052373,
+  "decoder_source_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+  "physical_capture_csv_sha256": "aa86c97b5ba4a1bfe1d9a093436883ba07317e82b7b10a3bff245253663c9739",
+  "source_schedule_sha256": "d61305161cbc45d92f8f873a38eca282f2df1dffb0e70623099e179e6f8d64df",
+  "source_control_phases": {
+    "source_off_before": {
+      "captures": 30,
+      "captures_with_access_address_candidates": 0,
+      "crc_valid_owned_packets": 0
+    },
+    "source_on_episode_0": {
+      "captures": 216,
+      "captures_with_access_address_candidates": 5,
+      "crc_valid_owned_packets": 1
+    }
+  },
+  "phase_classification_guard_seconds": 1,
+  "exact_over_air_emission_count": null,
+  "packet_counting_note": "One packet per capture/access-start cluster; receiver timing/slicing hypotheses are not emissions. Source phase is control-plane schedule with1s guards, not an independent RF timing reference."
+}
