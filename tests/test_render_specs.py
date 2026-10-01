@@ -93,6 +93,13 @@ class TempRepo:
 
 
 class TestClassification(unittest.TestCase):
+    def test_external_docs_urls_do_not_become_local_evidence(self) -> None:
+        with TempRepo() as root:
+            page = root / "site/src/pages/index.astro"
+            page.parent.mkdir(parents=True)
+            page.write_text('<a href="https://github.com/example/project/blob/main/docs/rx-controls.md">upstream</a> <a href={evidenceUrl("docs/evidence/local.md")}>local</a>')
+            self.assertEqual(render_specs.hand_authored_citations(root), [("docs/evidence/local.md", "site/src/pages/index.astro")])
+
     def test_grounding_citation_is_grounded(self) -> None:
         status, reason = render_specs.classify("f.md", "R", GROUNDED_BODY)
         self.assertEqual(status, GROUNDED)

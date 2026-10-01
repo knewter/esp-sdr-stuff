@@ -513,8 +513,8 @@ const items = await Promise.all(work.items.map(async (item) => ({
   .card-evidence nav a { color:var(--accent); padding:.55rem; border-radius:3px; overflow-wrap:anywhere; }
   .card-evidence nav a:hover,.card-evidence nav a:focus-visible { background:var(--surface-2); }
   .detail-media { display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x proximity; padding-bottom:1rem; margin-bottom:1.3rem; }
-  .detail-media figure { flex:0 0 min(360px,85%); min-width:0; margin:0; scroll-snap-align:start; background:var(--surface-2); border:1px solid var(--rule); border-radius:8px; overflow:hidden; }
-  .detail-media img,.detail-media video { display:block; width:100%; height:360px; object-fit:contain; background:#101822; }
+  .detail-media figure { flex:0 0 100%; min-width:0; margin:0; scroll-snap-align:start; background:var(--surface-2); border:1px solid var(--rule); border-radius:8px; overflow:hidden; }
+  .detail-media img,.detail-media video { display:block; width:100%; height:auto; max-height:360px; object-fit:contain; background:#101822; }
   .media-open { display:block; width:100%; position:relative; padding:0; border:0; background:#101822; cursor:zoom-in; }
   .media-open:focus-visible { outline:3px solid var(--accent); outline-offset:-3px; }
   .media-play { position:absolute; inset:0; display:grid; place-items:center; color:#fff; font:600 .9rem var(--sans); }
