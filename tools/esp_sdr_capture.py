@@ -50,16 +50,55 @@ def command(port, request):
 
 
 def synchronize(port, seconds=5):
-    # No reset_input_buffer while a reply may still be arriving: find a unique
-    # acknowledgement after all outstanding bytes, then clear only known text.
-    nonce = time.monotonic_ns() & ((1 << 63) - 1)
-    port.write(f'\nSYNC {nonce}\n'.encode('ascii'))
+    """Recover from UART-open reset without leaving queued SYNC replies.
+
+    Some CP2102 open sequences reset the MCU despite inactive modem lines.
+    Requests sent during boot can be lost. Retry unique nonces, then fence all
+    outstanding requests with one final ordered nonce before returning.
+    """
+    if seconds <= 0:
+        raise ValueError('Synchronization deadline must be positive')
+    original_timeout = port.timeout
     deadline = time.monotonic() + seconds
-    while time.monotonic() < deadline:
-        raw = port.read_until(b'\n', 65536)
-        if raw.strip() == f'SYNC {nonce}'.encode():
-            return
-    raise TimeoutError('SYNC acknowledgement missing')
+    retry_at = time.monotonic()
+    counter = time.monotonic_ns() & ((1 << 63) - 1)
+    pending = set()
+    fence = None
+    buffered = bytearray()
+
+    def request():
+        nonlocal counter
+        counter = (counter + 1) & ((1 << 63) - 1)
+        response = f'SYNC {counter}'.encode('ascii')
+        port.write(b'\n' + response + b'\n')
+        port.flush()
+        return response
+
+    try:
+        while time.monotonic() < deadline:
+            now = time.monotonic()
+            if fence is None and now >= retry_at:
+                pending.add(request())
+                retry_at = now + .25
+            port.timeout = min(.05, max(0, deadline - time.monotonic()))
+            buffered.extend(port.read(4096))
+            while b'\n' in buffered:
+                end = buffered.index(b'\n')
+                response = bytes(buffered[:end]).strip()
+                del buffered[:end + 1]
+                if fence is not None and response == fence:
+                    # No requests are sent after the fence. UART command order
+                    # means every earlier retry/reply has now been consumed.
+                    return
+                if fence is None and response in pending:
+                    fence = request()
+            # During recovery, incomplete binary payloads or startup noise may
+            # not contain newline. Bound memory without clearing live UART RX.
+            if len(buffered) > 65536:
+                del buffered[:-8192]
+        raise TimeoutError('SYNC acknowledgement missing before startup deadline')
+    finally:
+        port.timeout = original_timeout
 
 
 def open_board(path, baud=2000000, timeout=3):
@@ -168,6 +207,7 @@ def run_snapshots(port, output, private, count, samples, bits_list, rates, confi
     private.mkdir(parents=True, exist_ok=False)
     provenance = {'schema': 1, 'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
                   'firmware_source_revision_asserted_from_install_record': artifact_revision,
+                  'firmware_source_base_revision': SOURCE_REVISION,
                   'firmware_revision_is_not_returned_by_INFO': True,
                   'settings': config, 'protocol_queries': queries(port), 'runs': [],
                   'timing_note': 'Host monotonic command and receive timestamps; no synchronized hardware capture-start timestamp. Nominal RF windows use advertised sample rates, not calibrated clocks.'}

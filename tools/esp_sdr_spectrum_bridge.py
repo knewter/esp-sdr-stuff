@@ -82,7 +82,8 @@ class Trial:
         port = None
         output_created = False
         rows = []
-        record = {'schema': 1, 'firmware_revision_asserted_from_install_record': SOURCE_REVISION,
+        record = {'schema': 1, 'firmware_revision_asserted_from_install_record': getattr(a, 'firmware_revision', SOURCE_REVISION),
+                  'firmware_source_base_revision': SOURCE_REVISION,
                   'browser_transport': 'localhost HTTP polling a host UART reader; not native Web Serial',
                   'settings': {'frequency_mhz': a.frequency, 'rate_hz': a.rate, 'bins': a.bins, 'gain': a.gain,
                                'bandwidth_mhz': a.bandwidth, 'seconds_requested': a.seconds},
@@ -173,6 +174,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port', default=STABLE_PORT)
     parser.add_argument('--baud', type=int, default=2000000)
+    parser.add_argument('--firmware-revision', default=SOURCE_REVISION)
     parser.add_argument('--http-port', type=int, default=4340)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--private', type=Path, required=True)

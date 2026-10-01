@@ -65,4 +65,49 @@ class ProtocolTests(unittest.TestCase):
         f,_=spectrum_frame(Port(b'SPECEND 7 1 2 3 4 5 6 7 8 9 10 11\n'),256)
         self.assertEqual(f['report'][0],7)
 
+
+class StartupSynchronizationTests(unittest.TestCase):
+    class Clock:
+        def __init__(self):self.now=0
+        def monotonic(self):return self.now
+        def monotonic_ns(self):return int(self.now*1e9)
+    class StartupPort(Port):
+        def __init__(self,clock,lost_requests=2,delay=.4,silent=False):
+            super().__init__(b'\xffboot startup\r\n',chunk=5)
+            self.clock=clock;self.lost_requests=lost_requests;self.delay=delay
+            self.silent=silent;self.pending=[];self.timeout=3;self.sync_writes=0
+        def write(self,data):
+            super().write(data)
+            request=data.strip()
+            if request.startswith(b'SYNC '):
+                self.sync_writes+=1
+                if self.sync_writes>self.lost_requests and not self.silent:
+                    self.pending.append((self.clock.now+self.delay,request+b'\r\n'))
+            elif request==b'INFO':
+                self.data.extend(b'ESP32SDR 6 burst 16380\n')
+            return len(data)
+        def read(self,n):
+            self.clock.now+=min(self.timeout,.025)
+            while self.pending and self.pending[0][0]<=self.clock.now:
+                _,reply=self.pending.pop(0);self.data.extend(reply)
+            return super().read(n)
+    def test_boot_loses_requests_then_fence_drains_retries(self):
+        from unittest.mock import patch
+        clock=self.Clock();port=self.StartupPort(clock)
+        with patch.object(capture.time,'monotonic',clock.monotonic),patch.object(capture.time,'monotonic_ns',clock.monotonic_ns):
+            capture.synchronize(port,seconds=5)
+        self.assertGreaterEqual(port.sync_writes,4)
+        self.assertEqual(port.pending,[])
+        self.assertEqual(port.data,bytearray())
+        self.assertEqual(port.timeout,3)
+        self.assertEqual(capture.command(port,'INFO'),'ESP32SDR 6 burst 16380')
+    def test_silent_boot_deadline_restores_timeout(self):
+        from unittest.mock import patch
+        clock=self.Clock();port=self.StartupPort(clock,silent=True)
+        with patch.object(capture.time,'monotonic',clock.monotonic),patch.object(capture.time,'monotonic_ns',clock.monotonic_ns):
+            with self.assertRaises(TimeoutError):capture.synchronize(port,seconds=1)
+        self.assertLessEqual(clock.now,1.025)
+        self.assertEqual(port.timeout,3)
+        self.assertGreaterEqual(port.sync_writes,3)
+
 if __name__=='__main__':unittest.main()

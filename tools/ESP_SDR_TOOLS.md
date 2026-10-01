@@ -114,3 +114,21 @@ Primary references:
 
 A host-visible baud selection is configuration evidence. Actual protocol replies
 and CRC-checked transfers are needed to establish working physical transport.
+
+
+## Startup synchronization
+
+Opening the CP2102 can reset the ESP32 despite pre-setting inactive modem lines.
+A request sent while the MCU boots may be lost. The harness retries unique
+`SYNC` nonces every250ms within a five-second deadline, preserves fragmented
+reply bytes, and consumes boot noise privately. After the first valid echo it
+sends one final ordered nonce to fence and drain any queued retry replies before
+`INFO` is sent. It restores the caller's serial timeout on success or failure.
+No fixed boot delay is assumed, and no RX buffer is cleared while a reply may
+still be arriving. Fake-wire tests cover two lost startup requests, delayed and
+fragmented acknowledgements, queued retries, clean subsequent INFO, and bounded
+failure with timeout restoration.
+
+For the browser bridge, use `--baud 921600 --firmware-revision
+550fade-uart921600`. Both the installed variant label and full source-base SHA
+are recorded separately; the bridge's HTTP/browser transport remains explicit.
