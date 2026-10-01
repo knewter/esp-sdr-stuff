@@ -31,3 +31,16 @@ V4 stream procedure: `timeout --signal=INT 60s rtl_test -s RATE`, one device own
 ## Primary references
 
 [Source register](docs/research/source-index.md) contains pinned repository links and limitations.
+
+## Observed progress
+
+[V4 transport evidence](docs/evidence/rtl-continuity/README.md) now records all
+four requested rates for at least 65 seconds each. The measurement uses internal
+test bytes, so it proves the named transport trial rather than tuning range,
+calibrated bandwidth, antenna suitability or reception. The ten-second rate
+estimates depend on host/USB timing and are not calibrated oscillator results.
+
+[Passive FM discovery](docs/evidence/rtl-fm-survey/README.md) includes real FFT
+records and a five-second 101.1 MHz candidate capture. The observed 19 kHz feature
+is consistent with a stereo pilot; antenna and station identity are unverified.
+The known-source application gate and ESP/converter comparison remain open.
