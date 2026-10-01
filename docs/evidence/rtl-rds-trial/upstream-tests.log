@@ -1,0 +1,83 @@
+ninja: Entering directory `/mnt/MediaVolume/home/jadams/src/gitlab.daringbit.com/josh/esp32-sdr-worktrees/rtl-evaluation/.scratch/redsea-build'
+ninja: no work to do.
+1/1 redsea:Tests FAIL            0.02s   exit status 42
+>>> MESON_TEST_ITERATION=1 MALLOC_PERTURB_=158 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 ASAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1 /mnt/MediaVolume/home/jadams/src/gitlab.daringbit.com/josh/esp32-sdr-worktrees/rtl-evaluation/.scratch/redsea-build/redsea-test
+――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+Randomness seeded to: 2644410008
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+redsea-test is a Catch2 v3.15.3 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+Radiotext failing corner cases
+  TODO: String length method A received out-of-order
+-------------------------------------------------------------------------------
+../redsea-src/test/components-hex.cc:447
+...............................................................................
+
+../redsea-src/test/components-hex.cc:461: FAILED:
+  REQUIRE( json_lines.back().contains("radiotext") )
+with expansion:
+  false
+
+-------------------------------------------------------------------------------
+MPX file input
+-------------------------------------------------------------------------------
+../redsea-src/test/components-mpx.cc:27
+...............................................................................
+
+../redsea-src/test/components-mpx.cc:33: FAILED:
+  REQUIRE( std::filesystem::exists(options.sndfilename) )
+with expansion:
+  false
+
+-------------------------------------------------------------------------------
+Time from start
+-------------------------------------------------------------------------------
+../redsea-src/test/components-mpx.cc:175
+...............................................................................
+
+../redsea-src/test/components-mpx.cc:183: FAILED:
+  REQUIRE( std::filesystem::exists(options.sndfilename) )
+with expansion:
+  false
+
+-------------------------------------------------------------------------------
+RDS2/RFT station logo from MPX
+-------------------------------------------------------------------------------
+../redsea-src/test/components-mpx.cc:119
+...............................................................................
+
+../redsea-src/test/components-mpx.cc:129: FAILED:
+  REQUIRE( std::filesystem::exists(options.sndfilename) )
+with expansion:
+  false
+
+-------------------------------------------------------------------------------
+TMC
+  Load mock location table
+-------------------------------------------------------------------------------
+../redsea-src/test/components-tmc.cc:138
+...............................................................................
+
+../redsea-src/test/components-tmc.cc:139: FAILED:
+  REQUIRE( std::filesystem::is_directory("../test/resources/mock_locdb") )
+with expansion:
+  false
+
+===============================================================================
+test cases:  38 |  33 passed | 4 failed | 1 failed as expected
+assertions: 574 | 569 passed | 4 failed | 1 failed as expected
+
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+
+Summary of Failures:
+
+1/1 redsea:Tests FAIL            0.02s   exit status 42
+
+Ok:                0
+Fail:              1
+
+Full log written to /mnt/MediaVolume/home/jadams/src/gitlab.daringbit.com/josh/esp32-sdr-worktrees/rtl-evaluation/.scratch/redsea-build/meson-logs/testlog.txt

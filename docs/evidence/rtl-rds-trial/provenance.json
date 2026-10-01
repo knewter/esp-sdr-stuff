@@ -1,0 +1,44 @@
+{
+  "host": {
+    "machine": "x86_64",
+    "kernel": "7.1.9-1-MANJARO",
+    "python": "3.14.7"
+  },
+  "sources": {
+    "redsea": {
+      "url": "https://github.com/windytan/redsea",
+      "tag": "v1.3.1",
+      "commit": "4cc27df9939798e800c4ff7cb484be6d9bf68b4d",
+      "binary_sha256": "db77a477a4d9747f09f1e4cf8bba98df807b8763d8e752ff4cb74614d64cf461"
+    },
+    "liquid_dsp": {
+      "url": "https://github.com/jgaeddert/liquid-dsp",
+      "tag": "v1.8.3",
+      "commit": "10041f70cebbe3b97887e75bb41e48b73dda1b23",
+      "library_sha256": "ca27f66eb3e6a238227d7cc7cc148f6432c062e7a4cdd76ea5dc944fe87920a2"
+    }
+  },
+  "dependencies": {
+    "sndfile": "1.2.2",
+    "nlohmann_json": "3.12.0",
+    "catch2": "3.15.3",
+    "gcc": "16.2.1",
+    "meson": "1.12.0",
+    "ninja": "1.13.2"
+  },
+  "installed_receiver_package": "rtl-sdr-git 2.0.2.0.g619ac31-1",
+  "station_check": {
+    "url": "https://www.wxjcradio.com/",
+    "checked_utc": "2026-10-01",
+    "primary_support": "Station-owned homepage identifies WXJC Radio / Truth 101.1; matches decoder callsign and channel frequency",
+    "interpretation": "Strong known-broadcast attribution, not cryptographic transmitter authentication"
+  },
+  "tests": {
+    "upstream_correct_cwd": "exit0, 38 cases:37 passed/1 expected failure;1050 assertions:1049passed/1expected failure",
+    "initial_meson_run": "Failed four resource-path assertions because external build directory makes ../test/resources wrong; retained upstream-tests.log",
+    "summary_regression": "Inherited PI fields are excluded from direct block-A count; missing final timestamp ignored for last measured group time",
+    "negative_control": "Five seconds seeded white PCM noise generated zero decoded groups; synthetic decoder control, not physical RF measurement",
+    "offline_reproduction": "Fresh demodulation of retained original IQ reproduces MPX SHA-256 and NDJSON byte-for-byte; summary identical",
+    "openspec": "9 items passed strict no-interactive validation in scoped worktree"
+  }
+}

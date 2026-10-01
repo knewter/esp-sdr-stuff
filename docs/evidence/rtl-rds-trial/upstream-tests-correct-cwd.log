@@ -1,0 +1,22 @@
+Randomness seeded to: 4264854986
+{"location_table_info":{"ltn":1,"num_points":6,"num_roads":2,"num_names":7}}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+redsea-test is a Catch2 v3.15.3 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+Radiotext failing corner cases
+  TODO: String length method A received out-of-order
+-------------------------------------------------------------------------------
+../redsea-src/test/components-hex.cc:447
+...............................................................................
+
+../redsea-src/test/components-hex.cc:461: FAILED:
+  REQUIRE( json_lines.back().contains("radiotext") )
+with expansion:
+  false
+
+===============================================================================
+test cases:   38 |   37 passed | 1 failed as expected
+assertions: 1050 | 1049 passed | 1 failed as expected

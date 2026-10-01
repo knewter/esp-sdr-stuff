@@ -1,0 +1,52 @@
+{
+  "recorded_utc": "2026-10-01T22:57:37.363876+00:00",
+  "antenna": "Exact model, attachment and orientation unverified; no physical intervention",
+  "bias_tee": "not enabled",
+  "channel_hz": 101100000,
+  "numpy": "2.5.2",
+  "scipy": "1.18.0",
+  "input_iq_sha256": "2f60d138da86399ed28ed55d2290da9277f98d13c552604a0cf3e16aea16d555",
+  "iq_pairs": 5120000,
+  "iq_rate_hz": 1024000,
+  "nominal_iq_duration_s": 5.0,
+  "center_hz": 101000000,
+  "mpx_rate_hz": 256000,
+  "mpx_samples": 1254399,
+  "pcm_peak_scale_hz": 82056.6417407908,
+  "demodulator": "Mix channel offset; 255-tap 90 kHz lowpass; decimate4; quadrature phase difference; discard100ms; peak normalize to30000 PCM",
+  "mpx_sha256": "fc5ff1496dc246e765f3f7088f0a4fadd0738ef68ca2dd0d64d11caaf6e66b7c",
+  "mpx_bytes": 2508842,
+  "redsea_sha256": "db77a477a4d9747f09f1e4cf8bba98df807b8763d8e752ff4cb74614d64cf461",
+  "raw_publication": "IQ/MPX kept private in ignored scratch; decoded public broadcast metadata only",
+  "decoder_command": [
+    "/mnt/MediaVolume/home/jadams/src/gitlab.daringbit.com/josh/esp32-sdr-worktrees/rtl-evaluation/.scratch/redsea-build/redsea",
+    "-f",
+    ".scratch/fm101-rds-repro.wav",
+    "--no-fec",
+    "--show-raw",
+    "--rbds",
+    "--bler",
+    "--time-from-start"
+  ],
+  "decoder_returncode": 0,
+  "decode_summary": {
+    "emitted_groups": 41,
+    "complete_four_block_groups": 30,
+    "valid_blocks_in_emitted_groups": 149,
+    "missing_blocks_in_emitted_groups": 15,
+    "direct_valid_block_a_pi_counts": {
+      "0x9250": 40
+    },
+    "callsigns_in_decoder_output": [
+      "WXJC"
+    ],
+    "ps_values": [
+      "       \u00d0"
+    ],
+    "radiotext_values": [],
+    "first_group_time_s": 0.3004678360298276,
+    "last_group_time_s": 4.766994152061641,
+    "count_scope": "Emitted groups only; unsynchronized/omitted groups excluded. PI field can be inherited; direct PI counts use raw block A only.",
+    "checkword_policy": "redsea --no-fec; no burst correction; valid blocks have expected syndrome/offset. This is RDS 10-bit checkword evidence, not a separate external CRC verifier."
+  }
+}

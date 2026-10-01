@@ -1,0 +1,9 @@
+{
+  "test": "Deterministic seeded white PCM noise; not a physical RF control",
+  "seed": 9250,
+  "samples": 855000,
+  "rate_hz": 171000,
+  "decoder_returncode": 0,
+  "emitted_groups": 0,
+  "stderr": ""
+}
