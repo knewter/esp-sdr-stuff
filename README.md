@@ -6,10 +6,26 @@ An evidence-based evaluation of an original ESP32 as an experimental SDR, alongs
 - [Experiment board](https://knewter.github.io/esp-sdr-stuff/work/)
 - [Primary sources](docs/research/source-index.md)
 - [Chip identification](docs/evidence/board-identification/README.md)
+- [Measured recommendations](docs/research/measured-recommendations.md)
+- [Accepted snapshot and display experiment](docs/evidence/snapshot-baseline/README.md)
 
-The connected chip is ESP32-D0WD-V3 revision 3.1, with 4 MB physical flash. Its observed firmware is an ESP-IDF hello_world/pin-toggle program, not an AtomVM startup. ESPARGOS ESP-SDR supports original ESP32 chips, but reception on this board remains untested. No firmware was written during this inventory.
+The connected chip is ESP32-D0WD-V3 revision 3.1, with 4 MB physical flash.
+Its original image is an ESP-IDF hello_world/pin-toggle program. Two complete
+backup reads match; the first post-trial restoration also matches every byte
+and boots after reset. Actual power-removal recovery remains a separate gate.
 
-Seven OpenSpec proposals cover firmware preservation, snapshot capture, RF characterization, short-burst applications, FPGA feasibility, AtomVM integration and receiver comparison. All hardware tasks remain unchecked. Design diagrams are labeled mockups; boot/probe logs are measured evidence. Adiuvo Forgix and a PCIe FPGA candidate have separate feasibility gates.
+The clean ESP-SDR UART921600 build passed all 600 full-size snapshot CRC/count
+checks across three rates and two formats. A 512-bin browser spectrum session
+completed 60 seconds with 7205 valid frames; its first 1024-bin attempt failed
+CRC and remains visible. Independent review reproduced the data, and that
+proposal is archived with two accepted requirements. Full I/Q transfers take
+about 361–451 ms, giving only 0.045–0.281% nominal RF time coverage in the series.
+
+Five evaluations remain active: complete recovery, controlled RF,
+burst applications, FPGA feasibility and receiver comparison. AtomVM is
+deferred by user. Owned BLE trials and physical RTL transport/FM captures
+remain distinct from unverified calibration, emitted-event counts and FPGA
+bring-up. Design illustrations are labeled separately from actual captures.
 
 ## Development
 
@@ -18,6 +34,7 @@ Use Node 22+, Python 3.12+ and OpenSpec CLI 1.11.0. Run:
 ```sh
 npm ci --prefix site
 openspec validate --all --strict --no-interactive
+python3 -m pip install -r tools/requirements-ble.txt
 python3 -m unittest discover -s tests -p 'test_render_specs.py'
 python3 -m unittest discover -s tests -p 'test_work_board.py'
 python3 scripts/build_site.py --local
