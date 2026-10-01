@@ -77,6 +77,17 @@ def open_board(path, baud=2000000, timeout=3):
     port.dtr = port.rts = False
     port.port = str(stable)
     port.open()
+    # Classic CP2102 silently clamps requests above1M in Linux. Check the
+    # accepted termios speed, not pyserial's cached requested baud value.
+    try:
+        import termios
+        expected = getattr(termios, f'B{baud}', None)
+        speeds = termios.tcgetattr(port.fileno())[4:6]
+        if expected is not None and speeds != [expected, expected]:
+            raise RuntimeError('Kernel accepted a different UART baud rate; use a compatible firmware default and matching host baud')
+    except Exception:
+        port.close()
+        raise
     return port
 
 

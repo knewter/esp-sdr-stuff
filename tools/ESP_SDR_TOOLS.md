@@ -71,3 +71,42 @@ Synthetic parser tests cover fragmented binary delivery, embedded newline
 bytes, CRC mismatch, short transfer, sample mismatch, signed 8-bit and odd
 10-bit packing, FFT framing and retained nonzero end status. These prove host
 parser behavior only; physical tasks require the resulting hardware evidence.
+
+## Classic CP2102 needs a 1 Mbaud firmware variant
+
+Upstream firmware defaults to 2 Mbaud. The Linux driver clamps a classic
+CP2102 to 1 Mbaud, so requesting 2 Mbaud in pyserial does not establish a
+2 Mbaud physical UART. The host tools now reject a mismatched kernel termios
+speed instead of waiting for garbled protocol replies.
+
+Use the local pinned configuration variant with **`--baud 1000000`** for both
+snapshot capture and the browser bridge. The source revision is unchanged;
+record `--firmware-revision 550fade-uart1m` for snapshot installation provenance.
+The variant changes the Kconfig transport default only, and sets the application
+version to make that change visible at boot.
+
+To reproduce it, clone ESPARGOS revision
+`550fadea4d00a9e26ce921c5832167becb3dc20c` and ESP-IDF revision
+`25fe69f946311abdaf9ad56591f25fedbc20ac98`, initialize both repositories'
+submodules, install the SDK's ESP32 tools and Python environment, and activate
+its `export.sh`. Then:
+
+```sh
+python tools/build_esp_sdr_uart.py \
+  --source .scratch/esp-sdr --sdk .scratch/esp-idf \
+  --build .scratch/build-esp32-uart1m \
+  --output .scratch/firmware-esp32-uart1m \
+  --evidence docs/evidence/firmware-uart1m \
+  --baud 1000000 --jobs 6
+```
+
+The build wrapper rejects wrong source/SDK revisions and tracked modifications,
+uses a fresh build/configuration, confirms target/CPU/UART config, exports the
+upstream-compatible flash manifest, and records compiler/configuration hashes.
+It never flashes a device. Binary downloads, SDK and build output stay ignored.
+
+Primary driver reference: [Linux cp210x driver](https://github.com/torvalds/linux/blob/master/drivers/usb/serial/cp210x.c),
+`cp210x_init_max_speed` (classic CP2102/CP2103 maximum 1,000,000; CP2102N
+maximum 3,000,000) and `cp210x_change_speed` (clamps requests to the maximum).
+The physical board's accepted speed must still be checked; product strings
+alone do not prove which bridge revision is installed.

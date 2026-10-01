@@ -80,6 +80,7 @@ class Trial:
     def run(self):
         a = self.args
         port = None
+        output_created = False
         rows = []
         record = {'schema': 1, 'firmware_revision_asserted_from_install_record': SOURCE_REVISION,
                   'browser_transport': 'localhost HTTP polling a host UART reader; not native Web Serial',
@@ -89,6 +90,7 @@ class Trial:
                   'limitations': 'Snapshot FFTs contain gaps. Codes are uncalibrated. Hardware nominal clock and synthesized sample index do not independently prove actual sample rate.'}
         try:
             a.output.mkdir(parents=True, exist_ok=False)
+            output_created = True
             a.private.mkdir(parents=True, exist_ok=False)
             port = open_board(a.port, a.baud)
             synchronize(port)
@@ -159,7 +161,7 @@ class Trial:
                     pass
                 port.close()
             record['ended_utc'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
-            if a.output.exists():
+            if output_created:
                 (a.output / 'results.json').write_text(json.dumps(record, indent=2) + '\n')
                 if rows:
                     with (a.output / 'spectra.csv').open('w', newline='') as stream:
