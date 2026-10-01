@@ -8,7 +8,7 @@ A reproducible raw-I/Q and browser-spectrum baseline on the actual LX6 board.
 
 The receiver evaluation SHALL count successful and failed CRC-checked snapshots for each advertised sample rate.
 
-<!-- UNVERIFIED: The proposed experiment has not run on the physical hardware. -->
+*Grounding: [600 physical CRC-checked snapshots](docs/evidence/snapshot-baseline/README.md) records 100 attempts for every advertised rate in both output formats, with timestamps and zero observed integrity failures.*
 
 #### Scenario: Evaluation result is inspected
 - **WHEN** the baseline capture series finishes

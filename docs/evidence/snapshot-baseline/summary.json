@@ -1,0 +1,89 @@
+{
+  "runs": [
+    {
+      "bits": 8,
+      "rate_hz": 16000000,
+      "attempts": 100,
+      "success": 100,
+      "failures": 0,
+      "requested_attempts": 100,
+      "wall_ms": 36402.795464999996,
+      "nominal_sampled_ms": 102.375,
+      "nominal_coverage_fraction": 0.0028122840208365304,
+      "median_round_trip_ms": 361.8354785,
+      "p95_round_trip_ms": 362.48017635,
+      "median_firmware_capture_us": 1025.0
+    },
+    {
+      "bits": 8,
+      "rate_hz": 40000000,
+      "attempts": 100,
+      "success": 100,
+      "failures": 0,
+      "requested_attempts": 100,
+      "wall_ms": 36287.461468,
+      "nominal_sampled_ms": 40.949999999999996,
+      "nominal_coverage_fraction": 0.0011284889695607845,
+      "median_round_trip_ms": 361.3635175,
+      "p95_round_trip_ms": 361.88869125,
+      "median_firmware_capture_us": 411.0
+    },
+    {
+      "bits": 8,
+      "rate_hz": 80000000,
+      "attempts": 100,
+      "success": 100,
+      "failures": 0,
+      "requested_attempts": 100,
+      "wall_ms": 36264.50618099999,
+      "nominal_sampled_ms": 20.474999999999998,
+      "nominal_coverage_fraction": 0.000564601649276764,
+      "median_round_trip_ms": 360.94494899999995,
+      "p95_round_trip_ms": 361.7541826,
+      "median_firmware_capture_us": 206.0
+    },
+    {
+      "bits": 10,
+      "rate_hz": 16000000,
+      "attempts": 100,
+      "success": 100,
+      "failures": 0,
+      "requested_attempts": 100,
+      "wall_ms": 45357.95574399999,
+      "nominal_sampled_ms": 102.375,
+      "nominal_coverage_fraction": 0.0022570461635838227,
+      "median_round_trip_ms": 451.477005,
+      "p95_round_trip_ms": 452.265216,
+      "median_firmware_capture_us": 1025.0
+    },
+    {
+      "bits": 10,
+      "rate_hz": 40000000,
+      "attempts": 100,
+      "success": 100,
+      "failures": 0,
+      "requested_attempts": 100,
+      "wall_ms": 45448.54604300001,
+      "nominal_sampled_ms": 40.949999999999996,
+      "nominal_coverage_fraction": 0.0009010189228332228,
+      "median_round_trip_ms": 450.93887700000005,
+      "p95_round_trip_ms": 451.6228952,
+      "median_firmware_capture_us": 411.0
+    },
+    {
+      "bits": 10,
+      "rate_hz": 80000000,
+      "attempts": 100,
+      "success": 100,
+      "failures": 0,
+      "requested_attempts": 100,
+      "wall_ms": 45394.84998299999,
+      "nominal_sampled_ms": 20.474999999999998,
+      "nominal_coverage_fraction": 0.0004510423540923193,
+      "median_round_trip_ms": 450.76705000000004,
+      "p95_round_trip_ms": 451.90913145,
+      "median_firmware_capture_us": 206.0
+    }
+  ],
+  "note": "RF coverage is calculated from advertised nominal rates; no calibrated ADC clock or capture-start timestamp."
+}

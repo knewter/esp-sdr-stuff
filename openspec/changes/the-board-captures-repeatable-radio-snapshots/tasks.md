@@ -13,7 +13,7 @@ prove initialization, not capture integrity.
 ## 2. Measure capture integrity
 
 - [x] 2.1 Query INFO, CAPS, LIMITS?, RANGE? and TRANSPORT?; retain replies with firmware revision. Proof: [clean 921600 physical replies](docs/evidence/sdr-installation-uart921600/README.md).
-- [ ] 2.2 Collect at least 100 snapshots at each advertised rate; verify CRC, sample counts and wall-clock gaps in a CSV.
+- [x] 2.2 Collect at least 100 snapshots at each advertised rate; verify CRC, sample counts and wall-clock gaps in a CSV. Proof: [600 physical snapshots](docs/evidence/snapshot-baseline/README.md).
 - [ ] 2.3 Capture a 60-second browser spectrum session and save a still plus the acquisition settings; describe missed-event limits.
 
 ## Proof procedure
