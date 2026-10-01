@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "evidence_class": "reviewed primary source metadata; not board measurement",
+  "forgix_schematic": {
+    "url": "https://bitbucket.org/adiuvo-engineering/forgix_public/raw/c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f/Schematic/RP2350_FPGA_eensy.pdf",
+    "repository_revision": "c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f",
+    "sha256": "364ff65046fd3932c8ab8e9acc95e542da2712e0b880dbbc78bb6afe1d6ce4de",
+    "bytes": 203392,
+    "drawing_date": "2026-02-24",
+    "drawing_revision": "blank"
+  },
+  "repositories": [
+    {
+      "repo": "enjoy-digital/aduivo_forgix_test",
+      "revision": "e7c71b750ca61690a70bc79ebd6ff5fbc65cedad",
+      "date": "2026-06-25T08:24:56Z"
+    },
+    {
+      "repo": "ESPARGOS/esp-sdr",
+      "revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+      "date": "2026-10-01T18:16:35Z"
+    },
+    {
+      "repo": "litex-hub/litex-boards",
+      "revision": "10debf146d433ce8ac8aedcac84e97d252ff4d5b",
+      "date": "2026-10-01T12:42:20Z"
+    },
+    {
+      "repo": "h0m3us3r/eSpDR",
+      "revision": "41a0ffe279119df942e4a9e892dc19d196e1c952",
+      "date": "2026-09-26T22:35:28Z"
+    }
+  ],
+  "other_sources": [
+    "https://forgix.tech/",
+    "https://www.efinixinc.com/docs/trion8-ds-v5.5.pdf",
+    "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
+    "https://docs.espressif.com/projects/esp-idf/en/v5.4/esp32/api-reference/peripherals/spi_master.html",
+    "https://essenceia.github.io/projects/alibaba_cloud_fpga/"
+  ]
+}

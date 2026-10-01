@@ -1,0 +1,182 @@
+{
+  "captured_at_utc": "2026-10-01T21:48:30.759079+00:00",
+  "evidence_class": "read-only host enumeration",
+  "usb": [
+    {
+      "idVendor": "0bda",
+      "idProduct": "5411",
+      "manufacturer": "Generic",
+      "product": "4-Port USB 2.0 Hub",
+      "speed": "480"
+    },
+    {
+      "idVendor": "0fd9",
+      "idProduct": "006d",
+      "manufacturer": "Elgato",
+      "product": "Stream Deck",
+      "speed": "480"
+    },
+    {
+      "idVendor": "0bda",
+      "idProduct": "5411",
+      "manufacturer": "Generic",
+      "product": "4-Port USB 2.0 Hub",
+      "speed": "480"
+    },
+    {
+      "idVendor": "0bda",
+      "idProduct": "2838",
+      "manufacturer": "RTLSDRBlog",
+      "product": "Blog V4",
+      "speed": "480"
+    },
+    {
+      "idVendor": "10c4",
+      "idProduct": "ea60",
+      "manufacturer": "Silicon Labs",
+      "product": "CP2102 USB to UART Bridge Controller",
+      "speed": "12"
+    },
+    {
+      "idVendor": "0bda",
+      "idProduct": "5411",
+      "manufacturer": "Generic",
+      "product": "4-Port USB 2.0 Hub",
+      "speed": "480"
+    },
+    {
+      "idVendor": "046d",
+      "idProduct": "082d",
+      "product": "HD Pro Webcam C920",
+      "speed": "480"
+    },
+    {
+      "idVendor": "0403",
+      "idProduct": "6001",
+      "manufacturer": "FTDI",
+      "product": "FT232R USB UART",
+      "speed": "12"
+    },
+    {
+      "idVendor": "046d",
+      "idProduct": "c52b",
+      "manufacturer": "Logitech",
+      "product": "USB Receiver",
+      "speed": "12"
+    },
+    {
+      "idVendor": "04d9",
+      "idProduct": "0348",
+      "manufacturer": "DuckyChannel International Co., Ltd.",
+      "product": "Ducky Keyboard",
+      "speed": "12"
+    },
+    {
+      "idVendor": "05e3",
+      "idProduct": "0610",
+      "product": "USB2.0 Hub",
+      "speed": "480"
+    },
+    {
+      "idVendor": "0b05",
+      "idProduct": "18f3",
+      "manufacturer": "AsusTek Computer Inc.",
+      "product": "AURA LED Controller",
+      "speed": "12"
+    },
+    {
+      "idVendor": "8087",
+      "idProduct": "0029",
+      "speed": "12"
+    },
+    {
+      "idVendor": "0bda",
+      "idProduct": "0411",
+      "manufacturer": "Generic",
+      "product": "4-Port USB 3.0 Hub",
+      "speed": "5000"
+    },
+    {
+      "idVendor": "0bda",
+      "idProduct": "0411",
+      "manufacturer": "Generic",
+      "product": "4-Port USB 3.0 Hub",
+      "speed": "5000"
+    },
+    {
+      "idVendor": "0bda",
+      "idProduct": "0411",
+      "manufacturer": "Generic",
+      "product": "4-Port USB 3.0 Hub",
+      "speed": "5000"
+    },
+    {
+      "idVendor": "1a86",
+      "idProduct": "55d2",
+      "product": "USB Dual_Serial",
+      "speed": "12"
+    },
+    {
+      "idVendor": "174c",
+      "idProduct": "2074",
+      "manufacturer": "ASUS TEK.",
+      "product": "ASM107x",
+      "speed": "480"
+    },
+    {
+      "idVendor": "174c",
+      "idProduct": "3074",
+      "manufacturer": "ASUS TEK.",
+      "product": "ASM107x",
+      "speed": "5000"
+    },
+    {
+      "idVendor": "1038",
+      "idProduct": "12e0",
+      "manufacturer": "SteelSeries",
+      "product": "Arctis Nova Pro Wireless",
+      "speed": "12"
+    }
+  ],
+  "pci_candidates": [
+    {
+      "vendor": "0xdabc",
+      "device": "0x1017",
+      "subsystem_vendor": "0x1af4",
+      "subsystem_device": "0xa001",
+      "class": "0x020000",
+      "enable": "0",
+      "current_link_speed": "8.0 GT/s PCIe",
+      "current_link_width": "4",
+      "max_link_speed": "8.0 GT/s PCIe",
+      "max_link_width": "8",
+      "slot": "0000:05:00.0",
+      "driver": null,
+      "bar_aperture_bytes": [
+        {
+          "bar": 0,
+          "bytes": 2048
+        },
+        {
+          "bar": 2,
+          "bytes": 536870912
+        }
+      ]
+    }
+  ],
+  "software_on_path": {
+    "openFPGALoader": false,
+    "efx_run": false,
+    "vivado": false,
+    "litex_server": false,
+    "picotool": false,
+    "openocd": false,
+    "mpremote": false
+  },
+  "limits": [
+    "USB descriptors cannot prove absence of a board with custom firmware.",
+    "PATH lookup is not an exhaustive filesystem software search.",
+    "PCI identity is configurable; it does not prove silicon or board markings.",
+    "BAR aperture size is not physical memory capacity."
+  ]
+}

@@ -39,3 +39,7 @@ Inventory is the first proof artifact. The benchmark command is selected only af
 ## Primary references
 
 [Source register](docs/research/source-index.md) contains pinned repository links and limitations.
+
+## Implementation findings
+
+[The feasibility checkpoint](docs/evidence/fpga-inventory/README.md) separates current USB/PCI observations, pinned primary design review, and generated capacity calculations. It identifies a bounded completed-snapshot SPI path; direct RF SRAM DMA and continuous acquisition are not established. Forgix USB cannot sustain the raw 80 MS/s stream; a filtered lower-rate or event/spectrum path still needs a real benchmark. Physical board grade/clock mismatches against LiteX and an unavailable verified FPGA host transport keep later gates open.
