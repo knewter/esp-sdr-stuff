@@ -34,6 +34,20 @@ Reserves 64 KiB; at most 16,380 pairs per snapshot; nominal 16/40/80 MS/s with 8
 
 Limit: Small sample windows and UART transfers produce gaps. Nominal sample rates are not clock calibration.
 
+## This board's serial bridge
+
+[Primary / CP2102/9 data sheet](https://www.silabs.com/documents/public/data-sheets/CP2102-9.pdf)
+and [Silicon Labs AN205](https://www.freecalypso.org/pub/GSM/Pirelli/chips/silabs_an205.pdf).
+
+The classic CP2102 has default baud-rate aliases; requesting 1 Mbaud can map to
+921,600 without custom EEPROM configuration. Host termios acceptance alone does
+not prove the physical wire rate. Our clean 921,600-baud firmware returns valid
+commands and CRC-checked snapshots; the 2 Mbaud and 1 Mbaud trials did not.
+
+Limit: No bridge EEPROM was changed. The failed trials do not measure actual
+wire baud and do not establish an RF or silicon failure. See
+[physical transport trial](docs/evidence/sdr-installation-uart921600/README.md).
+
 ## Spectrum protocol & validation
 
 [Primary / FFT behavior](https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/docs/spectrum.md)

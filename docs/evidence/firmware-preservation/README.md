@@ -16,6 +16,8 @@ The standard partition table at 0x8000 has a matching MD5 trailer, independently
 4. Verify the restored bytes with `esptool --chip esp32 --port SELECTED_PORT --baud 460800 verify-flash 0 backups/original.bin`. Independently reread the full image and compare its SHA-256 with the baseline if the restoration record requires complete byte proof.
 5. Record a fresh application boot, then remove/reapply board power and record another boot. Check application identity, CPU speed and repeated pin toggles against the baseline. A successful checksum alone does not complete recovery acceptance.
 
-Preservation is verified. Restoration remains open until the post-trial write/verification and physical power-cycle boot exist.
+Preservation is verified. [The first post-trial restoration](../first-restoration/README.md)
+also has a full matching readback and reset boot. Recovery acceptance still
+requires the physical power-cycle boot.
 
 Primary procedure references: [Espressif esptool commands](https://docs.espressif.com/projects/esptool/en/latest/esp32/esptool/basic-commands.html) and [ESP-IDF partition format](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/partition-tables.html).

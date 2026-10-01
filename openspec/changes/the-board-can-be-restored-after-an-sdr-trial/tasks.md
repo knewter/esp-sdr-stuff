@@ -17,4 +17,6 @@ Required outcome: A 4,194,304-byte backup with SHA-256 plus a recorded restorati
 
 ## Recorded progress
 
-[Physical preservation evidence](docs/evidence/firmware-preservation/README.md) verifies independent full reads and the recovery checklist. Restoration and an actual power-removal boot remain open.
+[Physical preservation evidence](docs/evidence/firmware-preservation/README.md) verifies independent full reads and the recovery checklist.
+[First restoration](docs/evidence/first-restoration/README.md) verifies the complete restored bytes and a matching reset boot.
+An actual power-removal boot and final recovery decision remain open.

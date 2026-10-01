@@ -1,0 +1,56 @@
+[
+  {
+    "requested_baud": 921600,
+    "startup_bytes": 4694,
+    "responses": [
+      {
+        "request": "INFO",
+        "reply": "ESP32SDR 6 burst 16380\n"
+      },
+      {
+        "request": "SYNC 54321",
+        "reply": "SYNC 54321\n"
+      },
+      {
+        "request": "BAUD?",
+        "reply": "BAUD 921600\n"
+      }
+    ]
+  },
+  {
+    "requested_baud": 115200,
+    "startup_bytes": 3089,
+    "responses": [
+      {
+        "request": "INFO",
+        "reply": ""
+      },
+      {
+        "request": "SYNC 54321",
+        "reply": ""
+      },
+      {
+        "request": "BAUD?",
+        "reply": ""
+      }
+    ]
+  },
+  {
+    "requested_baud": 460800,
+    "startup_bytes": 4668,
+    "responses": [
+      {
+        "request": "INFO",
+        "reply": ""
+      },
+      {
+        "request": "SYNC 54321",
+        "reply": ""
+      },
+      {
+        "request": "BAUD?",
+        "reply": ""
+      }
+    ]
+  }
+]

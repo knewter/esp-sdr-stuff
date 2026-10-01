@@ -1,0 +1,34 @@
+{
+  "started_utc": "2026-10-01T22:24:32.723852+00:00",
+  "finished_utc": "2026-10-01T22:24:47.294437+00:00",
+  "action": "install",
+  "exit_code": 0,
+  "parts": [
+    {
+      "offset": 4096,
+      "bytes": 25792,
+      "sha256": "ae2641c45d818548d59fa70573b35202b6e315f2b9691de1f5c59736f6478e03",
+      "name": "0-bootloader.bin"
+    },
+    {
+      "offset": 32768,
+      "bytes": 3072,
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+      "name": "1-partition-table.bin"
+    },
+    {
+      "offset": 65536,
+      "bytes": 664608,
+      "sha256": "d7a2d80a70134b04e6078d5ac62b728e79ab33364c1845546f7ca321995e4685",
+      "name": "2-esp_sdr.bin"
+    }
+  ],
+  "baseline_sha256_checked": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "source_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "force_used": false,
+  "efuses_written": false,
+  "boot_proven": true,
+  "power_cycle_proven": false,
+  "firmware_variant": "550fade-uart921600",
+  "runtime_protocol_proven": true
+}
