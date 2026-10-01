@@ -352,3 +352,30 @@ physical gates.
 Primary protocol references: [Bluetooth SIG independent sample packet](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/sample-data.html),
 [link-layer specification](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html),
 and [Linux HCI socket ABI](https://github.com/torvalds/linux/blob/master/include/net/bluetooth/hci_sock.h).
+
+### Independent 10-bit controls replay
+
+The second replay independently checks all **246** private 10-bit captures
+against public SHA-256, transport CRC32 and 16,380-pair counts, totaling
+10,073,700 bytes. The same fixed blind receiver search, with translation from
+each requested LO, returns exactly **one** owned CRC-valid packet (capture 103)
+and zero foreign CRC-valid packets. A separate reconstruction of its measured
+sliced bits, register-based whitening and reflected CRC validates the protected
+PDU and complete exact manufacturer AD. Actual packet type is 0; AA errors are
+zero and the unprotected preamble has one bit error. The entire nominal
+7464–11560 sample window fits inside the recorded buffer.
+
+[Controls receipt](ble-controls-verification.json) records input/source hashes,
+settings and checks. A separate one-second guarded source-schedule join finds
+30 source-off and 216 source-on capture intervals, with no ambiguous intervals;
+capture 103 is source-on. Eight CRC-valid slicer hypotheses represent this one
+packet. Requested settings are LO 2401 MHz, bandwidth 20 MHz and gain 48.
+These settings provide a working 10-bit example, without proving an optimal
+gain, calibrated filter response, actual LO, sensitivity or event hit rate.
+The sampled on/off controls help interpret this trial; zero decoded packets
+in another sweep cell do not establish that it cannot receive.
+
+The corrected monitor-channel-2 physical attempt fails with EPERM on this host.
+The reviewer inspected its exact sockaddr ABI and ran all five author monitor
+regressions successfully. No controller-emission evidence can be extracted
+from that failed bind, and the counted-emission task remains open.

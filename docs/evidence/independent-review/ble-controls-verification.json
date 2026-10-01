@@ -1,0 +1,42 @@
+{
+  "evidence_class": "Independent private physical-capture replay and separate sliced-bit CRC verification",
+  "captures_hash_crc_count_verified": 246,
+  "private_raw_bytes_verified": 10073700,
+  "capture_csv_sha256": "aa86c97b5ba4a1bfe1d9a093436883ba07317e82b7b10a3bff245253663c9739",
+  "nominal_rate_hz": 16000000,
+  "bits_per_component": 10,
+  "decoder_replay_runtime_seconds": 2.879884128109552,
+  "unique_crc_valid_owned_packets": 1,
+  "crc_valid_foreign_packets_redacted": 0,
+  "source_schedule_sha256": "d61305161cbc45d92f8f873a38eca282f2df1dffb0e70623099e179e6f8d64df",
+  "independent_source_phases_one_second_guard": {
+    "off_before": 30,
+    "on": 216,
+    "ambiguous": 0
+  },
+  "owned_packet": {
+    "capture_index": 103,
+    "private_payload_sha256": "d447221c076a09d79bcdb40e0309c2b5e39ca7a8f0c7593edb9faec4ede5a20b",
+    "requested_settings": {
+      "frequency_mhz": "2401",
+      "bandwidth_mhz": "20",
+      "gain": "48",
+      "phase": "source_registered_control_sweep"
+    },
+    "independent_crc24_matches": true,
+    "complete_manufacturer_ad_exact_matches": true,
+    "pdu_type": 0,
+    "pdu_length": 22,
+    "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+    "preamble_hamming_errors": 1,
+    "access_address_hamming_errors": 0,
+    "nominal_packet_start_sample": 7464.0,
+    "nominal_packet_end_sample": 11560.0,
+    "crc_valid_receiver_hypotheses_not_packet_count": 8
+  },
+  "limitations": [
+    "Source schedule join is control-plane timing, not an independent RF emission count.",
+    "One working requested setting does not establish gain optimum, hardware bandwidth, sensitivity, or a packet success-rate denominator.",
+    "No owned packets detected in another cell is not proof that cell cannot receive."
+  ]
+}
