@@ -5,9 +5,9 @@
 
 ## 2. Compare useful capabilities
 
-- [ ] 2.1 Join the V4 continuity results and ESP acquisition/transfer timing into one application matrix; label local observations versus manufacturer/upstream claims.
+- [x] 2.1 Join the V4 continuity results and ESP acquisition/transfer timing into one application matrix; label local observations versus manufacturer/upstream claims. Proof: [measured application matrix](docs/research/measured-recommendations.md).
 - [ ] 2.2 Inventory conversion/reference hardware before any same-signal RF test; if absent mark that comparison deferred rather than fabricate a ranking.
-- [ ] 2.3 Publish measured recommendations for continuous narrowband reception, 2.4 GHz observation and optional FPGA research.
+- [x] 2.3 Publish measured recommendations for continuous narrowband reception, 2.4 GHz observation and optional FPGA research. Proof: [measured recommendations and remaining RF limits](docs/research/measured-recommendations.md).
 
 ## Proof procedure
 
