@@ -5,8 +5,13 @@
 
 ## 2. Evaluate a bounded decoder
 
-- [ ] 2.1 Choose a decoder for an actually captured, complete waveform and document its input format; verify a known payload rather than visual resemblance.
-- [ ] 2.2 Publish the capture/decoder manifest, summary plots and application matrix with useful/limited/not-demonstrated outcomes.
+- [x] 2.1 Choose a decoder for an actually captured, complete waveform and document its input format; verify a known payload rather than visual resemblance. Proof: [four independently replayed packets](docs/evidence/ble-owned-decoding/README.md) and [10-bit example](docs/evidence/ble-controls-decoding/README.md).
+- [x] 2.2 Publish the capture/decoder manifest, summary plots and application matrix with useful/limited/not-demonstrated outcomes. Proof: [manifests, amplitude plots and application matrix](docs/evidence/ble-owned-decoding/README.md), [control-sweep manifest](docs/evidence/ble-controls-decoding/README.md).
+
+The five packets verify their protected PDUs and exact owned AD, with complete
+packet windows inside the captures. They do not establish 100 emitted events,
+missed-event rates or reliable detection in three repetitions. The first two
+tasks remain open; registration counts and snapshot counts are not emissions.
 
 ## Proof procedure
 

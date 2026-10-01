@@ -36,8 +36,10 @@ It depends on the nominal sample rate and requested LO; RF frequency accuracy
 has not been independently calibrated. Plot reproduction:
 `python3 tools/plot_owned_ble_pairs.py docs/evidence/ble-reception-trial docs/evidence/ble-owned-trial/source-results.json`.
 
-Known-marker decoding is evaluated separately by the bounded BLE decoder and
-independent review. A valid owned packet would prove reception of that packet;
-it would not supply the missing independently counted 100-emission denominator.
+[Known-marker decoding](../ble-owned-decoding/README.md) and independent review
+verify four distinct protected PDUs and complete captured packet windows, all
+in the third source-ON phase. The exact independently chosen AD and packet CRC
+match. This proves those packets; it does not establish reception in all three
+repeats or supply the missing independently counted 100-emission denominator.
 The controlled RF and event-observation proposals remain open pending their
 specific gates. All receiver handles closed after acquisition.

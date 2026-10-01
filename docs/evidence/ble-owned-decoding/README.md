@@ -51,7 +51,9 @@ address are not CRC-protected; observed hard-decision errors are retained above.
 
 The source requested BlueZ `Type=broadcast`, but the actually decoded protected
 PDU type is **ADV_IND**, not ADV_NONCONN_IND. We retain the wire observation;
-the API request and zero-frame HCI monitor cannot prove what type was configured.
+the API request cannot prove what type was configured. The earlier zero-frame
+CONTROL-channel attempt was invalid as monitor evidence; corrected MONITOR
+access is [denied without privileges](../ble-monitor-permission/README.md).
 
 The actual residual carrier estimate after translation is roughly +0.83 to
 +0.85 MHz for these packets. This is a decoder estimate and reveals a tuning

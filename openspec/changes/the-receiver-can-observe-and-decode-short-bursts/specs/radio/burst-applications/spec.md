@@ -8,7 +8,7 @@ Decide which interference, educational DSP and short-burst applications are usef
 
 The evaluation SHALL report observed and missed controlled events against a recorded source count.
 
-<!-- UNVERIFIED: The proposed experiment has not run on the physical hardware. -->
+<!-- UNVERIFIED: Physical snapshots and source cycles ran, but no independently counted emission denominator exists; missed-event/hit rates remain unknown. -->
 
 #### Scenario: Evaluation result is inspected
 - **WHEN** event detection is assessed
@@ -18,7 +18,7 @@ The evaluation SHALL report observed and missed controlled events against a reco
 
 The report SHALL label decoding demonstrated only when a complete capture yields the independently known payload.
 
-<!-- UNVERIFIED: The proposed experiment has not run on the physical hardware. -->
+*Grounding: [actual protected-PDU CRC and exact known-marker verification](docs/evidence/ble-owned-decoding/README.md) records four complete captured packets, private input hashes, bounded blind decoder revision and payload comparison; [10-bit control example](docs/evidence/ble-controls-decoding/README.md) adds a fifth packet. Preamble/access hard-decision errors remain explicit and outside the protected CRC.*
 
 #### Scenario: Evaluation result is inspected
 - **WHEN** a decoding capability is reported

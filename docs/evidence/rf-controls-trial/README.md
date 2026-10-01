@@ -30,8 +30,11 @@ Exact values and maxima are in the summary. Endpoint concentration is a useful
 code-clipping indicator; it does not identify which RF source caused it or
 independently measure analog overload. More gain is not automatically useful.
 
-Known-marker decoding and frequency-offset estimates require the separate
-decoder manifest; a plausible spectral peak is insufficient. The LO check
+[Known-marker decoding](../ble-controls-decoding/README.md) verifies one complete
+CRC-valid owned packet at LO2401/filter20/gain48. This proves that particular
+waveform, not an optimal setting or every sweep cell. Frequency-offset estimates
+remain decoder-derived and uncalibrated; a plausible spectral peak is
+insufficient. The LO check
 does not by itself establish tuning accuracy. No extended-band reception or
 absolute sensitivity is accepted from this sweep. Start later trials with a
 moderate gain, inspect endpoints and validate actual packet CRCs before choosing
