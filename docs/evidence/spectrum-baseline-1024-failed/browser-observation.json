@@ -1,0 +1,14 @@
+{
+  "status": "Failed",
+  "frames": 2711,
+  "crc_failures": 1,
+  "elapsed_seconds": 40.881064060959034,
+  "frequency_mhz": 2412,
+  "rate_hz": 80000000,
+  "bins": 1024,
+  "duration_seconds": 60,
+  "transport": "host UART bridge, localhost HTTP browser",
+  "snapshot_gap_flag": true,
+  "nominal_coverage_fraction": 0.0008488233072470068,
+  "error": "spectrum CRC mismatch"
+}

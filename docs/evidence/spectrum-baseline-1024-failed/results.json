@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "firmware_revision_asserted_from_install_record": "550fade-uart921600",
+  "firmware_source_base_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "browser_transport": "localhost HTTP polling a host UART reader; not native Web Serial",
+  "settings": {
+    "frequency_mhz": 2412,
+    "rate_hz": 80000000,
+    "bins": 1024,
+    "gain": "hardware",
+    "bandwidth_mhz": 20,
+    "seconds_requested": 60
+  },
+  "started_utc": "2026-10-01T22:31:45Z",
+  "limitations": "Snapshot FFTs contain gaps. Codes are uncalibrated. Hardware nominal clock and synthesized sample index do not independently prove actual sample rate.",
+  "queries": {
+    "INFO": "ESP32SDR 6 burst 16380",
+    "CAPS": "CAPS SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8",
+    "LIMITS?": "LIMITS {\"gain\":[0,72,1],\"bandwidth\":[12,67,1,0],\"rates\":[80000000,40000000,16000000],\"bits\":[8,10]}",
+    "RANGE?": "RANGE 100 6000 1",
+    "TRANSPORT?": "TRANSPORT UART 921600",
+    "SPECINFO?": "SPECINFO {\"continuous\":false,\"transports\":[\"USB\",\"UART\"],\"profiles\":[[80000000,0,256,1,1,0],[80000000,0,512,1,1,0],[80000000,0,1024,1,1,0],[80000000,0,2048,1,1,0],[40000000,1,256,1,1,0],[40000000,1,512,1,1,0],[40000000,1,1024,1,1,0],[40000000,1,2048,1,1,0],[16000000,6,256,1,1,0],[16000000,6,512,1,1,0],[16000000,6,1024,1,1,0],[16000000,6,2048,1,1,0]]}",
+    "GAIN?": "GAIN HARDWARE -1 0 72 0",
+    "BAUD?": "BAUD 921600",
+    "parsed_limits": {
+      "gain": [
+        0,
+        72,
+        1
+      ],
+      "bandwidth": [
+        12,
+        67,
+        1,
+        0
+      ],
+      "rates": [
+        80000000,
+        40000000,
+        16000000
+      ],
+      "bits": [
+        8,
+        10
+      ]
+    }
+  },
+  "setting_replies": {
+    "FREQ 2412": "OK",
+    "BANDWIDTH 20": "OK",
+    "GAIN HARDWARE": "OK"
+  },
+  "status": "failed",
+  "error_kind": "ProtocolError",
+  "error": "spectrum CRC mismatch",
+  "ended_utc": "2026-10-01T22:32:27Z"
+}
