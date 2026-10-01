@@ -43,6 +43,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_spectrum_trial_integrity.py'
           python3 -m unittest discover -s tests -p 'test_rtl_*.py'
           python3 -m unittest discover -s tests -p 'test_ble_*.py'
+          python3 tools/RDS_test.py
       - name: Build and check the published site
         env:
           ASTRO_BASE: /esp-sdr-stuff/
