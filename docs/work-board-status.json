@@ -121,8 +121,7 @@
         "docs/evidence/independent-review/README.md",
         "docs/evidence/snapshot-baseline/README.md",
         "docs/evidence/rtl-rds-trial/README.md",
-        "docs/evidence/rtl-rds-independent-review/README.md",
-        "docs/research/measured-recommendations.md"
+        "docs/evidence/rtl-rds-independent-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/rtl-rds-trial/rds-decoding.png",
