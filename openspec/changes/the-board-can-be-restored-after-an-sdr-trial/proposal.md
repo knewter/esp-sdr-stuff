@@ -12,7 +12,7 @@ An SDR installation replaces the current firmware. We need a complete, identifia
 
 ### New Capabilities
 
-- `board/firmware-preservation`: A recovery route that restores the observed GPIO test, or a separately selected AtomVM image, with clearly distinct provenance.
+- `board/firmware-preservation`: A recovery route that restores the observed GPIO test with clearly identified backup provenance.
 
 ### Modified Capabilities
 

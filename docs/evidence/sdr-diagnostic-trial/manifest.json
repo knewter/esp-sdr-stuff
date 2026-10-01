@@ -1,0 +1,35 @@
+{
+  "started_utc": "2026-10-01T22:22:12.334704+00:00",
+  "finished_utc": "2026-10-01T22:22:26.754708+00:00",
+  "action": "install",
+  "exit_code": 0,
+  "parts": [
+    {
+      "offset": 4096,
+      "bytes": 25792,
+      "sha256": "6fd2b7358212b161e7b73a080362bfd924bc3eb6fa19645cc41dba1533c47d28",
+      "name": "0-bootloader.bin"
+    },
+    {
+      "offset": 32768,
+      "bytes": 3072,
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+      "name": "1-partition-table.bin"
+    },
+    {
+      "offset": 65536,
+      "bytes": 666224,
+      "sha256": "c10cac4cd68f45ce0c979a6c9a4f8bb13ec0a5626862b2df24ac664428372c17",
+      "name": "2-esp_sdr.bin"
+    }
+  ],
+  "baseline_sha256_checked": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "source_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "force_used": false,
+  "efuses_written": false,
+  "boot_proven": true,
+  "power_cycle_proven": false,
+  "firmware_variant": "550fade-diag115k",
+  "runtime_protocol_proven": true,
+  "RF_baseline": false
+}

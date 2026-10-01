@@ -1,0 +1,91 @@
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6360
+load:0x40078000,len:15648
+load:0x40080400,len:3696
+entry 0x400805fc
+I (27) boot: ESP-IDF 25fe69f9 2nd stage bootloader
+I (27) boot: compile time Oct  1 2026 17:19:09
+W (28) boot: Unicore bootloader
+I (29) boot: chip revision: v3.1
+I (32) boot.esp32: SPI Speed      : 40MHz
+I (35) boot.esp32: SPI Mode       : DIO
+I (39) boot.esp32: SPI Flash Size : 2MB
+I (42) boot: Enabling RNG early entropy source...
+I (47) boot: Partition Table:
+I (49) boot: ## Label            Usage          Type ST Offset   Length
+I (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (62) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (69) boot:  2 factory          factory app      00 00 00010000 00100000
+I (75) boot: End of partition table
+I (79) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=159bch ( 88508) map
+I (119) esp_image: segment 1: paddr=000259e4 vaddr=3ffb0000 size=03ba8h ( 15272) load
+I (125) esp_image: segment 2: paddr=00029594 vaddr=40080000 size=06a84h ( 27268) load
+I (137) esp_image: segment 3: paddr=00030020 vaddr=400d0020 size=7aeech (503532) map
+I (325) esp_image: segment 4: paddr=000aaf14 vaddr=40086a84 size=07b04h ( 31492) load
+I (338) esp_image: segment 5: paddr=000b2a20 vaddr=50000000 size=00028h (    40) load
+I (346) boot: Loaded app from partition at offset 0x10000
+I (346) boot: Disabling RNG early entropy source...
+I (358) cpu_start: Unicore app
+I (359) cpu_start: Single core mode
+I (366) cpu_start: GPIO 3 and 1 are used as console UART I/O pins
+I (367) cpu_start: Pro cpu start user code
+I (367) cpu_start: cpu freq: 240000000 Hz
+I (371) app_init: Application information:
+I (374) app_init: Project name:     esp_sdr
+I (378) app_init: App version:      550fade-diag115k
+I (383) app_init: Compile time:     Oct  1 2026 17:18:57
+I (388) app_init: ELF file SHA256:  dec13e476...
+I (392) app_init: ESP-IDF:          25fe69f9
+I (396) efuse_init: Min chip rev:     v0.0
+I (400) efuse_init: Max chip rev:     v3.99 
+I (404) efuse_init: Chip rev:         v3.1
+I (408) heap_init: Initializing. RAM available for dynamic allocation:
+I (414) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (419) heap_init: At 3FFBE568 len 00021A98 (134 KiB): DRAM
+I (425) heap_init: At 3FFE0440 len 00007BC0 (30 KiB): D/IRAM
+I (430) heap_init: At 3FFF8000 len 00008000 (32 KiB): D/IRAM
+I (435) heap_init: At 40078000 len 00008000 (32 KiB): IRAM
+I (441) heap_init: At 4008E588 len 00011A78 (70 KiB): IRAM
+I (446) heap_init: At 3FF80000 len 00002000 (8 KiB): RTCRAM
+I (452) spi_flash: detected chip: generic
+I (455) spi_flash: flash io: dio
+W (458) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (471) main_task: Started on CPU0
+I (473) main_task: Calling app_main()
+DIAG app-main-enter
+DIAG nvs-init-enter
+DIAG nvs-init-result 0
+DIAG event_loop_create_default-enter
+DIAG event_loop_create_default-done
+DIAG wifi_init-enter
+DIAG wifi_init-done
+DIAG wifi_set_storage-enter
+DIAG wifi_set_storage-done
+DIAG wifi_set_mode-enter
+DIAG wifi_set_mode-done
+DIAG wifi_start-enter
+DIAG wifi_start-done
+DIAG wifi_set_ps-enter
+DIAG wifi_set_ps-done
+DIAG wifi_set_promiscuous-enter
+DIAG wifi_set_promiscuous-done
+DIAG wifi_set_channel-enter
+DIAG wifi_set_channel-done
+DIAG rom_pbus_workmode-enter
+DIAG rom_pbus_workmode-done
+DIAG rom_pbus_xpd_tx_off-enter
+DIAG rom_pbus_xpd_tx_off-done
+DIAG rom_pbus_xpd_rx_on-enter
+DIAG rom_pbus_xpd_rx_on-done
+DIAG rom_set_rxclk_en-enter
+DIAG rom_setDIAG uart_param_config-done
+DIAG uart_driver_install-enter
+DIAG uart_driver_install-done
+DIAG uart_flush_input-enter
+DIAG uart_flush_input-done
+DIAG transport-init-done command-loop-ready

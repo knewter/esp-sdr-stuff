@@ -1,0 +1,13 @@
+{
+  "started_utc": "2026-10-01T22:22:26.991394+00:00",
+  "port": "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0",
+  "baud": 115200,
+  "identity_command": "esptool --port SELECTED_PORT --no-stub --connect-attempts 2 flash-id",
+  "class": "Board capture",
+  "firmware_written": false,
+  "reset": "Bootloader query resets the board; opening the UART may also reset it.",
+  "redactions": [
+    "device MAC address"
+  ],
+  "boot_bytes": 4011
+}

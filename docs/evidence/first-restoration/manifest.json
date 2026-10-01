@@ -1,0 +1,24 @@
+{
+  "started_utc": "2026-10-01T22:03:05.086055+00:00",
+  "finished_utc": "2026-10-01T22:03:44.093168+00:00",
+  "action": "restore",
+  "exit_code": 0,
+  "parts": [
+    {
+      "offset": 0,
+      "bytes": 4194304,
+      "sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+      "name": "private original image"
+    }
+  ],
+  "baseline_sha256_checked": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "source_revision": "preserved baseline",
+  "force_used": false,
+  "efuses_written": false,
+  "boot_proven": true,
+  "power_cycle_proven": false,
+  "readback_bytes": 4194304,
+  "readback_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "readback_matches_original": true,
+  "boot_evidence": "boot-inspection/boot.log"
+}

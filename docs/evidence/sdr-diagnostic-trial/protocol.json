@@ -1,0 +1,27 @@
+{
+  "baud": 115200,
+  "startup_bytes": 4011,
+  "responses": [
+    {
+      "request": "INFO",
+      "reply": "ESP32SDR 6 burst 16380\n"
+    },
+    {
+      "request": "SYNC 12345",
+      "reply": "SYNC 12345\n"
+    },
+    {
+      "request": "BAUD?",
+      "reply": "BAUD 115200\n"
+    },
+    {
+      "request": "CAPS",
+      "reply": "CAPS SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8\n"
+    },
+    {
+      "request": "LIMITS?",
+      "reply": "LIMITS {\"gain\":[0,72,1],\"bandwidth\":[12,67,1,0],\"rates\":[80000000,40000000,16000000],\"bits\":[8,10]}\n"
+    }
+  ],
+  "diagnostic_not_RF_baseline": true
+}

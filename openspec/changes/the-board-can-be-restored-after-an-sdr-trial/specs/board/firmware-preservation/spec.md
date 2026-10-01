@@ -1,6 +1,6 @@
 ## Purpose
 
-A recovery route that restores the observed GPIO test, or a separately selected AtomVM image, with clearly distinct provenance.
+A recovery route that restores the observed GPIO test with clearly identified backup provenance.
 
 ## ADDED Requirements
 
