@@ -157,3 +157,63 @@ episodes cannot supply exact over-the-air emission counts. They can form
 controlled on/off interventions if actual receiver response is separately
 measured, but do not satisfy the short-burst counted-emission/payload criteria
 on their own.
+
+## Follow-up: restoration, transport diagnostics and flash safeguards
+
+Reviewed root checkpoint `4ac9017`. The reviewer independently reread the
+private full-image restoration readback without opening a hardware handle:
+**4,194,304 bytes**, with SHA-256 equal to both the public restoration record
+and preserved original. The [first restoration](../first-restoration/README.md)
+also contains the original `hello_world` / ESP-IDF v5.4-dirty / 160 MHz boot and
+pin-toggle behavior. Full byte restoration and reset boot are supported.
+Actual power removal/reapplication remains unrecorded; its acceptance gate
+stays open.
+
+The upstream 2 Mbaud image and configuration-only 1 Mbaud image both entered
+`app_main`, but no protocol replies were received. These observations do not
+establish an ADC failure, unsupported silicon, initialization stall or a
+measured physical UART rate. A requested 2 Mbaud host setting was reported as
+1 Mbaud by the kernel, which is relevant transport evidence, not a waveform
+measurement of the UART pins.
+
+The [115200 startup diagnostic](../sdr-diagnostic-trial/README.md) subsequently
+reached its command-loop-ready marker and answered INFO, SYNC, BAUD?, CAPS and
+LIMITS?. This proves functioning initialization and command transport **for
+the instrumented diagnostic build**. No IQ/RF acceptance follows from those
+replies. Diagnostic prints also occur inside subsequent radio reconfiguration,
+so this image cannot be treated as a clean protocol/RF baseline. A clean
+configuration-only transport variant must be evaluated separately.
+
+The reviewer inspected the diagnostic source patch and recomputed its exact
+SHA-256:
+`fb2d465c97f8385b199b51cc8878ed5988790584f22c758c62a0a26dfee7698c`.
+It adds ROM UART markers around existing initialization operations, preserving
+the source base `550fadea` and pinned SDK `25fe69f9`. Added instrumentation
+changes timing; successful diagnostics do not prove the original build's
+timing was identical.
+
+The first flash-guard review identified two generic input-validation gaps:
+an alternate manifest claiming the full original source revision could skip
+variant provenance checks, and canonical offsets alone did not prevent a
+part from overlapping the next partition. Both were corrected in `4ac9017`:
+original acquisition metadata must match the canonical recorded manifest;
+all three part names/offsets are fixed; positive sizes must fit their respective
+bootloader/table/factory bounds.
+
+The independent [flash-guard regression suite](../../../tests/test_flash_trial.py)
+passes **23 tests** against that corrected implementation. It covers pinned
+upstream acquisition, accepted SDK/source and config-only baud variants,
+the exact diagnostic patch and its restricted baud, incorrect provenance,
+unexpected configuration/source changes, part integrity/names/offsets and
+partition overlap, private-baseline completeness/hash/read verification,
+secure-boot/encryption checks, occupied or ambiguous port rejection, complete
+restoration without header overrides, failed-write records and public-log
+redaction. Every subprocess call is mocked: these tests neither open a port
+nor perform a flash operation. Fake fixture binaries exercise the guards,
+not esptool's actual image parser or physical flash integrity.
+
+The guard trusts the reviewed committed preservation/security/build records;
+it is not an authenticity proof against arbitrary alteration of those trusted
+records. The stable path was physically identified before operations, and
+esptool checks ESP32 silicon. The flash wrapper restricts the selected path
+but does not independently query the USB VID/PID on every invocation.
