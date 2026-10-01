@@ -2,6 +2,11 @@
 
 These tools are for the pinned ESPARGOS original ESP32 protocol-6 firmware.
 Only one operator may own the board. Finish flash preservation before use.
+The evaluated clean build is `550fade-uart921600`; its actual capture and
+browser results are committed. The board has since been restored to its
+original image, so receiver commands require reinstalling the reviewed trial
+image. These tools and preservation receipts belong to this identified board;
+another board requires its own inventory and private backup.
 `pyserial` and `numpy` are required; no device is opened by module imports or tests.
 The default stable CP2102 path is verified against USB VID/PID before opening,
 and DTR/RTS are held inactive. Each physical operation closes its handle.
@@ -13,8 +18,9 @@ raw directory:
 
 ```sh
 python3 tools/esp_sdr_capture.py \
-  --output docs/evidence/snapshot-baseline \
-  --private .scratch/snapshot-baseline-raw \
+  --baud 921600 --firmware-revision 550fade-uart921600 \
+  --output docs/evidence/snapshot-repeat \
+  --private .scratch/snapshot-repeat-raw \
   --count 100 --samples 16380 --bits 8 10 \
   --rates 16000000 40000000 80000000 \
   --frequency 2412 --bandwidth 20 --gain hardware
@@ -41,9 +47,10 @@ from an anonymous noise-only series.
 
 ```sh
 python3 tools/esp_sdr_spectrum_bridge.py \
+  --baud 921600 --firmware-revision 550fade-uart921600 \
   --output docs/evidence/spectrum-browser \
   --private .scratch/spectrum-browser-raw \
-  --seconds 60 --rate 80000000 --bins 1024 \
+  --seconds 60 --rate 80000000 --bins 512 \
   --frequency 2412 --bandwidth 20
 ```
 
@@ -80,7 +87,7 @@ to 1 Mbaud, while the bridge's default internal table maps that request to
 physical baud. Silicon Labs AN205 describes this aliasing; no EEPROM changes
 are needed if the firmware uses the standard 921600 rate.
 
-The clean pinned **921600** configuration variant is the next physical trial.
+The clean pinned **921600** configuration variant passed the physical baseline.
 Use `--baud 921600` for capture/bridge, and
 `--firmware-revision 550fade-uart921600` for snapshot installation provenance.
 A prior 1 Mbaud build is retained as a historical trial, not a proven working
@@ -105,6 +112,22 @@ The build wrapper rejects wrong source/SDK revisions and tracked modifications,
 uses a fresh build/configuration, confirms target/CPU/UART config, exports the
 upstream-compatible flash manifest, and records compiler/configuration hashes.
 It never flashes a device. Binary downloads, SDK and build output stay ignored.
+
+After building and verifying the private preservation image, the reviewed
+install/restore wrapper operates only on the selected board:
+
+```sh
+python3 tools/flash_trial.py install \
+  --manifest docs/evidence/firmware-uart921600/manifest.json \
+  --artifact .scratch/firmware-esp32-uart921600 \
+  --evidence docs/evidence/installation-repeat
+# After the bounded experiment:
+python3 tools/flash_trial.py restore --evidence docs/evidence/restoration-repeat
+```
+
+Use fresh evidence paths and retain failed trials. Verify boot and full readback
+after restoration; a write checksum does not replace the power-cycle recovery
+check. The successful 512-bin display does not erase the failed 1024-bin stream.
 
 Primary references:
 
