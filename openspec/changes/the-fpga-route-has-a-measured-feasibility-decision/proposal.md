@@ -22,7 +22,7 @@ None. Existing identity records remain factual baselines.
 
 The user reports Adiuvo Forgix ownership; official design uses Trion T8F49 and RP2354 USB 1.1. Host enumeration also finds a PCIe FPGA candidate, with exact model attributed to prior research and bring-up untested. See [inventory](docs/evidence/fpga-inventory/README.md). Verify revisions, pins, voltages and clocks before wiring.
 
-Dependencies: [the board captures repeatable radio snapshots](../the-board-captures-repeatable-radio-snapshots/proposal.md)
+Dependencies: [the board captures repeatable radio snapshots](../archive/2026-10-01-the-board-captures-repeatable-radio-snapshots/proposal.md)
 
 ## Non-goals
 

@@ -22,7 +22,7 @@ None. Existing identity records remain factual baselines.
 
 Physical ESP32 plus an owned Wi-Fi/BLE source; calibrated RF source/reference and attenuators for stronger measurements, if available.
 
-Dependencies: [the board captures repeatable radio snapshots](../the-board-captures-repeatable-radio-snapshots/proposal.md)
+Dependencies: [the board captures repeatable radio snapshots](../archive/2026-10-01-the-board-captures-repeatable-radio-snapshots/proposal.md)
 
 ## Non-goals
 

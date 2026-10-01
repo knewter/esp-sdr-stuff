@@ -24,7 +24,7 @@ None. Existing identity records remain factual baselines.
 
 Physical original ESP32 after preservation, native toolchain, and optional second MCU if single-chip memory/scheduling fails.
 
-Dependencies: [the board can be restored after an sdr trial](../the-board-can-be-restored-after-an-sdr-trial/proposal.md), [the board captures repeatable radio snapshots](../the-board-captures-repeatable-radio-snapshots/proposal.md)
+Dependencies: [the board can be restored after an sdr trial](../the-board-can-be-restored-after-an-sdr-trial/proposal.md), [the board captures repeatable radio snapshots](../archive/2026-10-01-the-board-captures-repeatable-radio-snapshots/proposal.md)
 
 ## Non-goals
 

@@ -22,7 +22,7 @@ None. Existing identity records remain factual baselines.
 
 Physical ESP32, host UART and its existing antenna; controlled 2.4 GHz source used later.
 
-Dependencies: [the board can be restored after an sdr trial](../the-board-can-be-restored-after-an-sdr-trial/proposal.md)
+Dependencies: [the board can be restored after an sdr trial](../../the-board-can-be-restored-after-an-sdr-trial/proposal.md)
 
 ## Non-goals
 

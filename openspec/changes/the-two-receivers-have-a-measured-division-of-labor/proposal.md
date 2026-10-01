@@ -22,7 +22,7 @@ None. Existing identity records remain factual baselines.
 
 Attached RTL-SDR Blog V4/R828D, original ESP32, appropriate antennas and controlled sources. A same-signal RF comparison additionally needs a converter/reference not yet inventoried.
 
-Dependencies: [the board captures repeatable radio snapshots](../the-board-captures-repeatable-radio-snapshots/proposal.md), [the spectrum reveals controlled 24ghz signals](../the-spectrum-reveals-controlled-24ghz-signals/proposal.md)
+Dependencies: [the board captures repeatable radio snapshots](../archive/2026-10-01-the-board-captures-repeatable-radio-snapshots/proposal.md), [the spectrum reveals controlled 24ghz signals](../the-spectrum-reveals-controlled-24ghz-signals/proposal.md)
 
 ## Non-goals
 
