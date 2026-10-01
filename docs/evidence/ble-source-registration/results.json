@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "kind": "commanded owned BLE advertising episodes",
+  "manufacturer_test_marker_hex": "4553502d5344522d4556414c",
+  "manufacturer_id": "ffff",
+  "expected_manufacturer_ad_hex": "0fffffff4553502d5344522d4556414c",
+  "exact_over_air_emission_count": null,
+  "episodes": [
+    {
+      "index": 0,
+      "register_requested_monotonic_ns": 698925861129568,
+      "registration_accepted_monotonic_ns": 698925981463702,
+      "registered_utc": "2026-10-01T21:53:45Z",
+      "unregister_requested_monotonic_ns": 698927983220073,
+      "unregistration_accepted_monotonic_ns": 698927985048226,
+      "active_instances_after": 0
+    }
+  ],
+  "limitations": "RegisterAdvertisement success establishes controller configuration acceptance, not an independently observed transmission count, packet timing, channel map or actual RF. No address or local network name is published.",
+  "active_instances_before": 0,
+  "supported_instances": 12,
+  "status": "completed"
+}

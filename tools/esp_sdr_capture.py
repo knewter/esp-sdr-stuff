@@ -148,7 +148,7 @@ def numerical_stats(payload, samples, bits):
     return {'mean_i': float(iq.real.mean()), 'mean_q': float(iq.imag.mean()),
             'mean_power_codes_squared': power,
             'ac_power_codes_squared': float(np.mean(np.abs(centered) ** 2)),
-            'component_endpoint_fraction': float(np.mean(np.abs(np.column_stack([iq.real, iq.imag])) >= full - 1)),
+            'component_endpoint_fraction': float(np.mean((np.column_stack([iq.real, iq.imag]) == -full) | (np.column_stack([iq.real, iq.imag]) == full - 1))),
             'unique_i_codes': int(len(np.unique(iq.real))), 'unique_q_codes': int(len(np.unique(iq.imag)))}
 
 

@@ -100,6 +100,7 @@ class Trial:
             t0 = time.monotonic()
             previous = -1
             sampled = 0
+            ffts = 0
             raw_hash = hashlib.sha256()
             self.update(status='Acquiring real hardware spectra')
             with (a.private / 'spectrum-frames.bin').open('wb') as stream:
@@ -108,16 +109,26 @@ class Trial:
                     elapsed = time.monotonic() - t0
                     if frame['kind'] == 'end':
                         record['end_report'] = frame['report']
-                        if frame['report'][0] != 0:
+                        report = frame['report']
+                        if report[0] != 0:
                             raise ProtocolError('firmware reported failed spectrum session')
+                        if report[1] != 0 or report[2] != ffts or report[3] != sampled or report[7] != len(rows) or report[10] != ffts or report[11] != 0:
+                            raise ProtocolError('spectrum end totals or stop state do not match received frames')
+                        if report[4] < a.seconds * 1000000 * .95:
+                            raise ProtocolError('firmware duration shorter than requested session')
                         break
                     stream.write(raw); raw_hash.update(raw)
                     if frame['kind'] == 'statistics':
                         continue
                     if frame['sample_index'] <= previous or not frame['ffts']:
                         raise ProtocolError('non-monotonic or empty FFT frame')
+                    if frame['sequence'] != len(rows):
+                        raise ProtocolError('lost, duplicate or out-of-order spectrum sequence')
+                    if frame['samples_processed'] != frame['ffts'] * a.bins or not frame['flags'] & 8:
+                        raise ProtocolError('invalid snapshot sample total or missing gap flag')
                     previous = frame['sample_index']
                     sampled += frame['samples_processed']
+                    ffts += frame['ffts']
                     power = frame.pop('power_codes')
                     row = {**frame, 'received_relative_seconds': elapsed,
                            'minimum_power_code': min(power), 'maximum_power_code': max(power),

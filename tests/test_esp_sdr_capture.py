@@ -50,6 +50,9 @@ class ProtocolTests(unittest.TestCase):
         np.testing.assert_array_equal(iq,[-512+511j,-1+0j,17-22j])
     def test_8bit_signed_codes(self):
         np.testing.assert_array_equal(capture.unpack(bytes([128,127,255,0]),2,8),[-128+127j,-1+0j])
+    def test_exact_signed_endpoints(self):
+        stats=capture.numerical_stats(bytes([128,127,129,126]),2,8)
+        self.assertEqual(stats['component_endpoint_fraction'],.5)
     def test_spectrum_frame_crc_shape(self):
         bins=256;raw=bytearray(28+bins);raw[:4]=b'SPC1';raw[26]=8;raw[27]=2;raw[22]=8
         raw[8:16]=(100).to_bytes(8,'little');raw[20:22]=(1).to_bytes(2,'little')
