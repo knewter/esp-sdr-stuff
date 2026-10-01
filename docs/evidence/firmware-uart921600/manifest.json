@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "version": "550fade-uart921600",
+  "variants": {
+    "esp32": {
+      "revision": "esp32",
+      "label": "ESP32 custom UART default",
+      "target": "esp32",
+      "chip": "ESP32",
+      "version": "550fade-uart921600",
+      "flash_size": "2MB",
+      "flash_size_policy": "minimum",
+      "flash_settings": {
+        "flash_mode": "dio",
+        "flash_size": "2MB",
+        "flash_freq": "40m"
+      },
+      "esptool_args": {
+        "after": "hard-reset",
+        "before": "default-reset",
+        "stub": true,
+        "chip": "esp32"
+      },
+      "parts": [
+        {
+          "name": "0-bootloader.bin",
+          "offset": 4096,
+          "size": 25792,
+          "sha256": "ae2641c45d818548d59fa70573b35202b6e315f2b9691de1f5c59736f6478e03",
+          "md5": "6c434f218d6d6748e4f7589194d742ed"
+        },
+        {
+          "name": "1-partition-table.bin",
+          "offset": 32768,
+          "size": 3072,
+          "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+          "md5": "5d61d196adc3dba01928f264eb169be7"
+        },
+        {
+          "name": "2-esp_sdr.bin",
+          "offset": 65536,
+          "size": 664608,
+          "sha256": "d7a2d80a70134b04e6078d5ac62b728e79ab33364c1845546f7ca321995e4685",
+          "md5": "a4e81d4622f6b673223fec8955f901b6"
+        }
+      ],
+      "build_date": "2026-10-01"
+    }
+  }
+}

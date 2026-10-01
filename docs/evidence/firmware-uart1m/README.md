@@ -1,6 +1,14 @@
 # Original ESP32 firmware with a 1 Mbaud default
 
-Local build verification, 2026-10-01. This is a configuration variant of the
+Local build verification, 2026-10-01.
+
+**Subsequent source review:** accepting a 1 Mbaud request in kernel termios does
+not prove a physical 1 Mbaud UART. Silicon Labs
+[AN205 default alias table](https://www.freecalypso.org/pub/GSM/Pirelli/chips/silabs_an205.pdf)
+maps a 1 Mbaud request to 921600 unless the bridge EEPROM has been customized.
+This historical variant is not a working-transport acceptance record; the clean
+921600 variant is the next compatibility trial. No EEPROM was changed.
+ This is a configuration variant of the
 pinned upstream receiver, built to accommodate the board's classic CP2102
 transport. It is not a binary patch and does not itself prove installation or RF.
 
