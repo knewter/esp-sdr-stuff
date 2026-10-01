@@ -20,9 +20,10 @@ PATH = '/org/espsdr/evaluation/advertisement'
 
 
 class Advertisement(ServiceInterface):
-    def __init__(self):
+    def __init__(self, interval_ms=100):
         super().__init__('org.bluez.LEAdvertisement1')
         self.released = False
+        self.interval_ms = interval_ms
     @dbus_property(access=PropertyAccess.READ)
     def Type(self) -> 's':
         return 'broadcast'
@@ -32,6 +33,12 @@ class Advertisement(ServiceInterface):
     @dbus_property(access=PropertyAccess.READ)
     def Includes(self) -> 'as':
         return []
+    @dbus_property(access=PropertyAccess.READ)
+    def MinInterval(self) -> 'u':
+        return self.interval_ms
+    @dbus_property(access=PropertyAccess.READ)
+    def MaxInterval(self) -> 'u':
+        return self.interval_ms
     @method()
     def Release(self):
         self.released = True
@@ -43,10 +50,11 @@ async def run(args):
               'manufacturer_test_marker_hex': MARKER.hex(), 'manufacturer_id': 'ffff',
               'expected_manufacturer_ad_hex': (bytes([len(MARKER)+3, 0xff, 0xff, 0xff])+MARKER).hex(),
               'exact_over_air_emission_count': None, 'episodes':[],
+              'commanded_advertising_interval_ms': args.interval_ms,
               'limitations':'RegisterAdvertisement success establishes controller configuration acceptance, not an independently observed transmission count, packet timing, channel map or actual RF. No address or local network name is published.'}
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
     registered = False
-    adv = Advertisement()
+    adv = Advertisement(args.interval_ms)
     stop = asyncio.Event()
     for sig in [signal.SIGINT, signal.SIGTERM]:
         asyncio.get_running_loop().add_signal_handler(sig, stop.set)
@@ -111,8 +119,10 @@ def main():
     parser.add_argument('--seconds',type=float,default=60)
     parser.add_argument('--episodes',type=int,default=1)
     parser.add_argument('--off-seconds',type=float,default=.1)
+    parser.add_argument('--interval-ms',type=int,default=100,
+                        help='Requested min/max advertising interval; HCI monitor must confirm controller configuration')
     args=parser.parse_args()
-    if not 0.01 <= args.seconds <= 3600 or not 1 <= args.episodes <= 1000 or args.off_seconds <0:
+    if not 0.01 <= args.seconds <= 3600 or not 1 <= args.episodes <= 1000 or args.off_seconds <0 or not 20 <= args.interval_ms <= 10000:
         parser.error('bounded positive seconds/episode counts required')
     raise SystemExit(asyncio.run(run(args)))
 

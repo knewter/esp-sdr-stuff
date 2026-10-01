@@ -45,6 +45,13 @@ with the independently chosen 12-byte ASCII marker `ESP-SDR-EVAL`. Its AD
 structure is `0fffffff4553502d5344522d4556414c`: length 15 includes AD type,
 company identifier and marker; the length octet makes 16 bytes total.
 
+The source can request equal minimum/maximum intervals with `--interval-ms`
+(default 100 ms; bounded 20 to 10,000 ms). The current
+[BlueZ primary API documentation](https://github.com/bluez/bluez/blob/master/doc/org.bluez.LEAdvertisement.rst)
+defines those properties. A requested interval is recorded separately from
+controller configuration and actual RF timing. HCI monitoring must verify the
+accepted interval; it still cannot supply an independently counted RF denominator.
+
 A minimal legacy packet containing that AD has 6 address bytes, 16 advertising
 data bytes, a 2-byte PDU header, 3-byte CRC, 4-byte access address and 1-byte
 preamble: **32 bytes / 256 microseconds at LE1M**. BlueZ/controller-added AD
