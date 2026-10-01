@@ -105,7 +105,7 @@ class Fixture(unittest.TestCase):
             put(self.repo, f"{root}/{filename}", body)
         self.commit_at("2030-01-01T00:00:00Z", "archive with older name but newer activity")
         archived = [i["id"] for i in self.data()["items"] if i["lane"] == "archived"]
-        self.assertEqual(archived, ["2026-09-22-the-older-archive", "2026-09-23-the-old-thing"])
+        self.assertEqual(archived, ["the-older-archive", "the-old-thing"])
 
     def test_lanes_and_counts_are_derived_from_the_committed_tasks(self) -> None:
         data = self.data()
@@ -114,9 +114,18 @@ class Fixture(unittest.TestCase):
         self.assertEqual(items["the-first-thing"]["lane"], "in-progress")
         self.assertEqual(items["the-second-thing"]["lane"], "planned")
         self.assertEqual(items["the-second-thing"]["next"], "Make it")
-        self.assertEqual(items["2026-09-23-the-old-thing"]["lane"], "archived")
+        self.assertEqual(items["the-old-thing"]["lane"], "archived")
         self.assertEqual(data["sourceRevision"], self.revision)
         self.assertEqual(data["sourceMode"], "committed HEAD")
+
+    def test_archive_keeps_stable_links_dependencies_and_document_paths(self) -> None:
+        data = self.data({"the-second-thing": self.review(dependencies=["the-old-thing"])})
+        items = {item["id"]: item for item in data["items"]}
+        self.assertEqual(items["the-second-thing"]["dependencies"], ["the-old-thing"])
+        self.assertEqual(items["the-old-thing"]["proposal"],
+                         "openspec/changes/archive/2026-09-23-the-old-thing/proposal.md")
+        self.assertTrue(items["the-old-thing"]["archived"])
+        self.assertNotIn("2026-09-23-the-old-thing", items)
 
     def test_duplicate_status_override_fails_before_last_value_can_win(self) -> None:
         put(self.repo, work.STATUS_PATH,

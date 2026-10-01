@@ -221,6 +221,8 @@ def snapshot(tree: SourceTree, status: dict, generated: str) -> dict:
         archived = rest.startswith("archive/")
         change_dir = proposal_path.removesuffix("/proposal.md")
         ident = change_dir.split("/")[-1]
+        if archived:
+            ident = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", ident)
         if ident in all_changes:
             raise WorkError(f"duplicate work ID: {ident}")
         proposal = tree.read(proposal_path)
