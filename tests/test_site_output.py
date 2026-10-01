@@ -4,6 +4,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 import json
 import os
+import re
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,9 +48,13 @@ class SiteOutput(unittest.TestCase):
         revision = json.loads((DIST / "revision.json").read_text())
         self.assertEqual(work["sourceRevision"], revision["revision"])
         self.assertEqual(specs["sourceRevision"], revision["revision"])
-        self.assertEqual(len(work["items"]), 7)
-        self.assertEqual(specs["total"], 3)
-        self.assertEqual(specs["tally"]["grounded"], 3)
+        proposals = list((ROOT / "openspec/changes").rglob("proposal.md"))
+        expected_requirements = sum(len(re.findall(r"^### Requirement:", path.read_text(), re.M))
+                                    for path in (ROOT / "openspec/specs").rglob("spec.md"))
+        self.assertEqual(len(work["items"]), len(proposals))
+        self.assertGreaterEqual(expected_requirements, 3)
+        self.assertEqual(specs["total"], expected_requirements)
+        self.assertEqual(specs["tally"]["grounded"], expected_requirements)
 
     def test_no_firmware_backup_is_published(self):
         self.assertFalse(list(DIST.rglob("*.bin")))
