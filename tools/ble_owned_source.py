@@ -23,6 +23,7 @@ class Advertisement(ServiceInterface):
     def __init__(self, interval_ms=100):
         super().__init__('org.bluez.LEAdvertisement1')
         self.released = False
+        self.release_monotonic_ns = None
         self.interval_ms = interval_ms
     @dbus_property(access=PropertyAccess.READ)
     def Type(self) -> 's':
@@ -42,6 +43,7 @@ class Advertisement(ServiceInterface):
     @method()
     def Release(self):
         self.released = True
+        self.release_monotonic_ns = time.monotonic_ns()
 
 
 async def run(args):
@@ -79,6 +81,8 @@ async def run(args):
             if stop.is_set():break
             episode = {'index':index,'register_requested_monotonic_ns':time.monotonic_ns()}
             record['episodes'].append(episode)
+            adv.released = False
+            adv.release_monotonic_ns = None
             await manager.call_register_advertisement(PATH,{})
             registered=True
             episode['registration_accepted_monotonic_ns']=time.monotonic_ns()
@@ -88,11 +92,15 @@ async def run(args):
             try: await asyncio.wait_for(stop.wait(), args.seconds)
             except asyncio.TimeoutError:pass
             episode['unregister_requested_monotonic_ns']=time.monotonic_ns()
+            episode['release_observed_before_unregister'] = adv.released
+            episode['release_monotonic_ns'] = adv.release_monotonic_ns
             if not adv.released:
                 await manager.call_unregister_advertisement(PATH)
             registered=False
             episode['unregistration_accepted_monotonic_ns']=time.monotonic_ns()
             episode['active_instances_after']=(await properties.call_get('org.bluez.LEAdvertisingManager1','ActiveInstances')).value
+            if episode['active_instances_after']:
+                raise RuntimeError('Advertising instances remain after source removal; source trial cannot continue')
             print(f'SOURCE_OFF episode={index} accepted',flush=True)
             save()
             if index+1<args.episodes and not stop.is_set():
