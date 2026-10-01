@@ -1,3 +1,5 @@
+> **Deferred by user, October 1, 2026.** Excluded from the active evaluation goal. Tasks remain open; no runtime integration is being attempted.
+
 ## 1. Define runtime boundaries
 
 - [ ] 1.1 Pin the intended AtomVM release/configuration and account for the actual board resources; verify its build independently.

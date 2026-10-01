@@ -1,0 +1,96 @@
+{
+  "started_utc": "2026-10-01T21:46:07.840345+00:00",
+  "finished_utc": "2026-10-01T21:49:39.807925+00:00",
+  "class": "Physical board flash read",
+  "bytes": 4194304,
+  "sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "independent_reads": 2,
+  "read_hashes_equal": true,
+  "firmware_written": false,
+  "partitions": [
+    {
+      "type": 1,
+      "subtype": 2,
+      "offset": 36864,
+      "size": 24576,
+      "label": "nvs",
+      "flags": 0
+    },
+    {
+      "type": 1,
+      "subtype": 1,
+      "offset": 61440,
+      "size": 4096,
+      "label": "phy_init",
+      "flags": 0
+    },
+    {
+      "type": 0,
+      "subtype": 0,
+      "offset": 65536,
+      "size": 1048576,
+      "label": "factory",
+      "flags": 0
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "espefuse",
+        "--chip",
+        "esp32",
+        "--port",
+        "SELECTED_PORT",
+        "summary",
+        "ABS_DONE_0",
+        "ABS_DONE_1",
+        "FLASH_CRYPT_CNT",
+        "DISABLE_DL_ENCRYPT",
+        "DISABLE_DL_DECRYPT",
+        "DISABLE_DL_CACHE"
+      ],
+      "exit_code": 0,
+      "seconds": 2.6878931460669264,
+      "log": "security.log"
+    },
+    {
+      "command": [
+        "esptool",
+        "--chip",
+        "esp32",
+        "--port",
+        "SELECTED_PORT",
+        "--baud",
+        "460800",
+        "read-flash",
+        "--no-progress",
+        "0",
+        "0x400000",
+        "backups/original.bin"
+      ],
+      "exit_code": 0,
+      "seconds": 106.34968331700657,
+      "log": "read-1.log"
+    },
+    {
+      "command": [
+        "esptool",
+        "--chip",
+        "esp32",
+        "--port",
+        "SELECTED_PORT",
+        "--baud",
+        "460800",
+        "read-flash",
+        "--no-progress",
+        "0",
+        "0x400000",
+        "backups/readback.bin"
+      ],
+      "exit_code": 0,
+      "seconds": 102.92034981295001,
+      "log": "read-2.log"
+    }
+  ],
+  "restoration_proven": false
+}

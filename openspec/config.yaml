@@ -3,15 +3,15 @@ context: |
   Evaluate an original ESP32-D0WD-V3 revision 3.1, 40 MHz crystal, 4 MiB
   physical flash, CP2102 UART bridge, dual LX6 cores up to 240 MHz.
   Boot identifies ESP-IDF v5.4-dirty hello_world GPIO toggling at 160 MHz.
-  AtomVM was expected but was not observed. SDR reception is untested.
+  AtomVM was expected but was not observed; its proposal is deferred by user.
+  The active goal authorizes real SDR trials after complete flash preservation.
   ESPARGOS ESP-SDR supports this family with snapshot capture. eSpDR uses
   an ESP32-S3 plus FPGA; C5VRX requires a C5. The user reports Adiuvo
   Forgix ownership (official design: Trion T8F49, RP2354, USB 1.1).
   Host PCIe enumeration finds dabc:1017, associated with an AS02MC04/XCKU3P
   in prior local research. Verify board markings and bring-up separately.
   Use the copied Astro work board from tdisplay-k230. Local committed history
-  is the work snapshot. Radio experiments remain proposals, not installed
-  firmware. Read AGENTS.md and .skills/sdr-spec-change/SKILL.md.
+  is the work snapshot. Update radio proposals from physical measurements as experiments run. Read AGENTS.md and .skills/sdr-spec-change/SKILL.md.
   Taxonomy: board, radio, transport, runtime, docs.
 rules:
   proposal:

@@ -5,7 +5,8 @@
     "summary": "An SDR installation replaces the current firmware. We need a complete, identifiable fallback before experimenting with the only confirmed board.",
     "gate": "A 4,194,304-byte backup with SHA-256 plus a recorded restoration boot; a backup alone does not close recovery proof.",
     "depends": [],
-    "number": 1
+    "number": 1,
+    "status": "active"
   },
   {
     "id": "the-board-captures-repeatable-radio-snapshots",
@@ -15,7 +16,8 @@
     "depends": [
       "the-board-can-be-restored-after-an-sdr-trial"
     ],
-    "number": 2
+    "number": 2,
+    "status": "active"
   },
   {
     "id": "the-spectrum-reveals-controlled-24ghz-signals",
@@ -25,7 +27,8 @@
     "depends": [
       "the-board-captures-repeatable-radio-snapshots"
     ],
-    "number": 3
+    "number": 3,
+    "status": "active"
   },
   {
     "id": "the-receiver-can-observe-and-decode-short-bursts",
@@ -36,7 +39,8 @@
       "the-board-captures-repeatable-radio-snapshots",
       "the-spectrum-reveals-controlled-24ghz-signals"
     ],
-    "number": 4
+    "number": 4,
+    "status": "active"
   },
   {
     "id": "the-fpga-route-has-a-measured-feasibility-decision",
@@ -46,18 +50,20 @@
     "depends": [
       "the-board-captures-repeatable-radio-snapshots"
     ],
-    "number": 5
+    "number": 5,
+    "status": "active"
   },
   {
     "id": "atomvm-can-coordinate-a-native-radio-worker",
     "short": "Evaluate AtomVM coexistence",
-    "summary": "The intended board runtime was AtomVM, but the current firmware is a GPIO test and ESP-SDR is standalone. We need to determine whether runtime orchestration can coexist with native radio capture.",
+    "summary": "Deferred by user. AtomVM integration is excluded from the active hardware evaluation; this plan remains available for a future decision.",
     "gate": "A documented SRAM/linker budget and a bounded prototype that preserves CRC capture integrity and records VM latency over 100 capture/control cycles.",
     "depends": [
       "the-board-can-be-restored-after-an-sdr-trial",
       "the-board-captures-repeatable-radio-snapshots"
     ],
-    "number": 6
+    "number": 6,
+    "status": "deferred"
   },
   {
     "id": "the-two-receivers-have-a-measured-division-of-labor",
@@ -68,6 +74,7 @@
       "the-board-captures-repeatable-radio-snapshots",
       "the-spectrum-reveals-controlled-24ghz-signals"
     ],
-    "number": 7
+    "number": 7,
+    "status": "active"
   }
 ]

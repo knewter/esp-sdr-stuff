@@ -10,8 +10,10 @@ ESP32-D0WD-V3 rev. 3.1 is behind a CP2102 bridge; the dual-serial ACM device
 belongs to a different project. One operator owns the ESP32 port at a time.
 Close serial handles after each operation.
 
-The user requested the site and evaluation proposals, not an SDR installation.
-Complete preservation before an experimental firmware trial. Keep full flash
+The active user goal authorizes experimental ESP32 flashing/restoration after
+verified preservation, receiver tests, and documented reversible FPGA trials.
+AtomVM integration is explicitly deferred. Complete preservation before any
+experimental firmware trial. Keep full flash
 backups in ignored `backups/`, outside Git and the site. Do not publish device
 addresses, credentials or network names.
 

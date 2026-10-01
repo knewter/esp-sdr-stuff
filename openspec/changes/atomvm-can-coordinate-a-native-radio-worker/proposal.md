@@ -1,3 +1,5 @@
+> **Deferred by user, October 1, 2026.** Excluded from the active evaluation goal. Tasks remain open; no runtime integration is being attempted.
+
 ## Why
 
 The intended board runtime was AtomVM, but the current firmware is a GPIO test and ESP-SDR is standalone. We need to determine whether runtime orchestration can coexist with native radio capture.

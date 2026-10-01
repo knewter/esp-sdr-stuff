@@ -1,3 +1,5 @@
+> **Deferred by user, October 1, 2026.** Excluded from the active evaluation goal. Tasks remain open; no runtime integration is being attempted.
+
 ## Purpose
 
 A reasoned decision about AtomVM control of capture, not high-rate sample handling in Erlang.

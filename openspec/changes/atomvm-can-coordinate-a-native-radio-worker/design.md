@@ -1,3 +1,5 @@
+> **Deferred by user, October 1, 2026.** Excluded from the active evaluation goal. Tasks remain open; no runtime integration is being attempted.
+
 ## Context
 
 See [proposal](proposal.md) for the problem and scope. The hardware identity is recorded separately from untested reception and transport behavior.

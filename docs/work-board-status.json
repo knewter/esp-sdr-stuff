@@ -1,1 +1,13 @@
-{"schema": 1, "overrides": {}}
+{
+  "schema": 1,
+  "overrides": {
+    "atomvm-can-coordinate-a-native-radio-worker": {
+      "lane": "planned",
+      "source": "not-started",
+      "physical": "not-applicable",
+      "next": "Deferred by user; excluded from the active evaluation goal.",
+      "rationale": "The user clarified AtomVM need not be integrated. Preserve the proposal with unchecked tasks for possible future work.",
+      "reviewRevision": "8089592836bf1d4a5149e38a62c9dbba2c4730d9"
+    }
+  }
+}
