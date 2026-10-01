@@ -1,0 +1,131 @@
+{
+  "reviewed": "2026-10-01",
+  "sources": [
+    {
+      "id": "article",
+      "label": "The discovery",
+      "kind": "News / starting point",
+      "url": "https://www.rtl-sdr.com/various-projects-independently-find-hidden-sdr-capabilities-in-esp32-microcontrollers/",
+      "claim": "Links the independent ESPARGOS, eSpDR and C5VRX discoveries.",
+      "limit": "Published October 1, 2026. A project summary, not a measurement of our hardware."
+    },
+    {
+      "id": "esp-sdr",
+      "label": "ESPARGOS \u00b7 ESP-SDR",
+      "kind": "Primary / firmware",
+      "url": "https://github.com/ESPARGOS/esp-sdr/tree/550fadea4d00a9e26ce921c5832167becb3dc20c",
+      "revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+      "claim": "Original ESP32 is supported. Current firmware provides raw I/Q bursts and snapshot FFTs on this chip.",
+      "limit": "Minimum 2 MB flash. Support does not prove reception on this particular board."
+    },
+    {
+      "id": "controls",
+      "label": "Receive controls",
+      "kind": "Primary / limits",
+      "url": "https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/docs/rx-controls.md",
+      "revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+      "claim": "ESP32 filter mapping is approximately 12\u201367 MHz. Extended tuning commands are attempts, not validated coverage.",
+      "limit": "Gain is uncalibrated; PLL lock and RF accuracy are not guaranteed outside the normal band."
+    },
+    {
+      "id": "receiver",
+      "label": "Original ESP32 capture path",
+      "kind": "Primary / code",
+      "url": "https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/main/targets/esp32/receiver.c",
+      "revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+      "claim": "Reserves 64 KiB; at most 16,380 pairs per snapshot; nominal 16/40/80 MS/s with 8/10-bit packed output.",
+      "limit": "Small sample windows and UART transfers produce gaps. Nominal sample rates are not clock calibration."
+    },
+    {
+      "id": "spectrum",
+      "label": "Spectrum protocol & validation",
+      "kind": "Primary / FFT behavior",
+      "url": "https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/docs/spectrum.md",
+      "revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+      "claim": "Original ESP32 uses snapshot FFTs. Selected newer chips can keep RF capture running while processing selected windows.",
+      "limit": "Continuous spectrum updates are not the same as exporting every I/Q sample."
+    },
+    {
+      "id": "espargos",
+      "label": "ESPARGOS discovery notes",
+      "kind": "Primary / overview",
+      "url": "https://espargos.net/espsdr/",
+      "claim": "Uses the internal modem ADC path. Reports experimental coverage around 2.2\u20132.7 GHz and coherent multi-receiver arrays.",
+      "limit": "Do not transfer array capabilities to one dev board or treat historical S31 transport plans as current firmware features."
+    },
+    {
+      "id": "espdr",
+      "label": "eSpDR \u00b7 continuous FPGA transport",
+      "kind": "Primary / reference design",
+      "url": "https://github.com/h0m3us3r/eSpDR/tree/41a0ffe279119df942e4a9e892dc19d196e1c952",
+      "revision": "41a0ffe279119df942e4a9e892dc19d196e1c952",
+      "claim": "ESP32-S3, two GPIO lanes, Artix-7 FPGA, DDR buffer and FT600 USB 3 support an 80 MS/s path.",
+      "limit": "Uses S3 dedicated GPIO and SIMD. The original LX6 board cannot use this firmware unchanged. Current clocking forwards an ESP-generated clock to the FPGA."
+    },
+    {
+      "id": "c5vrx",
+      "label": "C5VRX \u00b7 5.8 GHz video",
+      "kind": "Primary / separate platform",
+      "url": "https://github.com/Twotoz/C5VRX/tree/8dcc7e41c5e13e8d4c078878e250a17341df9930",
+      "revision": "8dcc7e41c5e13e8d4c078878e250a17341df9930",
+      "claim": "ESP32-C5 receives analog FPV and demodulates in the hardware pipeline, with composite video via resistor DAC.",
+      "limit": "Requires C5 radio and peripherals. Bench results do not establish range performance; not supported on our ESP32."
+    },
+    {
+      "id": "datasheet",
+      "label": "Espressif ESP32 datasheet",
+      "kind": "Primary / silicon specification",
+      "url": "https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf",
+      "claim": "Dual LX6 up to 240 MHz, 520 KB SRAM, a 2.4 GHz radio and SPI/I2S/GPIO interfaces.",
+      "limit": "Chip capability is not an inventory of board wiring, antenna connector or fitted external RAM."
+    },
+    {
+      "id": "rtlv4",
+      "label": "RTL-SDR Blog V4 design",
+      "kind": "Primary / receiver manufacturer",
+      "url": "https://www.rtl-sdr.com/rtl-sdr-blog-v4-dongle-initial-release/",
+      "claim": "R828D with built-in HF upconverter, 500 kHz lower coverage, upper range around 1.766 GHz, filtering, SMA and 1 ppm TCXO.",
+      "limit": "Coverage and oscillator specifications are manufacturer claims; our probe establishes identity, not sensitivity or tuning accuracy."
+    },
+    {
+      "id": "rtlbasics",
+      "label": "RTL-SDR sampling & applications",
+      "kind": "Primary / manufacturer documentation",
+      "url": "https://www.rtl-sdr.com/about-rtl-sdr/",
+      "claim": "8-bit I/Q, continuous USB streaming; 2.4 MS/s is a useful starting rate. Supports many narrowband demodulators.",
+      "limit": "High sample rates can lose samples; measure sustained delivery on this host. Both stock receiver configurations are receive-only."
+    },
+    {
+      "id": "atomvm",
+      "label": "AtomVM programming guide",
+      "kind": "Primary / runtime integration",
+      "url": "https://www.atomvm.net/doc/master/programmers-guide.html",
+      "claim": "Native extensions and ports provide integration boundaries for low-level work.",
+      "limit": "No ready-made ESP-SDR binding has been verified here. Do not run high-rate I/Q handling in ordinary Erlang processes."
+    },
+    {
+      "id": "openspec",
+      "label": "OpenSpec workflow",
+      "kind": "Primary / planning",
+      "url": "https://openspec.dev/docs",
+      "claim": "Proposal, delta specs, design and tasks describe planned changes; archiving records accepted capabilities.",
+      "limit": "Installed CLI is 1.11.0. This site adds evidence-aware tracking copied from the local T-Display-K230 project."
+    },
+    {
+      "id": "forgix",
+      "label": "Adiuvo Forgix official design",
+      "kind": "Primary / FPGA board",
+      "url": "https://forgix.tech/",
+      "claim": "RP2354, Trion T8F49 with 7,384 logic elements, PSRAM, USB 1.1 and 3.3 V I/O.",
+      "limit": "User-reported ownership; actual board revision, wiring and firmware are not inspected."
+    },
+    {
+      "id": "forgix-litex",
+      "label": "Forgix LiteX / SPIBone demonstration",
+      "kind": "Primary / development example",
+      "url": "https://github.com/enjoy-digital/aduivo_forgix_test",
+      "claim": "A demonstrated MicroPython and CPU-less LiteX route uses passive configuration pins for a bounded SPI transport.",
+      "limit": "A development example, not proof of our board or a high-rate SDR transport."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "captured_utc": "2026-10-01T21:05:10.915702+00:00",
+  "command": "rtl_test -t",
+  "exit_code": 0,
+  "class": "Board capture",
+  "eeprom_written": false,
+  "rf_capture_tested": false,
+  "notes": "The -t tuner benchmark is specific to E4000; on another tuner its unsupported result is not a general reception failure."
+}

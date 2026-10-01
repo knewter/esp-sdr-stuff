@@ -1,0 +1,6 @@
+---
+import Base from "../layouts/Base.astro";
+import data from "../data/sources.json";
+import { evidenceUrl } from "../lib/specs";
+---
+<Base title="Primary sources"><header class="page-title"><p class="eyebrow">RESEARCH / PRIMARY REFERENCES</p><h1>Every claim has a source.<br />Every source has limits.</h1><p class="lede">Reviewed {data.reviewed}. Repository links are pinned where possible. Upstream success is a starting point, not proof of reception on our hardware.</p><a href={evidenceUrl("docs/research/source-index.md")}>Open the committed source register →</a></header><div class="source-list">{data.sources.map((source) => <article class="source-card" id={source.id}><p class="eyebrow">{source.kind}</p><h2><a href={source.url}>{source.label} ↗</a></h2><p>{source.claim}</p><p class="source-limit"><strong>Limit:</strong> {source.limit}</p>{"revision" in source && <p class="revision">Pinned revision {source.revision}</p>}</article>)}</div></Base>

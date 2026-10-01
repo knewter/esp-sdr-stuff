@@ -1,0 +1,27 @@
+schema: spec-driven
+context: |
+  Evaluate an original ESP32-D0WD-V3 revision 3.1, 40 MHz crystal, 4 MiB
+  physical flash, CP2102 UART bridge, dual LX6 cores up to 240 MHz.
+  Boot identifies ESP-IDF v5.4-dirty hello_world GPIO toggling at 160 MHz.
+  AtomVM was expected but was not observed. SDR reception is untested.
+  ESPARGOS ESP-SDR supports this family with snapshot capture. eSpDR uses
+  an ESP32-S3 plus FPGA; C5VRX requires a C5. The user has unspecified
+  FPGA boards: inventory them before designing a transport.
+  Use the copied Astro work board from tdisplay-k230. Local committed history
+  is the work snapshot. Radio experiments remain proposals, not installed
+  firmware. Read AGENTS.md and .skills/sdr-spec-change/SKILL.md.
+  Taxonomy: board, radio, transport, runtime, docs.
+rules:
+  proposal:
+    - Start with the person-visible uncertainty or missing capability.
+    - Name non-goals, dependencies, equipment and a measurable decision gate.
+  specs:
+    - Use SHALL requirements and WHEN/THEN scenarios.
+    - Mark untested behavior UNVERIFIED and cite observed proof separately.
+    - Keep planned deltas out of the accepted ledger.
+  design:
+    - Name the host, firmware, RF, transport or FPGA boundary that owns behavior.
+    - Explain alternatives and distinguish the original ESP32 from S3 and C5.
+  tasks:
+    - End each group with its narrow proof command or concrete experiment.
+    - Keep hardware tasks unchecked until committed physical proof exists.

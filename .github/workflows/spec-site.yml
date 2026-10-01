@@ -1,0 +1,56 @@
+name: Spec site
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          npm ci --prefix site
+          npm install -g @fission-ai/openspec@1.11.0
+      - name: Validate proposals and evidence renderers
+        run: |
+          openspec validate --all --strict --no-interactive
+          python3 -m unittest discover -s tests -p 'test_render_specs.py'
+          python3 -m unittest discover -s tests -p 'test_work_board.py'
+      - name: Build and check the published site
+        env:
+          ASTRO_BASE: /esp-sdr-stuff/
+          SITE_ORIGIN: https://knewter.github.io
+        run: python3 scripts/build_site.py
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
+        with:
+          path: site/dist
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
