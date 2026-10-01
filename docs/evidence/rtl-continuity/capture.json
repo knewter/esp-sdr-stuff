@@ -1,0 +1,133 @@
+{
+  "captured_utc": "2026-10-01T21:44:54.422990+00:00",
+  "kernel": "7.1.9-1-MANJARO",
+  "tool_sha256": "aee90df15a94ff75b6ef632aca1a386e9693b1c7f8f71f2dead55864e2b7faeb",
+  "mode": "RTL2832 internal incrementing-byte test pattern, asynchronous, no RF input",
+  "loss_semantics": "rtl_test lower-bound discontinuity estimate in bytes; zero is not proof of no modulo-256 losses",
+  "runs": [
+    {
+      "command": [
+        "stdbuf",
+        "-oL",
+        "-eL",
+        "rtl_test",
+        "-d",
+        "0",
+        "-s",
+        "1024000",
+        "-p10"
+      ],
+      "requested_rate_hz": 1024000,
+      "requested_stream_duration_s": 65,
+      "observed_stream_before_sigint_s": 65.00937019498087,
+      "process_duration_s": 65.75182395498268,
+      "returncode": 0,
+      "reported_lost_bytes_lower_bound": 0,
+      "loss_reports": 0,
+      "reported_minimum_loss_per_million": 0,
+      "sample_rate_observations_hz": [
+        1023975,
+        1024071,
+        1023282,
+        1024631,
+        1023973,
+        1023782
+      ],
+      "cleanup_reported": true,
+      "async_started": true
+    },
+    {
+      "command": [
+        "stdbuf",
+        "-oL",
+        "-eL",
+        "rtl_test",
+        "-d",
+        "0",
+        "-s",
+        "2048000",
+        "-p10"
+      ],
+      "requested_rate_hz": 2048000,
+      "requested_stream_duration_s": 65,
+      "observed_stream_before_sigint_s": 65.09128099004738,
+      "process_duration_s": 66.16473417996895,
+      "returncode": 0,
+      "reported_lost_bytes_lower_bound": 80,
+      "loss_reports": 1,
+      "reported_minimum_loss_per_million": 0,
+      "sample_rate_observations_hz": [
+        2047624,
+        2048319,
+        2048056,
+        2048011,
+        2047773,
+        2048228
+      ],
+      "cleanup_reported": true,
+      "async_started": true
+    },
+    {
+      "command": [
+        "stdbuf",
+        "-oL",
+        "-eL",
+        "rtl_test",
+        "-d",
+        "0",
+        "-s",
+        "2400000",
+        "-p10"
+      ],
+      "requested_rate_hz": 2400000,
+      "requested_stream_duration_s": 65,
+      "observed_stream_before_sigint_s": 65.06421492400113,
+      "process_duration_s": 65.69174100703094,
+      "returncode": 0,
+      "reported_lost_bytes_lower_bound": 0,
+      "loss_reports": 0,
+      "reported_minimum_loss_per_million": 0,
+      "sample_rate_observations_hz": [
+        2400174,
+        2399977,
+        2400022,
+        2399968,
+        2400003,
+        2400035
+      ],
+      "cleanup_reported": true,
+      "async_started": true
+    },
+    {
+      "command": [
+        "stdbuf",
+        "-oL",
+        "-eL",
+        "rtl_test",
+        "-d",
+        "0",
+        "-s",
+        "2560000",
+        "-p10"
+      ],
+      "requested_rate_hz": 2560000,
+      "requested_stream_duration_s": 65,
+      "observed_stream_before_sigint_s": 65.01578008697834,
+      "process_duration_s": 65.63133468397427,
+      "returncode": 0,
+      "reported_lost_bytes_lower_bound": 0,
+      "loss_reports": 0,
+      "reported_minimum_loss_per_million": 0,
+      "sample_rate_observations_hz": [
+        2560018,
+        2559942,
+        2560049,
+        2559967,
+        2559994,
+        2560040
+      ],
+      "cleanup_reported": true,
+      "async_started": true
+    }
+  ]
+}

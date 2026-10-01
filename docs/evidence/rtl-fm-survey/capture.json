@@ -1,0 +1,30 @@
+{
+  "captured_utc": "2026-10-01T21:50:53.144511+00:00",
+  "command": [
+    "/usr/bin/rtl_power",
+    "-d",
+    "0",
+    "-f",
+    "88M:108M:10k",
+    "-g",
+    "19.7",
+    "-c",
+    "0.2",
+    "-i",
+    "2",
+    "-e",
+    "20s",
+    "docs/evidence/rtl-fm-survey/fm-sweep.csv"
+  ],
+  "process_duration_s": 20.261536524049006,
+  "returncode": 0,
+  "tool_sha256": "33c226eaa2fdb1e6088b09fd3fad990507582e88c3a321cef23be9590f7b1e3b",
+  "forced_stop": false,
+  "receiver": "RTLSDRBlog Blog V4 / R828D",
+  "gain_requested_db": 19.7,
+  "bias_tee": "not enabled",
+  "antenna": "attachment and type unverified",
+  "source": "uncontrolled ambient public FM band; station identity unverified",
+  "power_units": "uncalibrated rtl_power output, not defensible dBm",
+  "scope": "sequential hopping survey, not simultaneous continuous 20 MHz IQ"
+}

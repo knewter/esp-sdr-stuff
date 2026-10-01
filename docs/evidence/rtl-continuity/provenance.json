@@ -1,0 +1,19 @@
+{
+  "package": "rtl-sdr-git 2.0.2.0.g619ac31-1",
+  "package_declared_upstream": "https://osmocom.org/projects/rtl-sdr/wiki",
+  "package_revision_source": "https://github.com/osmocom/rtl-sdr/blob/619ac3186ea0ffc092615e1f59f7397e5e6f668c/src/rtl_test.c",
+  "binary_sha256": "aee90df15a94ff75b6ef632aca1a386e9693b1c7f8f71f2dead55864e2b7faeb",
+  "librtlsdr_sha256": "caaa01bc939c22847f122987cd6e1a063375a493c2c11689f1880e508801ecee",
+  "python_version": "3.14.7",
+  "device": "RTLSDRBlog Blog V4 / R828D",
+  "usb_transport": "USB 2.0 high speed, identified by USB descriptor VID/PID 0bda:2838; no address published",
+  "antenna": "not relevant to internal-pattern test, not physically verified",
+  "precondition": "fuser confirmed receiver USB device unused before trial",
+  "ownership": "exclusive RTL hardware owner; no simultaneous receiver process",
+  "post_cleanup": {
+    "checked_utc": "2026-10-01T21:54:05.654360+00:00",
+    "receiver_usb_device_open_processes": false,
+    "fuser_returncode": 1,
+    "device_address_omitted": true
+  }
+}

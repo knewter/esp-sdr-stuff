@@ -1,0 +1,28 @@
+{
+  "captured_utc": "2026-10-01T21:52:12.680827+00:00",
+  "command": [
+    "/usr/bin/rtl_sdr",
+    "-d",
+    "0",
+    "-f",
+    "101000000",
+    "-s",
+    "1024000",
+    "-g",
+    "19.7",
+    "-n",
+    "5120000",
+    ".scratch/fm101.iq"
+  ],
+  "returncode": 0,
+  "process_duration_s": 5.902300899964757,
+  "sample_rate_hz": 1024000,
+  "center_hz": 101000000,
+  "candidate_channel_hz": 101100000,
+  "requested_pairs": 5120000,
+  "file_bytes": 10240000,
+  "raw_sha256": "2f60d138da86399ed28ed55d2290da9277f98d13c552604a0cf3e16aea16d555",
+  "raw_publication": "not committed; derived spectral evidence only",
+  "antenna_and_source": "unverified",
+  "tool_sha256": "d60586904a66d1733cd60da8e840ea40f22c285930f882f0d064f9dcac73fe1a"
+}

@@ -1,0 +1,14 @@
+{
+  "dependency_versions": {
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "matplotlib": "3.11.1"
+  },
+  "iq_pairs": 5120000,
+  "nominal_iq_duration_s": 5.0,
+  "endpoint_byte_fraction": 0.0,
+  "demodulator": "quadrature phase difference; 255-tap 90kHz lowpass; decimate4; discard first100ms",
+  "pilot_region_peak_hz": 19000.0,
+  "pilot_region_peak_vs_nearby_median_db": 56.2560579782692,
+  "limitations": "Uncalibrated signal, antenna and station unknown; pilot-region feature alone is not known-source application proof or decoder validation"
+}
