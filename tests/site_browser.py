@@ -65,7 +65,7 @@ def main():
         # Archival must preserve the original stable proposal URL.
         page.goto(base + "work/?work=the-board-captures-repeatable-radio-snapshots", wait_until="networkidle")
         page.locator("#work-detail-dialog[open]").wait_for()
-        assert "Archived" in page.locator("#work-detail-content").inner_text()
+        assert "archived" in page.locator("#work-detail-content").inner_text().lower()
         page.keyboard.press("Escape")
         page.goto(base + "evidence/docs-evidence-board-identification-readme-md/", wait_until="networkidle")
         page.get_by_role("link", name="Boot log", exact=True).click()

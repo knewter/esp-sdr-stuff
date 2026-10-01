@@ -2,9 +2,16 @@
 
 Evidence class: **Host capture**, not RF reception or FPGA measurement.
 
-Captured October 1, 2026 from the built site at source revision `46309a86e453` using Chromium and Playwright. [Metadata](capture.json) records the full revision, time and checks.
+Captured October 1, 2026 from the built site at source revision
+`9dcefac6bc7c8db2e19ddfeb185bbb008f563ea2` using Chromium and Playwright.
+[Metadata](capture.json) records the full revision, time and checks.
 
-Reproduce with `python3 tests/site_browser.py --url http://localhost:4321` after a successful local build and static preview. The check covers desktop/mobile navigation, overflow, calculator values, theme switching, seven proposal cards, deep links, image loading, dialog focus restoration and the boot-log evidence link. No page errors or local HTTP failures occurred.
+Reproduce with `python3 tests/site_browser.py --url http://localhost:4321` after
+a successful local build and static preview. Desktop/mobile navigation,
+overflow, calculator, theme, seven proposal cards, deep links, image loading,
+dialog focus and the boot-log link pass. The original stable snapshot URL
+still opens its archived record. Actual BLE and RDS evidence images load.
+There are no page errors or local HTTP failures.
 
 ![Desktop overview](overview-desktop.png)
 
@@ -14,4 +21,7 @@ Reproduce with `python3 tests/site_browser.py --url http://localhost:4321` after
 
 ![Design illustration gallery](design-gallery.png)
 
-The gallery displays an explicitly labeled design mockup. These images show the tracking website, not completed hardware experiments. All 34 hardware tasks remain open.
+The gallery screenshot displays an explicitly labeled design illustration.
+These images show the tracking website, rather than proving radio reception.
+The board separately records one accepted snapshot experiment, five active
+evaluations with physical gates, and AtomVM deferred by user.

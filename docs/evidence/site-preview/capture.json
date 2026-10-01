@@ -1,7 +1,7 @@
 {
-  "captured": "2026-10-01T21:31:10.358709+00:00",
-  "url": "http://localhost:4321/",
-  "source_revision": "46309a86e453909aade4ffdd05223117a3ac6d52",
+  "captured": "2026-10-01T23:21:47.390468+00:00",
+  "url": "http://127.0.0.1:4322/",
+  "source_revision": "9dcefac6bc7c8db2e19ddfeb185bbb008f563ea2",
   "evidence_class": "Host browser capture; no hardware reception measured",
   "checks": [
     "desktop and mobile navigation",
@@ -13,6 +13,8 @@
     "gallery image loaded",
     "dialog focus restored",
     "boot evidence link",
+    "actual BLE/RDS images loaded",
+    "archived proposal stable URL",
     "no page errors or local HTTP failures"
   ],
   "result": "passed"
