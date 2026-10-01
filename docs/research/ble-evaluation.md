@@ -85,7 +85,11 @@ packets or other units; a monitor receives no independent RF confirmation.
 ## Reproduce host checks
 
 ```sh
+python3 -m pip install -r tools/requirements-ble.txt
 python3 -m unittest discover -s tests -p 'test_ble*.py' -v
 ```
 
 Ten tests passed during preparation. No real IQ input was used in these tests.
+The recorded host used Python 3.14.7, NumPy 2.5.2, SciPy 1.18.0 and
+dbus-next 0.2.3. The source and monitor require Linux/BlueZ; packet/decoder
+tests have no Bluetooth-device dependency.
