@@ -1,0 +1,48 @@
+{
+  "firmware_variant": "550fade-uart921600",
+  "baud": 921600,
+  "nominal_rate_hz": 16000000,
+  "bits_per_component": 10,
+  "samples_per_capture": 16380,
+  "source_frequency_mhz": 2402,
+  "kind": "physical control sweep with separately registered BLE source",
+  "started_utc": "2026-10-01T22:48:57Z",
+  "limitations": "Uncalibrated gain/filter settings. A command acceptance does not establish passband, sensitivity or PLL lock; known-source packet attribution requires separate CRC/owned-marker decoding. No independently counted RF events.",
+  "queries": {
+    "INFO": "ESP32SDR 6 burst 16380",
+    "CAPS": "CAPS SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8",
+    "LIMITS?": "LIMITS {\"gain\":[0,72,1],\"bandwidth\":[12,67,1,0],\"rates\":[80000000,40000000,16000000],\"bits\":[8,10]}",
+    "RANGE?": "RANGE 100 6000 1",
+    "TRANSPORT?": "TRANSPORT UART 921600",
+    "SPECINFO?": "SPECINFO {\"continuous\":false,\"transports\":[\"USB\",\"UART\"],\"profiles\":[[80000000,0,256,1,1,0],[80000000,0,512,1,1,0],[80000000,0,1024,1,1,0],[80000000,0,2048,1,1,0],[40000000,1,256,1,1,0],[40000000,1,512,1,1,0],[40000000,1,1024,1,1,0],[40000000,1,2048,1,1,0],[16000000,6,256,1,1,0],[16000000,6,512,1,1,0],[16000000,6,1024,1,1,0],[16000000,6,2048,1,1,0]]}",
+    "GAIN?": "GAIN HARDWARE -1 0 72 0",
+    "BAUD?": "BAUD 921600",
+    "parsed_limits": {
+      "gain": [
+        0,
+        72,
+        1
+      ],
+      "bandwidth": [
+        12,
+        67,
+        1,
+        0
+      ],
+      "rates": [
+        80000000,
+        40000000,
+        16000000
+      ],
+      "bits": [
+        8,
+        10
+      ]
+    }
+  },
+  "source_registration_accepted_monotonic_ns": 702301611405866,
+  "completed": true,
+  "ended_utc": "2026-10-01T22:51:41Z",
+  "captures": 246,
+  "integrity_failures": 0
+}

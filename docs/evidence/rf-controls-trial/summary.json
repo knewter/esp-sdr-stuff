@@ -1,0 +1,133 @@
+{
+  "conditions": [
+    {
+      "bandwidth_setting_mhz": 12,
+      "gain_setting": "hardware",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.1790801790801791,
+      "maximum_component_endpoint_percent": 0.5891330891330891,
+      "median_ac_power_codes_squared": 9973.98103126337
+    },
+    {
+      "bandwidth_setting_mhz": 12,
+      "gain_setting": "24",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.0,
+      "maximum_component_endpoint_percent": 0.0,
+      "median_ac_power_codes_squared": 6.384518565480105
+    },
+    {
+      "bandwidth_setting_mhz": 12,
+      "gain_setting": "48",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.23656898656898656,
+      "maximum_component_endpoint_percent": 2.2496947496947497,
+      "median_ac_power_codes_squared": 8986.342509526492
+    },
+    {
+      "bandwidth_setting_mhz": 12,
+      "gain_setting": "72",
+      "captures": 12,
+      "mean_component_endpoint_percent": 2.8683353683353685,
+      "maximum_component_endpoint_percent": 12.664835164835164,
+      "median_ac_power_codes_squared": 37748.64492785806
+    },
+    {
+      "bandwidth_setting_mhz": 20,
+      "gain_setting": "hardware",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.045787545787545784,
+      "maximum_component_endpoint_percent": 0.21672771672771673,
+      "median_ac_power_codes_squared": 11408.667854975543
+    },
+    {
+      "bandwidth_setting_mhz": 20,
+      "gain_setting": "24",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.0,
+      "maximum_component_endpoint_percent": 0.0,
+      "median_ac_power_codes_squared": 200.70309345653666
+    },
+    {
+      "bandwidth_setting_mhz": 20,
+      "gain_setting": "48",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.9157509157509158,
+      "maximum_component_endpoint_percent": 3.1043956043956045,
+      "median_ac_power_codes_squared": 13257.19201290959
+    },
+    {
+      "bandwidth_setting_mhz": 20,
+      "gain_setting": "72",
+      "captures": 12,
+      "mean_component_endpoint_percent": 5.636955636955637,
+      "maximum_component_endpoint_percent": 21.807081807081808,
+      "median_ac_power_codes_squared": 44918.10791535473
+    },
+    {
+      "bandwidth_setting_mhz": 40,
+      "gain_setting": "hardware",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.4522792022792022,
+      "maximum_component_endpoint_percent": 4.169719169719169,
+      "median_ac_power_codes_squared": 17453.803421883873
+    },
+    {
+      "bandwidth_setting_mhz": 40,
+      "gain_setting": "24",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.0,
+      "maximum_component_endpoint_percent": 0.0,
+      "median_ac_power_codes_squared": 36.74746571058842
+    },
+    {
+      "bandwidth_setting_mhz": 40,
+      "gain_setting": "48",
+      "captures": 12,
+      "mean_component_endpoint_percent": 3.7273606023606023,
+      "maximum_component_endpoint_percent": 17.234432234432234,
+      "median_ac_power_codes_squared": 23583.009828800794
+    },
+    {
+      "bandwidth_setting_mhz": 40,
+      "gain_setting": "72",
+      "captures": 12,
+      "mean_component_endpoint_percent": 2.0423789173789175,
+      "maximum_component_endpoint_percent": 7.384004884004884,
+      "median_ac_power_codes_squared": 35018.51380577434
+    },
+    {
+      "bandwidth_setting_mhz": 67,
+      "gain_setting": "hardware",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.25005087505087503,
+      "maximum_component_endpoint_percent": 2.173382173382173,
+      "median_ac_power_codes_squared": 21615.96729884042
+    },
+    {
+      "bandwidth_setting_mhz": 67,
+      "gain_setting": "24",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.0017806267806267804,
+      "maximum_component_endpoint_percent": 0.021367521367521368,
+      "median_ac_power_codes_squared": 125.150047591467
+    },
+    {
+      "bandwidth_setting_mhz": 67,
+      "gain_setting": "48",
+      "captures": 12,
+      "mean_component_endpoint_percent": 0.45126170126170123,
+      "maximum_component_endpoint_percent": 4.242979242979243,
+      "median_ac_power_codes_squared": 17090.804797567613
+    },
+    {
+      "bandwidth_setting_mhz": 67,
+      "gain_setting": "72",
+      "captures": 12,
+      "mean_component_endpoint_percent": 6.9174806674806675,
+      "maximum_component_endpoint_percent": 22.347374847374848,
+      "median_ac_power_codes_squared": 33702.63629199148
+    }
+  ],
+  "limitations": "Nominal rate/requested LO. Intermittent owned source plus uncontrolled ambient RF. Median spectra do not isolate owned packets or characterize calibrated filter transfer; endpoint values suggest code clipping, not absolute analog overload."
+}
