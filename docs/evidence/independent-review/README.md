@@ -122,3 +122,38 @@ Primary references: [pinned receiver implementation](https://github.com/ESPARGOS
 [upstream artifact build](https://github.com/ESPARGOS/esp-sdr/actions/runs/36905645289),
 [esptool commands](https://docs.espressif.com/projects/esptool/en/latest/esp32/esptool/basic-commands.html),
 and [official Forgix specifications](https://forgix.tech/).
+
+## Follow-up: corrected protocol tools and measured RTL evidence
+
+Reviewed root checkpoint `d5da757` incorporates the integrity fixes and the
+independent regressions. Running the corrected committed tools passed **10
+capture/protocol tests, nine independent session-integrity tests, and five RTL
+tests**. The two previously reported software issues are resolved at this
+checkpoint. These 24 targeted tests are distinct from the full site validation.
+
+The reviewer independently reparsed all four
+[RTL continuity logs](../rtl-continuity/README.md) and reconciled every parsed
+field with their capture manifest. All four trials exceed 65 seconds before
+SIGINT, have normal cleanup output and exit code zero. The 2.048 MS/s log reports
+one discontinuity of at least 80 **bytes**, despite the integer final loss-per-
+million result being zero. The other three logs report no discontinuities;
+the modulo-256 checker does not prove absolute zero data loss. Task 1.1's
+named 60-second four-rate transport test is supported.
+
+The reviewer also independently read the private normal-IQ file used in the
+[passive FM survey](../rtl-fm-survey/README.md). Its length is 10,240,000 bytes
+and SHA-256 matches the public IQ manifest. Re-running the documented quadrature
+demodulation/PSD computation reproduced all published numerical results,
+including the **19,000 Hz** peak and **56.2560579782692 dB** ratio to the defined
+nearby median. This is reproducible structure consistent with an FM multiplex,
+not an independently identified station, verified antenna, calibrated RF SNR,
+decoded audio/stereo/RDS result, or an RF-mode continuity measurement. Comparison
+task 1.2 appropriately remains open.
+
+The [BLE source registration record](../ble-source-registration/README.md)
+correctly documents accepted configuration and successful unregistration as
+commanded advertising episodes. Autonomous controller repetition means those
+episodes cannot supply exact over-the-air emission counts. They can form
+controlled on/off interventions if actual receiver response is separately
+measured, but do not satisfy the short-burst counted-emission/payload criteria
+on their own.
