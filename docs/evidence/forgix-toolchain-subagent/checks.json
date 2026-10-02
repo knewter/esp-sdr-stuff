@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-10-02T12:17:40.288377+00:00",
+  "scope": "Independent host-only Forgix toolchain follow-up; no hardware or vendor installation",
+  "hardware_opened": false,
+  "docker_invoked": false,
+  "mcu_firmware_replaced": false,
+  "fpga_programmed": false,
+  "root_revision_context_at_checks": "f5b96949d0c0249cd0ce5acb607edb597d5ef934",
+  "root_launch_note": "Some unrelated root files were dirty during initial Nix calls; no edits were made by reviewer. Hashes distinguish reviewed committed inputs from end-of-review files.",
+  "source_hashes": {
+    "flake.lock": {
+      "reviewed_revision_sha256": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51",
+      "current_sha256": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51",
+      "unchanged_at_receipt": true
+    },
+    "flake.nix": {
+      "reviewed_revision_sha256": "3f842db68943c1686088161f642a07ffe78c5535024fbb8950bb271938d61b91",
+      "current_sha256": "3f842db68943c1686088161f642a07ffe78c5535024fbb8950bb271938d61b91",
+      "unchanged_at_receipt": true
+    },
+    "Taskfile.yml": {
+      "reviewed_revision_sha256": "f528b94f69079024913d74e3fc5af45ae0a43b8c4daf6d4b8041fb822ad3fcae",
+      "current_sha256": "27808143a5e248d32c5d544ab69c14593cc6b3baff791a9efdce92024f751bc9",
+      "unchanged_at_receipt": false
+    },
+    "nix/forgix-toolchain.nix": {
+      "reviewed_revision_sha256": "e8d115e5afc2a45659ce51ca07333a36c6050c8f09064443e075d7bf005209b1",
+      "current_sha256": "e8d115e5afc2a45659ce51ca07333a36c6050c8f09064443e075d7bf005209b1",
+      "unchanged_at_receipt": true
+    },
+    "tools/forgix_toolchain_check.py": {
+      "reviewed_revision_sha256": "d857996c2b2759aac7e9ff790b6fcaf4d19a9b2722a7df4cdf03ce4c92ae0841",
+      "current_sha256": "d857996c2b2759aac7e9ff790b6fcaf4d19a9b2722a7df4cdf03ce4c92ae0841",
+      "unchanged_at_receipt": true
+    },
+    "tests/test_forgix_toolchain.py": {
+      "reviewed_revision_sha256": "effadd73d817b7d360ca866591d8549124d0b14010e16f47d4b7c3513bc01a2a",
+      "current_sha256": "effadd73d817b7d360ca866591d8549124d0b14010e16f47d4b7c3513bc01a2a",
+      "unchanged_at_receipt": true
+    },
+    "docs/research/forgix-toolchain.md": {
+      "reviewed_revision_sha256": "328c50402fe2b01e700c951d7f054cd228058f48de257a717e436fe0d5a73f77",
+      "current_sha256": "328c50402fe2b01e700c951d7f054cd228058f48de257a717e436fe0d5a73f77",
+      "unchanged_at_receipt": true
+    }
+  },
+  "nixpkgs_revision": "20b1ddd1aa5ace70c9468305030aa4f9ef79671b",
+  "host_check_derivation": "/nix/store/jq49shnkz4c77293mzdm333y0i7hcmx0-forgix-host-tools-check.drv",
+  "executions": [
+    {
+      "command": "nix develop .#forgix --command task forgix:check -- --output FRESH_PRIVATE_RECEIPT",
+      "exit_code": 0
+    },
+    {
+      "command": "nix develop .#forgix --command task forgix:host-check",
+      "exit_code": 0,
+      "upstream_tests": 17,
+      "actual_new_build": true
+    },
+    {
+      "command": "nix develop .#forgix --command python3 -m unittest discover -s tests -p test_forgix_toolchain.py",
+      "exit_code": 0,
+      "tests": 4
+    }
+  ],
+  "boundary_checks": {
+    "hardware_opened": false,
+    "docker_invoked": false,
+    "vendor_variables_removed_for_absence_tests": true,
+    "executables": {
+      "python3": "/nix/store/rhx3d0ddbrps675y4mcm6vii2nxl840j-python3-3.13.15-env/bin/python3",
+      "task": "/nix/store/5f55ks7v3f7lg5z88zahl46dn42i4clv-go-task-3.53.1/bin/task",
+      "iverilog": "/nix/store/l2wn6zv7pwybn4vi7q2xgw8snzla1azh-iverilog-13.0/bin/iverilog",
+      "verilator": "/nix/store/i5hjqqy2qk6jac8mnnaxnlh8yfi49wjh-verilator-5.052/bin/verilator",
+      "yosys": "/nix/store/08nh71pdy6vx9wj802mr8mwm3hwhzs35-yosys-0.69/bin/yosys",
+      "forgix-efinity": "/nix/store/9sp97cynkpfh3f4smgh6r3w3faljz7sl-forgix-efinity/bin/forgix-efinity"
+    },
+    "checks": [
+      {
+        "name": "wrapper_absent_vendor",
+        "command": [
+          "forgix-efinity",
+          "true"
+        ],
+        "exit_code": 2,
+        "expected_exit_code": 2,
+        "passed": true,
+        "elapsed_seconds": 0.13375885598361492,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e58ffb31d7def4e263783039337d5b0fa5094e85129ef1a6219a49259a0a9941"
+      },
+      {
+        "name": "checker_require_vendor",
+        "command": [
+          "python3",
+          "tools/forgix_toolchain_check.py",
+          "--require-vendor"
+        ],
+        "exit_code": 2,
+        "expected_exit_code": 2,
+        "passed": true,
+        "elapsed_seconds": 0.3847400789381936,
+        "stdout_sha256": "0ef4098f446859c24406ef37f1d3316356243cfd59e344ed07b66a65b95c886d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "unknown_board_plan",
+        "command": [
+          "python3",
+          "tools/forgix_toolchain_check.py",
+          "--plan"
+        ],
+        "exit_code": 2,
+        "expected_exit_code": 2,
+        "passed": true,
+        "elapsed_seconds": 0.06018553301692009,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "dc69be19239a61a6ae804285dad0e0f3d818e32cd48ac18540112cb090674dcb"
+      },
+      {
+        "name": "task_version",
+        "command": [
+          "task",
+          "--version"
+        ],
+        "exit_code": 0,
+        "expected_exit_code": 0,
+        "passed": true,
+        "elapsed_seconds": 0.04620001302100718,
+        "stdout_sha256": "3a94f8822a99c2e401e894d8f5475a2e1b115d6b291f096cff3e2efa9edb2ecf",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "iverilog_version",
+        "command": [
+          "iverilog",
+          "-V"
+        ],
+        "exit_code": 0,
+        "expected_exit_code": 0,
+        "passed": true,
+        "elapsed_seconds": 0.022276563104242086,
+        "stdout_sha256": "ca23091099109d3237b10e6336dbb5b325dda94c3c52cd4111d924bd60227f5d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "verilator_version",
+        "command": [
+          "verilator",
+          "--version"
+        ],
+        "exit_code": 0,
+        "expected_exit_code": 0,
+        "passed": true,
+        "elapsed_seconds": 0.09906500997021794,
+        "stdout_sha256": "110d748d8e6eca23b22ad7bf766d1d1fcf69c45731c3260fc80857cdd2d62576",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "yosys_version",
+        "command": [
+          "yosys",
+          "-V"
+        ],
+        "exit_code": 0,
+        "expected_exit_code": 0,
+        "passed": true,
+        "elapsed_seconds": 0.04734252498019487,
+        "stdout_sha256": "39ebf30e17a463ffb7b7c99a737f2e1d3dfaeca9d87385c39167c94bb4406b54",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "tool_versions": {
+    "task": "3.53.1",
+    "iverilog": "13.0",
+    "verilator": "5.052",
+    "yosys": "0.69+post"
+  },
+  "official_sources_checked_on": "2026-10-02",
+  "official_sources": [
+    {
+      "url": "https://www.efinixinc.com/support/",
+      "advertised_efinity_version": "2026.1.132",
+      "license_workflow": "register/login, then request free license through Efinity page"
+    },
+    {
+      "url": "https://www.efinixinc.com/products-efinity.html",
+      "free_full_license_and_maintenance_described": true
+    },
+    {
+      "url": "https://www.efinixinc.com/support/sw-maintenance.php",
+      "license_agreement_applies_to_download_and_use": true
+    },
+    {
+      "url": "https://www.efinixinc.com/docs/efinity-installation-v4.1.pdf",
+      "revision": "UG-EFN-INSTALL-v4.1 March 2026",
+      "reviewed_pages": [
+        3,
+        4,
+        6,
+        9
+      ]
+    },
+    {
+      "url": "https://www.efinixinc.com/support/efinity.php",
+      "anonymous_request_http_status": 403,
+      "response_category": "vendor website firewall denial",
+      "authentication_requirement_inferred_from_this_denial": false,
+      "credentials_or_account_session_used": false,
+      "response_addresses_and_identifiers_published": false
+    }
+  ],
+  "legitimate_unauthenticated_installer_established": false,
+  "account_created": false,
+  "terms_accepted": false,
+  "credentials_or_license_contents_read": false,
+  "new_filesystem_search_performed": false,
+  "result": "host_ready_vendor_missing",
+  "vendor_cli_verified": false,
+  "license_compile_verified": false,
+  "gateware_ready": false,
+  "physical_board_constraints_verified": false,
+  "public_files": {
+    "host-receipt.json": {
+      "bytes": 1725,
+      "sha256": "b974ca947a72e27464ac66638a2ea0f45482ef000ca114524b4ab26547e0574b"
+    },
+    "host-check.txt": {
+      "bytes": 207,
+      "sha256": "32f896320b47f909003a9f07e74c06d00b06340b331921d346912ff81403b29a"
+    },
+    "README.md": {
+      "bytes": 4380,
+      "sha256": "b3a14c725f9395aab539f3ccde78f386c3c6de39150ac38438ffe91dc0470f5c"
+    }
+  },
+  "root_revision_at_receipt": "ee6e39a1edc61fe748a0b5d65c78edbbac1c8812",
+  "taskfile_delta_at_receipt": "Only unrelated firmware:register:build/register:check tasks were added after initial revision; Forgix task definitions are unchanged."
+}
