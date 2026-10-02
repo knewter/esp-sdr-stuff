@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Run matched ten-bit HARDWARE/MANUAL48 source controls with fixed placement; qualify emitted counts before rates. Fresh SDR decoding and Trial B remain unresolved.",
-      "rationale": "Five complete historical SDR packets remain verified. Two fresh controls retain 2,248 null decodes. Native references receive the owned source; gain/register diagnostics show consistent sampled fields with full original restoration. Independent DC-first replay recovers no fresh packet and loses three historical results, so it remains unadopted. The independently replayed ON/OFF audit finds no repeated target-band increase and retains large OFF excursions; these observations do not establish analog gain or an RF cause. A bounded legacy/extended mode pair accepts all ten commands but both terminations remain 0x3c/count0. Source, monitor and whole-process cleanup pass; no emitted denominator or RF/count gate closes. Failed prior trials remain linked below.",
-      "reviewRevision": "f423978b9fc9dd22bca90370e2b9eefa8f644ba6",
+      "next": "Verify the original eight-bit/BW12/hardware-gain prerequisite before Trial B; obtain usable emitted counts before reporting rates. Three-cycle RF proof remains open.",
+      "rationale": "Five historical complete SDR packets remain verified. New matched ten-bit controls retain 1,994 valid snapshots and independently reproduce one fresh complete owned packet in manual48 ON0; hardware gain has zero owned and one redacted foreign CRC packet. Both full original-flash restorations pass. Scalar edges do not show three reciprocal source responses or calibrated gain superiority. Earlier 2,248 fresh nulls, rejected DC-first replay, native/register observations and failed count diagnostics remain preserved. The mode pair still reports 0x3c/count0 for legacy and extended; no emitted denominator or RF/count gate closes. The new ten-bit positive does not replace Trial B\u2019s original eight-bit prerequisite.",
+      "reviewRevision": "a9fc2ca0f0d14a2aacca72a7bf0c3a2579c291f9",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -96,11 +96,14 @@
         "docs/evidence/ble-on-off-waveform-independent-review/README.md",
         "docs/evidence/ble-mode-counter-preflight-review/preflight.json",
         "docs/evidence/ble-mode-counter-001/README.md",
-        "docs/evidence/ble-mode-counter-independent-review/README.md"
+        "docs/evidence/ble-mode-counter-independent-review/README.md",
+        "docs/evidence/ble-matched-gain-preflight/README.md",
+        "docs/evidence/ble-matched-gain-001/README.md",
+        "docs/evidence/ble-matched-gain-independent-review/README.md"
       ],
       "cover": {
-        "path": "docs/evidence/receiver-register-observation-002/stages.svg",
-        "caption": "81 actual sampled register readbacks and measured hook-body cycles; no calibrated gain or RF reception claim",
+        "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
+        "caption": "Fresh manual48 capture 48: independently verified complete owned BLE packet; uncalibrated amplitude",
         "provenance": "Board capture"
       }
     },
@@ -108,9 +111,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Run matched ten-bit HARDWARE/MANUAL48 source controls with fixed placement; qualify emitted counts before rates. Fresh SDR decoding and Trial B remain unresolved.",
-      "rationale": "Five complete historical SDR packets remain verified. Two fresh controls retain 2,248 null decodes. Native references receive the owned source; gain/register diagnostics show consistent sampled fields with full original restoration. Independent DC-first replay recovers no fresh packet and loses three historical results, so it remains unadopted. The independently replayed ON/OFF audit finds no repeated target-band increase and retains large OFF excursions; these observations do not establish analog gain or an RF cause. A bounded legacy/extended mode pair accepts all ten commands but both terminations remain 0x3c/count0. Source, monitor and whole-process cleanup pass; no emitted denominator or RF/count gate closes. Failed prior trials remain linked below.",
-      "reviewRevision": "f423978b9fc9dd22bca90370e2b9eefa8f644ba6",
+      "next": "Verify the original eight-bit/BW12/hardware-gain prerequisite before Trial B; obtain usable emitted counts before reporting rates. Three-cycle RF proof remains open.",
+      "rationale": "Five historical complete SDR packets remain verified. New matched ten-bit controls retain 1,994 valid snapshots and independently reproduce one fresh complete owned packet in manual48 ON0; hardware gain has zero owned and one redacted foreign CRC packet. Both full original-flash restorations pass. Scalar edges do not show three reciprocal source responses or calibrated gain superiority. Earlier 2,248 fresh nulls, rejected DC-first replay, native/register observations and failed count diagnostics remain preserved. The mode pair still reports 0x3c/count0 for legacy and extended; no emitted denominator or RF/count gate closes. The new ten-bit positive does not replace Trial B\u2019s original eight-bit prerequisite.",
+      "reviewRevision": "a9fc2ca0f0d14a2aacca72a7bf0c3a2579c291f9",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -151,11 +154,14 @@
         "docs/evidence/ble-on-off-waveform-independent-review/README.md",
         "docs/evidence/ble-mode-counter-preflight-review/preflight.json",
         "docs/evidence/ble-mode-counter-001/README.md",
-        "docs/evidence/ble-mode-counter-independent-review/README.md"
+        "docs/evidence/ble-mode-counter-independent-review/README.md",
+        "docs/evidence/ble-matched-gain-preflight/README.md",
+        "docs/evidence/ble-matched-gain-001/README.md",
+        "docs/evidence/ble-matched-gain-independent-review/README.md"
       ],
       "cover": {
-        "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",
-        "caption": "Four actual owned BLE packet amplitude windows, independently CRC/marker verified",
+        "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
+        "caption": "Fresh manual48 capture 48: independently verified complete owned BLE packet; uncalibrated amplitude",
         "provenance": "Board capture"
       }
     },

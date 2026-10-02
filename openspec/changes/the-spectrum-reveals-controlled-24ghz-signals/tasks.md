@@ -57,3 +57,10 @@ hold receiver precision and bandwidth fixed while changing requested gain mode.
 They require independent preflight and result review, complete restoration and
 the original three-response criterion. No original task is closed by planning
 or host tests.
+
+Actual [matched controls](docs/evidence/ble-matched-gain-001/README.md) and
+[independent review](docs/evidence/ble-matched-gain-independent-review/README.md)
+now verify all 1,994 snapshots, source cleanup and both full restorations.
+One fresh complete owned manual48 packet is partial reception proof. Hardware
+has no owned packet; neither condition supplies three reciprocal source
+responses, calibrated gain or emitted counts. Original task checks stay open.

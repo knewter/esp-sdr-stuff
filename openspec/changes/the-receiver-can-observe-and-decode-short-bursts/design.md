@@ -51,3 +51,11 @@ restoration. Selector 48 / bit23=1 throughout narrows a sampled configuration-fi
 mismatch explanation for that run; it does not decode a packet, qualify source
 counts or explain the fresh SDR nulls. The first supervisor failure is retained.
 Trial B remains withheld until its original fresh SDR-positive prerequisite.
+
+The [matched ten-bit controls](docs/evidence/ble-matched-gain-001/README.md)
+now reproduce one fresh manual48 owned packet with independently verified
+protected CRC, whole AD and complete waveform window. All 1,994 inputs and both
+full restorations pass [independent replay](docs/evidence/ble-matched-gain-independent-review/README.md).
+Hardware gain retains zero owned and one redacted foreign CRC packet. The source
+remains uncounted, three-response proof remains incomplete, and this profile
+does not replace Trial B's original eight-bit/BW12/hardware-gain prerequisite.

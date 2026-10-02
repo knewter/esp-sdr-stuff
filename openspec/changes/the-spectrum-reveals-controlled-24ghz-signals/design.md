@@ -170,3 +170,12 @@ now completes in 32.826581557 seconds with accepted commands and verified
 source/monitor/group cleanup. Both modes retain `0x3c/count0`; the proposed
 mode-associated distinction was not observed. Each helper retains its strict
 failed count gate. No emitted denominator or hidden-SDR reception follows.
+
+The [completed matched gain controls](docs/evidence/ble-matched-gain-001/README.md)
+retain 1,010 manual48 and 984 hardware-gain snapshots. Independent full replay
+and separate waveform re-slicing verify one fresh complete owned packet in
+manual ON0; hardware has zero owned and one foreign CRC-valid packet, redacted.
+Both full original restorations pass. Frozen target-band edges do not give
+three reciprocal source responses. This reproduces a fresh ten-bit SDR example
+without establishing calibrated gain, counts or the original eight-bit/BW12/
+hardware-gain Trial B prerequisite. All original tasks remain unchanged.

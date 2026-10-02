@@ -39,3 +39,9 @@ accepts ten source commands and verifies both original source/monitor
 terminations. Legacy and extended modes both retain `0x3c/count0` with
 complete cleanup. Their count gates remain failed; this supplies no emitted
 denominator, fresh hidden-SDR packet or closure of task 1.1/1.2.
+
+The [independently reviewed matched gain controls](docs/evidence/ble-matched-gain-independent-review/README.md)
+reproduce one fresh complete owned packet in manual ten-bit capture 48 and
+retain zero owned packets in the hardware-gain condition. All 1,994 transport
+records, source cleanup and full restorations pass. No emitted denominator or
+three-response result follows, and tasks 1.1/1.2 stay unchecked.
