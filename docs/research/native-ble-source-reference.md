@@ -1,8 +1,10 @@
 # A native passive BLE source reference
 
-Status: implementation and build-only evaluation. **No native reference firmware
-has been installed or measured.** This proposed diagnostic does not change the
-SDR acceptance rules. The fresh [8-bit](../evidence/ble-bluez-control-001/README.md)
+Status: version 2 implementation awaiting its own build/review/physical trial.
+The [version 1 trial](../evidence/native-ble-source-reference-001/README.md)
+delivered owned reports but failed its natural-completion requirement and was
+restored. That failed run is retained; it is not a completed native control.
+This diagnostic does not change the SDR acceptance rules. The fresh [8-bit](../evidence/ble-bluez-control-001/README.md)
 and [10-bit](../evidence/ble-bluez-control-002/README.md) SDR controls remain null;
 the five older complete packet proofs remain valid.
 
@@ -53,22 +55,36 @@ is rejected. The actual generated configuration remains part of artifact hashing
 Firmware waits at most 30 seconds for `START <nonce>` after stack initialization.
 A typed CONFIG heartbeat identifies the profile. The host requires that exact
 configuration before sending a fresh 16-character lowercase hexadecimal nonce.
-Malformed commands fail inertly. One 90,000-ms `ble_gap_disc` call then uses passive
+Malformed commands fail inertly. One `ble_gap_disc` call retains the 90,000-ms requested duration, passive
 scanning, duplicate filtering off, and interval/window 160 units each (100 ms).
 READY is emitted **only after that API returns success**. No automatic restart or
-fallback occurs. The watchdog fails if normal completion is missing; it does not
-turn a timed-out session into successful reception evidence.
+fallback occurs. Version 2 explicitly identifies its `completion_mode` as `application_cancel`.
+The application checks that discovery stays active, waits at least 90 seconds on
+the ESP monotonic clock, then calls the public `ble_gap_disc_cancel` API exactly
+once. Success requires cancel status 0, `ble_gap_disc_active()` returning 0 and a
+finished elapsed time no greater than 92 seconds. END reports `cancel_status` and
+`scan_active_after_stop` separately; it does not claim natural DISC_COMPLETE.
+Any unexpected DISC_COMPLETE, early inactive discovery, cancel failure, active
+procedure after stop or excessive duration fails. Counters/RSSI are finalized
+under the callback critical section only after verified stopping, and later
+queued advertising reports are discarded. No automatic restart occurs.
+
+The exact pinned NimBLE `ble_hs.c` places `ble_gap_timer()` dispatch inside
+`#if NIMBLE_BLE_CONNECT`. Both connection roles are intentionally disabled here,
+so version 1's API duration did not produce its expected completion callback.
+The version 2 application-stop contract uses public APIs; it changes neither the
+SDK nor connection roles and preserves version 1's failed outcome.
 
 AD structures are length checked before comparing the whole owned 16-byte field
 `0fffffff4553502d5344522d4556414c`. Foreign payloads and every address are discarded
 before the callback updates counters or writes output. Matching data itself is
 not dumped. Every one-second aggregate contains a consecutive sequence, firmware
 interval start/end, interval/cumulative owned-report counts and an uncalibrated
-RSSI count/sum/min/max. The terminal aggregate includes discovery status, requested
-duration and actual firmware elapsed time. Counter overflow and reset/init errors
+RSSI count/sum/min/max. The terminal aggregate includes acknowledged application-stop status, inactive
+procedure state, requested duration and actual firmware elapsed time. Counter overflow and reset/init errors
 fail explicitly. Generic example logging/connection behavior is deliberately absent.
 
-The builder emits the **separate** `native-ble-source-reference-v1` manifest,
+The builder emits the **separate** `native-ble-source-reference-v2` manifest,
 generated SDKconfig and build provenance: committed source files/tree hashes,
 SDK fixed-output source hash, compiler version and exact three-part hashes/layout.
 The native guard rehashes source files via the recorded Git commit, checks actual
@@ -85,10 +101,10 @@ signal-safe process ownership and restoration helpers with the proven ESP demo.
 It installs only a separately guarded native artifact. A child exclusively owns
 UART, retains boot/raw bytes privately, and publishes only exact typed schema
 records. Readiness and terminal nonce must match; unexpected fields, configuration
-changes, sequence gaps, inconsistent totals/RSSI and unsuccessful/short completion
+changes, sequence gaps, inconsistent totals/RSSI and unsuccessful/short application stopping
 fail. Each firmware bucket and READY record retains the **whole host line receipt
 bracket**. These clocks are nominal and UART/controller latency is uncalibrated;
-they are not exact RF packet times. Terminal firmware elapsed must be 89–92 seconds
+they are not exact RF packet times. Terminal firmware elapsed must be 90–92 seconds
 and host observation at least 88 seconds, tolerating API/timer scheduling rather
 than implying calibrated duration. These bounds are not the strict SDR demo gate.
 
@@ -146,3 +162,10 @@ and [NIST FIPS 197 (2001), Appendix C.1 AES-128 vector](https://nvlpubs.nist.gov
 The independent vector uses key `000102030405060708090a0b0c0d0e0f`, plaintext
 `00112233445566778899aabbccddeeff`, ciphertext
 `69c4e0d86a7b0430d8cdb78070b4c55a`; API arguments/results reverse those bytes.
+
+Finite-stop provenance: [pinned NimBLE role-gated timer dispatch](https://github.com/espressif/esp-nimble/blob/1a714b03dcea55e58066e21213a5f150f2e50088/nimble/host/src/ble_hs.c#L577),
+[pinned public cancel implementation](https://github.com/espressif/esp-nimble/blob/1a714b03dcea55e58066e21213a5f150f2e50088/nimble/host/src/ble_gap.c#L8087),
+and [Apache Mynewt public discovery-cancel API](https://mynewt.apache.org/latest/network/ble_hs/ble_gap.html#c.ble_gap_disc_cancel).
+The pinned implementation sends scan disable while holding the host lock and
+resets discovery state only after successful HCI completion; cancellation does
+not synthesize the natural discovery-complete callback.

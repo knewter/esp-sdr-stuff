@@ -13,8 +13,8 @@ from build_esp_sdr_uart import SDK, SDK_NIX_SOURCE_HASH, nix_sdk_provenance
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT/'firmware/native-ble-reference'
-KIND = 'native-ble-source-reference-v1'
-VERSION = 'native-ble-ref-v1'
+KIND = 'native-ble-source-reference-v2'
+VERSION = 'native-ble-ref-v2'
 FILES = ('CMakeLists.txt','main/CMakeLists.txt','main/main.c','main/privacy_crypto.c','partitions.csv','sdkconfig.defaults')
 REQUIRED = ('CONFIG_IDF_TARGET="esp32"','CONFIG_BT_ENABLED=y','CONFIG_BTDM_CTRL_MODE_BLE_ONLY=y',
     'CONFIG_BT_NIMBLE_ENABLED=y','CONFIG_BT_NIMBLE_ROLE_OBSERVER=y',
@@ -108,7 +108,7 @@ def main(argv=None):
                   source_tree_sha256=source_tree_hash(files),idf_commit=SDK,nix_sdk_provenance=provenance,
                   sdkconfig_sha256=sha(a.output/'sdkconfig'),required_sdkconfig_lines=list(REQUIRED),disabled_hidden_sdkconfig_keys=list(DISABLED_HIDDEN),
                   compiler_version=subprocess.check_output(['xtensa-esp-elf-gcc','--version'],text=True).splitlines()[0],
-                  profile=dict(scan_ms=90000,passive=True,filter_duplicates=False,interval_units=160,window_units=160,uart_baud=115200))
+                  profile=dict(completion_mode="application_cancel",scan_ms=90000,passive=True,filter_duplicates=False,interval_units=160,window_units=160,uart_baud=115200))
         (a.output/'build-info.json').write_text(json.dumps(info,indent=2)+'\n')
         manifest=dict(schema=1,kind=KIND,target='esp32',version=VERSION,parts=parts,
                       source_tree_sha256=info['source_tree_sha256'],build_info_sha256=sha(a.output/'build-info.json'))

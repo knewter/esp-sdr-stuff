@@ -31,7 +31,7 @@ def bucket(kind='AGG',sequence=1,start=1000000,end=2000000,count=2,total=2):
     r=dict(schema=1,kind=kind,version=build.VERSION,nonce=NONCE,sequence=sequence,interval_start_us=start,
            interval_end_us=end,owned_interval=count,owned_total=total,rssi_known=count,
            rssi_sum=-50*count,rssi_min=-50 if count else None,rssi_max=-50 if count else None)
-    if kind=='END':r.update(scan_status=0,elapsed_us=end-1000000,scan_ms=90000)
+    if kind=='END':r.update(completion_mode='application_cancel',cancel_status=0,scan_active_after_stop=False,elapsed_us=end-1000000,scan_ms=90000)
     return r
 
 
@@ -48,7 +48,7 @@ class NativeRecordsTests(unittest.TestCase):
         self.assertEqual(r.rows[1]['interval_start_us'],r.rows[0]['interval_end_us'])
 
     def test_config_field_types_and_extra_foreign_fields_rejected(self):
-        for field,value in [('passive',1),('filter_duplicates',0),('uart_baud',921600),('schema',1.0),('address','foreign')]:
+        for field,value in [('passive',1),('filter_duplicates',0),('uart_baud',921600),('schema',1.0),('completion_mode','natural_complete'),('address','foreign')]:
             with self.subTest(field=field),self.assertRaises(native.ProtocolError):
                 native.Records(NONCE).accept({**native.CONFIG,field:value},0,1)
 
@@ -70,10 +70,25 @@ class NativeRecordsTests(unittest.TestCase):
 
     def test_terminal_status_duration_and_full_host_observation_required(self):
         good=bucket('END',1,1000000,91000000)
-        for field,value in [('scan_status',1),('elapsed_us',1000000),('scan_ms',90000.0),('sequence',0)]:
+        for field,value in [('cancel_status',1),('cancel_status',False),('scan_active_after_stop',True),
+                            ('scan_active_after_stop',0),('completion_mode','natural_complete'),
+                            ('elapsed_us',1000000),('scan_ms',90000.0),('sequence',0)]:
             with self.subTest(field=field),self.assertRaises(native.ProtocolError):
                 configured().accept({**good,field:value},91*SECOND,91*SECOND+1)
         with self.assertRaises(native.ProtocolError):configured().accept(good,2*SECOND,2*SECOND+1)
+
+    def test_v1_natural_completion_and_early_or_late_application_stop_are_rejected(self):
+        end=bucket('END',end=91000000)
+        natural={**end,'scan_status':0}
+        for key in ('completion_mode','cancel_status','scan_active_after_stop'):natural.pop(key)
+        for record in ({**end,'version':'native-ble-ref-v1'},natural):
+            with self.assertRaises(native.ProtocolError):configured().accept(record,91*SECOND,91*SECOND+1)
+        for duration in (89999999,92000001):
+            record=bucket('END',end=1000000+duration)
+            with self.assertRaises(native.ProtocolError):configured().accept(record,94*SECOND,94*SECOND+1)
+        for stage in ('UNEXPECTED_COMPLETE','SCAN_INACTIVE','SCAN_CANCEL','SCAN_STILL_ACTIVE','SCAN_TIME_OVERRUN'):
+            record=dict(schema=1,kind='ERROR',version=build.VERSION,stage=stage,code=1)
+            with self.assertRaisesRegex(native.ProtocolError,'initialization/runtime'):configured().accept(record,91*SECOND,91*SECOND+1)
 
     def test_init_error_and_zero_owned_result_are_explicit(self):
         with self.assertRaisesRegex(native.ProtocolError,'initialization/runtime'):

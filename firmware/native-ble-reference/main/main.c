@@ -15,13 +15,14 @@
 
 int native_privacy_crypto_selftest(void);
 
-#define VERSION "native-ble-ref-v1"
+#define VERSION "native-ble-ref-v2"
 #define SCAN_MS 90000
 static const uint8_t owned_ad[] = {0x0f,0xff,0xff,0xff,0x45,0x53,0x50,0x2d,
                                  0x53,0x44,0x52,0x2d,0x45,0x56,0x41,0x4c};
 static portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
-static volatile bool synced, failed, done;
-static int reason;
+static volatile bool synced, failed, finalized, unexpected_complete;
+static int complete_reason, stop_status;
+static bool stopped_active = true;
 static int64_t started_us, finished_us, interval_start_us;
 static uint32_t total, bucket, rssi_known;
 static int64_t rssi_sum;
@@ -52,6 +53,7 @@ static int gap_event(struct ble_gap_event *event, void *unused) {
         /* Foreign AD and all addresses are discarded before any output. */
         if (!exact_owned(event->disc.data, event->disc.length_data)) return 0;
         portENTER_CRITICAL(&mux);
+        if (finalized) { portEXIT_CRITICAL(&mux); return 0; }
         if (total == UINT32_MAX || bucket == UINT32_MAX) failed = true;
         else { total++; bucket++; }
         int rssi = event->disc.rssi;
@@ -63,8 +65,9 @@ static int gap_event(struct ble_gap_event *event, void *unused) {
         portEXIT_CRITICAL(&mux);
     } else if (event->type == BLE_GAP_EVENT_DISC_COMPLETE) {
         portENTER_CRITICAL(&mux);
-        reason = event->disc_complete.reason;
-        finished_us = esp_timer_get_time(); done = true;
+        /* cancel() does not synthesize DISC_COMPLETE. Any such event is an
+         * unexpected end, never the acknowledged application-stop receipt. */
+        complete_reason = event->disc_complete.reason; unexpected_complete = true;
         portEXIT_CRITICAL(&mux);
     }
     return 0;
@@ -80,7 +83,7 @@ static void host_task(void *unused) {
 
 static void config(void) {
     printf("{\"schema\":1,\"kind\":\"CONFIG\",\"version\":\"" VERSION "\","
-           "\"scan_ms\":90000,\"passive\":true,\"filter_duplicates\":false,"
+           "\"completion_mode\":\"application_cancel\",\"scan_ms\":90000,\"passive\":true,\"filter_duplicates\":false,"
            "\"interval_units\":160,\"window_units\":160,\"uart_baud\":115200,"
            "\"owned_ad_hex\":\"0fffffff4553502d5344522d4556414c\"}\n");
     fflush(stdout);
@@ -122,12 +125,12 @@ static bool wait_start(void) {
 
 static void emit_bucket(bool terminal) {
     uint32_t count, cumulative, known; int64_t sum, end;
-    int minimum, maximum, status;
+    int minimum, maximum;
     portENTER_CRITICAL(&mux);
-    if (!terminal && done) { portEXIT_CRITICAL(&mux); return; }
+    if (!terminal && finalized) { portEXIT_CRITICAL(&mux); return; }
     end = terminal ? finished_us : esp_timer_get_time();
     count = bucket; cumulative = total; known = rssi_known;
-    sum = rssi_sum; minimum = rssi_min; maximum = rssi_max; status = reason;
+    sum = rssi_sum; minimum = rssi_min; maximum = rssi_max;
     bucket = rssi_known = 0; rssi_sum = 0; rssi_min = 127; rssi_max = -128;
     portEXIT_CRITICAL(&mux);
     printf("{\"schema\":1,\"kind\":\"%s\",\"version\":\"" VERSION "\","
@@ -139,8 +142,9 @@ static void emit_bucket(bool terminal) {
            count,cumulative,known,sum);
     if (known) printf("\"rssi_min\":%d,\"rssi_max\":%d",minimum,maximum);
     else printf("\"rssi_min\":null,\"rssi_max\":null");
-    if (terminal) printf(",\"scan_status\":%d,\"elapsed_us\":%" PRId64 ",\"scan_ms\":%d",
-                         status,end-started_us,SCAN_MS);
+    if (terminal) printf(",\"completion_mode\":\"application_cancel\",\"cancel_status\":%d,"
+                         "\"scan_active_after_stop\":%s,\"elapsed_us\":%" PRId64 ",\"scan_ms\":%d",
+                         stop_status,stopped_active ? "true" : "false",end-started_us,SCAN_MS);
     puts("}"); fflush(stdout); interval_start_us = end;
 }
 
@@ -172,14 +176,42 @@ void app_main(void) {
     printf("{\"schema\":1,\"kind\":\"READY\",\"version\":\"" VERSION "\","
            "\"nonce\":\"%s\",\"scan_start_us\":%" PRId64 ",\"scan_status\":0}\n",
            nonce,started_us); fflush(stdout);
-    while (!failed && !done) {
-        vTaskDelay(pdMS_TO_TICKS(1000));
-        if (!done && !failed) emit_bucket(false);
-        if (esp_timer_get_time()-started_us > 92000000 && !done) {
-            ble_gap_disc_cancel(); error("SCAN_TIMEOUT",-1); return;
+    /* The pinned observer-only SDK compiles out ble_gap_timer dispatch under
+     * NIMBLE_BLE_CONNECT. Do not enable connection roles or patch the SDK:
+     * cancel the unchanged passive scan explicitly after 90s on the ESP clock. */
+    int64_t next_bucket = started_us + 1000000;
+    for (;;) {
+        if (failed) {
+            if (ble_gap_disc_active()) ble_gap_disc_cancel();
+            error("COUNTER_OR_RESET",-1); return;
         }
+        if (unexpected_complete) { error("UNEXPECTED_COMPLETE",complete_reason); return; }
+        if (!ble_gap_disc_active()) { error("SCAN_INACTIVE",-1); return; }
+        int64_t now = esp_timer_get_time();
+        if (now-started_us >= 90000000) break;
+        if (now >= next_bucket) {
+            emit_bucket(false); next_bucket = now + 1000000;
+        }
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
-    if (failed) { error("COUNTER_OR_RESET",-1); return; }
+    int cancel_status = ble_gap_disc_cancel();
+    int active_after_stop = ble_gap_disc_active();
+    int64_t stopped_us = esp_timer_get_time();
+    if (cancel_status) { error("SCAN_CANCEL",cancel_status); return; }
+    if (active_after_stop) { error("SCAN_STILL_ACTIVE",active_after_stop); return; }
+    if (stopped_us-started_us < 90000000 || stopped_us-started_us > 92000000) {
+        error("SCAN_TIME_OVERRUN",-1); return;
+    }
+    portENTER_CRITICAL(&mux);
+    /* All later queued advertising reports are discarded, so END freezes the
+     * same cumulative count/RSSI state protected by the callback critical section. */
+    finalized = true; finished_us = esp_timer_get_time();
+    stop_status = cancel_status; stopped_active = active_after_stop != 0;
+    bool invalid = failed || unexpected_complete;
+    bool late = finished_us-started_us > 92000000;
+    portEXIT_CRITICAL(&mux);
+    if (invalid) { error("COUNTER_OR_RESET",-1); return; }
+    if (late) { error("SCAN_TIME_OVERRUN",-1); return; }
     emit_bucket(true);
     nimble_port_stop(); nimble_port_deinit();
 }

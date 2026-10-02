@@ -22,13 +22,13 @@ import time
 import demo_esp_sdr as lifecycle_helpers
 from build_native_ble_reference import DISABLED_HIDDEN, KIND, PARTS, REQUIRED, ROOT, SDK, SDK_NIX_SOURCE_HASH, VERSION, sha, source_files, source_tree_hash, validate_config
 
-CONFIG=dict(schema=1,kind='CONFIG',version=VERSION,scan_ms=90000,passive=True,
+CONFIG=dict(schema=1,kind='CONFIG',version=VERSION,completion_mode='application_cancel',scan_ms=90000,passive=True,
             filter_duplicates=False,interval_units=160,window_units=160,uart_baud=115200,
             owned_ad_hex='0fffffff4553502d5344522d4556414c')
 BASE_KEYS={'schema','kind','version'}
 AGG_KEYS=BASE_KEYS|{'nonce','sequence','interval_start_us','interval_end_us','owned_interval',
                    'owned_total','rssi_known','rssi_sum','rssi_min','rssi_max'}
-ERROR_STAGES={'CRYPTO_SELFTEST','UART','NVS','NIMBLE','COMMAND','START_TIMEOUT','SCAN','SCAN_TIMEOUT','COUNTER_OR_RESET','CONTROLLER_RESET'}
+ERROR_STAGES={'CRYPTO_SELFTEST','UART','NVS','NIMBLE','COMMAND','START_TIMEOUT','SCAN','SCAN_TIMEOUT','COUNTER_OR_RESET','CONTROLLER_RESET','UNEXPECTED_COMPLETE','SCAN_INACTIVE','SCAN_CANCEL','SCAN_STILL_ACTIVE','SCAN_TIME_OVERRUN'}
 
 
 class ProtocolError(ValueError):pass
@@ -84,7 +84,7 @@ def validate_artifact(artifact,manifest):
             provenance.get('source_hash')==SDK_NIX_SOURCE_HASH and
             str(provenance.get('source_path','')).startswith('/nix/store/') and
             str(provenance.get('idf_path','')).startswith('/nix/store/'),'Unpinned native SDK')
-    require(info.get('profile')=={k:CONFIG[k] for k in ('scan_ms','passive','filter_duplicates','interval_units','window_units','uart_baud')},'Unexpected native radio/runtime profile')
+    require(info.get('profile')=={k:CONFIG[k] for k in ('completion_mode','scan_ms','passive','filter_duplicates','interval_units','window_units','uart_baud')},'Unexpected native radio/runtime profile')
     require(info.get('sdkconfig_sha256')==sha(manifest.with_name('sdkconfig')),'Native generated config hash mismatch')
     validate_config(manifest.with_name('sdkconfig').read_text())
     require(info.get('required_sdkconfig_lines')==list(REQUIRED) and
@@ -138,7 +138,7 @@ class Records:
             self.last_end=data['scan_start_us'];self.ready={**data,'host_line_start_ns':start,'host_line_end_ns':end}
             return self.ready
         require(self.ready is not None and self.end is None and kind in ('AGG','END'),'Aggregate outside owned scan')
-        keys=AGG_KEYS|({'scan_status','elapsed_us','scan_ms'} if kind=='END' else set())
+        keys=AGG_KEYS|({'completion_mode','cancel_status','scan_active_after_stop','elapsed_us','scan_ms'} if kind=='END' else set())
         require(set(data)==keys,'Unexpected aggregate fields; raw data must not be published')
         for key in ('sequence','interval_start_us','interval_end_us','owned_interval','owned_total','rssi_known','rssi_sum'):
             require(type(data[key]) is int,'Noninteger native statistic')
@@ -153,9 +153,11 @@ class Records:
                     data['rssi_min']*known<=data['rssi_sum']<=data['rssi_max']*known,'Invalid uncalibrated RSSI aggregate')
         else:require(data['rssi_min'] is None and data['rssi_max'] is None and data['rssi_sum']==0,'Empty RSSI bucket must be null')
         if kind=='END':
-            require(type(data['scan_status']) is int and data['scan_status']==0 and type(data['scan_ms']) is int and data['scan_ms']==90000 and
+            require(data['completion_mode']=='application_cancel' and type(data['cancel_status']) is int and data['cancel_status']==0 and
+                    type(data['scan_active_after_stop']) is bool and data['scan_active_after_stop'] is False and
+                    type(data['scan_ms']) is int and data['scan_ms']==90000 and
                     type(data['elapsed_us']) is int and data['elapsed_us']==data['interval_end_us']-self.ready['scan_start_us'] and
-                    89000000<=data['elapsed_us']<=92000000,'Scan completion status/duration differs')
+                    90000000<=data['elapsed_us']<=92000000,'Acknowledged application stop status/duration differs')
             require(end-self.ready['host_line_end_ns']>=88000000000,'Host observed scan is too short')
         row={**data,'host_line_start_ns':start,'host_line_end_ns':end}
         self.rows.append(row);self.sequence=data['sequence'];self.total=data['owned_total'];self.last_end=data['interval_end_us']
