@@ -73,7 +73,7 @@ external state checks and measured host interval. Publication checks parsed all
 12 native files, checked their fields and ordering, and screened for address-like
 strings/private identifier fields. Operation logs and raw traffic were omitted.
 
-The earlier [count-only smoke failures](../ble-counted-source-smoke/) remain a
+The earlier [count-only smoke failures](../ble-counted-source-smoke/README.md) remain a
 distinct evidence set: duration zero and no observed termination event. These
 new duration results neither rewrite those receipts nor convert requested event
 limits into successful counts. The original burst evaluation remains open until
