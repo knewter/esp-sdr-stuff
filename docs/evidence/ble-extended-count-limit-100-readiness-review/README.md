@@ -1,0 +1,9 @@
+# Independent source-only readiness review
+
+The separately frozen extended100 readiness caller passed offline review on 2026-10-02. [receipt.json](receipt.json) binds the exact caller, Task, tests, protocol and 22-input proof. The final locked Nix/Task replay passed 24 tests; four independent deadline/metadata probes and all 22 input bindings passed. Fixtures use synthetic count100/timing fields and establish no new physical result.
+
+The sole source profile remains handle 1, extended properties 0, map 1, LE1M primary/secondary, 20 ms interval, the existing exact 16-byte owned AD, Duration 5,000 ms, MaxEvents 100 and one-second delay. Success still requires actual typed `0x43/count100`, source exit 0, five matching accepted command pairs, complete monitor receipt and verified owned cleanup. A typed duration diagnostic remains exit 2; cancellation or unknown closure cannot qualify.
+
+Review found that identity/hash work after readiness could outlast the outer deadline. The replacement freeze anchors 15 seconds before monitor launch and checks the same deadline on readiness return and immediately before source launch. Independent simulated time advancing to 16 seconds after readiness now permits only the monitor to start and records failure with verified synthetic cleanup. Monitor readiness/capture/grace remain 10/30/5 seconds with a 45-second active bound; parent active supervision remains 60 seconds. Final cleanup has its existing separate finite waits.
+
+Runtime image and recursive closure preflight remain pending for the sole hardware operator. This review opened no device and invoked no Docker. It provides no RF denominator, detection rate, SDR decode, physical controller-limit result or Trial B release. The earlier failed caller and episode remain unchanged. The initial replay raced an author edit and failed a transient fixture; only the replacement frozen 24-test replay qualifies here.
