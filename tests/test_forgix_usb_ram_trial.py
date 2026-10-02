@@ -1,10 +1,34 @@
 """Lifecycle/identity/closure failures through synthetic dependencies only."""
 import hashlib,io,json,os,stat,sys,tarfile,tempfile,time,unittest
+import shutil
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch,Mock
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
 import forgix_usb_ram_trial as m
+
+class PicotoolVersion(unittest.TestCase):
+    def test_exact_banner_accepted_from_either_stream_after_success(self):
+        banner='picotool v2.3.1 (Linux, GNU-15.3.0, Release)\n'
+        for stdout,stderr in ((banner,''),('',banner)):
+            with self.subTest(stream='stdout' if stdout else 'stderr'),patch.object(m.subprocess,'run',return_value=SimpleNamespace(stdout=stdout,stderr=stderr)) as run:
+                self.assertEqual(m.pinned_picotool_version('/synthetic/picotool'),banner.strip())
+                run.assert_called_once_with(['/synthetic/picotool','version'],capture_output=True,text=True,check=True,timeout=10)
+    def test_nearby_versions_and_unrelated_text_are_rejected(self):
+        for banner in ('picotool v2.3.10','picotool v2.3.1beta','picotool v2.3.1-extra','another-tool v2.3.1',
+                       'unrelated text with 2.3.1','prefix picotool v2.3.1','picotool v2.3.1\nextra output'):
+            with self.subTest(banner=banner),patch.object(m.subprocess,'run',return_value=SimpleNamespace(stdout=banner,stderr='')),self.assertRaises(m.preserve.PreservationError):
+                m.pinned_picotool_version('/synthetic/picotool')
+    def test_nonzero_exit_rejected_even_with_expected_banner(self):
+        error=m.subprocess.CalledProcessError(1,['/synthetic/picotool','version'],output='picotool v2.3.1\n')
+        with patch.object(m.subprocess,'run',side_effect=error),self.assertRaises(m.subprocess.CalledProcessError):
+            m.pinned_picotool_version('/synthetic/picotool')
+    @unittest.skipUnless(shutil.which('picotool'),'Locked default Nix shell supplies picotool; CI shell omits it')
+    def test_real_locked_nix_picotool_version_without_hardware(self):
+        tool=Path(shutil.which('picotool')).resolve()
+        self.assertTrue(tool.is_relative_to('/nix/store'))
+        banner=m.pinned_picotool_version(tool)
+        self.assertTrue(banner.startswith('picotool v2.3.1 ('))
 
 class Guards(unittest.TestCase):
     def test_exact_ram_load_and_preservation_whitelist_unchanged(self):
