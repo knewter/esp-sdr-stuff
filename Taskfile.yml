@@ -160,6 +160,24 @@ tasks:
     cmds:
       - python3 tools/fpga_budget.py {{.CLI_ARGS}}
 
+  native:ble:build:
+    desc: Build the separate passive BLE source reference without opening hardware (use nix develop .#firmware)
+    preconditions:
+      - sh: test -n "$ESP_SDR_IDF_PROVENANCE"
+        msg: Use the pinned Nix firmware shell with fresh build and artifact paths
+    cmds:
+      - python3 tools/build_native_ble_reference.py {{.CLI_ARGS}}
+
+  native:ble:run:
+    desc: Run the bounded passive native source reference and verify original-flash restoration (exclusive hardware operator)
+    cmds:
+      - python3 tools/native_ble_reference.py run {{.CLI_ARGS}}
+
+  native:ble:restore:
+    desc: Restore and verify the preserved original image after a native reference trial (exclusive hardware operator)
+    cmds:
+      - python3 tools/native_ble_reference.py restore {{.CLI_ARGS}}
+
   forgix:check:
     desc: Check pinned Forgix host tools without opening hardware (use nix develop .#forgix)
     cmds:

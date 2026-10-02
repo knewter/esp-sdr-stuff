@@ -15,7 +15,7 @@ def export():
         requested.update(item["evidence"])
         requested.update(doc["path"] for doc in item["details"])
     for path in data["trackedPaths"]:
-        if path.startswith(("docs/", "openspec/", "scripts/", "tools/", "tests/", ".skills/", "nix/")) or path in ("README.md", "AGENTS.md", "flake.nix", "flake.lock", "Taskfile.yml"):
+        if path.startswith(("docs/", "openspec/", "scripts/", "tools/", "tests/", ".skills/", "nix/", "firmware/")) or path in ("README.md", "AGENTS.md", "flake.nix", "flake.lock", "Taskfile.yml"):
             requested.add(path)
     known = set(data["trackedPaths"])
     for path in sorted(requested):
