@@ -14,7 +14,7 @@ Grounding: [native002](../evidence/native-ble-source-reference-002/README.md),
 [zero-counter RF trial](../evidence/ble-zero-counter-rf/README.md), and
 [unchanged prospective BLE plan](ble-next-trial.md).
 
-## Retained failed first run and prospective supervisor v2
+## Retained failed first run and prospective supervisors
 
 Run001 stopped after its first source. The helper returned the expected
 duration termination `0x3c/count0` and diagnostic exit 2, but the enclosing
@@ -34,8 +34,42 @@ receipt records its version, explicit passthrough and actual source Task code.
 It never normalizes a generic 201 into an accepted diagnostic. Full typed
 source/ACK/termination/cleanup validation remains necessary even after exit 2.
 See [Task's documented passthrough flag](https://taskfile.dev/docs/reference/cli#x-exit-code).
-Root must explicitly launch a fresh002 after review; the failed001 caller
+Root must explicitly launch a fresh 002 after review; the failed 001 caller
 does not automatically retry, resume or fall back.
+
+V2 was held before a physical run because startup overhead could exhaust the
+fixed schedule. In run 001 the first source's Task start to configuration took
+8.579 seconds. The ideal minimum schedule already uses 65 seconds: initial
+10 OFF, six requested five-second source periods and five five-second OFF gaps.
+That leaves ten seconds for all startup/configuration/cleanup within the
+READY +75 source-closure limit. Host-only warmed image loads took about
+1.17..1.22 seconds each and harmless help containers about 0.52..0.57 seconds;
+help exits before image resolution and is not a measured real source startup.
+These measurements justify removing repeated image loads, without extending
+the source limit, shortening conditions or promising the resulting schedule fits.
+
+Prospective supervisor **v3** hashes and loads the exact Nix source archive once
+**before starting the native parent**. It reads bounded Docker-save manifest and
+configuration metadata without extraction, requires the archive's exact tag,
+derives expected immutable image ID from configuration SHA256, and requires the
+loaded tag's inspected image ID to match. It records archive size/hash, tag,
+configuration digest, expected/selected IDs, match result and preload host
+brackets. This excludes trusting an unrelated stale tag after a load.
+[Docker's image specification](https://github.com/moby/docker-image-spec/blob/main/spec.md#terminology)
+defines image ID through the configuration digest.
+
+Each source child alone receives `BLE_SOURCE_PRELOADED_IMAGE_ID` through its
+command environment and retains Task `--exit-code`. The source wrapper validates
+strict `sha256:` ID format and currently inspected tag identity **before every
+source**, never reloading or falling back after an explicit preload request.
+It launches by immutable ID and records `image_id` plus
+`preloaded_image_reused=true` in its closure receipt. Both fields must match
+the preloaded proof before another episode starts. Without the optional preload
+environment variable, standalone wrapper behavior still loads the archive.
+Native, monitor, common Child, HCI source code, receiver and allowlist remain
+unchanged. Six real host-only reuse resolutions totaled 0.151 seconds; source
+launch/HCI timing still needs the fresh physical comparison. No successful
+six-episode timing or RF/count result is inferred from host-only checks.
 
 ## Fixed comparison and actual measurements
 
@@ -118,7 +152,7 @@ guide investigation but is not a controller-firmware causal diagnosis.
 
 ## Private offline supervisor and operator command
 
-The private root files are `.scratch/run_native_direct_reference.py`,
+The private root files are `.scratch/run_native_direct_reference.py` (v3),
 `.scratch/test_native_direct_supervisor.py` and
 `.scratch/run_native_direct_reference.task.yml`. Before launching children the
 supervisor saves read-only copies and SHA256 of itself, its Task recipe,
