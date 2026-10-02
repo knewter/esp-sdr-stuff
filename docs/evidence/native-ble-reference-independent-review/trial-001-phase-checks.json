@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "result": "passed_retained_failed_trial_association_only",
+  "hardware_access": false,
+  "phase_reconstruction": "independent integer nanosecond arithmetic on whole firmware intervals, whole READY bracket, one-second guards",
+  "phase_counts": {
+    "initial_off": {
+      "buckets": 7,
+      "owned_reports": 0
+    },
+    "on_0": {
+      "buckets": 7,
+      "owned_reports": 275
+    },
+    "off_0": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "on_1": {
+      "buckets": 7,
+      "owned_reports": 275
+    },
+    "off_1": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "on_2": {
+      "buckets": 7,
+      "owned_reports": 261
+    },
+    "off_2": {
+      "buckets": 38,
+      "owned_reports": 0
+    },
+    "transition_guard": {
+      "buckets": 22,
+      "owned_reports": 349
+    }
+  },
+  "all_92_public_csv_rows_match_rebuilt_values": true,
+  "all_1160_reports_retained": true,
+  "source_monitor_capture_orchestration_public_bytes_equal_private": true,
+  "postprocessor_sha256": "39d311d7e1e6706a452d95d8f6ea4c1aaf4781c38940361e8fbcbc06b2c2bc97",
+  "public_sha256": {
+    "source.json": "0139eb2093dcff80694415020d1cb66d0b512fadb77d946c85db9b6259a842fc",
+    "orchestration.json": "06ef34770d1ceefd17912dd4048dc9fb56a392a42682f29f3821e512a42858f2",
+    "monitor.json": "07377cf88fbe90366989304d0fc663cd45665f453d88c4a50fb21f783a1b865b",
+    "README.md": "5a2cd072e108fc026b007a57200fb456e335b01fb7e5e0904f0d1270c67da7ed",
+    "native-buckets.csv": "0275fb787e24f242fbf155f9de8ead05730ae1d53f12f2316fab7a0619ca5ab0",
+    "before-install.json": "f53a3faf27db6dc867d5d9a607ec18c361649e0b9e1bb0aa1103c0d77d0d23be",
+    "native-reference.json": "7e9aa6fe19d21f4fb7521ffb782870633cc9b1da48f85e61f0321b2b48a30267",
+    "restoration.json": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8",
+    "summary.json": "5671f6b593892fec81ba8972aa5bcab559a295f7df792ec8a6feeeb0cb711e52",
+    "native-reports.svg": "2739ccb2c1aa8bb78642f4f919da3dd1dfb0892258316162cc9a1d00c12da01c",
+    "capture.json": "e7934966b3e5fbc672746c6a07c33a2ec39696ac804c9cfa20ecd3a6a4c477c9"
+  },
+  "clock_or_uart_latency_calibrated": false,
+  "exact_RF_event_times": false,
+  "completed_reference": false,
+  "transmitted_event_denominator": null,
+  "SDR_or_RF_gate_pass": false
+}
