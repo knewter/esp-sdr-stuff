@@ -12,6 +12,11 @@ records agree on handle 1, accepted 20 ms interval, legacy nonconnectable LE1M,
 channel 37, exact owned AD, five-second duration, nonzero requested maximum
 255, actual termination status `0x3C`, and **controller-completed count 0**.
 Enable and handle-specific cleanup commands were acknowledged with status 0.
+The original native `command_sent` records omit duration/maximum fields;
+their exact values are checked against native `source_enabled` and the
+independent monitor's actual wire-command sets. Those absent fields were not
+invented or added to the acquisition transcripts. The executed source hash
+is pinned to the root-owned acquisition provenance.
 The helper's original `trial_failed` status and exit code 2 remain intact.
 **Actual RF emission count is unknown**; zero is the controller field, not an
 independently observed RF count. No recovery rate or ≥100 counted-event gate is
@@ -84,14 +89,22 @@ can contain addresses; there is no positive packet plot for this null result.
 Run `python3 tools/ble_zero_counter_report.py --input PRIVATE-DATASET --output
 FRESH-ANALYSIS-DIRECTORY` to reproduce all raw integrity checks, both complete
 blind replays, and their source/monitor joins. The reporter records executed
-script hashes and repository revision. Eight metadata-only diagnostic
+script hashes and repository revision. Ten metadata-only diagnostic
 regression cases verify full-response timing guards, failed-tail/gap retention,
 source/monitor count/handle/data/cleanup mismatches, marker/PDU/window gates,
 hypothesis deduplication, incompatible clusters and unchanged search bounds.
-These tests prove accounting behavior, not reception.
+These tests prove accounting behavior, not reception. Positive proof requires
+an explicit full-window flag, finite recorded bounds consistent with the
+selected symbol period, and a valid protected-PDU hash. Missing proof metadata
+cannot become a verified positive. Conflicting owned clusters are unresolved
+in OFF and boundary snapshots as well as ON snapshots. Global episode order,
+the one-second OFF gaps, baseline, executed source hash and actual receiver
+setting acknowledgements are also checked.
 
 See [earlier source-only diagnostics](../ble-duration-source-diagnostics/README.md)
 for the controller-count investigation and [verified original-firmware
 restoration](../zero-counter-restoration/README.md) for the hardware release.
-The root-owned provenance receipts record monitor readiness before receiver
-startup; monotonic packet records alone do not timestamp that readiness event.
+The root-owned [acquisition supervisor](acquisition-supervisor.py) and provenance
+receipts record monitor readiness before receiver startup; monotonic packet
+records alone do not timestamp that readiness event. The supervisor retains
+its original failed final-tail assertion.

@@ -5,10 +5,16 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'tools'))
-from ble_zero_counter_report import analyze_segment, check_episode, coverage, phase
-from test_ble_counted_report import monitor_fixture, packet, receiver_fixture, source_fixture
+from ble_zero_counter_report import SOURCE_SHA256, analyze_segment, check_episode, coverage, phase, validate_episode_schedule
+from test_ble_counted_report import monitor_fixture, packet as base_packet, receiver_fixture, source_fixture
 
 SECOND = 1000000000
+
+
+def packet(offset=1000):
+    return {**base_packet(offset), 'nominal_packet_start_sample': offset-128,
+            'nominal_packet_end_sample': offset-128+4096,
+            'complete_preamble_and_pdu_crc_within_capture_nominal': offset >= 128 and offset+3968 <= 16380}
 
 
 def episodes():
@@ -23,9 +29,11 @@ def diagnostic_fixture():
     for row in records:
         if 'advertising_handle' in row: row['advertising_handle'] = 1
         if row['kind'] == 'configuration_requested':
-            row.update(duration_10ms_units=500, duration_diagnostic_requested=True, handle_diagnostic_requested=True)
+            row.update(duration_10ms_units=500, duration_diagnostic_requested=True, handle_diagnostic_requested=True,
+                       script_sha256=SOURCE_SHA256)
         if row['kind'] == 'termination_observed':
             row.update(status=60, controller_reported_completed_extended_advertising_events=0)
+        if row['kind'] == 'source_enabled': row['duration_10ms_units'] = 500
         if row['kind'] == 'source_closed':
             row.update(status='trial_failed', error_code='termination_status_or_count_mismatch',
                        controller_completed_count_verified=False)
@@ -64,7 +72,7 @@ class ZeroCounterReportTests(unittest.TestCase):
 
     def test_source_monitor_counter_handle_data_and_cleanup_must_match(self):
         for mode in ('source_handle', 'max_zero', 'native_count', 'monitor_count', 'monitor_handle',
-                     'marker', 'cleanup', 'missing_term', 'summary_success'):
+                     'marker', 'cleanup', 'missing_term', 'summary_success', 'enabled_duration', 'request_duration', 'source_hash'):
             native, monitor, summary = diagnostic_fixture()
             if mode == 'source_handle': native[0]['advertising_handle'] = 239
             elif mode == 'max_zero': native[0]['max_extended_advertising_events'] = 0
@@ -74,6 +82,9 @@ class ZeroCounterReportTests(unittest.TestCase):
             elif mode == 'marker': monitor[2]['owned_manufacturer_ad_exact_match'] = False
             elif mode == 'cleanup': monitor[-1]['status'] = 12
             elif mode == 'missing_term': monitor.pop(6)
+            elif mode == 'enabled_duration': next(r for r in native if r['kind'] == 'source_enabled')['duration_10ms_units'] = 0
+            elif mode == 'request_duration': next(r for r in native if r.get('step') == 'enable' and r['kind'] == 'command_sent')['duration_10ms_units'] = 0
+            elif mode == 'source_hash': native[0]['script_sha256'] = 'arbitrary'
             else: summary['status'] = 'controller_count_verified'
             with self.subTest(mode=mode), self.assertRaises(ValueError): check_episode(native, monitor, summary)
 
@@ -96,6 +107,19 @@ class ZeroCounterReportTests(unittest.TestCase):
         self.assertFalse(result['continuous_tail_requirement_repaired_by_extension'])
         self.assertAlmostEqual(result['supplemental_segment_gap_seconds'], 51.38)
 
+    def test_episode_order_off_gaps_and_baseline_enforced(self):
+        self.assertEqual(validate_episode_schedule(episodes()), [1]*9)
+        for mode in ('overlap', 'short_gap', 'reorder'):
+            schedule = episodes()
+            if mode == 'overlap': schedule[1]['enable_sent_ns'] = schedule[0]['source_closed_ns']-1
+            elif mode == 'short_gap': schedule[1]['enable_sent_ns'] -= 1
+            else: schedule[0], schedule[1] = schedule[1], schedule[0]
+            with self.subTest(mode=mode), self.assertRaises(ValueError): validate_episode_schedule(schedule)
+        schedule = episodes(); closed = schedule[-1]['source_closed_ns']
+        main = [dict(command_start_ns=2*SECOND, payload_received_ns=closed+8*SECOND)]
+        tail = [dict(command_start_ns=closed+60*SECOND, payload_received_ns=closed+75*SECOND)]
+        with self.assertRaisesRegex(ValueError, 'baseline_before_enable_short'): coverage(main, tail, schedule)
+
     def test_failed_and_truncated_aa_candidates_remain_unowned(self):
         rows, _, decoded = receiver_fixture()
         decoded['captures'][1]['frames'] = [dict(status='truncated_packet', access_address_sample_offset=1000)]
@@ -116,10 +140,37 @@ class ZeroCounterReportTests(unittest.TestCase):
         self.assertEqual(len(result['excluded_crc_valid_owned_candidates']), 2)
 
     def test_physically_incompatible_owned_clusters_rejected(self):
-        rows, _, decoded = receiver_fixture()
-        decoded['captures'][1]['frames'] = [packet(1000), packet(7000)]
-        with self.assertRaisesRegex(ValueError, 'multiple_owned_clusters'):
-            analyze_segment(rows, decoded, episodes(), 'main')
+        for index in (0, 1, 3):
+            rows, _, decoded = receiver_fixture()
+            if index == 3:
+                rows[index]['command_start_ns'] = 11*SECOND
+                rows[index]['header_received_ns'] = 11*SECOND+10000000
+                rows[index]['payload_received_ns'] = 11*SECOND+30000000
+            decoded['captures'][index]['frames'] = [packet(1000), packet(7000)]
+            with self.subTest(index=index), self.assertRaisesRegex(ValueError, 'multiple_owned_clusters'):
+                analyze_segment(rows, decoded, episodes(), 'main')
+
+    def test_explicit_complete_packet_proof_metadata_required(self):
+        for mode in ('flag_missing', 'flag_false', 'begin_missing', 'end_missing', 'bounds_infinite', 'bounds_wrong'):
+            rows, _, decoded = receiver_fixture(); frame = packet()
+            if mode == 'flag_missing': del frame['complete_preamble_and_pdu_crc_within_capture_nominal']
+            elif mode == 'flag_false': frame['complete_preamble_and_pdu_crc_within_capture_nominal'] = False
+            elif mode == 'begin_missing': del frame['nominal_packet_start_sample']
+            elif mode == 'end_missing': del frame['nominal_packet_end_sample']
+            elif mode == 'bounds_infinite': frame['nominal_packet_end_sample'] = float('inf')
+            else: frame['nominal_packet_end_sample'] += 16
+            decoded['captures'][1]['frames'] = [frame]
+            result = analyze_segment(rows, decoded, episodes(), 'main')
+            with self.subTest(mode=mode): self.assertEqual(result['complete_owned_packets'], [])
+        for mode in ('hash_missing', 'hash_invalid', 'refined_period_missing', 'period_nan'):
+            rows, _, decoded = receiver_fixture(); frame = packet()
+            if mode == 'hash_missing': del frame['pdu_sha256']
+            elif mode == 'hash_invalid': frame['pdu_sha256'] = 'z'*64
+            elif mode == 'refined_period_missing': frame['refined'] = True
+            else: frame['samples_per_symbol_at_4msps'] = float('nan')
+            decoded['captures'][1]['frames'] = [frame]
+            with self.subTest(mode=mode), self.assertRaises(ValueError):
+                analyze_segment(rows, decoded, episodes(), 'main')
 
     def test_undeclared_search_or_transport_failure_rejected(self):
         for mode in ('search', 'transport', 'missing_capture', 'period'):

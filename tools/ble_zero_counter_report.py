@@ -4,6 +4,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 from pathlib import Path
 import subprocess
 import sys
@@ -11,6 +12,7 @@ import sys
 from ble_counted_report import EXPECTED_REFINEMENT, STEPS, exactly, require, true, verify_private_waveforms
 
 DECODER_SHA256 = '834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128'
+SOURCE_SHA256 = '5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc'
 GUARD_NS = 100000000
 IDS = [f'zero-counter-{i:02d}' for i in range(1, 11)]
 
@@ -28,6 +30,7 @@ def check_episode(records, monitor, summary):
                     owned_manufacturer_ad_exact_match=True, max_extended_advertising_events=255,
                     duration_10ms_units=500, duration_diagnostic_requested=True, handle_diagnostic_requested=True)
     require(all(config.get(k) == v for k, v in expected.items()), 'source_configuration_mismatch')
+    require(config.get('script_sha256') == SOURCE_SHA256, 'executed_source_provenance_mismatch')
     require(exactly(records, 'source_ready').get('start_delay_s') == 0, 'source_start_delay_not_zero')
     sent = [r for r in records if r.get('kind') == 'command_sent']
     results = [r for r in records if r.get('kind') == 'command_result']
@@ -42,7 +45,10 @@ def check_episode(records, monitor, summary):
         if i < 4: require(result['monotonic_ns'] <= sent[i+1]['monotonic_ns'], 'source_command_overlap')
     enabled = exactly(records, 'source_enabled')
     require(enabled.get('enable_command_accepted') is True and enabled.get('advertising_handle') == 1
-            and enabled.get('max_extended_advertising_events') == 255, 'source_enable_mismatch')
+            and enabled.get('max_extended_advertising_events') == 255
+            and enabled.get('duration_10ms_units') == 500, 'source_enable_mismatch')
+    for field, expected_value in (('max_extended_advertising_events', 255), ('duration_10ms_units', 500)):
+        if field in sent[2]: require(sent[2][field] == expected_value, 'source_enable_request_contradiction')
     term = exactly(records, 'termination_observed')
     termfields = dict(status=60, advertising_handle=1, controller_reported_completed_extended_advertising_events=0)
     require(all(term.get(k) == v for k, v in termfields.items())
@@ -90,6 +96,9 @@ def check_episode(records, monitor, summary):
                 controller_reported_completed_events=0, actual_rf_emissions=None,
                 source_returncode=2, original_source_status=closed['status'],
                 native_and_monitor_zero_counter_match=True, cleanup_acknowledgements_all_zero=True,
+                native_enable_command_sent_includes_duration_and_maximum=all(
+                    k in sent[2] for k in ('duration_10ms_units', 'max_extended_advertising_events')),
+                duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command=True,
                 source_script_sha256=config['script_sha256'])
 
 
@@ -110,6 +119,7 @@ def coverage(main_rows, tail_rows, episodes):
     closed = episodes[-1]['source_closed_ns']
     gap = (int(tail_rows[0]['command_start_ns'])-last)/1e9
     require(gap > 0, 'extension_is_not_separate')
+    require(episodes[0]['enable_sent_ns']-first >= 5000000000, 'baseline_before_enable_short')
     return dict(baseline_before_first_enable_seconds=(episodes[0]['enable_sent_ns']-first)/1e9,
                 original_post_cleanup_tail_seconds=(last-closed)/1e9,
                 original_tail_more_than_ten_seconds=(last-closed) > 10000000000,
@@ -118,6 +128,15 @@ def coverage(main_rows, tail_rows, episodes):
                 supplemental_segment_starts_after_cleanup_seconds=(int(tail_rows[0]['command_start_ns'])-closed)/1e9,
                 continuous_tail_requirement_repaired_by_extension=False,
                 original_schedule_acceptance=False if last-closed <= 10000000000 else True)
+
+
+def validate_episode_schedule(episodes):
+    require([episode['episode_id'] for episode in episodes] == IDS, 'predeclared_episode_ids_mismatch')
+    require(all(e['enable_sent_ns'] <= e['guarded_start_ns'] < e['guarded_end_ns'] < e['source_closed_ns']
+                for e in episodes), 'episode_control_window_invalid')
+    gaps = [(b['enable_sent_ns']-a['source_closed_ns'])/1e9 for a, b in zip(episodes, episodes[1:])]
+    require(all(gap >= 1 for gap in gaps), 'episodes_overlap_or_off_gap_short')
+    return gaps
 
 
 def analyze_segment(rows, decoded, episodes, segment):
@@ -140,13 +159,18 @@ def analyze_segment(rows, decoded, episodes, segment):
         for frame in sorted(capture['frames'], key=lambda f: -f.get('access_correlation', 0)):
             if frame.get('status') != 'valid_owned': continue
             require(frame.get('crc24_ok') is True and frame.get('owned_manufacturer_ad_exact_match') is True, 'owned_marker_crc_missing')
+            pdu_hash = frame.get('pdu_sha256', '')
+            require(isinstance(pdu_hash, str) and len(pdu_hash) == 64
+                    and all(c in '0123456789abcdef' for c in pdu_hash), 'owned_pdu_hash_missing')
             offset = frame['access_address_sample_offset']
             if any(abs(offset-other['access_address_sample_offset']) <= 64 for other in clusters): continue
             clusters.append(frame)
+            require(not frame.get('refined') or 'samples_per_symbol_at_4msps' in frame, 'refined_period_missing')
             period = frame.get('samples_per_symbol_at_4msps', 4)
-            require(3.97 <= period <= 4.03, 'receiver_period_changed')
-            beginning = frame.get('nominal_packet_start_sample', offset-8*period*4)
-            ending = frame.get('nominal_packet_end_sample', beginning+frame['packet_duration_us']*period*4)
+            require(isinstance(period, (float, int)) and math.isfinite(period) and 3.97 <= period <= 4.03,
+                    'receiver_period_changed')
+            beginning = frame.get('nominal_packet_start_sample')
+            ending = frame.get('nominal_packet_end_sample')
             record = dict(segment=segment, capture_index=capture['capture_index'], source_control_phase=label,
                           waveform_sha256=capture['payload_sha256'], pdu_sha256=frame.get('pdu_sha256'),
                           nominal_packet_start_sample=beginning, nominal_packet_end_sample=ending,
@@ -156,11 +180,16 @@ def analyze_segment(rows, decoded, episodes, segment):
             if label not in IDS: reasons.append('outside_guarded_episode')
             if frame.get('pdu_type') != 2 or frame.get('pdu_length') != 22 or frame.get('packet_duration_us') != 256:
                 reasons.append('source_pdu_mismatch')
-            if not 0 <= beginning < ending <= 16380 or frame.get('complete_preamble_and_pdu_crc_within_capture_nominal') is False:
+            finite_bounds = all(isinstance(v, (int, float)) and math.isfinite(v) for v in (beginning, ending, offset))
+            if not finite_bounds or not 0 <= beginning < ending <= 16380 or (
+                    frame.get('complete_preamble_and_pdu_crc_within_capture_nominal') is not True):
                 reasons.append('complete_packet_window_unverified')
+            elif not math.isclose(beginning, offset-8*period*4, abs_tol=1e-6) or not math.isclose(
+                    ending-beginning, frame['packet_duration_us']*period*4, abs_tol=1e-6):
+                reasons.append('packet_window_inconsistent_with_receiver_period')
             if reasons: excluded.append({**record, 'exclusion_reasons': reasons})
             else: hits.append(record); counts['exact_owned_complete_packets'] += 1
-        require(len(clusters) <= 1 or label not in IDS, 'multiple_owned_clusters_in_one_snapshot_unresolved')
+        require(len(clusters) <= 1, 'multiple_owned_clusters_in_one_snapshot_unresolved')
     return dict(segment=segment, captures=len(rows), phases=phases, complete_owned_packets=hits,
                 excluded_crc_valid_owned_candidates=excluded,
                 first_command_start_ns=int(rows[0]['command_start_ns']), last_payload_received_ns=int(rows[-1]['payload_received_ns']))
@@ -181,6 +210,8 @@ def main():
             and monitor.get('producer_returncode') == 0 and monitor.get('producer_reaped') is True
             and monitor.get('snaplen_truncated_packets_discarded') == 0 and len(monitor['records']) == 110,
             'complete_monitor_interval_missing')
+    require(all(a['monotonic_ns'] <= b['monotonic_ns'] for a, b in zip(monitor['records'], monitor['records'][1:])),
+            'global_monitor_time_order')
     source_entries = json.loads((base/'source-episodes.json').read_text())
     require([e['episode_id'] for e in source_entries] == IDS, 'all_ten_episodes_missing')
     episodes = []; receipts = dict(monitor=sha(base/'hci-control.json'), source_episodes=sha(base/'source-episodes.json'))
@@ -191,12 +222,15 @@ def main():
         episode = check_episode(records, monitor['records'][i*11:(i+1)*11], entry['summary'])
         episode['episode_id'] = entry['episode_id']; episodes.append(episode)
         receipts[entry['episode_id']] = sha(path)
+    off_gaps = validate_episode_schedule(episodes)
     segments = []; all_rows = []; all_hashes = set()
     for name, receiver, private in [('main', 'receiver', 'iq'), ('tail', 'receiver-tail', 'iq-tail')]:
         physical = json.loads((base/receiver/'manifest.json').read_text())
         require(physical.get('completed') is True and physical.get('integrity_failures') == 0, 'receiver_not_complete')
         require(all(physical.get(k) == v for k, v in dict(nominal_rate_hz=16000000, bits_per_component=8,
                     samples=16380, frequency_mhz=2401, bandwidth_mhz=20, gain='48').items()), 'receiver_settings_changed')
+        require(all(physical.get('setting_replies', {}).get(k) == 'OK'
+                    for k in ('FREQ 2401', 'BANDWIDTH 20', 'GAIN MANUAL 48')), 'receiver_setting_acknowledgements_missing')
         with (base/receiver/'captures.csv').open() as stream: rows = list(csv.DictReader(stream))
         require(len(rows) == physical['captures'] == len(list((base/private).glob('*.bin'))), 'waveform_coverage_missing')
         target = out/f'decoder-{name}.json'
@@ -221,6 +255,7 @@ def main():
     report = dict(schema=1, experiment='predeclared zero-controller-counter RF discriminator',
                   decoder_script_sha256=sha(decoder), reporter_script_sha256=sha(Path(__file__)),
                   input_receipt_sha256=receipts, source_control_guard_ms=100, episodes=episodes,
+                  source_off_gaps_seconds=off_gaps,
                   segments=segments, captures_replayed=sum(s['captures'] for s in segments),
                   raw_waveforms_all_hash_crc_count_verified=True, schedule=schedule,
                   complete_crc_valid_exact_owned_packets=len(owned), actual_rf_event_count=None,
