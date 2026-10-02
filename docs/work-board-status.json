@@ -119,7 +119,8 @@
         "docs/evidence/forgix-preservation/README.md",
         "docs/evidence/forgix-preservation-review/README.md",
         "docs/evidence/forgix-toolchain/README.md"
-      ]
+      ],
+      "reviewRevision": "576a0771fdc91f79648bd93d694e2da99a1a7224"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
@@ -163,7 +164,8 @@
       "evidence": [
         "docs/evidence/esp-demo-session-001/README.md",
         "docs/evidence/esp-demo-independent-review/README.md"
-      ]
+      ],
+      "reviewRevision": "3f60332bca83ad60f745c885c2c4dde6b3f1fd84"
     }
   }
 }
