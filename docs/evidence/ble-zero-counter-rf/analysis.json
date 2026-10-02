@@ -2,7 +2,7 @@
   "schema": 1,
   "experiment": "predeclared zero-controller-counter RF discriminator",
   "decoder_script_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
-  "reporter_script_sha256": "9ae6ea1e913f96c96596734e348de7be05f875d0cf1d441e85568eaee874da16",
+  "reporter_script_sha256": "55049da0c678b02f874a1637145304b7d9a699b3b2dfe57359c2eabf5f274fba",
   "input_receipt_sha256": {
     "monitor": "d0edf4a7fc665f820b9b567a16a0c30a6b2a9c97edb1d612c32f3b4c4aec5840",
     "source_episodes": "50f627429560fe384cfd084b71fc47215e6a579924987144aa00d364a95a1908",
@@ -36,6 +36,8 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-01"
     },
@@ -52,6 +54,8 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-02"
     },
@@ -68,6 +72,8 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-03"
     },
@@ -84,6 +90,8 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-04"
     },
@@ -100,6 +108,8 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-05"
     },
@@ -116,6 +126,8 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-06"
     },
@@ -132,6 +144,8 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-07"
     },
@@ -148,6 +162,8 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-08"
     },
@@ -164,6 +180,8 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-09"
     },
@@ -180,9 +198,22 @@
       "original_source_status": "trial_failed",
       "native_and_monitor_zero_counter_match": true,
       "cleanup_acknowledgements_all_zero": true,
+      "native_enable_command_sent_includes_duration_and_maximum": false,
+      "duration_and_maximum_verified_from_source_enabled_and_monitor_wire_command": true,
       "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
       "episode_id": "zero-counter-10"
     }
+  ],
+  "source_off_gaps_seconds": [
+    1.746011021,
+    1.677113235,
+    1.719049927,
+    1.678089551,
+    1.709794266,
+    1.664966863,
+    1.639079556,
+    1.665807851,
+    1.680025832
   ],
   "segments": [
     {
