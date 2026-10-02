@@ -157,3 +157,9 @@ finds no legacy exemption in the published HCI rules. A separately reviewed
 and extended reporting with fixed five-second duration/MaxEvents 255. Auxiliary
 extended AD is outside this ESP32's native reference and channel-37 decoder.
 This diagnostic cannot supply legacy marker counts or close RF/burst gates.
+
+The [actual single mode pair](docs/evidence/ble-mode-counter-001/README.md)
+now completes in 32.826581557 seconds with accepted commands and verified
+source/monitor/group cleanup. Both modes retain `0x3c/count0`; the proposed
+mode-associated distinction was not observed. Each helper retains its strict
+failed count gate. No emitted denominator or hidden-SDR reception follows.

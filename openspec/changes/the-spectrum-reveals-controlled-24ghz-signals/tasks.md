@@ -45,4 +45,9 @@ replays all 2,248 fresh snapshots and finds no repeated increase in the nominal
 target band. Large excursions occur in OFF phases too. The separately declared
 [advertising-mode counter pair](docs/research/ble-mode-counter-protocol.md)
 diagnoses controller reporting only; implementation review and actual receipts
-are still required. Neither result changes any original task criterion.
+are recorded below. Neither result changes any original task criterion.
+
+The [single physical mode pair](docs/evidence/ble-mode-counter-001/README.md)
+has now completed with ten accepted commands, exact source/monitor agreement,
+bounded duration and complete cleanup. Both modes report `0x3c/count0` and
+their strict count gates remain failed. Original RF tasks remain unchecked.

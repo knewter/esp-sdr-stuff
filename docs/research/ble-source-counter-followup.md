@@ -4,6 +4,11 @@ Offline research, 2026-10-02, against published checkpoint `566fb8b`.
 The comparison below is **prospective and unverified**. No hardware, controller
 settings, source helpers or acceptance gates changed during this investigation.
 
+A subsequent [single actual mode pair](../evidence/ble-mode-counter-001/README.md)
+completed with both modes reporting `0x3c/count0`. The prospective comparison
+below records its rationale; that result did not establish a mode-associated
+reporting difference, RF emissions or a usable denominator.
+
 ## Legacy PDUs do not exempt the counter
 
 Core 6.2 HCI §7.7.65.18 applies Advertising Set Terminated to both legacy and

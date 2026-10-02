@@ -26,3 +26,8 @@ still unusable as an emitted denominator. Extended AD occupies auxiliary data
 and had no independent RF reference in this pair. No fresh SDR packet, rate,
 three-pair RF response, calibrated signal or Trial B qualification follows.
 The ESP firmware and preserved Forgix factory loader were untouched.
+
+[Independent exact replay](../ble-mode-counter-independent-review/README.md)
+checks all 19 frozen inputs, saved logs, original source/monitor records,
+pinned image archives, elapsed budget and cleanup. It reproduces the public
+numeric fields and verifies the original file hashes.

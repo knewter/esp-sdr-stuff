@@ -33,3 +33,9 @@ discriminator](docs/evidence/ble-zero-counter-rf/README.md) preserves 262
 snapshots but yields no CRC-valid owned packet. Its null result is inconclusive,
 and its scheduling deviation remains recorded. These diagnostics establish no
 ≥100-event denominator, hit rate or task 1.1/1.2 acceptance.
+
+The [independently replayed advertising-mode pair](docs/evidence/ble-mode-counter-independent-review/README.md)
+accepts ten source commands and verifies both original source/monitor
+terminations. Legacy and extended modes both retain `0x3c/count0` with
+complete cleanup. Their count gates remain failed; this supplies no emitted
+denominator, fresh hidden-SDR packet or closure of task 1.1/1.2.
