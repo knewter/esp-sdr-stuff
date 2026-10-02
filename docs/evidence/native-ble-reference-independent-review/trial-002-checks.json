@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "review_result": "completed_native_reference_and_full_recovery_verified",
+  "hardware_access": false,
+  "raw_uart_bytes": 23554,
+  "raw_uart_sha256": "40baf507b246944ee8ed3d7a5a56fa32d7331007a9da16592e34bf84c7858813",
+  "frozen_v2_host_parser_equals_replayed_source": true,
+  "all_raw_typed_records_equal_public_capture_fields": true,
+  "consecutive_contiguous_buckets_including_END": 90,
+  "owned_interval_sum_and_cumulative": 1176,
+  "completion_mode": "application_cancel",
+  "cancel_status": 0,
+  "scan_active_after_stop": false,
+  "firmware_elapsed_us": 90092830,
+  "host_observation_seconds": 90.112387467,
+  "successful_HCI_command_completions": 15,
+  "source_episodes": 3,
+  "initial_OFF_seconds": 10.349838601,
+  "tail_after_source_group_closure_seconds": 37.944555226,
+  "all_executed_snapshots_hashes_match": true,
+  "exact_reviewed_build003_manifest_and_parts": true,
+  "full_original_before_and_after_hash_independently_recomputed": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "full_flash_bytes": 4194304,
+  "private_original_boot_content_independently_checked": true,
+  "reset_boot_only_not_power_cycle": true,
+  "controller_state_unchanged": true,
+  "all_groups_source_bus_monitor_container_closed": true,
+  "phase_reconstruction": "independent integer-ns full-READY-bracket/whole-device-interval mapping with one-second guards; uncalibrated clocks/API/controller/UART latency",
+  "phase_counts": {
+    "initial_off": {
+      "buckets": 7,
+      "owned_reports": 0
+    },
+    "on_0": {
+      "buckets": 7,
+      "owned_reports": 274
+    },
+    "off_0": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "on_1": {
+      "buckets": 7,
+      "owned_reports": 267
+    },
+    "off_1": {
+      "buckets": 3,
+      "owned_reports": 0
+    },
+    "on_2": {
+      "buckets": 7,
+      "owned_reports": 267
+    },
+    "off_2": {
+      "buckets": 35,
+      "owned_reports": 0
+    },
+    "transition_guard": {
+      "buckets": 22,
+      "owned_reports": 368
+    }
+  },
+  "all_90_public_CSV_rows_match": true,
+  "postprocessor_sha256": "a0c3177600345978848a797afdcb0add2334b19731fe3f30ff802029f9fd9621",
+  "public_sha256": {
+    "source.json": "1eb222309dc1a9a63334e2f7373f3c2b334395a0ae6943cd756396a19153b599",
+    "orchestration.json": "d0d07096b9a1501536b70037b6b75024be98564568920553bb4c76a0e318a3dc",
+    "monitor.json": "895c429d4589721ae511c3d056fd4ada5821cba50eefce4c3baa0a28ceafd99b",
+    "README.md": "1599db330a41a45852eb7c8c5c37bd8651d73e3936f2aefb24b249b1ddd82b53",
+    "native-buckets.csv": "9a0f7dfbfc8ff45585edc69bc8b712cec38ef20041e12d9e4c141604d185c89f",
+    "before-install.json": "f53a3faf27db6dc867d5d9a607ec18c361649e0b9e1bb0aa1103c0d77d0d23be",
+    "native-reference.json": "fdfac6346a346e80e51a5fcb4bbf2be704f2df319b291a18a660b8fbb0b2516d",
+    "restoration.json": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8",
+    "summary.json": "77613258219692d41ddffc8c45636111f06dd55c0cafbfc3f57153fa13e32496",
+    "native-reports.svg": "c72db6feef0fa458b9b0d5c683fde0a25fadbf74334638f81af41a852609d0dc",
+    "capture.json": "e0ba84f39dc94cd2ff07b89f2692de3a685e323c62b34f186d47fb212b6c774f"
+  },
+  "conditional_gain_prerequisite_guard": "passed",
+  "SDR_positive": false,
+  "RF_gate_closed": false,
+  "transmitted_event_count": null,
+  "actual_published_SVG_inspected": true,
+  "plot_scope": "all saved buckets, nominal uncalibrated time, accepted-registration shading, explicit acknowledged-stop verification separate from SDR, no emitted-event denominator",
+  "runtime": "exact Python store environment fetched by locked Nix CI; no ambient project packages"
+}
