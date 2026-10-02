@@ -137,7 +137,10 @@ and [Espressif discovery guide](https://docs.espressif.com/projects/esp-idf/en/s
 The SDK example also prints foreign fields, initiates connections and can erase
 NVS; this observer-only app uses its API pattern with those behaviors removed.
 
-Crypto provenance: [pinned NimBLE little-endian AES helper](https://github.com/espressif/esp-idf/blob/25fe69f946311abdaf9ad56591f25fedbc20ac98/components/bt/host/nimble/nimble/nimble/host/src/ble_sm_alg.c#L118),
+The pinned SDK records ESP-NimBLE submodule revision
+`1a714b03dcea55e58066e21213a5f150f2e50088`.
+
+Crypto provenance: [pinned NimBLE little-endian AES helper](https://github.com/espressif/esp-nimble/blob/1a714b03dcea55e58066e21213a5f150f2e50088/nimble/host/src/ble_sm_alg.c#L118),
 [pinned original ESP32 forced privacy configuration](https://github.com/espressif/esp-idf/blob/25fe69f946311abdaf9ad56591f25fedbc20ac98/components/bt/host/nimble/port/include/esp_nimble_cfg.h#L964),
 and [NIST FIPS 197 (2001), Appendix C.1 AES-128 vector](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf).
 The independent vector uses key `000102030405060708090a0b0c0d0e0f`, plaintext
