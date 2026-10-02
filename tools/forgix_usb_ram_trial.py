@@ -105,6 +105,15 @@ def archive_image_id(archive, tag):
     return expected_id
 
 
+def pinned_picotool_version(tool):
+    result = subprocess.run([str(tool), 'version'], capture_output=True,
+                            text=True, check=True, timeout=10)
+    banner = (result.stdout + '\n' + result.stderr).strip()
+    require(re.fullmatch(r'picotool v2\.3\.1(?: \([^\r\n]*\))?', banner),
+            'Pinned picotool v2.3.1 banner required')
+    return banner
+
+
 def image_check(tool, image_id):
     tool = Path(tool).resolve()
     require(tool.is_relative_to('/nix/store') and tool.name == 'picotool', 'Nix picotool required')
@@ -125,10 +134,9 @@ def image_check(tool, image_id):
     closure = json.loads(subprocess.check_output(['nix', 'path-info', '--json', '--recursive', str(tool.parent.parent), str(python.parent.parent), str(sdk), str(compiler.parent.parent)], timeout=60))
     paths = list(closure) if type(closure) is dict else [row['path'] for row in closure]
     subprocess.run(['nix-store', '--verify-path', *paths], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True, timeout=120)
-    version = subprocess.check_output([str(tool), 'version'], timeout=10, text=True)
-    require(re.search(r'\b2\.3\.1\b', version), 'Pinned picotool2.3.1 required')
+    version = pinned_picotool_version(tool)
     return {'image_id': image_id, 'image_archive_sha256': sha(archive), 'image_tag': tag, 'picotool_executable': str(tool), 'picotool_executable_sha256': sha(tool), 'python_executable': str(python), 'python_executable_sha256': sha(python), 'nix_recursive_closure': closure, 'closure_contents_verified': True,
-            'sdk_nar_verified': True, 'sdk_file_sha256': {name: sha(sdk/name) for name in ('src/rp2_common/pico_runtime_init/runtime_init.c', 'src/rp2_common/pico_crt0/rp2350/memmap_no_flash.ld', 'lib/tinyusb/src/tusb.c')}, 'compiler_executable_sha256': sha(compiler)}
+            'sdk_nar_verified': True, 'sdk_file_sha256': {name: sha(sdk/name) for name in ('src/rp2_common/pico_runtime_init/runtime_init.c', 'src/rp2_common/pico_crt0/rp2350/memmap_no_flash.ld', 'lib/tinyusb/src/tusb.c')}, 'compiler_executable_sha256': sha(compiler), 'picotool_version_banner': version}
 
 
 def freeze_inputs():
