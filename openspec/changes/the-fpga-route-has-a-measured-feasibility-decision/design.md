@@ -56,3 +56,11 @@ configuration. The initial skipped-interface/no-bitstream failure is retained;
 Nix supplies the missing SQLite and D-Bus libraries. This software example
 does not establish the connected T8F49 Forgix constraints or image. This setup
 closes no physical inventory or transport benchmark task.
+
+The [RAM-only USB feasibility review](docs/research/forgix-usb-ram-feasibility.md)
+identifies a separate way to prepare the MCU-to-host segment before FPGA
+markings arrive. It distinguishes the schematic MCU crystal from the unknown
+FPGA oscillator and requires a pinned build, actual SRAM-only ELF audit,
+finite watchdog, startup/pin review, physical recovery availability, fresh
+flash verification and factory return. Preparation and any later USB-only
+measurement do not prove the selected FPGA transport or close its gates.

@@ -208,3 +208,8 @@ accepts that distinction and reproduces startup consuming a shared deadline
 offline. Separate bounded readiness/capture clocks need review before any
 fresh operation. The auxiliary-mode report does not give a legacy marker
 denominator or close an original RF/burst gate.
+
+The [explicit monitor timer option](docs/research/ble-monitor-readiness-timing.md)
+now has 25 offline subprocess/parser/cleanup tests. Existing default timing and
+the failed actual receipts remain unchanged. A separate frozen protocol and
+independent review are needed before using it in any new physical episode.

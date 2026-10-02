@@ -34,3 +34,9 @@ failed; adding demonstrated SQLite and D-Bus runtime dependencies fixes the
 Interface Designer import. This supports toolchain readiness only. The connected
 Forgix needs its own confirmed T8F49 grade, clock, revision and wiring before
 a guarded board build; task checkboxes remain unchanged.
+
+The separate [RAM-only synthetic USB preparation](docs/research/forgix-usb-ram-feasibility.md)
+can narrow the downstream host-link budget without assuming FPGA constraints.
+Actual compiled ELF, bounded lifecycle/recovery review and physical preflight
+are still required; USB-only success would not complete task 2.1 for the selected
+FPGA transport or establish SRAM/RF integration.
