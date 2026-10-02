@@ -17,4 +17,5 @@ target_link_libraries(forgix_usb_ram pico_stdlib tinyusb_device hardware_watchdo
 pico_enable_stdio_uart(forgix_usb_ram 0)
 pico_enable_stdio_usb(forgix_usb_ram 0)
 pico_set_binary_type(forgix_usb_ram no_flash)
+pico_add_map_output(forgix_usb_ram)
 # Export only the ELF/map. No UF2, BIN, flash command or programming task.
