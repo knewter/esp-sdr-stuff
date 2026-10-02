@@ -27,7 +27,7 @@ including zero for LO 2402 MHz and −1 MHz for LO 2401 MHz.
 
 ## Method and verification
 
-[The wrapper](../../../../tools/ble_dc_first_replay.py) calls the unchanged
+[The wrapper](../../../tools/ble_dc_first_replay.py) calls the unchanged
 decoder with its original resampling, access-address search, refinement bounds,
 whitening, CRC, whole-AD policy and cluster deduplication. It does not use source
 phases, packet positions or known payload bits to choose mean removal.
