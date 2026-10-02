@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "scope": "author supplemental offline compiled-cycle-bracket audit; no hardware or independent RF verdict",
+  "status": "compiled_cycle_bracket_verified",
+  "source_commit": "bf96681a9382367bfb759ee658d42392c4b1b9fe",
+  "source_base_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "sdk_revision": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+  "compiler_version": "xtensa-esp-elf-gcc (crosstool-NG esp-16.1.0_20260609) 16.1.0",
+  "artifact": {
+    "manifest_sha256": "7b09e894cc2d2673adb94afb3eb245a06a91b26efd91c566e28f81816cf9ef83",
+    "build_info_sha256": "b3b8127f03dda6781e76f3132e2e468c17b4b22277e5144cc1f136184c2f336c",
+    "elf_sha256": "581b4ac8c013a469ed701c7079ef781df8c20822c54e6176848aa470362b6111",
+    "application_sha256": "c45f24d8a459361fde463d109b691a81fbae0a6802e2e771a1660cb92796e8fc",
+    "application_bytes": 668384,
+    "sdkconfig_sha256": "67b30768ace2be0e52de816334b5ed01f9113f7bcade8e32ed64393ebe0d70c3",
+    "linker_map_sha256": "877f6852b91f2a6ff227c285722f0e85f407aea4277a3711e5bafd1d913e038f"
+  },
+  "disassembly": {
+    "full_private_sha256": "e8fa28448fb4fed1d6e5ccad02a2cc7e6b227b9da4673ec4a022312871d9f470",
+    "public_excerpt_sha256": "80a7e6d8bf4153c0b509c917dfabd764c1dc0533e094898091c1d2b7bdd86e44",
+    "capacity_branch_decoded_at": "0x400dbb34",
+    "capacity_block_private_sha256": "7ea1f41cb880e50e80ad5a58291dc2e30201a22c730b452d50b1c79f1a3e77e4"
+  },
+  "body": {
+    "start": "0x400dbb18",
+    "end_exclusive": "0x400dbba3",
+    "entry_instruction": "0x400dbb18",
+    "return_instruction": "0x400dbba1",
+    "timer_calls": [
+      "0x400dbb55",
+      "0x400dbb66"
+    ],
+    "single_rx_gain_load": "0x400dbb60",
+    "rx_gain_address": "0x3ff5c02c",
+    "original_record_and_counter_store_addresses": [
+      "0x400dbb5b",
+      "0x400dbb62",
+      "0x400dbb6c",
+      "0x400dbb70",
+      "0x400dbb74",
+      "0x400dbb76",
+      "0x400dbb93",
+      "0x400dbb96",
+      "0x400dbb99",
+      "0x400dbb9c"
+    ],
+    "capacity_check_addresses": [
+      "0x400dbb34",
+      "0x400dbb37",
+      "0x400dbb39",
+      "0x400dbb3b"
+    ]
+  },
+  "callsites": [
+    {
+      "stage": "post_settings",
+      "opening_ccount": "0x400dc587",
+      "body_call": "0x400dc58f",
+      "closing_ccount": "0x400dc592",
+      "post_boundary_residual_addresses": [
+        "0x400dc595",
+        "0x400dc598",
+        "0x400dc59b",
+        "0x400dc59e"
+      ],
+      "post_boundary_residual_instruction_count": 4
+    },
+    {
+      "stage": "before_acquire",
+      "opening_ccount": "0x400dbe05",
+      "body_call": "0x400dbe0a",
+      "closing_ccount": "0x400dbe0d",
+      "post_boundary_residual_addresses": [
+        "0x400dbe10",
+        "0x400dbe13",
+        "0x400dbe16"
+      ],
+      "post_boundary_residual_instruction_count": 3
+    },
+    {
+      "stage": "armed_before_trigger",
+      "opening_ccount": "0x400dbecc",
+      "body_call": "0x400dbed1",
+      "closing_ccount": "0x400dbed4",
+      "post_boundary_residual_addresses": [
+        "0x400dbed7",
+        "0x400dbeda",
+        "0x400dbedd"
+      ],
+      "post_boundary_residual_instruction_count": 3
+    },
+    {
+      "stage": "dump_complete",
+      "opening_ccount": "0x400dbf64",
+      "body_call": "0x400dbf69",
+      "closing_ccount": "0x400dbf6c",
+      "post_boundary_residual_addresses": [
+        "0x400dbf6f",
+        "0x400dbf72",
+        "0x400dbf75"
+      ],
+      "post_boundary_residual_instruction_count": 3
+    },
+    {
+      "stage": "restored_after_dump",
+      "opening_ccount": "0x400dbfc0",
+      "body_call": "0x400dbfc5",
+      "closing_ccount": "0x400dbfc8",
+      "post_boundary_residual_addresses": [
+        "0x400dbfcb",
+        "0x400dbfcd",
+        "0x400dbfd0"
+      ],
+      "post_boundary_residual_instruction_count": 3
+    }
+  ],
+  "linked_buffers": {
+    "regobs_json": {
+      "address": 1073433576,
+      "size": 2048,
+      "end": 1073435624
+    },
+    "regobs_records": {
+      "address": 1073435624,
+      "size": 2592,
+      "end": 1073438216
+    },
+    "regobs_wire": {
+      "address": 1073431528,
+      "size": 2048,
+      "end": 1073433576
+    }
+  },
+  "record_count": 81,
+  "record_size_bytes": 32,
+  "compiled_wrapper": "inlined at each of five callsites; no separate wrapper entry/return",
+  "measured_extra_setup": {
+    "acquisition_sites": "one stage-argument movi.n between opening counter and body call",
+    "post_settings": "one stack spill of opening counter and one stage-argument movi.n inside bracket"
+  },
+  "clock_policy": {
+    "cpu_hz_nominal": 240000000,
+    "unicore": true,
+    "dynamic_power_management": false,
+    "counter_width_bits": 32
+  },
+  "limits": [
+    "cycle counts include interrupt/preemption time; not isolated deterministic execution cost",
+    "modular delta alone cannot establish interval shorter than full 2^32-cycle period",
+    "two CCOUNT boundary instructions and final branch/subtract/store (plus initial stack reload) are additional measurement work",
+    "no measured per-instruction latency, calibrated total overhead, exact RF timestamp, or RF reception claim",
+    "artifact/lifecycle independent review and physical preservation/restoration remain separate gates"
+  ]
+}

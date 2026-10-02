@@ -1,0 +1,105 @@
+Compiled observation body (branch target 0x400dbb34 decoded separately; unreachable alignment bytes omitted):
+400dbb18:	006136               	entry	a1, 48
+400dbb1b:	d3d881               	l32r	a8, 400d0a7c <_stext+0xa5c> (3ffb43da <regobs_in_capture>)
+400dbb1e:	190c                	movi.n	a9, 1
+400dbb20:	000882               	l8ui	a8, a8, 0
+400dbb23:	308890               	xor	a8, a8, a9
+400dbb26:	748080               	extui	a8, a8, 0, 8
+400dbb29:	788c                	beqz.n	a8, 400dbb34 <regobs_observe_body+0x1c>
+400dbb2b:	528c                	beqz.n	a2, 400dbb34 <regobs_observe_body+0x1c>
+400dbb2d:	070c                	movi.n	a7, 0
+400dbb2f:	001b06               	j	400dbb9f <regobs_observe_body+0x87>
+400dbb34:	d3d3c1               	l32r	a12, 400d0a80 <_stext+0xa60> (3ffb43e0 <regobs_used>)
+400dbb35:	5cd3d3               	excw
+400dbb37:	095c                	movi.n	a9, 80
+400dbb38:	8809                	s32i.n	a0, a8, 32
+400dbb39:	0c88                	l32i.n	a8, a12, 0
+400dbb3a:	870c                	movi.n	a7, 8
+400dbb3b:	0ab987               	bgeu	a9, a8, 400dbb49 <regobs_observe_body+0x31>
+400dbb3c:	0ab9                	s32i.n	a11, a10, 0
+400dbb3e:	d3d181               	l32r	a8, 400d0a84 <_stext+0xa64> (3ffb43d4 <regobs_error>)
+400dbb41:	d3d191               	l32r	a9, 400d0a88 <_stext+0xa68> (3f405078 <_esysev_shdn_end+0x4a0c>)
+400dbb44:	0899                	s32i.n	a9, a8, 0
+400dbb46:	fff8c6               	j	400dbb2d <regobs_observe_body+0x15>
+400dbb49:	d3d091               	l32r	a9, 400d0a8c <_stext+0xa6c> (3ffb53e8 <regobs_records>)
+400dbb4c:	1188b0               	slli	a8, a8, 5
+400dbb4f:	807980               	add	a7, a9, a8
+400dbb52:	016182               	s32i	a8, a1, 4
+400dbb55:	a549a5               	call8	40080ff0 <esp_timer_get_time>
+400dbb58:	d3cf91               	l32r	a9, 400d0a94 <_stext+0xa74> (3ff5c02c <EFUSE+0x202c>)
+400dbb5b:	07a9                	s32i.n	a10, a7, 0
+400dbb5d:	0020c0               	memw
+400dbb60:	0998                	l32i.n	a9, a9, 0
+400dbb62:	17b9                	s32i.n	a11, a7, 4
+400dbb64:	0199                	s32i.n	a9, a1, 0
+400dbb66:	a548a5               	call8	40080ff0 <esp_timer_get_time>
+400dbb69:	d3c5c1               	l32r	a12, 400d0a80 <_stext+0xa60> (3ffb43e0 <regobs_used>)
+400dbb6c:	27a9                	s32i.n	a10, a7, 8
+400dbb6e:	0cd8                	l32i.n	a13, a12, 0
+400dbb70:	37b9                	s32i.n	a11, a7, 12
+400dbb72:	ad1b                	addi.n	a10, a13, 1
+400dbb74:	0ca9                	s32i.n	a10, a12, 0
+400dbb76:	0857d2               	s16i	a13, a7, 16
+400dbb79:	0198                	l32i.n	a9, a1, 0
+400dbb7b:	1188                	l32i.n	a8, a1, 4
+400dbb7d:	ffa0a2               	movi	a10, 255
+400dbb80:	428c                	beqz.n	a2, 400dbb88 <regobs_observe_body+0x70>
+400dbb82:	d3c3a1               	l32r	a10, 400d0a90 <_stext+0xa70> (3ffb43dc <regobs_captures>)
+400dbb85:	002aa2               	l32i	a10, a10, 0
+400dbb88:	d3c1b1               	l32r	a11, 400d0a8c <_stext+0xa6c> (3ffb53e8 <regobs_records>)
+400dbb8b:	8b8a                	add.n	a8, a11, a8
+400dbb8d:	65b890               	extui	a11, a9, 24, 7
+400dbb90:	059790               	extui	a9, a9, 23, 1
+400dbb93:	1248a2               	s8i	a10, a8, 18
+400dbb96:	134822               	s8i	a2, a8, 19
+400dbb99:	1448b2               	s8i	a11, a8, 20
+400dbb9c:	154892               	s8i	a9, a8, 21
+400dbb9f:	072d                	mov.n	a2, a7
+400dbba1:	f01d                	retw.n
+
+post_settings:
+400dc587:	03eab0               	rsr.ccount	a11
+400dc58a:	5461b2               	s32i	a11, a1, 0x150
+400dc58d:	0a0c                	movi.n	a10, 0
+400dc58f:	ff58a5               	call8	400dbb18 <regobs_observe_body>
+400dc592:	03ea90               	rsr.ccount	a9
+400dc595:	007a16               	beqz	a10, 400dc5a0 <app_main+0x310>
+400dc598:	5421b2               	l32i	a11, a1, 0x150
+400dc59b:	c099b0               	sub	a9, a9, a11
+400dc59e:	6a99                	s32i.n	a9, a10, 24
+
+before_acquire:
+400dbe05:	03ea70               	rsr.ccount	a7
+400dbe08:	1a0c                	movi.n	a10, 1
+400dbe0a:	ffd0e5               	call8	400dbb18 <regobs_observe_body>
+400dbe0d:	03ea80               	rsr.ccount	a8
+400dbe10:	004a16               	beqz	a10, 400dbe18 <acquire_iq$part$0$constprop$0+0x18>
+400dbe13:	c08870               	sub	a8, a8, a7
+400dbe16:	6a89                	s32i.n	a8, a10, 24
+
+armed_before_trigger:
+400dbecc:	03ea40               	rsr.ccount	a4
+400dbecf:	2a0c                	movi.n	a10, 2
+400dbed1:	ffc465               	call8	400dbb18 <regobs_observe_body>
+400dbed4:	03ea80               	rsr.ccount	a8
+400dbed7:	004a16               	beqz	a10, 400dbedf <acquire_iq$part$0$constprop$0+0xdf>
+400dbeda:	c08840               	sub	a8, a8, a4
+400dbedd:	6a89                	s32i.n	a8, a10, 24
+
+dump_complete:
+400dbf64:	03ea50               	rsr.ccount	a5
+400dbf67:	3a0c                	movi.n	a10, 3
+400dbf69:	ffbae5               	call8	400dbb18 <regobs_observe_body>
+400dbf6c:	03ea80               	rsr.ccount	a8
+400dbf6f:	005a16               	beqz	a10, 400dbf78 <acquire_iq$part$0$constprop$0+0x178>
+400dbf72:	c08850               	sub	a8, a8, a5
+400dbf75:	066a82               	s32i	a8, a10, 24
+
+restored_after_dump:
+400dbfc0:	03ea70               	rsr.ccount	a7
+400dbfc3:	4a0c                	movi.n	a10, 4
+400dbfc5:	ffb525               	call8	400dbb18 <regobs_observe_body>
+400dbfc8:	03ea80               	rsr.ccount	a8
+400dbfcb:	3a8c                	beqz.n	a10, 400dbfd2 <acquire_iq$part$0$constprop$0+0x1d2>
+400dbfcd:	c08870               	sub	a8, a8, a7
+400dbfd0:	6a89                	s32i.n	a8, a10, 24
