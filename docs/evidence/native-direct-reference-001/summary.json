@@ -48,5 +48,5 @@
   "SDR_decoding_proven": false,
   "RF_gate_closed": false,
   "limits": "Failed six-condition comparison; one observed direct source episode. Nominal phases use whole READY receipt and complete firmware intervals with one-second guards. ESP/HCI/UART timing is uncalibrated. Native matching reports are not protected-PDU replay or radiated event counts.",
-  "postprocessor_sha256": "aa88cfc8da46825debff10287c110b190ff4eff086a69024d25e8d0aa2deef3e"
+  "postprocessor_sha256": "0fd2cd2fbc54f319043954ba88c4445f8c9493563478291ce47b8da59bc5c8bd"
 }
