@@ -1,0 +1,18 @@
+{
+  "kind": "locked independent-review Nix CI execution metadata; offline only",
+  "python": "3.13.15",
+  "python_executable": "/nix/store/4yszfrqa75j9z87c01vgn9xzq72p7wf7-python3-3.13.15-env/bin/python3",
+  "numpy": "2.5.2",
+  "scipy": "1.18.1",
+  "matplotlib": "3.11.1",
+  "flake_sha256": "16cedd6f8533727fe44a29d25cbe8856547a3dd158923e16967514c0f1294ed6",
+  "lock_sha256": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51",
+  "analysis_Taskfile_sha256": "4413199e6a92ee7390c766790877b51ed13f82b35b72e0585d447fb968794cf9",
+  "method_Taskfile_sha256": "4a5e7cee33b3b6d8bd68aec1a1347aaa958ba6105157e2b35d5261ffa6fd66fc",
+  "method_checker_sha256": "0b547abccfbcc1289948e2ab0f357c1cf1fb1dcac2ff9b0c8c2f16d7e42d21fb",
+  "hardware_access": false,
+  "Docker_access": false,
+  "fresh_private_metrics_mode0600": true,
+  "actualSVG_rendered_and_visually_checked": true,
+  "eight_input_public_files_equal_reviewed9d1b553": true
+}

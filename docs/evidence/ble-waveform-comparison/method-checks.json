@@ -1,0 +1,18 @@
+{
+  "kind": "synthetic method checks only; no measured RF/capture acceptance",
+  "independent10bit_edge_vector_verified": true,
+  "signed_edge_components": [
+    -512,
+    -1,
+    0,
+    511
+  ],
+  "DC_plus_known_tone_raw_expected_DC_fraction": 0.8947368421052632,
+  "DC_plus_known_tone_measured_raw_DC_fraction": 0.8947377159439402,
+  "exact_existing_preprocessing_coherent_minus1MHz_fraction": 0.8949837303629506,
+  "zero_DC_input_same_preprocessing_coherent_minus1MHz_fraction": 1.3425463080704296e-08,
+  "unchanged_preprocessing_only": true,
+  "real_captures_modified": false,
+  "decoder_or_acceptance_modified": false,
+  "hardware_access": false
+}

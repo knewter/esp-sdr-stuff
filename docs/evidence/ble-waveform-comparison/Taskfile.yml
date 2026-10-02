@@ -1,0 +1,6 @@
+version: '3'
+tasks:
+  compare:
+    desc: Offline IQ hash, packing, fixed-decoder and numerical comparison; fresh output paths required
+    cmds:
+      - python3 '{{.TASKFILE_DIR}}/analyse.py' {{.CLI_ARGS}}
