@@ -146,3 +146,53 @@ measurement is being revised prospectively and requires another source/build
 review. This checkpoint also does not approve an installation/restoration
 supervisor, target behavior, physical timing, effective analog gain, reception
 or counted source events. The original RF and Trial B gates remain unchanged.
+
+## Fresh artifact and corrected lifecycle preflight
+
+[Latest preflight checks](latest-preflight-checks.json) record the subsequent
+review of committed caller bytes at `f84d94a` / documentation-only `f77cb97`:
+**75 locked-Nix/Task tests pass**. Exact artifact 002 has manifest SHA-256
+`7b09e894cc2d2673adb94afb3eb245a06a91b26efd91c566e28f81816cf9ef83`
+and was built from `bf96681a9382367bfb759ee658d42392c4b1b9fe`.
+The reviewer ran its whole artifact guard and independently verified actual
+source/part hashes, image XOR/SHA, canonical partition MD5 and SDK source NAR.
+Actual records occupy **2,592 bytes = 81 × 32**, outside both reserved sample
+memory aliases; serialization buffers remain 2,048 bytes each. Candidate 001
+remains stale and unapproved.
+
+The compiled five CCOUNT pairs enclose the separate, non-inlined body call:
+entry/return, prechecks, pointer lookup, both timer calls, the one MMIO read and
+original field stores. The reviewer compared 246 disassembled instructions
+with the actual ELF bytes. Stage argument setup and the initial counter spill
+are inside the observed bracket. Boundary costs, the subsequent branch/delta/
+final cycle store, initial reload and surrounding caller work remain residual.
+Raw cycles include interruptions/preemption and retain whole-counter-period
+ambiguity; this proves compiled coverage, not calibrated total perturbation.
+The [author's compiled audit](../register-observation-cycle-review/README.md)
+provides the bounded instruction excerpt and is separately labelled.
+
+The lifecycle holds the common lock, requires the original full-flash baseline
+before installing, rejects unknown fuser outcomes, and closes the complete
+owned process group before restoration or parent pipe persistence. Unknown
+closure blocks restoration. The independently replayed original wire now
+supplies its actual receipt CRCs and exact DATA boundaries; successful END
+must consume all retained protocol bytes. Cancellation, dual real pipes,
+output/deadline failures and restoration policy have software fault checks.
+
+Actual trial 001 retained a **failed supervisor** result despite a completed
+worker. Its first startup newline occurred at offset 8,903, before the first
+diagnostic line at 9,102; a diagnostic-line limit had been applied to that
+uninterpreted startup span. Independent replay verifies all **20 payloads,
+22 original receipts and 81 records**, with all post-config bytes consumed.
+The worker took 10.500512627 seconds. The before-install and restored images
+both contain the original 4 MiB hash, and direct private boot inspection confirms
+the original application, SDK and both GPIO states. This is reset recovery,
+not electrical power-cycle proof. The original failed lifecycle is preserved.
+
+The prospective correction permits only bounded startup spans before the
+first diagnostic candidate. It retains the strict 2,048-byte receipt limit,
+original CRCs and binary boundaries, with no protocol resynchronization.
+The reviewer conditionally cleared one fresh bounded experiment using exact
+artifact 002 and fresh identity/fuser/lock/full-baseline checks. Physical timing
+and stage observations still need their actual review. No effective analog
+gain, reception, source-event denominator or Trial B gate is accepted here.

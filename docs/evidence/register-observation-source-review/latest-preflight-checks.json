@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "hardware_opened_by_reviewer": false,
+  "reviewed_source_revision": "f77cb971f09947d30765668948aee4edbe96bf20",
+  "caller_bytes_unchanged_from": "f84d94a",
+  "source_hashes": {
+    "tools/esp_register_observation.py": "807758a8ae826d767664f91d9efa6cd81815f13e812c817c94d15104c176f249",
+    "tools/esp_register_probe.py": "7393714915b479aeae3d8c0f96e71bbedf8f4f2625e8a86100a58a5562ff1c1c",
+    "tools/esp_register_receipts.py": "57719e8210a71a0a21d743dcec0d71f9b511a94ebd4265915372c5fdb0ccd96d",
+    "tools/esp_register_artifact.py": "d74c4718dd9ac2e719ff9dd0f7cccdcf1704fcafed0d47e29f8a19da67d77950",
+    "tools/build_esp_register_observation.py": "f1ab440f88fd1e144aeda4ceacda3f91c94c16a9445aa212147aec7156e29a2f"
+  },
+  "locked_nix_task_tests": {
+    "command": "nix develop .#ci --command task register:check",
+    "passed": 75,
+    "counts": {
+      "actual_C_and_builder": 23,
+      "artifact": 11,
+      "receipt": 11,
+      "worker": 11,
+      "lifecycle": 19
+    }
+  },
+  "artifact002": {
+    "source_commit": "bf96681a9382367bfb759ee658d42392c4b1b9fe",
+    "manifest_sha256": "7b09e894cc2d2673adb94afb3eb245a06a91b26efd91c566e28f81816cf9ef83",
+    "elf_sha256": "581b4ac8c013a469ed701c7079ef781df8c20822c54e6176848aa470362b6111",
+    "config_sha256": "67b30768ace2be0e52de816334b5ed01f9113f7bcade8e32ed64393ebe0d70c3",
+    "application_sha256": "c45f24d8a459361fde463d109b691a81fbae0a6802e2e771a1660cb92796e8fc",
+    "application_bytes": 668384,
+    "records": 81,
+    "record_size_bytes": 32,
+    "record_array_bytes": 2592,
+    "serialization_buffers_bytes_each": 2048,
+    "whole_guard_actual_passed": true,
+    "independent_image_XOR_SHA_partition_MD5_source_NAR_passed": true,
+    "actual_disassembly_instructions_byte_compared_with_ELF": 246
+  },
+  "cycle_scope": {
+    "compiled_noninlined_body_and_five_CCOUNT_pairs_verified": true,
+    "body_includes": "entry/return, eligibility/capacity checks, pointer lookup, two timer calls, one MMIO read and original stores",
+    "residual": "counter-boundary costs and post-body branch/delta/final store, initial-stage reload and surrounding caller code; not calibrated total perturbation",
+    "stage_argument_setup_and_initial_counter_spill": "inside compiled bracket",
+    "raw_cycles_include_preemption": true,
+    "whole_uint32_period_ambiguity_retained": true,
+    "physical_timing_from_compilation_alone": false
+  },
+  "lifecycle_review": {
+    "common_lock_held_through_baseline_install_capture_restore": true,
+    "unknown_fuser_errors_rejected": true,
+    "original_wire_CRC_and_DATA_boundaries_replayed": true,
+    "successful_END_must_consume_retained_wire": true,
+    "RAM_parent_pipes_persist_only_after_group_closure": true,
+    "unknown_group_blocks_restore": true,
+    "installation_attempt_precedes_write": true,
+    "always_full_restore_after_closed_install_attempt": true,
+    "cancellation_and_real_pipe_fault_tests_passed": true
+  },
+  "trial001": {
+    "original_lifecycle_status": "failed",
+    "failure": "startup prelude exceeded diagnostic line bound",
+    "worker_status": "completed",
+    "actual_host_seconds": 10.500512627,
+    "wire_bytes": 846774,
+    "wire_sha256": "2d031ec2d326ff50ecb7d8da32ee7922d8945d160dd35da067ae839fafb60d94",
+    "startup_first_newline_offset": 8903,
+    "first_diagnostic_line_offset": 9102,
+    "original_wire_payload_CRC_and_saved_bytes_verified": 20,
+    "original_receipt_CRCS_and_metadata_verified": 22,
+    "records_verified": 81,
+    "strict_post_config_replay": "completed; original failed lifecycle retained",
+    "full4MiB_before_and_restore_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+    "restoration_independently_verified": true,
+    "application_SDK_and_both_GPIO_boot_observed": true,
+    "power_cycle_proven": false
+  },
+  "prospective_correction": {
+    "long_uninterpreted_startup_only": "bounded by global wire cap; first diagnostic candidate still strict2048 bytes/CRC",
+    "global_wire_bound_bytes": 2138102,
+    "after_protocol_entry": "no resynchronization, exact fixed DATA lengths and original CRCs"
+  },
+  "decision": "conditional permission for one bounded corrected-parser experiment with exact artifact002, fresh identity/fuser/common-lock and full-current-baseline checks; no RF/count acceptance",
+  "candidate001": "still stale and NOT installation-approved",
+  "RF_or_TrialB_gate_changed": false
+}
