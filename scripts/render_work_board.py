@@ -97,10 +97,13 @@ class SourceTree:
             listed = git(repo, "ls-files", "--cached", "--others", "--exclude-standard").splitlines()
             self.paths = {p for p in listed if (repo / p).is_file() and not (repo / p).is_symlink()}
         else:
-            entries = git(repo, "ls-tree", "-r", "-z", self.revision).split("\0")
-            self.paths = {entry.split("\t", 1)[1] for entry in entries
-                          if entry.startswith(("100644 ", "100755 "))}
-            documents = sorted(p for p in self.paths if p.endswith(".md") or p == STATUS_PATH)
+            entries = git(repo, "ls-tree", "-r", "-l", "-z", self.revision).split("\0")
+            sizes = {entry.split("\t", 1)[1]: int(entry.split("\t", 1)[0].split()[-1])
+                     for entry in entries if entry.startswith(("100644 ", "100755 "))}
+            self.paths = set(sizes)
+            documents = sorted(p for p in self.paths
+                               if (p.endswith(".md") or p == STATUS_PATH)
+                               and sizes[p] <= MAX_DOCUMENT_BYTES)
             self.committed_documents = dict(committed_payloads(repo, self.revision, documents))
 
     def read(self, path: str) -> str:
