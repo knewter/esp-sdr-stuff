@@ -183,8 +183,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Finish independent lifecycle review and fresh preservation preflight for one RAM-only 64 KiB/s USB trial. Obtain FPGA/oscillator/PCB markings before a connected FPGA build.",
-      "rationale": "Factory MCU preservation and application return pass. The generic Efinity T8F81/C2 compiler test passes all four stages; its initial failure is retained. A finite RAM-only MCU USB producer builds with 35,948 allocated SRAM bytes, independently verified source/artifact bindings and reviewed startup limits. The user reports USB-only attachment and can replug. Collector and lifecycle preparation precede a single 60-second transport condition; no RAM load, recovery measurement, connected FPGA transport or RF integration has run.",
+      "next": "Replug Forgix, then verify factory HELLO/STATUS and full original flash with guarded recovery. The first RAM episode stopped before loading. A new payload episode needs a separately frozen protocol; FPGA markings remain required.",
+      "rationale": "Efinity generic compilation, exact RAM artifact and independently reviewed lifecycle/collector preparation pass. The first physical episode failed during factory serial open: USB DTR control timed out and the owned worker was reaped. No RAM image or payload condition ran; no flash write or FPGA programming occurred. Factory USB remains enumerated but responsiveness and fresh device flash are unverified. Recovery awaits user USB replug. Original FPGA and RF gates remain open.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -205,9 +205,12 @@
         "docs/evidence/efinity-compiler-independent-review/actual-002-review.md",
         "docs/evidence/forgix-usb-ram-build/README.md",
         "docs/evidence/forgix-usb-ram-independent-review/README.md",
-        "docs/evidence/forgix-usb-ram-collector-review/README.md"
+        "docs/evidence/forgix-usb-ram-collector-review/README.md",
+        "docs/evidence/forgix-usb-ram-lifecycle-review/README.md",
+        "docs/evidence/forgix-usb-ram-version-review/README.md",
+        "docs/evidence/forgix-usb-ram-trial-001/README.md"
       ],
-      "reviewRevision": "4f1c3e28f051af5ea5bf2de72ba24c4fe09bb834"
+      "reviewRevision": "a302e3d"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",

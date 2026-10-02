@@ -74,3 +74,12 @@ selects one 64 KiB/s, 60-second condition with a measured 100 ms host pause.
 Lifecycle/collector review and fresh device preflight still precede any load.
 Pre-main startup is outside the watchdog and SDK IO resets can change pin states;
 physical recovery availability is not a successful recovery measurement.
+
+The [first physical RAM episode](docs/evidence/forgix-usb-ram-trial-001/README.md)
+stopped before loading: factory serial open hit a USB DTR-control timeout,
+and its bounded owned worker was reaped. No payload condition or ROM/RAM
+operation ran. USB enumeration alone does not verify the factory application
+or original device flash; explicit recovery awaits a physical replug.
+The [lifecycle review](docs/evidence/forgix-usb-ram-lifecycle-review/README.md)
+and [actual version-check supplement](docs/evidence/forgix-usb-ram-version-review/README.md)
+establish offline preparation only. The original task gates remain open.
