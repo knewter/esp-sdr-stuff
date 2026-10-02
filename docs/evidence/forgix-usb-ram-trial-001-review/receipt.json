@@ -1,0 +1,22 @@
+{
+  "status": "independent_preload_failure_audit_passed",
+  "trial_status": "failed",
+  "source_commit": "6e7b6bc617d855f38d0d62344ae939b8721c1cfe",
+  "source_artifact_image_bindings_verified": true,
+  "image_id": "sha256:aae2736bc4b7df740f1130ad19df4bda449f61a18f214f8c4d3b62d7c735c8a0",
+  "selected_private_identity_bound": true,
+  "prior_original_copies_hash_verified": 2,
+  "prior_copy_bytes": 2097152,
+  "failure_stage": "initial_factory_serial_open_DTR_control",
+  "device_error_number": 110,
+  "outer_failure_type": "TimeoutExpired",
+  "hardware_session_s": 15.732611168990843,
+  "owned_process_group_closure_recorded": true,
+  "independent_live_process_absence_checked": false,
+  "ROM_or_RAM_load_step_recorded": false,
+  "HELLO_STATUS_response_recorded": false,
+  "capture_available": false,
+  "CRC_payload_END_loss_or_throughput_result": null,
+  "fresh_full_flash_or_factory_recovery_verified": false,
+  "audit_hardware_or_Docker_access": false
+}

@@ -1,0 +1,10 @@
+version: '3'
+env:
+  FORGIX_REVIEW_SESSION: '{{.SESSION}}'
+tasks:
+  audit:
+    desc: Independently audit saved pre-load failure files, with no device or Docker access
+    requires:
+      vars: [SESSION]
+    cmds:
+      - python3 audit.py --session "$FORGIX_REVIEW_SESSION"
