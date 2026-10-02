@@ -1,0 +1,11 @@
+{
+  "kind": "independent offline RAM collector review",
+  "verdict": "PASS synthetic collector scope",
+  "reviewed_commit": "8e274ea967276e91b503112296e5a437b8acd596",
+  "source_sha256": "42a2be8b84a3509e38435bd5f207ffafa3474e063ed761f54bbefb71917061ee",
+  "tests_sha256": "97b9cadb5fa6c5f4554af3664c4e6ac969adbc7f75b84c717a706b6538f46519",
+  "independently_repeated_tests_passed": 37,
+  "hardware_operations": 0,
+  "device_loading_or_recovery_verified": false,
+  "acceptance_gates_changed": false
+}
