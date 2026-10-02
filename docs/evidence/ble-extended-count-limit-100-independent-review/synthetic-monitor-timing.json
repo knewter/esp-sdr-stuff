@@ -1,0 +1,25 @@
+{
+  "synthetic_only": true,
+  "hardware_or_docker_executed": false,
+  "cases": [
+    {
+      "synthetic_startup_seconds": 0.03,
+      "synthetic_post_header_seconds": 0.4,
+      "host_deadline_seconds": 0.6,
+      "status": "completed",
+      "producer_returncode": 0,
+      "producer_reaped": true,
+      "header_validated": true
+    },
+    {
+      "synthetic_startup_seconds": 0.3,
+      "synthetic_post_header_seconds": 0.4,
+      "host_deadline_seconds": 0.6,
+      "status": "host_deadline",
+      "producer_returncode": -15,
+      "producer_reaped": true,
+      "header_validated": true
+    }
+  ],
+  "mechanism": "Current capture host deadline starts before producer startup. A startup longer than grace can preempt a producer that intends the requested duration after header readiness. This reproduces a timing mechanism, not the actual dumpcap internal start time."
+}
