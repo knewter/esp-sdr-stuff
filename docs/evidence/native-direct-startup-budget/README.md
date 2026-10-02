@@ -41,7 +41,8 @@ keeping all six RF conditions, OFF intervals and deadlines fixed. An actual
 overrun still fails and is retained; no shortened episode or timing-limit
 change is inferred from these host timings. The prospective caller and actual
 archive-to-ID guard need independent review before another physical run.
-# Exact archive-to-image preload check
+
+## Exact archive-to-image preload check
 
 The sole operator ran the frozen v3 preload function through locked Nix and
 Task, before starting any native observer. The [actual receipt](exact-preload.json)
