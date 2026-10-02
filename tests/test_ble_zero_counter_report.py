@@ -162,11 +162,12 @@ class ZeroCounterReportTests(unittest.TestCase):
             decoded['captures'][1]['frames'] = [frame]
             result = analyze_segment(rows, decoded, episodes(), 'main')
             with self.subTest(mode=mode): self.assertEqual(result['complete_owned_packets'], [])
-        for mode in ('hash_missing', 'hash_invalid', 'refined_period_missing', 'period_nan'):
+        for mode in ('hash_missing', 'hash_invalid', 'refined_period_missing', 'period_nan', 'coarse_period'):
             rows, _, decoded = receiver_fixture(); frame = packet()
             if mode == 'hash_missing': del frame['pdu_sha256']
             elif mode == 'hash_invalid': frame['pdu_sha256'] = 'z'*64
             elif mode == 'refined_period_missing': frame['refined'] = True
+            elif mode == 'coarse_period': frame['samples_per_symbol_at_4msps'] = 4.02
             else: frame['samples_per_symbol_at_4msps'] = float('nan')
             decoded['captures'][1]['frames'] = [frame]
             with self.subTest(mode=mode), self.assertRaises(ValueError):

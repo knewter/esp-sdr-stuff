@@ -169,6 +169,7 @@ def analyze_segment(rows, decoded, episodes, segment):
             period = frame.get('samples_per_symbol_at_4msps', 4)
             require(isinstance(period, (float, int)) and math.isfinite(period) and 3.97 <= period <= 4.03,
                     'receiver_period_changed')
+            require(frame.get('refined') is True or period == 4, 'coarse_receiver_period_changed')
             beginning = frame.get('nominal_packet_start_sample')
             ending = frame.get('nominal_packet_end_sample')
             record = dict(segment=segment, capture_index=capture['capture_index'], source_control_phase=label,
