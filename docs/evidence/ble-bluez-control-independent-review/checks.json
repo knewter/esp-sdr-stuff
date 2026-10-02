@@ -1,0 +1,155 @@
+{
+  "scope": "Independent offline control/integrity/restoration and complete fixed-bound decoder replay; no hardware opened",
+  "captures": 1251,
+  "total_payload_bytes": 40982760,
+  "concatenated_payload_sha256": "8982aa2af507c4804101f382c6ef5ace558eab3c0f45b07c14b67fa327c0c5e4",
+  "all_payload_hash_crc_count_and_sequence_checks": true,
+  "all_waveforms_mode0600": true,
+  "source_episodes": 3,
+  "native_registration_on_seconds": [
+    120.10945335,
+    120.125900488,
+    120.032822212
+  ],
+  "native_off_seconds": [
+    20.089656726,
+    20.30116616
+  ],
+  "baseline_seconds": 20.23610521,
+  "tail_after_source_group_closure_seconds": 38.404163414,
+  "payload_interval_seconds": 460.085077254,
+  "wire_enable_ack_to_disable_command_seconds": [
+    120.125085721,
+    120.133143755,
+    120.038906605
+  ],
+  "hci_commands": 15,
+  "hci_status_zero_completions": 15,
+  "actual_wire": {
+    "event_properties": 19,
+    "primary_channel_map": 7,
+    "primary_phy": 1,
+    "secondary_phy": 1,
+    "interval_ms": 20,
+    "duration_units": 0,
+    "max_events": 0
+  },
+  "source_denominator": null,
+  "RF_acceptance_gate_closed": false,
+  "original_fullflash_readback_and_boot_verified": true,
+  "owned_groups_container_and_source_bus_closed_recorded": true,
+  "private_receipt_sha256": {
+    "orchestration.json": "fa64ea06ebf10f4a5aa23067b3f9839555fd28a1eeffc7e0119afe6de51b7955",
+    "receiver/captures.csv": "efbfec216d3a87590cb1784ed65c9fa32964ff3c0fdc552ef3ef25078877fb32",
+    "receiver/manifest.json": "4764c9de476995cf61b73842a2541673ec255f7975430b4b551ae9107cce23ae",
+    "source/results.json": "0f1d5828b766f8e05966cbf2f54d4fae4d604c594f57cf1476fe5d69e8ffabd9",
+    "monitor.json": "7b30cad8fd92f22f457cbc25ab0d280c5293780d3f13049cdc7fdd745afeab2a"
+  },
+  "independent_decoder_replay": {
+    "captures_analyzed": 1251,
+    "crc_valid_owned_packets": 0,
+    "crc_valid_other_packets_redacted": 0,
+    "runtime_seconds": 5.034223249997012,
+    "all_output_fields_except_runtime_equal_author_full_result": true,
+    "decoder_source_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+    "parameters": {
+      "nominal_rate_hz": 16000000,
+      "bits_per_component": 8,
+      "samples_per_capture": 16380,
+      "channel": 37,
+      "frequency_translation_hz": -1000000.0,
+      "blind_receiver_refinement": {
+        "samples_per_symbol_min": 3.97,
+        "samples_per_symbol_max": 4.03,
+        "samples_per_symbol_step": 0.005,
+        "start_search_half_width_samples_at_4msps": 2,
+        "start_search_step_samples_at_4msps": 0.25,
+        "threshold_bias_min_deviation_fraction": -0.45,
+        "threshold_bias_max_deviation_fraction": 0.45,
+        "threshold_bias_step_deviation_fraction": 0.025,
+        "maximum_candidate_clusters_per_capture": 32
+      }
+    },
+    "result_scope": "Null within unchanged bounded decoder; no signal/no-emission or hit-rate inference"
+  },
+  "phase_guard_seconds": 1,
+  "phase_capture_bracket": "command_start_ns through payload_received_ns",
+  "independently_recomputed_phase_counts": {
+    "source_off_before": 52,
+    "control_transition_guard_excluded": 39,
+    "source_on_episode_0": 319,
+    "source_off_after_episode_0": 48,
+    "source_on_episode_1": 320,
+    "source_off_after_episode_1": 49,
+    "source_on_episode_2": 321,
+    "source_off_after": 103
+  },
+  "phase_counts_match_recorded_report": true,
+  "executed_private_source_copies": {
+    "executed-orchestrator.py": {
+      "sha256": "0b5d28dfbebe001678b1524b3584b498812c0c8268666b85d04750785710b6a4",
+      "mode": "0o400"
+    },
+    "executed-measure_owned_ble.py": {
+      "sha256": "cc0f449bcd37514bd5f1663bb540c23a888a98249bc0194a66220d592a827cea",
+      "mode": "0o400"
+    }
+  },
+  "installed_historical_artifact_rehashed_and_receipts_match": true,
+  "public_receipts_equal_original_private_records": true,
+  "public_raw_firmware_or_waveforms_present": false,
+  "publication_sanitization_scope": "Numeric captures/phase brackets, hashes, source schedule and already-sanitized HCI controls only. No addresses, unrelated HCI traffic, device names, credentials, raw RF/flash/boot or subprocess logs.",
+  "public_files": {
+    "README.md": {
+      "bytes": 5906,
+      "sha256": "4f53c37819d90ded86b2d2df55bd52389bbfbff0d6fc2d717d17b3a278db89b2"
+    },
+    "before-install.json": {
+      "bytes": 141,
+      "sha256": "f53a3faf27db6dc867d5d9a607ec18c361649e0b9e1bb0aa1103c0d77d0d23be"
+    },
+    "captures.csv": {
+      "bytes": 394675,
+      "sha256": "efbfec216d3a87590cb1784ed65c9fa32964ff3c0fdc552ef3ef25078877fb32"
+    },
+    "decode-summary.json": {
+      "bytes": 4779,
+      "sha256": "9a3711bd4edf0b06dce8aa99cf9b18199b276c7400f53f44a058da33ec76dc36"
+    },
+    "input-verification.json": {
+      "bytes": 722,
+      "sha256": "4bfe508ebfd09acae639afeabd44b4ca07b5a3ecc881278769b335044acfa296"
+    },
+    "monitor.json": {
+      "bytes": 9043,
+      "sha256": "7b30cad8fd92f22f457cbc25ab0d280c5293780d3f13049cdc7fdd745afeab2a"
+    },
+    "orchestration.json": {
+      "bytes": 5299,
+      "sha256": "fa64ea06ebf10f4a5aa23067b3f9839555fd28a1eeffc7e0119afe6de51b7955"
+    },
+    "phase-classification.csv": {
+      "bytes": 92368,
+      "sha256": "03c9cbfb18940ff582c854885de2f4403f5063214f8da623fe57b3c7fcc57137"
+    },
+    "receiver.json": {
+      "bytes": 2038,
+      "sha256": "4764c9de476995cf61b73842a2541673ec255f7975430b4b551ae9107cce23ae"
+    },
+    "restoration.json": {
+      "bytes": 556,
+      "sha256": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8"
+    },
+    "source.json": {
+      "bytes": 2260,
+      "sha256": "0f1d5828b766f8e05966cbf2f54d4fae4d604c594f57cf1476fe5d69e8ffabd9"
+    }
+  },
+  "review_verdict": {
+    "recorded_control_schedule_transport_and_recovery": "PASS",
+    "fixed_bound_decoder_result": "Null, independently reproduced",
+    "owned_RF_reproduction": "Not demonstrated in this trial",
+    "counted_emission_denominator": "Unavailable; original >=100-count criterion remains open",
+    "calibration_or_no_emission_inference": "Not supported"
+  }
+}
