@@ -296,3 +296,18 @@ tasks:
     desc: Test RAM ELF range, vector, metadata and buffer guards without hardware
     cmds:
       - python3 -m unittest discover -s tests -p test_forgix_usb_ram.py
+
+  forgix:usb-ram:trial:
+    desc: Run the bounded reviewed RAM-only synthetic USB trial (exclusive hardware operator)
+    cmds:
+      - python3 tools/forgix_usb_ram_trial.py {{.CLI_ARGS}}
+
+  forgix:usb-ram:recover:
+    desc: Verify original factory/flash after operator USB power-cycle (never reload)
+    cmds:
+      - python3 tools/forgix_usb_ram_trial.py --action recover {{.CLI_ARGS}}
+
+  forgix:usb-ram:trial:test:
+    desc: Test RAM lifecycle identity, timeout, cancellation and closure with synthetic fixtures only
+    cmds:
+      - python3 -m unittest discover -s tests -p test_forgix_usb_ram_trial.py
