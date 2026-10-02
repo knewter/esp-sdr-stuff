@@ -182,10 +182,7 @@
         "path": "docs/evidence/esp-demo-session-005/completed-spectrum.png",
         "caption": "Actual Nix-built RAM-buffered Task minute: 2,712 CRC-valid frames",
         "provenance": "Board capture"
-      },
-      "acceptedSpecs": [
-        "openspec/specs/radio/interactive-demo/spec.md"
-      ]
+      }
     }
   }
 }
