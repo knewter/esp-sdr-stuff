@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "verdict": "PASS",
+  "scope": "Hardware-free private Efinity bootstrap implementation review; actual vendor operation separate",
+  "reviewed_commit": "8a3e2eae99c246d43554cc21e4a46a6cef396a7e",
+  "helper_sha256": "7444aad21471410da345cf5b623df7da79c57975c0a8178bc30730295f648427",
+  "tests_sha256": "98f65958ea77547f1f5b0e2c23e54f41a46fcfcb9c6587c27004c1f6b6ce83e5",
+  "project_tests_passed": 30,
+  "independent_disposable_cases_passed": 31,
+  "additional_injected_runtime_guards_passed": 4,
+  "actual_task_checks": {
+    "host_status": "host_ready",
+    "vendor_installation_present_in_review_tree": false,
+    "missing_install_refused": true,
+    "host_check_compile_forwarding_refused": true,
+    "completed_software_candidates": 1,
+    "partial_downloads_not_opened": 1
+  },
+  "bounds": {
+    "archive_bytes": 12884901888,
+    "expanded_bytes": 25769803776,
+    "members": 200000,
+    "path_or_symlink_bytes": 4096,
+    "tar_pax_header_bytes": 65536,
+    "cumulative_tar_metadata_bytes": 16777216,
+    "free_space_reserve_bytes": 268435456
+  },
+  "preservation": {
+    "source_bytes_modes_mtimes_unchanged": true,
+    "external_sentinels_preserved": true,
+    "failed_install_retained_unselected": true,
+    "corrupt_reuse_preserves_current": true,
+    "private_directories_mode": "0700",
+    "private_files_logs_license_mode": "0600",
+    "HOME_unchanged": true,
+    "unknown_process_closure_blocks_reuse": true,
+    "physical_compile_gates_and_FHS_source_unchanged": true
+  },
+  "unverified": [
+    "actual vendor CLI in selected installation",
+    "vendor-recognized license destination and activation",
+    "licensed gateware compilation",
+    "vendor-created HOME log permissions",
+    "physical FPGA grade/clock/revision"
+  ],
+  "actual_vendor_executed_by_reviewer": false,
+  "hardware_operations": 0,
+  "private_proof_sha256": {
+    "independent.py": "e2e6bec7cbcfcaa386ecc3089def8f64941556a2b79ac3ba7acd0ce3d6d22eda",
+    "independent-checks.json": "d1ad9f83e10b9f995e2e8d5f034a3fd425fbb98cf0363c6a52bea018218f22db",
+    "integration.py": "5f016aedb87b93bb22879b9db1bcce232a6b4aa96e4a167d7bd74c51e1da8a62",
+    "integration-checks.json": "da2781ed5b28d8f23324e4a1e022e985bc79e0242bf6a58ea6832826c97d91f3"
+  }
+}
