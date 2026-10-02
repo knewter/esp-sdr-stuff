@@ -181,8 +181,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Inspect actual FPGA/oscillator/PCB markings and wiring, then build with confirmed Forgix constraints before any programming or transport benchmark.",
-      "rationale": "Factory MCU preservation and application return pass. Efinity 2026.1.132 is installed privately and works through Nix. The fixed generic T8F81/C2 example passes all four compiler stages and produces a fresh 520,140-byte hex; the initial skipped-interface/no-bitstream failure is retained. SQLite and D-Bus runtime dependencies are supplied by Nix; 51 focused tests pass. Connected Forgix constraints and gateware remain unverified; no hardware programming or transport benchmark ran.",
+      "next": "Finish independent lifecycle review and fresh preservation preflight for one RAM-only 64 KiB/s USB trial. Obtain FPGA/oscillator/PCB markings before a connected FPGA build.",
+      "rationale": "Factory MCU preservation and application return pass. The generic Efinity T8F81/C2 compiler test passes all four stages; its initial failure is retained. A finite RAM-only MCU USB producer builds with 35,948 allocated SRAM bytes, independently verified source/artifact bindings and reviewed startup limits. The user reports USB-only attachment and can replug. Collector and lifecycle preparation precede a single 60-second transport condition; no RAM load, recovery measurement, connected FPGA transport or RF integration has run.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -200,7 +200,9 @@
         "docs/evidence/efinity-compile-smoke-001/README.md",
         "docs/evidence/efinity-compile-smoke-002/README.md",
         "docs/evidence/efinity-compiler-independent-review/README.md",
-        "docs/evidence/efinity-compiler-independent-review/actual-002-review.md"
+        "docs/evidence/efinity-compiler-independent-review/actual-002-review.md",
+        "docs/evidence/forgix-usb-ram-build/README.md",
+        "docs/evidence/forgix-usb-ram-independent-review/README.md"
       ],
       "reviewRevision": "4cbcb77ffdc859734d2b196fa7781585df9aa5a1"
     },
