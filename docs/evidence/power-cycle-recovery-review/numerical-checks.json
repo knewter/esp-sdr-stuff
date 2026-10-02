@@ -1,0 +1,38 @@
+{
+  "review_kind": "Offline recovery composite proof",
+  "observation_utc": "2026-10-02T03:11:06.318962+00:00",
+  "received_uart_bytes": 5490,
+  "saved_log_bytes": 5028,
+  "saved_log_sha256": "82f0e9973c6198882147fbd7579bea5892210290ed2f7b35b1c23cd9916c5ef5",
+  "public_observation_sha256": "1ab57207d644188c82adda3b872292cb4d0c6430f4204f01250bf85f1e1f4c99",
+  "publication_transforms": [
+    "Decode UART as UTF-8 with replacement",
+    "Strip ANSI color sequences",
+    "Redact address-like strings"
+  ],
+  "boot_logs_compared": [
+    "docs/evidence/board-identification/boot.log",
+    "docs/evidence/zero-counter-restoration/boot-inspection/boot.log",
+    "docs/evidence/user-power-cycle-recovery/application.log"
+  ],
+  "matching_fields": {
+    "project": "hello_world",
+    "app_version": "8b73cb1-dirty",
+    "idf": "v5.4-dirty",
+    "elf_prefix": "aa93ad9da67f1e9d...",
+    "cpu_hz": "160000000",
+    "app_offset": "0x10000"
+  },
+  "both_gpio_states_observed": true,
+  "user_reported_physical_power_cycle": true,
+  "independent_power_voltage_or_cold_edge_measurement": false,
+  "possible_uart_open_reset_disclosed": true,
+  "baseline_full_bytes": 4194304,
+  "baseline_and_restored_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "three_private_images_checked_mode0600": true,
+  "restoration_finished_utc": "2026-10-02T00:58:04.302941+00:00",
+  "no_new_image_install_between_restoration_and_observation": "Reported by sole operator; independent review does not observe all hardware actions",
+  "original_recovery_tasks_satisfied": true,
+  "verdict": "Recoverable for the preserved original image on the evaluated board",
+  "new_flash_read_or_write_by_reviewer": false
+}
