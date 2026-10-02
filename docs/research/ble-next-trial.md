@@ -267,3 +267,23 @@ probe, and no settings were reapplied. The fresh SDR nulls remain unresolved;
 any further receiver or placement comparison requires prospectively declared
 conditions. Neither this native reference nor the gain queries supply emitted
 event counts.
+
+## Direct-source comparison and next receiver observation
+
+The separate [native direct-source comparison](../evidence/native-direct-reference-002/README.md)
+now completes all six alternating MaxEvents 255/0 episodes with 363 owned
+reports, successful explicit stop, all acknowledged cleanup and full original
+restoration. All six have guarded positive native reception, while all six
+actual terminations remain `0x3c/count0`. Both source settings are therefore
+receivable through the supported observer. Neither the total reports nor the
+zero controller fields supply an emitted denominator or causal diagnosis.
+The [first failed comparison](../evidence/native-direct-reference-001/README.md)
+remains failed with five conditions unrun; it is not repaired by the second run.
+
+A [prospective receiver observation](receiver-register-observation.md) would
+read the forced-selector field alongside bit23 at declared acquisition stages,
+buffering diagnostics in RAM and reporting after payload delivery. It is
+unimplemented and requires a separate reviewed artifact and OpenSpec protocol.
+The completed gain query observed bit23 only; no field is equated with effective
+analog gain or calibrated dB. Keep the existing SDR allowlist, five historical
+positive packets, 2,248 fresh nulls and Trial B prerequisite unchanged.

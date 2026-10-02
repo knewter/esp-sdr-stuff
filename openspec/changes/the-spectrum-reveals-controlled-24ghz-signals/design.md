@@ -71,3 +71,18 @@ once, controls no source and restores the complete original flash and reset boot
 This gives no queried mismatch in that run, without reading effective gain or
 earlier control state. The two fresh SDR nulls remain unresolved, Trial B remains
 withheld, and the original RF/count acceptance criteria and tasks stay unchanged.
+
+The [native direct-source comparison](docs/evidence/native-direct-reference-002/README.md)
+now completes six alternating MaxEvents 255/0 episodes with 363 owned reports.
+Both settings have positive guarded native reception; every actual termination
+still reports `0x3c/count0`. All source cleanup and full original restoration
+verify. The earlier comparison remains failed. These native observations do
+not close SDR repeatability or transmitted-count gates.
+
+The next [receiver-register observation design](docs/research/receiver-register-observation.md)
+is prospective and unimplemented. It proposes bounded readback of the field
+the firmware writes as its forced selector, alongside bit23 at acquisition
+stages, with RAM buffering and diagnostics after payload delivery. A separate
+reviewed diagnostic artifact and declared protocol are prerequisites. No live
+analog gain interpretation, source-count qualification or weakening of the
+existing SDR allowlist follows from this plan.

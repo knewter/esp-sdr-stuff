@@ -1,6 +1,14 @@
 # Prospective native comparison of direct-HCI advertising limits
 
-**UNVERIFIED: the six-episode comparison has not completed.** Native source-reference002 received
+The six-episode [physical comparison 002](../evidence/native-direct-reference-002/README.md)
+now completes with 363 matching native reports, successful explicit stop and
+full original-image restoration. Both limit settings have positive guarded
+observations; every actual source termination remains `0x3c/count0`. This
+qualifies the bounded native comparison only. Hidden-SDR decoding and emitted
+counts remain unverified. The following records the prospective protocol that
+was committed before operation; run 001 remains failed.
+
+Native source-reference002 received
 1176 exact owned reports using BlueZ, completed its explicit 90-second stop and
 verified original-image restoration. The direct-HCI timer diagnostics instead
 returned actual `0x3c/count0`; their previous SDR snapshots decoded no complete
