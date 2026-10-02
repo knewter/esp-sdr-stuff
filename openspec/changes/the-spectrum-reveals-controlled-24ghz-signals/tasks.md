@@ -51,3 +51,9 @@ The [single physical mode pair](docs/evidence/ble-mode-counter-001/README.md)
 has now completed with ten accepted commands, exact source/monitor agreement,
 bounded duration and complete cleanup. Both modes report `0x3c/count0` and
 their strict count gates remain failed. Original RF tasks remain unchecked.
+
+The prospective [matched ten-bit gain controls](docs/research/ble-matched-gain-protocol.md)
+hold receiver precision and bandwidth fixed while changing requested gain mode.
+They require independent preflight and result review, complete restoration and
+the original three-response criterion. No original task is closed by planning
+or host tests.

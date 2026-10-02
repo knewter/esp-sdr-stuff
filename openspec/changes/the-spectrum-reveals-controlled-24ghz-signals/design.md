@@ -158,6 +158,13 @@ and extended reporting with fixed five-second duration/MaxEvents 255. Auxiliary
 extended AD is outside this ESP32's native reference and channel-37 decoder.
 This diagnostic cannot supply legacy marker counts or close RF/burst gates.
 
+The [matched ten-bit gain protocol](docs/research/ble-matched-gain-protocol.md)
+declares two fresh MANUAL48/HARDWARE controls with fixed bandwidth, precision,
+artifact and three ON/OFF episodes per condition. Exact profile and lifecycle
+review precedes hardware. Fixed-order restart and interference confounds remain;
+requested software mode is not calibrated analog gain. Original RF/count gates
+and the fresh hidden-SDR prerequisite for Trial B remain unchanged.
+
 The [actual single mode pair](docs/evidence/ble-mode-counter-001/README.md)
 now completes in 32.826581557 seconds with accepted commands and verified
 source/monitor/group cleanup. Both modes retain `0x3c/count0`; the proposed
