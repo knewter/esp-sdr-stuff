@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "kind": "source-only duration diagnostics",
+  "physical_operator": "root agent",
+  "hardware_operations_by_publishing_agent": false,
+  "receiver_trial_performed": false,
+  "rf_proof_obtained": false,
+  "source_denominator_gate": "failed",
+  "independently_observed_air_emission_count": null,
+  "trials": [
+    {
+      "trial_id": "ef-1000ms",
+      "files": {
+        "source-control.jsonl": {
+          "sha256": "fecb2593471e4b78347a58c64e53598e751939be2deb2d3774bc72aa6ae5cc02",
+          "bytes": 4827,
+          "source_bytes_preserved": true
+        },
+        "preflight.json": {
+          "sha256": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+          "bytes": 47,
+          "source_bytes_preserved": true
+        },
+        "postflight.json": {
+          "sha256": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+          "bytes": 47,
+          "source_bytes_preserved": true
+        },
+        "hci-control.json": {
+          "sha256": "fae8a73b24efe9e77777ba7c19faff17f06ee17d3c2f1cb047de20ff072faaa1",
+          "bytes": 3829,
+          "source_bytes_preserved": true
+        }
+      },
+      "helper_sha256": "82c7158a369add7ad66ebdd3ee79520d513dc2b3b887eae2d69e1150a8c838f1",
+      "requested": {
+        "advertising_handle": 239,
+        "duration_ms": 1000,
+        "interval_ms": 20,
+        "maximum_events": 255,
+        "properties": 16,
+        "primary_channel_map": 1,
+        "phy": 1
+      },
+      "native_termination": {
+        "status": 60,
+        "completed_events": 0,
+        "advertising_handle": 239
+      },
+      "independent_monitor_agrees": true,
+      "native_enable_command_result_to_termination_s": 0.985075025,
+      "timing_measures_rf_start": false,
+      "command_results": {
+        "set_parameters": 0,
+        "set_data": 0,
+        "enable": 0,
+        "cleanup_disable": 0,
+        "cleanup_remove": 0
+      },
+      "cleanup_success": true,
+      "source_socket_closed": true,
+      "source_verdict": "trial_failed",
+      "source_error_code": "termination_status_or_count_mismatch",
+      "controller_completed_count_verified": false,
+      "pre_post_powered": true,
+      "pre_post_active_instances": 0,
+      "monitor_status": "completed",
+      "monitor_elapsed_s": 15.253462604945526,
+      "monitor_loss_free_proven": false
+    },
+    {
+      "trial_id": "handle1-1000ms",
+      "files": {
+        "source-control.jsonl": {
+          "sha256": "dcd19857fa7169ffca5f9d8cd38dcbdc1671f9a398550a188f6699c37c75144e",
+          "bytes": 4901,
+          "source_bytes_preserved": true
+        },
+        "preflight.json": {
+          "sha256": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+          "bytes": 47,
+          "source_bytes_preserved": true
+        },
+        "postflight.json": {
+          "sha256": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+          "bytes": 47,
+          "source_bytes_preserved": true
+        },
+        "hci-control.json": {
+          "sha256": "377ab654ccffbca4cea8870e5e5ff7233e5f93b3c228138f8a04c8f09a829276",
+          "bytes": 3817,
+          "source_bytes_preserved": true
+        }
+      },
+      "helper_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "requested": {
+        "advertising_handle": 1,
+        "duration_ms": 1000,
+        "interval_ms": 20,
+        "maximum_events": 255,
+        "properties": 16,
+        "primary_channel_map": 1,
+        "phy": 1
+      },
+      "native_termination": {
+        "status": 60,
+        "completed_events": 0,
+        "advertising_handle": 1
+      },
+      "independent_monitor_agrees": true,
+      "native_enable_command_result_to_termination_s": 0.977966489,
+      "timing_measures_rf_start": false,
+      "command_results": {
+        "set_parameters": 0,
+        "set_data": 0,
+        "enable": 0,
+        "cleanup_disable": 0,
+        "cleanup_remove": 0
+      },
+      "cleanup_success": true,
+      "source_socket_closed": true,
+      "source_verdict": "trial_failed",
+      "source_error_code": "termination_status_or_count_mismatch",
+      "controller_completed_count_verified": false,
+      "pre_post_powered": true,
+      "pre_post_active_instances": 0,
+      "monitor_status": "completed",
+      "monitor_elapsed_s": 15.174082917976193,
+      "monitor_loss_free_proven": false
+    },
+    {
+      "trial_id": "handle1-5000ms",
+      "files": {
+        "source-control.jsonl": {
+          "sha256": "daa1e2b7ea50c7c1427a73365cdd464267134614daa0445541f54ec527d95be7",
+          "bytes": 4901,
+          "source_bytes_preserved": true
+        },
+        "preflight.json": {
+          "sha256": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+          "bytes": 47,
+          "source_bytes_preserved": true
+        },
+        "postflight.json": {
+          "sha256": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+          "bytes": 47,
+          "source_bytes_preserved": true
+        },
+        "hci-control.json": {
+          "sha256": "70df5c34351a66f5946efba158e848902c059fe6ed5033aadb013617c3df12f9",
+          "bytes": 3816,
+          "source_bytes_preserved": true
+        }
+      },
+      "helper_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "requested": {
+        "advertising_handle": 1,
+        "duration_ms": 5000,
+        "interval_ms": 20,
+        "maximum_events": 255,
+        "properties": 16,
+        "primary_channel_map": 1,
+        "phy": 1
+      },
+      "native_termination": {
+        "status": 60,
+        "completed_events": 0,
+        "advertising_handle": 1
+      },
+      "independent_monitor_agrees": true,
+      "native_enable_command_result_to_termination_s": 5.047873652,
+      "timing_measures_rf_start": false,
+      "command_results": {
+        "set_parameters": 0,
+        "set_data": 0,
+        "enable": 0,
+        "cleanup_disable": 0,
+        "cleanup_remove": 0
+      },
+      "cleanup_success": true,
+      "source_socket_closed": true,
+      "source_verdict": "trial_failed",
+      "source_error_code": "termination_status_or_count_mismatch",
+      "controller_completed_count_verified": false,
+      "pre_post_powered": true,
+      "pre_post_active_instances": 0,
+      "monitor_status": "completed",
+      "monitor_elapsed_s": 15.16014923795592,
+      "monitor_loss_free_proven": false
+    }
+  ]
+}
