@@ -57,3 +57,8 @@ remain open; checked tasks retain their original requirements. See the
 [USB hub inspection](../usb-power-control/README.md) finds advertised individual
 port switching via a scoped descriptor-only container. Electrical VBUS/ESP-rail
 removal remains unmeasured; logical port state cannot close recovery proof.
+
+[The independent zero-counter review](../ble-zero-counter-independent-review/README.md)
+reproduces the complete null replay, all raw integrity checks, source-only timer
+receipts and latest full-image restoration. It closes no additional hardware
+acceptance gate.

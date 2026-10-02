@@ -108,3 +108,9 @@ The root-owned [acquisition supervisor](acquisition-supervisor.py) and provenanc
 receipts record monitor readiness before receiver startup; monotonic packet
 records alone do not timestamp that readiness event. The supervisor retains
 its original failed final-tail assertion.
+
+[Independent review](../ble-zero-counter-independent-review/README.md)
+replays both complete waveform segments and the final reporter, verifies
+receipt hashes, source/monitor fields, scheduling failure and original firmware
+restoration, and reproduces this inconclusive outcome. It accepts no counted
+event, hit-rate or continuous-tail requirement.

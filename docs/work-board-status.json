@@ -15,7 +15,7 @@
       "physical": "pending",
       "next": "Record an actual power-removal/reapplication boot and finish recovery acceptance.",
       "rationale": "Complete preservation and repeated full-image restore/readback/reset boot match, including the timer RF diagnostic. Original GPIO firmware is running; actual electrical power-cycle proof remains open.",
-      "reviewRevision": "915e229d9b9d499edbe689e647cffcddebf91e2f",
+      "reviewRevision": "9481f1fc89265ea48b00a810aa4b0323929b71c9",
       "dependencies": [],
       "evidence": [
         "docs/evidence/firmware-preservation/README.md",
@@ -24,7 +24,8 @@
         "docs/evidence/power-cycle-wait/README.md",
         "docs/evidence/usb-power-control/README.md",
         "docs/evidence/ble-controller-independent-review/README.md",
-        "docs/evidence/zero-counter-restoration/README.md"
+        "docs/evidence/zero-counter-restoration/README.md",
+        "docs/evidence/ble-zero-counter-independent-review/README.md"
       ]
     },
     "the-board-captures-repeatable-radio-snapshots": {
@@ -76,7 +77,7 @@
       "physical": "pending",
       "next": "Use a verified source counter or independent RF reference before the three counted receiver trials.",
       "rationale": "Five complete owned BLE packets verify offline decoding. Initial finite source trials lacked termination; timer trials now report actual count zero. All 262 zero-counter diagnostic snapshots pass transport checks but yield no CRC-valid owned packet; null is inconclusive. Hit/miss reliability remains open.",
-      "reviewRevision": "915e229d9b9d499edbe689e647cffcddebf91e2f",
+      "reviewRevision": "9481f1fc89265ea48b00a810aa4b0323929b71c9",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -91,7 +92,8 @@
         "docs/evidence/ble-controller-independent-review/README.md",
         "docs/evidence/ble-duration-source-diagnostics/README.md",
         "docs/evidence/ble-zero-counter-rf/README.md",
-        "docs/evidence/zero-counter-restoration/README.md"
+        "docs/evidence/zero-counter-restoration/README.md",
+        "docs/evidence/ble-zero-counter-independent-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",
