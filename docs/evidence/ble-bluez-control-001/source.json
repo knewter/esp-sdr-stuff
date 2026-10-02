@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "kind": "commanded owned BLE advertising episodes",
+  "manufacturer_test_marker_hex": "4553502d5344522d4556414c",
+  "manufacturer_id": "ffff",
+  "expected_manufacturer_ad_hex": "0fffffff4553502d5344522d4556414c",
+  "exact_over_air_emission_count": null,
+  "episodes": [
+    {
+      "index": 0,
+      "register_requested_monotonic_ns": 731423910164659,
+      "registration_accepted_monotonic_ns": 731424025358836,
+      "registered_utc": "2026-10-02T06:55:23Z",
+      "unregister_requested_monotonic_ns": 731544134812186,
+      "release_observed_before_unregister": false,
+      "release_monotonic_ns": null,
+      "unregistration_accepted_monotonic_ns": 731544146871447,
+      "active_instances_after": 0
+    },
+    {
+      "index": 1,
+      "register_requested_monotonic_ns": 731564236528173,
+      "registration_accepted_monotonic_ns": 731564354891652,
+      "registered_utc": "2026-10-02T06:57:44Z",
+      "unregister_requested_monotonic_ns": 731684480792140,
+      "release_observed_before_unregister": false,
+      "release_monotonic_ns": null,
+      "unregistration_accepted_monotonic_ns": 731684486096612,
+      "active_instances_after": 0
+    },
+    {
+      "index": 2,
+      "register_requested_monotonic_ns": 731704787262772,
+      "registration_accepted_monotonic_ns": 731704903471955,
+      "registered_utc": "2026-10-02T07:00:04Z",
+      "unregister_requested_monotonic_ns": 731824936294167,
+      "release_observed_before_unregister": false,
+      "release_monotonic_ns": null,
+      "unregistration_accepted_monotonic_ns": 731824943699420,
+      "active_instances_after": 0
+    }
+  ],
+  "source_script_sha256": "e214640ad5d3b56c38c463b0f06bfc1b9ecedd7ddf3c5985e22ff4e14c2d91da",
+  "requested_episode_seconds": 120.0,
+  "requested_off_seconds": 20.0,
+  "requested_episodes": 3,
+  "requested_advertisement_type": "broadcast",
+  "commanded_advertising_interval_ms": 20,
+  "limitations": "RegisterAdvertisement success establishes controller configuration acceptance, not an independently observed transmission count, packet timing, channel map or actual RF. No address or local network name is published.",
+  "active_instances_before": 0,
+  "supported_instances": 12,
+  "status": "completed",
+  "source_bus_disconnected": true
+}

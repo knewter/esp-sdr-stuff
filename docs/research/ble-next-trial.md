@@ -138,3 +138,55 @@ exact-name cleanup, parser-failure cleanup, bounded unlimited-mode encoding,
 unchanged counted-mode behavior and source release/privacy failures. Actual
 container monitor access and reception still require the root operator's physical
 receipts. Restore the ESP original image and verify it after the trial.
+
+## Trial C: reproduce the previously verified 10-bit receiver profile
+
+The new [Trial A control](../evidence/ble-bluez-control-001/README.md) completed
+1,251 transport-valid captures and three complete source episodes, but its
+predeclared full replay found **zero** verified owned packets. The actual HCI
+configuration matched the earlier monitored BlueZ proxy: properties `0x0013`,
+channel map `0x07`, 20 ms interval, LE1M, exact marker, Duration zero and MaxEvents
+zero. This null result does not isolate a source-mode change. Trial B remains
+conditional on a current positive control and is not justified by Trial A alone.
+
+The next prospective reproduction control uses the exact receiver cell of the
+[previously verified capture 103](../evidence/ble-controls-decoding/README.md):
+LO 2401 MHz, nominal 16 MS/s, 16,380 pairs, **10-bit I/Q, requested filter 20 MHz,
+manual gain 48**. Relative to Trial A, precision, filter and gain all change. This
+is a known positive **profile control**, not a single-variable causal experiment,
+and gain 48 is not claimed optimal or calibrated. Keep physical placement fixed,
+the same three 120-second BlueZ episodes, 20-second OFF gaps, requested 20 ms
+interval, source marker, monitor readiness, baseline and strict >10-second tail.
+
+The capture Task now accepts `--bits 8|10`, defaulting to 8. Every wire request,
+payload unpacking, statistic and manifest uses the selected precision; transport
+CRC and returned sample count remain independent guards. The private reviewed
+runner exposes only two pinned presets, `original-8bit` and `known-10bit`.
+The latter sends `--bits 10 --bandwidth 20 --gain 48 --frequency 2401` without
+changing the source schedule or controller state. Its future receipt must verify
+those settings and actual `OK` acknowledgements, not merely the CLI intent.
+
+The root operator's private, finite launch recipe uses fresh directories:
+
+```sh
+nix develop --command task -t .scratch/run_ble_control.task.yml run -- \
+  --receiver-profile known-10bit \
+  --artifact .scratch/historical-uart921600 \
+  --manifest .scratch/historical-uart921600/manifest.json \
+  --private .scratch/ble-bluez-control-002
+```
+
+The private runner and artifacts must already exist; this is an operator recipe,
+not an automatic download. It preserves and validates the current original image
+before guarded installation, retains all outcomes privately, confirms owned UART
+closure, then verifies full original-flash restoration and its reset boot. Root
+review must precede execution. No electrical power-cycle proof is inferred.
+
+Replay all future Trial C waveforms with the **unchanged** bounded blind decoder,
+`--rate 16000000 --bits 10 --samples 16380 --channel 37
+--frequency-translation-hz -1000000 --refine`. Use whole command-to-payload
+brackets and the same one-second guards for phase joins; retain zeros, boundary
+snapshots and failures. Do not expand the search or repair bits after examining
+the trial. A positive profile may justify later controlled comparisons, while a
+null remains inconclusive. Neither outcome supplies an emitted-event denominator
+or accepts the counted-source gate.

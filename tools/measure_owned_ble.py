@@ -10,7 +10,7 @@ import numpy as np
 from esp_sdr_capture import STABLE_PORT, open_board, synchronize, queries, settings, capture, numerical_stats, unpack, command
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--private", type=Path, required=True)
@@ -18,7 +18,8 @@ def main():
     parser.add_argument("--frequency", type=int, default=2401)
     parser.add_argument("--bandwidth", type=int, default=12)
     parser.add_argument("--gain", default="hardware")
-    args = parser.parse_args()
+    parser.add_argument("--bits", type=int, choices=[8,10], default=8, help="Signed bits per I/Q component; default8 preserves Trial A")
+    args = parser.parse_args(argv)
     if not 1 <= args.seconds <= 600:
         parser.error("seconds must be 1..600")
     private = args.private.resolve()
@@ -28,7 +29,7 @@ def main():
     private.mkdir(parents=True, exist_ok=False, mode=0o700)
     record = {"kind": "physical owned-source capture; source controlled separately",
               "firmware_variant": "550fade-uart921600", "baud": 921600,
-              "nominal_rate_hz": 16000000, "bits_per_component": 8, "samples": 16380,
+              "nominal_rate_hz": 16000000, "bits_per_component": args.bits, "samples": 16380,
               "frequency_mhz": args.frequency, "bandwidth_mhz": args.bandwidth, "gain": args.gain,
               "source_channel": 37, "source_frequency_mhz": 2402,
               "actual_RF_event_count": None, "requested_seconds": args.seconds,
@@ -44,7 +45,7 @@ def main():
         record["acquisition_ready_monotonic_ns"] = start
         print("ACQUISITION_READY", flush=True)
         while (time.monotonic_ns() - start) / 1e9 < args.seconds:
-            payload, result = capture(p, 16380, 16000000, 8)
+            payload, result = capture(p, 16380, 16000000, args.bits)
             index = len(rows)
             row = {"capture_index": index, **result,
                    "crc_and_count_valid": result["crc_ok"] and result["sample_count_ok"],
@@ -52,8 +53,8 @@ def main():
             path = private / f"iq-{index:04d}.bin"
             path.write_bytes(payload); path.chmod(0o600)
             if row["crc_and_count_valid"]:
-                row.update(numerical_stats(payload, 16380, 8))
-                iq = unpack(payload, 16380, 8)
+                row.update(numerical_stats(payload, 16380, args.bits))
+                iq = unpack(payload, 16380, args.bits)
                 psd = np.abs(np.fft.fftshift(np.fft.fft((iq - iq.mean()) * np.hanning(len(iq))))) ** 2
                 freq = np.fft.fftshift(np.fft.fftfreq(len(iq), 1 / 16000000)) + args.frequency * 1e6
                 signal = (freq > 2401.5e6) & (freq < 2402.5e6)
