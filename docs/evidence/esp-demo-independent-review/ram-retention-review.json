@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "scope": "Static and host-only review; no hardware or physical acceptance",
+  "reviewed_revision": "1a53f41655cba4cd1cf7967fd3deb46ca1c8e308",
+  "source_sha256": {
+    "tools/esp_sdr_spectrum_bridge.py": "e8c39db4f8e621011a7a92192f62246219604903e1a629aa899107cf1b880608",
+    "tools/demo_esp_sdr.py": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966",
+    "tests/test_demo_esp_sdr.py": "ab64da703357b76b19e08e39f7698882f07d827cfa49fac9f960f028054d1cbf",
+    "docs/research/esp-sdr-demo.md": "596067c86242e3251477140874dc1a0add57d96df3664c90e8f6c09cdb3ea235"
+  },
+  "accepted_binary_stream_cap_bytes": 67108864,
+  "total_process_memory_bounded_by_this_cap": false,
+  "independently_run_locked_nix_host_tests": {
+    "count": 4,
+    "passed": true,
+    "seconds": 0.084,
+    "cases": [
+      "slow raw writer executes only after UART closure",
+      "partial write and OSError publishes failed receipt without false saved hash",
+      "accepted-stream overflow retains valid prefix and separate consumed packet",
+      "statistics share cap and preserve byte order"
+    ]
+  },
+  "author_reported_full_demo_test_count": 43,
+  "author_reported_full_demo_test_passed": true,
+  "author_reported_tests_independently_repeated_in_full": false,
+  "review_verdict": "PASS for prospective transport-only trial; physical integrity, duration and restoration require fresh evidence",
+  "checks": {
+    "no_autonomous_uart_raw_file_write": true,
+    "accepted_frame_validation_unchanged": true,
+    "overflow_packet_not_accepted": true,
+    "actual_saved_length_and_hash_reread_after_close": true,
+    "storage_failure_remains_failed_with_partial_private_file": true,
+    "csv_close_precedes_atomic_terminal_json": true,
+    "demo_lifecycle_source_unchanged": true
+  },
+  "limitations": [
+    "RAM buffer can be lost if process or host dies before persistence",
+    "cap bounds binary accepted bytes, not numerical row and viewer memory",
+    "storage change investigates a hypothesis; no established fault cause or physical reliability claim"
+  ]
+}
