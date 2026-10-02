@@ -104,6 +104,41 @@ class Guards(unittest.TestCase):
         def broken(*args,**kwargs):runner.hardware_process_closed=False;raise OSError('synthetic receipt failure')
         with patch.object(m,'OwnedPicotool',return_value=runner),patch.object(m.preserve,'preserve',side_effect=broken),self.assertRaises(m.OwnedHardwareClosureError):m.full_preservation(Mock(),'synthetic',Mock(),'synthetic',{},9,time.monotonic()+1)
 
+class LockedAdmission(unittest.TestCase):
+    def invoke_main(self, root, action, flock_effect=None, input_effect=None):
+        argv=['trial','--action',action,'--private-dir',str(root/'backups/new'),
+              '--binding','synthetic','--baseline-a','synthetic','--baseline-b','synthetic']
+        argv+=['--artifact','synthetic'] if action=='run' else ['--prior-session','synthetic']
+        with patch.object(m,'ROOT',root),patch.object(m.sys,'argv',argv),\
+             patch.object(m,'original_binding',return_value={}),patch.object(m,'artifact_check'),\
+             patch.object(m,'image_check'),patch.object(m,'freeze_inputs',return_value={'inputs':{}}),\
+             patch.object(m.subprocess,'run',return_value=SimpleNamespace(returncode=0)),\
+             patch.object(m.preserve,'PrivateStore',return_value=Mock()) as store,\
+             patch.object(m.fcntl,'flock',side_effect=flock_effect),\
+             patch.object(m,'check_inputs',side_effect=input_effect) as check,\
+             patch.object(m,'run_session') as run,patch.object(m,'fresh_tty') as tty,\
+             patch('builtins.print'):
+            code=m.main()
+            return code,check,run,tty,store
+    def test_marker_published_during_preflight_blocks_run_and_recover_under_lock(self):
+        for action in ('run','recover'):
+            with self.subTest(action=action),tempfile.TemporaryDirectory() as t:
+                root=Path(t);(root/'backups').mkdir()
+                def acquired(*args):
+                    (root/'.scratch/forgix-usb-ram-unclosed.json').write_text('{}')
+                code,check,run,tty,_=self.invoke_main(root,action,flock_effect=acquired)
+                self.assertEqual(code,2);check.assert_not_called();run.assert_not_called();tty.assert_not_called()
+    def test_changed_frozen_input_blocks_both_actions_after_lock(self):
+        for action in ('run','recover'):
+            with self.subTest(action=action),tempfile.TemporaryDirectory() as t:
+                root=Path(t);(root/'backups').mkdir();events=[]
+                def acquired(*args):events.append('lock')
+                def changed(*args):
+                    events.append('inputs');raise m.preserve.PreservationError('synthetic changed input')
+                code,check,run,tty,_=self.invoke_main(root,action,acquired,changed)
+                self.assertEqual(code,2);self.assertEqual(events,['lock','inputs'])
+                check.assert_called_once();run.assert_not_called();tty.assert_not_called()
+
 class Lifecycle(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name);(self.root/'backups').mkdir()

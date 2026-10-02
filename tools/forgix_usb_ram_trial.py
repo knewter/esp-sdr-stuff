@@ -537,6 +537,10 @@ def main():
             lockstat = os.fstat(lock.fileno())
             require(stat.S_ISREG(lockstat.st_mode) and stat.S_IMODE(lockstat.st_mode) == 0o600 and lockstat.st_uid == os.getuid(), 'Shared operator lock must be owned private regular0600')
             fcntl.flock(lock, fcntl.LOCK_EX|fcntl.LOCK_NB)
+            # Another operator can fail while our offline preflight runs. The
+            # shared lock serializes this final admission with its marker write.
+            require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(), 'Unverified owned resource marker blocks all device access')
+            check_inputs(frozen)
             if a.action == 'recover':
                 prior = json.loads(private_file(a.prior_session, 'backups').read_text())
                 recovery_admission(prior, binding)
