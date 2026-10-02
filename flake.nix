@@ -143,6 +143,20 @@
         ] ++ pkgs.python313Packages.esp-pylib.optional-dependencies.cli;
         pythonImportsCheck = [ "esp_idf_sbom" ];
       };
+      idfKconfig = pkgs.python313Packages.buildPythonPackage {
+        pname = "esp-idf-kconfig";
+        version = "3.13.0";
+        pyproject = true;
+        src = pkgs.fetchPypi {
+          pname = "esp_idf_kconfig";
+          version = "3.13.0";
+          sha256 = "b79b8dca0aea087d99eeaae0e46266f791e3f19d01495d5da95e9a11e04869fc";
+        };
+        build-system = [ pkgs.python313Packages.setuptools ];
+        dependencies = with pkgs.python313Packages; [ esp-pylib pyparsing textual ]
+          ++ pkgs.python313Packages.esp-pylib.optional-dependencies.cli;
+        pythonImportsCheck = [ "esp_kconfiglib" "kconfgen" ];
+      };
       espIdf = (firmwarePkgs.esp-idf-xtensa.override {
         rev = "25fe69f946311abdaf9ad56591f25fedbc20ac98";
         sha256 = "sha256-WGTSV8xTVzuuRGN7ihp5k+v0do97r3d0vTzlyD9TegQ=";
@@ -158,6 +172,7 @@
                 buildPythonPackage = attrs:
                   if (attrs.pname or "") == "esptool" then
                     pkgs.python313Packages.toPythonModule esptool
+                  else if (attrs.pname or "") == "esp-idf-kconfig" then idfKconfig
                   else args.pythonPackages.buildPythonPackage attrs;
               };
             })
