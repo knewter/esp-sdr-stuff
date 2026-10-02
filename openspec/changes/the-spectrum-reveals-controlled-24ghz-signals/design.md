@@ -180,7 +180,7 @@ three reciprocal source responses. This reproduces a fresh ten-bit SDR example
 without establishing calibrated gain, counts or the original eight-bit/BW12/
 hardware-gain Trial B prerequisite. All original tasks remain unchanged.
 
-The next [single 100-event source-only diagnostic](docs/research/ble-count-limit-100-protocol.md)
+The separately declared [single 100-event source-only diagnostic](docs/research/ble-count-limit-100-protocol.md)
 keeps the five-second duration and legacy profile while changing only the
 requested event limit from 255 to 100. The earlier 255-event limit needs at least
 5.08 seconds between first/last starts at 20 ms, so that profile cannot normally
@@ -189,3 +189,12 @@ duration-zero failures or nonzero-limit zero reports. Independent preflight and
 actual matching `0x43/count100` records are required for this diagnostic alone;
 no emitted RF denominator, original 255-event qualification, RF response, or
 Trial B prerequisite follows automatically. All task criteria stay unchanged.
+
+The [actual legacy100 episode](docs/evidence/ble-count-limit-100-001/README.md)
+also reports `0x3c/count0`, with five accepted commands, 22 unchanged frozen
+inputs and independently verified full cleanup. Timing mismatch alone is not
+the explanation. The next distinct [matched extended100 condition](docs/research/ble-extended-count-limit-100-protocol.md)
+changes mode while keeping a reachable count limit. It requires separate frozen
+review and strict actual source/monitor `0x43/count100` agreement; extended
+auxiliary AD cannot supply the original channel-37 marker denominator. No
+original gate changes and no identical legacy retry follows.

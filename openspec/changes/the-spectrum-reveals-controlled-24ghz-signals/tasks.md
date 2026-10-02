@@ -70,3 +70,9 @@ addresses the five-second/255-event timing mismatch while retaining all old
 failures and the original 255-event reports. It requires a frozen private caller,
 independent review, actual source/monitor count agreement and complete cleanup.
 It supplies no SDR data or closure of an original task above.
+
+That [actual legacy100 trial](docs/evidence/ble-count-limit-100-001/README.md)
+retains `0x3c/count0`; [independent review](docs/evidence/ble-count-limit-100-independent-review/README.md)
+accepts failure recording and cleanup. The separately prospective
+[extended100 diagnostic](docs/research/ble-extended-count-limit-100-protocol.md)
+tests the remaining mode/count combination with all original criteria intact.

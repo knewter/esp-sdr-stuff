@@ -27,6 +27,12 @@ Required outcome: At least 100 deliberately emitted repeat events with ground-tr
 
 ## Subsequent diagnostic checkpoint
 
+The [single reachable legacy100 count diagnostic](docs/evidence/ble-count-limit-100-001/README.md)
+also retains actual `0x3c/count0`, with [independently verified cleanup](docs/evidence/ble-count-limit-100-independent-review/README.md).
+It supplies no usable emitted denominator. A separately prospective
+[extended100 source-only condition](docs/research/ble-extended-count-limit-100-protocol.md)
+cannot qualify the original legacy255 reports or close either event-observation task.
+
 [Timer source diagnostics](docs/evidence/ble-duration-source-diagnostics/README.md)
 observe termination events with actual count zero. The [ten-episode RF
 discriminator](docs/evidence/ble-zero-counter-rf/README.md) preserves 262
