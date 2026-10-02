@@ -218,6 +218,19 @@
       pythonFull = pythonBase.withPackages (ps: with ps; [
         numpy scipy matplotlib dbus-next pyserial playwright (toPythonModule esptool)
       ]);
+      nativeBleCryptoCheck = pkgs.runCommand "native-ble-real-psa-check" {
+        nativeBuildInputs = [ pkgs.stdenv.cc pythonFull ];
+        buildInputs = [ pkgs.mbedtls ];
+        CC = "${pkgs.stdenv.cc}/bin/cc";
+        NATIVE_PSA_CFLAGS = "-I${lib.getDev pkgs.mbedtls}/include";
+        NATIVE_PSA_LIBS = "-L${lib.getLib pkgs.mbedtls}/lib -Wl,-rpath,${lib.getLib pkgs.mbedtls}/lib -lmbedcrypto";
+        PYTHONNOUSERSITE = "1";
+      } ''
+        cd ${self}
+        python3 -m unittest discover -v -s tests -p test_native_ble_reference.py
+        mkdir -p $out
+        printf '%s\n' 'Real mbedTLS PSA AES known-answer and alias tests passed; no hardware opened.' > $out/result.txt
+      '';
       commonPackages = [
         node pkgs.go-task openspec pkgs.chromium pkgs.git pkgs.coreutils
         pkgs.ripgrep pkgs.curl pkgs.jq
@@ -246,8 +259,10 @@
         forgix-upstream-tests = forgix.testSource;
         forgix-host-tools = forgix.hostCheck;
         esp-idf = espIdf;
+        native-ble-crypto-check = nativeBleCryptoCheck;
       };
       checks.${system}.forgix-host-tools = forgix.hostCheck;
+      checks.${system}.native-ble-crypto-check = nativeBleCryptoCheck;
       devShells.${system} = {
         forgix = forgix.shell;
         ci = pkgs.mkShell (shellVariables // {

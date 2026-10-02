@@ -31,6 +31,12 @@ tasks:
       - python3 -m unittest discover -s tests
       - python3 tools/RDS_test.py
       - node tests/test_work_markdown_links.mjs
+      - task: native:ble:crypto-check
+
+  native:ble:crypto-check:
+    desc: Check the exact native AES helper against real Nix mbedTLS PSA (no hardware)
+    cmds:
+      - nix build .#native-ble-crypto-check --no-link
 
   site:build:
     desc: Build the committed site and check links, ledger counts and budgets
