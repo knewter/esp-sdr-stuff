@@ -1,0 +1,22 @@
+{
+  "captured": "2026-10-02T07:57:04.906897+00:00",
+  "url": "https://knewter.github.io/esp-sdr-stuff/",
+  "source_revision": "18cca9036d301d80959c8b6f52c1161bca145f4d",
+  "evidence_class": "Host browser capture; no hardware reception measured",
+  "checks": [
+    "desktop and mobile navigation",
+    "no horizontal page overflow",
+    "capture budget calculator",
+    "theme toggle",
+    "eight proposal cards",
+    "proposal deep link",
+    "gallery image loaded",
+    "dialog focus restored",
+    "boot evidence link",
+    "actual BLE/RDS images loaded",
+    "verified demo metrics, receipt links and actual images",
+    "archived proposal stable URL",
+    "no page errors or local HTTP failures"
+  ],
+  "result": "passed"
+}

@@ -116,6 +116,7 @@ def main():
             "the-board-captures-repeatable-radio-snapshots",
             "the-board-can-be-restored-after-an-sdr-trial",
             "the-two-receivers-have-a-measured-division-of-labor",
+            "the-esp-demo-can-be-launched-and-restored",
         ):
             page.goto(base + "work/?work=" + archived, wait_until="networkidle")
             page.locator("#work-detail-dialog[open]").wait_for()

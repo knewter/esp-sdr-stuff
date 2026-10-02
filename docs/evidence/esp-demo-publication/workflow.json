@@ -1,0 +1,18 @@
+{
+  "source_revision": "18cca9036d301d80959c8b6f52c1161bca145f4d",
+  "workflow": "spec-site.yml",
+  "run_id": 36980220022,
+  "url": "https://github.com/knewter/esp-sdr-stuff/actions/runs/36980220022",
+  "result": "success",
+  "build": {
+    "result": "success",
+    "unit_tests": 280,
+    "browser_check_groups": 13,
+    "production_task": "nix develop .#ci --command task check:pages"
+  },
+  "deploy": {
+    "result": "success",
+    "completed_utc": "2026-10-02T07:51:49Z"
+  },
+  "limitation": "Publication checks establish site and source provenance; physical reception and recovery are separately reviewed in session005 and006."
+}

@@ -22,9 +22,9 @@ CRC and remains visible. Independent review reproduced the data, and that
 proposal is archived with two accepted requirements. Full I/Q transfers take
 about 361–451 ms, giving only 0.045–0.281% nominal RF time coverage in the series.
 
-Four evaluations remain active: the repeatable demo workflow, controlled RF,
-burst reliability and FPGA feasibility. Recovery, snapshot transport and receiver comparison are accepted
-and archived; AtomVM is deferred by user. Five owned BLE packets pass
+Three evaluations remain active: controlled RF, burst reliability and FPGA
+feasibility. Recovery, snapshot transport, receiver comparison and the repeatable
+demo are accepted and archived; AtomVM is deferred by user. Five owned BLE packets pass
 protected-PDU CRC and exact marker verification. The user's current dipole
 receives WXJC at 101.1 MHz with no-FEC RDS, independently replayed.
 The user reports no external RF equipment, so shared-signal sensitivity is

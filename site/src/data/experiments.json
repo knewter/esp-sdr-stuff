@@ -80,13 +80,13 @@
   {
     "id": "the-esp-demo-can-be-launched-and-restored",
     "short": "Run the live ESP demo",
-    "summary": "Two independently reviewed consecutive minutes pass with the exact Nix-built receiver and RAM-buffered Task workflow: 2,712 and 2,713 valid frames, strict duration/end checks and full-flash restoration. Three failures stay visible; publication verification remains.",
+    "summary": "Two independently reviewed consecutive minutes pass with the exact Nix-built receiver and RAM-buffered Task workflow: 2,712 and 2,713 valid frames, strict duration/end checks and full-flash restoration. Three failures stay visible. Exact-commit deployment, the live browser and every exported source comparison pass.",
     "gate": "A successful 60-second real spectrum session with CRC/sequence/end totals, visible gaps, full original-flash readback and matching boot, independently reviewed.",
     "depends": [
       "the-board-captures-repeatable-radio-snapshots",
       "the-board-can-be-restored-after-an-sdr-trial"
     ],
     "number": 8,
-    "status": "active"
+    "status": "archived"
   }
 ]

@@ -7,6 +7,12 @@ explicitly deferred by the user.
 
 ## Verified outcomes
 
+- [Repeatable Task demo](../esp-demo-publication/README.md) completes two
+  independently reviewed consecutive physical minutes with the exact Nix-built
+  receiver, 2,712 and 2,713 valid frames, and verified original-flash restoration.
+  Exact-commit deployment, all 13 live browser groups and all 543 exported
+  source comparisons pass. This demo is accepted and archived.
+
 - [600 physical snapshots](../snapshot-baseline/README.md) pass CRC and counts;
   nominal listening windows are 0.205–1.024 ms, followed by approximately
   361–451 ms full-payload delivery cycles.
@@ -49,7 +55,7 @@ software readiness, not a physical receiver result.
 Historical wrong-channel attempts provide no emission count. No calibration,
 event hit rate, continuous ESP IQ or FPGA transport success is inferred.
 
-The snapshot-transport, recovery and receiver-comparison proposals are accepted and archived. Three evaluations
+The snapshot-transport, recovery, receiver-comparison and repeatable-demo proposals are accepted and archived. Three evaluations
 remain open; checked tasks retain their original requirements. See the
 [independent requirement audit](../independent-review/requirement-audit.md) and
 [measured recommendations](../../research/measured-recommendations.md).

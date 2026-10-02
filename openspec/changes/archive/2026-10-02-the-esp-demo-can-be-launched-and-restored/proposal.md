@@ -23,7 +23,7 @@ None. Existing snapshot, recovery, RF characterization and counted-burst require
 
 Demo orchestration, the existing UART spectrum bridge, Taskfile, host failure tests and the evidence site. Requires the identified original ESP32, its two verified private baseline reads, a pinned receiver artifact, the Nix environment and exclusive device ownership. FPGA hardware and calibrated RF equipment are not dependencies for the first spectrum milestone.
 
-Dependencies: [accepted snapshot capture](../archive/2026-10-01-the-board-captures-repeatable-radio-snapshots/proposal.md) and [accepted restoration](../archive/2026-10-01-the-board-can-be-restored-after-an-sdr-trial/proposal.md).
+Dependencies: [accepted snapshot capture](../2026-10-01-the-board-captures-repeatable-radio-snapshots/proposal.md) and [accepted restoration](../2026-10-01-the-board-can-be-restored-after-an-sdr-trial/proposal.md).
 
 ## Non-goals
 
@@ -39,4 +39,4 @@ The documented Task command produces a fresh successful 60-second physical spect
 
 ## Retained trial checkpoint
 
-The [first Task trial](docs/evidence/esp-demo-session-001/README.md) and second historical-artifact trial failed CRC; both independently restore the original full flash and boot. Executable firmware segments match, so these outcomes do not establish a build regression. The historical eight-window trial completed a minute. The fresh Nix-built repeat failed CRC after a receive stall, and both outcomes remain recorded. A host-storage intervention now buffers binary frames until UART closure; two consecutive Nix-built physical minutes completed with independent integrity and recovery review. Publication verification remains. This does not establish a corruption cause or general reliability rate.
+The [first Task trial](docs/evidence/esp-demo-session-001/README.md) and second historical-artifact trial failed CRC; both independently restore the original full flash and boot. Executable firmware segments match, so these outcomes do not establish a build regression. The historical eight-window trial completed a minute. The fresh Nix-built repeat failed CRC after a receive stall, and both outcomes remain recorded. A host-storage intervention now buffers binary frames until UART closure; two consecutive Nix-built physical minutes completed with independent integrity and recovery review. [Exact-commit publication verification](docs/evidence/esp-demo-publication/README.md) passes, including the live browser and all immutable source files. This does not establish a corruption cause or general reliability rate.

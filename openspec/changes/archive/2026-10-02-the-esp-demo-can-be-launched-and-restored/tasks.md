@@ -15,6 +15,8 @@ Physical proof command: `nix develop --command task demo:esp -- --artifact VERIF
 ## 3. Review and publish
 
 - [x] 3.1 Independently replay the new physical spectrum and full-flash restoration checks, review lifecycle failure gates and rendered evidence, and publish the review without closing unrelated RF/burst/FPGA gates.
-- [ ] 3.2 Commit reviewed evidence and workflow, validate OpenSpec and the production site through the Taskfile, push to GitHub, and verify the exact deployed revision, demo documentation and evidence links through GitHub Pages.
+- [x] 3.2 Commit reviewed evidence and workflow, validate OpenSpec and the production site through the Taskfile, push to GitHub, and verify the exact deployed revision, demo documentation and evidence links through GitHub Pages.
 
 Proof command: `nix develop .#ci --command task check:pages`, followed by the exact-commit GitHub Actions build/deploy result and `task browser:live` with published source/evidence hashes checked against that commit.
+
+Publication proof: [exact-commit deployment, live browser and all exported sources](docs/evidence/esp-demo-publication/README.md).
