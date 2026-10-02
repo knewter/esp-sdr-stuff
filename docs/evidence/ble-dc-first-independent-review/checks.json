@@ -1,0 +1,259 @@
+{
+  "schema": 1,
+  "review_result": "paired_replay_integrity_PASS_method_regression_not_adopted",
+  "hardware_or_Docker_access": false,
+  "core_decoder_unchanged": true,
+  "independent_replay_does_not_import_wrapper": true,
+  "manual_entire_capture_DC_subtraction_only": true,
+  "nominal_rate_hz": 16000000,
+  "channel": 37,
+  "bits": [
+    8,
+    10
+  ],
+  "samples_per_capture": 16380,
+  "core_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+  "wrapper_sha256": "6b38133c6e0de67abf9d7e0bad2bd6e16d65ed194a0e7c72aa334b103691f6ad",
+  "review_script_sha256": "c5efa3efc3880d0c0e3e310561f2ac796403395f3ebbea0e200761848c3ca496",
+  "datasets": [
+    {
+      "dataset": "a",
+      "captures": 1251,
+      "input_bytes": 40982760,
+      "all_input_hash_crc32_count_independent_packing_valid": true,
+      "all_reference_original_and_DC_first_frames_reproduced": true,
+      "numeric_float_comparison_tolerance": {
+        "relative": 1e-10,
+        "absolute": 1e-08
+      },
+      "original_owned": 0,
+      "DC_first_owned": 0,
+      "original_owned_capture_indices": [],
+      "DC_first_owned_capture_indices": [],
+      "translation_hz_capture_counts": {
+        "-1000000": 1251
+      },
+      "reference_private_receipt_sha256": "2929db09e55745f5dabde0466f95394ce40b524696e58032d44d5b9d592a4d4b",
+      "capture_csv_sha256": "efbfec216d3a87590cb1784ed65c9fa32964ff3c0fdc552ef3ef25078877fb32",
+      "ordered_index_payload_digest_sha256": "3a7b5a8c7af987b623d4e59cecfaa40730f477289240e5858649dd8865f2763a",
+      "candidate_frame_counts": {
+        "original": 5,
+        "dc_first": 3
+      },
+      "all_packet_acceptance_boolean_integer_fields_and_PDU_hashes_exact": true
+    },
+    {
+      "dataset": "c",
+      "captures": 997,
+      "input_bytes": 40827150,
+      "all_input_hash_crc32_count_independent_packing_valid": true,
+      "all_reference_original_and_DC_first_frames_reproduced": true,
+      "numeric_float_comparison_tolerance": {
+        "relative": 1e-10,
+        "absolute": 1e-08
+      },
+      "original_owned": 0,
+      "DC_first_owned": 0,
+      "original_owned_capture_indices": [],
+      "DC_first_owned_capture_indices": [],
+      "translation_hz_capture_counts": {
+        "-1000000": 997
+      },
+      "reference_private_receipt_sha256": "68003c4085686cbff2683bab7e920ea1680630a9167fd055e819d593a2b47813",
+      "capture_csv_sha256": "15148161335d248d55a3f031b921e7d0b3b46ddc1cfac1f9ee69cf317402ca59",
+      "ordered_index_payload_digest_sha256": "2d6e4062b68607ec61bf169c614cd3476d242e12e4b03a84c94bad9e7e3cc468",
+      "candidate_frame_counts": {
+        "original": 10,
+        "dc_first": 9
+      },
+      "all_packet_acceptance_boolean_integer_fields_and_PDU_hashes_exact": true
+    },
+    {
+      "dataset": "historical8",
+      "captures": 549,
+      "input_bytes": 17985240,
+      "all_input_hash_crc32_count_independent_packing_valid": true,
+      "all_reference_original_and_DC_first_frames_reproduced": true,
+      "numeric_float_comparison_tolerance": {
+        "relative": 1e-10,
+        "absolute": 1e-08
+      },
+      "original_owned": 4,
+      "DC_first_owned": 1,
+      "original_owned_capture_indices": [
+        435,
+        464,
+        499,
+        511
+      ],
+      "DC_first_owned_capture_indices": [
+        511
+      ],
+      "translation_hz_capture_counts": {
+        "-1000000": 549
+      },
+      "reference_private_receipt_sha256": "4c8743bf736c21cb355a969b964ec0662cf70be80b21cdbb5b9af1719313d51c",
+      "capture_csv_sha256": "35f385b6ca0661b0cab13a26a8dd0feeffcb5f90a3bb078764dbb6107fb5a4e0",
+      "ordered_index_payload_digest_sha256": "4bfdb9b652fdcc8d4ec3b818751668ba2fb10b3d041ef1e99f62bbaa6d774cdc",
+      "candidate_frame_counts": {
+        "original": 13,
+        "dc_first": 1
+      },
+      "all_packet_acceptance_boolean_integer_fields_and_PDU_hashes_exact": true
+    },
+    {
+      "dataset": "historical-controls",
+      "captures": 246,
+      "input_bytes": 10073700,
+      "all_input_hash_crc32_count_independent_packing_valid": true,
+      "all_reference_original_and_DC_first_frames_reproduced": true,
+      "numeric_float_comparison_tolerance": {
+        "relative": 1e-10,
+        "absolute": 1e-08
+      },
+      "original_owned": 1,
+      "DC_first_owned": 1,
+      "original_owned_capture_indices": [
+        103
+      ],
+      "DC_first_owned_capture_indices": [
+        103
+      ],
+      "translation_hz_capture_counts": {
+        "-1000000": 222,
+        "0": 24
+      },
+      "reference_private_receipt_sha256": "5232a8f44f824a6e8a02c2726196fafbfdd57747f90c10b81f5275818923e1e4",
+      "capture_csv_sha256": "aa86c97b5ba4a1bfe1d9a093436883ba07317e82b7b10a3bff245253663c9739",
+      "ordered_index_payload_digest_sha256": "c9a91f1650bd01577c5802081ea1e2d90ec1acc83213ab8e2ab49fe4e4b5ba1b",
+      "candidate_frame_counts": {
+        "original": 5,
+        "dc_first": 4
+      },
+      "all_packet_acceptance_boolean_integer_fields_and_PDU_hashes_exact": true
+    }
+  ],
+  "historical_regression_cases": [
+    {
+      "dataset": "historical8",
+      "capture_index": 435,
+      "input_payload_sha256": "d4925c17a250914f473f6beb4290a0dfb94dd0b8968d524dbf45e51557263511",
+      "original_owned_count": 1,
+      "DC_first_owned_count": 0,
+      "original_protected_PDU_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+      "DC_first_protected_PDU_sha256": null,
+      "corrected_complete_window": null
+    },
+    {
+      "dataset": "historical8",
+      "capture_index": 464,
+      "input_payload_sha256": "ff85a5b964a44953f412d09316ae4a84098adf28cd9d881ef558af1d504600bb",
+      "original_owned_count": 1,
+      "DC_first_owned_count": 0,
+      "original_protected_PDU_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+      "DC_first_protected_PDU_sha256": null,
+      "corrected_complete_window": null
+    },
+    {
+      "dataset": "historical8",
+      "capture_index": 499,
+      "input_payload_sha256": "316991ddef635556ed4ed02fa5d4ce7877d9a2e28d288aa6f084d539dff7e6da",
+      "original_owned_count": 1,
+      "DC_first_owned_count": 0,
+      "original_protected_PDU_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+      "DC_first_protected_PDU_sha256": null,
+      "corrected_complete_window": null
+    },
+    {
+      "dataset": "historical8",
+      "capture_index": 511,
+      "input_payload_sha256": "d6eb84668b5f22af1a0b71fe3b611bea2d1ec5600d84e04cd0eecdaee41c3c2f",
+      "original_owned_count": 1,
+      "DC_first_owned_count": 1,
+      "original_protected_PDU_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+      "DC_first_protected_PDU_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+      "corrected_complete_window": {
+        "nominal_packet_start_sample": 1700.0,
+        "nominal_packet_end_sample": 5796.0,
+        "complete_preamble_and_pdu_crc_within_capture_nominal": true,
+        "samples_per_symbol_at_4msps": 4.0
+      }
+    },
+    {
+      "dataset": "historical-controls",
+      "capture_index": 103,
+      "input_payload_sha256": "d447221c076a09d79bcdb40e0309c2b5e39ca7a8f0c7593edb9faec4ede5a20b",
+      "original_owned_count": 1,
+      "DC_first_owned_count": 1,
+      "original_protected_PDU_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+      "DC_first_protected_PDU_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+      "corrected_complete_window": {
+        "nominal_packet_start_sample": 7464.0,
+        "nominal_packet_end_sample": 11560.0,
+        "complete_preamble_and_pdu_crc_within_capture_nominal": true,
+        "samples_per_symbol_at_4msps": 4.0
+      }
+    }
+  ],
+  "baseline_original_manifests_unchanged": true,
+  "source_air_event_denominator": null,
+  "new_live_SDR_positive": false,
+  "default_method_changed": false,
+  "Trial_B_prerequisite_met": false,
+  "RF_or_count_gate_closed": false,
+  "runtime_seconds": 38.095767145976424,
+  "reviewed_original_method_protocol_commit": "abe858e288909b59b733564d950db8f8c141aa45",
+  "reviewed_processing_commit": "3a0b6dca9dd6bb17abdb1a326423734383009cbf",
+  "reviewed_public_evidence_commit": "05cbcef8df7409b6008f50a3f80dd17929a565c5",
+  "all2_public_evidence_files_equal_committed_bytes": true,
+  "public_evidence_files": {
+    "README.md": {
+      "bytes": 3209,
+      "sha256": "ba945a626de63a072b5356a8c4d2593d8a2e549bbc062d93f218a0f461cd33f9"
+    },
+    "summary.json": {
+      "bytes": 6124,
+      "sha256": "a6346cdfc517b07f554b4364401ca3452d00018440a30fa19306c512c0ea380d"
+    }
+  },
+  "independent_wrapper_vector_tests_passed": 5,
+  "wrapper_tests_runtime_seconds": 0.039,
+  "wrapper_tests_sha256": "f683ec4200cee066721aec3889c559148de3f5c6bbc3433566a1a9ea01ac3f7c",
+  "extra_joint_published_vector_corruption_DC_translation_noise_check": {
+    "scope": "synthetic published SIG vector, manual wholecapture centering+unchangedcore; no physical proof",
+    "raw_DC": [
+      32,
+      -16
+    ],
+    "carrier_hz": 1000000,
+    "translation_hz": -1000000,
+    "noise_std_per_component": 0.03,
+    "random_seed": 71,
+    "published_whitened_protected_bit_flipped": 40,
+    "CRC_not_updated_after_corruption": true,
+    "results": {
+      "published_valid": {
+        "verified_candidates": 1,
+        "statuses": [
+          "valid_other_redacted"
+        ]
+      },
+      "protected_bit_corrupted_without_CRC_update": {
+        "verified_candidates": 0,
+        "statuses": [
+          "crc_failed"
+        ]
+      }
+    },
+    "packet_repair_or_wrapper_import": false,
+    "hardware_access": false
+  },
+  "synthetic_checker_sha256": "ec8a858e863dd2e73d9ddd99ef44c62e46137b6ab20d3ef0fdfd97376052c1ec",
+  "private_Task_recipe_sha256": "245ae9dd4f8112cb190da5bb20c90034e05496539d754b6540dec360c60d8382",
+  "all_compact_public_summary_counts_input_hashes_fullresult_hashes_and_regressions_match": true,
+  "root_method_import_not_used_as_oracle": true,
+  "reviewer_private_scratch_0700_files0600": true,
+  "foreign_payloads_addresses_complex_IQ_and_raw_bitstreams_published": false,
+  "root_detailed_outputs_private_0700_and_0600_verified": true,
+  "private_permission_hardening_retains_original_byte_hashes": true
+}
