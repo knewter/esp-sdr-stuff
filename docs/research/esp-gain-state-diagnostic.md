@@ -1,8 +1,11 @@
 # Observe gain state without reapplying it
 
-This is a prospective diagnostic, not completed RF evidence. Execute only after
-the bounded native reference finishes with matching owned reports and verified
-full-flash restoration. A native positive does not satisfy the separate SDR
+The prospectively declared diagnostic [completed](../evidence/gain-state-diagnostic-001/README.md)
+after the [native reference](../evidence/native-ble-source-reference-002/README.md)
+and full restoration passed independent review. All 20 snapshots passed
+integrity checks; all 41 queries showed bit23 set. Acquisition took 10.299817
+seconds, followed by verified full original-flash and reset-boot restoration.
+The protocol below records the fixed conditions used. A native positive does not satisfy the separate SDR
 positive prerequisite for Trial B in [the source protocol](ble-next-trial.md).
 
 The [pinned ESP receiver source](https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/main/targets/esp32/receiver.c)

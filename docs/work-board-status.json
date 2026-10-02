@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Review the revised native app's explicit 90-second stop and fresh artifact, then repeat its diagnostic before the fixed-setting gain-state observation.",
-      "rationale": "No external RF reference, generator, attenuator or converter is available. Five historical SDR packets remain valid; both fresh SDR controls retain 2,248 transport-valid snapshots with null independent decodes. The native observer delivered 1,160 matching reports, but its scan completion failed because the pinned SDK omits GAP timer dispatch with both connection roles disabled. The failed prefix, monitored source cleanup and full-flash/reset-boot restoration are retained. Native reports are not SDR decoding, channel-37 proof or transmitted counts. Trial B stays conditional and all RF gates stay open.",
-      "reviewRevision": "93b7545",
+      "next": "Define a further receiver or placement comparison to explain fresh SDR nulls; obtain antenna/placement details and a suitable RF reference for wider claims.",
+      "rationale": "Five historical SDR packets remain valid; 2,248 fresh transport-valid snapshots have null independent decodes. Native v2 completes with 1,176 owned reports and acknowledged stop; the failed v1 prefix remains visible. The fixed gain diagnostic delivers 20 valid snapshots with all 41 queried manual-enable bits set. These trials restore every original flash byte and reset boot, but do not prove effective gain, earlier state, hidden-SDR decoding or emitted counts. No external RF reference or attenuator is available. Trial B and all RF gates stay open.",
+      "reviewRevision": "6ae1dee",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -76,16 +76,18 @@
         "docs/evidence/ble-bluez-control-independent-review/README.md",
         "docs/evidence/ble-bluez-control-002/README.md",
         "docs/evidence/native-ble-source-reference-001/README.md",
-        "docs/evidence/native-ble-reference-independent-review/README.md"
+        "docs/evidence/native-ble-source-reference-002/README.md",
+        "docs/evidence/native-ble-reference-independent-review/README.md",
+        "docs/evidence/gain-state-diagnostic-001/README.md"
       ]
     },
     "the-receiver-can-observe-and-decode-short-bursts": {
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Review the revised native app's explicit 90-second stop and fresh artifact, then repeat its diagnostic before the fixed-setting gain-state observation.",
-      "rationale": "Five complete historical SDR packets still verify decoding. Counted-source diagnostics lack a valid emitted denominator, and 2,248 fresh SDR control snapshots have null independent decodes. Native trial 001 delivered 1,160 matching reports but failed scan completion; its failed prefix and verified full restoration remain visible. Native reports provide neither protected-PDU replay nor SDR/count acceptance. The SDK timer omission has a planned explicit-stop repair; conditional Trial B and the hit/miss gates remain open.",
-      "reviewRevision": "93b7545",
+      "next": "Diagnose fresh hidden-SDR nulls and identify a defensible counted source before reporting hit/miss rates; Trial B remains withheld.",
+      "rationale": "Five complete historical SDR packets still verify decoding. Counted-source diagnostics lack an emitted denominator and 2,248 fresh SDR snapshots have null independent decodes. Native v2 completes with 1,176 owned reports, successful explicit stop and full restoration; the failed v1 prefix remains visible. All 41 gain queries across 20 valid fixed snapshots show bit23 set. Native reports and register queries provide neither protected-PDU replay nor SDR/count acceptance. Conditional Trial B and hit/miss gates remain open.",
+      "reviewRevision": "6ae1dee",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -106,7 +108,9 @@
         "docs/evidence/ble-bluez-control-independent-review/README.md",
         "docs/evidence/ble-bluez-control-002/README.md",
         "docs/evidence/native-ble-source-reference-001/README.md",
-        "docs/evidence/native-ble-reference-independent-review/README.md"
+        "docs/evidence/native-ble-source-reference-002/README.md",
+        "docs/evidence/native-ble-reference-independent-review/README.md",
+        "docs/evidence/gain-state-diagnostic-001/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",
@@ -128,7 +132,8 @@
         "docs/evidence/user-equipment-inventory/README.md",
         "docs/evidence/forgix-preservation/README.md",
         "docs/evidence/forgix-preservation-review/README.md",
-        "docs/evidence/forgix-toolchain/README.md"
+        "docs/evidence/forgix-toolchain/README.md",
+        "docs/evidence/forgix-toolchain/current-host-followup.md"
       ],
       "reviewRevision": "576a0771fdc91f79648bd93d694e2da99a1a7224"
     },

@@ -1,6 +1,9 @@
 # A native passive BLE source reference
 
-Status: version 2 implementation awaiting its own build/review/physical trial.
+Status: [version 2 completed](../evidence/native-ble-source-reference-002/README.md)
+with 1,176 matching reports, an acknowledged application stop at 90.092830
+seconds, and full original-flash/reset-boot restoration. Its actual build and
+physical records pass [independent review](../evidence/native-ble-reference-independent-review/README.md).
 The [version 1 trial](../evidence/native-ble-source-reference-001/README.md)
 delivered owned reports but failed its natural-completion requirement and was
 restored. That failed run is retained; it is not a completed native control.
@@ -12,7 +15,7 @@ The native Bluetooth controller on this same ESP32 can test whether its supporte
 BLE stack receives the exact owned manufacturer AD at the current placement and
 time. Its scan spans advertising channels; GAP reports do not provide a fixed RF
 channel, every emission, raw protected PDU/CRC bytes or a synchronized RF timestamp.
-A native positive would not prove SDR demodulation, an independent hardware
+A native positive does not prove SDR demodulation, an independent hardware
 reference or the historical source configuration. A null would remain inconclusive.
 Reported totals are **controller-delivered matching receptions**, never transmitted
 event counts or a detection rate.

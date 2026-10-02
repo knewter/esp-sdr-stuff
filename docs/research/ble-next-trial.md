@@ -251,10 +251,19 @@ discovery-complete callback. An unexpected completion, early inactive scan,
 failed cancel, active scan after cancellation or overrun fails the trial.
 No SDK patch or connection role is added, and v1's failure remains unchanged.
 
-The fresh v2 source, actual artifact and lifecycle need independent review before
-the same three-episode native trial. Only completed positive native evidence plus
-verified full restoration can enable the [fixed gain-state observation](esp-gain-state-diagnostic.md).
+The actual v2 artifact and lifecycle passed independent review. [Native trial
+002](../evidence/native-ble-source-reference-002/README.md) completed the declared
+three-episode schedule with 1,176 matching reports, successful explicit stop at
+90.092830 seconds, source cleanup and verified full restoration. The enabled
+[gain-state observation](../evidence/gain-state-diagnostic-001/README.md) then
+completed twenty integrity-valid fixed snapshots in 10.299817 seconds. All 41
+queries reported MANUAL/48 and bit23=1, followed by full original restoration.
+There was no queried manual-enable mismatch in this run. Effective gain, earlier
+gain state and bit state during each acquisition remain unmeasured.
+
 Native success still does not satisfy Trial B's SDR-positive prerequisite or any
-SDR/channel-37/count acceptance gate. The gain probe observes bit23, never silently
-reapplies settings, and records a mismatch as an outcome distinct from acquisition
-failure.
+SDR/channel-37/count acceptance gate. No source was controlled during the gain
+probe, and no settings were reapplied. The fresh SDR nulls remain unresolved;
+any further receiver or placement comparison requires prospectively declared
+conditions. Neither this native reference nor the gain queries supply emitted
+event counts.

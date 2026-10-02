@@ -61,3 +61,13 @@ The failed trial is not retrospectively accepted. After a fresh successful nativ
 reference, [twenty fixed gain-state snapshots](docs/research/esp-gain-state-diagnostic.md)
 can observe the manual-control bit without reapplying settings or claiming gain
 calibration. Neither diagnostic satisfies SDR or transmitted-count requirements.
+
+The independently reviewed [native v2 trial](docs/evidence/native-ble-source-reference-002/README.md)
+now completes with 1,176 owned reports, explicit successful cancellation at
+90.092830 seconds and full original restoration. The enabled
+[gain diagnostic](docs/evidence/gain-state-diagnostic-001/README.md) completes
+20 integrity-valid snapshots; all 41 queries observe bit23=1. It applies settings
+once, controls no source and restores the complete original flash and reset boot.
+This gives no queried mismatch in that run, without reading effective gain or
+earlier control state. The two fresh SDR nulls remain unresolved, Trial B remains
+withheld, and the original RF/count acceptance criteria and tasks stay unchanged.
