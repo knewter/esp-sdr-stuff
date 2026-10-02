@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "session": "esp-demo-session-001",
+  "review_scope": "Offline recorded-file replay only; no hardware opened",
+  "demo_tool_sha256": "16264e853354f17f0f5f0acc2fa966de0d0df173194644d9cf919955259f3d39",
+  "root_current_tool_sha256": "16264e853354f17f0f5f0acc2fa966de0d0df173194644d9cf919955259f3d39",
+  "demo_status": "failed",
+  "capture_status": "failed",
+  "restoration_status": "verified",
+  "raw_bytes": 111760,
+  "raw_sha256": "06c9a98e2614d3a55ff2903ac883dbfa4d73f607513d129c89ea6d8fe89120eb",
+  "spectrum_frames": 205,
+  "statistics_frames": 6,
+  "crc_failures_in_retained_prefix": 0,
+  "csv_rows": 205,
+  "processed_pairs": 104960,
+  "ffts": 205,
+  "sequence_sample_index_and_csv_checks": true,
+  "last_frame_received_seconds": 1.726579764042981,
+  "nominal_sampled_seconds": 0.001312,
+  "live_recorded_error_kind": "ProtocolError",
+  "live_recorded_error": "spectrum CRC mismatch",
+  "rejected_bad_frame_retained": false,
+  "end_report_present": false,
+  "end_totals_match": false,
+  "host_at_least_requested_duration": false,
+  "firmware_at_least_requested_duration": false,
+  "images": {
+    "before-install-flash.bin": {
+      "bytes": 4194304,
+      "sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+      "mode": "0o600"
+    },
+    "restored-flash.bin": {
+      "bytes": 4194304,
+      "sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+      "mode": "0o600"
+    }
+  },
+  "boot_checks": {
+    "application": true,
+    "application_version": true,
+    "sdk": true,
+    "gpio_high": true,
+    "gpio_low": true
+  },
+  "independent_preservation_images": {
+    "original.bin": {
+      "bytes": 4194304,
+      "sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+      "mode": "0o600"
+    },
+    "readback.bin": {
+      "bytes": 4194304,
+      "sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+      "mode": "0o600"
+    }
+  },
+  "artifact_manifest_and_build_info_hashes_match": true,
+  "artifact_source_sdk_target_uart_only_configuration_match": true,
+  "boot_scope": "Reset observation only; no new electrical power-cycle claim",
+  "installed_parts": [
+    {
+      "offset": 4096,
+      "bytes": 25792,
+      "sha256": "a48cfaef91df68c48dc2a8a7c01b05841abb97b1b8898a38cafb97565b939881",
+      "name": "0-bootloader.bin"
+    },
+    {
+      "offset": 32768,
+      "bytes": 3072,
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+      "name": "1-partition-table.bin"
+    },
+    {
+      "offset": 65536,
+      "bytes": 664608,
+      "sha256": "55aae718e026e26783693bcb2be455a8c0453922f3aff5c49e38817bf434c9f6",
+      "name": "2-esp_sdr.bin"
+    }
+  ],
+  "owned_uart_worker_exit_confirmed": true,
+  "public_files": {
+    "before-install.json": {
+      "bytes": 141,
+      "sha256": "f53a3faf27db6dc867d5d9a607ec18c361649e0b9e1bb0aa1103c0d77d0d23be"
+    },
+    "completed-spectrum.png": {
+      "bytes": 153963,
+      "sha256": "033da3b47e52de8fd85f468c8d3067327e80946b30093d0a27be5c432d0c6398"
+    },
+    "demo.json": {
+      "bytes": 1897,
+      "sha256": "e38a1dc9d8cca56ec1c2a36e7bf964c33ab7818404eb65f5ddf7103d0c823aec"
+    },
+    "restoration.json": {
+      "bytes": 556,
+      "sha256": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8"
+    },
+    "spectra.csv": {
+      "bytes": 16306,
+      "sha256": "d901a19470618445e49dbd17e5ebb53bf8e57f656ae515f06327e33f37b90307"
+    },
+    "spectrum.json": {
+      "bytes": 764,
+      "sha256": "596f2548bc2acec9b1c209cdaef5ab54fef88c856d5aefcac1fec24c1f119ff8"
+    }
+  }
+}
