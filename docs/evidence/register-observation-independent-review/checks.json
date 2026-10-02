@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "hardware_access": false,
+  "reviewed_evidence_revision": "c779adeb08ee82c45602ea7393a6454ad8aae934",
+  "status": "PASS",
+  "wire_bytes": 846774,
+  "wire_sha256": "709aec4d6e1a73b085f9626012f0061831a55933cd701bdbbd05f9e6abc3f57d",
+  "startup_bytes_before_config": 9102,
+  "original_json_crc_valid": 22,
+  "original_DATA_crc_valid": 20,
+  "payload_bytes": 819000,
+  "pairs_independently_unpacked": 327600,
+  "stage_records": 81,
+  "all_selectors_48": true,
+  "all_bit23_1": true,
+  "all_original_protocol_bytes_consumed": true,
+  "host_duration_ns": 10522101644,
+  "firmware_session_us": 9347966,
+  "stage_statistics": {
+    "post_settings": {
+      "count": 1,
+      "cycles_min": 4008,
+      "cycles_median": 4008,
+      "cycles_max": 4008,
+      "read_interval_us_min": 4,
+      "read_interval_us_max": 4
+    },
+    "before_acquire": {
+      "count": 20,
+      "cycles_min": 323,
+      "cycles_median": 323.0,
+      "cycles_max": 1271,
+      "read_interval_us_min": 0,
+      "read_interval_us_max": 0
+    },
+    "armed_before_trigger": {
+      "count": 20,
+      "cycles_min": 325,
+      "cycles_median": 325.0,
+      "cycles_max": 1270,
+      "read_interval_us_min": 0,
+      "read_interval_us_max": 1
+    },
+    "dump_complete": {
+      "count": 20,
+      "cycles_min": 328,
+      "cycles_median": 328.0,
+      "cycles_max": 1272,
+      "read_interval_us_min": 0,
+      "read_interval_us_max": 1
+    },
+    "restored_after_dump": {
+      "count": 20,
+      "cycles_min": 325,
+      "cycles_median": 325.0,
+      "cycles_max": 340,
+      "read_interval_us_min": 0,
+      "read_interval_us_max": 1
+    }
+  },
+  "full_baseline_and_restored_bytes": 4194304,
+  "full_baseline_and_restored_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "original_reset_boot_directly_observed": true,
+  "owned_worker_exit_confirmed": true,
+  "artifact_manifest_sha256": "7b09e894cc2d2673adb94afb3eb245a06a91b26efd91c566e28f81816cf9ef83",
+  "caller_revision": "f77cb971f09947d30765668948aee4edbe96bf20",
+  "caller_file_hashes_verified": 13,
+  "rf_reception_proven": false,
+  "calibrated_gain_proven": false,
+  "transmitted_event_count": null,
+  "trial001_original_failure_retained": true,
+  "evidence_files_sha256": {
+    "README.md": "b4a0e4f74499d8078dbba517e9993fb9e3104ce0d98aa8c8228ca4c58e0a00e7",
+    "before-install.json": "f53a3faf27db6dc867d5d9a607ec18c361649e0b9e1bb0aa1103c0d77d0d23be",
+    "capture.json": "6a78fd0d09ea7af31f31465d747ad78190c11c1cbd14e1cf2a6620060f21d9f1",
+    "register-observation.json": "f09c8b043bf4f5deb6739e9aed9622d7e76ac08d8d3c5fe101322a6068bae802",
+    "restoration.json": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8",
+    "stages.svg": "bf37ff9c09416ee47359d8ec0a4eee36d65ab8ba8574d690db9183a56ae82e82"
+  },
+  "independent_analysis_sha256": "cb157dfe7e5a6eb9a03acbd16a1bf9c1fb8ee45d8755989201f4538e9f89c432",
+  "analysis_command": "nix develop .#ci --command task --taskfile <ignored independent-review Taskfile> physical002",
+  "cycle_scope": "Measured noinline hook body between modular CCOUNT reads; preemption and whole-counter-wrap ambiguity retained. Boundary/delta/final-store and caller residuals excluded; nominal CPU conversion is not calibrated total perturbation.",
+  "privacy": "Raw UART, IQ, full firmware images, boot text and per-record analysis remain ignored/private; no device addresses or credentials published.",
+  "installed_parts_esptool_hash_verification_count": 3,
+  "actual_SVG_visually_inspected": true,
+  "plot_sha256": "bf37ff9c09416ee47359d8ec0a4eee36d65ab8ba8574d690db9183a56ae82e82",
+  "visual_receipt_scope": "Nix Chromium rendering of the actual SVG; readable axes/legend/footer and stage geometry agree with independently replayed fields. Screenshot remains ignored/private."
+}
