@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "status": "failed",
+  "capture_status": "failed",
+  "completed_native_reference": false,
+  "owned_controller_delivered_reports": 1160,
+  "firmware_elapsed_us": null,
+  "last_aggregate_elapsed_us": 92902916,
+  "host_observation_seconds": 92.822953213,
+  "aggregate_buckets": 92,
+  "nominal_phase_counts": {
+    "initial_off": {
+      "buckets": 7,
+      "owned_reports": 0
+    },
+    "on_0": {
+      "buckets": 7,
+      "owned_reports": 275
+    },
+    "off_0": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "on_1": {
+      "buckets": 7,
+      "owned_reports": 275
+    },
+    "off_1": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "on_2": {
+      "buckets": 7,
+      "owned_reports": 261
+    },
+    "off_2": {
+      "buckets": 38,
+      "owned_reports": 0
+    },
+    "transition_guard": {
+      "buckets": 22,
+      "owned_reports": 349
+    }
+  },
+  "nominal_guard_seconds": 1,
+  "all_received_uart_bytes_saved": true,
+  "saved_uart_bytes": 23986,
+  "saved_uart_sha256": "b0e24b6c15511ca238335f501158823cb4f0a003f92b84a9cfbdc0d34cc41a15",
+  "transmitted_event_count": null,
+  "SDR_decoding_proven": false,
+  "RF_gate_closed": false,
+  "timing_limits": "Phases map complete firmware buckets from the whole READY receipt bracket using nominal ESP time with one-second transition guards. Clock rate, API/controller and UART latency are uncalibrated; labels and chart are nominal association, not exact RF event times or calibrated timing bounds.",
+  "integrity_limits": "Typed fresh-nonce UART JSON, sequence/cumulative checks and retained byte hashes; no UART transport CRC or independently replayed protected PDUs.",
+  "source_script_sha256": "e214640ad5d3b56c38c463b0f06bfc1b9ecedd7ddf3c5985e22ff4e14c2d91da",
+  "postprocessor_sha256": "39d311d7e1e6706a452d95d8f6ea4c1aaf4781c38940361e8fbcbc06b2c2bc97"
+}

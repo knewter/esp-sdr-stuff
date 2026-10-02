@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "kind": "native-ble-source-reference-v1",
+  "started_utc": "2026-10-02T09:15:40.437192+00:00",
+  "status": "failed",
+  "capture_status": "failed",
+  "restoration_status": "verified",
+  "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "stable_usb_identity_verified": true,
+  "usb_vid_pid": "10c4:ea60",
+  "tool_sha256": "d525838b4f7f0dae10d7834b7d263ef053553aeb9642fa39094f7c7ef05311ac",
+  "transmitted_event_count": null,
+  "SDR_decoding_proven": false,
+  "restore_policy": "always after installation attempt",
+  "artifact": {
+    "manifest_sha256": "abbc03b64c9cecc2c2d68b951e8a3f93d3a3c3d072b3f6ea789cc2096ba0ace3",
+    "build_info_sha256": "854d416552debec9b12232f1df62aabd95c60467691c17d8aad7258f8e32210f",
+    "parts": [
+      {
+        "name": "bootloader.bin",
+        "offset": 4096,
+        "size": 17888,
+        "sha256": "bc2b126d70f5f93fb2ed21671c73c901c32f0b045d049d41187b5003ddf492a6"
+      },
+      {
+        "name": "partition-table.bin",
+        "offset": 32768,
+        "size": 3072,
+        "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+      },
+      {
+        "name": "native_ble_reference.bin",
+        "offset": 65536,
+        "size": 399632,
+        "sha256": "6bd79436b43d13663c6f098c6682f18b26830edf1f1a0696882f654e5e977960"
+      }
+    ],
+    "version": "native-ble-ref-v1",
+    "source_commit": "e2877280b0a97dd8e3feae419b58a18c9a960ef0",
+    "source_tree_sha256": "aed0425d86a23d5e372324c2f998ac9cdacbd8c83e75ebd1da15e728154d614c",
+    "idf_commit": "25fe69f946311abdaf9ad56591f25fedbc20ac98"
+  },
+  "capture_attempted": true,
+  "error_kind": "RuntimeError",
+  "owned_uart_worker_exit_confirmed": true,
+  "ended_utc": "2026-10-02T09:21:32.031384+00:00"
+}
