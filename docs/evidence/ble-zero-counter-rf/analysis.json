@@ -1,0 +1,343 @@
+{
+  "schema": 1,
+  "experiment": "predeclared zero-controller-counter RF discriminator",
+  "decoder_script_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+  "reporter_script_sha256": "9ae6ea1e913f96c96596734e348de7be05f875d0cf1d441e85568eaee874da16",
+  "input_receipt_sha256": {
+    "monitor": "d0edf4a7fc665f820b9b567a16a0c30a6b2a9c97edb1d612c32f3b4c4aec5840",
+    "source_episodes": "50f627429560fe384cfd084b71fc47215e6a579924987144aa00d364a95a1908",
+    "zero-counter-01": "6ceda86b985f51017a15bb366537d8d82029cd8d56ee1698b8407f4c8d46d1c6",
+    "zero-counter-02": "0c296ab0b6152878962c10418f69f775b60bf77be351d9d57a79cefedfd57b12",
+    "zero-counter-03": "482fbf97f6be44147602114b07a6eae37ae2304b9d8756038c5f34638554c694",
+    "zero-counter-04": "b13eb0879671e3e1ec1e62c0bd709e34fcdc27592eef4817af0479634b114b00",
+    "zero-counter-05": "8da77ae2a5d46bcd5c18e6f46930b2c54e3251599d216cc5bb7077528370cae3",
+    "zero-counter-06": "7c43ebc1b39645e2f0a5ddf1d757109ac043645e7439dc8fc16bacb820fdcd24",
+    "zero-counter-07": "35275edbad7997778b03d15e782f5011bd5ac86011757a2dd78396390ab91730",
+    "zero-counter-08": "97efe0329564b23b4296550bc50813b1dacc9d387488d9deb0b981dd6051b756",
+    "zero-counter-09": "707938838d554fd24ef85ff7f9835fdedde18b9b1d95cf50352da58a7442177b",
+    "zero-counter-10": "7faaf4cdab277d36c9df936cff870bc7a92ee62eb911428d6dff7a93993513b8",
+    "receiver_manifest": "52ed5c2b969781aabbd91e93b85a9db7c63446f71eeb503a9dec687c3c4506ac",
+    "receiver_csv": "99b6e733be8367ebe31af1a222916f91e94d1100b9edef8f931a9663838aa3a5",
+    "receiver-tail_manifest": "465906aa364e92cca57039e63e628c8b48db699d32d931046857b3d0b605ec57",
+    "receiver-tail_csv": "0702621134de59a43d45459c66b160a8d4b85ae285c9b9a495b44c857d5cb201"
+  },
+  "source_control_guard_ms": 100,
+  "episodes": [
+    {
+      "enable_sent_ns": 709603739783596,
+      "enable_accepted_ns": 709603743638668,
+      "termination_observed_ns": 709608803823896,
+      "source_closed_ns": 709608811858333,
+      "guarded_start_ns": 709603843638668,
+      "guarded_end_ns": 709608703823896,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-01"
+    },
+    {
+      "enable_sent_ns": 709610557869354,
+      "enable_accepted_ns": 709610561781564,
+      "termination_observed_ns": 709615620833914,
+      "source_closed_ns": 709615628912003,
+      "guarded_start_ns": 709610661871844,
+      "guarded_end_ns": 709615520833914,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-02"
+    },
+    {
+      "enable_sent_ns": 709617306025238,
+      "enable_accepted_ns": 709617309904295,
+      "termination_observed_ns": 709622360982592,
+      "source_closed_ns": 709622369024433,
+      "guarded_start_ns": 709617409904295,
+      "guarded_end_ns": 709622260982592,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-03"
+    },
+    {
+      "enable_sent_ns": 709624088074360,
+      "enable_accepted_ns": 709624092068024,
+      "termination_observed_ns": 709629155106463,
+      "source_closed_ns": 709629163131272,
+      "guarded_start_ns": 709624192068024,
+      "guarded_end_ns": 709629055106463,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-04"
+    },
+    {
+      "enable_sent_ns": 709630841220823,
+      "enable_accepted_ns": 709630845102104,
+      "termination_observed_ns": 709635888206415,
+      "source_closed_ns": 709635896515130,
+      "guarded_start_ns": 709630945102104,
+      "guarded_end_ns": 709635788206415,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-05"
+    },
+    {
+      "enable_sent_ns": 709637606309396,
+      "enable_accepted_ns": 709637610207580,
+      "termination_observed_ns": 709642666284222,
+      "source_closed_ns": 709642674416614,
+      "guarded_start_ns": 709637710207580,
+      "guarded_end_ns": 709642566284222,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-06"
+    },
+    {
+      "enable_sent_ns": 709644339383477,
+      "enable_accepted_ns": 709644343294555,
+      "termination_observed_ns": 709649405360085,
+      "source_closed_ns": 709649413427244,
+      "guarded_start_ns": 709644443294555,
+      "guarded_end_ns": 709649305360085,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-07"
+    },
+    {
+      "enable_sent_ns": 709651052506800,
+      "enable_accepted_ns": 709651056355961,
+      "termination_observed_ns": 709656117526515,
+      "source_closed_ns": 709656125734269,
+      "guarded_start_ns": 709651156355961,
+      "guarded_end_ns": 709656017526515,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-08"
+    },
+    {
+      "enable_sent_ns": 709657791542120,
+      "enable_accepted_ns": 709657795476001,
+      "termination_observed_ns": 709662860565050,
+      "source_closed_ns": 709662868673548,
+      "guarded_start_ns": 709657895476662,
+      "guarded_end_ns": 709662760565050,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-09"
+    },
+    {
+      "enable_sent_ns": 709664548699380,
+      "enable_accepted_ns": 709664552617732,
+      "termination_observed_ns": 709669613700527,
+      "source_closed_ns": 709669619851105,
+      "guarded_start_ns": 709664652617732,
+      "guarded_end_ns": 709669513700527,
+      "controller_reported_completed_events": 0,
+      "actual_rf_emissions": null,
+      "source_returncode": 2,
+      "original_source_status": "trial_failed",
+      "native_and_monitor_zero_counter_match": true,
+      "cleanup_acknowledgements_all_zero": true,
+      "source_script_sha256": "5628261cff21b3220d66842d347d88c5a6800c7770b99f596ef54a2f759625cc",
+      "episode_id": "zero-counter-10"
+    }
+  ],
+  "segments": [
+    {
+      "segment": "main",
+      "captures": 220,
+      "phases": {
+        "source_off_before": {
+          "captures": 15,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "control_boundary_excluded": {
+          "captures": 29,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-01": {
+          "captures": 13,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_gap_after_zero-counter-01": {
+          "captures": 3,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-02": {
+          "captures": 12,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_gap_after_zero-counter-02": {
+          "captures": 3,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-03": {
+          "captures": 13,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_gap_after_zero-counter-03": {
+          "captures": 4,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-04": {
+          "captures": 12,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_gap_after_zero-counter-04": {
+          "captures": 3,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-05": {
+          "captures": 12,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_gap_after_zero-counter-05": {
+          "captures": 3,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-06": {
+          "captures": 13,
+          "captures_with_aa_candidates": 1,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_gap_after_zero-counter-06": {
+          "captures": 3,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-07": {
+          "captures": 12,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_gap_after_zero-counter-07": {
+          "captures": 3,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-08": {
+          "captures": 13,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_gap_after_zero-counter-08": {
+          "captures": 3,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-09": {
+          "captures": 12,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_gap_after_zero-counter-09": {
+          "captures": 3,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "zero-counter-10": {
+          "captures": 13,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        },
+        "source_off_after": {
+          "captures": 23,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        }
+      },
+      "complete_owned_packets": [],
+      "excluded_crc_valid_owned_candidates": [],
+      "first_command_start_ns": 709598081639981,
+      "last_payload_received_ns": 709678239860941
+    },
+    {
+      "segment": "tail",
+      "captures": 42,
+      "phases": {
+        "source_off_after": {
+          "captures": 42,
+          "captures_with_aa_candidates": 0,
+          "exact_owned_complete_packets": 0
+        }
+      },
+      "complete_owned_packets": [],
+      "excluded_crc_valid_owned_candidates": [],
+      "first_command_start_ns": 709732457710038,
+      "last_payload_received_ns": 709747774041955
+    }
+  ],
+  "captures_replayed": 262,
+  "raw_waveforms_all_hash_crc_count_verified": true,
+  "schedule": {
+    "baseline_before_first_enable_seconds": 5.658143615,
+    "original_post_cleanup_tail_seconds": 8.620009836,
+    "original_tail_more_than_ten_seconds": false,
+    "supplemental_segment_gap_seconds": 54.217849097,
+    "supplemental_segment_elapsed_seconds": 15.316331917,
+    "supplemental_segment_starts_after_cleanup_seconds": 62.837858933,
+    "continuous_tail_requirement_repaired_by_extension": false,
+    "original_schedule_acceptance": false
+  },
+  "complete_crc_valid_exact_owned_packets": 0,
+  "actual_rf_event_count": null,
+  "reception_rate": null,
+  "counted_event_gate_accepted": false,
+  "zero_count_proves_no_emission": false,
+  "outcome": "inconclusive_no_verified_owned_packet",
+  "limitations": "Zero controller count is not an RF emission count. Null replay cannot distinguish no emission from sparse sampling or receiver/decoder limitations. Original short tail and supplemental segment/gap remain separate; extension does not repair continuous schedule compliance. Host control timestamps and nominal sample bounds are not hardware RF timestamps. No arbitrary AA candidate is attributed to the source. No population rate or >=100 counted-event acceptance."
+}

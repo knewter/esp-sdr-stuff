@@ -5,8 +5,8 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'tools'))
-from ble_zero_counter_report import analyze_segment, coverage, phase
-from test_ble_counted_report import packet, receiver_fixture
+from ble_zero_counter_report import analyze_segment, check_episode, coverage, phase
+from test_ble_counted_report import monitor_fixture, packet, receiver_fixture, source_fixture
 
 SECOND = 1000000000
 
@@ -18,7 +18,65 @@ def episodes():
                  source_closed_ns=(11+i*6)*SECOND) for i in range(10)]
 
 
+def diagnostic_fixture():
+    records = source_fixture()
+    for row in records:
+        if 'advertising_handle' in row: row['advertising_handle'] = 1
+        if row['kind'] == 'configuration_requested':
+            row.update(duration_10ms_units=500, duration_diagnostic_requested=True, handle_diagnostic_requested=True)
+        if row['kind'] == 'termination_observed':
+            row.update(status=60, controller_reported_completed_extended_advertising_events=0)
+        if row['kind'] == 'source_closed':
+            row.update(status='trial_failed', error_code='termination_status_or_count_mismatch',
+                       controller_completed_count_verified=False)
+    enable_sent = next(r for r in records if r['kind'] == 'command_sent' and r['step'] == 'enable')
+    records.insert(records.index(enable_sent), dict(kind='source_ready', start_delay_s=0,
+                                                   monotonic_ns=enable_sent['monotonic_ns']-1))
+    monitor = monitor_fixture()['records']
+    native_commands = [r for r in records if r['kind'] == 'command_sent']
+    native_acks = [r for r in records if r['kind'] == 'command_complete']
+    native_term = next(r for r in records if r['kind'] == 'termination_observed')
+    for index, row in enumerate(monitor):
+        if 'advertising_handle' in row: row['advertising_handle'] = 1
+        if row['kind'] == 'controller_advertising_set_terminated':
+            row.update(status=60, controller_reported_completed_extended_advertising_events=0,
+                       monotonic_ns=native_term['monotonic_ns'])
+        elif row['kind'] == 'advertising_command':
+            offset = (0, 2, 4, 7, 9).index(index); row['monotonic_ns'] = native_commands[offset]['monotonic_ns']
+            if 'sets' in row:
+                row['sets'][0]['handle'] = 1
+                if row['enabled']: row['sets'][0]['duration_10ms_units'] = 500
+        else:
+            offset = (1, 3, 5, 8, 10).index(index); row['monotonic_ns'] = native_acks[offset]['monotonic_ns']
+    summary = next(r for r in records if r['kind'] == 'source_closed')
+    return records, monitor, summary
+
+
 class ZeroCounterReportTests(unittest.TestCase):
+    def test_native_and_monitor_zero_counter_are_diagnostic_not_success(self):
+        native, monitor, summary = diagnostic_fixture()
+        receipt = check_episode(native, monitor, summary)
+        self.assertEqual(receipt['original_source_status'], 'trial_failed')
+        self.assertEqual(receipt['source_returncode'], 2)
+        self.assertEqual(receipt['controller_reported_completed_events'], 0)
+        self.assertIsNone(receipt['actual_rf_emissions'])
+        self.assertTrue(receipt['native_and_monitor_zero_counter_match'])
+
+    def test_source_monitor_counter_handle_data_and_cleanup_must_match(self):
+        for mode in ('source_handle', 'max_zero', 'native_count', 'monitor_count', 'monitor_handle',
+                     'marker', 'cleanup', 'missing_term', 'summary_success'):
+            native, monitor, summary = diagnostic_fixture()
+            if mode == 'source_handle': native[0]['advertising_handle'] = 239
+            elif mode == 'max_zero': native[0]['max_extended_advertising_events'] = 0
+            elif mode == 'native_count': next(r for r in native if r['kind'] == 'termination_observed')['controller_reported_completed_extended_advertising_events'] = 123
+            elif mode == 'monitor_count': monitor[6]['controller_reported_completed_extended_advertising_events'] = 123
+            elif mode == 'monitor_handle': monitor[6]['advertising_handle'] = 239
+            elif mode == 'marker': monitor[2]['owned_manufacturer_ad_exact_match'] = False
+            elif mode == 'cleanup': monitor[-1]['status'] = 12
+            elif mode == 'missing_term': monitor.pop(6)
+            else: summary['status'] = 'controller_count_verified'
+            with self.subTest(mode=mode), self.assertRaises(ValueError): check_episode(native, monitor, summary)
+
     def test_whole_response_guard_excludes_crossing_payload(self):
         schedule = episodes()
         self.assertEqual(phase(7*SECOND, 8*SECOND, schedule), 'zero-counter-01')
