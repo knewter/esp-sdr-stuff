@@ -39,3 +39,10 @@ All sampled forced-selector fields are 48 and bit23=1. Actual measured hook cycl
 and the [retained failed first attempt](docs/evidence/receiver-register-observation-001/README.md)
 remain explicit. This is readback evidence, not a controlled source response,
 calibrated gain, emitted count or closure of any original task above.
+
+The [guarded ON/OFF waveform audit](docs/evidence/ble-on-off-waveform-audit/README.md)
+replays all 2,248 fresh snapshots and finds no repeated increase in the nominal
+target band. Large excursions occur in OFF phases too. The separately declared
+[advertising-mode counter pair](docs/research/ble-mode-counter-protocol.md)
+diagnoses controller reporting only; implementation review and actual receipts
+are still required. Neither result changes any original task criterion.

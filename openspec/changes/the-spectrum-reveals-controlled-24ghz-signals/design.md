@@ -145,3 +145,15 @@ noise; its restoration and subsequent offline replay remain separately recorded.
 These observations narrow sampled field inconsistency in those runs without
 establishing effective analog gain, prior state or the cause of the fresh nulls.
 Original RF and transmitted-count gates are unchanged.
+
+## Next bounded diagnostics
+
+The [guarded ON/OFF scalar audit](docs/evidence/ble-on-off-waveform-audit/README.md)
+finds no repeated increase in the nominal target band and retains OFF excursions;
+pooled code-power differences do not establish source response. Decoder bounds
+remain unchanged. The [counter research](docs/research/ble-source-counter-followup.md)
+finds no legacy exemption in the published HCI rules. A separately reviewed
+[source-only mode pair](docs/research/ble-mode-counter-protocol.md) compares legacy
+and extended reporting with fixed five-second duration/MaxEvents 255. Auxiliary
+extended AD is outside this ESP32's native reference and channel-37 decoder.
+This diagnostic cannot supply legacy marker counts or close RF/burst gates.
