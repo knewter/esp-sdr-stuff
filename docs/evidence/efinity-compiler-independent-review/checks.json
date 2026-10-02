@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "verdict": "PASS_PREFLIGHT",
+  "reviewed_commit": "8ff4cdc46a8af85cb86b2ddc997276a2816b3569",
+  "source_sha256": {
+    "tools/efinity_compile_smoke.py": "97ffc5b37bb0a1ebb34898f22a76a173d6ebdf9f1dd4417a8306ce8615694ef3",
+    "tests/test_efinity_compile_smoke.py": "0aeb817d768abfcbfc628b143103ed432f81979647f2cab760b71f641763218b",
+    "tools/efinity_bootstrap.py": "8e01e643a8cd3bdc5028c9fd49d1e221fa97cc01b1fdf31918387a62374e9bcb"
+  },
+  "nix_task_tests_passed": {
+    "compiler": 17,
+    "bootstrap_regression": 33
+  },
+  "independent_disposable_fixtures": {
+    "hardlink_external_mode_preserved": true,
+    "hardlink_external_bytes_preserved": true,
+    "symlink_private_root_refused": true,
+    "unclosed_group_does_not_traverse_outputs": true
+  },
+  "installed_runner_and_four_fixture_hashes_match_constants": true,
+  "flow": [
+    "pt_demo.xml",
+    "--flow",
+    "compile",
+    "--timeout",
+    "300"
+  ],
+  "vendor_timeout_seconds": 300,
+  "owned_outer_timeout_seconds": 330,
+  "target": {
+    "family": "Trion",
+    "device": "T8F81",
+    "timing_model": "C2",
+    "connected_Forgix_gateware": false
+  },
+  "pinned_runner_review": {
+    "compile_does_not_enable_program_flow": true,
+    "pgm_is_bitstream_generation": true,
+    "optional_binary_export_requested": false
+  },
+  "unchanged": [
+    "physical Forgix device/clock/revision compile gates",
+    "FHS wrapper",
+    "flake"
+  ],
+  "private_proof_sha256": {
+    "compiler_edges.py": "b3b0342d1b59f10bb053342a9e42df22e86b2d358a414145a78b9382a08eb27f",
+    "compiler-edges.json": "07a35ae0752fe0052f4d50e75fd12f7bb4d03fc2bee69e8ad9c5a7cda95f65ae"
+  },
+  "actual_vendor_compile_by_reviewer": false,
+  "actual_license_compile_verified_by_reviewer": false,
+  "hardware_operations": 0
+}
