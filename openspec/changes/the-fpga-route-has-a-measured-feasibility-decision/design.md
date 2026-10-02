@@ -47,8 +47,12 @@ Inventory is the first proof artifact. The benchmark command is selected only af
 The [local toolchain setup](docs/research/forgix-toolchain.md) now provides
 Task commands for completed-download discovery, private permanent staging,
 versioned Linux installation and execution through the locked Nix FHS runtime.
-Thirty-three offline tests pass. [Actual installation evidence](docs/evidence/efinity-install-001/README.md)
+Fifty-one focused installer/compiler tests pass. [Actual installation evidence](docs/evidence/efinity-install-001/README.md)
 now verifies Efinity 2026.1.132 installation, repeat reuse, real vendor CLI and
 full host/vendor checks inside Nix FHS after a retained Python-environment
-failure was corrected. No licensed compile has been verified. This setup
+failure was corrected. A [complete generic T8F81/C2 compiler test](docs/evidence/efinity-compile-smoke-002/README.md)
+now verifies all four stages and a fresh bitstream under the present licensing
+configuration. The initial skipped-interface/no-bitstream failure is retained;
+Nix supplies the missing SQLite and D-Bus libraries. This software example
+does not establish the connected T8F49 Forgix constraints or image. This setup
 closes no physical inventory or transport benchmark task.

@@ -26,3 +26,11 @@ verifies Forgix factory USB identity, software ROM entry, two identical reads
 of the detected 2 MiB flash range, separate verification and original-application
 return. It closes no FPGA task: PCB revision, clock and header wiring remain
 uninspected; no FPGA sequence/CRC, sustained transport or RF integration ran.
+
+A [complete generic vendor compiler test](docs/evidence/efinity-compile-smoke-002/README.md)
+now passes through Nix and produces a fresh T8F81/C2 example image. The
+[initial incomplete run](docs/evidence/efinity-compile-smoke-001/README.md) remains
+failed; adding demonstrated SQLite and D-Bus runtime dependencies fixes the
+Interface Designer import. This supports toolchain readiness only. The connected
+Forgix needs its own confirmed T8F49 grade, clock, revision and wiring before
+a guarded board build; task checkboxes remain unchanged.
