@@ -25,6 +25,7 @@ static void mmio_write(unsigned reg, uint32_t value);
 #define DPORT_REG_READ(reg) REG_READ(reg)
 #define DPORT_REG_WRITE(reg,value) REG_WRITE(reg,value)
 static int64_t esp_timer_get_time(void);
+static uint32_t esp_cpu_get_cycle_count(void);
 static void esp_rom_delay_us(unsigned us);
 #ifdef REGOBS_ACTUAL_SERIAL
 #include "burst_serial.h"

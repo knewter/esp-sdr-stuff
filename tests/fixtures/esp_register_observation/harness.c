@@ -9,25 +9,32 @@ static unsigned sends;
 #endif
 static uint32_t control, status, byte_map = 0xdeadbeef, owner = 0xa5a50100;
 static uint32_t gain_word = (72u << 8) | 0x12;
+static uint32_t last_gain_read;
 static unsigned filter[2] = {0x91,0xc2};
 static int64_t now_us;
+static uint32_t cpu_cycles, cycle_begin;
+static unsigned cycle_used, cycle_timer_calls, cycle_records;
+static bool cycle_open;
 static uint8_t wire[1000000];
 static size_t wire_used;
 static unsigned trace[30000], trace_used;
 enum { SUCCESS, VARIANT, TIMEOUT, WRONG_COUNT, MISSING_SAMPLE, EXTRA_SAMPLE,
        FAIL_HEADER, FAIL_PAYLOAD, FAIL_RECEIPT, DEADLINE, EARLY_END, BAD_NONCE,
-       REAPPLY, OVERFLOW, CONFIG_MISMATCH, UNARMED, EXCESS, CAPTURE_DEADLINE };
+       REAPPLY, OVERFLOW, CONFIG_MISMATCH, UNARMED, EXCESS, CAPTURE_DEADLINE,
+       CYCLE_WRAP, CYCLE_WIDE };
 
 static void event(unsigned code) { assert(trace_used < 30000); trace[trace_used++] = code; }
 static uint32_t mmio_read(unsigned reg) {
     if (reg == RX_GAIN) {
+        cpu_cycles+=11;
         rx_reads++; event(100);
         if (mode == VARIANT && regobs_state == REGOBS_ARMED) {
             unsigned stage = regobs_used ? (regobs_used-1)%4+1 : 0;
             unsigned selectors[] = {48,48,47,46,45};
-            return (gain_word & 0x7fffff) | (selectors[stage] << 24) | (stage == 2 ? 0 : BIT(23));
+            last_gain_read=(gain_word & 0x7fffff) | (selectors[stage] << 24) | (stage == 2 ? 0 : BIT(23));
+            return last_gain_read;
         }
-        return gain_word;
+        last_gain_read=gain_word;return last_gain_read;
     }
     if (reg == DUMP_CTRL) return control;
     if (reg == DUMP_STATUS) return status;
@@ -51,7 +58,30 @@ static void mmio_write(unsigned reg, uint32_t value) {
         if (mode == CAPTURE_DEADLINE) now_us=regobs_deadline_us;
     }
 }
-static int64_t esp_timer_get_time(void) { now_us += mode == TIMEOUT ? 1000 : 1; return now_us; }
+static int64_t esp_timer_get_time(void) {
+    cpu_cycles+=37;if(cycle_open)cycle_timer_calls++;
+    now_us += mode == TIMEOUT ? 1000 : 1; return now_us;
+}
+static uint32_t esp_cpu_get_cycle_count(void) {
+    if(!cycle_open) {
+        cycle_open=true;cycle_begin=cpu_cycles;cycle_used=regobs_used;cycle_timer_calls=0;
+        cpu_cycles+=3;return cycle_begin;
+    }
+    cycle_open=false;
+    if(regobs_used!=cycle_used) {
+        /* Closing boundary must see all original stores already published.
+         * Cycle costs are a controlled synthetic model, not target timings. */
+        assert(regobs_used==cycle_used+1 && cycle_timer_calls==2);
+        const regobs_record_t *r=&regobs_records[cycle_used];
+        assert(r->sequence==cycle_used && r->stage<=REGOBS_RESTORED_AFTER_DUMP);
+        assert(r->capture_ordinal==(regobs_in_capture?(int)regobs_captures:-1));
+        assert(r->read_begin_us>0 && r->read_end_us>r->read_begin_us);
+        assert(r->selector==((last_gain_read>>24)&127) && r->bit23==((last_gain_read>>23)&1));
+        cpu_cycles+=53;cycle_records++;
+        if(mode==CYCLE_WIDE)cpu_cycles=cycle_begin+UINT32_MAX;
+    } else assert(!cycle_timer_calls);
+    uint32_t result=cpu_cycles;cpu_cycles+=5;return result;
+}
 static void esp_rom_delay_us(unsigned us) { now_us += us; }
 static void vTaskDelay(unsigned ticks) { now_us += 1000*ticks; }
 unsigned rom_chip_i2c_readReg(unsigned block,unsigned host,unsigned reg) {
@@ -90,7 +120,7 @@ static bool burst_serial_send(const void *data,size_t size) {
 #endif
 
 int main(int argc,char **argv) {
-    assert(argc==2); mode=(unsigned)strtoul(argv[1],NULL,10); assert(mode<=CAPTURE_DEADLINE);
+    assert(argc==2); mode=(unsigned)strtoul(argv[1],NULL,10); assert(mode<=CYCLE_WIDE);
     assert(esp_rom_crc32_le(0,(const uint8_t *)"123456789",9)==0xcbf43926);
     gain_max=72;
     regobs_dispatch_status(1, "INFO");
@@ -99,6 +129,7 @@ int main(int argc,char **argv) {
     assert((gain_word >> 24)==48 && (gain_word & BIT(23)));
     assert((gain_word & 0x7fffff)==((72u << 8)|0x12));
     unsigned before_writes=gain_writes, before_reads=rx_reads, before_trace=trace_used;
+    if(mode==CYCLE_WRAP)cpu_cycles=UINT32_MAX-16;
     if (mode==UNARMED) {
         regobs_dispatch_status(1, "CAP20 16380 6"); assert(regobs_used==0);
     } else {
@@ -123,7 +154,7 @@ int main(int argc,char **argv) {
                 if(mode==EXCESS) regobs_dispatch_status(1, "CAP20 16380 6");
                 else if(regobs_state==REGOBS_ARMED) regobs_dispatch_status(1, "REGOBS1 END 0123456789abcdef0123456789abcdef");
             }
-            if(mode==SUCCESS || mode==VARIANT) assert(regobs_state==REGOBS_DONE && regobs_used==81 && regobs_captures==20 && triggers==20);
+            if(mode==SUCCESS || mode==VARIANT || mode==CYCLE_WRAP || mode==CYCLE_WIDE) assert(regobs_state==REGOBS_DONE && regobs_used==81 && regobs_captures==20 && triggers==20);
             else assert(regobs_state==REGOBS_FAILED);
         }
         /* Rejected session cannot trigger another acquisition or setting write. */
@@ -134,7 +165,7 @@ int main(int argc,char **argv) {
     assert(gain_writes==before_writes && !control);
     assert(owner==0xa5a50100 && byte_map==0xdeadbeef && filter[0]==0x91 && filter[1]==0xc2);
     /* Every armed successful dump has one entry/armed/completed/restored read. */
-    if(mode==SUCCESS || mode==VARIANT) assert(rx_reads-before_reads==81);
+    if(mode==SUCCESS || mode==VARIANT || mode==CYCLE_WRAP || mode==CYCLE_WIDE) assert(rx_reads-before_reads==81 && cycle_records==81);
     for(unsigned i=before_trace;i<trace_used;i++) assert(trace[i]!=101 && trace[i]!=400 && trace[i]!=401 && trace[i]!=402 && trace[i]!=403 && trace[i]!=404 && trace[i]!=405);
     /* Trace the actual acquire_iq body, not just the serialized stage labels.
      * Reads bracket original filter/control operations and all restoration
@@ -147,6 +178,6 @@ int main(int argc,char **argv) {
         for(unsigned j=0;j<8;j++) assert(trace[i+1+j]==after_trigger[j]);
     }
     fwrite(wire,1,wire_used,stdout);
-    fprintf(stderr,"{\"triggers\":%u,\"records\":%u,\"gain_writes\":%u,\"selector_reads\":%u,\"filter_writes\":%u,\"state\":%u}\n",triggers,regobs_used,gain_writes,rx_reads-before_reads,filter_writes,regobs_state);
+    fprintf(stderr,"{\"triggers\":%u,\"records\":%u,\"gain_writes\":%u,\"selector_reads\":%u,\"filter_writes\":%u,\"state\":%u,\"cycle_records\":%u,\"record_size\":%zu}\n",triggers,regobs_used,gain_writes,rx_reads-before_reads,filter_writes,regobs_state,cycle_records,sizeof(regobs_record_t));
     return 0;
 }

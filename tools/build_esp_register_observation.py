@@ -22,6 +22,7 @@ REQUIRED = ('CONFIG_IDF_TARGET="esp32"','CONFIG_ESP_SDR_UART_ENABLED=y',
     'CONFIG_ESP_SDR_UART_BAUD=921600','CONFIG_ESP_SDR_UART_TX_PIN=1','CONFIG_ESP_SDR_UART_RX_PIN=3',
     'CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y','CONFIG_FREERTOS_UNICORE=y',
     'CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ=240',
+    '# CONFIG_PM_ENABLE is not set',
     'CONFIG_ESPTOOLPY_FLASHMODE_DIO=y','CONFIG_ESPTOOLPY_FLASHFREQ_40M=y','CONFIG_ESPTOOLPY_FLASHSIZE_2MB=y',
     'CONFIG_ESPTOOLPY_FLASHMODE="dio"','CONFIG_ESPTOOLPY_FLASHFREQ="40m"','CONFIG_ESPTOOLPY_FLASHSIZE="2MB"',
     'CONFIG_PARTITION_TABLE_SINGLE_APP=y','CONFIG_PARTITION_TABLE_FILENAME="partitions_singleapp.csv"','CONFIG_PARTITION_TABLE_MD5=y',
@@ -33,7 +34,7 @@ DISABLED_HIDDEN = ('CONFIG_BT_ENABLED','CONFIG_SECURE_BOOT_V1_ENABLED','CONFIG_S
     'CONFIG_ESPTOOLPY_FLASHFREQ_80M','CONFIG_ESPTOOLPY_FLASHSIZE_4MB')
 PARTS = (('bootloader.bin',0x1000,0x8000),('partition-table.bin',0x8000,0x9000),
          ('esp_sdr.bin',0x10000,0x110000))
-BUFFER_SYMBOLS = {'regobs_records':(1,81*32), 'regobs_json':(2048,2048),'regobs_wire':(2048,2048)}
+BUFFER_SYMBOLS = {'regobs_records':(81*32,81*32), 'regobs_json':(2048,2048),'regobs_wire':(2048,2048)}
 
 
 def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -85,7 +86,7 @@ def validate_symbols(nm_text):
             lower,upper=BUFFER_SYMBOLS[fields[3]]
             if fields[2] not in ('b','B','d','D') or not lower<=size<=upper:
                 raise ValueError('Diagnostic buffer size/type mismatch')
-            if fields[3]=='regobs_records' and (size % 81 or not 24<=size//81<=32):
+            if fields[3]=='regobs_records' and size!=81*32:
                 raise ValueError('Linked record array does not contain 81 declared-size records')
             if not 0x3ffb0000<=address<address+size<=0x3ffe8000:
                 raise ValueError('Diagnostic buffer is outside reviewed DRAM or overlaps sample slab')

@@ -19,6 +19,7 @@ def receiver_text(base=None):
     text = original.decode()
     text = once(text, '#include <stdio.h>', '#ifdef REGOBS_HOST_TEST\n#include "harness_shim.h"\n#else\n#include <stdio.h>')
     text = once(text, '#include "heap_memory_layout.h"', '#include "heap_memory_layout.h"\n#endif')
+    text = once(text, '#include "esp_timer.h"', '#include "esp_timer.h"\n#include "esp_cpu.h"')
     text = once(text, 'static uint32_t *const samples = (void *)0x3ffe8000;',
                 '#ifdef REGOBS_HOST_TEST\nstatic uint32_t *const samples = test_samples;\n#else\nstatic uint32_t *const samples = (void *)0x3ffe8000;\n#endif')
     text = once(text, '/* Clock selectors:', '#include "register_observation.h"\n\n/* Clock selectors:')

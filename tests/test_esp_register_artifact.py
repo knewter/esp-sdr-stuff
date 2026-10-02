@@ -24,7 +24,7 @@ def elf_fixture():
     names=b'\0.shstrtab\0.strtab\0.symtab\0.iram0.text\0.dram0.bss\0.flash.appdesc\0'
     wire=0x3ffb4000;buffers={'regobs_wire':{'address':wire,'size':2048,'end':wire+2048},
         'regobs_json':{'address':wire+2048,'size':2048,'end':wire+4096},
-        'regobs_records':{'address':wire+4096,'size':1944,'end':wire+6040}}
+        'regobs_records':{'address':wire+4096,'size':2592,'end':wire+6688}}
     data=bytearray(84);positions=[]
     for blob in (names,strings,b'\0'*16+b''.join(struct.pack('<IIIBBH',strings.index(name.encode()),v['address'],v['size'],1,0,5)
                                               for name,v in buffers.items()),b'\x11'*16,descriptor_fixture()):
@@ -34,7 +34,7 @@ def elf_fixture():
         (names.index(b'.strtab'),3,0,0,positions[1],len(strings),0,0,1,0),
         (names.index(b'.symtab'),2,0,0,positions[2],64,2,1,4,16),
         (names.index(b'.iram0.text'),1,6,0x40080000,positions[3],16,0,0,4,0),
-        (names.index(b'.dram0.bss'),8,3,wire,0,6040,0,0,8,0),
+        (names.index(b'.dram0.bss'),8,3,wire,0,6688,0,0,8,0),
         (names.index(b'.flash.appdesc'),1,2,0x3f400020,positions[4],256,0,0,4,0)]
     for row in table:data.extend(struct.pack('<10I',*row))
     data[:52]=struct.pack('<16sHHIIIIIHHHHHH',b'\x7fELF\x01\x01\x01'+b'\0'*9,2,94,1,0x40080000,52,shoff,0,52,32,1,40,7,1)

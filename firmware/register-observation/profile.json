@@ -19,6 +19,10 @@
   "host_deadline_seconds": 30,
   "record_limit": 81,
   "record_size_limit": 32,
+  "record_size_bytes": 32,
+  "hook_cycle_counter_bits": 32,
+  "hook_cycle_cpu_hz": 240000000,
+  "hook_cycle_scope": "complete_body_call_including_prechecks_timers_mmio_and_original_stores",
   "line_limit": 2048,
   "reserved_sample_slab": [1073643520, 1073709056],
   "base_files": {

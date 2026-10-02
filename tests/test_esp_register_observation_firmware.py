@@ -87,6 +87,19 @@ class ActualReceiverC(unittest.TestCase):
         a=0;b=(7<<10)|3
         self.assertEqual(payloads[0]['data'][:5],(a | (b<<20)).to_bytes(5,'little'))
         self.assertEqual(receipts[-1]['record_count'],81)
+        self.assertEqual(summary['record_size'],32)
+        self.assertEqual(summary['cycle_records'],81)
+        self.assertTrue(all(r['hook_cycles']==141 for r in records))
+
+    def test_actual_body_cycle_bracket_wrap_and_uint32_serialization(self):
+        for mode,value in ((18,141),(19,4294967295)):
+            with self.subTest(mode=mode):
+                lines,payloads,partial,summary=self.run_case(mode)
+                records=[r for tag,receipt in lines if tag=='REGOBS1' and 'records' in receipt for r in receipt['records']]
+                self.assertEqual(len(records),81);self.assertEqual(summary['record_size'],32)
+                self.assertEqual(summary['cycle_records'],81)
+                self.assertTrue(all(r['hook_cycles']==value for r in records))
+                self.assertEqual(len(payloads),20);self.assertFalse(partial)
 
     def test_variant_readbacks_are_retained_not_repaired(self):
         lines,_,_,summary=self.run_case(1)
@@ -227,13 +240,13 @@ class BuildGuards(unittest.TestCase):
 
     def test_security_duplicate_and_target_configuration_rejected(self):
         text='\n'.join(build.REQUIRED)+'\n';build.validate_config(text)
-        for bad in ('CONFIG_SECURE_BOOT=y','CONFIG_IDF_TARGET="esp32s3"','CONFIG_ESP_SDR_UART_BAUD=2000000'):
+        for bad in ('CONFIG_SECURE_BOOT=y','CONFIG_IDF_TARGET="esp32s3"','CONFIG_ESP_SDR_UART_BAUD=2000000','CONFIG_PM_ENABLE=y'):
             with self.subTest(bad=bad),self.assertRaises(ValueError):build.validate_config(text+bad+'\n')
 
     def test_actual_symbol_bounds_reject_slab_overlap_missing_and_oversize(self):
-        text='3ffb1000 00000800 B regobs_json\n3ffb1800 00000800 B regobs_wire\n3ffb2000 00000798 B regobs_records\n'
+        text='3ffb1000 00000800 B regobs_json\n3ffb1800 00000800 B regobs_wire\n3ffb2000 00000a20 B regobs_records\n'
         self.assertEqual(len(build.validate_symbols(text)),3)
-        for bad in (text.replace('3ffb2000','3ffe8000'),text.replace('00000798','00010000'),text.splitlines()[0],text+text.splitlines()[0]):
+        for bad in (text.replace('3ffb2000','3ffe8000'),text.replace('00000a20','00010000'),text.replace('00000a20','00000798'),text.splitlines()[0],text+text.splitlines()[0]):
             with self.assertRaises(ValueError):build.validate_symbols(bad)
 
 

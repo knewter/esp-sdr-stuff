@@ -19,7 +19,7 @@ FLASH = {'flash_mode':'dio','flash_freq':'40m','flash_size':'2MB'}
 # MAC-dump banks to I-port pools 8 and 7, respectively (lines 92-93).
 RESERVED = ((0x3ffe8000,0x3fff8000),(0x400a8000,0x400b8000))
 DEFAULTS_SHA = 'd417261421a976fbf99e91c11fc65a179d0eaaba289e6c1ec21c84e88be8ef8e'
-PROFILE_SHA = '8963ef32f74714d23d6afd4c07b28b51d8affbb5993468faf96feb201a29f468'
+PROFILE_SHA = '7166ca2d14278c98b181edac8d455c2e459062793b1edb262e8d2a49eb999fd6'
 
 
 class ArtifactError(ValueError): pass

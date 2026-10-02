@@ -18,8 +18,9 @@ typedef struct {
     uint16_t sequence;
     int8_t capture_ordinal;
     uint8_t stage, selector, bit23;
+    uint32_t hook_cycles;
 } regobs_record_t;
-_Static_assert(sizeof(regobs_record_t) <= 32, "Observation record exceeds declared bound");
+_Static_assert(sizeof(regobs_record_t) == 32, "Observation record differs from declared 32-byte ABI");
 
 /* External symbols are deliberate: ELF/map validation checks entire buffers. */
 regobs_record_t regobs_records[REGOBS_LIMIT];
@@ -34,9 +35,11 @@ static int64_t regobs_start_us, regobs_deadline_us;
 static int regobs_completion = -1, regobs_count = -1, regobs_elapsed = -1;
 static uint32_t regobs_payload_crc;
 
-static void regobs_observe(regobs_stage_t stage) {
-    if (!regobs_in_capture && stage != REGOBS_POST_SETTINGS) return;
-    if (regobs_used >= REGOBS_LIMIT) { regobs_error = "record_capacity"; return; }
+/* Separate non-inlined body makes its entry/return observable inside the
+ * wrapper's cycle bracket; the compiled target must be reviewed as well. */
+static __attribute__((noinline)) regobs_record_t *regobs_observe_body(regobs_stage_t stage) {
+    if (!regobs_in_capture && stage != REGOBS_POST_SETTINGS) return NULL;
+    if (regobs_used >= REGOBS_LIMIT) { regobs_error = "record_capacity"; return NULL; }
     regobs_record_t *record = &regobs_records[regobs_used];
     record->read_begin_us = esp_timer_get_time();
     uint32_t word = REG_READ(RX_GAIN);
@@ -46,6 +49,21 @@ static void regobs_observe(regobs_stage_t stage) {
     record->stage = stage;
     record->selector = (word >> 24) & 127;
     record->bit23 = (word >> 23) & 1;
+    return record;
+}
+
+static void regobs_observe(regobs_stage_t stage) {
+    /* Full body call: prechecks, pointer lookup, both timers, MMIO, original
+     * field stores and body entry/return. Counter/delta publication and the
+     * wrapper/callsite overhead are residual, not zero-cost instrumentation. */
+    __asm__ __volatile__("" ::: "memory");
+    uint32_t cycles_begin = esp_cpu_get_cycle_count();
+    __asm__ __volatile__("" ::: "memory");
+    regobs_record_t *record = regobs_observe_body(stage);
+    __asm__ __volatile__("" ::: "memory");
+    uint32_t cycles_end = esp_cpu_get_cycle_count();
+    __asm__ __volatile__("" ::: "memory");
+    if (record) record->hook_cycles = cycles_end-cycles_begin;
 }
 
 static bool regobs_append(size_t *used, const char *format, ...) {
@@ -71,8 +89,8 @@ static bool regobs_write_records(size_t *used, unsigned first) {
         if (!regobs_append(used, "%s{\"sequence\":%u,\"capture_ordinal\":", i == first ? "" : ",", r->sequence)) return false;
         if (r->capture_ordinal < 0) { if (!regobs_append(used, "null")) return false; }
         else if (!regobs_append(used, "%d", r->capture_ordinal)) return false;
-        if (!regobs_append(used, ",\"stage\":\"%s\",\"read_begin_us\":%"PRId64",\"read_end_us\":%"PRId64",\"selector\":%u,\"bit23\":%u}",
-            names[r->stage], r->read_begin_us, r->read_end_us, r->selector, r->bit23)) return false;
+        if (!regobs_append(used, ",\"stage\":\"%s\",\"read_begin_us\":%"PRId64",\"read_end_us\":%"PRId64",\"selector\":%u,\"bit23\":%u,\"hook_cycles\":%"PRIu32"}",
+            names[r->stage], r->read_begin_us, r->read_end_us, r->selector, r->bit23, r->hook_cycles)) return false;
     }
     return regobs_append(used, "]}");
 }
