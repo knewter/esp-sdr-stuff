@@ -6,6 +6,32 @@ Icarus Verilog, Verilator and Yosys. Efinity is a separate licensed input;
 no vendor compiler, license or FPGA bitstream has been installed or verified.
 These checks opened no hardware and replaced no MCU firmware.
 
+## Open components and the complete FPGA build flow
+
+Rechecked current primary sources on 2026-10-02 after the user's open-toolchain
+question. The MCU firmware, loaders and LiteX infrastructure have open source.
+Yosys also implements [`synth_efinix`](https://github.com/YosysHQ/yosys/blob/main/techlibs/efinix/synth_efinix.cc):
+its output stages write EDIF or JSON netlists. This is synthesis support;
+it does not itself place, route or generate a Trion configuration bitstream.
+The [current nextpnr supported-family list](https://github.com/YosysHQ/nextpnr#nextpnr----a-portable-fpga-place-and-route-tool)
+does not list Efinix. This check found no maintained complete open T8 flow;
+it is not a claim that no experimental or future implementation can exist.
+
+The [current LiteX Efinix backend](https://github.com/enjoy-digital/litex/blob/master/litex/build/efinix/efinity.py#L366-L374)
+names vendor `efx_pnr` and `efx_pgm` stages, then
+[invokes Efinity's `efx_run.py --flow compile`](https://github.com/enjoy-digital/litex/blob/master/litex/build/efinix/efinity.py#L440-L453).
+The [Forgix example linked by its manufacturer](https://github.com/enjoy-digital/aduivo_forgix_test#requirements)
+explicitly requires Efinity. Thus the documented path for building new T8
+bitstreams still needs that component. An open programmer or RP2354 loader can
+transfer an already built image without implementing the FPGA build stages.
+
+Efinity is **free of charge**, including its full license and renewable
+maintenance. It still requires the vendor's download/license workflow;
+[the official instructions](https://www.efinixinc.com/products-efinity.html)
+say to register or log in to the Support Center and request the free license.
+The missing setup input below is a legitimate installation and license, not a
+purchase. These source checks ran no builds and opened no hardware.
+
 ## Reproduce the completed host checks
 
 ```sh
@@ -80,6 +106,16 @@ The [manufacturer schematic](https://bitbucket.org/adiuvo-engineering/forgix_pub
 instead labels `T8F49I2X` and does not establish the fitted oscillator frequency.
 The connected board's grade, oscillator marking and revision remain unverified.
 No upstream default is accepted as a measured board constraint.
+
+The user's underside photo shows an AP MEMORY package and NANO / FPGA HORIZONS
+branding. The [official Forgix specifications](https://forgix.tech/) list
+RP2354, Trion T8F49 and APS1604M QSPI PSRAM, and link the
+[FPGA Horizons Forgix store](https://merch.fpgahorizons.com/products/forgix-board).
+The visible memory package and branding are consistent with that board;
+NANO is consistent with the manufacturing partner's branding. This is a photo
+interpretation, not a fitted FPGA identification: the underside image does not
+confirm the opposite-side FPGA grade, oscillator marking or board revision.
+It provides no reason to substitute another FPGA family's toolchain.
 
 `--plan` and `--build-dir` require `--device`, `--clock-hz`,
 `--board-revision` and `--verified-parameters`. The software cannot verify the
