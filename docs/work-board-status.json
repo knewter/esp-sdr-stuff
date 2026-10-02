@@ -169,8 +169,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Provide licensed Efinity installation and inspect actual FPGA/oscillator/PCB markings and wiring before compiling gateware.",
-      "rationale": "Factory MCU preservation and application return pass. Nix Forgix host tools, real RTL generation, 17 upstream tests and the Efinity runtime wrapper now pass host checks. Vendor compiler/license and physical constraints remain missing; no FPGA programming or transport benchmark ran.",
+      "next": "Finish the Linux Efinity download, import/install it with the repo Tasks, and verify its CLI; inspect actual FPGA/oscillator/PCB markings and wiring before compiling gateware.",
+      "rationale": "Factory MCU preservation and application return pass. Nix host tools and 17 upstream tests pass. Private versioned Efinity staging/install Tasks now pass 30 offline tests; actual vendor execution, licensed compilation and physical constraints remain pending. No FPGA programming or transport benchmark ran.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -181,7 +181,8 @@
         "docs/evidence/forgix-preservation-review/README.md",
         "docs/evidence/forgix-toolchain/README.md",
         "docs/evidence/forgix-toolchain/current-host-followup.md",
-        "docs/evidence/forgix-toolchain-subagent/README.md"
+        "docs/evidence/forgix-toolchain-subagent/README.md",
+        "docs/research/forgix-toolchain.md"
       ],
       "reviewRevision": "ae381eca9c49710a151a1716d3c9c7d0461c0042"
     },
