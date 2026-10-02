@@ -1,7 +1,7 @@
-# Host BLE controller did not provide the required source count
+# Host BLE source count remains unverified
 
-The current Intel host controller accepted the owned advertising commands but
-did not deliver an Advertising Set Terminated event in three bounded trials.
+The initial Intel host-controller trials accepted the owned advertising commands
+but did not deliver an Advertising Set Terminated event in three bounded trials.
 This source therefore cannot yet supply a verified transmitted-event denominator
 for the ESP burst evaluation. This is a source-control limitation, not evidence
 that the ESP cannot receive BLE. No receiver trial was performed for these three
@@ -93,8 +93,9 @@ controller firmware might handle the legacy-PDU limiter or termination event
 incorrectly, or another unmeasured scheduling/transport condition could matter.
 These are hypotheses, not diagnoses. The two smaller-limit attempts also
 failed, so this is not an observed failure confined to the value 255 or to the
-20 ms interval. No current-mask mutation, firmware update, vendor diagnostic,
-duration-limited comparison, reset, or alternative-PDU comparison was tested.
+20 ms interval. No current-mask mutation, firmware update, vendor diagnostic, reset or
+alternative-PDU comparison was tested in those trials. Subsequent duration
+diagnostics are recorded separately below.
 
 The primary specification's nonzero event-limit and termination rules support
 the intended method, including sets configured for legacy PDUs through the
@@ -119,3 +120,33 @@ ESP capture/CRC/owned-payload evidence, and label any controller-reported count
 separately from independently observed radiation. The present results supply
 neither count and do not justify replacing a measured success rate with the
 requested number of events.
+
+## Subsequent timer diagnostics and RF discriminator
+
+[Three duration-limited source-only diagnostics](../evidence/ble-duration-source-diagnostics/README.md)
+now observe matching termination events on both native and monitor readers.
+The actual status is `0x3C` (duration elapsed), with completed-event count **0**
+when MaxEvents is nonzero. Both handle `0xEF` and handle `1` produce that
+result; requested handle capacity is not a substitute for actual observations.
+These records establish event delivery for the new timer trials. They neither
+explain the earlier absent count-limit events nor establish RF emissions.
+
+The Core completed-event field is meaningful with a nonzero maximum even
+when duration expires. The official HCI legacy advertising test also expects
+a completed count for finite legacy events; see the pinned primary documents
+in the duration diagnostic report. The zero field therefore remains unsuitable
+as an emitted-event denominator without RF/source validation.
+
+A [prospectively specified RF discriminator](ble-zero-counter-rf-protocol.md)
+records ten further five-second episodes on handle 1, each observed as
+`0x3C`/count 0 with successful cleanup. Its [262 retained ESP snapshots](../evidence/ble-zero-counter-rf/README.md)
+yield no CRC-valid owned packets under the pinned blind decoder. This null
+result is inconclusive: sparse capture windows, acquisition settings and decoder
+sensitivity can hide emissions. It does not prove a zero field means no
+transmission, identify a firmware defect or invalidate the earlier five owned
+packets. The original acquisition's short tail and discontinuous supplemental
+segment remain explicit. The ESP was restored and its complete original
+image independently verified afterward.
+
+The count gate stays open. A verified counter or independent RF reference is
+needed before executing the three counted receiver trials.

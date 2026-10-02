@@ -14,7 +14,7 @@
       "source": "in-progress",
       "physical": "pending",
       "next": "Record an actual power-removal/reapplication boot and finish recovery acceptance.",
-      "rationale": "Two matching complete flash reads and final post-trial restore/readback match; original GPIO firmware is running. Actual physical power-cycle proof remains open.",
+      "rationale": "Complete preservation and repeated full-image restore/readback/reset boot match, including the timer RF diagnostic. Original GPIO firmware is running; actual electrical power-cycle proof remains open.",
       "reviewRevision": "915e229d9b9d499edbe689e647cffcddebf91e2f",
       "dependencies": [],
       "evidence": [
@@ -23,7 +23,8 @@
         "docs/evidence/final-restoration/README.md",
         "docs/evidence/power-cycle-wait/README.md",
         "docs/evidence/usb-power-control/README.md",
-        "docs/evidence/ble-controller-independent-review/README.md"
+        "docs/evidence/ble-controller-independent-review/README.md",
+        "docs/evidence/zero-counter-restoration/README.md"
       ]
     },
     "the-board-captures-repeatable-radio-snapshots": {
@@ -73,8 +74,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Obtain an actual recorded source counter independent of ESP decoding, then run the three predeclared receiver trials.",
-      "rationale": "Five complete owned BLE packets decode with exact data and protected-PDU CRC. The physical Bluetooth monitor verifies accepted settings; three finite source-only trials accepted commands but reported no completed-event count. Capture hit/miss reliability remains open.",
+      "next": "Use a verified source counter or independent RF reference before the three counted receiver trials.",
+      "rationale": "Five complete owned BLE packets verify offline decoding. Initial finite source trials lacked termination; timer trials now report actual count zero. All 262 zero-counter diagnostic snapshots pass transport checks but yield no CRC-valid owned packet; null is inconclusive. Hit/miss reliability remains open.",
       "reviewRevision": "915e229d9b9d499edbe689e647cffcddebf91e2f",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
@@ -87,7 +88,10 @@
         "docs/evidence/independent-review/README.md",
         "docs/evidence/ble-dumpcap-source/README.md",
         "docs/evidence/ble-counted-source-smoke/README.md",
-        "docs/evidence/ble-controller-independent-review/README.md"
+        "docs/evidence/ble-controller-independent-review/README.md",
+        "docs/evidence/ble-duration-source-diagnostics/README.md",
+        "docs/evidence/ble-zero-counter-rf/README.md",
+        "docs/evidence/zero-counter-restoration/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",

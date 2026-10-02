@@ -1,4 +1,4 @@
-# Evaluation checkpoint — October 1, 2026
+# Evaluation checkpoint — October 2, 2026 UTC
 
 The ESP32 supports the pinned original-chip ESPARGOS receiver. Its clean
 921,600-baud build delivers snapshots and has decoded owned BLE data. The
@@ -19,7 +19,7 @@ explicitly deferred by the user.
 - [No-FEC RDS decoding](../rtl-rds-trial/README.md) identifies WXJC at 101.1 MHz
   in retained and fresh V4 captures; [independent replay](../rtl-rds-independent-review/README.md)
   reproduces both trials.
-- [Final restoration](../final-restoration/README.md) matches all 4,194,304
+- [Latest restoration](../zero-counter-restoration/README.md) matches all 4,194,304
   original flash bytes and boots the original GPIO application after reset.
   The board is currently restored; no receiver holds a device handle.
 
@@ -38,6 +38,12 @@ The native corrected HCI MONITOR bind was denied. A capability-enabled
 accepted source settings. This unlimited-source trial supplies no event count.
 Three [finite source-only diagnostics](../ble-counted-source-smoke/README.md)
 also receive successful command acknowledgements but no termination count.
+Subsequent [timer diagnostics](../ble-duration-source-diagnostics/README.md)
+observe duration-expiry events with an actual completed count of zero. A
+[ten-episode RF discriminator](../ble-zero-counter-rf/README.md) retains 262
+CRC/count-valid ESP snapshots and finds no CRC-valid owned packet. This null
+is inconclusive; no source count or hit rate is established. Its initial short
+tail and discontinuous supplemental segment remain explicit.
 The [predeclared reporting protocol](../../research/ble-counted-trials.md) is
 software readiness, not a physical receiver result.
 Historical wrong-channel attempts provide no emission count. No calibration,

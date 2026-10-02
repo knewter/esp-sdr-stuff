@@ -35,3 +35,12 @@ The [counted-trial protocol](docs/research/ble-counted-trials.md) predeclares th
 ## Primary references
 
 [Source register](docs/research/source-index.md) contains pinned repository links and limitations.
+
+## Timer diagnostic boundary
+
+Subsequent [timer diagnostics](docs/evidence/ble-duration-source-diagnostics/README.md)
+observe `0x3C` termination with completed count zero; the [prospective RF
+discriminator](docs/evidence/ble-zero-counter-rf/README.md) is inconclusive.
+These diagnostic captures are separate from the three counted receiver trials.
+Original counting and acceptance criteria remain unchanged. A recorded usable
+source denominator is still required.

@@ -8,7 +8,7 @@ Decide which interference, educational DSP and short-burst applications are usef
 
 The evaluation SHALL report observed and missed controlled events against a recorded source count.
 
-<!-- UNVERIFIED: Five owned packets decode, but no actual recorded source counter exists. Three finite source-only HCI trials accepted commands without an observed termination count; requested event limits do not establish a denominator. Hit rates and unresolved misses/truncations remain unknown. See docs/evidence/ble-counted-source-smoke/README.md. -->
+<!-- UNVERIFIED: Five owned packets decode, but no usable recorded source denominator exists. Three initial finite source-only HCI trials had no termination; subsequent timer diagnostics report an actual zero field, and a 262-snapshot RF discriminator is inconclusive. Requested limits and the unvalidated zero field do not establish emitted-event counts. Hit rates and unresolved misses/truncations remain unknown. See docs/evidence/ble-counted-source-smoke/README.md and docs/evidence/ble-zero-counter-rf/README.md. -->
 
 #### Scenario: Evaluation result is inspected
 - **WHEN** event detection is assessed

@@ -24,3 +24,12 @@ until the independent source-count gate passes.
 Physical proof: 100 counted emissions plus capture timestamps and a saved waveform; offline proof: run the selected decoder on the pinned capture and compare output to the known payload. No decoder or protocol support is assumed in advance.
 
 Required outcome: At least 100 deliberately emitted repeat events with ground-truth counts and capture hit rate; a decoding claim includes a complete waveform and verified payload.
+
+## Subsequent diagnostic checkpoint
+
+[Timer source diagnostics](docs/evidence/ble-duration-source-diagnostics/README.md)
+observe termination events with actual count zero. The [ten-episode RF
+discriminator](docs/evidence/ble-zero-counter-rf/README.md) preserves 262
+snapshots but yields no CRC-valid owned packet. Its null result is inconclusive,
+and its scheduling deviation remains recorded. These diagnostics establish no
+≥100-event denominator, hit rate or task 1.1/1.2 acceptance.

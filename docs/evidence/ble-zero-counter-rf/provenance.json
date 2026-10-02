@@ -71,6 +71,9 @@
     "sources/zero-counter-10/preflight.json": "bb4431d5720301d3c0319694c40efca093243edef7033602708c572209783e82",
     "sources/zero-counter-10/source-control.jsonl": "7faaf4cdab277d36c9df936cff870bc7a92ee62eb911428d6dff7a93993513b8",
     "sources/zero-counter-10/source-operation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "schedule-extension.json": "a6ae442c608451a79ec47828769993424367dd6428edc060bcbae6613a55df08"
-  }
+    "schedule-extension.json": "a6ae442c608451a79ec47828769993424367dd6428edc060bcbae6613a55df08",
+    "acquisition-supervisor.py": "fb7d3e9b076040a74b409fe62d910f25cc7c6ffac6eff4335148772e2be0233a"
+  },
+  "acquisition_supervisor_sha256": "fb7d3e9b076040a74b409fe62d910f25cc7c6ffac6eff4335148772e2be0233a",
+  "monitor_ready_before_receiver": "Supervisor waits for validated MONITOR_READY before starting receiver; published code and operation log, no separate monotonic READY timestamp"
 }

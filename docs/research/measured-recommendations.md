@@ -1,6 +1,6 @@
 # What these receivers can usefully do
 
-Checkpoint: 2026-10-01. Use the attached RTL-SDR Blog V4 for continuous
+Checkpoint: 2026-10-02 UTC. Use the attached RTL-SDR Blog V4 for continuous
 HF/VHF/UHF work. Use this original ESP32 for experimental short snapshots
 and repeated 2.4 GHz signal observation, with verified owned BLE packets and explicit limits.
 Its installed UART path misses almost all elapsed RF time. FPGA work should
@@ -64,7 +64,7 @@ Preamble/access hard-decision errors, source API/wire-type mismatch, uncalibrate
 frequency offsets and the missing 100-emission denominator remain explicit.
 This is a useful DSP experiment and specific reception proof, with large gaps.
 
-A [physical Bluetooth monitor](docs/evidence/ble-dumpcap-source/README.md) now verifies accepted source settings. [Three finite source diagnostics](docs/evidence/ble-counted-source-smoke/README.md) accept commands but supply no actual completed-event count. The reporting protocol is ready; receiver hit-rate trials remain pending on a source counter independent of the ESP decoder.
+A [physical Bluetooth monitor](docs/evidence/ble-dumpcap-source/README.md) now verifies accepted source settings. [Three finite source diagnostics](docs/evidence/ble-counted-source-smoke/README.md) accept commands but supply no actual completed-event count. [Timer diagnostics](docs/evidence/ble-duration-source-diagnostics/README.md) now observe termination events with an actual zero completed-count field. A [ten-episode RF discriminator](docs/evidence/ble-zero-counter-rf/README.md) finds no CRC-valid owned packet in 262 retained snapshots; this null is inconclusive and does not negate the earlier five verified packets. The reporting protocol is ready; receiver hit-rate trials remain pending on a verified source count independent of the ESP decoder.
 
 ## FPGA decision so far
 
