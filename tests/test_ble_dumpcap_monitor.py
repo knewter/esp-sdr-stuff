@@ -145,6 +145,55 @@ class DumpcapMonitorTests(unittest.TestCase):
         self.assertEqual(failed['status'], 'producer_failed')
         self.assertEqual(failed['producer_returncode'], 7)
 
+    def test_delayed_header_gets_capture_time_only_with_explicit_startup_budget(self):
+        raw = global_header()+packet_record(hci_command(0x200a, b'\1'))
+        command = [sys.executable, '-c',
+                   'import sys,time;time.sleep(.8);sys.stdout.buffer.write('+repr(raw)+');'
+                   'sys.stdout.flush();time.sleep(.4)']
+        with contextlib.redirect_stdout(io.StringIO()):
+            original = capture_command(command, .4, grace=.4)
+            phased = capture_command(command, .4, grace=.4, readiness_timeout=2)
+        self.assertEqual(original['status'], 'host_deadline')
+        self.assertNotIn('deadline_policy', original)
+        self.assertEqual(phased['status'], 'completed')
+        self.assertEqual(len(phased['records']), 1)
+        self.assertEqual(phased['deadline_policy'], 'bounded_readiness_then_capture')
+        self.assertEqual(phased['active_total_bound_seconds'], 2.8)
+        self.assertLess(phased['supervisor_started_monotonic_ns'], phased['validated_header_ready_monotonic_ns'])
+        self.assertLess(phased['validated_header_ready_monotonic_ns'], phased['startup_deadline_monotonic_ns'])
+        self.assertLess(phased['validated_header_ready_monotonic_ns'], phased['capture_deadline_monotonic_ns'])
+        self.assertGreaterEqual(phased['readiness_elapsed_seconds'], .8)
+        self.assertTrue(original['producer_reaped'])
+        self.assertTrue(phased['producer_reaped'])
+
+    def test_phased_startup_and_post_header_hangs_both_fail_and_reap(self):
+        delayed = [sys.executable, '-c', 'import time;time.sleep(30)']
+        with contextlib.redirect_stdout(io.StringIO()):
+            startup = capture_command(delayed, .1, grace=.1, readiness_timeout=.1)
+            capture = capture_command(self.producer(global_header(), 'time.sleep(30)'),
+                                      .1, grace=.1, readiness_timeout=1)
+        self.assertEqual(startup['status'], 'startup_deadline')
+        self.assertNotIn('validated_header_ready_monotonic_ns', startup)
+        self.assertEqual(capture['status'], 'host_deadline')
+        for result in (startup, capture):
+            self.assertTrue(result['producer_reaped'])
+            self.assertLess(result['elapsed_s'], 3)
+
+    def test_invalid_startup_budget_refused_before_producer_launch(self):
+        for value in (True, '10', 0, -.1, 61, float('inf'), float('nan')):
+            with self.subTest(value=value), patch('ble_dumpcap_monitor.subprocess.Popen') as launch:
+                with self.assertRaises(ValueError):
+                    capture_command(['never'], 30, readiness_timeout=value)
+                launch.assert_not_called()
+
+    def test_phased_total_budget_refuses_invalid_duration_or_grace(self):
+        for seconds, grace in ((True, 5), (0, 5), (3601, 5), (float('nan'), 5),
+                               (30, True), (30, -1), (30, 61), (30, float('inf'))):
+            with self.subTest(seconds=seconds, grace=grace), patch('ble_dumpcap_monitor.subprocess.Popen') as launch:
+                with self.assertRaises(ValueError):
+                    capture_command(['never'], seconds, grace=grace, readiness_timeout=10)
+                launch.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()

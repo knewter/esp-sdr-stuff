@@ -8,7 +8,7 @@ import re
 import subprocess
 import uuid
 
-from ble_dumpcap_monitor import capture_command, dumpcap_command
+from ble_dumpcap_monitor import capture_command, dumpcap_command, validate_readiness_timeout
 
 
 def container_command(name, image_id, executable, seconds):
@@ -61,10 +61,16 @@ def resolve_image():
 def main():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--seconds', type=float, default=60)
+    cli.add_argument('--readiness-timeout', type=float,
+                     help='Opt in to bounded startup followed by bounded capture; default timing unchanged')
     cli.add_argument('--output', type=Path, required=True)
     args = cli.parse_args()
     if not .1 <= args.seconds <= 3600 or args.output.exists():
         cli.error('bounded seconds and a fresh output path required')
+    try:
+        validate_readiness_timeout(args.readiness_timeout)
+    except ValueError:
+        cli.error('Use a finite readiness timeout from 0.1 to 60 seconds')
     name = 'esp-sdr-ble-monitor-'+uuid.uuid4().hex
     try:
         # dumpcap_command resolves only the flake's executable; no socket opens.
@@ -74,7 +80,8 @@ def main():
     except (ValueError, OSError, subprocess.SubprocessError):
         cli.error('pinned monitor image or Docker unavailable; no capture started')
     record = capture_command(command, args.seconds,
-                             producer_cleanup=lambda: remove_owned_container(name))
+                             producer_cleanup=lambda: remove_owned_container(name),
+                             readiness_timeout=args.readiness_timeout)
     record['transport'] = 'Nix dumpcap owned NET_RAW container stdout pipe'
     record['container_image_id'] = image_id
     record['container_host_mounts'] = []

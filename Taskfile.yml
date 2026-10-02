@@ -189,6 +189,11 @@ tasks:
     cmds:
       - python3 tools/ble_dumpcap_container_monitor.py {{.CLI_ARGS}}
 
+  capture:ble-monitor:test:
+    desc: Offline pcap, bounded monitor timers, cancellation and scoped cleanup checks
+    cmds:
+      - python3 -m unittest discover -s tests -p 'test_ble_dumpcap*.py'
+
   plot:rds:
     desc: Plot sanitized RDS decoder results
     cmds:

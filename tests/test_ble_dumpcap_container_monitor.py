@@ -19,6 +19,31 @@ EXECUTABLE = '/nix/store/test-wireshark/bin/dumpcap'
 
 
 class ContainerMonitorTests(unittest.TestCase):
+    def test_phased_monitor_cancellation_before_and_after_header_reaps_and_cleans(self):
+        from test_ble_dumpcap_monitor import global_header
+        previous = signal.getsignal(signal.SIGTERM)
+        for header in (b'', global_header()):
+            code = ('import os,signal,sys,time;sys.stdout.buffer.write('+repr(header)+');'
+                    'sys.stdout.flush();time.sleep(.1);os.kill(os.getppid(),signal.SIGTERM);time.sleep(30)')
+            calls = []
+            with contextlib.redirect_stdout(io.StringIO()):
+                result = capture_command([sys.executable, '-c', code], 1, readiness_timeout=1,
+                                         producer_cleanup=lambda: calls.append('removed') or True)
+            self.assertEqual(result['status'], 'interrupted')
+            self.assertEqual(calls, ['removed'])
+            self.assertTrue(result['producer_reaped'])
+            self.assertTrue(result['owned_container_removed'])
+            self.assertIs(signal.getsignal(signal.SIGTERM), previous)
+
+    def test_phased_completion_still_requires_verified_container_cleanup(self):
+        from test_ble_dumpcap_monitor import global_header
+        command = [sys.executable, '-c', 'import sys;sys.stdout.buffer.write('+repr(global_header())+')']
+        with contextlib.redirect_stdout(io.StringIO()):
+            result = capture_command(command, 1, readiness_timeout=1, producer_cleanup=lambda: False)
+        self.assertEqual(result['status'], 'container_cleanup_failed')
+        self.assertTrue(result['producer_reaped'])
+        self.assertFalse(result['owned_container_removed'])
+
     def test_real_sigterm_during_capture_runs_cleanup_and_reaps_producer(self):
         from test_ble_dumpcap_monitor import global_header
         previous = signal.getsignal(signal.SIGTERM)

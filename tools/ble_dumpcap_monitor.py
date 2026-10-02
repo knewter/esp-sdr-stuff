@@ -2,6 +2,7 @@
 """Bounded dumpcap-to-pipe Bluetooth Monitor fallback; store sanitized metadata only."""
 import argparse
 import json
+import math
 import os
 from pathlib import Path
 import selectors
@@ -93,8 +94,21 @@ def dumpcap_command(seconds):
             '-s', str(MAX_PACKET), '-a', f'duration:{seconds:g}', '-w', '-']
 
 
-def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS, producer_cleanup=None):
+def validate_readiness_timeout(value):
+    if value is not None and (type(value) not in (int, float) or
+                              not math.isfinite(value) or not .1 <= value <= 60):
+        raise ValueError('readiness_timeout_must_be_finite_and_bounded')
+    return value
+
+
+def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS, producer_cleanup=None,
+                    readiness_timeout=None):
     """Run a bounded producer. Tests substitute a synthetic stdout-only process."""
+    validate_readiness_timeout(readiness_timeout)
+    if readiness_timeout is not None:
+        for value, lower, upper in ((seconds, .1, 3600), (grace, 0, 60)):
+            if type(value) not in (int, float) or not math.isfinite(value) or not lower <= value <= upper:
+                raise ValueError('phased_capture_budget_must_be_finite_and_bounded')
     parser = MonitorPcap()
     record = {'schema': 1, 'kind': 'read-only sanitized HCI0 advertising control',
               'transport': 'dumpcap classic-pcap stdout pipe', 'hci_channel': 2,
@@ -104,6 +118,15 @@ def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS, produce
               'limitations': 'HCI control-plane evidence only. Unknown monitor/socket loss. Unrelated traffic and addresses discarded before storage; libpcap Bluetooth monitor statistics cannot prove loss-free capture.'}
     proc = None
     started = time.monotonic()
+    absolute_until = (started+readiness_timeout+seconds+grace
+                      if readiness_timeout is not None else started+seconds+grace)
+    if readiness_timeout is not None:
+        record.update(deadline_policy='bounded_readiness_then_capture',
+                      readiness_timeout_seconds=readiness_timeout,
+                      capture_duration_seconds=seconds, shutdown_grace_seconds=grace,
+                      active_total_bound_seconds=readiness_timeout+seconds+grace,
+                      supervisor_started_monotonic_ns=int(started*1e9),
+                      startup_deadline_monotonic_ns=int((started+readiness_timeout)*1e9))
     status = 'starting'
     interrupted = False
     def request_stop(signum, _):
@@ -117,14 +140,15 @@ def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS, produce
         print('MONITOR_STARTING dumpcap stdout pipe; capture readiness pending', flush=True)
         with selectors.DefaultSelector() as selector:
             selector.register(proc.stdout, selectors.EVENT_READ)
-            until = started+seconds+grace
+            until = started+readiness_timeout if readiness_timeout is not None else absolute_until
             ready_announced = False
             while True:
                 if interrupted:
                     status = 'interrupted'
                     break
                 if time.monotonic() >= until:
-                    status = 'host_deadline'
+                    status = ('startup_deadline' if readiness_timeout is not None and not ready_announced
+                              else 'host_deadline')
                     break
                 events = selector.select(min(.2, max(0, until-time.monotonic())))
                 if not events:
@@ -136,6 +160,15 @@ def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS, produce
                     break
                 incoming = parser.feed(chunk)
                 if parser.order is not None and not ready_announced:
+                    ready_time = time.monotonic()
+                    if readiness_timeout is not None:
+                        if ready_time >= until:
+                            record['records'].extend(incoming[:max(0, record_limit-len(record['records']))])
+                            status = 'startup_deadline'
+                            break
+                        until = min(absolute_until, ready_time+seconds+grace)
+                        record['readiness_elapsed_seconds'] = ready_time-started
+                        record['capture_deadline_monotonic_ns'] = int(until*1e9)
                     record['validated_header_ready_monotonic_ns'] = time.monotonic_ns()
                     print('MONITOR_READY validated DLT254 pcap header; sanitized metadata only', flush=True)
                     ready_announced = True
@@ -200,11 +233,18 @@ def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS, produce
 def main():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--seconds', type=float, default=60)
+    cli.add_argument('--readiness-timeout', type=float,
+                     help='Opt in to a separate bounded header-startup timer (0.1–60 seconds)')
     cli.add_argument('--output', type=Path, required=True)
     args = cli.parse_args()
     if not .1 <= args.seconds <= 3600 or args.output.exists():
         cli.error('Use bounded seconds and a fresh output path')
-    record = capture_command(dumpcap_command(args.seconds), args.seconds)
+    try:
+        validate_readiness_timeout(args.readiness_timeout)
+    except ValueError:
+        cli.error('Use a finite readiness timeout from 0.1 to 60 seconds')
+    record = capture_command(dumpcap_command(args.seconds), args.seconds,
+                             readiness_timeout=args.readiness_timeout)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open('x') as sink:
         json.dump(record, sink, indent=2)
