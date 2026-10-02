@@ -187,9 +187,10 @@
         "docs/evidence/efinity-host-python-independent-review/README.md",
         "docs/evidence/efinity-compile-smoke-001/README.md",
         "docs/evidence/efinity-compile-smoke-002/README.md",
-        "docs/evidence/efinity-compiler-independent-review/README.md"
+        "docs/evidence/efinity-compiler-independent-review/README.md",
+        "docs/evidence/efinity-compiler-independent-review/actual-002-review.md"
       ],
-      "reviewRevision": "ae381eca9c49710a151a1716d3c9c7d0461c0042"
+      "reviewRevision": "4cbcb77ffdc859734d2b196fa7781585df9aa5a1"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",

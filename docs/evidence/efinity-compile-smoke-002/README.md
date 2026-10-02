@@ -34,7 +34,7 @@ The bundled C++ library compatibility warning remains visible privately; the
 vendor library was not removed or replaced. **51 focused helper tests pass**.
 
 [Sanitized receipt](results.json) binds the actual source, helper, runtime and
-fixture hashes. [Independent review](../efinity-compiler-independent-review/README.md)
+fixture hashes. [Independent actual-result review](../efinity-compiler-independent-review/actual-002-review.md)
 retains preflight guards and actual-result replay. Vendor inputs, raw logs and
 generated bitstreams remain ignored and private.
 
