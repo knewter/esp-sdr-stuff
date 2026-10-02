@@ -435,7 +435,11 @@ def runtime(store, action, command):
     require(command, 'Supply an explicit command after --; no hardware command is started automatically')
     if command[0] == '@forgix-python':
         require(bool(env.get('FORGIX_PYTHON')), 'The pinned Forgix Python is unavailable; enter the Forgix shell')
-        command = [env['FORGIX_PYTHON'], *command[1:]]
+        env_tool = shutil.which('env')
+        require(env_tool is not None and Path(env_tool).resolve().is_relative_to('/nix/store'), 'The pinned environment helper is unavailable; enter the Forgix Nix shell')
+        # setup.sh runs first inside FHS. Remove its Python variables only
+        # for the explicit host process and descendants; other vendor settings stay.
+        command = [env_tool, '-u', 'PYTHONHOME', '-u', 'PYTHONPATH', env['FORGIX_PYTHON'], '-E', '-s', *command[1:]]
     private_dir(store.path / 'logs')
     log = store.path / 'logs' / (time.strftime('%Y%m%d-%H%M%S') + '-' + uuid.uuid4().hex + '.log')
     try:

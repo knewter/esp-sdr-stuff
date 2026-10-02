@@ -213,4 +213,23 @@ class Bootstrap(unittest.TestCase):
         with self.assertRaisesRegex(b.Refusal,'metadata bound'):
             with b.archive_entries(self.archive):pass
 
+    def test_pinned_host_alias_ignores_vendor_python_environment(self):
+        self.install();seen=[]
+        def run(command,env,output,timeout,store):seen.append((command,env));return 0
+        with patch.dict(os.environ,{'FORGIX_PYTHON':'/nix/store/pinned/bin/python3','PYTHONHOME':'vendor-home','PYTHONPATH':'vendor-path'}),patch.object(b.shutil,'which',side_effect=lambda name:'/nix/store/coreutils/bin/env' if name=='env' else '/nix/store/fhs/bin/forgix-efinity'),patch.object(b,'run_owned',side_effect=run):
+            r,code=b.runtime(self.store,'run',['@forgix-python','-c','import litex'])
+        self.assertEqual(code,0);self.assertEqual(seen[0][0],['/nix/store/fhs/bin/forgix-efinity','/nix/store/coreutils/bin/env','-u','PYTHONHOME','-u','PYTHONPATH','/nix/store/pinned/bin/python3','-E','-s','-c','import litex'])
+        # FHS setup sees the vendor environment; the explicit env command removes only Python variables afterward.
+        self.assertEqual(seen[0][1]['PYTHONHOME'],'vendor-home');self.assertEqual(seen[0][1]['PYTHONPATH'],'vendor-path')
+    def test_vendor_check_has_no_host_interpreter_isolation_flags(self):
+        self.install();seen=[]
+        with patch.object(b.shutil,'which',return_value='/nix/store/fhs/bin/forgix-efinity'),patch.object(b,'run_owned',side_effect=lambda command,*args:seen.append(command) or 0):b.runtime(self.store,'check',[])
+        self.assertNotIn('-E',seen[0]);self.assertNotIn('-s',seen[0]);self.assertEqual(seen[0][-1],'--help')
+
+    def test_missing_or_ambient_env_helper_refuses_before_launch(self):
+        self.install()
+        for candidate in (None,'/usr/bin/env'):
+            with patch.dict(os.environ,{'FORGIX_PYTHON':'/nix/store/pinned/bin/python3'}),patch.object(b.shutil,'which',side_effect=lambda name: candidate if name=='env' else '/nix/store/fhs/bin/forgix-efinity'),patch.object(b,'run_owned',side_effect=AssertionError('must not launch')):
+                with self.assertRaisesRegex(b.Refusal,'pinned environment helper'):b.runtime(self.store,'run',['@forgix-python','-c','import litex'])
+
 if __name__=='__main__':unittest.main()

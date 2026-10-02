@@ -129,7 +129,13 @@ compilation through `--build-dir` must use the private runtime below.
 `forgix:efinity:run -- COMMAND ARGUMENTS` runs an explicitly supplied
 command in that selected wrapper and retains its output privately. For example,
 `forgix:efinity:run -- @forgix-python tools/forgix_toolchain_check.py --build-dir ...`
-uses the pinned host Python and still requires all the physical declarations below. No command here chooses or
+uses the pinned host Python with `-E -s`, after the Nix `env` helper removes
+vendor `PYTHONHOME`/`PYTHONPATH` for that command and its descendants. This
+prevents vendor Python paths breaking Nix host CLI tools and disables user-site
+imports. HOME, PATH and the remaining vendor environment stay unchanged.
+The ordinary vendor CLI check retains its complete setup environment; the
+full host check also verifies vendor Python help from the isolated host path. This command
+still requires all the physical declarations below. No command here chooses or
 programs a hardware device automatically. Captured setup/command output stays under `.vendor/efinity/logs`. The vendor
 may also create user logs in `~/.efinity`; HOME remains unchanged, and those
 files and their permissions are not verified until a legitimate CLI runs.
