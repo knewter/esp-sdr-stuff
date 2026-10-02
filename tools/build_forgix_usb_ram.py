@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build only: committed, pinned finite RP2350 RAM USB diagnostic; never load."""
-import argparse,hashlib,json,os,signal,subprocess,time
+import argparse,hashlib,json,os,shutil,signal,subprocess,time
 from pathlib import Path
 from forgix_usb_ram_artifact import inspect_elf
 ROOT=Path(__file__).resolve().parents[1]
@@ -65,9 +65,14 @@ def main():
   if hashlib.sha256(subprocess.check_output(['git','show',commit+':'+name],cwd=ROOT)).hexdigest()!=digest:raise ValueError('source bytes differ from commit')
  build=fresh(Path(a.build));out=fresh(Path(a.output));log=out/'build.log';status={'kind':'Forgix synthetic USB RAM build only','status':'failed','hardware_opened':False,'source_commit':commit,'source_sha256':hashes,'sdk_revision':SDK,'tinyusb_revision':TINY,'sdk_path':str(sdk)}
  try:
+  compiler=Path(shutil.which('arm-none-eabi-gcc')).resolve()
+  if not str(compiler).startswith('/nix/store/'):raise ValueError('Nix ARM compiler required')
+  status.update(compiler_executable=str(compiler),compiler_executable_sha256=sha(compiler),compiler_version=subprocess.check_output([str(compiler),'--version'],text=True).splitlines()[0],sdk_nar_hash=subprocess.check_output(['nix','hash','path',str(sdk)],text=True).strip())
+  project=build/'source';project.mkdir(mode=0o700)
+  for name in FILES[:4]:(project/Path(name).name).write_bytes((ROOT/name).read_bytes())
   source_hash=hashlib.sha256(json.dumps(hashes,sort_keys=True).encode()).hexdigest()
   (build/'build_identity.h').write_text('#define BUILD_SOURCE_SHA256 "'+source_hash+'"\n')
-  execute(['cmake','-S',str(ROOT/'firmware/forgix-usb-ram'),'-B',str(build),'-G','Ninja','-DCMAKE_BUILD_TYPE=Release','-DCMAKE_C_FLAGS=-I'+str(build)],log,ROOT)
+  execute(['cmake','-S',str(project),'-B',str(build),'-G','Ninja','-DCMAKE_BUILD_TYPE=Release','-DCMAKE_C_FLAGS=-I'+str(build)],log,ROOT)
   execute(['cmake','--build',str(build),'--parallel',str(a.jobs)],log,ROOT)
   elf=build/'forgix_usb_ram.elf';data=elf.read_bytes()
   (out/elf.name).write_bytes(data)
@@ -76,8 +81,11 @@ def main():
   (out/'forgix_usb_ram.map').write_bytes(maps[0].read_bytes())
   for name,args in [('symbols.txt',['arm-none-eabi-readelf','-W','-l','-S','-s',str(elf)]),('disassembly.txt',['arm-none-eabi-objdump','-d',str(elf)])]:
    with (out/name).open('wb') as f:subprocess.run(args,stdout=f,stderr=subprocess.STDOUT,check=True,timeout=30)
+  if any(sha(ROOT/name)!=digest for name,digest in hashes.items()):raise ValueError('inputs changed during build')
+  if any(sha(project/Path(name).name)!=hashes[name] for name in FILES[:4]):raise ValueError('staged project changed during build')
+  status['inputs_unchanged_after_build']=True
   report=inspect_elf(data)
-  status.update(status='built_layout_guard_passed',build_source_sha256=source_hash,layout=report,compiler_version=subprocess.check_output(['arm-none-eabi-gcc','--version'],text=True).splitlines()[0],sdk_nar_hash=subprocess.check_output(['nix','hash','path',str(sdk)],text=True).strip())
+  status.update(status='built_layout_guard_passed',build_source_sha256=source_hash,layout=report)
  except BaseException as e:
   status['error_kind']=type(e).__name__;status['error']=str(e);raise
  finally:

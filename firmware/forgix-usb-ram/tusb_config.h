@@ -1,6 +1,11 @@
 #pragma once
 #define CFG_TUSB_MCU OPT_MCU_RP2040
+#ifndef CFG_TUSB_OS
 #define CFG_TUSB_OS OPT_OS_NONE
+#endif
+#if CFG_TUSB_OS != OPT_OS_NONE
+#error "This producer requires a single-owner OPT_OS_NONE build"
+#endif
 #define CFG_TUSB_RHPORT0_MODE (OPT_MODE_DEVICE | OPT_MODE_FULL_SPEED)
 #define CFG_TUSB_MEM_ALIGN __attribute__((aligned(4)))
 #define CFG_TUD_ENDPOINT0_SIZE 64
