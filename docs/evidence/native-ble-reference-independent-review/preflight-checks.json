@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "checked_utc": "2026-10-02T09:16:26.153611+00:00",
+  "scope": "offline prehardware source, build, image and supervisor review",
+  "result": "passed_for_prospective_native_observer_diagnostic",
+  "firmware_source_commit": "e2877280b0a97dd8e3feae419b58a18c9a960ef0",
+  "root_tooling_revision": "64913eeb75c5fb49a1dbfba9e582022354dfeff7",
+  "source_sha256": {
+    "tools/build_native_ble_reference.py": "9d2db340d9b751955c8370c546f3ae9eaf6a1b67ecf860850857d2629daf1291",
+    "tools/native_ble_reference.py": "d525838b4f7f0dae10d7834b7d263ef053553aeb9642fa39094f7c7ef05311ac",
+    "tests/test_native_ble_reference.py": "4d3a3eced631a2d99ce261bbf387f86a64e092606afdfcc00edb44b90ff384f7",
+    "firmware/native-ble-reference/main/privacy_crypto.c": "13be5120668d4d4bcd2b52311d6518230526093b3ba89fe326dcb5db57967a29",
+    ".scratch/run_native_reference.py": "903823c371fbc600108c5b2ea9605af84f698c50bd8f72eb8f95780ac3b049f3",
+    ".scratch/test_native_supervisor.py": "c22ac81cb1fa83e6a2f50872b330ad713de0cec4233d979cbcd76285d23b946a"
+  },
+  "independent_checks": {
+    "manual_image_checksums_and_digests": true,
+    "partition_md5_and_exact_layout": true,
+    "recorded_and_current_source_bytes_match": true,
+    "actual_native_artifact_guard": true,
+    "final_private_supervisor_tests": {
+      "passed": 7,
+      "seconds": 0.004
+    },
+    "real_psa_derivation_log": {
+      "derivation": "/nix/store/10kfx83ykrxijwc4nadvk7ry56sd5gxd-native-ble-real-psa-check.drv",
+      "passed": 21,
+      "skipped": 0,
+      "seconds": 0.657,
+      "includes_real_mbedtls_psa_aes_known_answer_and_aliases": true,
+      "evidence": "independently inspected complete successful Nix build log"
+    },
+    "real_psa_task_execution": {
+      "command": "nix develop .#ci --command task native:ble:crypto-check",
+      "exit_code": 0,
+      "derivation": "/nix/store/69b6vssf547jbr86ng40g0xa9786ph2a-native-ble-real-psa-check.drv",
+      "passed": 21,
+      "skipped": 0
+    }
+  },
+  "supervisor_policy": {
+    "native_parent_never_signalled_or_force_killed": true,
+    "requires_natural_whole_process_group_quiescence": true,
+    "native_timeout_leaves_group_running_and_blocks_competing_restore": true,
+    "source_and_monitor_cleanup_before_native_wait": true,
+    "exact_nonce_validated_ready_before_source": true,
+    "successful_15_actual_hci_commands_required": true,
+    "source_closure_tail_strictly_greater_than_10_seconds": true
+  },
+  "sdk_source_nar": {
+    "revision": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+    "expected": "sha256-WGTSV8xTVzuuRGN7ihp5k+v0do97r3d0vTzlyD9TegQ=",
+    "evidence": "fixed-output Nix fetch plus firmware author actual source NAR rehash in private offline-verification.json; independent reviewer inspected, not a second full NAR rehash"
+  },
+  "limitations": {
+    "target_crypto_boot_selftest": "not executed at prehardware review",
+    "native_reception": "not measured at prehardware review",
+    "physical_restoration": "pending prospective trial",
+    "uart_json_transport_crc": false,
+    "protected_ble_pdu_replay": false,
+    "transmitted_event_count": null,
+    "SDR_acceptance": false,
+    "RF_acceptance_gate_closed": false,
+    "FPGA_acceptance": false
+  },
+  "hardware_access": false
+}

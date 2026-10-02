@@ -1,0 +1,45 @@
+{
+  "checked_utc": "2026-10-02T09:14:42.622397+00:00",
+  "result": "passed",
+  "source_commit": "e2877280b0a97dd8e3feae419b58a18c9a960ef0",
+  "source_tree_sha256": "aed0425d86a23d5e372324c2f998ac9cdacbd8c83e75ebd1da15e728154d614c",
+  "manifest_sha256": "abbc03b64c9cecc2c2d68b951e8a3f93d3a3c3d072b3f6ea789cc2096ba0ace3",
+  "build_info_sha256": "854d416552debec9b12232f1df62aabd95c60467691c17d8aad7258f8e32210f",
+  "sdkconfig_sha256": "9d6aace494924b86ee7f81d772cb955ade6c11262e5131e120e3775e525c3a8b",
+  "all_source_bytes_equal_recorded_git_and_current_files": true,
+  "independent_generated_config_parse": true,
+  "guarded_config_keys_unique": true,
+  "unrelated_compatibility_duplicate_keys_identical": 27,
+  "private_permissions": true,
+  "parts": [
+    {
+      "name": "bootloader.bin",
+      "offset": 4096,
+      "size": 17888,
+      "sha256": "bc2b126d70f5f93fb2ed21671c73c901c32f0b045d049d41187b5003ddf492a6",
+      "independent_segment_xor_checksum": true,
+      "independent_appended_sha256": true,
+      "target_and_dio_40mhz_4mb_header": true,
+      "segments": 3
+    },
+    {
+      "name": "partition-table.bin",
+      "offset": 32768,
+      "size": 3072,
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+      "partition_md5_and_exact_layout": true
+    },
+    {
+      "name": "native_ble_reference.bin",
+      "offset": 65536,
+      "size": 399632,
+      "sha256": "6bd79436b43d13663c6f098c6682f18b26830edf1f1a0696882f654e5e977960",
+      "independent_segment_xor_checksum": true,
+      "independent_appended_sha256": true,
+      "target_and_dio_40mhz_4mb_header": true,
+      "segments": 6,
+      "application_descriptor": true
+    }
+  ],
+  "hardware_access": false
+}
