@@ -100,6 +100,16 @@ class CountedReportTests(unittest.TestCase):
         logs = [r for r in self.logs if r['kind'] != 'termination_observed']
         with self.assertRaisesRegex(ValueError, 'expected_one_termination'): validate_source(logs, 255)
 
+    def test_extended_mode_cannot_qualify_legacy_counted_source(self):
+        logs = copy.deepcopy(self.logs)
+        next(r for r in logs if r['kind'] == 'configuration_requested')['event_properties'] = 0
+        with self.assertRaisesRegex(ValueError, 'source_configuration_mismatch'):
+            validate_source(logs, 255)
+        monitor = monitor_fixture()
+        next(r for r in monitor['records'] if r['kind'] == 'advertising_command')['event_properties'] = 0
+        with self.assertRaisesRegex(ValueError, 'monitor_parameters_mismatch'):
+            validate_monitor(monitor, self.source)
+
     def test_source_failures_do_not_silently_fall_back(self):
         changes = [('termination_observed', 'advertising_handle', 0), ('termination_observed', 'status', 0),
                    ('termination_observed', 'controller_reported_completed_extended_advertising_events', 100),

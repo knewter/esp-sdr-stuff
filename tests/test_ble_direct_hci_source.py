@@ -61,6 +61,46 @@ class FakeSocket:
 
 
 class DirectSourceTests(unittest.TestCase):
+    def test_extended_probe_changes_only_legacy_property_bit(self):
+        legacy = parameters(20, 1)
+        extended = parameters(20, 1, True)
+        self.assertEqual([i for i, (a, b) in enumerate(zip(legacy, extended)) if a != b], [1])
+        self.assertEqual(legacy[1:3], bytes.fromhex('1000'))
+        self.assertEqual(extended[1:3], bytes(2))
+        for kwargs in ({'count': 100}, {'duration_ms': 0}, {'handle': 239},
+                       {'interval_ms': 100}, {'unlimited_events': True}, {'extended': 'yes'}):
+            options = dict(interval_ms=20, count=255, start_delay=0, duration_ms=5000,
+                           handle=1, extended=True)
+            options.update(kwargs)
+            sock = FakeSocket()
+            with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
+                Source(sock, lambda record: None).run(**options)
+            self.assertEqual(sock.sent, [])
+
+    def test_extended_duration_count_preserved_without_relaxing_limit_gate(self):
+        sock = FakeSocket(termination=bytes.fromhex('043e06123c01ffffa0'))
+        records = []
+        result = Source(sock, records.append).run(20, 255, 0, 5000, 1, False, True)
+        self.assertEqual(result['status'], 'trial_failed')
+        self.assertFalse(result['controller_completed_count_verified'])
+        self.assertEqual(result['termination']['status'], 0x3c)
+        self.assertEqual(result['termination']['controller_reported_completed_extended_advertising_events'], 160)
+        self.assertTrue(result['cleanup_success'])
+        self.assertTrue(result['extended_mode_diagnostic_requested'])
+        self.assertEqual(result['event_properties'], 0)
+        self.assertEqual(sock.sent[0][4:], parameters(20, 1, True))
+        self.assertEqual(sock.sent[2][4:], bytes.fromhex('010101f401ff'))
+        self.assertEqual(sock.sent[-2][4:], bytes.fromhex('000101000000'))
+        self.assertEqual(sock.sent[-1][4:], b'\x01')
+
+    def test_invalid_extended_cli_profile_rejected_before_socket(self):
+        with patch.object(sys, 'argv', ['source', '--extended-mode-diagnostic']), \
+                patch('ble_direct_hci_source.socket.socket') as factory, \
+                redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as error:
+            main()
+        self.assertEqual(error.exception.code, 2)
+        factory.assert_not_called()
+
     def test_native_sockaddr_and_receive_filter_without_bluetooth_constants(self):
         self.assertEqual(raw_sockaddr(), struct.pack('=HHH', 31, 0, 0))
         self.assertEqual(len(event_filter()), 16)

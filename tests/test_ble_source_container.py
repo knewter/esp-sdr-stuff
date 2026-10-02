@@ -21,6 +21,14 @@ OPTIONS = ['--handle', '1', '--events', '0', '--unlimited-events', '--duration-m
 
 
 class SourceContainerTests(unittest.TestCase):
+    def test_extended_probe_passes_only_exact_bounded_profile(self):
+        options = ['--handle', '1', '--interval-ms', '20', '--events', '255',
+                   '--duration-ms', '5000', '--extended-mode-diagnostic']
+        command = wrapper.source_command(NAME, IMAGE, PYTHON, options)
+        self.assertEqual(command[-len(options):], options)
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            wrapper.source_command(NAME, IMAGE, PYTHON, ['--extended-mode-diagnostic'])
+
     def test_default_loads_archive_then_inspects_immutable_tag(self):
         with patch.object(Path,'is_file',return_value=True), \
                 patch.object(wrapper.subprocess,'run') as load, \
