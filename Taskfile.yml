@@ -91,6 +91,19 @@ tasks:
     cmds:
       - python3 tools/flash_trial.py {{.CLI_ARGS}}
 
+  firmware:register:build:
+    desc: Build the isolated register-observation artifact (Nix firmware shell; no hardware)
+    preconditions:
+      - sh: test -n "$ESP_SDR_IDF_PROVENANCE"
+        msg: Use nix develop .#firmware with explicit fresh build/output paths
+    cmds:
+      - python3 tools/build_esp_register_observation.py {{.CLI_ARGS}}
+
+  register:check:
+    desc: Check actual C acquisition/parser output and strict host validation (Nix CI shell; no hardware)
+    cmds:
+      - python3 -m unittest discover -s tests -p 'test_esp_register*.py'
+
   demo:esp:
     desc: Run the preserved ESP live spectrum demo and verify restoration
     cmds:
