@@ -203,6 +203,8 @@ def bind_wire(wire, rows, receipts):
     while len(accepted)<len(receipts):
         typed(line())
     protocol.require(len(accepted)==len(receipts),'Retained receipt prefix incomplete')
+    if receipts[-1]['receipt'].get('kind')=='end':
+        protocol.require(position==len(wire),'Unexpected UART bytes after terminal completion')
     return accepted
 
 

@@ -237,6 +237,17 @@ class ActualCReplay(unittest.TestCase):
         result['receipts'][0]['receipt']['records'][0]['selector']=42
         with self.assertRaises(protocol.ProtocolError):supervisor.capture_summary(result,private,0)
 
+    def test_rehashed_extra_wire_after_end_cannot_count_as_complete(self):
+        import hashlib
+        result,_,private=self.result()
+        path=private/'wire.bin'
+        raw=path.read_bytes()+b'unexpected suffix\n'
+        path.write_bytes(raw)
+        digest=hashlib.sha256(raw).hexdigest()
+        result.update(retained_wire_bytes=len(raw),consumed_uart_bytes=len(raw),retained_wire_sha256=digest)
+        result['wire_persistence'].update(saved_bytes=len(raw),saved_sha256=digest)
+        with self.assertRaises(protocol.ProtocolError):supervisor.capture_summary(result,private,0)
+
 
 class InstallIsolation(unittest.TestCase):
     def test_unknown_fuser_failure_never_opens_flash_writer(self):
