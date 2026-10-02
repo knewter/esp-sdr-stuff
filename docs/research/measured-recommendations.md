@@ -86,7 +86,7 @@ to this LX6 board.
 
 ## Remaining decisions
 
-The [user inventory](docs/evidence/user-equipment-inventory/README.md) reports no external RF equipment. A same-signal sensitivity ranking is deferred; a common path, mixer/LO, filters, losses and calibration would need to be recorded first. Forgix is reported attached but remains unidentified in USB; physical revision, clock and wiring remain unknown. [Preserve-first bring-up](docs/research/forgix-bringup.md) is prepared. Recommendations above describe the
+The [user inventory](docs/evidence/user-equipment-inventory/README.md) reports no external RF equipment. A same-signal sensitivity ranking is deferred; a common path, mixer/LO, filters, losses and calibration would need to be recorded first. Forgix is now identified in USB and its detected 2 MiB MCU flash range is [preserved and verified](docs/evidence/forgix-preservation/README.md); physical PCB revision, FPGA clock and header wiring remain unknown. [Preserve-first bring-up](docs/research/forgix-bringup.md) is prepared. Recommendations above describe the
 measured transport envelope and sourced hardware limits; unverified
 applications and incomplete proposal tasks remain open. AtomVM is deferred
 by user and excluded from the current goal.

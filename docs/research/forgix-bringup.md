@@ -1,6 +1,6 @@
 # Forgix identification and firmware preservation
 
-This is a sourced bring-up recipe, not a measurement of the attached board. No USB, serial, SWD or FPGA interface was opened during this research. The board must be identified by its unplug/replug USB delta before a port or programmer is selected.
+This recipe was prepared from primary sources without hardware access. A later [physical identification and MCU preservation trial](docs/evidence/forgix-preservation/README.md) verifies software ROM entry, two matching full-range flash reads and factory-application return; FPGA programming remains untested. The board must be identified by its unplug/replug USB delta before a port or programmer is selected.
 
 ## First physical step
 

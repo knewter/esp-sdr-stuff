@@ -1,0 +1,38 @@
+{
+  "vid": "2e8a",
+  "pid": "0009",
+  "product": "Pico",
+  "topology": "3-3",
+  "bus": 3,
+  "device": 26,
+  "port": "/dev/ttyACM2",
+  "commands_sent": [
+    "HELLO",
+    "STATUS"
+  ],
+  "firmware_written": false,
+  "fpga_programming_requested": false,
+  "serial_closed": true,
+  "responses": [
+    {
+      "command": "HELLO",
+      "sequence": 1,
+      "response_type": 128,
+      "code": 0,
+      "detail": 0,
+      "bytes_written": 0,
+      "message": "forge-loader rp2350 ready",
+      "response_crc_valid": true
+    },
+    {
+      "command": "STATUS",
+      "sequence": 2,
+      "response_type": 128,
+      "code": 0,
+      "detail": 0,
+      "bytes_written": 0,
+      "message": "status",
+      "response_crc_valid": true
+    }
+  ]
+}

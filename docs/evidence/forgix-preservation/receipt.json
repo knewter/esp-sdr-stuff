@@ -1,0 +1,141 @@
+{
+  "flash_read_count": 2,
+  "complete_flash_bytes": 2097152,
+  "reads_byte_identical": true,
+  "flash_writes": 0,
+  "backups": [
+    {
+      "file": "forgix-original-a.bin",
+      "bytes": 2097152,
+      "mode": "0o600",
+      "sha256": "72b6e55bb321e3d1c11fd7aea5a2db5eb361ec3824c53d564c12b3a0455f91b4"
+    },
+    {
+      "file": "forgix-original-b.bin",
+      "bytes": 2097152,
+      "mode": "0o600",
+      "sha256": "72b6e55bb321e3d1c11fd7aea5a2db5eb361ec3824c53d564c12b3a0455f91b4"
+    }
+  ],
+  "schema": 1,
+  "evidence_class": "Physical MCU flash preservation and software boot-entry/application-return trial",
+  "capacity_method": "Pinned picotool guess_flash_size: decreasing power-of-two address wrap comparison; not independent JEDEC/BOM capacity measurement",
+  "flash_address_start": "0x10000000",
+  "flash_address_end_exclusive": "0x10200000",
+  "separate_device_verify_exit_code": 0,
+  "software_rom_entry_exit_code": 0,
+  "application_return_exit_code": 0,
+  "firmware_rewrite_or_restore_attempted": false,
+  "fpga_programming_requested": false,
+  "serial_closed": true,
+  "scope": "Detected RP flash range only; OTP, RAM and any separately stored FPGA configuration are excluded",
+  "steps": [
+    {
+      "utc": "2026-10-02T03:53:24.832064+00:00",
+      "command": [
+        "picotool",
+        "reboot",
+        "-u",
+        "-f",
+        "--bus",
+        "IDENTIFIED_DEVICE",
+        "--address",
+        "IDENTIFIED_DEVICE"
+      ],
+      "exit_code": 0,
+      "stdout": "The device was asked to reboot into BOOTSEL mode.",
+      "stderr": "",
+      "private_stdout_sha256": "ae94838c39b05bbbcd326b49d116063b501c09a0990a1d2b1c1ce8b44fd24900"
+    },
+    {
+      "utc": "2026-10-02T03:53:36.668416+00:00",
+      "command": [
+        "picotool",
+        "info",
+        "-a",
+        "--bus",
+        "IDENTIFIED_DEVICE",
+        "--address",
+        "IDENTIFIED_DEVICE"
+      ],
+      "exit_code": 0,
+      "stdout": "Program Information\n name:                   forge_fpga_loader\n features:               USB stdin / stdout\n binary start:           0x10000000\n binary end:             0x10006084\n target chip:            RP2350\n image type:             ARM Secure\n\nFixed Pin Information\n none\n\nBuild Information\n sdk version:            2.2.0\n pico_board:             pico2\n boot2_name:             boot2_w25q080\n build date:             May  1 2026\n build attributes:       Release\n\nMetadata Block 1\n address:                0x10000138\n next block address:     0x10006070\n block type:             image def\n target chip:            RP2350\n image type:             ARM Secure\n extra security:         not enabled\n\nMetadata Block 2\n address:                0x10006070\n next block address:     0x10000138\n block type:             ignored\n\nDevice Information\n type:                   RP2350\n revision:               A4\n package:                QFN60\n[unique identity redacted]\n flash devinfo:          0x0c00\n current cpu:            ARM\n available cpus:         ARM, RISC-V\n default cpu:            ARM\n secure boot:            0\n debug enable:           1\n secure debug enable:    1\n[unique identity redacted]\n boot type:              bootsel\n last booted partition:  slot 0\n diagnostic source:      slot 0\n last boot diagnostics:  0x0000500d\n reboot param 0:         0x00000000\n reboot param 1:         0xffffffff\n rom gitrev:             0xa8bfe860\n flash size:             2048K",
+      "stderr": "",
+      "private_stdout_sha256": "bf2a48c3dd1b635f4b169666ff4acb467a2f86421d5af24ebb25465769c60069"
+    },
+    {
+      "utc": "2026-10-02T03:53:59.670939+00:00",
+      "command": [
+        "picotool",
+        "save",
+        "-a",
+        "-v",
+        "/backups/forgix-original-a.bin",
+        "-t",
+        "bin",
+        "--bus",
+        "IDENTIFIED_DEVICE",
+        "--address",
+        "IDENTIFIED_DEVICE"
+      ],
+      "exit_code": 0,
+      "stdout": "Saving file:          [                              ]  0%\nSaving file:          [                              ]  1%\nSaving file:          [                              ]  2%\nSaving file:          [                              ]  3%\nSaving file:          [=                             ]  4%\nSaving file:          [=                             ]  5%\nSaving file:          [==                            ]  7%\nSaving file:          [==                            ]  8%\nSaving file:          [==                            ]  9%\nWrote 2097152 bytes to /backups/forgix-original-a.bin\nVerifying Flash:      [                              ]  0%\nVerifying Flash:      [                              ]  1%\nVerifying Flash:      [                              ]  2%\nVerifying Flash:      [                              ]  3%\nVerifying Flash:      [=                             ]  4%\nVerifying Flash:      [=                             ]  5%\nVerifying Flash:      [==                            ]  7%\nVerifying Flash:      [==                            ]  8%\nVerifying Flash:      [==                            ]  9%\n  OK",
+      "stderr": "",
+      "private_stdout_sha256": "094863d0e643e56442b48b022676b81f8b922afb9566f5c2dbea7e712827a3cb"
+    },
+    {
+      "utc": "2026-10-02T03:54:36.850214+00:00",
+      "command": [
+        "picotool",
+        "save",
+        "-a",
+        "-v",
+        "/backups/forgix-original-b.bin",
+        "-t",
+        "bin",
+        "--bus",
+        "IDENTIFIED_DEVICE",
+        "--address",
+        "IDENTIFIED_DEVICE"
+      ],
+      "exit_code": 0,
+      "stdout": "Saving file:          [                              ]  0%\nSaving file:          [                              ]  1%\nSaving file:          [                              ]  2%\nSaving file:          [                              ]  3%\nSaving file:          [=                             ]  4%\nSaving file:          [=                             ]  5%\nSaving file:          [==                            ]  7%\nSaving file:          [==                            ]  8%\nSaving file:          [==                            ]  9%\nWrote 2097152 bytes to /backups/forgix-original-b.bin\nVerifying Flash:      [                              ]  0%\nVerifying Flash:      [                              ]  1%\nVerifying Flash:      [                              ]  2%\nVerifying Flash:      [                              ]  3%\nVerifying Flash:      [=                             ]  4%\nVerifying Flash:      [=                             ]  5%\nVerifying Flash:      [==                            ]  7%\nVerifying Flash:      [==                            ]  8%\nVerifying Flash:      [==                            ]  9%\n  OK",
+      "stderr": "",
+      "private_stdout_sha256": "30b94f68249395fccf674f96c292ca4b48d4e1777e5f2f69f642c10d8d4d4ec6"
+    },
+    {
+      "utc": "2026-10-02T03:55:02.711837+00:00",
+      "command": [
+        "picotool",
+        "verify",
+        "/backups/forgix-original-a.bin",
+        "-t",
+        "bin",
+        "--bus",
+        "IDENTIFIED_DEVICE",
+        "--address",
+        "IDENTIFIED_DEVICE"
+      ],
+      "exit_code": 0,
+      "stdout": "Verifying Flash:      [                              ]  0%\nVerifying Flash:      [                              ]  1%\nVerifying Flash:      [                              ]  2%\nVerifying Flash:      [                              ]  3%\nVerifying Flash:      [=                             ]  4%\nVerifying Flash:      [=                             ]  5%\nVerifying Flash:      [==                            ]  7%\nVerifying Flash:      [==                            ]  8%\nVerifying Flash:      [==                            ]  9%\n  OK",
+      "stderr": "",
+      "private_stdout_sha256": "a8b04b9425515a3d498b62d8894ca40e5e5f0887db4417620be1fd6631a486ff"
+    },
+    {
+      "utc": "2026-10-02T03:55:20.118332+00:00",
+      "command": [
+        "picotool",
+        "reboot",
+        "-a",
+        "--bus",
+        "IDENTIFIED_DEVICE",
+        "--address",
+        "IDENTIFIED_DEVICE"
+      ],
+      "exit_code": 0,
+      "stdout": "The device was rebooted into application mode.",
+      "stderr": "",
+      "private_stdout_sha256": "ec01d4b1cb33d63c2cc601a53215453468ad30b007b147b0b732cc1f09d648d9"
+    }
+  ]
+}

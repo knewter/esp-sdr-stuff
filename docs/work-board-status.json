@@ -108,15 +108,16 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Identify Forgix USB interface after a known-data-cable/direct-host reconnect, then preserve MCU firmware before trials.",
-      "rationale": "User reports Forgix attached; descriptor-only survey found no newly identifiable interface. Pinned picotool is built and source-checked preservation steps are ready. Physical revision, clock and wiring remain unknown; no FPGA transport/programming has run.",
+      "next": "Inspect Forgix PCB/FPGA/oscillator markings and header wiring before selecting constraints or programming a synthetic transport.",
+      "rationale": "Factory USB interface and RP2350 ROM entry confirmed. Two detected full-range 2 MiB MCU reads match; separate verify and factory application return pass. FPGA revision/clock/wiring and transport remain unverified; no FPGA configuration or flash writes ran.",
       "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
       "evidence": [
         "docs/evidence/fpga-inventory/README.md",
-        "docs/evidence/user-equipment-inventory/README.md"
+        "docs/evidence/user-equipment-inventory/README.md",
+        "docs/evidence/forgix-preservation/README.md"
       ]
     },
     "the-two-receivers-have-a-measured-division-of-labor": {

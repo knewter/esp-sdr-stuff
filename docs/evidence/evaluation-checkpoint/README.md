@@ -30,7 +30,7 @@ explicitly deferred by the user.
 | Recovery | Complete for the preserved baseline and performed trials | User-confirmed cycle plus matching original boot accepted by independent review |
 | RF path | Three repeatable controlled pairs, filter/gain/tuning characterization and uncertainty | Known RF source/reference, attenuator inventory and a reproducible physical setup |
 | Burst reliability | At least 100 events with a recorded source count, complete hits and unresolved misses/truncations | An observable source counter independent of ESP decoding; requested intervals or event limits are insufficient |
-| FPGA feasibility | Actual board/electrical/clock inventory, synthetic sequence/CRC/stall measurements, conditional RF integration | Identify the reported attached Forgix USB interface and revision/wiring; PCI-card markings and programming interface remain unknown |
+| FPGA feasibility | Actual board/electrical/clock inventory, synthetic sequence/CRC/stall measurements, conditional RF integration | Forgix USB and MCU backup verified; PCB revision, oscillator and header wiring still needed; PCI-card details remain unknown |
 | Receiver comparison | Complete: fresh dipole FM/RDS, equipment inventory and independent review | Shared-signal sensitivity explicitly deferred; no conversion/reference equipment reported |
 
 The native corrected HCI MONITOR bind was denied. A capability-enabled
@@ -67,9 +67,7 @@ The user confirms actual ESP power cycling. [Fresh matching application boot](..
 and [independent review](../power-cycle-recovery-review/README.md) close recovery.
 [Current equipment inventory](../user-equipment-inventory/README.md) supplies a
 dipole antenna and reports no external RF equipment. [Fresh dipole reception](../rtl-dipole-rds/README.md)
-again decodes WXJC with FEC disabled. Forgix is reported attached but its USB
-interface remains unidentified; [preserve-first bring-up](../../research/forgix-bringup.md)
-is prepared and no FPGA firmware has been replaced.
+again decodes WXJC with FEC disabled. Forgix now has [verified USB identity and MCU flash preservation](../forgix-preservation/README.md); its factory application returns after the ROM round trip. PCB revision, oscillator and header wiring remain uninspected, and no FPGA firmware has been replaced.
 
 [Current-dipole independent review](../rtl-dipole-independent-review/README.md)
 replays the no-FEC output and accepts the original comparison tasks. No cross-band

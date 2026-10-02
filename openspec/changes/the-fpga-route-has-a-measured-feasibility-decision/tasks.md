@@ -20,3 +20,9 @@ Required outcome: An inventory plus sustained payload, loss/backlog and timing m
 Task 1.2 is grounded in [the pinned source review and reproducible budgets](docs/evidence/fpga-inventory/README.md). The bounded snapshot SPI route is selected for evaluation; DMA/SRAM reachability and sustained transport remain unverified.
 
 Task 1.1 remains open because physical Forgix revision/clock and PCI card electrical interfaces are not verified. Tasks 2.1–2.3 remain open: no connected FPGA transport has been selected or measured, and the published decision is partial. [Host survey](docs/evidence/fpga-inventory/host-survey.json) identifies the current blockers and [inventory report](docs/evidence/fpga-inventory/README.md) lists concrete physical inputs.
+
+[Physical MCU preservation](docs/evidence/forgix-preservation/README.md) now
+verifies Forgix factory USB identity, software ROM entry, two identical reads
+of the detected 2 MiB flash range, separate verification and original-application
+return. It closes no FPGA task: PCB revision, clock and header wiring remain
+uninspected; no FPGA sequence/CRC, sustained transport or RF integration ran.

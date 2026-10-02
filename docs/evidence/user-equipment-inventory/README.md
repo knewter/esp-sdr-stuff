@@ -27,3 +27,7 @@ identify a new RP235x or Forgix USB interface. Custom firmware, an unenumerated
 MCU or a power-only cable remain possible; no cause is established and no
 unknown serial port was opened. Physical revision, clock and wiring still need
 identification before FPGA programming.
+
+Later [Forgix identification and MCU preservation](../forgix-preservation/README.md)
+resolve the initial USB uncertainty. Earlier descriptor receipts and inventory
+remain historical; physical FPGA revision, clock and header wiring are still open.
