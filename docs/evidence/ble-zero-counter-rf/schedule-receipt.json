@@ -1,0 +1,10 @@
+{
+  "captures": 220,
+  "baseline_seconds": 5.658143615,
+  "tail_seconds": 8.620009836,
+  "all_ten_episodes_retained": true,
+  "monitor_closed": true,
+  "receiver_closed": true,
+  "physical_RF_count": null,
+  "no_capture_rate_claim": true
+}

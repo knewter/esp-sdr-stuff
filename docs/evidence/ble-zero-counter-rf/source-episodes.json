@@ -1,0 +1,452 @@
+[
+  {
+    "episode_id": "zero-counter-01",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709608811795504,
+      "utc": "2026-10-02T00:51:48.602244+00:00"
+    }
+  },
+  {
+    "episode_id": "zero-counter-02",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709615628858482,
+      "utc": "2026-10-02T00:51:55.419307+00:00"
+    }
+  },
+  {
+    "episode_id": "zero-counter-03",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709622368959921,
+      "utc": "2026-10-02T00:52:02.159408+00:00"
+    }
+  },
+  {
+    "episode_id": "zero-counter-04",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709629163079895,
+      "utc": "2026-10-02T00:52:08.953528+00:00"
+    }
+  },
+  {
+    "episode_id": "zero-counter-05",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709635896393921,
+      "utc": "2026-10-02T00:52:15.686842+00:00"
+    }
+  },
+  {
+    "episode_id": "zero-counter-06",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709642674321374,
+      "utc": "2026-10-02T00:52:22.464770+00:00"
+    }
+  },
+  {
+    "episode_id": "zero-counter-07",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709649413367351,
+      "utc": "2026-10-02T00:52:29.203816+00:00"
+    }
+  },
+  {
+    "episode_id": "zero-counter-08",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709656125638609,
+      "utc": "2026-10-02T00:52:35.916087+00:00"
+    }
+  },
+  {
+    "episode_id": "zero-counter-09",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709662868626399,
+      "utc": "2026-10-02T00:52:42.659075+00:00"
+    }
+  },
+  {
+    "episode_id": "zero-counter-10",
+    "source_returncode": 2,
+    "summary": {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 709669619785742,
+      "utc": "2026-10-02T00:52:49.410235+00:00"
+    }
+  }
+]

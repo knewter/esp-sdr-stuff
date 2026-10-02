@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "kind": "Explicit supplemental OFF acquisition; discontinuous segments",
+  "original_schedule_receipt": "schedule-receipt.json",
+  "original_tail_gate_passed": false,
+  "original_supervisor_exit_code": 1,
+  "original_failure": "Final schedule assertion: tail 8.620009836s is not >10s. All ten source episodes, receiver, monitor and cleanup completed before this assertion.",
+  "original_last_payload_monotonic_ns": 709678239860941,
+  "supplemental_first_command_monotonic_ns": 709732457710038,
+  "supplemental_last_payload_monotonic_ns": 709747774041955,
+  "final_source_socket_closed_monotonic_ns": 709669619851105,
+  "gap_seconds": 54.217849097,
+  "supplemental_span_seconds": 15.316331917,
+  "source_closure_to_supplemental_end_seconds": 78.15419085,
+  "supplemental_captures": 42,
+  "total_captures": 262,
+  "supplemental_receiver_exit_code": 0,
+  "sources_enabled_during_supplement": false,
+  "monitor_scope": "Main acquisition, all ten enables and final cleanup; not supplemental segment",
+  "seamless_continuous_tail_claimed": false,
+  "original_schedule_pass_retroactively_claimed": false,
+  "interpretation": "Supplement acquired under predeclared extension allowance; retain scheduling deviation and gap. RF inference remains null/inconclusive independently of tail interpretation."
+}

@@ -1,0 +1,10 @@
+ACQUISITION_READY
+capture=0 CRC=True
+capture=25 CRC=True
+capture=50 CRC=True
+capture=75 CRC=True
+capture=100 CRC=True
+capture=125 CRC=True
+capture=150 CRC=True
+capture=175 CRC=True
+capture=200 CRC=True

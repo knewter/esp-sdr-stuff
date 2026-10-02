@@ -1,0 +1,1041 @@
+{
+  "schema": 1,
+  "kind": "read-only sanitized HCI0 advertising control",
+  "transport": "dumpcap classic-pcap stdout pipe",
+  "hci_channel": 2,
+  "started_utc": "2026-10-02T00:51:36Z",
+  "independently_observed_air_emission_count": null,
+  "records": [
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902303422890000,
+      "monotonic_ns": 709603632527568
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902303526082000,
+      "monotonic_ns": 709603735804119
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902303526370000,
+      "monotonic_ns": 709603735979891
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902303530041000,
+      "monotonic_ns": 709603739659982
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902303530264000,
+      "monotonic_ns": 709603739866512
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902303534042000,
+      "monotonic_ns": 709603743637626
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902308594156000,
+      "monotonic_ns": 709608803864092
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902308594504000,
+      "monotonic_ns": 709608804144592
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902308598154000,
+      "monotonic_ns": 709608807790920
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902308598283000,
+      "monotonic_ns": 709608807891821
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902308602152000,
+      "monotonic_ns": 709608811769595
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902310340609000,
+      "monotonic_ns": 709610550222149
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902310344179000,
+      "monotonic_ns": 709610553802362
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902310344292000,
+      "monotonic_ns": 709610553890478
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902310348176000,
+      "monotonic_ns": 709610557783923
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902310348359000,
+      "monotonic_ns": 709610557950577
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902310352176000,
+      "monotonic_ns": 709610561871844
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902315411215000,
+      "monotonic_ns": 709615620871054
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902315411508000,
+      "monotonic_ns": 709615621118512
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902315415212000,
+      "monotonic_ns": 709615624816177
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902315415320000,
+      "monotonic_ns": 709615624903552
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902315419214000,
+      "monotonic_ns": 709615628816964
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902317088461000,
+      "monotonic_ns": 709617298121217
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902317092278000,
+      "monotonic_ns": 709617301893262
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902317092415000,
+      "monotonic_ns": 709617302074575
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902317096240000,
+      "monotonic_ns": 709617305925279
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902317096518000,
+      "monotonic_ns": 709617306137690
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902317100243000,
+      "monotonic_ns": 709617309894126
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902322151325000,
+      "monotonic_ns": 709622361050360
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902322151651000,
+      "monotonic_ns": 709622361284162
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902322155319000,
+      "monotonic_ns": 709622364929979
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902322155439000,
+      "monotonic_ns": 709622365033434
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902322159316000,
+      "monotonic_ns": 709622368934493
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902323870366000,
+      "monotonic_ns": 709624079987394
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902323874375000,
+      "monotonic_ns": 709624084025342
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902323874562000,
+      "monotonic_ns": 709624084148785
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902323878340000,
+      "monotonic_ns": 709624087942652
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902323878556000,
+      "monotonic_ns": 709624088148901
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902323882375000,
+      "monotonic_ns": 709624092023641
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902328945449000,
+      "monotonic_ns": 709629155127252
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902328945753000,
+      "monotonic_ns": 709629155411790
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902328949422000,
+      "monotonic_ns": 709629159147927
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902328949717000,
+      "monotonic_ns": 709629159320143
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902328953450000,
+      "monotonic_ns": 709629163043937
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902330624115000,
+      "monotonic_ns": 709630833755360
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902330627438000,
+      "monotonic_ns": 709630837114927
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902330627655000,
+      "monotonic_ns": 709630837256204
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902330631439000,
+      "monotonic_ns": 709630841086038
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902330631730000,
+      "monotonic_ns": 709630841364274
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902330635436000,
+      "monotonic_ns": 709630845089591
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902335678549000,
+      "monotonic_ns": 709635888265456
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902335678902000,
+      "monotonic_ns": 709635888520558
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902335682528000,
+      "monotonic_ns": 709635892411969
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902335682956000,
+      "monotonic_ns": 709635892593713
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902335686531000,
+      "monotonic_ns": 709635896271390
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902337388614000,
+      "monotonic_ns": 709637598315336
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902337392576000,
+      "monotonic_ns": 709637602225001
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902337392729000,
+      "monotonic_ns": 709637602353714
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902337396572000,
+      "monotonic_ns": 709637606185603
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902337396798000,
+      "monotonic_ns": 709637606413924
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902337400571000,
+      "monotonic_ns": 709637610177884
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902342456649000,
+      "monotonic_ns": 709642666330500
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902342456922000,
+      "monotonic_ns": 709642666538613
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902342460645000,
+      "monotonic_ns": 709642670254121
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902342460787000,
+      "monotonic_ns": 709642670393725
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902342464611000,
+      "monotonic_ns": 709642674226104
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902344121874000,
+      "monotonic_ns": 709644331495787
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902344125672000,
+      "monotonic_ns": 709644335296236
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902344125790000,
+      "monotonic_ns": 709644335385334
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902344129634000,
+      "monotonic_ns": 709644339254814
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902344129867000,
+      "monotonic_ns": 709644339459901
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902344133670000,
+      "monotonic_ns": 709644343285969
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902349195743000,
+      "monotonic_ns": 709649405407735
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902349195978000,
+      "monotonic_ns": 709649405581764
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902349199706000,
+      "monotonic_ns": 709649409353719
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902349199872000,
+      "monotonic_ns": 709649409467675
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902349203706000,
+      "monotonic_ns": 709649413320142
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902350835125000,
+      "monotonic_ns": 709651044789551
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902350838770000,
+      "monotonic_ns": 709651048437462
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902350839018000,
+      "monotonic_ns": 709651048636118
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902350842766000,
+      "monotonic_ns": 709651052383827
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902350842989000,
+      "monotonic_ns": 709651052596810
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902350846729000,
+      "monotonic_ns": 709651056336754
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902355907819000,
+      "monotonic_ns": 709656117607798
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902355908248000,
+      "monotonic_ns": 709656117898848
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902355911810000,
+      "monotonic_ns": 709656121456098
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902355911934000,
+      "monotonic_ns": 709656121531640
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902355915810000,
+      "monotonic_ns": 709656125504335
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902357574580000,
+      "monotonic_ns": 709657784193928
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902357577869000,
+      "monotonic_ns": 709657787492930
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902357578007000,
+      "monotonic_ns": 709657787625120
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902357581831000,
+      "monotonic_ns": 709657791439125
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902357582028000,
+      "monotonic_ns": 709657791624816
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902357585870000,
+      "monotonic_ns": 709657795476662
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902362650940000,
+      "monotonic_ns": 709662860610636
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902362651153000,
+      "monotonic_ns": 709662860762744
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902362654903000,
+      "monotonic_ns": 709662864515172
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902362655030000,
+      "monotonic_ns": 709662864629068
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902362658940000,
+      "monotonic_ns": 709662868574461
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790902364331698000,
+      "monotonic_ns": 709664541404460
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790902364334939000,
+      "monotonic_ns": 709664544580039
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790902364335098000,
+      "monotonic_ns": 709664544707500
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790902364338938000,
+      "monotonic_ns": 709664548552102
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790902364339183000,
+      "monotonic_ns": 709664548786936
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902364342933000,
+      "monotonic_ns": 709664552590180
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790902369404048000,
+      "monotonic_ns": 709669613784034
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790902369404373000,
+      "monotonic_ns": 709669614053714
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790902369407011000,
+      "monotonic_ns": 709669616656350
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790902369407200000,
+      "monotonic_ns": 709669616802907
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790902369410004000,
+      "monotonic_ns": 709669619644746
+    }
+  ],
+  "raw_capture_written_to_disk": false,
+  "dumpcap_stderr_retained": false,
+  "limitations": "HCI control-plane evidence only. Unknown monitor/socket loss. Unrelated traffic and addresses discarded before storage; libpcap Bluetooth monitor statistics cannot prove loss-free capture.",
+  "producer_returncode": 0,
+  "status": "completed",
+  "elapsed_s": 90.1454042759724,
+  "packet_counts_by_monitor_kind": {
+    "12": 2,
+    "0": 1,
+    "8": 1,
+    "10": 1,
+    "14": 11,
+    "2": 50,
+    "3": 60,
+    "15": 10
+  },
+  "pcap_packets_seen": 136,
+  "snaplen_truncated_packets_discarded": 0,
+  "pcap_byte_order": "<",
+  "pcap_timestamp_units_per_second": 1000000,
+  "producer_reaped": true
+}

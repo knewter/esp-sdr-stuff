@@ -1,0 +1,3 @@
+MONITOR_STARTING dumpcap stdout pipe; capture readiness pending
+MONITOR_READY validated DLT254 pcap header; sanitized metadata only
+MONITOR_CLOSED status=completed sanitized_records=110
