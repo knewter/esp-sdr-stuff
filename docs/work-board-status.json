@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Validate a bounded native passive BLE source-reference diagnostic before any further SDR source-mode comparison; current fresh controls are both null.",
-      "rationale": "User equipment inventory is recorded: no external RF reference, generator, attenuator or converter. Five earlier owned BLE packets prove specific reception; repeatable responses, filter/gain characterization and extended tuning remain unverified. Two fresh three-episode BlueZ controls retain all 1,251 original-profile and 997 known-10-bit transport-valid snapshots; full independent fixed-bound replay finds zero verified packets in both. Exact actual source settings, phases and full-flash/reset-boot recovery pass. These nulls are inconclusive; the emitted denominator stays null and conditional Trial B remains withheld.",
-      "reviewRevision": "e264bdf",
+      "next": "Review the revised native app's explicit 90-second stop and fresh artifact, then repeat its diagnostic before the fixed-setting gain-state observation.",
+      "rationale": "No external RF reference, generator, attenuator or converter is available. Five historical SDR packets remain valid; both fresh SDR controls retain 2,248 transport-valid snapshots with null independent decodes. The native observer delivered 1,160 matching reports, but its scan completion failed because the pinned SDK omits GAP timer dispatch with both connection roles disabled. The failed prefix, monitored source cleanup and full-flash/reset-boot restoration are retained. Native reports are not SDR decoding, channel-37 proof or transmitted counts. Trial B stays conditional and all RF gates stay open.",
+      "reviewRevision": "93b7545",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -74,16 +74,18 @@
         "docs/evidence/user-equipment-inventory/README.md",
         "docs/evidence/ble-bluez-control-001/README.md",
         "docs/evidence/ble-bluez-control-independent-review/README.md",
-        "docs/evidence/ble-bluez-control-002/README.md"
+        "docs/evidence/ble-bluez-control-002/README.md",
+        "docs/evidence/native-ble-source-reference-001/README.md",
+        "docs/evidence/native-ble-reference-independent-review/README.md"
       ]
     },
     "the-receiver-can-observe-and-decode-short-bursts": {
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Validate a bounded native passive BLE source-reference diagnostic before any further SDR source-mode comparison; current fresh controls are both null.",
-      "rationale": "Five complete owned BLE packets verify offline decoding. Initial finite source trials lacked termination; timer trials now report actual count zero. All 262 zero-counter diagnostic snapshots pass transport checks but yield no CRC-valid owned packet; null is inconclusive. Hit/miss reliability remains open. Two fresh three-episode BlueZ controls retain all 1,251 original-profile and 997 known-10-bit transport-valid snapshots; full independent fixed-bound replay finds zero verified packets in both. Exact actual source settings, phases and full-flash/reset-boot recovery pass. These nulls are inconclusive; the emitted denominator stays null and conditional Trial B remains withheld.",
-      "reviewRevision": "e264bdf",
+      "next": "Review the revised native app's explicit 90-second stop and fresh artifact, then repeat its diagnostic before the fixed-setting gain-state observation.",
+      "rationale": "Five complete historical SDR packets still verify decoding. Counted-source diagnostics lack a valid emitted denominator, and 2,248 fresh SDR control snapshots have null independent decodes. Native trial 001 delivered 1,160 matching reports but failed scan completion; its failed prefix and verified full restoration remain visible. Native reports provide neither protected-PDU replay nor SDR/count acceptance. The SDK timer omission has a planned explicit-stop repair; conditional Trial B and the hit/miss gates remain open.",
+      "reviewRevision": "93b7545",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -102,7 +104,9 @@
         "docs/evidence/ble-zero-counter-independent-review/README.md",
         "docs/evidence/ble-bluez-control-001/README.md",
         "docs/evidence/ble-bluez-control-independent-review/README.md",
-        "docs/evidence/ble-bluez-control-002/README.md"
+        "docs/evidence/ble-bluez-control-002/README.md",
+        "docs/evidence/native-ble-source-reference-001/README.md",
+        "docs/evidence/native-ble-reference-independent-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",

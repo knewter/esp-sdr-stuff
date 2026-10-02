@@ -50,3 +50,14 @@ Its own finite observer-only build, exact-owned-data filtering, baseline
 preflight and full restoration need independent review before operation.
 Keep foreign addresses/data private, no NVS erase or active scan/connection,
 and no weakening of the existing SDR artifact allowlist or RF acceptance gates.
+
+The first [native trial](docs/evidence/native-ble-source-reference-001/README.md)
+delivered 1,160 matching reports but failed scan completion. Full original-flash
+restoration and source/monitor cleanup pass independent review. The pinned SDK
+omits GAP timer dispatch when both connection roles are disabled. A separately
+versioned app must deliberately stop at 90 seconds, require successful public
+cancel plus inactive discovery and identify that completion method explicitly.
+The failed trial is not retrospectively accepted. After a fresh successful native
+reference, [twenty fixed gain-state snapshots](docs/research/esp-gain-state-diagnostic.md)
+can observe the manual-control bit without reapplying settings or claiming gain
+calibration. Neither diagnostic satisfies SDR or transmitted-count requirements.
