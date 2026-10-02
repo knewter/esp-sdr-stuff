@@ -48,6 +48,10 @@ Neither this measurement nor the first run releases Trial B, supplies an
 emitted-event denominator or resolves the 2,248 fresh SDR decoding nulls.
 All original RF/count acceptance gates remain open.
 
+[Independent result review](../register-observation-independent-review/README.md)
+passes original wire/payload replay, all 327,600 independently unpacked pairs,
+stage/timing/cycle metadata, installed provenance and complete restoration.
+
 The [declared protocol](../../research/receiver-register-observation-protocol.md)
 documents the Nix/Task commands and separate guard/restoration policy.
 Regenerate this measured illustration without hardware:

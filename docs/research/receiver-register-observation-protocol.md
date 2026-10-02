@@ -1,6 +1,8 @@
 # Bounded receiver-register observation protocol
 
-**UNVERIFIED hardware: declared protocol for the offline implementation.** This makes the
+This is the declared protocol used by the
+[completed, independently reviewed run](../evidence/receiver-register-observation-002/README.md).
+It makes the
 [register-observation design](receiver-register-observation.md) concrete for
 OpenSpec and source review. It records no hardware result. Existing SDR artifact
 approval, packet acceptance and transmitted-count gates remain unchanged.
@@ -261,9 +263,11 @@ nix develop .#firmware --command task register:observe -- --artifact .scratch/RE
 nix develop .#firmware --command task register:restore -- --private .scratch/FRESH_REGISTER_RESTORE --output docs/evidence/FRESH_REGISTER_RESTORE
 ```
 
-These are prospective physical bindings, not installation approval. A fresh
-corrected build, actual linked allocations/disassembly, frozen supervisor and
-independent review remain prerequisites for the first run.
+These physical bindings require explicit artifact/source approval before each
+run. The corrected build, actual linked allocations/disassembly and frozen
+supervisor passed review for trial002; its independent result/recovery receipt
+is linked above. Approval of that bounded run does not approve arbitrary future
+source/profile changes.
 
 ## Decision and limits
 

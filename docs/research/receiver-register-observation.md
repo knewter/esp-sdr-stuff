@@ -1,9 +1,11 @@
 # Observe the forced-selector readback across an IQ dump
 
-**Hardware unverified.** This document declares a separate diagnostic artifact
-and protocol. Offline firmware, host and lifecycle implementation is under
-review; no installation approval, hardware result or change to RF/count
-acceptance gates follows from this design.
+This document declares the separate diagnostic design. Its first completed
+[physical run](../evidence/receiver-register-observation-002/README.md) and
+[independent review](../evidence/register-observation-independent-review/README.md)
+record 20 valid snapshots and 81 sampled stages with full original restoration.
+Those results support sampled field consistency only. The RF/count acceptance
+gates and interpretation limits below remain unchanged.
 
 ## The smallest new observation
 

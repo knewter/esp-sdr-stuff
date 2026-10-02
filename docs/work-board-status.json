@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Finish the separately guarded register-observation build/lifecycle and independent review before its bounded hardware trial; obtain antenna/placement details and a qualified counted RF source. Fresh hidden-SDR decoding and Trial B remain unresolved.",
-      "rationale": "Five historical SDR packets remain valid; 2,248 fresh transport-valid snapshots have null independent decodes. Native v2 completes with 1,176 owned reports and acknowledged stop; the failed v1 prefix remains visible. The fixed gain diagnostic delivers 20 valid snapshots with all 41 queried manual-enable bits set. These trials restore every original flash byte and reset boot, but do not prove effective gain, earlier state, hidden-SDR decoding or emitted counts. No external RF reference or attenuator is available. Trial B and all RF gates stay open. The native direct-source comparison completes all six MaxEvents 255/0 episodes with 363 owned reports and full restoration; both settings are received while every termination remains 0x3c/count0. Its failed first run is retained. These reports neither supply emitted counts nor resolve the fresh SDR nulls. The saved-waveform audit reproduces all original outcomes. Independent paired DC-first replay checks all 3,043 captures, recovers no fresh packet and loses three historical eight-bit results; it is not adopted. ADC code-power differences and translated DC are observations, not established causes. Register firmware and host tests use synthetic MMIO and do not prove hardware state.",
-      "reviewRevision": "4c73fd76e16bf12d527e15620004b92ff6b24dc2",
+      "next": "Plan a controlled RF response test with fixed placement and a qualified source; qualify emitted counts before rates. Register fields were consistent, but fresh SDR decoding and Trial B remain unresolved.",
+      "rationale": "Five historical SDR packets remain valid; 2,248 fresh transport-valid snapshots have null independent decodes. Native v2 completes with 1,176 owned reports and acknowledged stop; the failed v1 prefix remains visible. The fixed gain diagnostic delivers 20 valid snapshots with all 41 queried manual-enable bits set. These trials restore every original flash byte and reset boot, but do not prove effective gain, earlier state, hidden-SDR decoding or emitted counts. No external RF reference or attenuator is available. Trial B and all RF gates stay open. The native direct-source comparison completes all six MaxEvents 255/0 episodes with 363 owned reports and full restoration; both settings are received while every termination remains 0x3c/count0. Its failed first run is retained. These reports neither supply emitted counts nor resolve the fresh SDR nulls. The saved-waveform audit reproduces all original outcomes. Independent paired DC-first replay checks all 3,043 captures, recovers no fresh packet and loses three historical eight-bit results; it is not adopted. ADC code-power differences and translated DC are observations, not established causes. Register firmware and host tests use synthetic MMIO and do not prove hardware state. The independently reviewed register diagnostic completes20 valid snapshots/81 stages with selector48 and bit23=1 throughout and full original restoration. The first startup-parser failure remains retained. This narrows sampled field mismatch in those runs without proving analog gain, prior state, fresh SDR decoding or source counts.",
+      "reviewRevision": "3894c556baf0d21661ed102f1ad36c6629e8c50a",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -86,11 +86,16 @@
         "docs/evidence/native-direct-startup-budget/README.md",
         "docs/evidence/ble-waveform-comparison/README.md",
         "docs/evidence/ble-dc-first-replay-001/README.md",
-        "docs/evidence/ble-dc-first-independent-review/README.md"
+        "docs/evidence/ble-dc-first-independent-review/README.md",
+        "docs/evidence/register-observation-source-review/README.md",
+        "docs/evidence/register-observation-cycle-review/README.md",
+        "docs/evidence/receiver-register-observation-001/README.md",
+        "docs/evidence/receiver-register-observation-002/README.md",
+        "docs/evidence/register-observation-independent-review/README.md"
       ],
       "cover": {
-        "path": "docs/evidence/ble-waveform-comparison/comparison.svg",
-        "caption": "Actual saved-IQ code-power, coherent DC and nominal spectrum distributions",
+        "path": "docs/evidence/receiver-register-observation-002/stages.svg",
+        "caption": "81 actual sampled register readbacks and measured hook-body cycles; no calibrated gain or RF reception claim",
         "provenance": "Board capture"
       }
     },
@@ -98,9 +103,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Finish the separately guarded register-observation build/lifecycle and independent review before its bounded hardware trial; obtain antenna/placement details and a qualified counted RF source. Fresh hidden-SDR decoding and Trial B remain unresolved.",
-      "rationale": "Five complete historical SDR packets still verify decoding. Counted-source diagnostics lack an emitted denominator and 2,248 fresh SDR snapshots have null independent decodes. Native v2 completes with 1,176 owned reports, successful explicit stop and full restoration; the failed v1 prefix remains visible. All 41 gain queries across 20 valid fixed snapshots show bit23 set. Native reports and register queries provide neither protected-PDU replay nor SDR/count acceptance. Conditional Trial B and hit/miss gates remain open. The native direct-source comparison completes all six MaxEvents 255/0 episodes with 363 owned reports and full restoration; both settings are received while every termination remains 0x3c/count0. Its failed first run is retained. These reports neither supply emitted counts nor resolve the fresh SDR nulls. The saved-waveform audit reproduces all original outcomes. Independent paired DC-first replay checks all 3,043 captures, recovers no fresh packet and loses three historical eight-bit results; it is not adopted. ADC code-power differences and translated DC are observations, not established causes. Register firmware and host tests use synthetic MMIO and do not prove hardware state.",
-      "reviewRevision": "4c73fd76e16bf12d527e15620004b92ff6b24dc2",
+      "next": "Plan a controlled RF response test with fixed placement and a qualified source; qualify emitted counts before rates. Register fields were consistent, but fresh SDR decoding and Trial B remain unresolved.",
+      "rationale": "Five complete historical SDR packets still verify decoding. Counted-source diagnostics lack an emitted denominator and 2,248 fresh SDR snapshots have null independent decodes. Native v2 completes with 1,176 owned reports, successful explicit stop and full restoration; the failed v1 prefix remains visible. All 41 gain queries across 20 valid fixed snapshots show bit23 set. Native reports and register queries provide neither protected-PDU replay nor SDR/count acceptance. Conditional Trial B and hit/miss gates remain open. The native direct-source comparison completes all six MaxEvents 255/0 episodes with 363 owned reports and full restoration; both settings are received while every termination remains 0x3c/count0. Its failed first run is retained. These reports neither supply emitted counts nor resolve the fresh SDR nulls. The saved-waveform audit reproduces all original outcomes. Independent paired DC-first replay checks all 3,043 captures, recovers no fresh packet and loses three historical eight-bit results; it is not adopted. ADC code-power differences and translated DC are observations, not established causes. Register firmware and host tests use synthetic MMIO and do not prove hardware state. The independently reviewed register diagnostic completes20 valid snapshots/81 stages with selector48 and bit23=1 throughout and full original restoration. The first startup-parser failure remains retained. This narrows sampled field mismatch in those runs without proving analog gain, prior state, fresh SDR decoding or source counts.",
+      "reviewRevision": "3894c556baf0d21661ed102f1ad36c6629e8c50a",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -131,7 +136,12 @@
         "docs/evidence/native-direct-startup-budget/README.md",
         "docs/evidence/ble-waveform-comparison/README.md",
         "docs/evidence/ble-dc-first-replay-001/README.md",
-        "docs/evidence/ble-dc-first-independent-review/README.md"
+        "docs/evidence/ble-dc-first-independent-review/README.md",
+        "docs/evidence/register-observation-source-review/README.md",
+        "docs/evidence/register-observation-cycle-review/README.md",
+        "docs/evidence/receiver-register-observation-001/README.md",
+        "docs/evidence/receiver-register-observation-002/README.md",
+        "docs/evidence/register-observation-independent-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",
