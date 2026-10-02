@@ -41,16 +41,22 @@ def bind_raw(sock):
     sock.setsockopt(0, 2, event_filter())  # SOL_HCI,HCI_FILTER; receive events only.
 
 
-def parameters(interval_ms):
+def selected_handle(handle):
+    if type(handle) is not int or handle not in (1, HANDLE):
+        raise ValueError('handle must be 1 or 239')
+    return handle
+
+
+def parameters(interval_ms, handle=HANDLE):
     if interval_ms not in (20, 100):
         raise ValueError('interval_ms must be 20 or 100')
     units = int(interval_ms/.625)
-    return (bytes([HANDLE])+struct.pack('<H', 0x10)+units.to_bytes(3, 'little')*2
+    return (bytes([selected_handle(handle)])+struct.pack('<H', 0x10)+units.to_bytes(3, 'little')*2
             +bytes([1, 0, 0])+bytes(6)+bytes([0, 0x7f, 1, 0, 1, 0, 0]))
 
 
-def advertising_data():
-    return bytes([HANDLE, 3, 1, len(OWNED_AD)])+OWNED_AD
+def advertising_data(handle=HANDLE):
+    return bytes([selected_handle(handle), 3, 1, len(OWNED_AD)])+OWNED_AD
 
 
 def duration_units(duration_ms):
@@ -60,12 +66,12 @@ def duration_units(duration_ms):
     return duration_ms // 10
 
 
-def enable(enabled, count=100, duration_ms=0):
+def enable(enabled, count=100, duration_ms=0, handle=HANDLE):
     if not 1 <= count <= 255:
         raise ValueError('count must be 1..255')
     units = duration_units(duration_ms)
     # Num_Sets=1 scopes BOTH enable and cleanup disable to our handle.
-    return (bytes([int(enabled), 1, HANDLE])
+    return (bytes([int(enabled), 1, selected_handle(handle)])
             +struct.pack('<H', units if enabled else 0)+bytes([count if enabled else 0]))
 
 
@@ -75,7 +81,8 @@ def command_frame(opcode, payload):
     return bytes([1])+struct.pack('<HB', opcode, len(payload))+payload
 
 
-def parse_event(packet):
+def parse_event(packet, handle=HANDLE):
+    handle = selected_handle(handle)
     if len(packet) < 3 or packet[0] != 4 or len(packet) != 3+packet[2]:
         return None
     event = packet[1]
@@ -95,7 +102,7 @@ def parse_event(packet):
         opcode = struct.unpack_from('<H', data, 2)[0]
         if opcode in OPCODES:
             return {'kind': 'command_status', 'hci_opcode_hex': f'{opcode:04x}', 'status': data[0]}
-    if event == 0x3e and len(data) == 6 and data[0] == 0x12 and data[2] == HANDLE:
+    if event == 0x3e and len(data) == 6 and data[0] == 0x12 and data[2] == handle:
         return {'kind': 'termination_observed', 'status': data[1], 'advertising_handle': data[2],
                 'controller_reported_completed_extended_advertising_events': data[5]}
     return None
@@ -109,6 +116,7 @@ class Source:
         self.terminations = []
         self.accepted_steps = set()
         self.enable_sent = False
+        self.handle = HANDLE
 
     def event(self, until):
         while time.monotonic() < until:
@@ -117,7 +125,7 @@ class Source:
                 packet = self.sock.recv(65535)
             except TimeoutError:
                 continue
-            parsed = parse_event(packet)
+            parsed = parse_event(packet, self.handle)
             if parsed is not None:
                 if parsed['kind'] == 'termination_observed':
                     parsed['observed_after_enable_command_sent'] = self.enable_sent
@@ -128,7 +136,7 @@ class Source:
 
     def command(self, step, opcode, payload):
         self.emit({'kind': 'command_sent', 'step': step, 'hci_opcode_hex': f'{opcode:04x}',
-                   'advertising_handle': HANDLE})
+                   'advertising_handle': self.handle})
         frame = command_frame(opcode, payload)
         if step == 'enable':
             self.enable_sent = True
@@ -145,28 +153,31 @@ class Source:
             self.accepted_steps.add(step)
             return result
 
-    def run(self, interval_ms=20, count=100, start_delay=1, duration_ms=0):
+    def run(self, interval_ms=20, count=100, start_delay=1, duration_ms=0, handle=HANDLE):
         # Reject invalid diagnostic fields before any controller command.
-        param_frame = parameters(interval_ms)
-        enable_frame = enable(True, count, duration_ms)
-        summary = {'kind': 'source_closed', 'advertising_handle': HANDLE,
+        handle = selected_handle(handle)
+        param_frame = parameters(interval_ms, handle)
+        enable_frame = enable(True, count, duration_ms, handle)
+        self.handle = handle
+        summary = {'kind': 'source_closed', 'advertising_handle': handle,
                    'independently_observed_air_emission_count': None,
                    'automatic_restarts': 0, 'automatic_fallbacks': 0, 'cleanup': {},
                    'duration_10ms_units': duration_units(duration_ms),
-                   'duration_diagnostic_requested': duration_ms != 0}
+                   'duration_diagnostic_requested': duration_ms != 0,
+                   'handle_diagnostic_requested': handle != HANDLE}
         attempted = False
         verified = False
         try:
             attempted = True
             self.command('set_parameters', 0x2036, param_frame)
-            self.command('set_data', 0x2037, advertising_data())
+            self.command('set_data', 0x2037, advertising_data(handle))
             if self.terminations:
                 raise SourceError('termination_before_enable')
-            self.emit({'kind': 'source_ready', 'advertising_handle': HANDLE,
+            self.emit({'kind': 'source_ready', 'advertising_handle': handle,
                        'parameter_and_data_commands_accepted': True, 'start_delay_s': start_delay})
             time.sleep(start_delay)
             self.command('enable', 0x2039, enable_frame)
-            self.emit({'kind': 'source_enabled', 'advertising_handle': HANDLE,
+            self.emit({'kind': 'source_enabled', 'advertising_handle': handle,
                        'enable_command_accepted': True, 'max_extended_advertising_events': count,
                        'duration_10ms_units': duration_units(duration_ms)})
             # Controller adds advDelay; permit up to 10ms per event plus 5s.
@@ -197,8 +208,8 @@ class Source:
             summary['status'] = 'interrupted'
         finally:
             if attempted:
-                for step, opcode, payload in [('cleanup_disable', 0x2039, enable(False, count)),
-                                               ('cleanup_remove', 0x203c, bytes([HANDLE]))]:
+                for step, opcode, payload in [('cleanup_disable', 0x2039, enable(False, count, handle=handle)),
+                                               ('cleanup_remove', 0x203c, bytes([handle]))]:
                     try:
                         result = self.command(step, opcode, payload)
                         summary['cleanup'][step] = {'status': result['status'], 'command_complete_received': True}
@@ -232,6 +243,8 @@ def main():
     cli.add_argument('--interval-ms', type=int, choices=[20, 100], default=20)
     cli.add_argument('--events', type=int, default=100)
     cli.add_argument('--start-delay', type=float, default=1)
+    cli.add_argument('--handle', type=int, choices=[1, HANDLE], default=HANDLE,
+                     help='Explicit diagnostic handle 1 or default239; reserve externally first')
     cli.add_argument('--duration-ms', type=int, default=0,
                      help='Diagnostic only: 0 (default) or 100..5000 in multiples of 10 ms')
     args = cli.parse_args()
@@ -242,20 +255,21 @@ def main():
     except ValueError as error:
         cli.error(str(error))
     script_sha256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
-    emit_stdout({'kind': 'configuration_requested', 'advertising_handle': HANDLE, 'script_sha256': script_sha256,
+    emit_stdout({'kind': 'configuration_requested', 'advertising_handle': args.handle, 'script_sha256': script_sha256,
                  'event_properties': 0x10, 'primary_channel_map': 1, 'primary_phy': 1,
                  'secondary_phy': 1, 'interval_ms': args.interval_ms,
                  'advertising_data_length': len(OWNED_AD), 'owned_manufacturer_ad_exact_match': True,
                  'max_extended_advertising_events': args.events, 'duration_10ms_units': units,
                  'duration_diagnostic_requested': args.duration_ms != 0,
+                 'handle_diagnostic_requested': args.handle != HANDLE,
                  'independently_observed_air_emission_count': None,
-                 'operator_preconditions': 'Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, reserved handleEF available; no simultaneous same-opcode advertising commands.'})
+                 'operator_preconditions': f'Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, selected handle0x{args.handle:02x} reserved externally and available; no simultaneous same-opcode advertising commands.'})
     sock = None
     try:
         sock = socket.socket(31, socket.SOCK_RAW, 1)
         bind_raw(sock)
         emit_stdout({'kind': 'source_socket_ready', 'hci_device': 0, 'hci_channel': 0})
-        summary = Source(sock, emit_stdout).run(args.interval_ms, args.events, args.start_delay, args.duration_ms)
+        summary = Source(sock, emit_stdout).run(args.interval_ms, args.events, args.start_delay, args.duration_ms, args.handle)
     except OSError as error:
         emit_stdout({'kind': 'source_closed', 'status': 'socket_or_bind_failed', 'error_errno': error.errno,
                      'independently_observed_air_emission_count': None, 'cleanup_attempted': False})

@@ -5,7 +5,7 @@ here with synthetic socket fixtures. It has not been run on hardware by the
 firmware-tools agent. Root owns all physical controller/source operations.
 
 Before running, the operator must establish exclusive HCI0 source ownership,
-check BlueZ `ActiveInstances=0`, reserve advertising handle `0xEF`, and ensure
+check BlueZ `ActiveInstances=0`, reserve the selected advertising handle, and ensure
 no concurrent same-opcode advertising commands. A high handle avoids the
 observed BlueZ-managed handles; these preconditions require an external check.
 The helper does not query or change BlueZ state.
@@ -24,7 +24,7 @@ Bluetooth named constants.
 
 ## Fixed source and allowed operations
 
-One trial defines one advertising set on handle `0xEF`, using legacy LE1M,
+One trial defines one advertising set on default handle `0xEF`, using legacy LE1M,
 nonconnectable/nonscannable undirected properties `0x0010`, channel map `0x01`
 (channel 37 / 2402 MHz), public own-address type, and a complete 16-byte owned
 manufacturer AD containing `ESP-SDR-EVAL`. Both interval bounds are exactly
@@ -33,7 +33,7 @@ affects actual event spacing. Tx power is the controller's choice.
 
 The only allowed outgoing command opcodes are `2036` (parameters), `2037`
 (data), `2039` (enable/disable), and `203c` (remove this set). Both enabling
-and disabling specify one set, handle `0xEF`; disabling with zero sets is
+and disabling specify exactly the selected set; disabling with zero sets is
 never generated. There is no reset, address-setting command, event-mask
 mutation, pairing, scanning, controller power change or global fallback.
 
@@ -85,7 +85,7 @@ values are rejected before socket creation. The enable packet encodes the
 duration as a little-endian 16-bit count of 10 ms units. Configuration,
 enable acknowledgement and summary records expose those units. The requested
 event limit remains 1–255 and nonzero. Disable cleanup always sends duration
-zero and event limit zero for only handle `0xEF`, followed by own-set removal.
+zero and event limit zero for only the selected handle, followed by own-set removal.
 
 The diagnostic waits duration + 5 seconds after enable acknowledgement, at most
 10 seconds, before cleanup. The controller's duration starts with its first
@@ -109,6 +109,39 @@ has no legacy-PDU exception. The special duration bound of 1.28 seconds applies
 to high-duty connectable directed advertising; the fixed properties `0x0010`
 here are nonconnectable undirected advertising. The helper does not claim that
 the present controller fulfills these semantics until an actual event is seen.
+
+## Optional low-handle diagnostic
+
+`--handle` accepts only decimal `239` (the unchanged default `0xEF`) or decimal
+`1`. Handle 1 is an explicitly selected diagnostic; it requires the operator
+to establish exclusive source ownership, check zero active BlueZ advertising
+instances and reserve handle 1 externally before execution. It may overlap
+BlueZ's managed handle range. Zero active instances alone does not enumerate
+dormant sets or prove that another owner has released handle 1. The helper
+does not decide availability, disable
+BlueZ, fall back from one handle to another, or change any global setting.
+
+```sh
+python3 tools/ble_direct_hci_source.py --handle 1 --interval-ms 20 --events 255 \
+  --duration-ms 1000 --start-delay 1 > YOUR-HANDLE-DIAGNOSTIC/source-control.jsonl
+```
+
+The selected handle is used in parameters, data, enable, disable and removal,
+the event parser, and every handle-bearing audit record. Cleanup affects only
+that set. A termination event from `0xEF` while handle 1 is selected is ignored,
+and vice versa. CLI values outside these two choices are rejected before socket
+creation; programmatic invalid handles are rejected before controller commands.
+`handle_diagnostic_requested` distinguishes a low-handle run in configuration
+and summary metadata. Source socket filtering remains LE Meta, while parsing
+filters the termination subevent's actual handle.
+
+The existing counted-trial reporter's fixed `0xEF` protocol must reject handle-1
+configuration. New helper SHA-256 and explicit handle-specific configuration,
+independent monitor records, actual count, cleanup and ESP evidence require
+review before any new protocol can be accepted. A helper-level verified count
+alone does not mark an OpenSpec receiver task complete. A duration result still
+fails the strict `0x43`/exact requested-limit gate even on handle 1. A reported
+zero completed count is preserved without proving no radiated signal.
 
 `controller_reported_completed_extended_advertising_events` is a controller
 report of completed transmitted events. It can provide a recorded source
@@ -141,10 +174,13 @@ Only the per-socket receive filter is set; the controller event mask is unchange
 python3 -m unittest discover -s tests -p test_ble_direct_hci_source.py -v
 ```
 
-Seventeen hardware-free tests check exact wire encoding, 100/255 limits, fixture
+Twenty-two hardware-free tests check exact wire encoding, 100/255 limits, fixture
 events, status/counter/handle errors, duplicate and early termination, missing
 acknowledgement/event, cleanup failures and own-handle rollback. Synthetic
 counts and fixtures are software checks, and establish no hardware acceptance.
 Duration tests additionally check exact field boundaries, validation before
 opening a socket, timer versus count-limit outcomes, bounded host timeout,
 retention of actual diagnostic counts without acceptance, and zeroed cleanup.
+Handle tests check default wire compatibility, selected-handle cleanup on
+success/rejection/timeout, foreign-event rejection, strict validation and CLI
+provenance/socket closure using fake sockets only.

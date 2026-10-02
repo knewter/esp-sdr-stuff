@@ -56,6 +56,9 @@ class FakeSocket:
             return self.pending.popleft()
         raise TimeoutError()
 
+    def close(self):
+        self.closed = True
+
 
 class DirectSourceTests(unittest.TestCase):
     def test_native_sockaddr_and_receive_filter_without_bluetooth_constants(self):
@@ -85,6 +88,89 @@ class DirectSourceTests(unittest.TestCase):
                 enable(True, count)
         with self.assertRaises(ValueError):
             command_frame(0x0c03, b'')  # Reset must never be allowed.
+
+    def test_handle_one_changes_only_scoped_handle_fields(self):
+        self.assertEqual(parameters(20, 1), b'\x01'+parameters(20)[1:])
+        self.assertEqual(advertising_data(1), b'\x01'+advertising_data()[1:])
+        self.assertEqual(enable(True, 255, 1000, 1).hex(), '0101016400ff')
+        self.assertEqual(enable(False, 255, 1000, 1).hex(), '000101000000')
+        own = bytes.fromhex('043e06124301ffff64')
+        self.assertEqual(parse_event(own, 1)['advertising_handle'], 1)
+        self.assertIsNone(parse_event(TERMINATED_100, 1))
+        self.assertIsNone(parse_event(own))
+        for handle in (0, 2, 238, 240, True, '1'):
+            sock = FakeSocket()
+            with self.subTest(handle=handle), self.assertRaises(ValueError):
+                Source(sock, lambda record: None).run(handle=handle)
+            self.assertEqual(sock.sent, [])
+
+    def test_handle_one_own_count_and_cleanup_exclude_foreign_ef(self):
+        class ForeignBeforeOwn(FakeSocket):
+            def send(self, frame):
+                result = super().send(frame)
+                if frame[1:3] == bytes.fromhex('3920') and frame[4] == 1:
+                    self.pending.appendleft(TERMINATED_100)  # Foreign EF event.
+                return result
+        sock = ForeignBeforeOwn(termination=bytes.fromhex('043e06124301ffff64'))
+        records = []
+        result = Source(sock, records.append).run(20, 100, 0, handle=1)
+        self.assertEqual(result['status'], 'controller_count_verified')
+        self.assertTrue(result['handle_diagnostic_requested'])
+        self.assertEqual(result['termination_events_observed'], 1)
+        self.assertTrue(result['cleanup_success'])
+        self.assertEqual(sock.sent[0][4], 1)
+        self.assertEqual(sock.sent[1][4], 1)
+        self.assertEqual(sock.sent[2][4:].hex(), '010101000064')
+        self.assertEqual(sock.sent[-2][4:].hex(), '000101000000')
+        self.assertEqual(sock.sent[-1][4:], b'\x01')
+        self.assertTrue(all(r['advertising_handle'] == 1 for r in records if 'advertising_handle' in r))
+
+    def test_handle_one_foreign_only_event_cannot_verify_count(self):
+        clock = [0.]
+        class AdvanceOnEmpty(FakeSocket):
+            def recv(self, size):
+                if not self.pending:
+                    clock[0] += 30
+                return super().recv(size)
+        sock = AdvanceOnEmpty(termination=TERMINATED_100)
+        with patch('ble_direct_hci_source.time.monotonic', lambda: clock[0]):
+            result = Source(sock, lambda record: None).run(20, 100, 0, handle=1)
+        self.assertEqual(result['error_code'], 'event_timeout')
+        self.assertEqual(result['termination_events_observed'], 0)
+        self.assertFalse(result['controller_completed_count_verified'])
+        self.assertTrue(result['cleanup_success'])
+        self.assertEqual(sock.sent[-2][4:].hex(), '000101000000')
+        self.assertEqual(sock.sent[-1][4:], b'\x01')
+
+    def test_handle_one_parameter_rejection_cleans_only_selected_handle(self):
+        sock = FakeSocket(failed={(0x2036, 1): 0x12})
+        result = Source(sock, lambda record: None).run(handle=1)
+        self.assertFalse(result['controller_completed_count_verified'])
+        self.assertTrue(result['cleanup_success'])
+        self.assertEqual([struct.unpack_from('<H', f, 1)[0] for f in sock.sent], [0x2036, 0x2039, 0x203c])
+        self.assertEqual(sock.sent[-2][4:].hex(), '000101000000')
+        self.assertEqual(sock.sent[-1][4:], b'\x01')
+
+    def test_handle_one_cli_records_diagnostic_and_closes_selected_socket(self):
+        sock = FakeSocket(termination=bytes.fromhex('043e06123c01ffff00'))
+        records = []
+        with patch('sys.argv', ['source', '--handle', '1', '--events', '255',
+                                 '--duration-ms', '1000', '--start-delay', '0']), \
+                patch('ble_direct_hci_source.socket.socket', return_value=sock), \
+                patch('ble_direct_hci_source.bind_raw'), \
+                patch('ble_direct_hci_source.emit_stdout', records.append):
+            self.assertEqual(main(), 2)
+        config = records[0]
+        self.assertEqual(config['advertising_handle'], 1)
+        self.assertTrue(config['handle_diagnostic_requested'])
+        self.assertEqual(config['duration_10ms_units'], 100)
+        summary = [r for r in records if r['kind'] == 'source_closed'][0]
+        self.assertEqual(summary['termination']['status'], 0x3c)
+        self.assertEqual(summary['termination']['controller_reported_completed_extended_advertising_events'], 0)
+        self.assertFalse(summary['controller_completed_count_verified'])
+        self.assertTrue(summary['cleanup_success'])
+        self.assertTrue(sock.closed)
+        self.assertEqual(records[-1]['kind'], 'source_socket_closed')
 
     def test_published_shape_event_fixture_redacts_connection_handle(self):
         result = parse_event(TERMINATED_100)
