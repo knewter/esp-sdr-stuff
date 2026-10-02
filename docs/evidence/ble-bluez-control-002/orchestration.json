@@ -1,0 +1,164 @@
+{
+  "schema": 1,
+  "scope": "Private bounded BlueZ control schedule; no RF hit/count acceptance",
+  "started": {
+    "monotonic_ns": 733297384448041,
+    "utc": "2026-10-02T07:26:37.174912+00:00"
+  },
+  "script_sha256": "79e02469704502d4fec749676d55fdf19efb603ae2651f95ba2e7e9e5d6b012d",
+  "schedule": {
+    "monitor_seconds": 480,
+    "receiver_seconds": 460,
+    "baseline_seconds": 20,
+    "episodes": 3,
+    "episode_seconds": 120,
+    "off_seconds": 20,
+    "interval_ms": 20
+  },
+  "helper_sha256": {
+    "demo_esp_sdr.py": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966",
+    "measure_owned_ble.py": "35bc587fd8512c7727ad3bcb3d07a922e37091e370a326bc660a4bfbbddd69fb",
+    "ble_owned_source.py": "e214640ad5d3b56c38c463b0f06bfc1b9ecedd7ddf3c5985e22ff4e14c2d91da",
+    "ble_dumpcap_monitor.py": "0697b92276674dffdfa2915736dbc75ca35e85ac504d3287b3f52555c84a2793",
+    "ble_dumpcap_container_monitor.py": "acdddfd2846d8faddbb4375f558c0d0873ce7f22ac6bd9f5afd365cb0c72f498",
+    "esp_sdr_capture.py": "f1aa93c1af1b87ad086fdd7289bfeced4bfbc632e15fc2389098e2f460cea538",
+    "flash_trial.py": "7b8f3629f961b177b074cfa7c1646ae4ab4f1e89fddfc3af44e742a7ef111079"
+  },
+  "taskfile_sha256": "173bebb7a919b748357669e436f44662427bf03f82cc162d6bef5da84e30e328",
+  "flake_lock_sha256": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51",
+  "receiver_profile": "known-10bit",
+  "receiver_settings": {
+    "bits": 10,
+    "frequency": 2401,
+    "bandwidth": 20,
+    "gain": "48"
+  },
+  "events": [
+    {
+      "event": "child_started",
+      "child": "monitor",
+      "monotonic_ns": 733416349661691,
+      "utc": "2026-10-02T07:28:36.140122+00:00"
+    },
+    {
+      "event": "MONITOR_READY",
+      "child": "monitor",
+      "monotonic_ns": 733419463489383,
+      "utc": "2026-10-02T07:28:39.253945+00:00"
+    },
+    {
+      "event": "child_started",
+      "child": "receiver",
+      "monotonic_ns": 733419465362753,
+      "utc": "2026-10-02T07:28:39.255819+00:00"
+    },
+    {
+      "event": "ACQUISITION_READY",
+      "child": "receiver",
+      "monotonic_ns": 733420970884300,
+      "utc": "2026-10-02T07:28:40.761338+00:00"
+    },
+    {
+      "event": "child_started",
+      "child": "source",
+      "monotonic_ns": 733440975100018,
+      "utc": "2026-10-02T07:29:00.765556+00:00"
+    },
+    {
+      "event": "child_group_closed",
+      "child": "source",
+      "monotonic_ns": 733842558101228,
+      "utc": "2026-10-02T07:35:42.349015+00:00",
+      "returncode": 0
+    },
+    {
+      "event": "child_group_closed",
+      "child": "receiver",
+      "monotonic_ns": 733881462942821,
+      "utc": "2026-10-02T07:36:21.253407+00:00",
+      "returncode": 0
+    },
+    {
+      "event": "child_group_closed",
+      "child": "monitor",
+      "monotonic_ns": 733900445159952,
+      "utc": "2026-10-02T07:36:40.235721+00:00",
+      "returncode": 0
+    }
+  ],
+  "status": "completed",
+  "restoration_status": "verified",
+  "source_denominator": null,
+  "independently_observed_air_emission_count": null,
+  "controller_before": {
+    "powered": true,
+    "active_instances": 0
+  },
+  "receiver_install": {
+    "firmware_revision": "550fade-uart921600",
+    "source_commit": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+    "sdk_commit": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+    "parts": [
+      {
+        "offset": 4096,
+        "bytes": 25792,
+        "sha256": "ae2641c45d818548d59fa70573b35202b6e315f2b9691de1f5c59736f6478e03",
+        "name": "0-bootloader.bin"
+      },
+      {
+        "offset": 32768,
+        "bytes": 3072,
+        "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+        "name": "1-partition-table.bin"
+      },
+      {
+        "offset": 65536,
+        "bytes": 664608,
+        "sha256": "d7a2d80a70134b04e6078d5ac62b728e79ab33364c1845546f7ca321995e4685",
+        "name": "2-esp_sdr.bin"
+      }
+    ],
+    "receiver_manifest_sha256": "5b0af8d72918bba2c3b2c2cd0d43070e90d61626ac1240fe128525f802cf42c9",
+    "build_info_sha256": "8978c5299da740f5221838aa89dd201a055ae3a4f810a92d0ff08e38e7149170"
+  },
+  "actual_schedule": {
+    "initial_off_seconds": 20.692315086,
+    "actual_tail_after_source_group_closure_seconds": 38.592452935,
+    "source_episodes_completed": 3,
+    "captures": 997,
+    "source_group_closed_monotonic_ns": 733842558101228,
+    "final_payload_received_monotonic_ns": 733881150554163,
+    "source_denominator": null,
+    "RF_acceptance_gate_closed": false
+  },
+  "control_schedule_completed": true,
+  "owned_UART_groups_closed": true,
+  "owned_child_groups_closed": true,
+  "controller_after": {
+    "powered": true,
+    "active_instances": 0
+  },
+  "monitor_owned_container_removed": true,
+  "source_bus_disconnect_recorded": true,
+  "restoration": {
+    "full_readback_bytes": 4194304,
+    "full_readback_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+    "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+    "flash_write_verified": true,
+    "full_readback_matches_baseline": true,
+    "boot": {
+      "application_identity_observed": true,
+      "sdk_observed": true,
+      "gpio_high_observed": true,
+      "gpio_low_observed": true,
+      "boot_bytes_private": 5670,
+      "reset_boot_only": true,
+      "power_cycle_proven": false
+    },
+    "verified": true
+  },
+  "ended": {
+    "monotonic_ns": 734062181314146,
+    "utc": "2026-10-02T07:39:21.971775+00:00"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "decoder": "tools/ble_decode_iq.py",
+  "primary_protocol_source": "https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html",
+  "independent_published_test_vectors": "https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/sample-data.html",
+  "nominal_rate_hz": 16000000,
+  "bits_per_component": 10,
+  "samples_per_capture": 16380,
+  "channel": 37,
+  "owned_marker_ad_hex": "0fffffff4553502d5344522d4556414c",
+  "frequency_translation_hz": -1000000.0,
+  "blind_receiver_refinement": {
+    "samples_per_symbol_min": 3.97,
+    "samples_per_symbol_max": 4.03,
+    "samples_per_symbol_step": 0.005,
+    "start_search_half_width_samples_at_4msps": 2,
+    "start_search_step_samples_at_4msps": 0.25,
+    "threshold_bias_min_deviation_fraction": -0.45,
+    "threshold_bias_max_deviation_fraction": 0.45,
+    "threshold_bias_step_deviation_fraction": 0.025,
+    "maximum_candidate_clusters_per_capture": 32
+  },
+  "limitations": "Bounded LE1M legacy advertisement decoder only. No event-emission denominator, calibrated sample clock, guaranteed low-SNR decoding or foreign payload disclosure.",
+  "captures_analyzed": 997,
+  "crc_valid_owned_packets": 0,
+  "crc_valid_other_packets_redacted": 0,
+  "runtime_seconds": 19.808518015081063,
+  "decoder_source_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+  "physical_capture_csv_sha256": "15148161335d248d55a3f031b921e7d0b3b46ddc1cfac1f9ee69cf317402ca59",
+  "source_schedule_sha256": "e06321d50ea8a5031039f5a608f03351b0158e1ab6b38d371b83a40aee66e1e2",
+  "source_control_phases": {
+    "source_off_before": {
+      "captures": 42,
+      "captures_with_access_address_candidates": 0,
+      "crc_valid_owned_packets": 0
+    },
+    "control_transition_guard_excluded": {
+      "captures": 33,
+      "captures_with_access_address_candidates": 0,
+      "crc_valid_owned_packets": 0
+    },
+    "source_on_episode_0": {
+      "captures": 254,
+      "captures_with_access_address_candidates": 4,
+      "crc_valid_owned_packets": 0
+    },
+    "source_off_after_episode_0": {
+      "captures": 38,
+      "captures_with_access_address_candidates": 0,
+      "crc_valid_owned_packets": 0
+    },
+    "source_on_episode_1": {
+      "captures": 256,
+      "captures_with_access_address_candidates": 2,
+      "crc_valid_owned_packets": 0
+    },
+    "source_off_after_episode_1": {
+      "captures": 38,
+      "captures_with_access_address_candidates": 0,
+      "crc_valid_owned_packets": 0
+    },
+    "source_on_episode_2": {
+      "captures": 254,
+      "captures_with_access_address_candidates": 3,
+      "crc_valid_owned_packets": 0
+    },
+    "source_off_after": {
+      "captures": 82,
+      "captures_with_access_address_candidates": 1,
+      "crc_valid_owned_packets": 0
+    }
+  },
+  "phase_classification_guard_seconds": 1,
+  "phase_classification_capture_bracket": "command_start_ns through payload_received_ns",
+  "exact_over_air_emission_count": null,
+  "decoder_valid_owned_candidates": 0,
+  "excluded_crc_valid_owned_candidates": [],
+  "reporter_source_sha256": "aad739b1a5e0c2034fac4e7650f2a53b7d6c7c28aadbcab4f9c0643387b7f0b2",
+  "packet_counting_note": "Only complete nominal preamble-through-protected-CRC windows with exact owned AD and retained PDU hash are counted, once per capture/access-start cluster. Excluded candidates remain waveform-unverified or duplicate hypotheses. Source phase uses whole-response control-plane brackets with1s guards, not an independent RF timing reference or emission denominator.",
+  "decode_result": "null known-positive-profile control: no verified packet, no emission/hit-rate inference",
+  "source_reference_proxy_comparison": {
+    "matches_prior_monitored_BlueZ_proxy": true,
+    "prior_native_limit_trials_differed_in_properties_channel_map_and_nonzero_max_events": true,
+    "causal_conclusion": null
+  },
+  "unverified_candidate_summaries": [
+    {
+      "capture_index": 252,
+      "source_control_phase": "source_on_episode_0",
+      "statuses": [
+        "crc_failed"
+      ],
+      "attributed_to_owned_source": false
+    },
+    {
+      "capture_index": 258,
+      "source_control_phase": "source_on_episode_0",
+      "statuses": [
+        "crc_failed"
+      ],
+      "attributed_to_owned_source": false
+    },
+    {
+      "capture_index": 268,
+      "source_control_phase": "source_on_episode_0",
+      "statuses": [
+        "crc_failed"
+      ],
+      "attributed_to_owned_source": false
+    },
+    {
+      "capture_index": 281,
+      "source_control_phase": "source_on_episode_0",
+      "statuses": [
+        "truncated_packet"
+      ],
+      "attributed_to_owned_source": false
+    },
+    {
+      "capture_index": 363,
+      "source_control_phase": "source_on_episode_1",
+      "statuses": [
+        "crc_failed"
+      ],
+      "attributed_to_owned_source": false
+    },
+    {
+      "capture_index": 388,
+      "source_control_phase": "source_on_episode_1",
+      "statuses": [
+        "crc_failed"
+      ],
+      "attributed_to_owned_source": false
+    },
+    {
+      "capture_index": 770,
+      "source_control_phase": "source_on_episode_2",
+      "statuses": [
+        "unsupported_or_invalid_header"
+      ],
+      "attributed_to_owned_source": false
+    },
+    {
+      "capture_index": 780,
+      "source_control_phase": "source_on_episode_2",
+      "statuses": [
+        "crc_failed"
+      ],
+      "attributed_to_owned_source": false
+    },
+    {
+      "capture_index": 881,
+      "source_control_phase": "source_on_episode_2",
+      "statuses": [
+        "unsupported_or_invalid_header"
+      ],
+      "attributed_to_owned_source": false
+    },
+    {
+      "capture_index": 935,
+      "source_control_phase": "source_off_after",
+      "statuses": [
+        "crc_failed"
+      ],
+      "attributed_to_owned_source": false
+    }
+  ],
+  "private_full_decoder_sha256": "5918aceffee84b1dad5afcb03ce1e1f7e0049b3e024e5437309ed29f1ed5e33b",
+  "private_phase_report_sha256": "b6dd345c6ac2537b1db02f50767a7df9d3fc5a9afaaf0d1560b0622f7c64d82c",
+  "decoder_hashes_byte_for_byte_verified": true
+}

@@ -1,0 +1,22 @@
+{
+  "scope": "Offline complete input/hash/CRC/count/settings/monitor verification; no RF hit-count inference",
+  "captures": 997,
+  "total_payload_bytes": 40827150,
+  "all_sha256_crc32_lengths_counts_valid": true,
+  "capture_brackets_monotonic": true,
+  "source_denominator": null,
+  "setting_acknowledgements_valid": true,
+  "observed_source": {
+    "handle": 1,
+    "event_properties_hex": "0013",
+    "primary_channel_map": 7,
+    "interval_ms": 20,
+    "primary_phy": 1,
+    "secondary_phy": 1,
+    "duration_10ms_units": 0,
+    "max_events": 0,
+    "owned_ad_exact_match": true,
+    "accepted_command_completions": 15
+  },
+  "capture_csv_sha256": "15148161335d248d55a3f031b921e7d0b3b46ddc1cfac1f9ee69cf317402ca59"
+}

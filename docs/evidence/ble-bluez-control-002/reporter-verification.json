@@ -1,0 +1,23 @@
+{
+  "scope": "Offline nominal-window reporting guard replay; decoder and hardware unchanged",
+  "reporter_sha256": "aad739b1a5e0c2034fac4e7650f2a53b7d6c7c28aadbcab4f9c0643387b7f0b2",
+  "tests_sha256": "d706b54aadd6bc65fb21298a5ed6f0b9b0c4fa387f2241ebdd0fbf5c00030e0a",
+  "focused_tests_passed": 11,
+  "historical_complete_packet_replay": [
+    {
+      "input": "docs/evidence/ble-owned-decoding/decoder-manifest.json",
+      "sha256": "fe3d43c23df8bcc1af75a72cbdd639ab5d647f160d0470cd56b697eb00c82e81",
+      "old_valid_owned": 4,
+      "complete_packets": 4,
+      "excluded": []
+    },
+    {
+      "input": "docs/evidence/ble-controls-decoding/decoder-manifest.json",
+      "sha256": "13509f7abf6863f58cbd1dacfd08ead9cb32fabbcb93123ce0005d54fc8d613c",
+      "old_valid_owned": 1,
+      "complete_packets": 1,
+      "excluded": []
+    }
+  ],
+  "prior_trial_A_public_receipts_unchanged": true
+}
