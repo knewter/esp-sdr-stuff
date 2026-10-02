@@ -21,6 +21,14 @@ payload bytes each. Placement remains as found. There is no Bluetooth source
 control, decoding, gain reapplication, retune, retry or resynchronization in
 the acquisition loop.
 
+`filter_code=64` is the original-ESP32 helper's mapping of requested 20 MHz:
+the pinned [ESP32 curve contains `{64,20}`](https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/main/common/rx_bandwidth.h#L53-L57).
+The [integer interpolation](https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/main/common/rx_bandwidth.h#L92-L98)
+returns `48 + (16*5 + 5/2)/5 = 64` at 20 MHz. The receiver's
+[BANDWIDTH handler](https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/main/targets/esp32/receiver.c#L198-L200)
+uses that helper. This establishes the requested capacitor code, not calibrated
+filter bandwidth or continuous verification of the temporary analog setting.
+
 The new measured variable is the forced-selector field readback
 `(RX_GAIN >> 24) & 127`, alongside `(RX_GAIN >> 23) & 1`. A successful
 [MANUAL command assigns gain_code directly](https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/main/targets/esp32/receiver.c#L216-L217).
@@ -32,10 +40,11 @@ calibrated analog gain.
 
 ## Command and receipt contract
 
-Boot synchronization and exact artifact/INFO checks precede the acquisition
-budget. The absolute host deadline begins immediately before the first setting
-command and includes setting replies, diagnostic initialization, all payloads,
-stage receipts and terminal receipt. Completion must occur within 30 seconds.
+The absolute host deadline starts immediately after exclusive UART ownership,
+before synchronization, INFO/LIMITS/BAUD checks or the first setting command.
+It includes startup queries, setting replies, diagnostic initialization, all
+payloads, stage receipts and terminal receipt. Completion must occur within
+30 seconds; startup settling or synchronization does not extend that budget.
 Every read/write timeout is capped to the remaining budget; no late success
 is accepted.
 
