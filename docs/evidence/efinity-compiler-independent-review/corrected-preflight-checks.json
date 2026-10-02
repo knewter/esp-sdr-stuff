@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "verdict": "PASS_CORRECTED_PREFLIGHT",
+  "reviewed_commit": "d9384c1f266a86025f56bb399de65669302c0bf9",
+  "nix_target_packages_added": [
+    "sqlite",
+    "dbus"
+  ],
+  "nix_source_sha256": "dabd346bcfcab4fcbde0a92fc3030896140cb49b6f3e89ed0b2bfd69609e18aa",
+  "compiler_helper_unchanged_sha256": "97ffc5b37bb0a1ebb34898f22a76a173d6ebdf9f1dd4417a8306ce8615694ef3",
+  "compiler_tests_sha256": "a126f520c6795bfe2c585c97fbcc29784bea3d307ea6853707b7d90a041791f7",
+  "independently_replayed_compiler_tests_passed": 18,
+  "actual_import_only_probe_reparse": {
+    "initial_missing_library": "libsqlite3.so.0",
+    "subsequent_missing_library": "libdbus-1.so.3",
+    "corrected_marker_verified": true,
+    "corrected_stderr_bytes": 0,
+    "original_private_file_sha256": {
+      "import.stderr": "9c4a029585ef1a4585b859d4122f2973fd4b5e125dd1b3287278304a14189f0d",
+      "fixed.stderr": "5940e5a7aa1736bedbbc03ef85ea3e24a327bd73ac020d41bae2624d37c48b77",
+      "fixed2.stdout": "5de9b356e9349ff8b349c3288aaeb271d7150d040a13dacdd8eadd63dabf1a42",
+      "fixed2.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "unchanged": [
+    "exact shipped inputs and vendor runner",
+    "compile flow",
+    "four successful stages",
+    "fresh hex requirement",
+    "owned group cleanup and private outputs",
+    "physical Forgix compilation gates"
+  ],
+  "earlier_actual_001_remains_failed": true,
+  "actual_full_compile_verified_here": false,
+  "reviewer_vendor_execution": false,
+  "hardware_operations": 0
+}
