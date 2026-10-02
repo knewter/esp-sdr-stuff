@@ -1,0 +1,17 @@
+version: '3'
+env:
+  FORGIX_REVIEW_SOURCE_ROOT: '{{.SOURCE_ROOT}}'
+  FORGIX_REVIEW_ARTIFACT_DIR: '{{.ARTIFACT_DIR}}'
+tasks:
+  review:
+    desc: Replay the hash-bound independent lifecycle review (synthetic processes only)
+    requires:
+      vars: [SOURCE_ROOT, ARTIFACT_DIR]
+    cmds:
+      - python3 check_source_binding.py "$FORGIX_REVIEW_SOURCE_ROOT"
+      - python3 -m unittest discover -v -s "$FORGIX_REVIEW_SOURCE_ROOT/tests" -p test_forgix_usb_ram_trial.py
+      - python3 check_prior_closure.py "$FORGIX_REVIEW_SOURCE_ROOT"
+      - python3 check_cleanup_persistence.py "$FORGIX_REVIEW_SOURCE_ROOT"
+      - python3 check_locked_marker.py "$FORGIX_REVIEW_SOURCE_ROOT"
+      - python3 check_locked_inputs.py "$FORGIX_REVIEW_SOURCE_ROOT"
+      - python3 check_artifact.py "$FORGIX_REVIEW_SOURCE_ROOT" "$FORGIX_REVIEW_ARTIFACT_DIR"

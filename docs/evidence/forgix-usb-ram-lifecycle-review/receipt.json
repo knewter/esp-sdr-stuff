@@ -1,0 +1,37 @@
+{
+  "kind": "independent offline Forgix RAM USB lifecycle review",
+  "date": "2026-10-02",
+  "status": "offline_review_passed",
+  "hardware_opened": false,
+  "docker_invoked": false,
+  "reviewed_author_commit": "05673562a3670a03719f042c8bb8e45683260523",
+  "base_lifecycle_commit": "9328d9f8fd80e2887cb017c123d3af1afb41e38e",
+  "reviewed_file_sha256": {
+    "tools/forgix_usb_ram_trial.py": "642d785293c773d1fb8ad3d6add0b3ede20e2d66d2f1cf32719b5203f9567b6c",
+    "tests/test_forgix_usb_ram_trial.py": "12782f3d89f3ad80ed33c255f06db22041858dc428e21fa5e35276775a5fd675",
+    "tools/preserve_forgix.py": "f5d3900257cbf814afc59c3a07cc62ba62e3a15ca7b982781ead130613dbad60",
+    "tools/demo_esp_sdr.py": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966",
+    "tools/forgix_usb_ram_artifact.py": "d005ebc5021a03f255e261c893d9d279de2692192b6dcfa6b69bbbedcbb1d19a"
+  },
+  "author_lifecycle_tests_replayed": 25,
+  "independent_probes": {
+    "unknown_prior_closure": {"exit_code": 2, "full_preservation_calls": 0},
+    "cleanup_error_with_marker_write_failure": {"closure_exception_preserved": true},
+    "generic_cleanup_error_with_marker_write_failure": {"closure_exception_preserved": true},
+    "marker_published_at_lock_acquisition": {"exit_code": 2, "run_session_calls": 0},
+    "execution_input_changed_at_lock_acquisition": {"exit_code": 2, "run_session_calls": 0},
+    "exact_historical_artifact_admitted": true,
+    "mutated_load_flash_destination_rejected": true
+  },
+  "artifact": {
+    "source_commit": "0beff50d69ef5cb69939815f9c879a9d84a33678",
+    "build_source_sha256": "d560280bd4c12f2dda3a7312314a0abc968ac2cc4309793709aa4da584bac7ce",
+    "elf_sha256": "6808b8145aada14b53cb0f46bb7379ecc80cb59181c3dd381555f8b934b58784",
+    "allocated_load_bytes": 35948,
+    "stack_bytes": 4096,
+    "heap_section_bytes": 0
+  },
+  "blocking_findings_remaining_in_reviewed_source": 0,
+  "physical_acceptance_gates_changed": false,
+  "physical_identity_image_runtime_flash_recovery_proved": false
+}
