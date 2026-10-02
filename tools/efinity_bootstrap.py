@@ -397,7 +397,7 @@ def stop_group(proc, grace=2):
     raise Refusal('Vendor process group closure is unverified; inspect private runtime state before reuse')
 
 
-def run_owned(command, env, output, timeout, store):
+def run_owned(command, env, output, timeout, store, cwd=None):
     # Deferral spans Popen and ownership registration; children inherit normal
     # signal dispositions, not a blocked signal mask. Cleanup ignores repeated
     # cancellation until the whole owned group is proven gone.
@@ -406,8 +406,9 @@ def run_owned(command, env, output, timeout, store):
     try:
         for number in (signal.SIGINT, signal.SIGTERM):
             handlers[number] = signal.signal(number, lambda n, _:pending.append(n))
+        spawn_options = {'cwd': cwd} if cwd is not None else {}
         proc = subprocess.Popen(command, env=env, stdout=output,
-                                stderr=subprocess.STDOUT, start_new_session=True)
+                                stderr=subprocess.STDOUT, start_new_session=True, **spawn_options)
         for number in handlers:signal.signal(number, cancel)
         if pending:cancel()
         returncode = proc.wait(timeout=timeout)

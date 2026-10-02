@@ -146,6 +146,45 @@ group closure blocks later storage changes pending inspection. Sanitized output 
 version/hash, never a license-compile claim. Re-run the hardware-free bootstrap
 guards with `nix develop .#ci --command task forgix:efinity:test`.
 
+## Offline compiler verification
+
+CLI help alone does not verify synthesis or licensing for compilation. A
+separate bounded software fixture can check the installed compiler without
+assuming the connected Forgix's grade, oscillator or revision:
+
+```sh
+nix develop .#forgix --command task forgix:efinity:compile-smoke -- --private .scratch/efinity-compile-smoke-001
+nix develop .#ci --command task forgix:efinity:compile-smoke:test
+```
+
+The first command performs real offline compilation; it does not program
+hardware. Use a fresh ignored directory for each attempt. The helper pins the
+staged full release 2026.1.132, reviewed runner and four shipped `pt_demo`
+inputs. It copies only those inputs, omitting shipped output/cache files, and
+runs the fixed `--flow compile --timeout 300` command in the selected Nix FHS
+runtime. The owned process-group timeout is 330 seconds, with bounded cleanup
+before interpreting results. The installation remains unchanged. Logs,
+projects and bitstreams stay private, outside Git and the site; failures retain
+their partial outputs and `result.json`.
+
+This fixture targets **Trion T8F81/C2**, as a generic software example. Its PLL,
+oscillator and I/O assignments make no claim about the connected Forgix.
+The [official user guide, pp.19 and 30](https://www.efinixinc.com/docs/efinity-ug-v16.1.pdf)
+documents the example target and distinguishes compilation from programming.
+The helper requires actual ordered `map`, `interface`, `pnr` and `pgm` PASS
+markers, matching completed-stage logs and a fresh nonempty `.hex` with its
+size and SHA-256. Here `pgm` generates bitstream data; `--flow program` is never
+used. The separately named optional `export_bitstream` operation converts
+files to binary when requested; this unchanged shipped example requests none.
+No simulation, Java IP generator or programmer is required for this fixture.
+
+A passing receipt verifies that the actual compiler accepted this generic
+fixture in the current environment. It does not verify a connected-board
+image, transport, timing, programming or FPGA behavior. The existing Forgix
+physical-parameter declarations and compilation guards remain required for
+that separate path. No real fixture compilation is recorded at this
+implementation checkpoint; synthetic tests prove the guards only.
+
 ## Vendor download and license workflow
 
 Before the user reported new downloads, a metadata-only search inspected about 414,000 filenames across downloads,
@@ -178,8 +217,9 @@ For an existing external installation instead, set
 nix develop .#forgix --command task forgix:check -- --require-vendor
 ```
 
-A passing help check verifies the CLI only. The license is considered compile
-verified only after a real gateware build produces a passive-SPI hex image.
+A passing help check verifies the CLI only. A generic offline fixture can verify that the compiler accepts a full build
+in the current environment. Connected Forgix gateware verification still
+requires its separate declared-parameter build and passive-SPI hex image.
 The upstream Forgix example reports validation with Efinity 2025.1; 2026.1
 compatibility must be checked rather than assumed.
 

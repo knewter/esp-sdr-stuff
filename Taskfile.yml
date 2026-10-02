@@ -271,3 +271,13 @@ tasks:
     desc: Offline staging/extraction/version/privacy guards, synthetic inputs only
     cmds:
       - python3 -m unittest discover -s tests -p test_efinity_bootstrap.py
+
+  forgix:efinity:compile-smoke:
+    desc: Compile the pinned generic T8F81/C2 software fixture privately; never programs hardware
+    cmds:
+      - python3 tools/efinity_compile_smoke.py {{.CLI_ARGS}}
+
+  forgix:efinity:compile-smoke:test:
+    desc: Synthetic compiler receipt/path/timeout checks; no vendor compiler or hardware
+    cmds:
+      - python3 -m unittest discover -s tests -p test_efinity_compile_smoke.py
