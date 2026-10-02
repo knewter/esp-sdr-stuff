@@ -1,0 +1,6 @@
+version: '3'
+tasks:
+  audit:
+    desc: Offline guarded source-phase scalar waveform audit
+    cmds:
+      - python3 '{{.TASKFILE_DIR}}/analyse.py' {{.CLI_ARGS}}
