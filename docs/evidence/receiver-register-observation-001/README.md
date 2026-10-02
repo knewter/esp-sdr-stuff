@@ -6,8 +6,9 @@ through the frozen `27ec089` supervisor on 2026-10-02. The worker recorded
 its saved-wire parser before publishing a capture receipt. All private UART,
 IQ and worker metadata remain retained for independent review.
 
-The first retained startup newline follows 8,903 bytes; the first actual
-diagnostic configuration line starts at byte offset 9,101. The supervisor
+The first retained startup newline follows 8,903 bytes; the newline anchor
+before the first actual diagnostic configuration line is at byte offset 9,101
+(the line itself begins at 9,102). The supervisor
 incorrectly applied the 2,048-byte diagnostic-line limit to that startup
 prelude. This failure was independently reproduced using numeric offsets,
 without publishing boot bytes. The prospective correction allows finite
