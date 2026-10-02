@@ -118,7 +118,7 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Independently review and freeze the separate extended100 readiness protocol before a source-only episode; retain the failed predecessor. RF Trial B still needs its original positive control and valid source counts.",
+      "next": "Freeze and review exact runtime images/closures in the root context before the source-only extended100 readiness episode; 24 source tests and independent timing review pass. The failed predecessor and original RF Trial B gates remain unchanged.",
       "rationale": "Five historical complete owned SDR packets and one independently reproduced fresh ten-bit/manual48 packet establish working BLE decoding. Repeatable detection rates remain open: legacy100 reports count0; extended100 reports count100 but the full monitoring episode fails and is not the legacy marker condition. The offline monitor deadline correction is reviewed. No loss/rate gate or original Trial B prerequisite is waived.",
       "reviewRevision": "8e74fd12524572ab8d3130140fd14dcd41e27fcc",
       "dependencies": [
@@ -171,7 +171,8 @@
         "docs/evidence/ble-extended-count-limit-100-001/README.md",
         "docs/evidence/ble-extended-count-limit-100-independent-review/README.md",
         "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md",
-        "docs/evidence/ble-monitor-readiness-independent-review/README.md"
+        "docs/evidence/ble-monitor-readiness-independent-review/README.md",
+        "docs/evidence/ble-extended-count-limit-100-readiness-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
