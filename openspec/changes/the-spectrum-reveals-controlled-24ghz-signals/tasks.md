@@ -64,3 +64,9 @@ now verify all 1,994 snapshots, source cleanup and both full restorations.
 One fresh complete owned manual48 packet is partial reception proof. Hardware
 has no owned packet; neither condition supplies three reciprocal source
 responses, calibrated gain or emitted counts. Original task checks stay open.
+
+A separately declared [single 100-event controller-count test](docs/research/ble-count-limit-100-protocol.md)
+addresses the five-second/255-event timing mismatch while retaining all old
+failures and the original 255-event reports. It requires a frozen private caller,
+independent review, actual source/monitor count agreement and complete cleanup.
+It supplies no SDR data or closure of an original task above.

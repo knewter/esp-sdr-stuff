@@ -179,3 +179,13 @@ Both full original restorations pass. Frozen positive-offset-band edges do not g
 three reciprocal source responses. This reproduces a fresh ten-bit SDR example
 without establishing calibrated gain, counts or the original eight-bit/BW12/
 hardware-gain Trial B prerequisite. All original tasks remain unchanged.
+
+The next [single 100-event source-only diagnostic](docs/research/ble-count-limit-100-protocol.md)
+keeps the five-second duration and legacy profile while changing only the
+requested event limit from 255 to 100. The earlier 255-event limit needs at least
+5.08 seconds between first/last starts at 20 ms, so that profile cannot normally
+reach its count gate before duration expires. This does not explain the earlier
+duration-zero failures or nonzero-limit zero reports. Independent preflight and
+actual matching `0x43/count100` records are required for this diagnostic alone;
+no emitted RF denominator, original 255-event qualification, RF response, or
+Trial B prerequisite follows automatically. All task criteria stay unchanged.
