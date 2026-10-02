@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "result": "offline_v2_prerequisites_passed_for_prospective_trial",
+  "hardware_access": false,
+  "firmware_source_commit": "5d490e0978332fabd69667a5db2c555d87bd6610",
+  "source_sha256": {
+    "firmware/native-ble-reference/main/main.c": "fc3f64f9831c6bc824ca7ef9f7a9dc92b25f31f457869eac1e7775f5f1a39831",
+    "firmware/native-ble-reference/main/privacy_crypto.c": "13be5120668d4d4bcd2b52311d6518230526093b3ba89fe326dcb5db57967a29",
+    "tools/build_native_ble_reference.py": "06469d69ed6ebddd7d65dffb1ba4abb7da88b3e64d1ff094c9c115a199b1a7fa",
+    "tools/native_ble_reference.py": "435e90209125ef923b31fd24e9a68fde5ebc9bdad26dd294d32c07cce9a459ba",
+    "tests/test_native_ble_reference.py": "f67c3d90eaedd3a531f7155f77b9b309b25a20f3e0171ddf2039b8a29749db43",
+    ".scratch/run_native_reference.py": "903823c371fbc600108c5b2ea9605af84f698c50bd8f72eb8f95780ac3b049f3"
+  },
+  "native_version": "native-ble-ref-v2",
+  "completion_mode": "application_cancel",
+  "sdkconfig_byte_equal_build002": true,
+  "independent_checks": {
+    "manual_image_hash_xor_digest_target_descriptor_layout": true,
+    "actual_native_guard": true,
+    "unchanged_final_supervisor_tests": {
+      "passed": 7,
+      "seconds": 0.003
+    },
+    "v2_focused_host_suite": {
+      "run": 22,
+      "passed": 21,
+      "skipped": 1,
+      "seconds": 0.511,
+      "skip": "dedicated real-PSA derivation required"
+    },
+    "real_PSA_v2_derivation_log_independently_verified": {
+      "derivation": "/nix/store/w4iyvpjbvk0y9s3yayxajhabaj79280g-native-ble-real-psa-check.drv",
+      "run": 22,
+      "passed": 22,
+      "skipped": 0,
+      "seconds": 0.815,
+      "execution_owner": "root; full successful immutable derivation log inspected by independent reviewer"
+    }
+  },
+  "SDK_source_NAR": "author reverified actual source hash; independently inspected successful private offline-verification receipt, not a second full NAR rehash",
+  "source_policy": {
+    "public_cancel_API_only_no_SDK_patch_or_private_timer_hook": true,
+    "connection_roles_remain_disabled": true,
+    "passive_scan_radio_parameters_unchanged": true,
+    "unexpected_natural_completion_or_inactive_scan_fails": true,
+    "one_cancel_at_monotonic_elapsed_at_least_90_seconds": true,
+    "cancel_return_zero_and_discovery_inactive_required": true,
+    "stop_and_finalization_at_most_92_seconds_required": true,
+    "terminal_variables_capture_actual_cancel_and_active_results": true,
+    "counter_state_finalized_under_same_callback_critical_section": true,
+    "later_reports_ignored_after_finalization": true,
+    "host_rejects_v1_natural_END_and_wrong_typed_status_or_duration": true
+  },
+  "physical_v2_stop": "pending trial",
+  "physical_v2_recovery": "pending trial",
+  "failed_v1_trial001_unchanged": true,
+  "SDR_positive": false,
+  "RF_gate_closed": false,
+  "transmitted_event_count": null
+}
