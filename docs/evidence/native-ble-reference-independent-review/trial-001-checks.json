@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "review_result": "failed_trial_prefix_and_recovery_verified",
+  "hardware_access": false,
+  "raw_uart_bytes": 23986,
+  "raw_uart_sha256": "b0e24b6c15511ca238335f501158823cb4f0a003f92b84a9cfbdc0d34cc41a15",
+  "consecutive_contiguous_aggregates": 92,
+  "owned_interval_sum_and_cumulative": 1160,
+  "last_elapsed_us": 92902916,
+  "terminal_end_records": 0,
+  "firmware_errors": [
+    {
+      "schema": 1,
+      "kind": "ERROR",
+      "version": "native-ble-ref-v1",
+      "stage": "SCAN_TIMEOUT",
+      "code": -1
+    }
+  ],
+  "full_original_before_and_after_hash_independently_recomputed": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "full_flash_bytes": 4194304,
+  "successful_actual_hci_commands": 15,
+  "source_episodes": 3,
+  "source_bus_disconnected": true,
+  "monitor_container_removed": true,
+  "child_groups_closed": true,
+  "SDK_timer_diagnosis": {
+    "role_macros": "NIMBLE_BLE_CONNECT=(central||peripheral), NIMBLE_BLE_SCAN=(central||observer)",
+    "ble_hs_timer_exp_gap_dispatch_compiled_out_when_connect_roles_disabled": true,
+    "milliseconds_conversion_correct": true,
+    "source_sha256": {
+      "host/src/ble_hs.c": "da40a478772ced18017ebd6338aa32684c9f098abbc1d63357c8a4758a0e44e5",
+      "host/src/ble_gap.c": "8376f489be2f951fbecd9a37bfff233510b2c1d213e2c9d827e5a636efcea7c4",
+      "host/src/ble_hs_hci.c": "5c5f560bb30a6da8565f76cb63a2eeb384fd48ac75f94dd398852083945f3fd9",
+      "include/nimble/nimble_opt_auto.h": "20e2da4be92e05cd0ba7234ad207f7b07e573345e3a2ca18993565558e7c2b44"
+    }
+  },
+  "prospective_application_cancel_contract": "Separate v2 only: monotonic deadline, cancel return0 and inactive result, explicit completion_mode, no fabricated natural DISC_COMPLETE; fresh build/review/trial required",
+  "successful_90second_reference": false,
+  "SDR_positive": false,
+  "RF_acceptance": false,
+  "transmitted_event_count": null
+}
