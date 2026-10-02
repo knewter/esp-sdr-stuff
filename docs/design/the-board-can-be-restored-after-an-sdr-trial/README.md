@@ -6,4 +6,4 @@ Evidence class: **Design mockup**. This diagram is authored from the proposal, n
 
 Decision gate: A 4,194,304-byte backup with SHA-256 plus a recorded restoration boot; a backup alone does not close recovery proof.
 
-[Proposal](../../../openspec/changes/the-board-can-be-restored-after-an-sdr-trial/proposal.md).
+[Proposal](../../../openspec/changes/archive/2026-10-01-the-board-can-be-restored-after-an-sdr-trial/proposal.md).
