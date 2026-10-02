@@ -44,3 +44,10 @@ discriminator](docs/evidence/ble-zero-counter-rf/README.md) is inconclusive.
 These diagnostic captures are separate from the three counted receiver trials.
 Original counting and acceptance criteria remain unchanged. A recorded usable
 source denominator is still required.
+
+The [bounded register observation](docs/evidence/receiver-register-observation-002/README.md)
+completes 20 valid snapshots and 81 ordered sampled stages with full original
+restoration. Selector 48 / bit23=1 throughout narrows a sampled configuration-field
+mismatch explanation for that run; it does not decode a packet, qualify source
+counts or explain the fresh SDR nulls. The first supervisor failure is retained.
+Trial B remains withheld until its original fresh SDR-positive prerequisite.

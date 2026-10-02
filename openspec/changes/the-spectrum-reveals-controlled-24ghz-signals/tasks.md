@@ -32,3 +32,10 @@ is null on fresh captures and regresses three historical results, so it remains
 unadopted. Offline register firmware/host tests exercise actual C with synthetic
 MMIO; build, installation lifecycle and hardware observation are not accepted
 by those tests. No original task above is completed by these diagnostics.
+
+The separately guarded [physical register observation](docs/evidence/receiver-register-observation-002/README.md)
+now completes 20 valid captures/81 ordered stages with full original restoration.
+All sampled forced-selector fields are 48 and bit23=1. Actual measured hook cycles
+and the [retained failed first attempt](docs/evidence/receiver-register-observation-001/README.md)
+remain explicit. This is readback evidence, not a controlled source response,
+calibrated gain, emitted count or closure of any original task above.

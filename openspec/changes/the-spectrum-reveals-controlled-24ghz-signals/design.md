@@ -81,8 +81,7 @@ not close SDR repeatability or transmitted-count gates.
 
 The next [receiver-register observation design](docs/research/receiver-register-observation.md)
 has an offline implementation with actual-C synthetic MMIO and strict host
-receipt tests. Its build, guarded lifecycle and hardware result remain
-unverified. It proposes bounded readback of the field
+receipt tests and a separately guarded physical diagnostic. It observes bounded readback of the field
 the firmware writes as its forced selector, alongside bit23 at acquisition
 stages, with RAM buffering and diagnostics after payload delivery. A separate
 reviewed diagnostic artifact and declared protocol are prerequisites. No live
@@ -134,6 +133,15 @@ The corrected source now measures complete observation-body cycles separately
 from the MMIO read bracket and declares residual measurement overhead. The
 separate supervisor requires original wire framing/CRC replay, saved IQ checks,
 confirmed whole-group closure and full original restoration. A fresh build,
-target disassembly and independent lifecycle/artifact review still precede the
-first physical register observation. Original RF and transmitted-count gates
-are unchanged.
+target disassembly and independent lifecycle/artifact review precede the
+physical register observation. Those prerequisites now passed for the
+[completed register run](docs/evidence/receiver-register-observation-002/README.md):
+20 valid captures and 81 stages in 10.522101644 seconds, with selector 48 / bit23=1
+at every sampled stage and full original-flash/reset-boot restoration.
+Measured hook-body cycles and residual measurement limits are explicit.
+The [first attempt](docs/evidence/receiver-register-observation-001/README.md)
+remains failed because the supervisor applied a protocol line limit to startup
+noise; its restoration and subsequent offline replay remain separately recorded.
+These observations narrow sampled field inconsistency in those runs without
+establishing effective analog gain, prior state or the cause of the fresh nulls.
+Original RF and transmitted-count gates are unchanged.

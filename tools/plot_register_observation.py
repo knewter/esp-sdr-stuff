@@ -45,7 +45,7 @@ def main():
     axes[2].set_ylim(bottom=0)
     axes[2].set_xlabel('Observed stage sequence (initial read, then four stages per capture)',color='#e7eef7')
     axes[2].set_xlim(-1,81)
-    axes[2].set_xticks([0,1,21,41,61,80])
+    axes[2].set_xticks([0,20,40,60,80])
     handles,labels=axes[0].get_legend_handles_labels()
     fig.legend(handles,labels,loc='upper center',bbox_to_anchor=(.5,.925),ncol=3,
                facecolor='#172336',edgecolor='#405168',labelcolor='#e7eef7',fontsize=9)
