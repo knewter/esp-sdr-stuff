@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "result": "static_host_checks_passed_conditional_diagnostic_not_executed",
+  "hardware_access": false,
+  "source_sha256": {
+    "tools/esp_gain_state_probe.py": "87b99b106b2f5dbb50d3b799aea30fd8c8c0d93db84c326ac8e5cd3f60821aca",
+    "tests/test_esp_gain_state_probe.py": "b509822e0773e2d644787ee72aead5e4ec67afdeae544a0a77a594bbb9ea9eff",
+    ".scratch/run_gain_state.py": "8c64f838bc47f629274a203aa61191a96145b0aca21a627be56cc4913e9da8d4",
+    ".scratch/run_gain_state.task.yml": "316bc5c4fb4c2e8032ec093d0ecc5c6d173ac16a548ab03ff1d184eed66bdc42"
+  },
+  "independent_Nix_tests": {
+    "updated_probe": {
+      "passed": 9,
+      "seconds": 0.39
+    },
+    "mocked_caller_lifecycle": {
+      "passed": 5,
+      "test_sha256": "f97cdf879c7963835b470ead0c15ac83f1106ad058fe5205826c305d9ce9da93",
+      "cases": [
+        "real failed native001 refuses prerequisite",
+        "unknown baseline never installs or restores",
+        "partial install triggers restore",
+        "unclosed worker blocks restore",
+        "signal during restore deferred"
+      ]
+    }
+  },
+  "checks": {
+    "common_lock_across_baseline_install_capture_restore": true,
+    "stable_identity_and_fuser_guards_in_wrapper_or_inherited_phase_helpers": true,
+    "current_full_image_must_match_preserved_baseline": true,
+    "exact_921600_SDR_artifact_profile_guard": true,
+    "completed_positive_committed_native_reference_required": true,
+    "owned_worker_deadline_seconds": 45,
+    "worker_whole_group_closure_before_restore": true,
+    "typed_unclosed_worker_blocks_restore": true,
+    "restore_cancel_deferred": true,
+    "full_original_readback_and_known_boot_required": true,
+    "gain_settings_applied_once": true,
+    "requested_exact_captures": 20,
+    "requested_typed_gain_queries": 41,
+    "acquisition_absolute_ceiling_seconds": 30,
+    "private_bounded_buffer_persisted_after_UART_close": true,
+    "partial_and_persistence_failures_retained": true,
+    "bit23_mismatch_is_observation_not_acquisition_failure": true,
+    "unexpected_software_profile_fails": true
+  },
+  "limits": [
+    "GAIN mode/index and maximum are software/startup fields; only register bit23 is read live",
+    "no live hardware gain-index or calibrated dB proof",
+    "SIGALRM can interrupt a read-to-host-buffer boundary; saved wire verifies buffered bytes rather than all physically delivered bytes",
+    "helper deliberately does not flash/restore or acquire lifecycle lock; private caller must own these",
+    "no source control or decoder expansion",
+    "physical gain probe remains unexecuted; failed native001 does not satisfy prerequisite"
+  ],
+  "SDR_positive": false,
+  "RF_gate_closed": false,
+  "transmitted_event_count": null
+}
