@@ -37,6 +37,7 @@ def main():
         for measured_image in page.locator("[data-known-applications] img").all():
             measured_image.scroll_into_view_if_needed()
             page.wait_for_function("image => image.complete && image.naturalWidth > 0", arg=measured_image.element_handle())
+            assert f"source/{revision}/docs/evidence/" in measured_image.get_attribute("src")
         assert "WXJC" in page.locator("#content").inner_text()
         assert "Five known BLE packets" in page.locator("#content").inner_text()
         # The published demo must show values from its linked physical receipt,
@@ -75,6 +76,7 @@ def main():
         capture = demo.locator("img")
         assert capture.count() == 1
         assert "actual" in capture.get_attribute("alt").lower()
+        assert f"source/{revision}/docs/evidence/" in capture.get_attribute("src")
         capture.scroll_into_view_if_needed()
         page.wait_for_function("image => image.complete && image.naturalWidth > 0", arg=capture.element_handle())
         completed = page.request.get(urljoin(base, demo.get_by_role("link", name="See the completed display →", exact=True).get_attribute("href")))
@@ -125,6 +127,12 @@ def main():
         page.goto(base + "evidence/docs-evidence-board-identification-readme-md/", wait_until="networkidle")
         page.get_by_role("link", name="Boot log", exact=True).click()
         assert "hello_world" in page.locator(".ev-text").inner_text()
+        # Canonical image pages and Markdown/gallery references use the exact
+        # exported image bytes rather than a second generated media copy.
+        page.goto(base + "evidence/docs-evidence-rtl-fm-survey-fm-structure-png/", wait_until="networkidle")
+        image = page.locator(".ev-image img")
+        assert f"source/{revision}/docs/evidence/rtl-fm-survey/fm-structure.png" in image.get_attribute("src")
+        page.wait_for_function("image => image.complete && image.naturalWidth > 0", arg=image.element_handle())
         for route in ("", "work/", "compare/", "fpga/"):
             page.set_viewport_size({"width": 390, "height": 844})
             page.goto(base + route, wait_until="networkidle")

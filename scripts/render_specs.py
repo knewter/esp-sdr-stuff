@@ -638,6 +638,14 @@ def build_data(
     asset_dir: Path | None = None,
     source_revision_value: str | None = None,
 ) -> tuple[dict, Report]:
+    # This directory contains generated copies only. Clearing it prevents an
+    # earlier build's unused media from silently inflating the next bundle.
+    if asset_dir is not None:
+        generated_assets = asset_dir / "evidence"
+        if generated_assets.is_symlink():
+            raise ValueError("Generated evidence directory must not be a symlink")
+        if generated_assets.exists():
+            shutil.rmtree(generated_assets)
     caps, defects = load_capabilities(repo_root)
     report = Report(capabilities=caps, defects=defects)
     link = Linker(repo_root)
@@ -734,11 +742,19 @@ def build_data(
             if path in work_only:
                 entry["mediaUrl"] = pinned_media_url(revision, path)
             else:
-                entry["asset"] = asset
-            if asset_dir is not None and path not in work_only:
-                target = asset_dir / asset
-                target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_bytes(source.read_bytes())
+                exported = asset_dir / "source" / revision / path if asset_dir is not None else None
+                if exported is not None and exported.is_file():
+                    if exported.read_bytes() != source.read_bytes():
+                        raise ValueError(f"Exported image differs from evidence source: {path}")
+                    entry["asset"] = f"source/{revision}/{quote(path, safe='/')}"
+                else:
+                    # Standalone renderer/fixtures can still supply copied
+                    # images when no immutable source export has been prepared.
+                    entry["asset"] = asset
+                    if asset_dir is not None:
+                        target = asset_dir / asset
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        target.write_bytes(source.read_bytes())
         elif source.suffix.lower() in VIDEO_SUFFIXES:
             # Do not decode or copy recordings.  A video evidence page links
             # to its exact committed bytes on the canonical remote, while the

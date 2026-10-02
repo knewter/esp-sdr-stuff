@@ -323,6 +323,57 @@ class TestData(unittest.TestCase):
             self.assertNotIn("text", entry)
             self.assertFalse(assets.exists(), "video bytes must not enter site/public")
 
+    def test_image_reuses_exact_export_and_removes_stale_generated_copies(self) -> None:
+        with TempRepo() as root:
+            path = "docs/evidence/capture.png"
+            image = root / path
+            image.parent.mkdir(parents=True)
+            payload = b"\x89PNG\r\n\x00\xfffixture"
+            image.write_bytes(payload)
+            write_spec(root, "display/panel", "### Requirement: Image\n\n"
+                       "The board SHALL show it.\n\n"
+                       f"*Grounding: `{path}` records it.*\n")
+            assets = root / "site-public"
+            exported = assets / "source" / "abc123" / path
+            exported.parent.mkdir(parents=True)
+            exported.write_bytes(payload)
+            stale = assets / "evidence" / "old.png"
+            stale.parent.mkdir(); stale.write_bytes(payload)
+            for _ in range(2):
+                data, _ = render_specs.build_data(root, assets, source_revision_value="abc123")
+                entry = data["evidence"][0]
+                self.assertEqual(entry["asset"], "source/abc123/" + path)
+                self.assertEqual(entry["slug"], "docs-evidence-capture-png")
+                self.assertEqual(exported.read_bytes(), payload)
+                self.assertEqual(image.read_bytes(), payload)
+                self.assertFalse((assets / "evidence").exists())
+
+    def test_mismatched_export_is_rejected_instead_of_serving_other_image(self) -> None:
+        with TempRepo() as root:
+            path = "docs/evidence/capture.png"
+            image = root / path; image.parent.mkdir(parents=True); image.write_bytes(b"actual")
+            write_spec(root, "display/panel", "### Requirement: Image\n\n"
+                       "The board SHALL show it.\n\n"
+                       f"*Grounding: `{path}` records it.*\n")
+            assets = root / "site-public"
+            exported = assets / "source" / "abc123" / path
+            exported.parent.mkdir(parents=True); exported.write_bytes(b"wrong")
+            with self.assertRaisesRegex(ValueError, "Exported image differs"):
+                render_specs.build_data(root, assets, source_revision_value="abc123")
+            self.assertEqual(exported.read_bytes(), b"wrong")
+            self.assertEqual(image.read_bytes(), b"actual")
+
+    def test_standalone_image_render_keeps_copy_when_export_is_absent(self) -> None:
+        with TempRepo() as root:
+            path = "docs/evidence/capture.png"
+            image = root / path; image.parent.mkdir(parents=True); image.write_bytes(b"fixture")
+            write_spec(root, "display/panel", "### Requirement: Image\n\n"
+                       "The board SHALL show it.\n\n"
+                       f"*Grounding: `{path}` records it.*\n")
+            assets = root / "site-public"
+            data, _ = render_specs.build_data(root, assets, source_revision_value="abc123")
+            self.assertEqual((assets / data["evidence"][0]["asset"]).read_bytes(), b"fixture")
+
     def test_the_data_pass_reads_openspec_specs_and_nothing_else(self) -> None:
         with TempRepo() as root:
             (root / "openspec" / "changes" / "a-change" / "specs" / "x" / "y").mkdir(
