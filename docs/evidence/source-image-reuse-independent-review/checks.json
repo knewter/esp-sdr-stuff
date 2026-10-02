@@ -1,0 +1,37 @@
+{
+  "verdict": "PASS",
+  "reviewed_commit": "09134f49133c057b4f6866b15eda683d3cd7ed05",
+  "baseline_commit": "afde204",
+  "focused_renderer_tests": 28,
+  "site_output_tests": 3,
+  "browser_groups": 13,
+  "exported_files_exact": 739,
+  "exported_bytes_exact": 13546473,
+  "removed_duplicate_images": 8,
+  "removed_duplicate_bytes": 1246182,
+  "production_bytes": 15240258,
+  "preservation_refusal_cases": 7,
+  "repeat": {
+    "output_paths": 874,
+    "normalized_output_identical": true,
+    "normalization_only_preexisting_display_generation_time": true,
+    "stale_generated003_bytes_removed": 286625,
+    "stale_generated003_files_removed": 2,
+    "original003_images_preserved": true
+  },
+  "physical_operations": 0,
+  "original_sources_unchanged": true,
+  "cleanup_ownership": "canonical non-symlink generated subtree or exact renderer marker; other existing trees refused intact",
+  "prior_cleanup_defect_corrected": true,
+  "proof_sha256": {
+    "bytes.py": "9e8946498bcba2625f3a4e2d847bef4b42de147a70f86c49f10cc99efeeb7f43",
+    "bytes.json": "0f738b931a8a3e2ccab3bfa111731d987ff57de22ee9206c92a933923b350416",
+    "repeat.py": "650a1d268b3bb5a1260a34efe4ee70fbefeba162e3529857f760a4e4d65f8294",
+    "repeat-checks.json": "217e710573f5f4026b83d5f79184244ac1f1c9c5ae4720a00ac69cf01f92831a",
+    "production-09134f4.log": "59c74b32bfdbecba0314ea446bd49a5797b08bc158518e3b890212c2e8d92b4a",
+    "browser-09134f4.log": "648c1e77456e18212d030bf8481174c8dfde0719b65992c1e6237a8bcb19c322",
+    "repeat-production-09134f4.log": "9c8d7c45c200187739c1c59441b7b40bbcd054a099fcfa3c65983ac7ac68ba29",
+    "browser-09134f4/capture.json": "f173e119eb6a9df84fa33987a7062c825414e44dfa5b37e7ecea2fa0193eca43",
+    "Taskfile.yml": "92b9c1664e78569ca64b1b97bb606acfef562865cb838540a960cd71f207e1bf"
+  }
+}
