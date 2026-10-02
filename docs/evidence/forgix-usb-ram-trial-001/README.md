@@ -14,6 +14,10 @@ picotool version. The [historical lifecycle review](../forgix-usb-ram-lifecycle-
 and [version-check supplement](../forgix-usb-ram-version-review/README.md)
 remain separate offline proof. Neither establishes physical recovery.
 
+The [independent saved-file audit](../forgix-usb-ram-trial-001-review/README.md)
+passes and retains this as a failed episode. Process closure is the parent's
+recorded attestation; the independent reviewer did not check live PID absence.
+
 The [prospective protocol](../../research/forgix-usb-ram-trial-protocol.md)
 requested one 64 KiB/s, 60-second condition with a 100 ms host pause. None
 of that payload condition ran. Do not report zero loss or any throughput.

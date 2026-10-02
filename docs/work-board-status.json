@@ -208,9 +208,10 @@
         "docs/evidence/forgix-usb-ram-collector-review/README.md",
         "docs/evidence/forgix-usb-ram-lifecycle-review/README.md",
         "docs/evidence/forgix-usb-ram-version-review/README.md",
-        "docs/evidence/forgix-usb-ram-trial-001/README.md"
+        "docs/evidence/forgix-usb-ram-trial-001/README.md",
+        "docs/evidence/forgix-usb-ram-trial-001-review/README.md"
       ],
-      "reviewRevision": "a302e3d"
+      "reviewRevision": "f2cbe79064d7e451908ca24e6ea8a6c390de5dfe"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
