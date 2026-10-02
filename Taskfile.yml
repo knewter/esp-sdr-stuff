@@ -286,3 +286,13 @@ tasks:
     desc: Synthetic compiler receipt/path/timeout checks; no vendor compiler or hardware
     cmds:
       - python3 -m unittest discover -s tests -p test_efinity_compile_smoke.py
+
+  forgix:usb-ram:build:
+    desc: Build and inspect the finite synthetic RP2350 ARM RAM-only USB image; opens no device
+    cmds:
+      - python3 tools/build_forgix_usb_ram.py {{.CLI_ARGS}}
+
+  forgix:usb-ram:test:
+    desc: Test RAM ELF range, vector, metadata and buffer guards without hardware
+    cmds:
+      - python3 -m unittest discover -s tests -p test_forgix_usb_ram.py

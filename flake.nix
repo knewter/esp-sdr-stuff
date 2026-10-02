@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/20b1ddd1aa5ace70c9468305030aa4f9ef79671b";
     openspec-src = { url = "github:Fission-AI/OpenSpec/v1.11.0"; flake = false; };
+    tinyusb-src = { url = "github:hathach/tinyusb/86ad6e56c1700e85f1c5678607a762cfe3aa2f47"; flake = false; };
     pico-sdk-src = { url = "github:raspberrypi/pico-sdk/2.2.0"; flake = false; };
     redsea-src = { url = "github:windytan/redsea/4cc27df9939798e800c4ff7cb484be6d9bf68b4d"; flake = false; };
     liquid-dsp-src = { url = "github:jgaeddert/liquid-dsp/10041f70cebbe3b97887e75bb41e48b73dda1b23"; flake = false; };
@@ -72,6 +73,12 @@
         sourceRoot = "source/tools/pioasm";
         cmakeFlags = [ "-DPIOASM_VERSION_STRING=2.2.0" ];
       };
+      picoFirmwareSdk = pkgs.runCommand "pico-sdk-2.2.0-tinyusb-pinned" {} ''
+        cp -a ${inputs.pico-sdk-src} $out
+        chmod -R u+w $out
+        rmdir $out/lib/tinyusb
+        cp -a ${inputs.tinyusb-src} $out/lib/tinyusb
+      '';
       picotool = pkgs.picotool.override { pico-sdk = picoSdk; };
       picotoolImageTag = builtins.substring 0 16 (builtins.hashString "sha256" picotool.drvPath);
       picotoolImage = pkgs.dockerTools.buildLayeredImage {
@@ -249,6 +256,7 @@
         inherit openspec picotool redsea;
         site-dependencies = siteDependencies;
         pico-sdk = picoSdk;
+        pico-firmware-sdk = picoFirmwareSdk;
         liquid-dsp = liquidDsp;
         rtl-sdr = pkgs.rtl-sdr-blog;
         picotool-usb-image = picotoolImage;
@@ -265,6 +273,14 @@
       checks.${system}.native-ble-crypto-check = nativeBleCryptoCheck;
       devShells.${system} = {
         forgix = forgix.shell;
+        forgix-usb-ram = pkgs.mkShell {
+          packages = [ pkgs.python3 pkgs.go-task pkgs.cmake pkgs.ninja pkgs.gcc-arm-embedded pkgs.git pkgs.nix ];
+          PICO_SDK_PATH = "${picoFirmwareSdk}";
+          PICO_SDK_REVISION = "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779";
+          PICO_TINYUSB_REVISION = "86ad6e56c1700e85f1c5678607a762cfe3aa2f47";
+          PYTHONNOUSERSITE = "1";
+          PYTHONPATH = "";
+        };
         ci = pkgs.mkShell (shellVariables // {
           packages = commonPackages ++ [ pythonFull ];
         });

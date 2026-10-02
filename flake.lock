@@ -145,7 +145,8 @@
         "nixpkgs": "nixpkgs_2",
         "openspec-src": "openspec-src",
         "pico-sdk-src": "pico-sdk-src",
-        "redsea-src": "redsea-src"
+        "redsea-src": "redsea-src",
+        "tinyusb-src": "tinyusb-src"
       }
     },
     "systems": {
@@ -160,6 +161,23 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tinyusb-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1735105509,
+        "narHash": "sha256-h2/OaZ5wVPUOg7uJ0b+J0Feq8V/NuhW2UWsUWpefgsc=",
+        "owner": "hathach",
+        "repo": "tinyusb",
+        "rev": "86ad6e56c1700e85f1c5678607a762cfe3aa2f47",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hathach",
+        "repo": "tinyusb",
+        "rev": "86ad6e56c1700e85f1c5678607a762cfe3aa2f47",
         "type": "github"
       }
     }
