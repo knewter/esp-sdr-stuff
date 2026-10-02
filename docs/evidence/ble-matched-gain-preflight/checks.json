@@ -1,0 +1,32 @@
+{
+  "verdict": "PASS",
+  "caller_sha256": "de16a89ce1be9459723434354787fdcc15b11fef0b8661440c47e377d9c54e54",
+  "author_synthetic_tests": 17,
+  "independent_lifecycle_cases": 15,
+  "independent_profile_mutation_rejections": 16,
+  "frozen_files_verified": 27,
+  "receiver_original_app_sha256": "d7a2d80a70134b04e6078d5ac62b728e79ab33364c1845546f7ca321995e4685",
+  "three_parts_match_previous_install": true,
+  "two_original_4MiB_backups_verified": true,
+  "UART_uncertain_blocks_restore": true,
+  "actual_payload_tail_strictly_greater_than10s": true,
+  "source_intervals_and_one_second_analysis_guards_unchanged": true,
+  "root_external_controller_identity_and_handle_reservation_required": true,
+  "source_wire_fields_require_independent_actual_monitor_replay": true,
+  "source_emission_denominator": null,
+  "RF_and_TrialB_gates_unchanged": true,
+  "physical_operations": 0,
+  "repeatable_result_is_schedule_integrity_only": true,
+  "proof_sha256": {
+    "independent.py": "23b0123b9edb9eec07bd1b777294d19f38fb4995344e6529c49fc608c907af93",
+    "independent-checks.json": "5333cc88da0816f744d435765db9bb3675639c4fb461a3e5da6caf763abde711",
+    "independent.log": "ae0a90f975864523cd155d2592a84efdb2e800bb85082204aa3f2a0b03f5361f",
+    "provenance.py": "95a2606c852a6b244b429a3c03681b38452965fa213be6205aef5e861727631a",
+    "provenance-checks.json": "ca8cf02e3b19458492534ca5777c773497695a825d1045aa64fb70416d173da4",
+    "provenance.log": "b35e068919a8fee443802d4e41e085004a14208e55b629cc8e0f39a0f9e33f91",
+    "final-provenance.log": "c1daa80b65077bec82018a9fb4a292d2d8eb9e5af9aefa74863e660ec0e4828d",
+    "monitor-provenance.py": "56131662247ecbc043c9518f93a18a8d85272011612eaefb955a396715add7ca",
+    "monitor-provenance-checks.json": "e4f00d0e9a3438fca6e73344eb879f774584e9cd0f4a6aab9fc1a0c09a171438",
+    "Taskfile.yml": "62d76ad2b84f5351cac9cbf2bb633d752c727c299967a836a1d8e270fa8c7141"
+  }
+}
