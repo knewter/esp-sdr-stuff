@@ -15,7 +15,7 @@
       "physical": "pending",
       "next": "Record an actual power-removal/reapplication boot and finish recovery acceptance.",
       "rationale": "Two matching complete flash reads and final post-trial restore/readback match; original GPIO firmware is running. Actual physical power-cycle proof remains open.",
-      "reviewRevision": "4c1eac8",
+      "reviewRevision": "915e229d9b9d499edbe689e647cffcddebf91e2f",
       "dependencies": [],
       "evidence": [
         "docs/evidence/firmware-preservation/README.md",
@@ -75,7 +75,7 @@
       "physical": "pending",
       "next": "Obtain an actual recorded source counter independent of ESP decoding, then run the three predeclared receiver trials.",
       "rationale": "Five complete owned BLE packets decode with exact data and protected-PDU CRC. The physical Bluetooth monitor verifies accepted settings; three finite source-only trials accepted commands but reported no completed-event count. Capture hit/miss reliability remains open.",
-      "reviewRevision": "4c1eac8",
+      "reviewRevision": "915e229d9b9d499edbe689e647cffcddebf91e2f",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
