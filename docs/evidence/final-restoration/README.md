@@ -14,8 +14,9 @@ ignored under `backups/final-restored-readback.bin`, mode 0600.
 [Fresh reset boot](boot-inspection/boot.log) again identifies the original
 hello_world GPIO application, ESP-IDF v5.4-dirty, CPU 160 MHz and pin toggles.
 This establishes the restored bytes and application boot after software reset.
-Every serial handle is closed. The board is currently running that original
-application rather than the experimental SDR image.
+Every serial handle is closed. This checkpoint restored that original application. The [latest restoration
+after subsequent diagnostics](../zero-counter-restoration/README.md) verifies
+its complete image and fresh reset boot again; it is the current firmware record.
 
 **Physical power-cycle recovery remains open.** The user has been asked to
 remove/reapply the ESP32 USB power. The bounded host observer subsequently
