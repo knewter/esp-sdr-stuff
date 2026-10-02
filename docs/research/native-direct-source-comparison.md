@@ -1,6 +1,6 @@
 # Prospective native comparison of direct-HCI advertising limits
 
-**UNVERIFIED: this comparison has not run.** Native source-reference002 received
+**UNVERIFIED: the six-episode comparison has not completed.** Native source-reference002 received
 1176 exact owned reports using BlueZ, completed its explicit 90-second stop and
 verified original-image restoration. The direct-HCI timer diagnostics instead
 returned actual `0x3c/count0`; their previous SDR snapshots decoded no complete
@@ -13,6 +13,29 @@ Grounding: [native002](../evidence/native-ble-source-reference-002/README.md),
 [timer diagnostics](../evidence/ble-duration-source-diagnostics/README.md),
 [zero-counter RF trial](../evidence/ble-zero-counter-rf/README.md), and
 [unchanged prospective BLE plan](ble-next-trial.md).
+
+## Retained failed first run and prospective supervisor v2
+
+Run001 stopped after its first source. The helper returned the expected
+duration termination `0x3c/count0` and diagnostic exit 2, but the enclosing
+Task returned 201. The original supervisor expected 2 and failed before
+starting the remaining five episodes. Its original executed files remain
+immutable; the comparison remains failed. The completed native receipt reports
+[59 owned receptions](../evidence/native-direct-reference-001/capture.json),
+and [full original-image restoration](../evidence/native-direct-reference-001/restoration.json)
+verified. Those observations do not retroactively complete the six conditions
+or qualify the SDR/count gates; independent terminal review remains separate.
+
+Prospective supervisor v2 requests Task `--exit-code` **only for the source
+child**, which passes through the leaf helper's actual exit 2. Native parent,
+monitor, shared Child class, source helper and firmware are unchanged. A real
+locked Nix Task fixture reproduces default 201 versus passthrough 2. The v2
+receipt records its version, explicit passthrough and actual source Task code.
+It never normalizes a generic 201 into an accepted diagnostic. Full typed
+source/ACK/termination/cleanup validation remains necessary even after exit 2.
+See [Task's documented passthrough flag](https://taskfile.dev/docs/reference/cli#x-exit-code).
+Root must explicitly launch a fresh002 after review; the failed001 caller
+does not automatically retry, resume or fall back.
 
 ## Fixed comparison and actual measurements
 
@@ -113,7 +136,7 @@ nix develop .#ci --command task --taskfile .scratch/run_native_direct_reference.
 Prospective command for the sole operator **after review**, using fresh paths:
 
 ```sh
-nix develop --command task --taskfile .scratch/run_native_direct_reference.task.yml run -- --artifact .scratch/native-reference-artifact-003 --manifest .scratch/native-reference-artifact-003/manifest.json --private .scratch/native-direct-reference-next --output docs/evidence/native-direct-reference-next
+nix develop --command task --taskfile .scratch/run_native_direct_reference.task.yml run -- --artifact .scratch/native-reference-artifact-003 --manifest .scratch/native-reference-artifact-003/manifest.json --private .scratch/native-direct-reference-002 --output docs/evidence/native-direct-reference-002
 ```
 
 The command installs an experimental native observer and restores the verified
