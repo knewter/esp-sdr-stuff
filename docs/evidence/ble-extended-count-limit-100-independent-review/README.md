@@ -4,6 +4,10 @@
 2026-10-02 against source revision `52f827c17b8c9e25d0c0e59205f637bf1d24ce88`.
 This review does not report a new physical controller count or RF result.
 
+The subsequent [actual-001 review](actual-001-review.md) records matching
+`0x43/count100` source/monitor events and successful source cleanup, while
+retaining the whole episode as failed because the monitor hit its host deadline.
+
 The [prospective protocol](../../research/ble-extended-count-limit-100-protocol.md)
 permits one owned-handle extended100 episode: 20-ms interval, five-second
 Duration, one-second start delay, a 30-second monitor and absolute 60-second
