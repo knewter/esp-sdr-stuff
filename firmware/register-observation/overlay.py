@@ -45,7 +45,18 @@ def receiver_text(base=None):
                 '#include "register_commands.h"\n\nstatic void command(const char *line) {\n'
                 '    if (regobs_command(line)) return;')
     text = once(text, 'reply("ESP32SDR 6 burst 16380\\n")', 'reply("ESP32REGOBS1 regobs-v1 burst 16380\\n")')
-    text = once(text, 'void app_main(void) {', '#ifndef REGOBS_HOST_TEST\nvoid app_main(void) {')
+    text = once(text, 'void app_main(void) {',
+                '/* Shared with the actual-parser host fixture: do not bypass\n'
+                ' * the armed-session or incomplete-wire guards on parser errors. */\n'
+                'static void regobs_dispatch_status(int status, const char *line) {\n'
+                '    if (regobs_wire_broken) return;\n'
+                '    if (status < 0) {\n'
+                '        if (regobs_state == REGOBS_ARMED) regobs_failed("session_state", regobs_used);\n'
+                '        else reply("ERR command_length\\n");\n'
+                '    } else if (status > 0) command(line);\n'
+                '}\n\n#ifndef REGOBS_HOST_TEST\nvoid app_main(void) {')
+    text = once(text, '        if (status < 0) reply("ERR command_length\\n");\n        else command(line);',
+                '        regobs_dispatch_status(status, line);')
     return text+'\n#endif\n'
 
 
@@ -61,6 +72,10 @@ def transport_text(base=None):
     text=once(text,'#include "burst_serial.h"',
               '#ifdef REGOBS_HOST_TEST\n#include "transport_shim.h"\n#else\n#include "burst_serial.h"')
     text=once(text,'#ifndef CONFIG_ESP_SDR_UART_BAUD',
-              '#endif\nextern bool regobs_transport_guard(const char *line);\n\n#ifndef CONFIG_ESP_SDR_UART_BAUD')
+              '#endif\nextern bool regobs_transport_guard(const char *line);\n'
+              'extern bool regobs_transport_bytes_guard(const char *line, size_t length);\n\n#ifndef CONFIG_ESP_SDR_UART_BAUD')
+    text=once(text,'            memcpy(line, input[port].line, used);',
+              '            if (regobs_transport_bytes_guard(input[port].line, used)) return 0;\n'
+              '            memcpy(line, input[port].line, used);')
     return once(text,'            if (baud_command(line)) return 0;',
                 '            if (regobs_transport_guard(line)) return 0;\n            if (baud_command(line)) return 0;')

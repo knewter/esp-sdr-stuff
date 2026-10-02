@@ -173,6 +173,38 @@ class ActualReceiverC(unittest.TestCase):
                 self.assertNotIn(('text','OK BAUD 1000000'),lines)
                 self.assertFalse(payloads);self.assertFalse(partial)
 
+    def test_actual_parser_and_app_dispatch_reject_armed_overlong_and_nul_bytes(self):
+        for which in (4,7):
+            with self.subTest(which=which):
+                done=subprocess.run([str(self.path/'transport'),str(which)],check=True,capture_output=True,timeout=5)
+                lines,payloads,partial=parse_wire(done.stdout)
+                receipts=[r for tag,r in lines if tag=='REGOBS1']
+                self.assertEqual([r['kind'] for r in receipts],['config','failed'])
+                self.assertEqual(receipts[-1]['failure_kind'],'session_state')
+                self.assertIsNone(receipts[-1]['capture_ordinal'])
+                self.assertEqual(receipts[-1]['records'],[])
+                self.assertNotIn(('text','ERR command_length'),lines)
+                self.assertFalse(payloads);self.assertFalse(partial)
+
+    def test_actual_parser_unarmed_overlong_and_nul_behavior_is_preserved(self):
+        done=subprocess.run([str(self.path/'transport'),'5'],check=True,capture_output=True,timeout=5)
+        lines,payloads,partial=parse_wire(done.stdout)
+        self.assertIn(('text','ERR command_length'),lines)
+        self.assertFalse(payloads);self.assertFalse(partial)
+        done=subprocess.run([str(self.path/'transport'),'8'],check=True,capture_output=True,timeout=5)
+        lines,payloads,partial=parse_wire(done.stdout)
+        self.assertEqual(len(payloads),1);self.assertFalse(partial)
+        self.assertFalse(any(tag=='REGOBS1' for tag,_ in lines))
+
+    def test_actual_parser_after_partial_data_suppresses_overlong_and_nul_output(self):
+        for which in (6,9):
+            with self.subTest(which=which):
+                done=subprocess.run([str(self.path/'transport'),str(which)],check=True,capture_output=True,timeout=5)
+                lines,payloads,partial=parse_wire(done.stdout)
+                self.assertEqual(len(partial),17);self.assertFalse(payloads)
+                self.assertEqual([r['kind'] for tag,r in lines if tag=='REGOBS1'],['config'])
+                self.assertNotIn(b'ERR',partial);self.assertNotIn(b'REGOBS1',partial)
+
 
 class BuildGuards(unittest.TestCase):
     def test_exact_base_bytes_and_deterministic_overlay(self):
@@ -181,6 +213,8 @@ class BuildGuards(unittest.TestCase):
         with self.assertRaises(ValueError):overlay.receiver_text(b'wrong base')
         with self.assertRaises(ValueError):overlay.transport_text(b'wrong transport base')
         self.assertEqual(profile['reserved_sample_slab'],[0x3ffe8000,0x3fff8000])
+        self.assertIn('        regobs_dispatch_status(status, line);',overlay.receiver_text())
+        self.assertNotIn('if (status < 0) reply("ERR command_length',overlay.receiver_text())
 
     def test_security_duplicate_and_target_configuration_rejected(self):
         text='\n'.join(build.REQUIRED)+'\n';build.validate_config(text)

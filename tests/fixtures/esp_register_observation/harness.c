@@ -93,17 +93,17 @@ int main(int argc,char **argv) {
     assert(argc==2); mode=(unsigned)strtoul(argv[1],NULL,10); assert(mode<=CAPTURE_DEADLINE);
     assert(esp_rom_crc32_le(0,(const uint8_t *)"123456789",9)==0xcbf43926);
     gain_max=72;
-    command("INFO");
-    command("FREQ 2401"); command("BANDWIDTH 20"); command("GAIN MANUAL 48");
+    regobs_dispatch_status(1, "INFO");
+    regobs_dispatch_status(1, "FREQ 2401"); regobs_dispatch_status(1, "BANDWIDTH 20"); regobs_dispatch_status(1, "GAIN MANUAL 48");
     assert(gain_writes==2 && gain_code==48 && rx_filter==64);
     assert((gain_word >> 24)==48 && (gain_word & BIT(23)));
     assert((gain_word & 0x7fffff)==((72u << 8)|0x12));
     unsigned before_writes=gain_writes, before_reads=rx_reads, before_trace=trace_used;
     if (mode==UNARMED) {
-        command("CAP20 16380 6"); assert(regobs_used==0);
+        regobs_dispatch_status(1, "CAP20 16380 6"); assert(regobs_used==0);
     } else {
         if(mode==CONFIG_MISMATCH) frequency_mhz=2412;
-        command("REGOBS1 BEGIN 0123456789abcdef0123456789abcdef");
+        regobs_dispatch_status(1, "REGOBS1 BEGIN 0123456789abcdef0123456789abcdef");
         if (mode==CONFIG_MISMATCH) assert(regobs_state==REGOBS_FAILED && !triggers);
         else {
             assert(regobs_state==REGOBS_ARMED && regobs_used==1);
@@ -115,20 +115,20 @@ int main(int argc,char **argv) {
                 assert(regobs_used==REGOBS_LIMIT && rx_reads==prior_reads && !strcmp(regobs_error,"record_capacity"));
                 regobs_in_capture=false;
             }
-            if(mode==EARLY_END) command("REGOBS1 END 0123456789abcdef0123456789abcdef");
-            else if(mode==BAD_NONCE) command("REGOBS1 END 1123456789abcdef0123456789abcdef");
-            else if(mode==REAPPLY) command("GAIN MANUAL 48");
+            if(mode==EARLY_END) regobs_dispatch_status(1, "REGOBS1 END 0123456789abcdef0123456789abcdef");
+            else if(mode==BAD_NONCE) regobs_dispatch_status(1, "REGOBS1 END 1123456789abcdef0123456789abcdef");
+            else if(mode==REAPPLY) regobs_dispatch_status(1, "GAIN MANUAL 48");
             else {
-                for(unsigned i=0;i<20 && regobs_state==REGOBS_ARMED;i++) command("CAP20 16380 6");
-                if(mode==EXCESS) command("CAP20 16380 6");
-                else if(regobs_state==REGOBS_ARMED) command("REGOBS1 END 0123456789abcdef0123456789abcdef");
+                for(unsigned i=0;i<20 && regobs_state==REGOBS_ARMED;i++) regobs_dispatch_status(1, "CAP20 16380 6");
+                if(mode==EXCESS) regobs_dispatch_status(1, "CAP20 16380 6");
+                else if(regobs_state==REGOBS_ARMED) regobs_dispatch_status(1, "REGOBS1 END 0123456789abcdef0123456789abcdef");
             }
             if(mode==SUCCESS || mode==VARIANT) assert(regobs_state==REGOBS_DONE && regobs_used==81 && regobs_captures==20 && triggers==20);
             else assert(regobs_state==REGOBS_FAILED);
         }
         /* Rejected session cannot trigger another acquisition or setting write. */
         unsigned prior=triggers;
-        command("CAP20 16380 6"); command("GAIN MANUAL 48");
+        regobs_dispatch_status(1, "CAP20 16380 6"); regobs_dispatch_status(1, "GAIN MANUAL 48");
         assert(triggers==prior);
     }
     assert(gain_writes==before_writes && !control);

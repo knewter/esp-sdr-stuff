@@ -15,7 +15,11 @@ headers are distributed under the same GPLv3 terms.
 hooks into that receiver. The build copies the pinned project into private
 scratch; it never changes the input checkout or SDK.
 The diagnostic copy of the common serial parser additionally consults the
-armed-session guard before consuming BAUD commands. Unarmed behavior stays
+armed-session guard before consuming BAUD commands and checks the original
+command byte span for embedded NUL before any C-string interpretation. The
+actual application loop uses a shared dispatch guard for overlong parser errors.
+Armed malformed commands fail the session; after incomplete DATA, all further
+command/error output is suppressed. Unarmed behavior stays
 unchanged; no general SDR source or artifact approval is altered.
 
 The host-only tests compile that generated receiver's real acquisition, packing,
