@@ -19,7 +19,7 @@ invented or added to the acquisition transcripts. The executed source hash
 is pinned to the root-owned acquisition provenance.
 The helper's original `trial_failed` status and exit code 2 remain intact.
 **Actual RF emission count is unknown**; zero is the controller field, not an
-independently observed RF count. No recovery rate or ≥100 counted-event gate is
+independently observed RF count. No reception rate or ≥100 counted-event gate is
 accepted. This diagnostic does not change the earlier [four verified BlueZ
 receptions](../ble-owned-decoding/README.md) or [one controls-trial
 reception](../ble-controls-decoding/README.md).
