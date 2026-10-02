@@ -204,6 +204,22 @@ class HostActualCReceipts(unittest.TestCase):
                 session.consume(frame(altered), 11, 12)
             self.assertEqual(len(session.records), 1)
 
+    def test_elapsed_must_fit_original_timer_inside_stage_brackets(self):
+        for rows in (self.good, self.output(17)):
+            line,data = rows[1]
+            obj = host.parse_line(line)
+            maximum = obj['records'][2]['read_begin_us']-obj['records'][1]['read_end_us']
+            self.assertGreaterEqual(maximum,obj['capture_elapsed_us'])
+            for elapsed in (maximum+1,50000000):
+                altered = copy.deepcopy(obj)
+                altered['capture_elapsed_us'] = elapsed
+                count,crc,_,payload = data
+                session = self.replay(rows[:1])
+                with self.assertRaises(host.ProtocolError):
+                    session.consume(frame(altered),11,12,data=(count,crc,elapsed,payload))
+                self.assertEqual(len(session.records),1)
+                self.assertEqual(len(session.captures),0)
+
 
 if __name__ == '__main__':
     unittest.main()

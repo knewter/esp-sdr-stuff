@@ -103,6 +103,14 @@ class Session:
             last = end
         require(len(self.records)+len(records) <= 81, 'Record capacity exceeded')
 
+    def _elapsed(self, records, elapsed):
+        if elapsed is not None and len(records) >= 3:
+            # The original start timer follows armed_before_trigger; its
+            # elapsed stop precedes dump_complete. Read brackets therefore
+            # enclose the original measured duration, with nonnegative slack.
+            require(elapsed <= records[2]['read_begin_us']-records[1]['read_end_us'],
+                    'Capture elapsed contradicts its stage clocks')
+
     def consume(self, line, host_start_ns, host_end_ns, *, data=None):
         """data is (count, eight-lowerhex CRC, elapsed_us, actual payload bytes).
 
@@ -167,6 +175,7 @@ class Session:
             exact(obj['payload_crc32'], crc)
             require(zlib.crc32(payload) == int(crc, 16), 'DATA CRC mismatch')
             self._records(obj['records'], len(self.captures), STAGES)
+            self._elapsed(obj['records'], obj['capture_elapsed_us'])
             self.records.extend(obj['records'])
             self.captures.append(obj)
         elif kind == 'end':
@@ -223,6 +232,7 @@ class Session:
             if records:
                 require(ordinal is not None, 'Stages lack a capture ordinal')
                 self._records(records, ordinal, STAGES[:len(records)])
+                self._elapsed(records, obj['capture_elapsed_us'])
                 self.records.extend(records)
             self.state = 'failed'
         else:
