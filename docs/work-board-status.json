@@ -243,7 +243,7 @@
       "source": "archived",
       "physical": "verified",
       "next": "Accepted repeatable Task demo and verified publication; RF/burst/FPGA gates continue separately.",
-      "rationale": "Independent replay accepts two consecutive minutes with the exact Nix-built receiver and RAM-buffered workflow: 2,712 and 2,713 valid frames, matching end totals, strict host/firmware durations, all 4 MiB restored and matching original reset boots. The historical minute and three CRC failures remain visible. Exact-commit GitHub build/deploy, live browser and all 543 exported source comparisons pass; no long-run rate or corruption-cause claim.",
+      "rationale": "The accepted Task demo also completed a user-operated interactive minute: 2,706 verified frames, full original 4 MiB readback and expected boot, independently audited. Two earlier consecutive successful minutes and retained CRC failures remain available. The live viewer is localhost-only and closes before restoration; this does not establish continuous reception or long-run reliability.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-board-can-be-restored-after-an-sdr-trial"
@@ -256,9 +256,11 @@
         "docs/evidence/esp-demo-session-004/README.md",
         "docs/evidence/esp-demo-session-005/README.md",
         "docs/evidence/esp-demo-session-006/README.md",
-        "docs/evidence/esp-demo-publication/README.md"
+        "docs/evidence/esp-demo-publication/README.md",
+        "docs/evidence/esp-demo-play-001/README.md",
+        "docs/evidence/esp-demo-play-independent-review/README.md"
       ],
-      "reviewRevision": "18cca9036d301d80959c8b6f52c1161bca145f4d",
+      "reviewRevision": "581c407",
       "cover": {
         "path": "docs/evidence/esp-demo-session-005/completed-spectrum.png",
         "caption": "Actual Nix-built RAM-buffered Task minute: 2,712 CRC-valid frames",
