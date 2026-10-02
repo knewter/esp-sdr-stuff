@@ -33,6 +33,11 @@ It supplies no usable emitted denominator. A separately prospective
 [extended100 source-only condition](docs/research/ble-extended-count-limit-100-protocol.md)
 cannot qualify the original legacy255 reports or close either event-observation task.
 
+The [actual extended100 report](docs/evidence/ble-extended-count-limit-100-001/README.md)
+does observe controller count100, but the full monitoring lifecycle fails.
+Neither its auxiliary-channel payload nor that failed episode supplies the
+original legacy marker denominator. Original event-observation tasks stay open.
+
 [Timer source diagnostics](docs/evidence/ble-duration-source-diagnostics/README.md)
 observe termination events with actual count zero. The [ten-episode RF
 discriminator](docs/evidence/ble-zero-counter-rf/README.md) preserves 262

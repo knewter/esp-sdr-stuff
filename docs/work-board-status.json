@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Verify the original eight-bit/BW12/hardware-gain prerequisite before Trial B; obtain usable emitted counts before reporting rates. Three-cycle RF proof remains open.",
-      "rationale": "Five historical complete SDR packets remain verified. New matched ten-bit controls retain 1,994 valid snapshots and independently reproduce one fresh complete owned packet in manual48 ON0; hardware gain has zero owned and one redacted foreign CRC packet. Both full original-flash restorations pass. Scalar edges do not show three reciprocal source responses or calibrated gain superiority. Earlier 2,248 fresh nulls, rejected DC-first replay, native/register observations and failed count diagnostics remain preserved. The mode pair still reports 0x3c/count0 for legacy and extended; no emitted denominator or RF/count gate closes. The new ten-bit positive does not replace Trial B\u2019s original eight-bit prerequisite. The single reachable legacy100/5s condition also reports actual 0x3c/count0, with all 22 inputs unchanged and full cleanup independently accepted; timing mismatch alone does not explain the count failure.",
-      "reviewRevision": "dfabfce",
+      "next": "Review bounded monitor readiness/capture clocks before any fresh operation; obtain a usable legacy marker denominator for rates and preserve the original eight-bit/BW12/hardware-gain Trial B prerequisite.",
+      "rationale": "Five historical complete SDR packets remain verified. New matched ten-bit controls retain 1,994 valid snapshots and independently reproduce one fresh complete owned packet in manual48 ON0; hardware gain has zero owned and one redacted foreign CRC packet. Both full original-flash restorations pass. Scalar edges do not show three reciprocal source responses or calibrated gain superiority. Earlier 2,248 fresh nulls, rejected DC-first replay, native/register observations and failed count diagnostics remain preserved. The mode pair still reports 0x3c/count0 for legacy and extended; no emitted denominator or RF/count gate closes. The new ten-bit positive does not replace Trial B\u2019s original eight-bit prerequisite. The single reachable legacy100/5s condition also reports actual 0x3c/count0, with all 22 inputs unchanged and full cleanup independently accepted; timing mismatch alone does not explain the count failure. The distinct extended100 source reports actual0x43/count100 in both readers, while a monitor deadline keeps the full episode failed; allgroups/state cleanup pass independent review. Extended auxiliary AD does not qualify the original legacy marker denominator.",
+      "reviewRevision": "e0f25ac",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -102,7 +102,10 @@
         "docs/evidence/ble-matched-gain-independent-review/README.md",
         "docs/evidence/ble-count-limit-100-001/README.md",
         "docs/evidence/ble-count-limit-100-independent-review/README.md",
-        "docs/evidence/ble-count-limit-100-independent-review/actual-001-checks.json"
+        "docs/evidence/ble-count-limit-100-independent-review/actual-001-checks.json",
+        "docs/evidence/ble-extended-count-limit-100-001/README.md",
+        "docs/evidence/ble-extended-count-limit-100-independent-review/README.md",
+        "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
@@ -114,9 +117,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Verify the original eight-bit/BW12/hardware-gain prerequisite before Trial B; obtain usable emitted counts before reporting rates. Three-cycle RF proof remains open.",
-      "rationale": "Five historical complete SDR packets remain verified. New matched ten-bit controls retain 1,994 valid snapshots and independently reproduce one fresh complete owned packet in manual48 ON0; hardware gain has zero owned and one redacted foreign CRC packet. Both full original-flash restorations pass. Scalar edges do not show three reciprocal source responses or calibrated gain superiority. Earlier 2,248 fresh nulls, rejected DC-first replay, native/register observations and failed count diagnostics remain preserved. The mode pair still reports 0x3c/count0 for legacy and extended; no emitted denominator or RF/count gate closes. The new ten-bit positive does not replace Trial B\u2019s original eight-bit prerequisite. The single reachable legacy100/5s condition also reports actual 0x3c/count0, with all 22 inputs unchanged and full cleanup independently accepted; timing mismatch alone does not explain the count failure.",
-      "reviewRevision": "dfabfce",
+      "next": "Review bounded monitor readiness/capture clocks before any fresh operation; obtain a usable legacy marker denominator for rates and preserve the original eight-bit/BW12/hardware-gain Trial B prerequisite.",
+      "rationale": "Five historical complete SDR packets remain verified. New matched ten-bit controls retain 1,994 valid snapshots and independently reproduce one fresh complete owned packet in manual48 ON0; hardware gain has zero owned and one redacted foreign CRC packet. Both full original-flash restorations pass. Scalar edges do not show three reciprocal source responses or calibrated gain superiority. Earlier 2,248 fresh nulls, rejected DC-first replay, native/register observations and failed count diagnostics remain preserved. The mode pair still reports 0x3c/count0 for legacy and extended; no emitted denominator or RF/count gate closes. The new ten-bit positive does not replace Trial B\u2019s original eight-bit prerequisite. The single reachable legacy100/5s condition also reports actual 0x3c/count0, with all 22 inputs unchanged and full cleanup independently accepted; timing mismatch alone does not explain the count failure. The distinct extended100 source reports actual0x43/count100 in both readers, while a monitor deadline keeps the full episode failed; allgroups/state cleanup pass independent review. Extended auxiliary AD does not qualify the original legacy marker denominator.",
+      "reviewRevision": "e0f25ac",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -163,7 +166,10 @@
         "docs/evidence/ble-matched-gain-independent-review/README.md",
         "docs/evidence/ble-count-limit-100-001/README.md",
         "docs/evidence/ble-count-limit-100-independent-review/README.md",
-        "docs/evidence/ble-count-limit-100-independent-review/actual-001-checks.json"
+        "docs/evidence/ble-count-limit-100-independent-review/actual-001-checks.json",
+        "docs/evidence/ble-extended-count-limit-100-001/README.md",
+        "docs/evidence/ble-extended-count-limit-100-independent-review/README.md",
+        "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",

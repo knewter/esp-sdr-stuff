@@ -76,3 +76,8 @@ retains `0x3c/count0`; [independent review](docs/evidence/ble-count-limit-100-in
 accepts failure recording and cleanup. The separately prospective
 [extended100 diagnostic](docs/research/ble-extended-count-limit-100-protocol.md)
 tests the remaining mode/count combination with all original criteria intact.
+
+The [actual extended100 result](docs/evidence/ble-extended-count-limit-100-001/README.md)
+reports `0x43/count100`, but its monitor deadline makes the complete episode
+failed. [Independent actual review](docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md)
+verifies truthful failure retention and cleanup. No original task above closes.

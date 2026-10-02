@@ -198,3 +198,13 @@ changes mode while keeping a reachable count limit. It requires separate frozen
 review and strict actual source/monitor `0x43/count100` agreement; extended
 auxiliary AD cannot supply the original channel-37 marker denominator. No
 original gate changes and no identical legacy retry follows.
+
+The [actual extended100 episode](docs/evidence/ble-extended-count-limit-100-001/README.md)
+now records matching `0x43/count100` and source exit0, distinguishing it from
+legacy100. Its monitor hits the host deadline and the complete protocol correctly
+fails with parent exit2, despite all retained commands and cleanup matching.
+[Independent replay](docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md)
+accepts that distinction and reproduces startup consuming a shared deadline
+offline. Separate bounded readiness/capture clocks need review before any
+fresh operation. The auxiliary-mode report does not give a legacy marker
+denominator or close an original RF/burst gate.
