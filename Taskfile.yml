@@ -119,6 +119,11 @@ tasks:
     cmds:
       - python3 tools/esp_register_observation.py restore {{.CLI_ARGS}}
 
+  register:plot:
+    desc: Plot integrity-bound register stages and measured hook cycles (no hardware)
+    cmds:
+      - python3 tools/plot_register_observation.py {{.CLI_ARGS}}
+
   demo:esp:
     desc: Run the preserved ESP live spectrum demo and verify restoration
     cmds:

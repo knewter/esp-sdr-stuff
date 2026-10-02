@@ -1,0 +1,2189 @@
+{
+  "schema": 1,
+  "kind": "esp32-register-observation-v1",
+  "revision": "regobs-v1",
+  "status": "completed",
+  "worker_exit_code": 0,
+  "acquisition_elapsed_ns": 10522101644,
+  "requested_captures": 20,
+  "verified_capture_count": 20,
+  "records": [
+    {
+      "sequence": 0,
+      "capture_ordinal": null,
+      "stage": "post_settings",
+      "read_begin_us": 715183,
+      "read_end_us": 715187,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 4008
+    },
+    {
+      "sequence": 1,
+      "capture_ordinal": 0,
+      "stage": "before_acquire",
+      "read_begin_us": 728994,
+      "read_end_us": 728994,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 1271
+    },
+    {
+      "sequence": 2,
+      "capture_ordinal": 0,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 729189,
+      "read_end_us": 729190,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 1270
+    },
+    {
+      "sequence": 3,
+      "capture_ordinal": 0,
+      "stage": "dump_complete",
+      "read_begin_us": 730232,
+      "read_end_us": 730232,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 1272
+    },
+    {
+      "sequence": 4,
+      "capture_ordinal": 0,
+      "stage": "restored_after_dump",
+      "read_begin_us": 730259,
+      "read_end_us": 730259,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 5,
+      "capture_ordinal": 1,
+      "stage": "before_acquire",
+      "read_begin_us": 1193966,
+      "read_end_us": 1193966,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 6,
+      "capture_ordinal": 1,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 1194125,
+      "read_end_us": 1194126,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 7,
+      "capture_ordinal": 1,
+      "stage": "dump_complete",
+      "read_begin_us": 1195152,
+      "read_end_us": 1195153,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 8,
+      "capture_ordinal": 1,
+      "stage": "restored_after_dump",
+      "read_begin_us": 1195167,
+      "read_end_us": 1195168,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 340
+    },
+    {
+      "sequence": 9,
+      "capture_ordinal": 2,
+      "stage": "before_acquire",
+      "read_begin_us": 1659962,
+      "read_end_us": 1659962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 10,
+      "capture_ordinal": 2,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 1660121,
+      "read_end_us": 1660122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 11,
+      "capture_ordinal": 2,
+      "stage": "dump_complete",
+      "read_begin_us": 1661149,
+      "read_end_us": 1661149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 12,
+      "capture_ordinal": 2,
+      "stage": "restored_after_dump",
+      "read_begin_us": 1661164,
+      "read_end_us": 1661164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 13,
+      "capture_ordinal": 3,
+      "stage": "before_acquire",
+      "read_begin_us": 2131962,
+      "read_end_us": 2131962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 14,
+      "capture_ordinal": 3,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 2132121,
+      "read_end_us": 2132122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 340
+    },
+    {
+      "sequence": 15,
+      "capture_ordinal": 3,
+      "stage": "dump_complete",
+      "read_begin_us": 2133149,
+      "read_end_us": 2133149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 16,
+      "capture_ordinal": 3,
+      "stage": "restored_after_dump",
+      "read_begin_us": 2133164,
+      "read_end_us": 2133164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 17,
+      "capture_ordinal": 4,
+      "stage": "before_acquire",
+      "read_begin_us": 2599970,
+      "read_end_us": 2599970,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 18,
+      "capture_ordinal": 4,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 2600129,
+      "read_end_us": 2600130,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 19,
+      "capture_ordinal": 4,
+      "stage": "dump_complete",
+      "read_begin_us": 2601156,
+      "read_end_us": 2601157,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 20,
+      "capture_ordinal": 4,
+      "stage": "restored_after_dump",
+      "read_begin_us": 2601171,
+      "read_end_us": 2601172,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 340
+    },
+    {
+      "sequence": 21,
+      "capture_ordinal": 5,
+      "stage": "before_acquire",
+      "read_begin_us": 3065962,
+      "read_end_us": 3065962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 22,
+      "capture_ordinal": 5,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 3066122,
+      "read_end_us": 3066122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 23,
+      "capture_ordinal": 5,
+      "stage": "dump_complete",
+      "read_begin_us": 3067148,
+      "read_end_us": 3067149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 24,
+      "capture_ordinal": 5,
+      "stage": "restored_after_dump",
+      "read_begin_us": 3067164,
+      "read_end_us": 3067164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 25,
+      "capture_ordinal": 6,
+      "stage": "before_acquire",
+      "read_begin_us": 3532962,
+      "read_end_us": 3532962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 326
+    },
+    {
+      "sequence": 26,
+      "capture_ordinal": 6,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 3533122,
+      "read_end_us": 3533122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 27,
+      "capture_ordinal": 6,
+      "stage": "dump_complete",
+      "read_begin_us": 3534148,
+      "read_end_us": 3534149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 28,
+      "capture_ordinal": 6,
+      "stage": "restored_after_dump",
+      "read_begin_us": 3534164,
+      "read_end_us": 3534164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 29,
+      "capture_ordinal": 7,
+      "stage": "before_acquire",
+      "read_begin_us": 3998962,
+      "read_end_us": 3998962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 30,
+      "capture_ordinal": 7,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 3999122,
+      "read_end_us": 3999122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 31,
+      "capture_ordinal": 7,
+      "stage": "dump_complete",
+      "read_begin_us": 4000148,
+      "read_end_us": 4000149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 32,
+      "capture_ordinal": 7,
+      "stage": "restored_after_dump",
+      "read_begin_us": 4000164,
+      "read_end_us": 4000164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 33,
+      "capture_ordinal": 8,
+      "stage": "before_acquire",
+      "read_begin_us": 4464962,
+      "read_end_us": 4464962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 326
+    },
+    {
+      "sequence": 34,
+      "capture_ordinal": 8,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 4465122,
+      "read_end_us": 4465122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 35,
+      "capture_ordinal": 8,
+      "stage": "dump_complete",
+      "read_begin_us": 4466148,
+      "read_end_us": 4466149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 36,
+      "capture_ordinal": 8,
+      "stage": "restored_after_dump",
+      "read_begin_us": 4466164,
+      "read_end_us": 4466164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 37,
+      "capture_ordinal": 9,
+      "stage": "before_acquire",
+      "read_begin_us": 4930962,
+      "read_end_us": 4930962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 38,
+      "capture_ordinal": 9,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 4931122,
+      "read_end_us": 4931122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 39,
+      "capture_ordinal": 9,
+      "stage": "dump_complete",
+      "read_begin_us": 4932148,
+      "read_end_us": 4932149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 40,
+      "capture_ordinal": 9,
+      "stage": "restored_after_dump",
+      "read_begin_us": 4932164,
+      "read_end_us": 4932164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 41,
+      "capture_ordinal": 10,
+      "stage": "before_acquire",
+      "read_begin_us": 5395962,
+      "read_end_us": 5395962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 326
+    },
+    {
+      "sequence": 42,
+      "capture_ordinal": 10,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 5396122,
+      "read_end_us": 5396122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 43,
+      "capture_ordinal": 10,
+      "stage": "dump_complete",
+      "read_begin_us": 5397148,
+      "read_end_us": 5397149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 44,
+      "capture_ordinal": 10,
+      "stage": "restored_after_dump",
+      "read_begin_us": 5397164,
+      "read_end_us": 5397164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 45,
+      "capture_ordinal": 11,
+      "stage": "before_acquire",
+      "read_begin_us": 5865962,
+      "read_end_us": 5865962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 46,
+      "capture_ordinal": 11,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 5866122,
+      "read_end_us": 5866122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 47,
+      "capture_ordinal": 11,
+      "stage": "dump_complete",
+      "read_begin_us": 5867148,
+      "read_end_us": 5867149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 48,
+      "capture_ordinal": 11,
+      "stage": "restored_after_dump",
+      "read_begin_us": 5867164,
+      "read_end_us": 5867164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 49,
+      "capture_ordinal": 12,
+      "stage": "before_acquire",
+      "read_begin_us": 6331962,
+      "read_end_us": 6331962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 326
+    },
+    {
+      "sequence": 50,
+      "capture_ordinal": 12,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 6332122,
+      "read_end_us": 6332122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 51,
+      "capture_ordinal": 12,
+      "stage": "dump_complete",
+      "read_begin_us": 6333148,
+      "read_end_us": 6333149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 52,
+      "capture_ordinal": 12,
+      "stage": "restored_after_dump",
+      "read_begin_us": 6333164,
+      "read_end_us": 6333164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 53,
+      "capture_ordinal": 13,
+      "stage": "before_acquire",
+      "read_begin_us": 6797962,
+      "read_end_us": 6797962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 54,
+      "capture_ordinal": 13,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 6798122,
+      "read_end_us": 6798122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 55,
+      "capture_ordinal": 13,
+      "stage": "dump_complete",
+      "read_begin_us": 6799148,
+      "read_end_us": 6799149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 56,
+      "capture_ordinal": 13,
+      "stage": "restored_after_dump",
+      "read_begin_us": 6799164,
+      "read_end_us": 6799164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 57,
+      "capture_ordinal": 14,
+      "stage": "before_acquire",
+      "read_begin_us": 7264962,
+      "read_end_us": 7264962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 326
+    },
+    {
+      "sequence": 58,
+      "capture_ordinal": 14,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 7265122,
+      "read_end_us": 7265122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 59,
+      "capture_ordinal": 14,
+      "stage": "dump_complete",
+      "read_begin_us": 7266148,
+      "read_end_us": 7266149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 60,
+      "capture_ordinal": 14,
+      "stage": "restored_after_dump",
+      "read_begin_us": 7266164,
+      "read_end_us": 7266164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 61,
+      "capture_ordinal": 15,
+      "stage": "before_acquire",
+      "read_begin_us": 7732962,
+      "read_end_us": 7732962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 62,
+      "capture_ordinal": 15,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 7733122,
+      "read_end_us": 7733122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 63,
+      "capture_ordinal": 15,
+      "stage": "dump_complete",
+      "read_begin_us": 7734148,
+      "read_end_us": 7734149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 64,
+      "capture_ordinal": 15,
+      "stage": "restored_after_dump",
+      "read_begin_us": 7734164,
+      "read_end_us": 7734164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 65,
+      "capture_ordinal": 16,
+      "stage": "before_acquire",
+      "read_begin_us": 8197962,
+      "read_end_us": 8197962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 326
+    },
+    {
+      "sequence": 66,
+      "capture_ordinal": 16,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 8198122,
+      "read_end_us": 8198122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 67,
+      "capture_ordinal": 16,
+      "stage": "dump_complete",
+      "read_begin_us": 8199148,
+      "read_end_us": 8199149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 68,
+      "capture_ordinal": 16,
+      "stage": "restored_after_dump",
+      "read_begin_us": 8199164,
+      "read_end_us": 8199164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 69,
+      "capture_ordinal": 17,
+      "stage": "before_acquire",
+      "read_begin_us": 8664962,
+      "read_end_us": 8664962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 70,
+      "capture_ordinal": 17,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 8665122,
+      "read_end_us": 8665122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 71,
+      "capture_ordinal": 17,
+      "stage": "dump_complete",
+      "read_begin_us": 8666148,
+      "read_end_us": 8666149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 72,
+      "capture_ordinal": 17,
+      "stage": "restored_after_dump",
+      "read_begin_us": 8666164,
+      "read_end_us": 8666164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 73,
+      "capture_ordinal": 18,
+      "stage": "before_acquire",
+      "read_begin_us": 9130970,
+      "read_end_us": 9130970,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 326
+    },
+    {
+      "sequence": 74,
+      "capture_ordinal": 18,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 9131130,
+      "read_end_us": 9131130,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 75,
+      "capture_ordinal": 18,
+      "stage": "dump_complete",
+      "read_begin_us": 9132157,
+      "read_end_us": 9132157,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 76,
+      "capture_ordinal": 18,
+      "stage": "restored_after_dump",
+      "read_begin_us": 9132172,
+      "read_end_us": 9132173,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 77,
+      "capture_ordinal": 19,
+      "stage": "before_acquire",
+      "read_begin_us": 9596962,
+      "read_end_us": 9596962,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 323
+    },
+    {
+      "sequence": 78,
+      "capture_ordinal": 19,
+      "stage": "armed_before_trigger",
+      "read_begin_us": 9597122,
+      "read_end_us": 9597122,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    },
+    {
+      "sequence": 79,
+      "capture_ordinal": 19,
+      "stage": "dump_complete",
+      "read_begin_us": 9598148,
+      "read_end_us": 9598149,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 328
+    },
+    {
+      "sequence": 80,
+      "capture_ordinal": 19,
+      "stage": "restored_after_dump",
+      "read_begin_us": 9598164,
+      "read_end_us": 9598164,
+      "selector": 48,
+      "bit23": 1,
+      "hook_cycles": 325
+    }
+  ],
+  "receipts": [
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "config",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "profile": "esp32-register-observation-v1",
+        "settings": {
+          "frequency_mhz": 2401,
+          "bandwidth_mhz": 20,
+          "filter_code": 64,
+          "gain_mode": "MANUAL",
+          "gain_selector": 48
+        },
+        "rate_hz": 16000000,
+        "bits": 10,
+        "samples": 16380,
+        "captures": 20,
+        "record_limit": 81,
+        "start_us": 715174,
+        "records": [
+          {
+            "sequence": 0,
+            "capture_ordinal": null,
+            "stage": "post_settings",
+            "read_begin_us": 715183,
+            "read_end_us": 715187,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 4008
+          }
+        ]
+      },
+      "host_start_ns": 755218465091332,
+      "host_end_ns": 755218473572525
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 0,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "dc42c48d",
+        "capture_elapsed_us": 1033,
+        "records": [
+          {
+            "sequence": 1,
+            "capture_ordinal": 0,
+            "stage": "before_acquire",
+            "read_begin_us": 728994,
+            "read_end_us": 728994,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 1271
+          },
+          {
+            "sequence": 2,
+            "capture_ordinal": 0,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 729189,
+            "read_end_us": 729190,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 1270
+          },
+          {
+            "sequence": 3,
+            "capture_ordinal": 0,
+            "stage": "dump_complete",
+            "read_begin_us": 730232,
+            "read_end_us": 730232,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 1272
+          },
+          {
+            "sequence": 4,
+            "capture_ordinal": 0,
+            "stage": "restored_after_dump",
+            "read_begin_us": 730259,
+            "read_end_us": 730259,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          }
+        ]
+      },
+      "host_start_ns": 755218925209539,
+      "host_end_ns": 755218937879080
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 1,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "1af97dc3",
+        "capture_elapsed_us": 1024,
+        "records": [
+          {
+            "sequence": 5,
+            "capture_ordinal": 1,
+            "stage": "before_acquire",
+            "read_begin_us": 1193966,
+            "read_end_us": 1193966,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 6,
+            "capture_ordinal": 1,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 1194125,
+            "read_end_us": 1194126,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 7,
+            "capture_ordinal": 1,
+            "stage": "dump_complete",
+            "read_begin_us": 1195152,
+            "read_end_us": 1195153,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 8,
+            "capture_ordinal": 1,
+            "stage": "restored_after_dump",
+            "read_begin_us": 1195167,
+            "read_end_us": 1195168,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 340
+          }
+        ]
+      },
+      "host_start_ns": 755219390248709,
+      "host_end_ns": 755219404436469
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 2,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "49d3e09f",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 9,
+            "capture_ordinal": 2,
+            "stage": "before_acquire",
+            "read_begin_us": 1659962,
+            "read_end_us": 1659962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 10,
+            "capture_ordinal": 2,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 1660121,
+            "read_end_us": 1660122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 11,
+            "capture_ordinal": 2,
+            "stage": "dump_complete",
+            "read_begin_us": 1661149,
+            "read_end_us": 1661149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 12,
+            "capture_ordinal": 2,
+            "stage": "restored_after_dump",
+            "read_begin_us": 1661164,
+            "read_end_us": 1661164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755219856376806,
+      "host_end_ns": 755219876069904
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 3,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "d1dc93d6",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 13,
+            "capture_ordinal": 3,
+            "stage": "before_acquire",
+            "read_begin_us": 2131962,
+            "read_end_us": 2131962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 14,
+            "capture_ordinal": 3,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 2132121,
+            "read_end_us": 2132122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 340
+          },
+          {
+            "sequence": 15,
+            "capture_ordinal": 3,
+            "stage": "dump_complete",
+            "read_begin_us": 2133149,
+            "read_end_us": 2133149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 16,
+            "capture_ordinal": 3,
+            "stage": "restored_after_dump",
+            "read_begin_us": 2133164,
+            "read_end_us": 2133164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755220328257679,
+      "host_end_ns": 755220344152637
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 4,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "98908ce9",
+        "capture_elapsed_us": 1024,
+        "records": [
+          {
+            "sequence": 17,
+            "capture_ordinal": 4,
+            "stage": "before_acquire",
+            "read_begin_us": 2599970,
+            "read_end_us": 2599970,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 18,
+            "capture_ordinal": 4,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 2600129,
+            "read_end_us": 2600130,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 19,
+            "capture_ordinal": 4,
+            "stage": "dump_complete",
+            "read_begin_us": 2601156,
+            "read_end_us": 2601157,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 20,
+            "capture_ordinal": 4,
+            "stage": "restored_after_dump",
+            "read_begin_us": 2601171,
+            "read_end_us": 2601172,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 340
+          }
+        ]
+      },
+      "host_start_ns": 755220796265740,
+      "host_end_ns": 755220810579940
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 5,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "c93bfbd1",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 21,
+            "capture_ordinal": 5,
+            "stage": "before_acquire",
+            "read_begin_us": 3065962,
+            "read_end_us": 3065962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 22,
+            "capture_ordinal": 5,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 3066122,
+            "read_end_us": 3066122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 23,
+            "capture_ordinal": 5,
+            "stage": "dump_complete",
+            "read_begin_us": 3067148,
+            "read_end_us": 3067149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 24,
+            "capture_ordinal": 5,
+            "stage": "restored_after_dump",
+            "read_begin_us": 3067164,
+            "read_end_us": 3067164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755221262281545,
+      "host_end_ns": 755221276814609
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 6,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "71883577",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 25,
+            "capture_ordinal": 6,
+            "stage": "before_acquire",
+            "read_begin_us": 3532962,
+            "read_end_us": 3532962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 326
+          },
+          {
+            "sequence": 26,
+            "capture_ordinal": 6,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 3533122,
+            "read_end_us": 3533122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 27,
+            "capture_ordinal": 6,
+            "stage": "dump_complete",
+            "read_begin_us": 3534148,
+            "read_end_us": 3534149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 28,
+            "capture_ordinal": 6,
+            "stage": "restored_after_dump",
+            "read_begin_us": 3534164,
+            "read_end_us": 3534164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755221729340793,
+      "host_end_ns": 755221743637419
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 7,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "650d010f",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 29,
+            "capture_ordinal": 7,
+            "stage": "before_acquire",
+            "read_begin_us": 3998962,
+            "read_end_us": 3998962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 30,
+            "capture_ordinal": 7,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 3999122,
+            "read_end_us": 3999122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 31,
+            "capture_ordinal": 7,
+            "stage": "dump_complete",
+            "read_begin_us": 4000148,
+            "read_end_us": 4000149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 32,
+            "capture_ordinal": 7,
+            "stage": "restored_after_dump",
+            "read_begin_us": 4000164,
+            "read_end_us": 4000164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755222195271817,
+      "host_end_ns": 755222208773791
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 8,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "79e41a5c",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 33,
+            "capture_ordinal": 8,
+            "stage": "before_acquire",
+            "read_begin_us": 4464962,
+            "read_end_us": 4464962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 326
+          },
+          {
+            "sequence": 34,
+            "capture_ordinal": 8,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 4465122,
+            "read_end_us": 4465122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 35,
+            "capture_ordinal": 8,
+            "stage": "dump_complete",
+            "read_begin_us": 4466148,
+            "read_end_us": 4466149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 36,
+            "capture_ordinal": 8,
+            "stage": "restored_after_dump",
+            "read_begin_us": 4466164,
+            "read_end_us": 4466164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755222660413850,
+      "host_end_ns": 755222675193299
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 9,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "4f02b3a5",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 37,
+            "capture_ordinal": 9,
+            "stage": "before_acquire",
+            "read_begin_us": 4930962,
+            "read_end_us": 4930962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 38,
+            "capture_ordinal": 9,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 4931122,
+            "read_end_us": 4931122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 39,
+            "capture_ordinal": 9,
+            "stage": "dump_complete",
+            "read_begin_us": 4932148,
+            "read_end_us": 4932149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 40,
+            "capture_ordinal": 9,
+            "stage": "restored_after_dump",
+            "read_begin_us": 4932164,
+            "read_end_us": 4932164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755223126459050,
+      "host_end_ns": 755223140603980
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 10,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "b5e2aa7e",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 41,
+            "capture_ordinal": 10,
+            "stage": "before_acquire",
+            "read_begin_us": 5395962,
+            "read_end_us": 5395962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 326
+          },
+          {
+            "sequence": 42,
+            "capture_ordinal": 10,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 5396122,
+            "read_end_us": 5396122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 43,
+            "capture_ordinal": 10,
+            "stage": "dump_complete",
+            "read_begin_us": 5397148,
+            "read_end_us": 5397149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 44,
+            "capture_ordinal": 10,
+            "stage": "restored_after_dump",
+            "read_begin_us": 5397164,
+            "read_end_us": 5397164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755223591641930,
+      "host_end_ns": 755223610448352
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 11,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "fee98e95",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 45,
+            "capture_ordinal": 11,
+            "stage": "before_acquire",
+            "read_begin_us": 5865962,
+            "read_end_us": 5865962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 46,
+            "capture_ordinal": 11,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 5866122,
+            "read_end_us": 5866122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 47,
+            "capture_ordinal": 11,
+            "stage": "dump_complete",
+            "read_begin_us": 5867148,
+            "read_end_us": 5867149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 48,
+            "capture_ordinal": 11,
+            "stage": "restored_after_dump",
+            "read_begin_us": 5867164,
+            "read_end_us": 5867164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755224061498485,
+      "host_end_ns": 755224076458095
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 12,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "14daff0e",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 49,
+            "capture_ordinal": 12,
+            "stage": "before_acquire",
+            "read_begin_us": 6331962,
+            "read_end_us": 6331962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 326
+          },
+          {
+            "sequence": 50,
+            "capture_ordinal": 12,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 6332122,
+            "read_end_us": 6332122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 51,
+            "capture_ordinal": 12,
+            "stage": "dump_complete",
+            "read_begin_us": 6333148,
+            "read_end_us": 6333149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 52,
+            "capture_ordinal": 12,
+            "stage": "restored_after_dump",
+            "read_begin_us": 6333164,
+            "read_end_us": 6333164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755224527459255,
+      "host_end_ns": 755224541344995
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 13,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "73aa337e",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 53,
+            "capture_ordinal": 13,
+            "stage": "before_acquire",
+            "read_begin_us": 6797962,
+            "read_end_us": 6797962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 54,
+            "capture_ordinal": 13,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 6798122,
+            "read_end_us": 6798122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 55,
+            "capture_ordinal": 13,
+            "stage": "dump_complete",
+            "read_begin_us": 6799148,
+            "read_end_us": 6799149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 56,
+            "capture_ordinal": 13,
+            "stage": "restored_after_dump",
+            "read_begin_us": 6799164,
+            "read_end_us": 6799164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755224993519744,
+      "host_end_ns": 755225009437384
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 14,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "f2263d5b",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 57,
+            "capture_ordinal": 14,
+            "stage": "before_acquire",
+            "read_begin_us": 7264962,
+            "read_end_us": 7264962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 326
+          },
+          {
+            "sequence": 58,
+            "capture_ordinal": 14,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 7265122,
+            "read_end_us": 7265122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 59,
+            "capture_ordinal": 14,
+            "stage": "dump_complete",
+            "read_begin_us": 7266148,
+            "read_end_us": 7266149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 60,
+            "capture_ordinal": 14,
+            "stage": "restored_after_dump",
+            "read_begin_us": 7266164,
+            "read_end_us": 7266164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755225460958477,
+      "host_end_ns": 755225476727838
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 15,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "57530f81",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 61,
+            "capture_ordinal": 15,
+            "stage": "before_acquire",
+            "read_begin_us": 7732962,
+            "read_end_us": 7732962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 62,
+            "capture_ordinal": 15,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 7733122,
+            "read_end_us": 7733122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 63,
+            "capture_ordinal": 15,
+            "stage": "dump_complete",
+            "read_begin_us": 7734148,
+            "read_end_us": 7734149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 64,
+            "capture_ordinal": 15,
+            "stage": "restored_after_dump",
+            "read_begin_us": 7734164,
+            "read_end_us": 7734164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755225928463817,
+      "host_end_ns": 755225942067784
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 16,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "3c8d72ee",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 65,
+            "capture_ordinal": 16,
+            "stage": "before_acquire",
+            "read_begin_us": 8197962,
+            "read_end_us": 8197962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 326
+          },
+          {
+            "sequence": 66,
+            "capture_ordinal": 16,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 8198122,
+            "read_end_us": 8198122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 67,
+            "capture_ordinal": 16,
+            "stage": "dump_complete",
+            "read_begin_us": 8199148,
+            "read_end_us": 8199149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 68,
+            "capture_ordinal": 16,
+            "stage": "restored_after_dump",
+            "read_begin_us": 8199164,
+            "read_end_us": 8199164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755226393515368,
+      "host_end_ns": 755226409061155
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 17,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "991b2383",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 69,
+            "capture_ordinal": 17,
+            "stage": "before_acquire",
+            "read_begin_us": 8664962,
+            "read_end_us": 8664962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 70,
+            "capture_ordinal": 17,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 8665122,
+            "read_end_us": 8665122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 71,
+            "capture_ordinal": 17,
+            "stage": "dump_complete",
+            "read_begin_us": 8666148,
+            "read_end_us": 8666149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 72,
+            "capture_ordinal": 17,
+            "stage": "restored_after_dump",
+            "read_begin_us": 8666164,
+            "read_end_us": 8666164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755226860499792,
+      "host_end_ns": 755226875387786
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 18,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "e007625c",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 73,
+            "capture_ordinal": 18,
+            "stage": "before_acquire",
+            "read_begin_us": 9130970,
+            "read_end_us": 9130970,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 326
+          },
+          {
+            "sequence": 74,
+            "capture_ordinal": 18,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 9131130,
+            "read_end_us": 9131130,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 75,
+            "capture_ordinal": 18,
+            "stage": "dump_complete",
+            "read_begin_us": 9132157,
+            "read_end_us": 9132157,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 76,
+            "capture_ordinal": 18,
+            "stage": "restored_after_dump",
+            "read_begin_us": 9132172,
+            "read_end_us": 9132173,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755227326489286,
+      "host_end_ns": 755227341169086
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "capture",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "capture_ordinal": 19,
+        "completion": true,
+        "returned_samples": 16380,
+        "payload_bytes": 40950,
+        "payload_crc32": "c59a4833",
+        "capture_elapsed_us": 1025,
+        "records": [
+          {
+            "sequence": 77,
+            "capture_ordinal": 19,
+            "stage": "before_acquire",
+            "read_begin_us": 9596962,
+            "read_end_us": 9596962,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 323
+          },
+          {
+            "sequence": 78,
+            "capture_ordinal": 19,
+            "stage": "armed_before_trigger",
+            "read_begin_us": 9597122,
+            "read_end_us": 9597122,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          },
+          {
+            "sequence": 79,
+            "capture_ordinal": 19,
+            "stage": "dump_complete",
+            "read_begin_us": 9598148,
+            "read_end_us": 9598149,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 328
+          },
+          {
+            "sequence": 80,
+            "capture_ordinal": 19,
+            "stage": "restored_after_dump",
+            "read_begin_us": 9598164,
+            "read_end_us": 9598164,
+            "selector": 48,
+            "bit23": 1,
+            "hook_cycles": 325
+          }
+        ]
+      },
+      "host_start_ns": 755227792529255,
+      "host_end_ns": 755227807057709
+    },
+    {
+      "receipt": {
+        "schema": 1,
+        "kind": "end",
+        "nonce": "17281ec2ab237ca98735b9ba57a0e2c2",
+        "revision": "regobs-v1",
+        "status": "completed",
+        "captures": 20,
+        "pairs": 327600,
+        "payload_bytes": 819000,
+        "record_count": 81,
+        "start_us": 715174,
+        "end_us": 10063140
+      },
+      "host_start_ns": 755227812241599,
+      "host_end_ns": 755227816157491
+    }
+  ],
+  "payloads": [
+    {
+      "capture_ordinal": 0,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "656965ccbfb8a02caa0e607c6d8244ac31dbbc74290694ca0037eb162d38ced0"
+    },
+    {
+      "capture_ordinal": 1,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "781de1d54bcea6c6f06e91abaf59ddb5e5b0e49ef5e7721d09a38ccb58322fce"
+    },
+    {
+      "capture_ordinal": 2,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "f62dda19b6509065e65838181e05ac0d84bb01cc0d72492e2771edf89dfb4519"
+    },
+    {
+      "capture_ordinal": 3,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "b81dc6c1089dfd124aabd876ce78fc7cc52d6563dcc2eb9bbf08f20502b10dc5"
+    },
+    {
+      "capture_ordinal": 4,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "ce9dc1ce812813c55578e30d6ee47237bd49fcac2264f023bae527e1355ef8c4"
+    },
+    {
+      "capture_ordinal": 5,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "c21796153826df1644a4ad3250714fd4afe4afd75ba3b67e996358fd15e59b7b"
+    },
+    {
+      "capture_ordinal": 6,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "0f2dcd5d77e9c5546aa16654b9823e71abf2697caf1eaa9c3e8eca2ccb023567"
+    },
+    {
+      "capture_ordinal": 7,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "ff57daf199348a2ee8c96d9d33c3ba73c357c828cfb5fed04f7dc312239365a5"
+    },
+    {
+      "capture_ordinal": 8,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "0da3bbb64b575250003c605b335d3147a408dc7c8929407ecfbc124430309b21"
+    },
+    {
+      "capture_ordinal": 9,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "d9b384084f9c998c3c420087ede7a552eb7ee7ef08f6ab186d131b5132a2377d"
+    },
+    {
+      "capture_ordinal": 10,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "d6854ffa51d018ba86fa656475f337c5787d4607d4a1f792e7b8aae0bea54d81"
+    },
+    {
+      "capture_ordinal": 11,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "2ba5fbb0d210b434eb1d266480d66c968b1c52fbb2374dc19cc831d15f9d86d1"
+    },
+    {
+      "capture_ordinal": 12,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "2c54d856d25231d8724382528e9f24f130979ba9020596181be61d027b033438"
+    },
+    {
+      "capture_ordinal": 13,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "c89e1338a7338f7526afeec79111184142eafdbb252a49124be7f2bf07c26046"
+    },
+    {
+      "capture_ordinal": 14,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "9c8ce6bb33aabb320c8fdbfed6fc31c5d22b2a06ba436023cbef1a6d4c902974"
+    },
+    {
+      "capture_ordinal": 15,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "ec870ea8faef9ff38831ba8c39c814953326204f5e1ab0547a4eaeeb6d1b560c"
+    },
+    {
+      "capture_ordinal": 16,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "61555db60507968023acbe380169309ff118112174443c4c62a35dad912cd51a"
+    },
+    {
+      "capture_ordinal": 17,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "2f70b70150fc44061e1d6e853787e2dcc37a2ff777d7c1434357c19fb325624d"
+    },
+    {
+      "capture_ordinal": 18,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "eacf266f31a0c27aa9579314069b072d4ecc7424c66ca0219199989e7384e046"
+    },
+    {
+      "capture_ordinal": 19,
+      "retained_payload_bytes": 40950,
+      "saved_verified": true,
+      "crc_ok": true,
+      "saved_sha256": "86cc7316586a198b0e0927204f512fbb6c9161ca55fab3f602f7965ed4d61a28"
+    }
+  ],
+  "raw_bytes_private": true,
+  "source_controlled": false,
+  "SDR_decoding_proven": false,
+  "calibrated_gain_proven": false,
+  "transmitted_event_count": null,
+  "wire": {
+    "saved_bytes": 846774,
+    "saved_sha256": "709aec4d6e1a73b085f9626012f0061831a55933cd701bdbbd05f9e6abc3f57d",
+    "verified": true
+  }
+}
