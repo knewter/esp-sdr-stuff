@@ -78,3 +78,17 @@ again decodes WXJC with FEC disabled. Forgix now has [verified USB identity and 
 [Current-dipole independent review](../rtl-dipole-independent-review/README.md)
 replays the no-FEC output and accepts the original comparison tasks. No cross-band
 sensitivity ranking or all-band antenna performance is accepted.
+
+The two fresh three-episode BlueZ controls retain
+[1,251 original-profile snapshots](../ble-bluez-control-001/README.md) and
+[997 known-10-bit snapshots](../ble-bluez-control-002/README.md), with zero
+verified packets in both independent full replays. Actual source settings,
+cleanup and complete original-flash/reset-boot restoration pass. These nulls
+remain inconclusive; conditional source Trial B is withheld and all RF/count
+gates remain open. A separate bounded native passive BLE observer is being
+prepared as a current-source reference, not as an SDR decoding result.
+
+The [Forgix Nix host toolchain](../forgix-toolchain/README.md) now runs real
+RTL generation, CLI checks and 17 pinned upstream host tests. Its Efinity
+runtime wrapper builds; the licensed vendor compiler and actual board clock/
+grade/wiring remain prerequisites for FPGA compilation and physical trials.

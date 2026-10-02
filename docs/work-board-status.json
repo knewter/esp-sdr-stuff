@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Run and independently replay the prospective known 10-bit profile before the conditional source-limiter discriminator.",
-      "rationale": "User equipment inventory is recorded: no external RF reference, generator, attenuator or converter. Five earlier owned BLE packets prove specific reception; repeatable responses, filter/gain characterization and extended tuning remain unverified. Current three-episode BlueZ control: all 1,251 transport-valid snapshots, exact source HCI settings and cleanup pass, but full independent replay finds zero verified packets. This null is inconclusive; emission denominator stays null.",
-      "reviewRevision": "0e9748a",
+      "next": "Validate a bounded native passive BLE source-reference diagnostic before any further SDR source-mode comparison; current fresh controls are both null.",
+      "rationale": "User equipment inventory is recorded: no external RF reference, generator, attenuator or converter. Five earlier owned BLE packets prove specific reception; repeatable responses, filter/gain characterization and extended tuning remain unverified. Two fresh three-episode BlueZ controls retain all 1,251 original-profile and 997 known-10-bit transport-valid snapshots; full independent fixed-bound replay finds zero verified packets in both. Exact actual source settings, phases and full-flash/reset-boot recovery pass. These nulls are inconclusive; the emitted denominator stays null and conditional Trial B remains withheld.",
+      "reviewRevision": "e264bdf",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -73,16 +73,17 @@
         "docs/evidence/independent-review/requirement-audit.md",
         "docs/evidence/user-equipment-inventory/README.md",
         "docs/evidence/ble-bluez-control-001/README.md",
-        "docs/evidence/ble-bluez-control-independent-review/README.md"
+        "docs/evidence/ble-bluez-control-independent-review/README.md",
+        "docs/evidence/ble-bluez-control-002/README.md"
       ]
     },
     "the-receiver-can-observe-and-decode-short-bursts": {
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Run and independently replay the prospective known 10-bit profile before the conditional source-limiter discriminator.",
-      "rationale": "Five complete owned BLE packets verify offline decoding. Initial finite source trials lacked termination; timer trials now report actual count zero. All 262 zero-counter diagnostic snapshots pass transport checks but yield no CRC-valid owned packet; null is inconclusive. Hit/miss reliability remains open. Current three-episode BlueZ control: all 1,251 transport-valid snapshots, exact source HCI settings and cleanup pass, but full independent replay finds zero verified packets. This null is inconclusive; emission denominator stays null.",
-      "reviewRevision": "0e9748a",
+      "next": "Validate a bounded native passive BLE source-reference diagnostic before any further SDR source-mode comparison; current fresh controls are both null.",
+      "rationale": "Five complete owned BLE packets verify offline decoding. Initial finite source trials lacked termination; timer trials now report actual count zero. All 262 zero-counter diagnostic snapshots pass transport checks but yield no CRC-valid owned packet; null is inconclusive. Hit/miss reliability remains open. Two fresh three-episode BlueZ controls retain all 1,251 original-profile and 997 known-10-bit transport-valid snapshots; full independent fixed-bound replay finds zero verified packets in both. Exact actual source settings, phases and full-flash/reset-boot recovery pass. These nulls are inconclusive; the emitted denominator stays null and conditional Trial B remains withheld.",
+      "reviewRevision": "e264bdf",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -100,7 +101,8 @@
         "docs/evidence/zero-counter-restoration/README.md",
         "docs/evidence/ble-zero-counter-independent-review/README.md",
         "docs/evidence/ble-bluez-control-001/README.md",
-        "docs/evidence/ble-bluez-control-independent-review/README.md"
+        "docs/evidence/ble-bluez-control-independent-review/README.md",
+        "docs/evidence/ble-bluez-control-002/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",

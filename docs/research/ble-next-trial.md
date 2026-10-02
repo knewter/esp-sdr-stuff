@@ -101,8 +101,8 @@ removal. Container disappearance proves socket release; successful native
 disable/remove and socket-closure receipts separately prove controller cleanup.
 Do not start another HCI operation if either cleanup proof remains unverified.
 
-With MaxEvents zero, the termination event's completed-count field is **not a
-meaningful source denominator**. Store its raw numeric field with
+With MaxEvents zero, the termination event's completed-count field is **required to be zero**
+under Core 6.2 and cannot be a meaningful source denominator. Store its raw numeric field with
 `termination_count_field_meaningful=false`; never accept it as a count, even if
 nonzero. The existing status `0x43` / exact nonzero requested-count gate remains
 unchanged. A packet associated with the unlimited trial demonstrates that
@@ -190,3 +190,45 @@ snapshots and failures. Do not expand the search or repair bits after examining
 the trial. A positive profile may justify later controlled comparisons, while a
 null remains inconclusive. Neither outcome supplies an emitted-event denominator
 or accepts the counted-source gate.
+
+## Completed controls and next source-reference diagnostic
+
+[Trial C](../evidence/ble-bluez-control-002/README.md) has now completed:
+all **997** known-10-bit waveforms pass integrity checks, three source episodes
+and guarded phases pass, and the independent complete fixed-bound replay
+finds **zero** owned packets. Full original-flash readback and reset boot pass.
+Together A/C retain **2,248** valid waveforms with null decodes. This does not
+prove that the source did not radiate or that this ESP cannot receive it.
+Conditional Trial B remains withheld; neither fresh control supplies its
+required SDR-positive condition.
+
+The next planned diagnostic uses a **separate native observer-only BLE app**
+on the same preserved ESP. It checks source receivability through the supported
+Bluetooth stack at the trial's current placement. This is not hidden-SDR
+decoding, an independent hardware reference, simultaneous evidence for A/C,
+a channel-37 measurement or a transmitted event counter. Native scanning
+hops primary advertising channels. A native null remains inconclusive.
+
+Before execution, independently review its pinned Nix SDK build, exact artifact
+parts and observer-only configuration, fresh baseline preflight, bounded
+process ownership and full-flash/reset-boot restoration. Keep the SDR artifact
+allowlist unchanged. Use finite passive discovery, duplicate filtering off,
+no connections, scan requests, advertising, pairing or NVS erase. Discard
+foreign AD and addresses before any app output; retain only exact whole
+owned-marker receptions, readiness, monotonic timing and bounded aggregate
+RSSI/count diagnostics. SDK or UART errors fail the trial, not a reception count.
+
+Predeclare at most 90 seconds native observation, at least ten seconds initial
+OFF, three ten-second episodes of the same known BlueZ source with five-second
+OFF gaps, then more than ten seconds after actual source cleanup/bus closure.
+Start source only after successful native scan readiness and monitor readiness.
+The host monitor checks actual settings/ACKs and owned source cleanup; unchanged
+unlimited source counts remain null. Keep physical placement as found, with
+antennas/distances explicitly unknown unless inspected or supplied. Every
+phase uses complete timing brackets and conservative boundary guards. Do not
+start another source operation if controller or process cleanup is unverified.
+
+A native positive can guide a later prospectively declared SDR receiver or
+placement comparison. It does **not** satisfy the current Trial B SDR-positive
+prerequisite, the three-pair SDR RF gate, or the ≥100 counted-event gate. No
+new acceptance requirement is claimed by this preparation.

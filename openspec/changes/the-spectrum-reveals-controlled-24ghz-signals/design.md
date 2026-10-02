@@ -33,3 +33,20 @@ Pilot trials decoded [four owned BLE packets](docs/evidence/ble-owned-decoding/R
 ## Primary references
 
 [Source register](docs/research/source-index.md) contains pinned repository links and limitations.
+
+## Fresh-control nulls and source reference
+
+The [original-profile control](docs/evidence/ble-bluez-control-001/README.md)
+and [known-10-bit control](docs/evidence/ble-bluez-control-002/README.md)
+retain 1,251 and 997 valid waveforms with independently reproduced null
+decodes. Both restore the complete original flash and boot. No source-count
+or RF-repeatability gate closes.
+
+A separately built native passive observer on this same board is the next
+source-reference diagnostic; see the [prospective bounded protocol](docs/research/ble-next-trial.md).
+It can establish current source reception through the supported Bluetooth
+stack, without proving hidden-SDR demodulation or transmitted event counts.
+Its own finite observer-only build, exact-owned-data filtering, baseline
+preflight and full restoration need independent review before operation.
+Keep foreign addresses/data private, no NVS erase or active scan/connection,
+and no weakening of the existing SDR artifact allowlist or RF acceptance gates.
