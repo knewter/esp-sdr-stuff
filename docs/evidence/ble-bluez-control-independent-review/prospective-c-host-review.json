@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "scope": "Read-only prospective profile-C host review; no hardware or physical acceptance",
+  "source_sha256": {
+    ".scratch/run_ble_control.py": "79e02469704502d4fec749676d55fdf19efb603ae2651f95ba2e7e9e5d6b012d",
+    "tools/measure_owned_ble.py": "35bc587fd8512c7727ad3bcb3d07a922e37091e370a326bc660a4bfbbddd69fb",
+    "tests/test_measure_owned_ble.py": "3e435ceb55545b6a50aae21c9ba93457a4b95b0ec5a6359ef8f164fa837763bf",
+    ".scratch/test_run_ble_control.py": "f43fb8a1cb5325e6ccd7af8e52e977f49d4074edd50fb1062d360268b3f56b68"
+  },
+  "verdict": "PASS for prospective known-profile control under the existing guarded lifecycle",
+  "receiver_profile": {
+    "bits": 10,
+    "frequency_mhz": 2401,
+    "bandwidth_mhz": 20,
+    "gain": "48",
+    "nominal_rate_hz": 16000000,
+    "samples": 16380,
+    "baud": 921600
+  },
+  "unchanged_default_profile": {
+    "bits": 8,
+    "frequency_mhz": 2401,
+    "bandwidth_mhz": 12,
+    "gain": "hardware"
+  },
+  "independent_locked_nix_tests": {
+    "private_lifecycle_and_forwarding_cases": 15,
+    "receiver_complete_wire_format_cases": 4,
+    "all_passed": true
+  },
+  "review_checks": [
+    "Selected format forwarded to CAP16/CAP20, unpacking, stats and metadata",
+    "Original 8-bit default retained",
+    "10-bit full wire response length40950 and signed endpoints511/-512 validated",
+    "Bad CRC and returned sample-count mismatch retained as integrity failures",
+    "Private profile exact settings/ACK gate verified",
+    "BlueZ3x120s/OFF20s source and baseline20/tail>10 unchanged",
+    "Spawn cancellation/group ownership/restoration closure unchanged",
+    "Original TrialA source bytes preserved separately readonly before profile extension",
+    "Three changed receiver parameters declared jointly, with no isolated causal conclusion"
+  ],
+  "RF_acceptance_gate_closed": false,
+  "source_denominator": null,
+  "required_future_proof": [
+    "Actual identity-selected exclusive trial",
+    "Complete saved waveform CRC/hash/count replay",
+    "Actual source HCI control/settings and schedule/cleanup",
+    "Independent full fixed-bound packet/phase replay",
+    "Verified original full-flash restoration and matching boot"
+  ],
+  "limitations": [
+    "Known prior positive receiver cell is a control, not a guarantee of reproduction",
+    "Precision/filter/gain change together; trial cannot isolate one cause",
+    "No expanded decoder bounds, emission denominator or calibrated RF acceptance"
+  ]
+}
