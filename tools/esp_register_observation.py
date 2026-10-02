@@ -145,10 +145,15 @@ def bind_wire(wire, rows, receipts):
     """
     position = 0
     accepted = []
-    def line():
+    def line(startup=False):
         nonlocal position
         end = wire.find(b'\n',position)
-        protocol.require(end>=0 and end-position<2048,'Incomplete retained protocol line')
+        # Pre-synchronization bytes are private untrusted startup noise, not
+        # REGOBS1 lines. Their finite scope is the worker's whole-wire RAM cap.
+        # The first candidate and all actual protocol lines still pass their
+        # strict 2048-byte parser bound; no protocol resynchronization follows.
+        limit = 2*1024*1024 if startup else 2048
+        protocol.require(end>=0 and end-position<limit,'Incomplete retained protocol line')
         raw = wire[position:end+1]
         position=end+1
         return raw
@@ -173,7 +178,7 @@ def bind_wire(wire, rows, receipts):
     # diagnostic line, rather than an arbitrary later matching substring, owns
     # the start of the separately identified protocol.
     while position<len(wire):
-        raw=line()
+        raw=line(startup=True)
         if raw.startswith((b'REGOBS1 ',b'ERR REGOBS1 ')):
             typed(raw)
             break
@@ -229,6 +234,7 @@ def capture_summary(result, private, code):
     wire_ok = False
     wire = None
     if wire_state.get('verified') is True:
+        protocol.integer(result['retained_wire_bytes'],maximum=2*1024*1024+40950)
         wire = file_receipt(private/'wire.bin',result['retained_wire_bytes'],result['retained_wire_sha256'])
         protocol.exact(result['consumed_uart_bytes'],len(wire))
         protocol.exact(wire_state['saved_bytes'],len(wire))

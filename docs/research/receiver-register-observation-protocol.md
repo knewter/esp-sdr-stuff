@@ -248,6 +248,11 @@ framing, metadata CRCs, exact DATA binary boundaries and typed receipt order;
 bind those bytes to worker metadata and independently reread/hash all saved IQ.
 A hash of the whole wire or regenerated metadata CRC alone is insufficient.
 Failed/truncated bytes remain private and are never converted into completion.
+Before the first diagnostic line, retained startup noise may span more than
+2,048 bytes without a newline. Bound that uninterpreted private prelude by the
+whole-worker wire budget; the first diagnostic candidate and all subsequent
+protocol lines retain the strict 2,048-byte limit. Do not resynchronize after
+a malformed diagnostic candidate or skip it to find a later valid receipt.
 
 ```sh
 nix develop .#ci --command task register:check

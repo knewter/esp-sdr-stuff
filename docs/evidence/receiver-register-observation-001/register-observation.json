@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "kind": "esp32-register-observation-v1",
+  "status": "failed",
+  "action": "run",
+  "started_utc": "2026-10-02T13:17:54.008559+00:00",
+  "callers": {
+    "revision": "27ec0897d7d2c2678f9e8809f418ff5c85974bba",
+    "files": {
+      "tools/esp_register_observation.py": "f93ee795f057c4ffab52103956aef509aa5c18db3677eefb9eec2ecf6af9152f",
+      "tools/esp_register_probe.py": "7393714915b479aeae3d8c0f96e71bbedf8f4f2625e8a86100a58a5562ff1c1c",
+      "tools/esp_register_receipts.py": "57719e8210a71a0a21d743dcec0d71f9b511a94ebd4265915372c5fdb0ccd96d",
+      "tools/esp_register_artifact.py": "d74c4718dd9ac2e719ff9dd0f7cccdcf1704fcafed0d47e29f8a19da67d77950",
+      "tools/build_esp_register_observation.py": "f1ab440f88fd1e144aeda4ceacda3f91c94c16a9445aa212147aec7156e29a2f",
+      "tools/build_esp_sdr_uart.py": "9e189a36e1bb1611cdf655bb29346ba037ca2335b07a9220a1ed009801c37d43",
+      "tools/demo_esp_sdr.py": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966",
+      "tools/esp_sdr_capture.py": "f1aa93c1af1b87ad086fdd7289bfeced4bfbc632e15fc2389098e2f460cea538",
+      "tools/esp_sdr_spectrum_bridge.py": "e8c39db4f8e621011a7a92192f62246219604903e1a629aa899107cf1b880608",
+      "tools/flash_trial.py": "7b8f3629f961b177b074cfa7c1646ae4ab4f1e89fddfc3af44e742a7ef111079",
+      "tools/esp_gain_state_probe.py": "87b99b106b2f5dbb50d3b799aea30fd8c8c0d93db84c326ac8e5cd3f60821aca",
+      "tools/native_ble_reference.py": "435e90209125ef923b31fd24e9a68fde5ebc9bdad26dd294d32c07cce9a459ba",
+      "tools/build_native_ble_reference.py": "06469d69ed6ebddd7d65dffb1ba4abb7da88b3e64d1ff094c9c115a199b1a7fa"
+    }
+  },
+  "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "stable_usb_identity_verified": true,
+  "capture_status": "failed",
+  "restoration_status": "verified",
+  "restore_policy": "always after installation attempt",
+  "transmitted_event_count": null,
+  "SDR_decoding_proven": false,
+  "artifact": {
+    "manifest_sha256": "7b09e894cc2d2673adb94afb3eb245a06a91b26efd91c566e28f81816cf9ef83",
+    "build_info_sha256": "b3b8127f03dda6781e76f3132e2e468c17b4b22277e5144cc1f136184c2f336c",
+    "parts": [
+      {
+        "name": "bootloader.bin",
+        "offset": 4096,
+        "size": 25792,
+        "sha256": "a48cfaef91df68c48dc2a8a7c01b05841abb97b1b8898a38cafb97565b939881"
+      },
+      {
+        "name": "partition-table.bin",
+        "offset": 32768,
+        "size": 3072,
+        "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+      },
+      {
+        "name": "esp_sdr.bin",
+        "offset": 65536,
+        "size": 668384,
+        "sha256": "c45f24d8a459361fde463d109b691a81fbae0a6802e2e771a1660cb92796e8fc"
+      }
+    ],
+    "source_commit": "bf96681a9382367bfb759ee658d42392c4b1b9fe",
+    "source_tree_sha256": "117614283a6bb9bc4a630feb479dd583a520326d2e73e64251d63413a7578acb",
+    "idf_commit": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+    "version": "regobs-v1"
+  },
+  "error_kind": "ProtocolError",
+  "installation_attempted": true,
+  "owned_uart_worker_exit_confirmed": true,
+  "ended_utc": "2026-10-02T13:22:30.984282+00:00"
+}

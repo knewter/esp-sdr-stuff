@@ -237,6 +237,19 @@ class ActualCReplay(unittest.TestCase):
         result['receipts'][0]['receipt']['records'][0]['selector']=42
         with self.assertRaises(protocol.ProtocolError):supervisor.capture_summary(result,private,0)
 
+    def test_long_private_startup_noise_does_not_relax_protocol_line_bounds(self):
+        wire=worker_tests.Wire(worker_tests.WorkerActualC.rows)
+        wire.buffer.extend(b'x'*8903+b'\n')
+        result,_,private=self.result(wire)
+        self.assertEqual(supervisor.capture_summary(result,private,0)['status'],'completed')
+        original=protocol.parse_line(worker_tests.WorkerActualC.rows[0][0])
+        huge=dict(original,padding='x'*8903)
+        import zlib
+        body=json.dumps(huge,separators=(',',':')).encode()
+        framed=b'REGOBS1 '+f'{zlib.crc32(body):08x}'.encode()+b' '+body+b'\n'
+        with self.assertRaisesRegex(protocol.ProtocolError,'Receipt line budget exceeded'):
+            supervisor.bind_wire(framed,[],[{'receipt':huge}])
+
     def test_rehashed_extra_wire_after_end_cannot_count_as_complete(self):
         import hashlib
         result,_,private=self.result()
