@@ -78,7 +78,8 @@
         "docs/evidence/native-ble-source-reference-001/README.md",
         "docs/evidence/native-ble-source-reference-002/README.md",
         "docs/evidence/native-ble-reference-independent-review/README.md",
-        "docs/evidence/gain-state-diagnostic-001/README.md"
+        "docs/evidence/gain-state-diagnostic-001/README.md",
+        "docs/evidence/gain-state-independent-review/README.md"
       ]
     },
     "the-receiver-can-observe-and-decode-short-bursts": {
@@ -110,7 +111,8 @@
         "docs/evidence/native-ble-source-reference-001/README.md",
         "docs/evidence/native-ble-source-reference-002/README.md",
         "docs/evidence/native-ble-reference-independent-review/README.md",
-        "docs/evidence/gain-state-diagnostic-001/README.md"
+        "docs/evidence/gain-state-diagnostic-001/README.md",
+        "docs/evidence/gain-state-independent-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",

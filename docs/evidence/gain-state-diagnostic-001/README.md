@@ -1,5 +1,10 @@
 # The queried manual-enable bit stays set during 20 snapshots
 
+[Independent review](../gain-state-independent-review/README.md) passes actual
+private wire/IQ replay, all gain replies, executed provenance, public plot and
+complete original restoration. The review accepts this diagnostic's scope;
+SDR reception and transmitted counts remain unproven.
+
 Recorded 2026-10-02 after the [completed native BLE reference](../native-ble-source-reference-002/README.md)
 and its independent review. The [prospective protocol](../../research/esp-gain-state-diagnostic.md)
 applied receiver settings once, acquired exactly **20 integrity-valid snapshots**,
