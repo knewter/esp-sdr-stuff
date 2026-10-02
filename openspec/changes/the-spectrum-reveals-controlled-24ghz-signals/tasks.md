@@ -42,7 +42,7 @@ calibrated gain, emitted count or closure of any original task above.
 
 The [guarded ON/OFF waveform audit](docs/evidence/ble-on-off-waveform-audit/README.md)
 replays all 2,248 fresh snapshots and finds no repeated increase in the nominal
-target band. Large excursions occur in OFF phases too. The separately declared
+predeclared positive-offset band. Large excursions occur in OFF phases too. The separately declared
 [advertising-mode counter pair](docs/research/ble-mode-counter-protocol.md)
 diagnoses controller reporting only; implementation review and actual receipts
 are recorded below. Neither result changes any original task criterion.

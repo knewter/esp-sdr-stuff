@@ -149,7 +149,7 @@ Original RF and transmitted-count gates are unchanged.
 ## Next bounded diagnostics
 
 The [guarded ON/OFF scalar audit](docs/evidence/ble-on-off-waveform-audit/README.md)
-finds no repeated increase in the nominal target band and retains OFF excursions;
+finds no repeated increase in the predeclared positive-offset band and retains OFF excursions;
 pooled code-power differences do not establish source response. Decoder bounds
 remain unchanged. The [counter research](docs/research/ble-source-counter-followup.md)
 finds no legacy exemption in the published HCI rules. A separately reviewed
@@ -175,7 +175,7 @@ The [completed matched gain controls](docs/evidence/ble-matched-gain-001/README.
 retain 1,010 manual48 and 984 hardware-gain snapshots. Independent full replay
 and separate waveform re-slicing verify one fresh complete owned packet in
 manual ON0; hardware has zero owned and one foreign CRC-valid packet, redacted.
-Both full original restorations pass. Frozen target-band edges do not give
+Both full original restorations pass. Frozen positive-offset-band edges do not give
 three reciprocal source responses. This reproduces a fresh ten-bit SDR example
 without establishing calibrated gain, counts or the original eight-bit/BW12/
 hardware-gain Trial B prerequisite. All original tasks remain unchanged.
