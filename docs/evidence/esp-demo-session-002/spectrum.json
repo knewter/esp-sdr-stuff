@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "firmware_revision_asserted_from_install_record": "550fade-uart921600",
+  "firmware_source_base_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "browser_transport": "localhost HTTP polling a host UART reader; not native Web Serial",
+  "settings": {
+    "frequency_mhz": 2412,
+    "rate_hz": 80000000,
+    "bins": 512,
+    "gain": "hardware",
+    "bandwidth_mhz": 20,
+    "seconds_requested": 60
+  },
+  "started_utc": "2026-10-02T05:56:21Z",
+  "limitations": "Snapshot FFTs contain gaps. Codes are uncalibrated. Hardware nominal clock and synthesized sample index do not independently prove actual sample rate.",
+  "status": "failed",
+  "error_kind": "ProtocolError",
+  "ended_utc": "2026-10-02T05:57:03Z",
+  "bridge_status": "failed"
+}

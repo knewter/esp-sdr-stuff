@@ -5,7 +5,7 @@ The board has delivered verified radio snapshots and browser spectra, but repeat
 ## What Changes
 
 - Add a Nix-backed demo task that verifies device identity, current baseline and receiver artifacts before installation.
-- Serve a local spectrum viewer, record a bounded 60-second physical session and show reception gaps and uncalibrated power units.
+- Serve a local spectrum viewer, record a bounded 60-second physical session and show reception gaps, explicit FFT averaging and uncalibrated power units.
 - Restore the preserved original image after success, failure or cancellation, verify the full flash readback and observe the original application boot.
 - Retain sanitized physical evidence and provide a separate recovery command for interrupted runs.
 
@@ -36,3 +36,7 @@ The documented Task command produces a fresh successful 60-second physical spect
 ## Evidence and sources
 
 [Prior physical spectrum session](docs/evidence/spectrum-baseline/README.md), [original-image preservation](docs/evidence/firmware-preservation/README.md), [measured limitations](docs/research/measured-recommendations.md), and [primary-source register](docs/research/source-index.md). These establish preparation and prior behavior; the new command still requires fresh physical proof.
+
+## Retained trial checkpoint
+
+The [first Task trial](docs/evidence/esp-demo-session-001/README.md) and second historical-artifact trial failed CRC; both independently restore the original full flash and boot. Executable firmware segments match, so these outcomes do not establish a build regression. The next trial changes only FFT units per emitted frame from one to eight to evaluate lower UART load; acquisition acceptance remains pending.

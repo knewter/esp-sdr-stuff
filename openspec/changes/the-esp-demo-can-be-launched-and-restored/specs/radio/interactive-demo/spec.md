@@ -22,7 +22,7 @@ The system SHALL provide a documented Nix-backed Task command that identifies th
 
 <!-- UNVERIFIED: The new viewer lifecycle and its fresh hardware evidence have not been reviewed. -->
 
-The system SHALL label snapshot reception gaps, nominal sample rates and uncalibrated power units in the live viewer and saved evidence. It SHALL retain live and completed display evidence linked to the physical session, and retain failed trial records. Raw RF payloads, full flash images, device identifiers and unsanitized transcripts SHALL remain outside Git and the public site.
+The system SHALL label snapshot reception gaps, any temporal FFT averaging, nominal sample rates and uncalibrated power units in the live viewer and saved evidence. It SHALL retain live and completed display evidence linked to the physical session, and retain failed trial records. Raw RF payloads, full flash images, device identifiers and unsanitized transcripts SHALL remain outside Git and the public site.
 
 #### Scenario: A live display updates smoothly
 - **WHEN** the viewer displays successive spectra

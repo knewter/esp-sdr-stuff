@@ -154,13 +154,16 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Run the new Task command for a fresh 60-second spectrum session and independently verify restoration.",
-      "rationale": "The owned viewer lifecycle, preservation gates and recovery command have host tests. Current full flash matches both original backups; new physical capture and independent review remain open.",
+      "next": "Evaluate eight averaged FFT windows per emitted frame after two retained CRC failures; require a complete successful minute.",
+      "rationale": "Both Task-launched one-unit profiles failed CRC. Their full original-flash readback and boot verification pass; first failure has independent replay. Host workflow passes 32 tests. Successful physical acquisition remains open.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-board-can-be-restored-after-an-sdr-trial"
       ],
-      "evidence": []
+      "evidence": [
+        "docs/evidence/esp-demo-session-001/README.md",
+        "docs/evidence/esp-demo-independent-review/README.md"
+      ]
     }
   }
 }

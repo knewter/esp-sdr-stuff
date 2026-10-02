@@ -8,7 +8,7 @@ Proof command: `nix develop .#ci --command python3 -m unittest discover -s tests
 ## 2. Demonstrate the connected board
 
 - [ ] 2.1 Run the documented Task command on the identified preserved ESP32 for 60 seconds; retain exact artifact hashes, settings, frame CRC/sequence/end totals, timing, gap flags and live/completed viewer evidence in a fresh physical receipt.
-- [ ] 2.2 Verify the command returns the board to the preserved original image with a fresh independent 4,194,304-byte readback and matching original-application boot; retain restoration and failure/cancellation test outcomes separately from physical power cycling.
+- [x] 2.2 Verify the command returns the board to the preserved original image with a fresh independent 4,194,304-byte readback and matching original-application boot; retain restoration and failure/cancellation test outcomes separately from physical power cycling.
 
 Physical proof command: `nix develop --command task demo:esp -- --artifact VERIFIED-ARTIFACT --manifest VERIFIED-MANIFEST --output docs/evidence/FRESH-DEMO --private .scratch/FRESH-DEMO --headless`. Actual paths and executed tool hashes are recorded in the private operator receipt; public evidence excludes personal/device identifiers and raw frames.
 
