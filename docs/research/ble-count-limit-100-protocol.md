@@ -95,7 +95,7 @@ the parent also exits 2. A completed monitoring/lifecycle episode is not a
 successful count. Absent termination, rejected commands, timeouts or unknown
 cleanup stop the operation with no further source attempt or global mutation.
 
-No ESP32 flash/UART, address, discovery, global event mask, power, kernel setting,
+No ESP32 flash/UART, address, discovery, global event mask, power, global kernel configuration,
 foreign set, Forgix firmware or FPGA programming is involved.
 
 ## Interpretation and proof
