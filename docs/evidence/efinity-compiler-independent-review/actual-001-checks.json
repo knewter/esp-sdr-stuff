@@ -1,0 +1,39 @@
+{
+  "status": "PASS_INDEPENDENT_FAILURE_REPLAY",
+  "actual_trial_status": "failed",
+  "vendor_exit_code": 0,
+  "observed_summary_stages": [
+    [
+      "map",
+      "PASS"
+    ],
+    [
+      "pnr",
+      "PASS"
+    ],
+    [
+      "pgm",
+      "PASS"
+    ]
+  ],
+  "completed_stages": [
+    "map",
+    "pnr",
+    "pgm"
+  ],
+  "interface_import_skipped": true,
+  "missing_interface_lpf": true,
+  "fresh_hex_count": 0,
+  "compiler_execution_verified": false,
+  "license_compile_verified": false,
+  "owned_process_group_closed": true,
+  "private_permissions_verified": true,
+  "nominal_runtime_seconds": 12.742825054,
+  "input_hashes_match_preflight": true,
+  "original_private_file_sha256": {
+    "result.json": "34d97a3e4c4c80f4bbc58618bc38f3514bbbcd0d2d4891e0285486e99e987d1a",
+    "console.log": "2fc2c1add57e5a1938ec60fa3a100a46fa5c9164cf55d1e2fb7baaf21a3414fb",
+    "work/outflow/pt_demo.log": "f30b0bd5d78713d142618eead3bebe0072f7de1adbcf1151cb695a383b269622",
+    "work/outflow/pt_demo.pgm.out": "3fbe9f0bf967f8da29228beea6c5f133c0a94efd7a0162adb5ed6ca054cd7540"
+  }
+}
