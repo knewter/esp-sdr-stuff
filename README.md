@@ -82,9 +82,10 @@ ownership. A development shell does not grant USB or Bluetooth permissions.
 Efinity downloads, versioned installation and execution use the repo
 `forgix:efinity:*` Tasks and permanent ignored `.vendor/efinity/` storage.
 [This machine's Efinity 2026.1.132 installation](docs/evidence/efinity-install-001/README.md)
-passes real vendor CLI and full host/runtime checks through Nix. Licensed
-compilation and physical FPGA pin/clock inventory remain unverified; the MCU
-preservation proof is separate.
+passes real vendor CLI and full host/runtime checks through Nix. A
+[complete generic vendor compile](docs/evidence/efinity-compile-smoke-002/README.md)
+now produces a fresh bitstream. The connected Forgix's physical pin/clock
+inventory and board-specific build remain pending; MCU preservation is separate.
 
 Keep full flash backups under ignored `backups/`; never commit firmware images or device identifiers. The read-only inspection tool resets the selected board and records boot output; it does not flash it. Select the stable serial identity before running it.
 

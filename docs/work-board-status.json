@@ -169,8 +169,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Inspect actual FPGA/oscillator/PCB markings and wiring, then verify a licensed gateware compile with confirmed constraints before any programming or transport benchmark.",
-      "rationale": "Factory MCU preservation and application return pass. Efinity 2026.1.132 is installed privately; real vendor CLI and full Nix host/vendor runtime checks pass, including repeat install reuse. Thirty-three installer tests pass. Licensed compilation and physical constraints remain pending; no FPGA programming or transport benchmark ran.",
+      "next": "Inspect actual FPGA/oscillator/PCB markings and wiring, then build with confirmed Forgix constraints before any programming or transport benchmark.",
+      "rationale": "Factory MCU preservation and application return pass. Efinity 2026.1.132 is installed privately and works through Nix. The fixed generic T8F81/C2 example passes all four compiler stages and produces a fresh 520,140-byte hex; the initial skipped-interface/no-bitstream failure is retained. SQLite and D-Bus runtime dependencies are supplied by Nix; 51 focused tests pass. Connected Forgix constraints and gateware remain unverified; no hardware programming or transport benchmark ran.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -184,7 +184,10 @@
         "docs/evidence/forgix-toolchain-subagent/README.md",
         "docs/evidence/efinity-bootstrap-independent-review/README.md",
         "docs/evidence/efinity-install-001/README.md",
-        "docs/evidence/efinity-host-python-independent-review/README.md"
+        "docs/evidence/efinity-host-python-independent-review/README.md",
+        "docs/evidence/efinity-compile-smoke-001/README.md",
+        "docs/evidence/efinity-compile-smoke-002/README.md",
+        "docs/evidence/efinity-compiler-independent-review/README.md"
       ],
       "reviewRevision": "ae381eca9c49710a151a1716d3c9c7d0461c0042"
     },

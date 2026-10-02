@@ -4,8 +4,9 @@ Checked 2026-10-02. The project now has an actual Nix-built host environment
 for Forgix: Migen, LiteX, the Forgix platform/target, MicroPython `mpremote`,
 Icarus Verilog, Verilator and Yosys. Efinity is a separate licensed input;
 Efinity 2026.1.132 is now installed in permanent ignored local storage and its
-CLI works through Nix. Licensed compilation and FPGA bitstream generation
-remain unverified. [Actual installation evidence](../evidence/efinity-install-001/README.md).
+CLI works through Nix. A complete generic T8F81/C2 vendor example now compiles
+and produces a fresh bitstream; the connected Forgix build remains unverified.
+[Complete compiler evidence](../evidence/efinity-compile-smoke-002/README.md). [Actual installation evidence](../evidence/efinity-install-001/README.md).
 These checks opened no hardware and replaced no MCU firmware.
 
 ## Open components and the complete FPGA build flow
@@ -31,8 +32,8 @@ Efinity is **free of charge**, including its full license and renewable
 maintenance. It still requires the vendor's download/license workflow;
 [the official instructions](https://www.efinixinc.com/products-efinity.html)
 say to register or log in to the Support Center and request the free license.
-The missing setup input below is a legitimate installation and license, not a
-purchase. These source checks ran no builds and opened no hardware.
+A new machine needs a legitimate installation and the vendor license workflow,
+without a software purchase. These source checks ran no builds and opened no hardware.
 
 ## Reproduce the completed host checks
 
@@ -153,7 +154,7 @@ separate bounded software fixture can check the installed compiler without
 assuming the connected Forgix's grade, oscillator or revision:
 
 ```sh
-nix develop .#forgix --command task forgix:efinity:compile-smoke -- --private .scratch/efinity-compile-smoke-001
+nix develop .#forgix --command task forgix:efinity:compile-smoke -- --private .scratch/efinity-compile-next
 nix develop .#ci --command task forgix:efinity:compile-smoke:test
 ```
 
@@ -182,8 +183,12 @@ A passing receipt verifies that the actual compiler accepted this generic
 fixture in the current environment. It does not verify a connected-board
 image, transport, timing, programming or FPGA behavior. The existing Forgix
 physical-parameter declarations and compilation guards remain required for
-that separate path. No real fixture compilation is recorded at this
-implementation checkpoint; synthetic tests prove the guards only.
+that separate path. The [actual corrected compile](../evidence/efinity-compile-smoke-002/README.md)
+passes all four stages and generates a fresh hex; the
+[initial skipped-interface failure](../evidence/efinity-compile-smoke-001/README.md)
+remains retained. Nix supplies SQLite and D-Bus libraries required by Interface
+Designer. Fifty-one focused tests pass, and independent review checks both
+actual results and the unchanged guards.
 
 ## Vendor download and license workflow
 
@@ -206,8 +211,9 @@ supports Ubuntu 20.04+ and RHEL 8.8+, specifies 8 GB RAM for Trion T8 builds,
 and installs Linux releases by unpacking the archive into a user directory.
 Its CLI setup sources `bin/setup.sh`; `efx_run.py --help` is the first smoke
 check. Our Nix FHS environment supplies runtime libraries but is not a
-vendor-certified OS. The actual 2026.1.132 CLI and full host/vendor runtime
-checks now pass; compilation remains untested. Java-dependent IP
+vendor-certified OS. The actual 2026.1.132 CLI, full host/vendor runtime checks and generic T8F81/C2
+compilation now pass. SQLite and D-Bus libraries are supplied by Nix for
+Interface Designer; the original bundled libraries remain intact. Java-dependent IP
 configuration and GUI operation are outside the current SPIBone build check.
 
 For an existing external installation instead, set
