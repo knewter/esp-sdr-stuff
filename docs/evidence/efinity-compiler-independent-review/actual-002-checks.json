@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "verdict": "PASS_ACTUAL_002",
+  "root_source_commit": "d993a42",
+  "original_receipt_status": "passed",
+  "vendor_exit_code": 0,
+  "summary_stages": [
+    [
+      "map",
+      "PASS"
+    ],
+    [
+      "interface",
+      "PASS"
+    ],
+    [
+      "pnr",
+      "PASS"
+    ],
+    [
+      "pgm",
+      "PASS"
+    ]
+  ],
+  "completion_stages": [
+    "map",
+    "interface",
+    "pnr",
+    "pgm"
+  ],
+  "bitstream": {
+    "file": "pt_demo.hex",
+    "bytes": 520140,
+    "sha256": "0966d77c7aee2847354814d4e7d80292fc026b5cce237decbea5b81042ef0787"
+  },
+  "bitstream_fresh_mtime_inside_run": true,
+  "nonempty_fresh_interface_lpf": true,
+  "original_installed_fixture_and_runner_hashes_preserved": true,
+  "private_modes_0700_0600_and_regular_single_links": true,
+  "owned_group_closed_receipt_verified": true,
+  "unknown_closure_marker_absent": true,
+  "scope": "Generic shipped Trion T8F81/C2 compiler example; no connected Forgix proof",
+  "compiler_execution_verified": true,
+  "license_compile_verified_for_generic_example": true,
+  "connected_forgix_compile_verified": false,
+  "hardware_opened": false,
+  "optional_binary_export_requested": false,
+  "earlier_001_retained_failed": true,
+  "nominal_runtime_seconds": 23.730891588,
+  "private_file_count": 59,
+  "original_private_file_sha256": {
+    "result.json": "49ab082188b88a027ccf6b64eee66c066350189a021c4ca8486a4dfe377f856f",
+    "console.log": "06c17a548506deae1ca737343e1c4f1bea3e586ec9719861cdcdd3bb8f2e7211",
+    "work/outflow/pt_demo.log": "dcb5a35cef1b66e7adc5716a04208eb57a801d1a79f296307a842f5f11a5e559",
+    "work/outflow/pt_demo.lpf": "bda7861b50db5253ec1d6556200673e770552e5da274b6512bf7b057b20cbbe6",
+    "work/outflow/pt_demo.hex": "0966d77c7aee2847354814d4e7d80292fc026b5cce237decbea5b81042ef0787"
+  },
+  "reviewer_vendor_execution": false,
+  "reviewer_hardware_operations": 0,
+  "private_reproduce_script_sha256": "ed9f0a72429e798ccf86d4087756079ede62f6707dacd492b8172e4cde65945c"
+}
