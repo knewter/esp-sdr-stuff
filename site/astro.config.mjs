@@ -6,4 +6,5 @@ export default defineConfig({
   build: { format: "directory" },
   devToolbar: { enabled: false },
   compressHTML: true,
+  vite: { build: { assetsInlineLimit: 0 } },
 });
