@@ -101,6 +101,11 @@ tasks:
     cmds:
       - python3 tools/demo_esp_sdr.py restore {{.CLI_ARGS}}
 
+  decode:ble-dc-first:
+    desc: Paired saved-IQ replay with raw DC removal before unchanged BLE decoding
+    cmds:
+      - python3 tools/ble_dc_first_replay.py {{.CLI_ARGS}}
+
   source:ble-bluez:
     desc: Run a finite owned BLE source with BlueZ
     cmds:
