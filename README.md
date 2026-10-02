@@ -74,13 +74,17 @@ separate host shell and checks without opening hardware:
 ```sh
 nix develop .#forgix --command task forgix:check
 nix develop .#forgix --command task forgix:host-check
+nix develop .#forgix --command task forgix:efinity:discover
 ```
 
 Hardware tasks require explicit device/settings arguments and exclusive device
 ownership. A development shell does not grant USB or Bluetooth permissions.
-The Forgix shell includes a built Efinity runtime wrapper. A separately
-installed licensed Efinity compiler and physical FPGA pin/clock inventory
-remain prerequisites for gateware compilation; the MCU preservation proof is separate.
+Efinity downloads, versioned installation and execution use the repo
+`forgix:efinity:*` Tasks and permanent ignored `.vendor/efinity/` storage.
+[This machine's Efinity 2026.1.132 installation](docs/evidence/efinity-install-001/README.md)
+passes real vendor CLI and full host/runtime checks through Nix. Licensed
+compilation and physical FPGA pin/clock inventory remain unverified; the MCU
+preservation proof is separate.
 
 Keep full flash backups under ignored `backups/`; never commit firmware images or device identifiers. The read-only inspection tool resets the selected board and records boot output; it does not flash it. Select the stable serial identity before running it.
 
