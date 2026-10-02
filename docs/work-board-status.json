@@ -154,9 +154,10 @@
         "docs/evidence/forgix-preservation/README.md",
         "docs/evidence/forgix-preservation-review/README.md",
         "docs/evidence/forgix-toolchain/README.md",
-        "docs/evidence/forgix-toolchain/current-host-followup.md"
+        "docs/evidence/forgix-toolchain/current-host-followup.md",
+        "docs/evidence/forgix-toolchain-subagent/README.md"
       ],
-      "reviewRevision": "576a0771fdc91f79648bd93d694e2da99a1a7224"
+      "reviewRevision": "ae381eca9c49710a151a1716d3c9c7d0461c0042"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
