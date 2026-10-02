@@ -1,0 +1,14 @@
+{
+  "verdict": "PASS",
+  "reviewed_commit": "dcd116566f16c97808609be205a797a8c2b8dcd7",
+  "tool_sha256": "854a4256e7ea8016efbec811049839503e717a226c7da7a2449297d26acc1d39",
+  "tests_sha256": "ea837e858c19cb636dc3a69959cef3476cf760b9ad1fd09d35395397058b178f",
+  "actual_nix_picotool_executable_sha256": "dd0ec7393b737fdd2457b532c5e330f2164bcd75d8d89888d4b139b5aaaee811",
+  "actual_version_exit_code": 0,
+  "actual_version_stdout": "picotool v2.3.1 (Linux, GNU-15.3.0, Release)",
+  "actual_version_stderr_empty": true,
+  "independent_invalid_banner_cases_refused": 10,
+  "expected_banner_nonzero_exit_refused": true,
+  "no_device_or_docker_operations": true,
+  "private_probe_sha256": "3337847c034ea890ea636bac0b9c49176b36060b6bbfaa0a4854378fb2837f8b"
+}
