@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "verdict": "PASS",
+  "reviewed_commit": "1f0e17b348dd109c257900b606f607ebe5deceb5",
+  "helper_sha256": "4a09e298e2916e72421d53b4dbd0acc1233aa9b804c85f9eac89d2a92518fb69",
+  "tests_sha256": "92c8e3eeb98fdbc3922a222e4bdfeb18c81c45da22b4e4f38beaefd56748a5a9",
+  "nix_task_tests_passed": 33,
+  "independent_real_host": {
+    "status": "PASS",
+    "pinned_host_imports": true,
+    "python_environment_ignored_for_host": true,
+    "user_site_disabled": true,
+    "other_vendor_environment_preserved_for_child": true,
+    "child_host_cli_checks_passed": 2,
+    "hardware_operations": 0
+  },
+  "author_actual_fhs_log_independently_reparsed": {
+    "status": "PASS",
+    "raw_log_sha256": "660f3504eb60ca5f83e54845b7810066bbd7c0c8e885a4811ae100459a8bf20d",
+    "check_summary_sha256": "e2c38b663c18e15e5236c58d4f511b18b342344958fae84e1eb61cb27d93a44c",
+    "checks_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "vendor_cli_verified": true,
+    "license_compile_verified": false,
+    "compile_inputs_ready": false,
+    "hardware_opened": false,
+    "setup_cpp_compatibility_warning": true
+  },
+  "unchanged": [
+    "physical compile parameter gates",
+    "FHS wrapper",
+    "Task definitions",
+    "ordinary vendor help environment"
+  ],
+  "reviewer_vendor_execution": false,
+  "reviewer_hardware_operations": 0,
+  "private_proof_sha256": {
+    "host_alias.py": "54b6c34dea21a6d52c6f329fe0e6bd18439a45742ab2303542a1831b399bba91",
+    "host-alias-checks.json": "ba961b2a70db00da08d15b9f5f38ce349e4bccb38535612ab681cf96a15b036b",
+    "alias-actual-reparse.json": "b43ee66dff695f8913644eefa65baf8725e46292a99ccf7bb25e928d2cacb6b7"
+  }
+}
