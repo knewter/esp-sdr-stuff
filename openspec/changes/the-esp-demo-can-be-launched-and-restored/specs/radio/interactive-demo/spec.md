@@ -6,7 +6,7 @@ Let the operator repeat a bounded, observable ESP32 radio-spectrum demonstration
 
 ### Requirement: One Task command runs a verified physical spectrum demonstration
 
-<!-- UNVERIFIED: The new orchestration requires fresh physical execution and independent review. -->
+*Grounding: [fresh Nix-built physical minute](docs/evidence/esp-demo-session-005/README.md), [identical second minute](docs/evidence/esp-demo-session-006/README.md), [independent frame/artifact/recovery replay](docs/evidence/esp-demo-independent-review/session-005-checks.json), and preflight/lifecycle host tests in `tests/test_demo_esp_sdr.py`.*
 
 The system SHALL provide a documented Nix-backed Task command that identifies the connected ESP32, verifies its preserved current baseline and receiver artifacts before writing, launches a local spectrum viewer, and records a successful 60-second physical acquisition with valid frame CRCs, sequence and firmware end totals. It SHALL reject occupied devices, unexpected baseline contents and invalid artifacts before receiver installation.
 
@@ -20,7 +20,7 @@ The system SHALL provide a documented Nix-backed Task command that identifies th
 
 ### Requirement: The viewer and evidence disclose snapshot limitations
 
-<!-- UNVERIFIED: The new viewer lifecycle and its fresh hardware evidence have not been reviewed. -->
+*Grounding: [actual live/completed displays and gap metrics](docs/evidence/esp-demo-session-005/README.md), [independent physical review](docs/evidence/esp-demo-independent-review/README.md), retained failed trials 001, 002 and 004, and [bounded RAM-retention host review](docs/evidence/esp-demo-independent-review/ram-retention-review.json).*
 
 The system SHALL label snapshot reception gaps, any temporal FFT averaging, nominal sample rates and uncalibrated power units in the live viewer and saved evidence. It SHALL retain live and completed display evidence linked to the physical session, and retain failed trial records. Raw RF payloads, full flash images, device identifiers and unsanitized transcripts SHALL remain outside Git and the public site.
 
@@ -34,7 +34,7 @@ The system SHALL label snapshot reception gaps, any temporal FFT averaging, nomi
 
 ### Requirement: Demo cleanup verifies the restored original firmware
 
-<!-- UNVERIFIED: The new command's restoration and interruption paths need fresh physical and host-test proof. -->
+*Grounding: [independent full-flash/reset-boot restoration](docs/evidence/esp-demo-session-005/restoration.json), failed trial recoveries 001, 002 and 004, [independent lifecycle/RAM host review](docs/evidence/esp-demo-independent-review/README.md), and cancellation/group-closure tests in `tests/test_demo_esp_sdr.py`. Electrical power cycling is outside these new trial observations.*
 
 The system SHALL close its owned capture processes and serial handles before attempting restoration after installation, including success, failure and cancellation. It SHALL restore the preserved original image, independently read and compare all 4,194,304 flash bytes, and observe a matching original-application boot before reporting verified recovery. It SHALL provide a documented standalone recovery Task command and report restoration failure explicitly. Software reset observations SHALL NOT be labeled as physical power cycling.
 

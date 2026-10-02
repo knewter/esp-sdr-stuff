@@ -80,7 +80,7 @@
   {
     "id": "the-esp-demo-can-be-launched-and-restored",
     "short": "Run the live ESP demo",
-    "summary": "Independent replay accepts one Task-launched 60.022-second spectrum session with 2,709 valid frames and full-flash restoration. Three failed trials remain recorded, including a fresh Nix-built repeat; repeatability is under investigation.",
+    "summary": "Two independently reviewed consecutive minutes pass with the exact Nix-built receiver and RAM-buffered Task workflow: 2,712 and 2,713 valid frames, strict duration/end checks and full-flash restoration. Three failures stay visible; publication verification remains.",
     "gate": "A successful 60-second real spectrum session with CRC/sequence/end totals, visible gaps, full original-flash readback and matching boot, independently reviewed.",
     "depends": [
       "the-board-captures-repeatable-radio-snapshots",

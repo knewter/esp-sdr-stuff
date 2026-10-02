@@ -60,13 +60,13 @@ budget tasks. Pass tool arguments after `--`. Firmware builds use the separate
 `nix develop .#firmware --command task firmware:build -- ...` environment;
 its immutable SDK provenance is recorded with the build.
 
-The [repeatable ESP demo](docs/research/esp-sdr-demo.md) has `demo:esp` and
-`demo:esp:restore` tasks. Its eight-window profile completes 60.022 seconds with
-2,709 valid frames and matching end totals, then independently verifies the
-original full-flash readback and reset boot. Two earlier CRC failures remain
-recorded; the successful run and recovery pass independent replay. A fresh Nix-built
-eight-window repeat failed CRC after 45.617 seconds and was fully restored;
-dependable repeatability remains under investigation.
+The [ESP spectrum demo](docs/research/esp-sdr-demo.md) has `demo:esp` and
+`demo:esp:restore` tasks. The exact Nix-built receiver with RAM-buffered transport
+completes 60.009 seconds with 2,712 valid frames and matching end totals, then
+independently verifies the original full flash and reset boot. Three earlier CRC
+failures remain recorded. Two consecutive minutes with this exact profile pass independent replay
+(2,712 and 2,713 valid frames), each followed by verified restoration. No
+long-run reliability rate is inferred.
 
 The [Forgix toolchain setup](docs/research/forgix-toolchain.md) provides a
 separate host shell and checks without opening hardware:

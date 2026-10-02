@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Use a suitable repeatable source/reference and recorded physical setup to characterize the RF path.",
-      "rationale": "User equipment inventory is recorded: no external RF reference, generator, attenuator or converter. Five earlier owned BLE packets prove specific reception; repeatable responses, filter/gain characterization and extended tuning remain unverified.",
-      "reviewRevision": "82708e7",
+      "next": "Run and independently replay the prospective known 10-bit profile before the conditional source-limiter discriminator.",
+      "rationale": "User equipment inventory is recorded: no external RF reference, generator, attenuator or converter. Five earlier owned BLE packets prove specific reception; repeatable responses, filter/gain characterization and extended tuning remain unverified. Current three-episode BlueZ control: all 1,251 transport-valid snapshots, exact source HCI settings and cleanup pass, but full independent replay finds zero verified packets. This null is inconclusive; emission denominator stays null.",
+      "reviewRevision": "0e9748a",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -71,16 +71,18 @@
         "docs/evidence/rf-controls-trial/README.md",
         "docs/evidence/ble-controls-decoding/README.md",
         "docs/evidence/independent-review/requirement-audit.md",
-        "docs/evidence/user-equipment-inventory/README.md"
+        "docs/evidence/user-equipment-inventory/README.md",
+        "docs/evidence/ble-bluez-control-001/README.md",
+        "docs/evidence/ble-bluez-control-independent-review/README.md"
       ]
     },
     "the-receiver-can-observe-and-decode-short-bursts": {
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Use a verified source counter or independent RF reference before the three counted receiver trials.",
-      "rationale": "Five complete owned BLE packets verify offline decoding. Initial finite source trials lacked termination; timer trials now report actual count zero. All 262 zero-counter diagnostic snapshots pass transport checks but yield no CRC-valid owned packet; null is inconclusive. Hit/miss reliability remains open.",
-      "reviewRevision": "9481f1fc89265ea48b00a810aa4b0323929b71c9",
+      "next": "Run and independently replay the prospective known 10-bit profile before the conditional source-limiter discriminator.",
+      "rationale": "Five complete owned BLE packets verify offline decoding. Initial finite source trials lacked termination; timer trials now report actual count zero. All 262 zero-counter diagnostic snapshots pass transport checks but yield no CRC-valid owned packet; null is inconclusive. Hit/miss reliability remains open. Current three-episode BlueZ control: all 1,251 transport-valid snapshots, exact source HCI settings and cleanup pass, but full independent replay finds zero verified packets. This null is inconclusive; emission denominator stays null.",
+      "reviewRevision": "0e9748a",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -96,7 +98,9 @@
         "docs/evidence/ble-duration-source-diagnostics/README.md",
         "docs/evidence/ble-zero-counter-rf/README.md",
         "docs/evidence/zero-counter-restoration/README.md",
-        "docs/evidence/ble-zero-counter-independent-review/README.md"
+        "docs/evidence/ble-zero-counter-independent-review/README.md",
+        "docs/evidence/ble-bluez-control-001/README.md",
+        "docs/evidence/ble-bluez-control-independent-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",
@@ -156,7 +160,7 @@
       "source": "source-landed",
       "physical": "verified",
       "next": "Publish and verify the reviewed minute and documented Task commands on GitHub Pages.",
-      "rationale": "Independent replay accepts the eight-window historical-artifact profile: 2,709 valid frames over 60.022 seconds, matching end totals, all 4 MiB restored and matching original boot. Two one-window CRC failures remain visible; publication is pending. The fresh Nix-built eight-window repeat failed CRC after 45.617 seconds and was fully restored; general repeatability remains unproven.",
+      "rationale": "Independent replay accepts two consecutive minutes with the exact Nix-built receiver and RAM-buffered workflow: 2,712 and 2,713 valid frames, matching end totals, strict host/firmware durations, all 4 MiB restored and matching original reset boots. The historical minute and three CRC failures remain visible. Publication verification remains; no long-run rate or corruption-cause claim.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-board-can-be-restored-after-an-sdr-trial"
@@ -166,12 +170,14 @@
         "docs/evidence/esp-demo-session-002/README.md",
         "docs/evidence/esp-demo-session-003/README.md",
         "docs/evidence/esp-demo-independent-review/README.md",
-        "docs/evidence/esp-demo-session-004/README.md"
+        "docs/evidence/esp-demo-session-004/README.md",
+        "docs/evidence/esp-demo-session-005/README.md",
+        "docs/evidence/esp-demo-session-006/README.md"
       ],
-      "reviewRevision": "a16d0b6111261cc07afc09bc70d2c3d98a9c461f",
+      "reviewRevision": "2fdd2214befee667636c00f84e3c8a794af5ec3b",
       "cover": {
-        "path": "docs/evidence/esp-demo-session-003/completed-spectrum.png",
-        "caption": "Actual Task-launched minute with eight averaged FFT windows per frame",
+        "path": "docs/evidence/esp-demo-session-005/completed-spectrum.png",
+        "caption": "Actual Nix-built RAM-buffered Task minute: 2,712 CRC-valid frames",
         "provenance": "Board capture"
       }
     }
