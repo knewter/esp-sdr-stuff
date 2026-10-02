@@ -1,0 +1,26 @@
+{
+  "scope": "Offline golden metadata replay through reviewed reporter, plus independent numerical window checks; no hardware or new RF capture",
+  "reporter_source_sha256": "aad739b1a5e0c2034fac4e7650f2a53b7d6c7c28aadbcab4f9c0643387b7f0b2",
+  "golden_inputs": [
+    {
+      "manifest": "docs/evidence/ble-owned-decoding/decoder-manifest.json",
+      "sha256": "fe3d43c23df8bcc1af75a72cbdd639ab5d647f160d0470cd56b697eb00c82e81",
+      "accepted_complete_packets": 4,
+      "excluded_owned_candidates": 0,
+      "independent_nominal_bounds_period_duration_pdu_type_and_error_metadata_checks": true
+    },
+    {
+      "manifest": "docs/evidence/ble-controls-decoding/decoder-manifest.json",
+      "sha256": "13509f7abf6863f58cbd1dacfd08ead9cb32fabbcb93123ce0005d54fc8d613c",
+      "accepted_complete_packets": 1,
+      "excluded_owned_candidates": 0,
+      "independent_nominal_bounds_period_duration_pdu_type_and_error_metadata_checks": true
+    }
+  ],
+  "all_five_previous_complete_packets_preserved": true,
+  "independently_run_current_reporter_tests": 11,
+  "all_passed": true,
+  "reporter_tests_source_sha256": "d706b54aadd6bc65fb21298a5ed6f0b9b0c4fa387f2241ebdd0fbf5c00030e0a",
+  "actual_pdu_type_aa_and_preamble_error_metadata_required": true,
+  "contradictory_protected_owned_pdu_hashes_excluded_in_cluster": true
+}

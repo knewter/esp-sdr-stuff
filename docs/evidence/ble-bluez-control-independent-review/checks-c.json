@@ -1,0 +1,167 @@
+{
+  "scope": "Independent offline full saved-data/decoder/phase/control/recovery review; no hardware opened",
+  "captures": 997,
+  "bytes_per_payload": 40950,
+  "total_payload_bytes": 40827150,
+  "concatenated_payload_sha256": "3f17b8a1d2924dd1398c9dffb96168c296de36b64585efa9b987d8f0b2687e66",
+  "all_payload_hash_crc_count_and_sequence_checks": true,
+  "all_waveforms_mode0600": true,
+  "baseline_seconds": 20.692315086,
+  "tail_after_source_group_closure_seconds": 38.592452935,
+  "payload_interval_seconds": 460.200176409,
+  "native_registration_on_seconds": [
+    120.091954368,
+    120.030988641,
+    120.124175784
+  ],
+  "native_off_seconds": [
+    20.021328308,
+    20.057649684
+  ],
+  "hci_commands": 15,
+  "hci_status_zero_completions": 15,
+  "actual_wire": {
+    "event_properties": 19,
+    "primary_channel_map": 7,
+    "primary_phy": 1,
+    "secondary_phy": 1,
+    "interval_ms": 20,
+    "duration_units": 0,
+    "max_events": 0
+  },
+  "source_denominator": null,
+  "RF_acceptance_gate_closed": false,
+  "original_fullflash_readback_and_boot_verified": true,
+  "owned_groups_container_and_source_bus_closed_recorded": true,
+  "independent_decoder_replay": {
+    "captures_analyzed": 997,
+    "valid_owned": 0,
+    "valid_foreign": 0,
+    "all_output_fields_except_runtime_equal_author": true,
+    "runtime_seconds": 21.960053459974006,
+    "parameters": {
+      "nominal_rate_hz": 16000000,
+      "bits_per_component": 10,
+      "samples_per_capture": 16380,
+      "channel": 37,
+      "frequency_translation_hz": -1000000.0,
+      "blind_receiver_refinement": {
+        "samples_per_symbol_min": 3.97,
+        "samples_per_symbol_max": 4.03,
+        "samples_per_symbol_step": 0.005,
+        "start_search_half_width_samples_at_4msps": 2,
+        "start_search_step_samples_at_4msps": 0.25,
+        "threshold_bias_min_deviation_fraction": -0.45,
+        "threshold_bias_max_deviation_fraction": 0.45,
+        "threshold_bias_step_deviation_fraction": 0.025,
+        "maximum_candidate_clusters_per_capture": 32
+      }
+    },
+    "unverified_candidate_statuses": {
+      "crc_failed": 7,
+      "truncated_packet": 1,
+      "unsupported_or_invalid_header": 2
+    }
+  },
+  "independently_recomputed_phase_counts": {
+    "source_off_before": 42,
+    "control_transition_guard_excluded": 33,
+    "source_on_episode_0": 254,
+    "source_off_after_episode_0": 38,
+    "source_on_episode_1": 256,
+    "source_off_after_episode_1": 38,
+    "source_on_episode_2": 254,
+    "source_off_after": 82
+  },
+  "phase_guard_seconds": 1,
+  "phase_capture_bracket": "command_start_ns through payload_received_ns",
+  "public_records_match_private_originals": true,
+  "public_files": {
+    "README.md": {
+      "bytes": 9362,
+      "sha256": "a4fc82945b7238695ea1da748403dd875d612285672f66f53f93919120fae9ff"
+    },
+    "before-install.json": {
+      "bytes": 141,
+      "sha256": "f53a3faf27db6dc867d5d9a607ec18c361649e0b9e1bb0aa1103c0d77d0d23be"
+    },
+    "captures.csv": {
+      "bytes": 311293,
+      "sha256": "15148161335d248d55a3f031b921e7d0b3b46ddc1cfac1f9ee69cf317402ca59"
+    },
+    "decode-summary.json": {
+      "bytes": 6167,
+      "sha256": "9667d1f3ab92a4a5e8f23c69d8edb7ee97d8959b93944fb3b3a41241aeda059a"
+    },
+    "input-verification.json": {
+      "bytes": 721,
+      "sha256": "9844b522db41fcfc1abf3e63a54bd15ee06c0b2bc0192603e225e5ec1e2f088b"
+    },
+    "monitor.json": {
+      "bytes": 9043,
+      "sha256": "05585ed1cc525cfcdf1eae1a20e548f821f8dc117e19ebf7053caa8569430851"
+    },
+    "orchestration.json": {
+      "bytes": 5439,
+      "sha256": "b43e34fcc35210db105d42046730af304209be4c6d32891abd11b36c00d09340"
+    },
+    "phase-classification.csv": {
+      "bytes": 138248,
+      "sha256": "609dce2ff7706864ef09014c67206ea3059c19130b771fe39748f735061978e3"
+    },
+    "receiver.json": {
+      "bytes": 2033,
+      "sha256": "e3c39d10c568500f34002509aa3dc36024fa1396d30c449aee97bdf76637e8cf"
+    },
+    "reporter-verification.json": {
+      "bytes": 895,
+      "sha256": "131b1c866fe5dfa165f0236670ccc6bdb500cf5bc14c82fca01dbe077d79bb0a"
+    },
+    "restoration.json": {
+      "bytes": 556,
+      "sha256": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8"
+    },
+    "source.json": {
+      "bytes": 2260,
+      "sha256": "e06321d50ea8a5031039f5a608f03351b0158e1ab6b38d371b83a40aee66e1e2"
+    }
+  },
+  "review_verdict": "Control, transport and recovery PASS; fixed-bound RF result null/inconclusive; no count/hit-rate or calibration gate",
+  "executed_private_source_copies": {
+    "executed-run_ble_control.py": {
+      "sha256": "79e02469704502d4fec749676d55fdf19efb603ae2651f95ba2e7e9e5d6b012d",
+      "mode": "0o400"
+    },
+    "executed-measure_owned_ble.py": {
+      "sha256": "35bc587fd8512c7727ad3bcb3d07a922e37091e370a326bc660a4bfbbddd69fb",
+      "mode": "0o400"
+    }
+  },
+  "installed_historical_artifact_parts_and_manifest_build_info_rehashed": true,
+  "reporter_review": {
+    "scope": "Offline golden metadata replay through reviewed reporter, plus independent numerical window checks; no hardware or new RF capture",
+    "reporter_source_sha256": "aad739b1a5e0c2034fac4e7650f2a53b7d6c7c28aadbcab4f9c0643387b7f0b2",
+    "golden_inputs": [
+      {
+        "manifest": "docs/evidence/ble-owned-decoding/decoder-manifest.json",
+        "sha256": "fe3d43c23df8bcc1af75a72cbdd639ab5d647f160d0470cd56b697eb00c82e81",
+        "accepted_complete_packets": 4,
+        "excluded_owned_candidates": 0,
+        "independent_nominal_bounds_period_duration_pdu_type_and_error_metadata_checks": true
+      },
+      {
+        "manifest": "docs/evidence/ble-controls-decoding/decoder-manifest.json",
+        "sha256": "13509f7abf6863f58cbd1dacfd08ead9cb32fabbcb93123ce0005d54fc8d613c",
+        "accepted_complete_packets": 1,
+        "excluded_owned_candidates": 0,
+        "independent_nominal_bounds_period_duration_pdu_type_and_error_metadata_checks": true
+      }
+    ],
+    "all_five_previous_complete_packets_preserved": true,
+    "independently_run_current_reporter_tests": 11,
+    "all_passed": true,
+    "reporter_tests_source_sha256": "d706b54aadd6bc65fb21298a5ed6f0b9b0c4fa387f2241ebdd0fbf5c00030e0a",
+    "actual_pdu_type_aa_and_preamble_error_metadata_required": true,
+    "contradictory_protected_owned_pdu_hashes_excluded_in_cluster": true
+  }
+}
