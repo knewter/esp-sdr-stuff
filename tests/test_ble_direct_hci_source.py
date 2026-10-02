@@ -1,5 +1,7 @@
 """Direct source wire encoding/event/rollback tests, using no hardware."""
 from collections import deque
+from contextlib import redirect_stderr
+import io
 import json
 from pathlib import Path
 import struct
@@ -8,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'tools'))
-from ble_direct_hci_source import Source, parameters, advertising_data, enable, command_frame, parse_event, raw_sockaddr, event_filter
+from ble_direct_hci_source import Source, parameters, advertising_data, enable, command_frame, parse_event, raw_sockaddr, event_filter, duration_units, main
 
 
 def complete(opcode, status=0):
@@ -120,6 +122,72 @@ class DirectSourceTests(unittest.TestCase):
         self.assertEqual(result['status'], 'controller_count_verified')
         self.assertEqual(result['termination']['controller_reported_completed_extended_advertising_events'], 255)
         self.assertEqual(sock.sent[2][4:].hex(), '0101ef0000ff')
+
+    def test_duration_diagnostic_wire_bounds_and_cleanup_zeros(self):
+        self.assertEqual(enable(True, 255, 100).hex(), '0101ef0a00ff')
+        self.assertEqual(enable(True, 255, 1000).hex(), '0101ef6400ff')
+        self.assertEqual(enable(True, 255, 5000).hex(), '0101eff401ff')
+        self.assertEqual(enable(False, 255, 5000).hex(), '0001ef000000')
+        self.assertEqual(duration_units(0), 0)
+        for invalid in (-10, 10, 99, 101, 5001, 5010, 100.0):
+            sock = FakeSocket()
+            with self.subTest(duration=invalid), self.assertRaises(ValueError):
+                Source(sock, lambda record: None).run(duration_ms=invalid)
+            self.assertEqual(sock.sent, [])
+
+    def test_duration_expiry_retains_actual_count_but_cannot_pass_limit_gate(self):
+        for duration, observed_count in ((0, 255), (1000, 0), (1000, 9), (5000, 99),
+                                          (5000, 100), (5000, 255)):
+            packet = bytes.fromhex('043e06123cefffff')+bytes([observed_count])
+            sock = FakeSocket(termination=packet)
+            records = []
+            result = Source(sock, records.append).run(100, 255, 0, duration)
+            with self.subTest(duration=duration, observed_count=observed_count):
+                self.assertEqual(result['status'], 'trial_failed')
+                self.assertEqual(result['error_code'], 'termination_status_or_count_mismatch')
+                self.assertFalse(result['controller_completed_count_verified'])
+                self.assertEqual(result['termination']['status'], 0x3c)
+                self.assertEqual(result['termination']['controller_reported_completed_extended_advertising_events'], observed_count)
+                self.assertTrue(result['cleanup_success'])
+                self.assertEqual(sock.sent[-2][4:], enable(False, 255))
+                self.assertEqual(len([r for r in records if r['kind'] == 'termination_observed']), 1)
+                self.assertEqual(result['duration_diagnostic_requested'], duration != 0)
+
+    def test_limit_can_win_duration_race_without_relaxing_count_or_sequence(self):
+        good = bytes.fromhex('043e061243efffffff')
+        for sock, accepted in ((FakeSocket(termination=good), True),
+                               (FakeSocket(termination=good, duplicate=True), False),
+                               (FakeSocket(termination=good, inject_early=True), False),
+                               (FakeSocket(termination=TERMINATED_100), False),
+                               (FakeSocket(termination=good, failed={(0x2039, 2): 0x0c}), False)):
+            result = Source(sock, lambda record: None).run(20, 255, 0, 5000)
+            self.assertEqual(result['status'] == 'controller_count_verified', accepted)
+            self.assertEqual(sock.sent[-2][4:], enable(False, 255))
+
+    def test_duration_timeout_is_bounded_and_does_not_invent_emissions(self):
+        clock = [0.]
+        class AdvanceOnEmpty(FakeSocket):
+            def recv(self, size):
+                if not self.pending:
+                    clock[0] += .25
+                return super().recv(size)
+        sock = AdvanceOnEmpty(termination=None)
+        with patch('ble_direct_hci_source.time.monotonic', lambda: clock[0]):
+            result = Source(sock, lambda record: None).run(100, 255, 0, 1000)
+        self.assertEqual(clock[0], 6.)
+        self.assertEqual(result['error_code'], 'event_timeout')
+        self.assertNotIn('termination', result)
+        self.assertFalse(result['controller_completed_count_verified'])
+        self.assertIsNone(result['independently_observed_air_emission_count'])
+        self.assertTrue(result['cleanup_success'])
+
+    def test_invalid_cli_duration_never_opens_controller_socket(self):
+        with patch('sys.argv', ['source', '--duration-ms', '101']), \
+                patch('ble_direct_hci_source.socket.socket') as socket_factory, \
+                redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as error:
+            main()
+        self.assertEqual(error.exception.code, 2)
+        socket_factory.assert_not_called()
 
     def test_parameter_rejection_never_enables_or_falls_back(self):
         sock = FakeSocket(failed={(0x2036, 1): 0x12})

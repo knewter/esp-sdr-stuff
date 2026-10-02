@@ -53,11 +53,20 @@ def advertising_data():
     return bytes([HANDLE, 3, 1, len(OWNED_AD)])+OWNED_AD
 
 
-def enable(enabled, count=100):
+def duration_units(duration_ms):
+    if not isinstance(duration_ms, int) or (duration_ms != 0 and
+            (not 100 <= duration_ms <= 5000 or duration_ms % 10)):
+        raise ValueError('duration_ms must be 0 or 100..5000 in exact 10ms units')
+    return duration_ms // 10
+
+
+def enable(enabled, count=100, duration_ms=0):
     if not 1 <= count <= 255:
         raise ValueError('count must be 1..255')
+    units = duration_units(duration_ms)
     # Num_Sets=1 scopes BOTH enable and cleanup disable to our handle.
-    return bytes([int(enabled), 1, HANDLE, 0, 0, count if enabled else 0])
+    return (bytes([int(enabled), 1, HANDLE])
+            +struct.pack('<H', units if enabled else 0)+bytes([count if enabled else 0]))
 
 
 def command_frame(opcode, payload):
@@ -136,26 +145,37 @@ class Source:
             self.accepted_steps.add(step)
             return result
 
-    def run(self, interval_ms=20, count=100, start_delay=1):
+    def run(self, interval_ms=20, count=100, start_delay=1, duration_ms=0):
+        # Reject invalid diagnostic fields before any controller command.
+        param_frame = parameters(interval_ms)
+        enable_frame = enable(True, count, duration_ms)
         summary = {'kind': 'source_closed', 'advertising_handle': HANDLE,
                    'independently_observed_air_emission_count': None,
-                   'automatic_restarts': 0, 'automatic_fallbacks': 0, 'cleanup': {}}
+                   'automatic_restarts': 0, 'automatic_fallbacks': 0, 'cleanup': {},
+                   'duration_10ms_units': duration_units(duration_ms),
+                   'duration_diagnostic_requested': duration_ms != 0}
         attempted = False
         verified = False
         try:
             attempted = True
-            self.command('set_parameters', 0x2036, parameters(interval_ms))
+            self.command('set_parameters', 0x2036, param_frame)
             self.command('set_data', 0x2037, advertising_data())
             if self.terminations:
                 raise SourceError('termination_before_enable')
             self.emit({'kind': 'source_ready', 'advertising_handle': HANDLE,
                        'parameter_and_data_commands_accepted': True, 'start_delay_s': start_delay})
             time.sleep(start_delay)
-            self.command('enable', 0x2039, enable(True, count))
+            self.command('enable', 0x2039, enable_frame)
             self.emit({'kind': 'source_enabled', 'advertising_handle': HANDLE,
-                       'enable_command_accepted': True, 'max_extended_advertising_events': count})
+                       'enable_command_accepted': True, 'max_extended_advertising_events': count,
+                       'duration_10ms_units': duration_units(duration_ms)})
             # Controller adds advDelay; permit up to 10ms per event plus 5s.
-            until = time.monotonic()+count*(interval_ms/1000+.010)+5
+            expected_wait = count*(interval_ms/1000+.010)
+            if duration_ms:
+                # Diagnostic compares the timer even if the limiter is broken;
+                # duration begins at the first RF event, not the host ACK.
+                expected_wait = duration_ms/1000
+            until = time.monotonic()+expected_wait+5
             while not self.terminations:
                 self.event(until)
             term = self.terminations[0]
@@ -163,6 +183,8 @@ class Source:
                         and term['controller_reported_completed_extended_advertising_events'] == count)
             summary['termination'] = term
             if not verified:
+                # Preserve actual 0x3c/count for diagnosis, never relax the
+                # requested-limit/status0x43 success gate.
                 raise SourceError('termination_status_or_count_mismatch')
             summary['status'] = 'controller_count_verified'
         except SourceError as error:
@@ -210,15 +232,22 @@ def main():
     cli.add_argument('--interval-ms', type=int, choices=[20, 100], default=20)
     cli.add_argument('--events', type=int, default=100)
     cli.add_argument('--start-delay', type=float, default=1)
+    cli.add_argument('--duration-ms', type=int, default=0,
+                     help='Diagnostic only: 0 (default) or 100..5000 in multiples of 10 ms')
     args = cli.parse_args()
     if not 1 <= args.events <= 255 or not 0 <= args.start_delay <= 60:
         cli.error('Events must be 1..255; start delay must be 0..60s')
+    try:
+        units = duration_units(args.duration_ms)
+    except ValueError as error:
+        cli.error(str(error))
     script_sha256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     emit_stdout({'kind': 'configuration_requested', 'advertising_handle': HANDLE, 'script_sha256': script_sha256,
                  'event_properties': 0x10, 'primary_channel_map': 1, 'primary_phy': 1,
                  'secondary_phy': 1, 'interval_ms': args.interval_ms,
                  'advertising_data_length': len(OWNED_AD), 'owned_manufacturer_ad_exact_match': True,
-                 'max_extended_advertising_events': args.events, 'duration_10ms_units': 0,
+                 'max_extended_advertising_events': args.events, 'duration_10ms_units': units,
+                 'duration_diagnostic_requested': args.duration_ms != 0,
                  'independently_observed_air_emission_count': None,
                  'operator_preconditions': 'Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, reserved handleEF available; no simultaneous same-opcode advertising commands.'})
     sock = None
@@ -226,7 +255,7 @@ def main():
         sock = socket.socket(31, socket.SOCK_RAW, 1)
         bind_raw(sock)
         emit_stdout({'kind': 'source_socket_ready', 'hci_device': 0, 'hci_channel': 0})
-        summary = Source(sock, emit_stdout).run(args.interval_ms, args.events, args.start_delay)
+        summary = Source(sock, emit_stdout).run(args.interval_ms, args.events, args.start_delay, args.duration_ms)
     except OSError as error:
         emit_stdout({'kind': 'source_closed', 'status': 'socket_or_bind_failed', 'error_errno': error.errno,
                      'independently_observed_air_emission_count': None, 'cleanup_attempted': False})

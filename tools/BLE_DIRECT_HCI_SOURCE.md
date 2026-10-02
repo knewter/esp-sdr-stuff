@@ -68,6 +68,48 @@ the start delay is bounded to 0–60 seconds. CLI success requires the verified
 controller count and successful disable/removal; all other outcomes exit 2.
 Parameter rejection is recorded without silently changing interval or PHY.
 
+## Optional duration diagnostic
+
+After the count-only source timed out on the actual host controller, an operator
+can explicitly compare the own-set duration timer without changing global
+event masks, resetting the adapter, or changing any other advertising set:
+
+```sh
+python3 tools/ble_direct_hci_source.py --interval-ms 20 --events 255 \
+  --duration-ms 1000 --start-delay 1 > YOUR-DIAGNOSTIC/source-control.jsonl
+```
+
+`--duration-ms` defaults to zero, preserving the original count-only protocol.
+An explicit nonzero diagnostic must be 100–5000 ms in exact multiples of 10 ms;
+values are rejected before socket creation. The enable packet encodes the
+duration as a little-endian 16-bit count of 10 ms units. Configuration,
+enable acknowledgement and summary records expose those units. The requested
+event limit remains 1–255 and nonzero. Disable cleanup always sends duration
+zero and event limit zero for only handle `0xEF`, followed by own-set removal.
+
+The diagnostic waits duration + 5 seconds after enable acknowledgement, at most
+10 seconds, before cleanup. The controller's duration starts with its first
+advertising event; host acknowledgement and JSONL timestamps do not measure that
+RF start time. No automatic fallback or re-enable occurs.
+
+A matching `0x3C` duration-termination event and its actual completed count are
+retained in `termination_observed` and the summary's `termination` field, but
+the trial still fails the unchanged strict requested-limit gate and exits 2.
+Even a duration result with 100 or more completed events receives no automatic
+receiver/source acceptance. A count-limit `0x43` event can win the timer race
+and succeeds only with the exact requested count, valid sequence and successful
+cleanup. A small requested limit also does not satisfy a separate evaluation
+requirement for at least 100 recorded source events.
+
+Core v5.2 Vol 4 Part E §7.7.65.18, page 2415, explicitly makes the completed
+count meaningful when a nonzero MaxEvents was used and either duration or
+event limit ends advertising. Status `0x3C` means duration elapsed, while `0x43`
+means limit reached. §7.8.56, pages 2595–2598, specifies duration units and
+has no legacy-PDU exception. The special duration bound of 1.28 seconds applies
+to high-duty connectable directed advertising; the fixed properties `0x0010`
+here are nonconnectable undirected advertising. The helper does not claim that
+the present controller fulfills these semantics until an actual event is seen.
+
 `controller_reported_completed_extended_advertising_events` is a controller
 report of completed transmitted events. It can provide a recorded source
 denominator independently of the ESP decoder, under the stated policy and
@@ -99,7 +141,10 @@ Only the per-socket receive filter is set; the controller event mask is unchange
 python3 -m unittest discover -s tests -p test_ble_direct_hci_source.py -v
 ```
 
-Twelve hardware-free tests check exact wire encoding, 100/255 limits, fixture
+Seventeen hardware-free tests check exact wire encoding, 100/255 limits, fixture
 events, status/counter/handle errors, duplicate and early termination, missing
 acknowledgement/event, cleanup failures and own-handle rollback. Synthetic
 counts and fixtures are software checks, and establish no hardware acceptance.
+Duration tests additionally check exact field boundaries, validation before
+opening a socket, timer versus count-limit outcomes, bounded host timeout,
+retention of actual diagnostic counts without acceptance, and zeroed cleanup.
