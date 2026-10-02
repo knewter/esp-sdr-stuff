@@ -1,0 +1,42 @@
+{
+  "kind": "host-only committed source wrapper reuse/identity timing; no HCI/UART/container",
+  "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+  "rows": [
+    {
+      "index": 0,
+      "elapsed_seconds": 0.06938987493049353,
+      "exact_image_id_matches": true,
+      "reused_without_load": true
+    },
+    {
+      "index": 1,
+      "elapsed_seconds": 0.016912562074139714,
+      "exact_image_id_matches": true,
+      "reused_without_load": true
+    },
+    {
+      "index": 2,
+      "elapsed_seconds": 0.014964872971177101,
+      "exact_image_id_matches": true,
+      "reused_without_load": true
+    },
+    {
+      "index": 3,
+      "elapsed_seconds": 0.017842613975517452,
+      "exact_image_id_matches": true,
+      "reused_without_load": true
+    },
+    {
+      "index": 4,
+      "elapsed_seconds": 0.017627337016165257,
+      "exact_image_id_matches": true,
+      "reused_without_load": true
+    },
+    {
+      "index": 5,
+      "elapsed_seconds": 0.014732902985997498,
+      "exact_image_id_matches": true,
+      "reused_without_load": true
+    }
+  ]
+}

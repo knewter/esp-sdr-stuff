@@ -1,0 +1,21 @@
+{
+  "kind": "host-only pinned source-image load timing; no container/HCI/UART operation",
+  "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+  "rows": [
+    {
+      "index": 0,
+      "exit_code": 0,
+      "elapsed_seconds": 1.174693132052198
+    },
+    {
+      "index": 1,
+      "exit_code": 0,
+      "elapsed_seconds": 1.1667076089652255
+    },
+    {
+      "index": 2,
+      "exit_code": 0,
+      "elapsed_seconds": 1.2167689700145274
+    }
+  ]
+}
