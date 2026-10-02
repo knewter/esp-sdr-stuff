@@ -1,0 +1,17 @@
+{
+  "full_readback_bytes": 4194304,
+  "full_readback_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "flash_write_verified": true,
+  "full_readback_matches_baseline": true,
+  "boot": {
+    "application_identity_observed": true,
+    "sdk_observed": true,
+    "gpio_high_observed": true,
+    "gpio_low_observed": true,
+    "boot_bytes_private": 5670,
+    "reset_boot_only": true,
+    "power_cycle_proven": false
+  },
+  "verified": true
+}

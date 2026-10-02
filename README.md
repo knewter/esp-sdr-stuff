@@ -64,7 +64,9 @@ The [repeatable ESP demo](docs/research/esp-sdr-demo.md) has `demo:esp` and
 `demo:esp:restore` tasks. Its eight-window profile completes 60.022 seconds with
 2,709 valid frames and matching end totals, then independently verifies the
 original full-flash readback and reset boot. Two earlier CRC failures remain
-recorded; the successful run and recovery pass independent replay.
+recorded; the successful run and recovery pass independent replay. A fresh Nix-built
+eight-window repeat failed CRC after 45.617 seconds and was fully restored;
+dependable repeatability remains under investigation.
 
 The [Forgix toolchain setup](docs/research/forgix-toolchain.md) provides a
 separate host shell and checks without opening hardware:

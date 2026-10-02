@@ -2,7 +2,7 @@
 
 The demo command installs a verified ESPARGOS receiver, opens a local live spectrum viewer, records a bounded session, and restores the preserved original firmware. It is for the identified original ESP32 behind the CP2102 bridge. One operator owns that device throughout. The dual-serial ACM device belongs to another project.
 
-The [third physical demo session](../evidence/esp-demo-session-003/README.md) completed 60.022 seconds with 2,709 CRC-checked frames, eight separately acquired FFT windows per frame and matching end totals. All 4 MiB of restored flash matched the original baseline, followed by its expected reset boot. This is one successful bounded profile, with reception gaps and no electrical power-cycle claim. Host tests exercise synthetic fixtures, including a real Nix Chromium canvas; those tests establish software behavior separately.
+The [third physical demo session](../evidence/esp-demo-session-003/README.md) completed 60.022 seconds with 2,709 CRC-checked frames, eight separately acquired FFT windows per frame and matching end totals. All 4 MiB of restored flash matched the original baseline, followed by its expected reset boot. The [fourth trial](../evidence/esp-demo-session-004/README.md), using the freshly Nix-built artifact with the same grouping, failed CRC after 45.617 seconds and was also fully restored. Dependable repeatability remains under investigation. This is one successful bounded profile, with reception gaps and no electrical power-cycle claim. Host tests exercise synthetic fixtures, including a real Nix Chromium canvas; those tests establish software behavior separately.
 
 ## Run the demo
 

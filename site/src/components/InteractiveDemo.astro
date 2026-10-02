@@ -42,7 +42,7 @@ const command = `nix develop --command task demo:esp -- \\
       </div>
     </div>
   </div>
-  <p class="calc-note">This is one successful bounded run using the historical UART-only artifact. Earlier CRC failures remain recorded, and the Nix-built candidate has its own physical evaluation. No calibrated RF response, signal identification or general reliability rate is inferred.</p>
+  <p class="calc-note">This is one successful bounded run using the historical UART-only artifact. Earlier CRC failures remain recorded. The <a href={evidenceUrl("docs/evidence/esp-demo-session-004/README.md")}>fresh Nix-built repeat failed CRC</a>; dependable repeatability remains under investigation. No calibrated RF response, signal identification or general reliability rate is inferred.</p>
 </section>
 <style>
   .demo-layout {display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:28px; margin-top:28px; align-items:start}

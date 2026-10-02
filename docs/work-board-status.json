@@ -156,7 +156,7 @@
       "source": "source-landed",
       "physical": "verified",
       "next": "Publish and verify the reviewed minute and documented Task commands on GitHub Pages.",
-      "rationale": "Independent replay accepts the eight-window historical-artifact profile: 2,709 valid frames over 60.022 seconds, matching end totals, all 4 MiB restored and matching original boot. Two one-window CRC failures remain visible; publication is pending.",
+      "rationale": "Independent replay accepts the eight-window historical-artifact profile: 2,709 valid frames over 60.022 seconds, matching end totals, all 4 MiB restored and matching original boot. Two one-window CRC failures remain visible; publication is pending. The fresh Nix-built eight-window repeat failed CRC after 45.617 seconds and was fully restored; general repeatability remains unproven.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-board-can-be-restored-after-an-sdr-trial"
@@ -165,7 +165,8 @@
         "docs/evidence/esp-demo-session-001/README.md",
         "docs/evidence/esp-demo-session-002/README.md",
         "docs/evidence/esp-demo-session-003/README.md",
-        "docs/evidence/esp-demo-independent-review/README.md"
+        "docs/evidence/esp-demo-independent-review/README.md",
+        "docs/evidence/esp-demo-session-004/README.md"
       ],
       "reviewRevision": "a16d0b6111261cc07afc09bc70d2c3d98a9c461f",
       "cover": {

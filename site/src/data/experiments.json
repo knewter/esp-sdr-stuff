@@ -80,7 +80,7 @@
   {
     "id": "the-esp-demo-can-be-launched-and-restored",
     "short": "Run the live ESP demo",
-    "summary": "Independent replay accepts the Task-launched 60.022-second spectrum session: 2,709 valid frames, eight FFT windows averaged per update, visible gaps and full-flash restoration. Two failed one-window trials remain recorded; publication verification is pending.",
+    "summary": "Independent replay accepts one Task-launched 60.022-second spectrum session with 2,709 valid frames and full-flash restoration. Three failed trials remain recorded, including a fresh Nix-built repeat; repeatability is under investigation.",
     "gate": "A successful 60-second real spectrum session with CRC/sequence/end totals, visible gaps, full original-flash readback and matching boot, independently reviewed.",
     "depends": [
       "the-board-captures-repeatable-radio-snapshots",
