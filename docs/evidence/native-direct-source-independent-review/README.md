@@ -52,3 +52,56 @@ guard; clock rate and transport latency are uncalibrated. Native reception
 reports may duplicate, and null reception remains inconclusive. No source RF
 emission denominator, SDR-positive result, detection rate, Trial B prerequisite
 or RF/count acceptance follows from this preflight or from native reports alone.
+
+## Physical run 001: failed comparison, observed cleanup and recovery pass
+
+The [retained first run](../native-direct-reference-001/README.md) **failed**
+after one source; five conditions never ran. Initial preflight missed the real
+Task/leaf exit boundary: mocked Task exit 2 did not exercise Task's default
+command-error exit 201. The first source's actual Task footer identifies leaf
+exit 2, while its naturally closed group returned 201. Neither this review nor
+later postprocessing converts the failed schedule into a completed comparison.
+
+[Independent physical checks](trial-001-checks.json) reparse all 23,307 saved
+UART bytes and match every public typed field, all 90 contiguous buckets and
+END. There are 59 cumulative owned reports; application cancel returned zero,
+discovery was inactive, and actual firmware elapsed time is 90.087992 seconds.
+Independent integer-nanosecond phase reconstruction gives 24 reports in two
+guarded ON buckets, zero in 15 initial OFF and 63 final OFF buckets, and 35 in
+ten transition buckets. Every public CSV row and the summary agree. These are
+nominal guarded associations with uncalibrated clocks and transport latency.
+
+The saved source and independent monitor match all five requested commands and
+ACK status zero, including own-handle disable/remove. Actual termination is
+0x3c/count0. Socket, container and process groups closed; the interrupted monitor
+was reaped and removed. The original orchestration retains
+`source_cleanup_verified=false`, because its exit guard failed before validation.
+The review separately records observed cleanup verified from saved receipts.
+Both full 4 MiB before/after images independently hash to the preserved original,
+and private original reset-boot content passes. Controller before/after state
+agrees. Native reception of the owned marker despite a zero controller field
+does not supply RF emission counts, independent protected-PDU replay or SDR proof.
+
+The actual corrected plot was rendered and inspected. It labels comparison
+failure, shades only the first source and retains five unrun conditions. Its
+scope footer was initially obscured by the axis label; a separate plot-only fix
+reserves space without changing data. Public hashes identify the final reviewed
+evidence commit `2f007cdef4ad902e0c414445986e238616cbb9f6`.
+
+## Prospective supervisor v2: exit fix passes; timing holds launch
+
+[Version 2 checks](preflight-v2-checks.json) cover the narrow source-only
+`task --exit-code` change. The reviewer independently ran **24 locked Nix Task
+tests**, including real hardware-free Task subprocesses: default exit 201 is
+rejected, source passthrough returns leaf 2, and missing/generic typed receipts
+still fail. Native parent, monitor and common Child commands remain unchanged;
+there is no generic 201 normalization. [Task documents both behaviors](https://taskfile.dev/docs/reference/cli#x-exit-code).
+
+Fresh run 002 is **held for startup-budget review**. Actual run 001 took
+8.579117 seconds from source Task launch to configuration. The fixed six-source
+and OFF schedule needs 65 seconds before startup/cleanup overhead, leaving only
+10 seconds before READY +75. Root's hardware-free measurements found warmed
+image loads around 1.17–1.22 seconds and capability-free help launches around
+0.52–0.57 seconds each. Repeating those costs risks overrunning the fixed bound.
+A separately reviewed immutable preload/reuse path may address that cost; this
+receipt does not approve longer bounds, shorter conditions or an automatic retry.

@@ -1,0 +1,570 @@
+{
+  "schema": 1,
+  "comparison_result": "FAILED",
+  "hardware_access": false,
+  "failure": "Task wrapper201 rejected before source verification; preflight lacked realTask boundary fixture",
+  "source_conditions_attempted": 1,
+  "conditions_not_run": 5,
+  "six_condition_schedule_completed": false,
+  "original_orchestration_source_cleanup_verified": false,
+  "independent_observed_source_cleanup_verified": true,
+  "source_task_exit": 201,
+  "actual_Task_failure_footer_leaf_exit": 2,
+  "source_leaf_typed_status": "trial_failed",
+  "source_leaf_error_code": "termination_status_or_count_mismatch",
+  "all_5_actual_source_ACKs_and_independent_monitor_ACKs_zero": true,
+  "source_actual_status": 60,
+  "controller_completed_count": 0,
+  "socket_container_and_groups_closed": true,
+  "monitor_status": "interrupted",
+  "monitor_elapsed_seconds": 22.019755344022997,
+  "native_capture_result": "completed",
+  "raw_uart_bytes": 23307,
+  "raw_uart_sha256": "b6c7b3a273854a77ff3a8ab53df73f9c65ffc9d53437a27e9826927327c274f5",
+  "raw_typed_records_equal_public_capture": true,
+  "buckets_including_END": 90,
+  "owned_reports": 59,
+  "firmware_elapsed_us": 90087992,
+  "host_observation_seconds": 90.103225701,
+  "cancel_status": 0,
+  "scan_active_after_stop": false,
+  "all_frozen_hashes_match": true,
+  "independently_rehashed_original_before_and_restored_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "full_flash_bytes": 4194304,
+  "private_original_boot_checked": true,
+  "reset_boot_only_not_power_cycle": true,
+  "controller_state_unchanged": true,
+  "groups_closed_before_future_trial": true,
+  "phase_scope": "wholeREADY hostbracket/wholefirmwareinterval, nominal uncalibrated with1s guards; firstepisodeonly",
+  "phase_counts": {
+    "initial_off": {
+      "buckets": 15,
+      "owned_reports": 0
+    },
+    "source_on": {
+      "buckets": 2,
+      "owned_reports": 24
+    },
+    "final_off": {
+      "buckets": 63,
+      "owned_reports": 0
+    },
+    "transition_guard": {
+      "buckets": 10,
+      "owned_reports": 35
+    }
+  },
+  "phase_rows": [
+    {
+      "sequence": 1,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 2,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 3,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 4,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 5,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 6,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 7,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 8,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 9,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 10,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 11,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 12,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 13,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 14,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 15,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 16,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 17,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 18,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 19,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 7
+    },
+    {
+      "sequence": 20,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 21,
+      "nominal_phase": "source_on",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 22,
+      "nominal_phase": "source_on",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 23,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 11
+    },
+    {
+      "sequence": 24,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 5
+    },
+    {
+      "sequence": 25,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 26,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 27,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 28,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 29,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 30,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 31,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 32,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 33,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 34,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 35,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 36,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 37,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 38,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 39,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 40,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 41,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 42,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 43,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 44,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 45,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 46,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 47,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 48,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 49,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 50,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 51,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 52,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 53,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 54,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 55,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 56,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 57,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 58,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 59,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 60,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 61,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 62,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 63,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 64,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 65,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 66,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 67,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 68,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 69,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 70,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 71,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 72,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 73,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 74,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 75,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 76,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 77,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 78,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 79,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 80,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 81,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 82,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 83,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 84,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 85,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 86,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 87,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 88,
+      "nominal_phase": "final_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 89,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 90,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    }
+  ],
+  "reports_may_duplicate": true,
+  "protected_PDU_CRC_independently_replayed": false,
+  "SDR_positive": false,
+  "Trial_B_prerequisite_satisfied": false,
+  "RF_gate_closed": false,
+  "source_count_gate_closed": false,
+  "radiated_event_count": null,
+  "source_log_sha256": "562d6d466b0f494c8910684e232189b738e19d4da5b5550ecdfb86666301ba12",
+  "monitor_sha256": "d0d6d220966f097c357d0a8fbac1bf0f4166f6d2202f7812e418c409b0e7b90f",
+  "Task_actual_offline_boundary_fixture": {
+    "task_executable": "/nix/store/5f55ks7v3f7lg5z88zahl46dn42i4clv-go-task-3.53.1/bin/task",
+    "task_version": "3.53.1",
+    "synthetic_hardware_free_recipe": "version: '3'\ntasks:\n  leaf-exit2:\n    cmds:\n      - python3 -c 'raise SystemExit(2)'\n",
+    "results": [
+      {
+        "command": [
+          "task",
+          "--taskfile",
+          "/dev/stdin",
+          "leaf-exit2"
+        ],
+        "returncode": 201,
+        "stdout": "",
+        "stderr": "task: [leaf-exit2] python3 -c 'raise SystemExit(2)'\ntask: Failed to run task \"leaf-exit2\": exit status 2\n"
+      },
+      {
+        "command": [
+          "task",
+          "--exit-code",
+          "--taskfile",
+          "/dev/stdin",
+          "leaf-exit2"
+        ],
+        "returncode": 2,
+        "stdout": "",
+        "stderr": "task: [leaf-exit2] python3 -c 'raise SystemExit(2)'\ntask: Failed to run task \"leaf-exit2\": exit status 2\n"
+      }
+    ]
+  },
+  "all_90_public_CSV_rows_match_independent_integer_ns_phases": true,
+  "public_summary_source_monitor_and_orchestration_match": true,
+  "exact_reviewed_native003_manifest_and_installed_parts_match": true,
+  "source_Task_start_to_configuration_seconds": 8.579117045,
+  "reviewed_evidence_commit": "2f007cdef4ad902e0c414445986e238616cbb9f6",
+  "public_sha256": {
+    "orchestration.json": "b7ea818bfaa9ae9c3433382236d26845d7f5c4a854167171936dd7ec7a3d5919",
+    "monitor.json": "d0d6d220966f097c357d0a8fbac1bf0f4166f6d2202f7812e418c409b0e7b90f",
+    "README.md": "92113a30e739aa289e167d5abfb7c35f0c6c1dd3af2583158e6ea4389411716d",
+    "native-buckets.csv": "9c977c377afc3e1140b671eef2704f0ae90337c34a5113be64d4ba87927ddadd",
+    "before-install.json": "f53a3faf27db6dc867d5d9a607ec18c361649e0b9e1bb0aa1103c0d77d0d23be",
+    "native-reference.json": "e01340825ac953186c6625016bc058af8a3572d5b1e1f09d2548e9b55cc01b97",
+    "restoration.json": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8",
+    "summary.json": "8cd143e00b67039f13bbe831bc09b0187de64ef80dc20b3e9fc1dfb91afcb8dc",
+    "native-reports.svg": "601e29aec53f223d9ebc1f8f567cd6c2844bea38f7f960fa3e6adfd631066502",
+    "capture.json": "084bad320f6c4eb7753c48540cabf8ea56624d957c91e3ec51e963b247df6455",
+    "source-0.json": "60bec2add29b5d95997a5737458f947c9a6d03a02b6a5515a43b004f50590963"
+  },
+  "postprocessor_sha256": "0fd2cd2fbc54f319043954ba88c4445f8c9493563478291ce47b8da59bc5c8bd",
+  "actual_corrected_SVG_rendered_and_inspected": true,
+  "plot_scope": "failed comparison, actual firstsourceonly shaded,59 deliveredreports withfiveconditionsunrun; uncalibratedtime/noSDRproof/emissiondenominator; footer overlap corrected",
+  "visual_fix_did_not_change_capture_or_numerical_results": true
+}

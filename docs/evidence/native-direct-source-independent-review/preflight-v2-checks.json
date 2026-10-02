@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "review_result": "source_Task_passthrough_fix_static_PASS_physical_launch_HOLD_pending_startup_budget_proof",
+  "hardware_access": false,
+  "protocol_author_commit": "1a82364344ea5a30234785ceebc8091704de0dc8",
+  "supervisor_version": 2,
+  "runner_sha256": "32858428da71e885294136822ee2bae747cd4e1ee5ee6a93948560a5b6864572",
+  "tests_sha256": "3e82038e9c1928369e629f892a3da9f359bf226ee11978198c182efc6de68994",
+  "Task_sha256": "2efa0adac38239310a5f0308f717fac3adbdb517a00a656957857fce0f08d2bd",
+  "independent_Nix_CI_Task_tests_passed": 24,
+  "elapsed_seconds": 0.25,
+  "real_Task3_53_1_default201_and_source_passthrough2_verified": true,
+  "source_specific_subclass_only": true,
+  "native_monitor_and_common_Child_commands_unchanged": true,
+  "no_generic201_normalization": true,
+  "leaf2_still_requires_complete_typed_source_and_cleanup_receipts": true,
+  "initial_preflight_gap": "Mock source Task exit2 bypassed actual Task default201 boundary; physical001 failed as retained. New realTask fixture added afterfailure.",
+  "conditions_unchanged": [
+    255,
+    0,
+    255,
+    0,
+    255,
+    0
+  ],
+  "native003_manifest_sha256": "dc4a96c873d69c9ccc09ff5fba5064b9f07332184565b96eee81cc9dad9f0159",
+  "timing_bounds_unchanged": {
+    "native_scan_seconds": 90,
+    "source_groups_ready_plus_seconds": 75,
+    "initial_off_seconds": 10,
+    "inter_episode_off_seconds": 5,
+    "final_actual_tail_strict_min_seconds": 10
+  },
+  "startup_budget_hold": {
+    "observed001_Taskstart_to_configuration_seconds": 8.579117045,
+    "ideal_fixed_source_and_OFF_seconds_before_last_closure": 65,
+    "remaining_cumulative_startup_and_cleanup_budget_seconds": 10,
+    "root_host_only_warm_image_load_seconds": [
+      1.174693132052198,
+      1.1667076089652255,
+      1.2167689700145274
+    ],
+    "root_host_only_capability_free_help_launch_seconds": [
+      0.5659882619511336,
+      0.5175760199781507,
+      0.5163178819930181
+    ],
+    "receipt_hashes": {
+      "source-image-warm-loads.json": "9cbd8ed4d2bdc424a2890f190663c7aa1b9f793a5a1a0cf909376be6a5523c8b",
+      "source-help-container-timing.json": "a93a7af88b6be950522511ec1178e6e855dc705cf613e762f31b8c535ac0d497"
+    },
+    "interpretation": "Warm load+launch costs risk exceeding fixed75ceiling acrosssixsources; no empirical guarantee of worst-case timing. Holdfresh002 pending separate immutable preloaded reuse review; do notlengthenbounds orshortenepisodes."
+  },
+  "SDR_positive": false,
+  "RF_or_count_acceptance_gate_closed": false,
+  "radiated_event_count": null
+}
