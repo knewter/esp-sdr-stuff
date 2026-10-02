@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "firmware_revision_asserted_from_install_record": "550fade-uart921600",
+  "firmware_source_base_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "browser_transport": "localhost HTTP polling a host UART reader; not native Web Serial",
+  "settings": {
+    "frequency_mhz": 2412,
+    "rate_hz": 80000000,
+    "bins": 512,
+    "gain": "hardware",
+    "ffts_per_frame": 8,
+    "detector": "mean power over separately acquired FFT snapshots",
+    "bandwidth_mhz": 20,
+    "seconds_requested": 60
+  },
+  "private_stream_retention": "bounded RAM; persisted only after UART closure",
+  "private_stream_memory_cap_bytes": 67108864,
+  "started_utc": "2026-10-02T19:54:57Z",
+  "limitations": "Snapshot FFTs contain gaps. Codes are uncalibrated. Hardware nominal clock and synthesized sample index do not independently prove actual sample rate.",
+  "end_report": [
+    0,
+    0,
+    21648,
+    11083776,
+    60005194,
+    0,
+    0,
+    2706,
+    0,
+    0,
+    21648,
+    0
+  ],
+  "frames": 2706,
+  "elapsed_seconds": 60.00502428400796,
+  "nominal_sampled_seconds": 0.1385472,
+  "nominal_coverage_fraction": 0.0023089266549455338,
+  "status": "completed",
+  "ended_utc": "2026-10-02T19:55:58Z",
+  "accepted_ffts": 21648,
+  "accepted_sample_pairs": 11083776,
+  "raw_persistence": {
+    "accepted_stream": "verified",
+    "rejected_packet": "not_applicable",
+    "accepted_stream_expected_bytes": 1481064
+  },
+  "private_frames_sha256": "0a6bbbc7ef2c0c5d28ae9bd606c6f054d3e436ef86053b81bd3ff3b07acddb16",
+  "private_frames_bytes": 1481064,
+  "prefix_integrity_note": "Retained stream contains accepted spectrum frames and CRC-valid statistics; rejected consumed bytes are saved separately. Prefix success does not establish complete session integrity.",
+  "bridge_status": "completed",
+  "demo_duration_check": {
+    "seconds_requested": 60,
+    "host_elapsed_seconds": 60.00502428400796,
+    "firmware_elapsed_us": 60005194,
+    "host_reached_requested_duration": true,
+    "firmware_reached_requested_duration": true
+  },
+  "demo_duration_gate_passed": true
+}
