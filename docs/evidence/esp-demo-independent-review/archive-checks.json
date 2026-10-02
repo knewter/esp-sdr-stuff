@@ -1,0 +1,139 @@
+{
+  "reviewed_utc": "2026-10-02T08:10:19.930016+00:00",
+  "result": "passed",
+  "evidence_class": "Independent offline archive, Git provenance and read-only GitHub Actions review; no hardware access",
+  "archive_revision": "6145763d90db70e7cef9752e271d1928a3b0113c",
+  "work_board_fix_revision": "fa6c136eecf96b7c547896d54d442a81ad15b462",
+  "published_revision": "18cca9036d301d80959c8b6f52c1161bca145f4d",
+  "workflow": {
+    "run_id": 36980220022,
+    "url": "https://github.com/knewter/esp-sdr-stuff/actions/runs/36980220022",
+    "independent_locked_nix_gh_query": true,
+    "observed_head_matches_published_revision": true,
+    "status": "completed",
+    "build": "success",
+    "deploy": "success",
+    "deploy_completed_utc": "2026-10-02T07:51:49Z"
+  },
+  "publication_receipts": {
+    "unit_tests": 280,
+    "live_browser_check_groups": 13,
+    "live_browser_result": "passed",
+    "all_exported_source_files": 543,
+    "all_exported_source_bytes": 11144861,
+    "independent_all_manifest_entries_rehashed_against_exact_git_revision": true,
+    "unique_paths": 543,
+    "all_lengths_and_sha256_match": true,
+    "limitation": "The operator receipts record the exact-revision live browser and all HTTP byte comparisons. This archive reviewer independently queried workflow completion and rehashed all 543 manifest entries against Git; it did not repeat all live HTTP downloads or the complete browser suite during this archive audit. Counts describe the historical published revision, not later builds."
+  },
+  "accepted_scope": {
+    "main_spec": "openspec/specs/radio/interactive-demo/spec.md",
+    "requirements": [
+      {
+        "name": "One Task command runs a verified physical spectrum demonstration",
+        "verdict": "passed",
+        "basis": [
+          "session-005-checks.json",
+          "session-006-checks.json",
+          "README.md lifecycle and meaningful host-test review"
+        ]
+      },
+      {
+        "name": "The viewer and evidence disclose snapshot limitations",
+        "verdict": "passed",
+        "basis": [
+          "actual live/completed screenshots independently inspected for sessions005/006",
+          "independent frame replay and gap/averaging/nominal-power review",
+          "failed001/002/004 retained and explicitly failed"
+        ]
+      },
+      {
+        "name": "Demo cleanup verifies the restored original firmware",
+        "verdict": "passed",
+        "basis": [
+          "independent all4194304-byte original/pre-install/restored hash comparisons and original boot checks for005/006",
+          "retained failed001/002/004 verified recoveries",
+          "reviewed cancellation, process-group-closure and unverified-recovery host tests"
+        ]
+      }
+    ],
+    "main_requirements_added": 3,
+    "original_shall_clauses_unchanged": true,
+    "archived_delta_bytes_unchanged": true,
+    "archived_tasks_total": 6,
+    "archived_tasks_checked": 6,
+    "only_task3_2_changed_at_archive": true,
+    "other_main_specs_unchanged": true,
+    "other_active_openspec_changes_unchanged": true
+  },
+  "coherence": {
+    "archived_dependency_paths_exist": true,
+    "dependency_paths": [
+      "openspec/changes/archive/2026-10-01-the-board-captures-repeatable-radio-snapshots/proposal.md",
+      "openspec/changes/archive/2026-10-01-the-board-can-be-restored-after-an-sdr-trial/proposal.md"
+    ],
+    "unrelated_work_board_overrides_unchanged_by_archive": true,
+    "work_board_fix_removes_only_unsupported_acceptedSpecs_override": true,
+    "renderer_infers_delta_to_main_link": "Existing behavior; no renderer change in fix"
+  },
+  "retained_trials": [
+    {
+      "session": "001",
+      "status": "failed",
+      "capture_status": "failed",
+      "restoration_status": "verified"
+    },
+    {
+      "session": "002",
+      "status": "failed",
+      "capture_status": "failed",
+      "restoration_status": "verified"
+    },
+    {
+      "session": "004",
+      "status": "failed",
+      "capture_status": "failed",
+      "restoration_status": "verified"
+    }
+  ],
+  "limitations": [
+    "Acceptance covers the exact reviewed Nix artifact, eight-window settings and RAM reader in two consecutive bounded minute trials. No general long-run failure rate or corruption-cause claim.",
+    "SPECEND totals are validated unprotected text scalars compared to independently CRC-checked frame aggregates, not a protected terminal report.",
+    "Nominal sampling, temporal averaging, reception gaps and uncalibrated power remain disclosed; no RF source identity, sensitivity or continuous coverage claim.",
+    "RF/calibration, independently counted bursts and FPGA physical gates remain open; AtomVM remains deferred.",
+    "Raw RF/flash and unsanitized transcripts remain private; screenshots establish display behavior only.",
+    "Publication receipts remain historical proof of18cc even after a newer archive/review deployment."
+  ],
+  "reviewed_receipt_hashes": [
+    {
+      "path": "docs/evidence/esp-demo-publication/README.md",
+      "bytes": 1730,
+      "sha256": "dc74d1b4efc9ca19da7578aa070f37abd9ee528689815420cbf4b7f5233df9e6"
+    },
+    {
+      "path": "docs/evidence/esp-demo-publication/workflow.json",
+      "bytes": 634,
+      "sha256": "13cc1c4ba5edd44cc52ed9df657de214c377b5b17a55456d0f2c53d020ccfbe4"
+    },
+    {
+      "path": "docs/evidence/esp-demo-publication/browser-checks.json",
+      "bytes": 728,
+      "sha256": "3b804daca84050224c5d7b03f0c37f7242fad876f7e46f8d236ef98326d2bc21"
+    },
+    {
+      "path": "docs/evidence/esp-demo-publication/source-checks.json",
+      "bytes": 102134,
+      "sha256": "3ed56db4fb7304f494e15d5931cc5e834265c068586ba60dd01478e17e8b1336"
+    },
+    {
+      "path": "openspec/specs/radio/interactive-demo/spec.md",
+      "bytes": 4990,
+      "sha256": "abcd3f888173eb83db75866f897cc1543eb1c61086599e7bdd56368a98499db8"
+    },
+    {
+      "path": "openspec/changes/archive/2026-10-02-the-esp-demo-can-be-launched-and-restored/tasks.md",
+      "bytes": 2399,
+      "sha256": "49617527ce6d34bbf01f6e57610670cc94abfffd7bcbb08b7960e4b8dc93fabf"
+    }
+  ]
+}
