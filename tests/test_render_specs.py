@@ -381,6 +381,11 @@ class TestData(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "generated output directory"):
                 render_specs.build_data(root, root / "docs")
             self.assertEqual(original.read_bytes(), b"original")
+            page = root / "site/src/pages/evidence/[slug].astro"
+            page.parent.mkdir(parents=True); page.write_bytes(b"original page")
+            with self.assertRaisesRegex(ValueError, "generated output directory"):
+                render_specs.build_data(root, root / "site/src/pages")
+            self.assertEqual(page.read_bytes(), b"original page")
 
     def test_the_data_pass_reads_openspec_specs_and_nothing_else(self) -> None:
         with TempRepo() as root:
