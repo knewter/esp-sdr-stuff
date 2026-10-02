@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-10-02T09:10:54.911871+00:00",
+  "scope": "Host toolchain checks; no hardware opened or configured",
+  "hardware_opened": false,
+  "mcu_firmware_replaced": false,
+  "versions": {
+    "migen": "0.9.2",
+    "litex": "2026.8",
+    "litex-boards": "2026.8",
+    "mpremote": "1.29.0"
+  },
+  "source_pins": {
+    "boards": "10debf146d433ce8ac8aedcac84e97d252ff4d5b",
+    "efinity": "Runtime installation required; not bundled or licensed by this shell",
+    "litex": "8c01073afb71aa0a0709f02f8e24247589e8f5e4",
+    "migen": "0.9.2-unstable-2025-10-03",
+    "mpremote": "1.29.0",
+    "upstreamTests": "e7c71b750ca61690a70bc79ebd6ff5fbc65cedad"
+  },
+  "rtl_sha256": "b945624a91c355a350e7395b8321c7ed090290aef385310bcd387ea9a2118043",
+  "upstream_unverified_defaults": {
+    "device": "T8F49C2",
+    "clock_hz": 32000000,
+    "clock_ball": "B4"
+  },
+  "physical_parameters": null,
+  "checks": [
+    {
+      "command": "mpremote",
+      "arguments": [
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "849af5c993748c42d9d104fe87dd9e4371974f376dc7fb8f4e06705880d709ac",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "litex_server",
+      "arguments": [
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "f6f2d9611a220bb094c2dbee9120e1213a28f8fc9be8f160100c1bdc6b13247f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "vendor_installation_present": false,
+  "vendor_cli_verified": false,
+  "license_compile_verified": false,
+  "compile_inputs_ready": false,
+  "gateware_ready": false,
+  "status": "host_ready"
+}
