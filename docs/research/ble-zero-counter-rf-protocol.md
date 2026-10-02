@@ -27,7 +27,9 @@ properties `0x10`, LE1M, primary channel 37 only (2402 MHz), **20 ms** interval,
 **5-second duration** (500 units of 10 ms), and **MaxEvents 255**, nonzero.
 Use the exact manufacturer AD structure
 `0fffffff4553502d5344522d4556414c` (`ESP-SDR-EVAL`). Disable/remove that handle
-and record successful cleanup after each episode. Wait **one second OFF**
+and record successful cleanup after each episode. Set the source helper's
+additional **start delay to zero**; ten default one-second delays would exceed
+the 80-second schedule before its required tail. Wait **one second OFF**
 between successive episodes. Continue receiver acquisition for **more than ten
 seconds after** the final source socket closure/cleanup; extend the run if
 command overhead would otherwise shorten that tail. Preserve all ten episodes,
@@ -60,8 +62,9 @@ python3 tools/ble_decode_iq.py --input PRIVATE-IQ-DIRECTORY \
 
 Join same-machine monotonic source and receiver records for every episode and
 all OFF intervals. A packet is unambiguously inside an episode only when its
-entire host acquisition bracket, from command send through header receipt,
-lies after that episode's enable send and before its observed termination.
+entire request-response bracket, from capture command send through complete
+payload receipt, lies after that episode's successful enable acknowledgement
+plus **100 ms**, and before its observed termination minus **100 ms**.
 Report boundary captures separately. Host brackets are control-plane timing,
 not hardware RF timestamps.
 
