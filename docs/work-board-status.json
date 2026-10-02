@@ -204,7 +204,8 @@
         "docs/evidence/efinity-compiler-independent-review/README.md",
         "docs/evidence/efinity-compiler-independent-review/actual-002-review.md",
         "docs/evidence/forgix-usb-ram-build/README.md",
-        "docs/evidence/forgix-usb-ram-independent-review/README.md"
+        "docs/evidence/forgix-usb-ram-independent-review/README.md",
+        "docs/evidence/forgix-usb-ram-collector-review/README.md"
       ],
       "reviewRevision": "4f1c3e28f051af5ea5bf2de72ba24c4fe09bb834"
     },

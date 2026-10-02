@@ -30,8 +30,11 @@ neither statement establishes successful replacement-image recovery. Absence
 of an FPGA programming command does not establish unchanged FPGA state across
 MCU resets. FPGA grade/oscillator/revision remain unknown.
 
-Thirteen firmware guard tests and 28 collector synthetic tests pass in the
-integrated locked Nix environment. Collector/lifecycle review remains separate.
+Thirteen firmware guard tests and the initial 28 collector synthetic tests pass
+in the integrated locked Nix environment. The later
+[independent collector review](../forgix-usb-ram-collector-review/README.md)
+accepts 37 tests including the corrected late-completion paths and explicit
+loss accounting. Loading/recovery lifecycle review remains separate.
 The [first physical protocol](../../research/forgix-usb-ram-trial-protocol.md)
 requires full device flash verification before and after, exact identity binding
 and confirmed process/handle closure. No physical RAM load, throughput,
