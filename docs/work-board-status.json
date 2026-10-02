@@ -120,12 +120,12 @@
       ]
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
-      "lane": "in-progress",
-      "source": "in-progress",
-      "physical": "pending",
-      "next": "Inspect the RTL antenna and physically inventory available conversion/reference equipment.",
-      "rationale": "V4 no-FEC RDS identifies WXJC; ESP decodes owned BLE packets with measured snapshot gaps. Antenna/converter inventory and same-signal sensitivity remain open.",
-      "reviewRevision": "82708e7",
+      "lane": "archived",
+      "source": "archived",
+      "physical": "verified",
+      "next": "Closed comparison record: measured receiver roles; shared-signal sensitivity explicitly deferred without conversion/reference equipment.",
+      "rationale": "Independent replay accepts all five original tasks and both requirements. Current user-dipole FM/RDS identifies WXJC; four V4 transport trials and measured ESP snapshot gaps ground the recommendations. No sensitivity ranking, calibrated coverage or FPGA result is claimed.",
+      "reviewRevision": "598836590c8ede607013feab3f56f174bc10b3ae",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -137,11 +137,14 @@
         "docs/evidence/snapshot-baseline/README.md",
         "docs/evidence/rtl-rds-trial/README.md",
         "docs/evidence/rtl-rds-independent-review/README.md",
-        "docs/evidence/evaluation-checkpoint/README.md"
+        "docs/evidence/evaluation-checkpoint/README.md",
+        "docs/evidence/rtl-dipole-rds/README.md",
+        "docs/evidence/user-equipment-inventory/README.md",
+        "docs/evidence/rtl-dipole-independent-review/README.md"
       ],
       "cover": {
-        "path": "docs/evidence/rtl-rds-trial/rds-decoding.png",
-        "caption": "Actual no-FEC RDS decoding of WXJC at 101.1 MHz; antenna inventory pending",
+        "path": "docs/evidence/rtl-dipole-rds/rds-decoding.png",
+        "caption": "Actual current-dipole no-FEC RDS decoding: 287 directly valid WXJC PI blocks",
         "provenance": "Board capture"
       }
     }

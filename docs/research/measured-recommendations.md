@@ -24,7 +24,7 @@ rule out using this installed path as a continuous wideband recorder.
 
 | Application | V4 | This ESP32 | Current proof and practical choice |
 |---|---|---|---|
-| Broadcast FM, narrowband VHF/UHF, HF listening | Manufacturer's direct coverage about 0.5–1766 MHz; continuous narrow streams | Normal Wi-Fi-band receiver path; unrelated lower-frequency commands unvalidated | Choose V4. Actual no-FEC RDS identifies WXJC at 101.1 MHz; the current path works for that station. Antenna model/attachment and other-band applications remain unverified. |
+| Broadcast FM, narrowband VHF/UHF, HF listening | Manufacturer's direct coverage about 0.5–1766 MHz; continuous narrow streams | Normal Wi-Fi-band receiver path; unrelated lower-frequency commands unvalidated | Choose V4. Actual no-FEC RDS identifies WXJC at 101.1 MHz; the current path works for that station. The user confirms the current dipole; its geometry and other-band performance remain unverified. |
 | Persistent recording of events in a roughly 1–2 MHz channel | Host-delivered stream demonstrated at the tested rates, with the stated loss limits | About 0.36–0.45 s between full snapshot deliveries | Choose V4 when the target is in its direct band. The ESP path is unsuitable for exhaustive event counts. |
 | Direct 2.4 GHz spectrum research | Requires external downconversion; no such common path is verified | Raw snapshots and on-device FFT output physically demonstrated; five complete owned BLE packet windows yield CRC-valid, exact known ADs | ESP adds access to a different band. A successful command or uncalibrated trace does not validate every tuning point. |
 | Complete BLE legacy advertising waveform | Cannot directly tune 2.4 GHz in normal V4 configuration | A 16 MS/s full snapshot nominally fits a packet; 80 MS/s's 205 µs does not fit the owned 256 µs minimum packet | ESP is a repeated-packet experiment, not a reliable sniffer. Five known-marker packets are decoded offline; independently counted emissions and reliable repeated interception remain open. |
@@ -43,7 +43,7 @@ a stereo pilot. [Subsequent no-FEC RDS decoding](docs/evidence/rtl-rds-trial/REA
 now identifies WXJC with repeated directly valid PI blocks and public RadioText;
 [independent replay](docs/evidence/rtl-rds-independent-review/README.md) reproduces
 both input trials and checks [the station-owned frequency](https://www.wxjcradio.com/).
-The exact antenna model/attachment remains uninspected.
+A [fresh trial with the current user-reported dipole](docs/evidence/rtl-dipole-rds/README.md) again identifies WXJC: 287 directly valid PI blocks with FEC disabled. [Fresh independent replay](docs/evidence/rtl-dipole-independent-review/README.md) reproduces its output. Antenna model, dimensions, orientation and calibrated sensitivity remain unverified.
 
 [Pinned ESPARGOS controls](https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/docs/rx-controls.md)
 and [capture code](https://github.com/ESPARGOS/esp-sdr/blob/550fadea4d00a9e26ce921c5832167becb3dc20c/main/targets/esp32/receiver.c)
@@ -86,10 +86,7 @@ to this LX6 board.
 
 ## Remaining decisions
 
-No common calibrated RF path is inventoried. A same-signal sensitivity ranking
-is deferred; mixer/LO, filters, antenna, losses and calibration would need to
-be recorded first. The user has been asked for available source/attenuator
-equipment and physical FPGA details. Recommendations above describe the
+The [user inventory](docs/evidence/user-equipment-inventory/README.md) reports no external RF equipment. A same-signal sensitivity ranking is deferred; a common path, mixer/LO, filters, losses and calibration would need to be recorded first. Forgix is reported attached but remains unidentified in USB; physical revision, clock and wiring remain unknown. [Preserve-first bring-up](docs/research/forgix-bringup.md) is prepared. Recommendations above describe the
 measured transport envelope and sourced hardware limits; unverified
 applications and incomplete proposal tasks remain open. AtomVM is deferred
 by user and excluded from the current goal.

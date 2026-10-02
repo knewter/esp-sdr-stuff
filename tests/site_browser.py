@@ -63,10 +63,15 @@ def main():
         for route in ("compare/", "fpga/", "sources/", "ledger/", "evidence/"):
             assert page.goto(base + route, wait_until="networkidle").status == 200
         # Archival must preserve the original stable proposal URL.
-        page.goto(base + "work/?work=the-board-captures-repeatable-radio-snapshots", wait_until="networkidle")
-        page.locator("#work-detail-dialog[open]").wait_for()
-        assert "archived" in page.locator("#work-detail-content").inner_text().lower()
-        page.keyboard.press("Escape")
+        for archived in (
+            "the-board-captures-repeatable-radio-snapshots",
+            "the-board-can-be-restored-after-an-sdr-trial",
+            "the-two-receivers-have-a-measured-division-of-labor",
+        ):
+            page.goto(base + "work/?work=" + archived, wait_until="networkidle")
+            page.locator("#work-detail-dialog[open]").wait_for()
+            assert "archived" in page.locator("#work-detail-content").inner_text().lower()
+            page.keyboard.press("Escape")
         page.goto(base + "evidence/docs-evidence-board-identification-readme-md/", wait_until="networkidle")
         page.get_by_role("link", name="Boot log", exact=True).click()
         assert "hello_world" in page.locator(".ev-text").inner_text()

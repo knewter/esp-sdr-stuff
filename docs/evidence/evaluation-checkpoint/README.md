@@ -23,15 +23,15 @@ explicitly deferred by the user.
   original flash bytes and boots the original GPIO application after reset.
   The board is currently restored; no receiver holds a device handle.
 
-## Open gates and needed inputs
+## Evaluation status and needed inputs
 
 | Evaluation | Remaining physical requirement | Needed next input |
 | --- | --- | --- |
 | Recovery | Complete for the preserved baseline and performed trials | User-confirmed cycle plus matching original boot accepted by independent review |
 | RF path | Three repeatable controlled pairs, filter/gain/tuning characterization and uncertainty | Known RF source/reference, attenuator inventory and a reproducible physical setup |
 | Burst reliability | At least 100 events with a recorded source count, complete hits and unresolved misses/truncations | An observable source counter independent of ESP decoding; requested intervals or event limits are insufficient |
-| FPGA feasibility | Actual board/electrical/clock inventory, synthetic sequence/CRC/stall measurements, conditional RF integration | Connect Forgix and identify revision/wiring; identify PCI-card markings and programming interface |
-| Receiver comparison | Fresh dipole FM test and user inventory received; review underway | No conversion/reference equipment reported; same-signal sensitivity comparison deferred |
+| FPGA feasibility | Actual board/electrical/clock inventory, synthetic sequence/CRC/stall measurements, conditional RF integration | Identify the reported attached Forgix USB interface and revision/wiring; PCI-card markings and programming interface remain unknown |
+| Receiver comparison | Complete: fresh dipole FM/RDS, equipment inventory and independent review | Shared-signal sensitivity explicitly deferred; no conversion/reference equipment reported |
 
 The native corrected HCI MONITOR bind was denied. A capability-enabled
 [dumpcap fallback](../ble-dumpcap-source/README.md) now physically records actual
@@ -49,14 +49,14 @@ software readiness, not a physical receiver result.
 Historical wrong-channel attempts provide no emission count. No calibration,
 event hit rate, continuous ESP IQ or FPGA transport success is inferred.
 
-The snapshot-transport and recovery proposals are accepted and archived. Four evaluations
+The snapshot-transport, recovery and receiver-comparison proposals are accepted and archived. Three evaluations
 remain open; checked tasks retain their original requirements. See the
 [independent requirement audit](../independent-review/requirement-audit.md) and
 [measured recommendations](../../research/measured-recommendations.md).
 
 [USB hub inspection](../usb-power-control/README.md) finds advertised individual
 port switching via a scoped descriptor-only container. Electrical VBUS/ESP-rail
-removal remains unmeasured; logical port state cannot close recovery proof.
+removal remains unmeasured; logical port state alone was not recovery proof. The later user-confirmed physical cycle and matching application boot close recovery under its original scope.
 
 [The independent zero-counter review](../ble-zero-counter-independent-review/README.md)
 reproduces the complete null replay, all raw integrity checks, source-only timer
@@ -70,3 +70,7 @@ dipole antenna and reports no external RF equipment. [Fresh dipole reception](..
 again decodes WXJC with FEC disabled. Forgix is reported attached but its USB
 interface remains unidentified; [preserve-first bring-up](../../research/forgix-bringup.md)
 is prepared and no FPGA firmware has been replaced.
+
+[Current-dipole independent review](../rtl-dipole-independent-review/README.md)
+replays the no-FEC output and accepts the original comparison tasks. No cross-band
+sensitivity ranking or all-band antenna performance is accepted.

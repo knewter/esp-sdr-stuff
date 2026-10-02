@@ -16,7 +16,7 @@ The host records revisions/settings/results; firmware owns modem and memory acce
 
 ## Risks / Trade-offs
 
-V4 tuner identification is proven, but capture quality is not. A configured rate is not sustained delivery. RF sensitivity comparisons need the same calibrated signal path.
+V4 tuner identification and this selected FM/RDS application are proven; calibrated RF performance remains unmeasured. A configured rate is not sustained delivery. RF sensitivity comparisons need the same calibrated signal path.
 
 ## Validation and decision
 
@@ -40,7 +40,12 @@ test bytes, so it proves the named transport trial rather than tuning range,
 calibrated bandwidth, antenna suitability or reception. The ten-second rate
 estimates depend on host/USB timing and are not calibrated oscillator results.
 
-[Passive FM discovery](docs/evidence/rtl-fm-survey/README.md) includes real FFT
-records and a five-second 101.1 MHz candidate capture. The observed 19 kHz feature
-is consistent with a stereo pilot; antenna and station identity are unverified.
-The known-source application gate and ESP/converter comparison remain open.
+[Passive FM discovery](docs/evidence/rtl-fm-survey/README.md) initially
+recorded an unidentified candidate. [Fresh current-dipole RDS](docs/evidence/rtl-dipole-rds/README.md)
+now identifies WXJC at 101.1 MHz with FEC disabled; [independent replay](docs/evidence/rtl-dipole-independent-review/README.md)
+accepts the selected known-source application. The user's current dipole works
+for this station; its geometry and other-band performance remain unverified.
+
+The user reports no external RF equipment in the [equipment inventory](docs/evidence/user-equipment-inventory/README.md).
+The common calibrated ESP/converter sensitivity comparison is deferred under
+the original task's absent-equipment branch. No RF sensitivity ranking is inferred.

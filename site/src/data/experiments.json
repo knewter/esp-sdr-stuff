@@ -2,11 +2,11 @@
   {
     "id": "the-board-can-be-restored-after-an-sdr-trial",
     "short": "Preserve & recover",
-    "summary": "Two matching full 4 MiB reads preserve the original image. Final post-trial restoration matches byte-for-byte and resets correctly; actual power-cycle proof remains open.",
+    "summary": "Accepted after independent review: full original-image restoration matches every byte, followed by a matching original application boot after user-confirmed power cycling.",
     "gate": "A 4,194,304-byte backup with SHA-256 plus a recorded restoration boot; a backup alone does not close recovery proof.",
     "depends": [],
     "number": 1,
-    "status": "active"
+    "status": "archived"
   },
   {
     "id": "the-board-captures-repeatable-radio-snapshots",
@@ -68,13 +68,13 @@
   {
     "id": "the-two-receivers-have-a-measured-division-of-labor",
     "short": "Compare with the RTL-SDR V4",
-    "summary": "V4 no-FEC RDS identifies WXJC; ESP decodes owned BLE packets with measured snapshot gaps. Antenna/converter inventory and same-signal sensitivity remain open.",
+    "summary": "Accepted after independent review: current-dipole FM/RDS, four V4 transport trials and ESP snapshot gaps ground the receiver roles. Shared-signal sensitivity is explicitly deferred without conversion/reference equipment.",
     "gate": "At least 60 seconds per V4 sample rate with lost-sample counts, plus measured ESP snapshot gaps. Each chosen application states the receiver, coverage, continuity and proof status.",
     "depends": [
       "the-board-captures-repeatable-radio-snapshots",
       "the-spectrum-reveals-controlled-24ghz-signals"
     ],
     "number": 7,
-    "status": "active"
+    "status": "archived"
   }
 ]
