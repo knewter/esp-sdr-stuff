@@ -1,0 +1,40 @@
+{
+  "source_commit": "5e397877c8cc06013c5c7a7b0d6b62026e98fdea",
+  "synthetic_only": true,
+  "hardware_opened": false,
+  "resolved_armed_cases": {
+    "4": {
+      "payloads": 0,
+      "partial_bytes": 0,
+      "kinds": [
+        "config",
+        "failed"
+      ]
+    },
+    "7": {
+      "payloads": 0,
+      "partial_bytes": 0,
+      "kinds": [
+        "config",
+        "failed"
+      ]
+    },
+    "6": {
+      "payloads": 0,
+      "partial_bytes": 17,
+      "kinds": [
+        "config"
+      ]
+    },
+    "9": {
+      "payloads": 0,
+      "partial_bytes": 17,
+      "kinds": [
+        "config"
+      ]
+    }
+  },
+  "remaining_new_begin_case": {
+    "armed_after_nul_begin": true
+  }
+}

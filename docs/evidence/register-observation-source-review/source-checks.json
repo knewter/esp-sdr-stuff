@@ -1,0 +1,74 @@
+{
+  "synthetic_only": true,
+  "hardware_opened": false,
+  "actual_c_pairs_independently_unpacked": 327600,
+  "successful_fixture_raw_sha256": "957e9b508c28237144d7ad19825813ea7703f5cc611d823a9f0585bc70f439b0",
+  "mutations": [
+    {
+      "case": "complete_failed_data_missing_all_stages",
+      "accepted_as_failed_receipt": true,
+      "successful_completion": false
+    },
+    {
+      "case": "capture_data_before_config",
+      "accepted_as_failed_receipt": true,
+      "successful_completion": false
+    },
+    {
+      "case": "failed_count_exceeds_hardware_mask",
+      "accepted_as_failed_receipt": true,
+      "successful_completion": false
+    }
+  ],
+  "schema_version": 1,
+  "source_commit": "85c0289d11fea0c75759b2679eb8a7692a18f6fa",
+  "source_hashes": {
+    "tools/build_esp_register_observation.py": "653b730620a5cb4ea547ea0fa057fc00503242524fc30dc915626d2d78ebda2a",
+    "tools/esp_register_receipts.py": "80ad2e4d12ac549e094d97aa64cf9d9672443cdf0dbfbfe049a82598eb9fc132",
+    "firmware/register-observation/overlay.py": "a4238a8a02cae460e7c611d7e8ca77eb48792e2b22ab43650da3202277be8831",
+    "firmware/register-observation/register_observation.h": "7f36831c26bf7781fa580c1b0bf02dddb9311c31873641f15b86b262669c9e48",
+    "firmware/register-observation/register_commands.h": "e881e198f3936de1e7871ef81d92b3db4b3c36575ef9289d82b70d42e617a342",
+    "tests/test_esp_register_observation_firmware.py": "b46d1b1cb1a7661100a5b77dbba62ee4681179706ea4dc717462deaf58193533",
+    "tests/test_esp_register_receipts.py": "7ae67ed6a31b97c4f93ca17f6e73d87e0d79a29d646ea009f6838db5303bee70",
+    "tests/fixtures/esp_register_observation/harness.c": "dc083be8982d6504b58543fede43550025e58495dec0ac8b9aedcfd8d4c7531b",
+    "tests/fixtures/esp_register_observation/transport_harness.c": "1f0868ecc5664864ed49fdb01a7a8e0f50cc08478af53700de776d91fde6e5a1"
+  },
+  "installation_approved": false,
+  "source_acceptance": "Command defect corrections independently checked at author029014e0; full corrected source/host and installation acceptance pending",
+  "original_source_tests": {
+    "command": "nix develop .#ci --command task register:check",
+    "tests": 26,
+    "exit_code": 0
+  },
+  "original_armed_nul_test": {
+    "parser_status": 1,
+    "triggers": 1,
+    "state": 1,
+    "synthetic_only": true,
+    "hardware_opened": false
+  },
+  "independent_method_scripts_sha256": {
+    "independent.py": "f28e28383be809fdde4e0a61d89053b124a3f2319e09b657c931b91f0604681f",
+    "nul.py": "8f1ec2b6832f812e6bfa85359f6a61e2ceceadaf660d5bda18154aade0a819b0",
+    "guardfix.py": "dc8c06fa2d6bfccc82a4169d7f8954774b5fcb1553bdb10201ca7232789245ab",
+    "artifact.py": "df7db7e10bf4498fd7abd075939771d1c8b5ca2ec22f636e92a11af883454bd3",
+    "guardfix2.py": "f7592f0ce3976612c8892e99c86e1787deda8792e19c3fcec8e2f043c2cbeac1"
+  },
+  "unresolved_at_checkpoint": [
+    "independent review of complete corrected host/source",
+    "fresh corrected artifact review",
+    "separate reviewed installer, persistence and restoration lifecycle"
+  ],
+  "corrected_firmware_source_commit": "029014e0c8a362efdcf842a1e684a821ecd2199b",
+  "corrected_firmware_test_execution": {
+    "tests": 22,
+    "exit_code": 0,
+    "hardware_opened": false
+  },
+  "correction_source_hashes": {
+    "firmware/register-observation/overlay.py": "8df89764833f1bf1f01fae63d87ed6b692ff52bc9bd7e06df3f8d790b2cf0963",
+    "firmware/register-observation/register_commands.h": "65acb23628aa3407e73f46c94693776574eecd65a309982d2d21e665ae180ffb",
+    "tests/fixtures/esp_register_observation/transport_harness.c": "7ec51a0a8e08c8dafb508ecc0e15ce02b1385dd8e4db9ccee3b5ae65af2c6674",
+    "tests/test_esp_register_observation_firmware.py": "9dc0bb76c696f1fd3370713a5ac8ee9f7f67e399ce83f7a2907f857c70ca825e"
+  }
+}

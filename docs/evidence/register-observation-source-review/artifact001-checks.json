@@ -1,0 +1,54 @@
+{
+  "hardware_opened": false,
+  "installation_approved": false,
+  "artifact": "candidate001",
+  "source_commit": "85c0289d11fea0c75759b2679eb8a7692a18f6fa",
+  "manifest_sha256": "219a69bc752613c30da56c9bc93959d1675b568929e227ea5900ffd9764f90d2",
+  "config_sha256": "67b30768ace2be0e52de816334b5ed01f9113f7bcade8e32ed64393ebe0d70c3",
+  "linked_buffers": {
+    "regobs_json": {
+      "address": 1073433576,
+      "size": 2048,
+      "end": 1073435624
+    },
+    "regobs_records": {
+      "address": 1073435624,
+      "size": 1944,
+      "end": 1073437568
+    },
+    "regobs_wire": {
+      "address": 1073431528,
+      "size": 2048,
+      "end": 1073433576
+    }
+  },
+  "parts": [
+    {
+      "name": "bootloader.bin",
+      "offset": 4096,
+      "size": 25792,
+      "sha256": "a48cfaef91df68c48dc2a8a7c01b05841abb97b1b8898a38cafb97565b939881"
+    },
+    {
+      "name": "partition-table.bin",
+      "offset": 32768,
+      "size": 3072,
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+    },
+    {
+      "name": "esp_sdr.bin",
+      "offset": 65536,
+      "size": 668112,
+      "sha256": "59fd0f08a180a0ff388b57e64b7b463926fb04a65076c95f59b52ff54d58d29b"
+    }
+  ],
+  "independent_image_checksum_and_digest": true,
+  "partition_md5_and_layout": true,
+  "sdk_source_nar_rehashed": "sha256-WGTSV8xTVzuuRGN7ihp5k+v0do97r3d0vTzlyD9TegQ=",
+  "pending": [
+    "candidate001 predates command corrections and remains rejected",
+    "further malformed-BEGIN correction and failed host receipt guards",
+    "fresh corrected artifact review",
+    "separate reviewed installer and lifecycle"
+  ]
+}
