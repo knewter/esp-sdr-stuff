@@ -237,6 +237,16 @@ tasks:
     cmds:
       - nix build .#forgix-host-tools --no-link
 
+  forgix:usb-ram:host-test:
+    desc: Check strict synthetic USB collector with fixture transports (no hardware)
+    cmds:
+      - python3 -m unittest discover -v -s tests -p 'test_forgix_usb_ram_capture.py'
+
+  forgix:usb-ram:capture-help:
+    desc: Show diagnostic collector arguments (lifecycle must pass inherited exclusive lock FD)
+    cmds:
+      - python3 tools/forgix_usb_ram_capture.py --help
+
   forgix:preserve:
     desc: Preserve Forgix MCU flash with explicit identity and fresh backup paths
     cmds:
