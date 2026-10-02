@@ -1,0 +1,741 @@
+{
+  "schema": 1,
+  "comparison_result": "completed_diagnostic_independently_verified",
+  "hardware_access": false,
+  "source_conditions_attempted": 6,
+  "conditions_not_run": 0,
+  "raw_uart_bytes": 23457,
+  "raw_uart_sha256": "76ba2496af4043901cd11e6d7f7cd8d125c3fcbcae324674f28d35d0107c8c7b",
+  "raw_typed_fields_equal_public": true,
+  "buckets_including_END": 90,
+  "owned_reports": 363,
+  "firmware_elapsed_us": 90092890,
+  "cancel_status": 0,
+  "scan_active_after_stop": false,
+  "host_observation_seconds": 90.111602415,
+  "all30_source_ACKs_and_monitor_ACKs_zero": true,
+  "monitor_record_count": 66,
+  "monitor_status": "completed",
+  "monitor_seconds": 120.6381115000695,
+  "all_actual_terminations_status60_count0": true,
+  "actual_source_Task_returns": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "source_socket_container_and_groups_closed": true,
+  "source_cleanup_verified": true,
+  "whole_groups_closed_naturally": true,
+  "all_frozen_executed_hashes_match": true,
+  "executed_supervisor_sha256": "fd40ab67dde6289a8b90686f53280e0fbe99887a20fde7304b8a26d7d1c528fa",
+  "all_source_preloaded_image_IDs_match": true,
+  "initial_off_seconds": 10.561524389,
+  "last_source_group_READY_plus_seconds": 70.572796806,
+  "actual_tail_seconds": 19.538805609,
+  "native_parent_restoration_verified": true,
+  "full_flash_bytes_before_and_after": 4194304,
+  "original_before_and_restore_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "private_boot_content_verified": true,
+  "reset_boot_only_not_electrical_power_cycle": true,
+  "controller_state_unchanged": true,
+  "phase_scope": "wholeREADYbracket and complete firmware intervals with1s guards; clockrate/controller/HCI/UART latency uncalibrated",
+  "phase_counts": {
+    "initial_off": {
+      "buckets": 7,
+      "owned_reports": 0
+    },
+    "max255_episode0": {
+      "buckets": 2,
+      "owned_reports": 24
+    },
+    "off_after0": {
+      "buckets": 3,
+      "owned_reports": 0
+    },
+    "max0_episode1": {
+      "buckets": 2,
+      "owned_reports": 23
+    },
+    "off_after1": {
+      "buckets": 3,
+      "owned_reports": 0
+    },
+    "max255_episode2": {
+      "buckets": 2,
+      "owned_reports": 21
+    },
+    "off_after2": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "max0_episode3": {
+      "buckets": 1,
+      "owned_reports": 12
+    },
+    "off_after3": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "max255_episode4": {
+      "buckets": 2,
+      "owned_reports": 24
+    },
+    "off_after4": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "max0_episode5": {
+      "buckets": 2,
+      "owned_reports": 20
+    },
+    "off_after5": {
+      "buckets": 17,
+      "owned_reports": 0
+    },
+    "transition_guard": {
+      "buckets": 43,
+      "owned_reports": 239
+    }
+  },
+  "phase_rows": [
+    {
+      "sequence": 1,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 2,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 3,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 4,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 5,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 6,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 7,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 8,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 9,
+      "nominal_phase": "initial_off",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 10,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 11,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 3
+    },
+    {
+      "sequence": 12,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 13
+    },
+    {
+      "sequence": 13,
+      "nominal_phase": "max255_episode0",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 14,
+      "nominal_phase": "max255_episode0",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 15,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 15
+    },
+    {
+      "sequence": 16,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 7
+    },
+    {
+      "sequence": 17,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 18,
+      "nominal_phase": "off_after0",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 19,
+      "nominal_phase": "off_after0",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 20,
+      "nominal_phase": "off_after0",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 21,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 22,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 6
+    },
+    {
+      "sequence": 23,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 16
+    },
+    {
+      "sequence": 24,
+      "nominal_phase": "max0_episode1",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 25,
+      "nominal_phase": "max0_episode1",
+      "owned_reports": 11
+    },
+    {
+      "sequence": 26,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 16
+    },
+    {
+      "sequence": 27,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 3
+    },
+    {
+      "sequence": 28,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 29,
+      "nominal_phase": "off_after1",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 30,
+      "nominal_phase": "off_after1",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 31,
+      "nominal_phase": "off_after1",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 32,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 33,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 8
+    },
+    {
+      "sequence": 34,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 14
+    },
+    {
+      "sequence": 35,
+      "nominal_phase": "max255_episode2",
+      "owned_reports": 10
+    },
+    {
+      "sequence": 36,
+      "nominal_phase": "max255_episode2",
+      "owned_reports": 11
+    },
+    {
+      "sequence": 37,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 15
+    },
+    {
+      "sequence": 38,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 2
+    },
+    {
+      "sequence": 39,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 40,
+      "nominal_phase": "off_after2",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 41,
+      "nominal_phase": "off_after2",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 42,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 43,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 44,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 8
+    },
+    {
+      "sequence": 45,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 13
+    },
+    {
+      "sequence": 46,
+      "nominal_phase": "max0_episode3",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 47,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 48,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 49,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 50,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 51,
+      "nominal_phase": "off_after3",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 52,
+      "nominal_phase": "off_after3",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 53,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 54,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 55,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 14
+    },
+    {
+      "sequence": 56,
+      "nominal_phase": "max255_episode4",
+      "owned_reports": 11
+    },
+    {
+      "sequence": 57,
+      "nominal_phase": "max255_episode4",
+      "owned_reports": 13
+    },
+    {
+      "sequence": 58,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 14
+    },
+    {
+      "sequence": 59,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 11
+    },
+    {
+      "sequence": 60,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 61,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 62,
+      "nominal_phase": "off_after4",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 63,
+      "nominal_phase": "off_after4",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 64,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 65,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 3
+    },
+    {
+      "sequence": 66,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 14
+    },
+    {
+      "sequence": 67,
+      "nominal_phase": "max0_episode5",
+      "owned_reports": 8
+    },
+    {
+      "sequence": 68,
+      "nominal_phase": "max0_episode5",
+      "owned_reports": 12
+    },
+    {
+      "sequence": 69,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 11
+    },
+    {
+      "sequence": 70,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 9
+    },
+    {
+      "sequence": 71,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 72,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 73,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 74,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 75,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 76,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 77,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 78,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 79,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 80,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 81,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 82,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 83,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 84,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 85,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 86,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 87,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 88,
+      "nominal_phase": "off_after5",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 89,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    },
+    {
+      "sequence": 90,
+      "nominal_phase": "transition_guard",
+      "owned_reports": 0
+    }
+  ],
+  "source_episodes": [
+    {
+      "index": 0,
+      "max_events": 255,
+      "config_ns": 746943737803485,
+      "enable_ack_ns": 746943849306089,
+      "term_ns": 746948917436044,
+      "socket_ns": 746948924568564,
+      "source_log_sha256": "ec4b5d64b0ce94f3ff913a09e98d494cc8d1a445be06d0aa8b5c6b998db36e01",
+      "actual_status": 60,
+      "actual_counter": 0,
+      "group_closed_ns": 746949202508812
+    },
+    {
+      "index": 1,
+      "max_events": 0,
+      "config_ns": 746954659560093,
+      "enable_ack_ns": 746954769522271,
+      "term_ns": 746959819024892,
+      "socket_ns": 746959827908825,
+      "source_log_sha256": "7967734ff32852d2f9df0c9bc760bbd015ab501ac108d784b04283f18dcc5cd9",
+      "actual_status": 60,
+      "actual_counter": 0,
+      "group_closed_ns": 746960069238455
+    },
+    {
+      "index": 2,
+      "max_events": 255,
+      "config_ns": 746965576476157,
+      "enable_ack_ns": 746965689579104,
+      "term_ns": 746970740828146,
+      "socket_ns": 746970747916703,
+      "source_log_sha256": "f71758fa7839846e8dcf1567a7826bba5dabefb7372e9f77520b389887d72bb9",
+      "actual_status": 60,
+      "actual_counter": 0,
+      "group_closed_ns": 746970989614927
+    },
+    {
+      "index": 3,
+      "max_events": 0,
+      "config_ns": 746976463293630,
+      "enable_ack_ns": 746976574899875,
+      "term_ns": 746981630163440,
+      "socket_ns": 746981638433000,
+      "source_log_sha256": "6104f4dcad5188737d2dedf9444217efa6ed2d705585f161d5236319e0befc5d",
+      "actual_status": 60,
+      "actual_counter": 0,
+      "group_closed_ns": 746981912364364
+    },
+    {
+      "index": 4,
+      "max_events": 255,
+      "config_ns": 746987398706212,
+      "enable_ack_ns": 746987511080167,
+      "term_ns": 746992573190382,
+      "socket_ns": 746992581268269,
+      "source_log_sha256": "a5c92183b726cf915f66499a8894a0f0ba424591a1ba9a3db588e04e6f864cf1",
+      "actual_status": 60,
+      "actual_counter": 0,
+      "group_closed_ns": 746992831896075
+    },
+    {
+      "index": 5,
+      "max_events": 0,
+      "config_ns": 746998315942077,
+      "enable_ack_ns": 746998426256475,
+      "term_ns": 747003473373886,
+      "socket_ns": 747003481526565,
+      "source_log_sha256": "463e9dae282c1a1f479d8173864ab630ec4e295a51b2476b43725fe11458df92",
+      "actual_status": 60,
+      "actual_counter": 0,
+      "group_closed_ns": 747003749075902
+    }
+  ],
+  "native_reports_may_duplicate": true,
+  "protected_PDU_CRC_replayed": false,
+  "source_RF_emission_denominator": null,
+  "SDR_positive": false,
+  "Trial_B_prerequisite_met": false,
+  "RF_or_count_gate_closed": false,
+  "public_postprocessing_pending": false,
+  "every_public_phase_row_and_summary_matches_independent_integer_ns_join": true,
+  "public_evidence_files": {
+    "orchestration.json": {
+      "bytes": 14653,
+      "sha256": "f0f80c91683e1dfde622447c464e64d90d44bbf4a9fa19621fa2f58c90ba2ee6"
+    },
+    "monitor.json": {
+      "bytes": 18488,
+      "sha256": "8f8e6f914cab95a5cc4404d1257322c83c4fb741b9a589dbc6a21b5fc73cdbad"
+    },
+    "README.md": {
+      "bytes": 4895,
+      "sha256": "ab02927076d8d0ea5045bbf6fe90ab3e5238fd9956611ac33b36996d70e1307c"
+    },
+    "native-buckets.csv": {
+      "bytes": 6938,
+      "sha256": "2d94f83a2a73f3445af008ada3efd6e740fd452f2087febabf431b2f4404d89f"
+    },
+    "before-install.json": {
+      "bytes": 141,
+      "sha256": "f53a3faf27db6dc867d5d9a607ec18c361649e0b9e1bb0aa1103c0d77d0d23be"
+    },
+    "native-reference.json": {
+      "bytes": 1749,
+      "sha256": "68e610d125db50735b4085a01a8cdea429d554171013b6c03215861c1fdc02f7"
+    },
+    "restoration.json": {
+      "bytes": 556,
+      "sha256": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8"
+    },
+    "summary.json": {
+      "bytes": 2890,
+      "sha256": "5bb940554e43285c58190397afdbe83547a5e3ff1a15642ded24358986ce9284"
+    },
+    "native-reports.svg": {
+      "bytes": 66792,
+      "sha256": "492721cf1f21acdbea3f2459fe0dae59d06ae56f293249a6e2dd597b9b9ea1fb"
+    },
+    "capture.json": {
+      "bytes": 42812,
+      "sha256": "db9ef18bcc5e35b8fe40c3e2037dad6d2a93eeb3e52b75a9d6296e5f01c7aa83"
+    },
+    "sources.json": {
+      "bytes": 42945,
+      "sha256": "8f61f0e35048b407cb47e893b7c6a67045a3b408d4cfadbe56c6985b41ed77c0"
+    }
+  },
+  "reviewed_evidence_commit": "3d000638c7b4d94393fc6550359a4c997a543fb8",
+  "initial_physical_evidence_commit": "07e89b920ad9d9a24f56e440269c77df74bae139",
+  "all11_public_files_equal_committed_revision": true,
+  "postprocessor_sha256": "e4e1e4324c3b2a3f89430d7c19ff8e276856c83b311eee2d917b98b7832d48f9",
+  "independent_replay_script_sha256": "91f15932ed003dc95ece14fe0cdb936ff5955238a41734cd8e88108b594bb49b",
+  "actual_SVG_rendered_and_visually_checked": true,
+  "private_screenshot_not_public_reception_proof": true,
+  "plot_retains_all_buckets_and_six_shades_and_nominal_timing_scope": true,
+  "public_privacy_checked_no_unique_addresses_bridge_ID_or_absolute_host_paths": true,
+  "raw_UART_fullflash_boot_and_source_log_permissions0600": true,
+  "artifact003_manifest_and_all3_parts_independently_rehashed": true,
+  "actual_install_log_has3_data_hash_verifications": true,
+  "private_install_log_sha256": "7b2199cf2692c38ba220b6e4526682e1863267f7cff936f848f9603df2f3c7a9",
+  "installed_artifact": {
+    "manifest_sha256": "dc4a96c873d69c9ccc09ff5fba5064b9f07332184565b96eee81cc9dad9f0159",
+    "build_info_sha256": "af805218d2dc736e4d774b65ad16854a3e9bb147dda07e1cfafc00ef9285d479",
+    "parts": [
+      {
+        "name": "bootloader.bin",
+        "offset": 4096,
+        "size": 17888,
+        "sha256": "bc2b126d70f5f93fb2ed21671c73c901c32f0b045d049d41187b5003ddf492a6"
+      },
+      {
+        "name": "partition-table.bin",
+        "offset": 32768,
+        "size": 3072,
+        "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+      },
+      {
+        "name": "native_ble_reference.bin",
+        "offset": 65536,
+        "size": 400144,
+        "sha256": "43875cd929854965e177a02b0b25f22dcac26ddf8390e69ae1f8bf6f593a0e6e"
+      }
+    ],
+    "version": "native-ble-ref-v2",
+    "source_commit": "5d490e0978332fabd69667a5db2c555d87bd6610",
+    "source_tree_sha256": "76dc84c2d0b8a4a2bc5cd4000c30a1762b94471c045d2eaff0cb384ae0e18390",
+    "idf_commit": "25fe69f946311abdaf9ad56591f25fedbc20ac98"
+  },
+  "counter_interpretation": {
+    "max0_field_unmeaningful_by_specification": true,
+    "max255_zero_field_not_usable_as_radiated_event_denominator": true,
+    "same_native_receivability_not_equivalent_emission_behavior_or_controller_cause": true
+  },
+  "sum_guarded_ON": {
+    "buckets": 11,
+    "owned_reports": 124
+  },
+  "sum_guarded_OFF": {
+    "buckets": 36,
+    "owned_reports": 0
+  },
+  "transition_guard": {
+    "buckets": 43,
+    "owned_reports": 239
+  }
+}

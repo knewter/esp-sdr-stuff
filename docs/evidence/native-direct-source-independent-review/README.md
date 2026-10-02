@@ -145,3 +145,55 @@ actual tail remain unchanged and fail closed on an overrun. No episode may be
 shortened or replaced. This review opens no device handles and establishes no
 physical comparison, RF emission denominator, SDR positive, Trial B prerequisite
 or RF/count acceptance.
+
+## Physical run 002: six conditions, native reception and recovery verified
+
+The [completed second comparison](../native-direct-reference-002/README.md)
+passes independent offline review. [Exact physical checks](trial-002-checks.json)
+identify the reviewed evidence revision `3d00063`, frozen v3 caller, private
+input hashes and all 11 public file hashes. Every public byte matches the
+committed evidence. The reviewer rehashed the unchanged artifact 003 manifest
+and all three image parts, matched the actual installation's data-verification
+log, and checked the executed-file snapshots. No device handles were opened.
+
+All **23,457 saved UART bytes** hash correctly and reproduce CONFIG, fresh
+READY, 89 aggregates and END. Every public typed field, contiguous interval,
+cumulative count and RSSI summary agrees. The observer reports **363 owned
+receptions**, actual application cancel zero, inactive discovery and firmware
+elapsed time **90.092890 seconds**. This JSON stream has no independent
+transport CRC or protected-PDU replay.
+
+The six fixed alternating MaxEvents 255/0 sources match the separate monitor:
+30 exact commands, 30 successful acknowledgements and six actual **0x3c/count0**
+terminations. Each source's typed diagnostic exit is 2 through Task passthrough.
+Own-handle disable/remove succeeds, sockets and containers close, and whole
+process groups end naturally. Every source verifies the same preloaded immutable
+image. The wrapper's controller-cleanup field remains unconditionally false;
+the supervisor separately validates HCI cleanup before the next episode.
+
+Initial OFF lasts 10.561524 seconds. Every intervening OFF meets five seconds,
+all source groups close by READY +70.572797 seconds, and actual END leaves
+19.538806 seconds after the last source-group closure. Integer-nanosecond joins
+using complete READY brackets, whole firmware intervals and one-second guards
+match every phase CSV row and summary: **124 reports in 11 guarded ON buckets**,
+**zero in 36 guarded OFF buckets**, and **239 in 43 retained transition buckets**.
+Every source episode has positive guarded reception. Unequal included intervals,
+possible duplicate reports and uncalibrated clocks/controller/HCI/UART latency
+prevent an emission rate or equivalent-emission comparison.
+
+Both full **4 MiB** before/after images independently match the preserved
+original SHA256 `6e8f0793…`; private boot content matches the original application,
+SDK and both GPIO states. The native UART worker and all child groups close,
+controller before/after state agrees, and restoration verifies. This is reset
+boot recovery, not another electrical power-cycle observation. Raw UART, flash,
+boot and source logs stay private with mode 0600; public files expose no unique
+addresses, bridge identifier or absolute host paths.
+
+The actual SVG was rendered and inspected. It retains all buckets and six
+source shades, labels nominal timing and states that reports are not emissions.
+The result establishes native receivability of the owned marker under both
+limit settings while the controller field is zero. MaxEvents 0 makes that field
+unmeaningful; the MaxEvents 255 zeros supply no usable emitted denominator.
+This does not diagnose a controller cause, establish hidden-SDR reception,
+satisfy conditional Trial B, or close RF/count gates. Failed run 001 remains
+separate with five unrun conditions.
