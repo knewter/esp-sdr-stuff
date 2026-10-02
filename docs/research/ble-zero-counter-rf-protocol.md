@@ -36,11 +36,14 @@ command overhead would otherwise shorten that tail. Preserve all ten episodes,
 including failures, missing events and zero-counter records. Do not restart a
 failed episode silently or replace it with a successful one.
 
-A separate read-only monitor records sanitized accepted parameters, exact-data
-match, enables, observed terminations and cleanup. Store the source script hash
-and each actual observed status/count. Requested MaxEvents is not an emitted
-count. A nonzero counter, if unexpectedly observed, remains its original field
-and requires separate review; it does not silently change this protocol.
+Start the separate read-only monitor and confirm its **validated readiness
+before starting the receiver**. Retain one completed, successful monitor
+interval spanning all ten enables and final cleanup. It records sanitized
+accepted parameters, exact-data match, enables, observed terminations and
+cleanup. Store the source script hash and each actual observed status/count.
+Requested MaxEvents is not an emitted count. A nonzero counter, if unexpectedly
+observed, remains its original field and requires separate review; it does not
+silently change this protocol.
 
 ## Blind offline replay
 
@@ -51,6 +54,34 @@ the public advertising access address; known-marker bits must not train,
 repair or select a receiver hypothesis. Check the waveform SHA-256, byte length
 and transport CRC against every physical capture row before analysis. Preserve
 all captures and decoder failures, rather than selecting only promising dumps.
+
+Pin the executed decoder file to SHA-256
+`834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128`:
+`tools/ble_decode_iq.py` from original commit
+`a73148e90c76ead4236e8881f813e7758b19f833`, cherry-picked into the main worktree
+as `e10a149917ca7a10db8912d1d1a7ffeded8fcbc5`. Record the actual file hash and
+repository revision in the replay manifest, not just the source helper hash.
+The complete search descriptor is:
+
+```json
+{
+  "samples_per_symbol_min": 3.97,
+  "samples_per_symbol_max": 4.03,
+  "samples_per_symbol_step": 0.005,
+  "start_search_half_width_samples_at_4msps": 2,
+  "start_search_step_samples_at_4msps": 0.25,
+  "threshold_bias_min_deviation_fraction": -0.45,
+  "threshold_bias_max_deviation_fraction": 0.45,
+  "threshold_bias_step_deviation_fraction": 0.025,
+  "maximum_candidate_clusters_per_capture": 32
+}
+```
+
+These are 13 symbol periods, 17 start offsets and 37 slicer biases per bounded
+AA candidate. Require the replay manifest to match this descriptor exactly;
+do not expand the search after inspecting hits or payloads. Refined frames
+retain their selected period within 3.97–4.03 samples at 4 MS/s; coarse direct
+slicing uses exactly 4.
 
 Example replay, with private input and a fresh redacted output:
 
@@ -86,6 +117,14 @@ that this zero counter proves no emission. Failure to find a verified packet
 is **inconclusive**: sparse snapshots, acquisition settings and bounded decoder
 sensitivity can all hide a transmitted packet. A failed or truncated AA-only
 candidate cannot establish owned reception.
+
+For a positive episode association, both the native source transcript and
+independent monitor must agree on **handle 1**, actual termination status
+**`0x3C`**, and completed-event count **0**. They must retain the actual
+accepted parameters and exact owned data, successful enable acknowledgement,
+and successful handle-specific disable/remove acknowledgements (status 0).
+A zero summary alone or incomplete monitor interval does not establish this
+association. Preserve all failed episodes separately.
 
 Report per-episode and OFF capture counts, distinct verified receptions,
 excluded boundary candidates and source statuses honestly. **Actual RF event
