@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "kind": "paired saved-IQ DC-order diagnostic",
+  "status": "completed",
+  "exact_processing_commit": "3a0b6dc",
+  "method": "raw-capture-mean-before-original-decoder-v1",
+  "source_hashes": {
+    "tools/ble_dc_first_replay.py": "6b38133c6e0de67abf9d7e0bad2bd6e16d65ed194a0e7c72aa334b103691f6ad",
+    "tools/ble_decode_iq.py": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+    "tools/esp_sdr_capture.py": "f1aa93c1af1b87ad086fdd7289bfeced4bfbc632e15fc2389098e2f460cea538"
+  },
+  "blind_receiver_refinement": {
+    "samples_per_symbol_min": 3.97,
+    "samples_per_symbol_max": 4.03,
+    "samples_per_symbol_step": 0.005,
+    "start_search_half_width_samples_at_4msps": 2,
+    "start_search_step_samples_at_4msps": 0.25,
+    "threshold_bias_min_deviation_fraction": -0.45,
+    "threshold_bias_max_deviation_fraction": 0.45,
+    "threshold_bias_step_deviation_fraction": 0.025,
+    "maximum_candidate_clusters_per_capture": 32
+  },
+  "datasets": {
+    "a": {
+      "captures_analyzed": 1251,
+      "capture_csv_sha256": "efbfec216d3a87590cb1784ed65c9fa32964ff3c0fdc552ef3ef25078877fb32",
+      "bits_per_component": 8,
+      "original_counts": {
+        "crc_valid_owned_candidates": 0,
+        "crc_valid_other_candidates_redacted": 0
+      },
+      "dc_first_counts": {
+        "crc_valid_owned_candidates": 0,
+        "crc_valid_other_candidates_redacted": 0
+      },
+      "runtime_seconds": 5.4409908360103145,
+      "private_full_result_bytes": 377824,
+      "private_full_result_sha256": "2929db09e55745f5dabde0466f95394ce40b524696e58032d44d5b9d592a4d4b",
+      "owned_candidate_windows": {},
+      "all_inputs_verified_crc32_sha256_count_and_length": true
+    },
+    "c": {
+      "captures_analyzed": 997,
+      "capture_csv_sha256": "15148161335d248d55a3f031b921e7d0b3b46ddc1cfac1f9ee69cf317402ca59",
+      "bits_per_component": 10,
+      "original_counts": {
+        "crc_valid_owned_candidates": 0,
+        "crc_valid_other_candidates_redacted": 0
+      },
+      "dc_first_counts": {
+        "crc_valid_owned_candidates": 0,
+        "crc_valid_other_candidates_redacted": 0
+      },
+      "runtime_seconds": 10.619666781974956,
+      "private_full_result_bytes": 306307,
+      "private_full_result_sha256": "68003c4085686cbff2683bab7e920ea1680630a9167fd055e819d593a2b47813",
+      "owned_candidate_windows": {},
+      "all_inputs_verified_crc32_sha256_count_and_length": true
+    },
+    "historical8": {
+      "captures_analyzed": 549,
+      "capture_csv_sha256": "35f385b6ca0661b0cab13a26a8dd0feeffcb5f90a3bb078764dbb6107fb5a4e0",
+      "bits_per_component": 8,
+      "original_counts": {
+        "crc_valid_owned_candidates": 4,
+        "crc_valid_other_candidates_redacted": 0
+      },
+      "dc_first_counts": {
+        "crc_valid_owned_candidates": 1,
+        "crc_valid_other_candidates_redacted": 0
+      },
+      "runtime_seconds": 7.013305015978403,
+      "private_full_result_bytes": 173807,
+      "private_full_result_sha256": "4c8743bf736c21cb355a969b964ec0662cf70be80b21cdbb5b9af1719313d51c",
+      "owned_candidate_windows": {
+        "435": {
+          "payload_sha256": "d4925c17a250914f473f6beb4290a0dfb94dd0b8968d524dbf45e51557263511",
+          "original_protected_pdu_sha256": [
+            "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45"
+          ],
+          "dc_first_protected_pdu_sha256": []
+        },
+        "464": {
+          "payload_sha256": "ff85a5b964a44953f412d09316ae4a84098adf28cd9d881ef558af1d504600bb",
+          "original_protected_pdu_sha256": [
+            "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45"
+          ],
+          "dc_first_protected_pdu_sha256": []
+        },
+        "499": {
+          "payload_sha256": "316991ddef635556ed4ed02fa5d4ce7877d9a2e28d288aa6f084d539dff7e6da",
+          "original_protected_pdu_sha256": [
+            "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45"
+          ],
+          "dc_first_protected_pdu_sha256": []
+        },
+        "511": {
+          "payload_sha256": "d6eb84668b5f22af1a0b71fe3b611bea2d1ec5600d84e04cd0eecdaee41c3c2f",
+          "original_protected_pdu_sha256": [
+            "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45"
+          ],
+          "dc_first_protected_pdu_sha256": [
+            "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45"
+          ]
+        }
+      },
+      "all_inputs_verified_crc32_sha256_count_and_length": true
+    },
+    "historical-controls": {
+      "captures_analyzed": 246,
+      "capture_csv_sha256": "aa86c97b5ba4a1bfe1d9a093436883ba07317e82b7b10a3bff245253663c9739",
+      "bits_per_component": 10,
+      "original_counts": {
+        "crc_valid_owned_candidates": 1,
+        "crc_valid_other_candidates_redacted": 0
+      },
+      "dc_first_counts": {
+        "crc_valid_owned_candidates": 1,
+        "crc_valid_other_candidates_redacted": 0
+      },
+      "runtime_seconds": 5.563263371936046,
+      "private_full_result_bytes": 79548,
+      "private_full_result_sha256": "5232a8f44f824a6e8a02c2726196fafbfdd57747f90c10b81f5275818923e1e4",
+      "owned_candidate_windows": {
+        "103": {
+          "payload_sha256": "d447221c076a09d79bcdb40e0309c2b5e39ca7a8f0c7593edb9faec4ede5a20b",
+          "original_protected_pdu_sha256": [
+            "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45"
+          ],
+          "dc_first_protected_pdu_sha256": [
+            "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45"
+          ]
+        }
+      },
+      "all_inputs_verified_crc32_sha256_count_and_length": true
+    }
+  },
+  "corrected_default_adopted": false,
+  "fresh_live_acquisition": false,
+  "new_owned_packet_claim": false,
+  "transmitted_event_denominator": null,
+  "RF_gate_closed": false,
+  "limits": "All outcomes are retained. The isolated method recovers no fresh packet and regresses three historical 8-bit decodes. Original decoder and five historical accepted packets remain unchanged. Paired CRC-valid candidate metadata is not an emitted count, calibrated sensitivity or source/receiver cause."
+}
