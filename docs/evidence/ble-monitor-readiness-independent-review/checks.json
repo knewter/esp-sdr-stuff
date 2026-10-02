@@ -1,0 +1,33 @@
+{
+  "kind": "independent offline phased-monitor review",
+  "verdict": "PASS corrected revision only",
+  "reviewed_source_commit": "63212913bf925bfef2d4e9929c1ae54eb2f2cd2d",
+  "project_tests": 26,
+  "independent_tests": 10,
+  "hardware_operations": 0,
+  "docker_operations": 0,
+  "source_sha256": {
+    "tools/ble_dumpcap_monitor.py": "372f6ad13f9e26759a20eef7d08c2742a74bba93392b81c39316d389d42f2f04",
+    "tools/ble_dumpcap_container_monitor.py": "a55323ea420ccab95e3a770b135d39f257f146af444dac218e150c1b7eea3b6f",
+    "tests/test_ble_dumpcap_monitor.py": "9fe4e5fb3cb54626d482c6b800fba904c4f699edc739112463f6fa8945e7c7a9",
+    "tests/test_ble_dumpcap_container_monitor.py": "f06832f85e341a5a8ac233659b7eabd4ea64a42a459da1c25106a0e823360451"
+  },
+  "private_fixture_sha256": {
+    "cases.py": "91f06a5b658cf7f55e120a027476a7fbea93e113e314c1e7d09cb1c14f1bbf9f",
+    "late_eof.py": "1df526030096d9e1058a10cecd63cde556fd13d6deb0e493cf3598df56fc3431"
+  },
+  "late_eof_initial": {
+    "source_commit": "f965c2260087a15f01bff4cba04ce7a387275d13",
+    "status": "completed",
+    "elapsed_seconds": 0.4757519670529291,
+    "active_bound_seconds": 0.3
+  },
+  "late_eof_corrected": {
+    "status": "host_deadline",
+    "elapsed_seconds": 0.5479247519979253,
+    "active_bound_seconds": 0.3,
+    "producer_reaped": true
+  },
+  "acceptance_gates_changed": false,
+  "physical_trial_reaccepted": false
+}
