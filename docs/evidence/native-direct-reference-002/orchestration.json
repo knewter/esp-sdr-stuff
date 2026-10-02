@@ -1,0 +1,421 @@
+{
+  "kind": "prospective native direct-source comparison v3; not SDR/count acceptance",
+  "supervisor_version": 3,
+  "source_task_exit_code_passthrough": true,
+  "task_exit_code_mapping": "Only source child requests --exit-code; native/monitor/common Child unchanged. No generic201 normalization.",
+  "status": "completed",
+  "started": {
+    "monotonic_ns": 746817154370485,
+    "utc": "2026-10-02T11:11:56.944825+00:00"
+  },
+  "controller_before": {
+    "powered": true,
+    "active_instances": 0
+  },
+  "conditions": [
+    255,
+    0,
+    255,
+    0,
+    255,
+    0
+  ],
+  "executed_file_hashes": {
+    ".scratch/run_native_direct_reference.py": {
+      "bytes": 24944,
+      "sha256": "fd40ab67dde6289a8b90686f53280e0fbe99887a20fde7304b8a26d7d1c528fa"
+    },
+    ".scratch/run_native_direct_reference.task.yml": {
+      "bytes": 249,
+      "sha256": "2efa0adac38239310a5f0308f717fac3adbdb517a00a656957857fce0f08d2bd"
+    },
+    ".scratch/run_native_reference.py": {
+      "bytes": 13779,
+      "sha256": "903823c371fbc600108c5b2ea9605af84f698c50bd8f72eb8f95780ac3b049f3"
+    },
+    ".scratch/run_ble_control.py": {
+      "bytes": 20837,
+      "sha256": "79e02469704502d4fec749676d55fdf19efb603ae2651f95ba2e7e9e5d6b012d"
+    },
+    "Taskfile.yml": {
+      "bytes": 6538,
+      "sha256": "16708f1019bcf5e8ec09cc3beded1a6c6600aac500f3f37f70887df7bcf622c8"
+    },
+    "flake.nix": {
+      "bytes": 14719,
+      "sha256": "3f842db68943c1686088161f642a07ffe78c5535024fbb8950bb271938d61b91"
+    },
+    "flake.lock": {
+      "bytes": 4632,
+      "sha256": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51"
+    },
+    "tools/native_ble_reference.py": {
+      "bytes": 22818,
+      "sha256": "435e90209125ef923b31fd24e9a68fde5ebc9bdad26dd294d32c07cce9a459ba"
+    },
+    "tools/build_native_ble_reference.py": {
+      "bytes": 7504,
+      "sha256": "06469d69ed6ebddd7d65dffb1ba4abb7da88b3e64d1ff094c9c115a199b1a7fa"
+    },
+    "tools/demo_esp_sdr.py": {
+      "bytes": 28648,
+      "sha256": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966"
+    },
+    "tools/flash_trial.py": {
+      "bytes": 7181,
+      "sha256": "7b8f3629f961b177b074cfa7c1646ae4ab4f1e89fddfc3af44e742a7ef111079"
+    },
+    "tools/esp_sdr_capture.py": {
+      "bytes": 15082,
+      "sha256": "f1aa93c1af1b87ad086fdd7289bfeced4bfbc632e15fc2389098e2f460cea538"
+    },
+    "tools/ble_direct_hci_source.py": {
+      "bytes": 14841,
+      "sha256": "b63676ad722b4ad3a1788760a57a32ce9978437ca87c04759829ff1cda2f6cda"
+    },
+    "tools/ble_source_container.py": {
+      "bytes": 7666,
+      "sha256": "0efbc47f4e8bc75ba73651043282b477a35cae100ee6dab8000786248fb500f8"
+    },
+    "tools/ble_dumpcap_container_monitor.py": {
+      "bytes": 4641,
+      "sha256": "acdddfd2846d8faddbb4375f558c0d0873ce7f22ac6bd9f5afd365cb0c72f498"
+    },
+    "tools/ble_dumpcap_monitor.py": {
+      "bytes": 9919,
+      "sha256": "0697b92276674dffdfa2915736dbc75ca35e85ac504d3287b3f52555c84a2793"
+    },
+    "tools/ble_hci_monitor.py": {
+      "bytes": 8169,
+      "sha256": "fcf8627daddc061612e8e160c5791e2ded0ab17b7a402dfb6061564e79b918e1"
+    }
+  },
+  "events": [
+    {
+      "event": "child_started",
+      "child": "native-parent",
+      "monotonic_ns": 746819056433500,
+      "utc": "2026-10-02T11:11:58.846884+00:00"
+    },
+    {
+      "event": "NATIVE_REFERENCE_READY",
+      "child": "native-parent",
+      "monotonic_ns": 746933332876663,
+      "utc": "2026-10-02T11:13:53.124930+00:00"
+    },
+    {
+      "event": "child_started",
+      "child": "monitor",
+      "monotonic_ns": 746933352101896,
+      "utc": "2026-10-02T11:13:53.142553+00:00"
+    },
+    {
+      "event": "MONITOR_READY",
+      "child": "monitor",
+      "monotonic_ns": 746935961345581,
+      "utc": "2026-10-02T11:13:55.751797+00:00"
+    },
+    {
+      "event": "child_started",
+      "child": "source-0",
+      "monotonic_ns": 746943186425662,
+      "utc": "2026-10-02T11:14:02.976878+00:00"
+    },
+    {
+      "event": "child_group_closed",
+      "child": "source-0",
+      "monotonic_ns": 746949202508812,
+      "utc": "2026-10-02T11:14:08.992963+00:00",
+      "returncode": 2
+    },
+    {
+      "event": "child_started",
+      "child": "source-1",
+      "monotonic_ns": 746954203830944,
+      "utc": "2026-10-02T11:14:13.994282+00:00"
+    },
+    {
+      "event": "child_group_closed",
+      "child": "source-1",
+      "monotonic_ns": 746960069238455,
+      "utc": "2026-10-02T11:14:19.859693+00:00",
+      "returncode": 2
+    },
+    {
+      "event": "child_started",
+      "child": "source-2",
+      "monotonic_ns": 746965070613705,
+      "utc": "2026-10-02T11:14:24.861065+00:00"
+    },
+    {
+      "event": "child_group_closed",
+      "child": "source-2",
+      "monotonic_ns": 746970989614927,
+      "utc": "2026-10-02T11:14:30.780068+00:00",
+      "returncode": 2
+    },
+    {
+      "event": "child_started",
+      "child": "source-3",
+      "monotonic_ns": 746975990521871,
+      "utc": "2026-10-02T11:14:35.780973+00:00"
+    },
+    {
+      "event": "child_group_closed",
+      "child": "source-3",
+      "monotonic_ns": 746981912364364,
+      "utc": "2026-10-02T11:14:41.702828+00:00",
+      "returncode": 2
+    },
+    {
+      "event": "child_started",
+      "child": "source-4",
+      "monotonic_ns": 746986913494932,
+      "utc": "2026-10-02T11:14:46.703947+00:00"
+    },
+    {
+      "event": "child_group_closed",
+      "child": "source-4",
+      "monotonic_ns": 746992831896075,
+      "utc": "2026-10-02T11:14:52.622355+00:00",
+      "returncode": 2
+    },
+    {
+      "event": "child_started",
+      "child": "source-5",
+      "monotonic_ns": 746997833311685,
+      "utc": "2026-10-02T11:14:57.623765+00:00"
+    },
+    {
+      "event": "child_group_closed",
+      "child": "source-5",
+      "monotonic_ns": 747003749075902,
+      "utc": "2026-10-02T11:15:03.539544+00:00",
+      "returncode": 2
+    },
+    {
+      "event": "child_group_closed",
+      "child": "native-parent",
+      "monotonic_ns": 747169641379607,
+      "utc": "2026-10-02T11:17:49.431834+00:00",
+      "returncode": 0
+    },
+    {
+      "event": "child_group_closed",
+      "child": "monitor",
+      "monotonic_ns": 747169641997245,
+      "utc": "2026-10-02T11:17:49.432446+00:00",
+      "returncode": 0
+    }
+  ],
+  "episodes": [
+    {
+      "requested_max_events": 255,
+      "configuration_monotonic_ns": 746943737803485,
+      "enable_sent_monotonic_ns": 746943845481154,
+      "enable_ack_monotonic_ns": 746943849306089,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true,
+        "monotonic_ns": 746948917436044,
+        "utc": "2026-10-02T11:14:08.707888+00:00"
+      },
+      "socket_closed_monotonic_ns": 746948924568564,
+      "typed_diagnostic_exit2_verified": true,
+      "actual_controller_limit_verified": false,
+      "radiated_event_count": null,
+      "index": 0,
+      "group_closed_monotonic_ns": 746949202508812,
+      "source_task_exit_code_passthrough": true,
+      "actual_source_task_returncode": 2,
+      "preloaded_source_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    },
+    {
+      "requested_max_events": 0,
+      "configuration_monotonic_ns": 746954659560093,
+      "enable_sent_monotonic_ns": 746954765684492,
+      "enable_ack_monotonic_ns": 746954769522271,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true,
+        "monotonic_ns": 746959819024892,
+        "utc": "2026-10-02T11:14:19.609496+00:00"
+      },
+      "socket_closed_monotonic_ns": 746959827908825,
+      "typed_diagnostic_exit2_verified": true,
+      "actual_controller_limit_verified": false,
+      "radiated_event_count": null,
+      "index": 1,
+      "group_closed_monotonic_ns": 746960069238455,
+      "source_task_exit_code_passthrough": true,
+      "actual_source_task_returncode": 2,
+      "preloaded_source_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    },
+    {
+      "requested_max_events": 255,
+      "configuration_monotonic_ns": 746965576476157,
+      "enable_sent_monotonic_ns": 746965684992720,
+      "enable_ack_monotonic_ns": 746965689579104,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true,
+        "monotonic_ns": 746970740828146,
+        "utc": "2026-10-02T11:14:30.531281+00:00"
+      },
+      "socket_closed_monotonic_ns": 746970747916703,
+      "typed_diagnostic_exit2_verified": true,
+      "actual_controller_limit_verified": false,
+      "radiated_event_count": null,
+      "index": 2,
+      "group_closed_monotonic_ns": 746970989614927,
+      "source_task_exit_code_passthrough": true,
+      "actual_source_task_returncode": 2,
+      "preloaded_source_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    },
+    {
+      "requested_max_events": 0,
+      "configuration_monotonic_ns": 746976463293630,
+      "enable_sent_monotonic_ns": 746976571107683,
+      "enable_ack_monotonic_ns": 746976574899875,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true,
+        "monotonic_ns": 746981630163440,
+        "utc": "2026-10-02T11:14:41.420619+00:00"
+      },
+      "socket_closed_monotonic_ns": 746981638433000,
+      "typed_diagnostic_exit2_verified": true,
+      "actual_controller_limit_verified": false,
+      "radiated_event_count": null,
+      "index": 3,
+      "group_closed_monotonic_ns": 746981912364364,
+      "source_task_exit_code_passthrough": true,
+      "actual_source_task_returncode": 2,
+      "preloaded_source_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    },
+    {
+      "requested_max_events": 255,
+      "configuration_monotonic_ns": 746987398706212,
+      "enable_sent_monotonic_ns": 746987507344943,
+      "enable_ack_monotonic_ns": 746987511080167,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true,
+        "monotonic_ns": 746992573190382,
+        "utc": "2026-10-02T11:14:52.363643+00:00"
+      },
+      "socket_closed_monotonic_ns": 746992581268269,
+      "typed_diagnostic_exit2_verified": true,
+      "actual_controller_limit_verified": false,
+      "radiated_event_count": null,
+      "index": 4,
+      "group_closed_monotonic_ns": 746992831896075,
+      "source_task_exit_code_passthrough": true,
+      "actual_source_task_returncode": 2,
+      "preloaded_source_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    },
+    {
+      "requested_max_events": 0,
+      "configuration_monotonic_ns": 746998315942077,
+      "enable_sent_monotonic_ns": 746998422448974,
+      "enable_ack_monotonic_ns": 746998426256475,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true,
+        "monotonic_ns": 747003473373886,
+        "utc": "2026-10-02T11:15:03.263826+00:00"
+      },
+      "socket_closed_monotonic_ns": 747003481526565,
+      "typed_diagnostic_exit2_verified": true,
+      "actual_controller_limit_verified": false,
+      "radiated_event_count": null,
+      "index": 5,
+      "group_closed_monotonic_ns": 747003749075902,
+      "source_task_exit_code_passthrough": true,
+      "actual_source_task_returncode": 2,
+      "preloaded_source_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    }
+  ],
+  "radiated_event_count": null,
+  "SDR_decoding_proven": false,
+  "source_count_gate_closed": false,
+  "source_cleanup_verified": true,
+  "native_restoration_verified": true,
+  "monitor_overlap": "Unchanged read-only120s HCI monitor may overlap autonomous native UART restoration; on failure sources and monitor close before awaiting parent.",
+  "source_image_preload": {
+    "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+    "archive_bytes": 90619442,
+    "archive_sha256": "0263ef4739a23497128d3e34029c769e71b20ef6d0e553fba318ae00d7310d1a",
+    "archive_nix_store_path": "/nix/store/597z2qfiqfc5ygp3zpgl3wcgggf9l425-esp-sdr-ble-source.tar.gz",
+    "image_tag": "esp-sdr-ble-source:c7188d39eacc17b4",
+    "loaded_exact_archive_once": true,
+    "reuse_required_before_every_source": true,
+    "archive_image_metadata": {
+      "expected_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "config_bytes": 6357,
+      "config_sha256": "699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "manifest_repo_tags": [
+        "esp-sdr-ble-source:c7188d39eacc17b4"
+      ]
+    },
+    "archive_image_id_match_verified": true,
+    "host_start": {
+      "monotonic_ns": 746817155476126,
+      "utc": "2026-10-02T11:11:56.945926+00:00"
+    },
+    "host_end": {
+      "monotonic_ns": 746819055438968,
+      "utc": "2026-10-02T11:11:58.845890+00:00"
+    },
+    "hardware_access": false
+  },
+  "native_ready": {
+    "schema": 1,
+    "kind": "READY",
+    "version": "native-ble-ref-v2",
+    "nonce": "29aca399e12920ec",
+    "scan_start_us": 371184,
+    "scan_status": 0,
+    "host_line_start_ns": 746933076129334,
+    "host_line_end_ns": 746933176279096
+  },
+  "source_groups_closed_by75": true,
+  "successful_hci_command_completions": 30,
+  "actual_tail_seconds": 19.538805609,
+  "native_owned_received_reports": 363,
+  "schedule_completed": true,
+  "cleanup_failures": [],
+  "child_groups_closed": true,
+  "controller_after": {
+    "powered": true,
+    "active_instances": 0
+  },
+  "ended": {
+    "monotonic_ns": 747169680274913,
+    "utc": "2026-10-02T11:17:49.470726+00:00"
+  }
+}

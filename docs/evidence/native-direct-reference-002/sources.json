@@ -1,0 +1,1394 @@
+{
+  "0": [
+    {
+      "kind": "configuration_requested",
+      "advertising_handle": 1,
+      "script_sha256": "b63676ad722b4ad3a1788760a57a32ce9978437ca87c04759829ff1cda2f6cda",
+      "event_properties": 16,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "interval_ms": 20,
+      "advertising_data_length": 16,
+      "owned_manufacturer_ad_exact_match": true,
+      "max_extended_advertising_events": 255,
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": false,
+      "termination_count_field_meaningful": true,
+      "handle_diagnostic_requested": true,
+      "independently_observed_air_emission_count": null,
+      "operator_preconditions": "Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, selected handle0x01 reserved externally and available; no simultaneous same-opcode advertising commands.",
+      "monotonic_ns": 746943737803485,
+      "utc": "2026-10-02T11:14:03.528255+00:00"
+    },
+    {
+      "kind": "source_socket_ready",
+      "hci_device": 0,
+      "hci_channel": 0,
+      "monotonic_ns": 746943738015005,
+      "utc": "2026-10-02T11:14:03.528464+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "monotonic_ns": 746943738059008,
+      "utc": "2026-10-02T11:14:03.528507+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746943841397651,
+      "utc": "2026-10-02T11:14:03.631848+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746943841505615,
+      "utc": "2026-10-02T11:14:03.631955+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "monotonic_ns": 746943841540571,
+      "utc": "2026-10-02T11:14:03.631989+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746943845312946,
+      "utc": "2026-10-02T11:14:03.635762+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746943845359464,
+      "utc": "2026-10-02T11:14:03.635808+00:00"
+    },
+    {
+      "kind": "source_ready",
+      "advertising_handle": 1,
+      "parameter_and_data_commands_accepted": true,
+      "start_delay_s": 0.0,
+      "monotonic_ns": 746943845389751,
+      "utc": "2026-10-02T11:14:03.635838+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746943845481154,
+      "utc": "2026-10-02T11:14:03.635930+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746943849306089,
+      "utc": "2026-10-02T11:14:03.639755+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746943849346445,
+      "utc": "2026-10-02T11:14:03.639795+00:00"
+    },
+    {
+      "kind": "source_enabled",
+      "advertising_handle": 1,
+      "enable_command_accepted": true,
+      "max_extended_advertising_events": 255,
+      "unlimited_events_diagnostic_requested": false,
+      "duration_10ms_units": 500,
+      "monotonic_ns": 746943849379778,
+      "utc": "2026-10-02T11:14:03.639828+00:00"
+    },
+    {
+      "kind": "termination_observed",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "observed_after_enable_command_sent": true,
+      "monotonic_ns": 746948917436044,
+      "utc": "2026-10-02T11:14:08.707888+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746948917559027,
+      "utc": "2026-10-02T11:14:08.708008+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746948921419919,
+      "utc": "2026-10-02T11:14:08.711870+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746948921483820,
+      "utc": "2026-10-02T11:14:08.711932+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "monotonic_ns": 746948921522643,
+      "utc": "2026-10-02T11:14:08.711971+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746948924403061,
+      "utc": "2026-10-02T11:14:08.714852+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746948924448558,
+      "utc": "2026-10-02T11:14:08.714897+00:00"
+    },
+    {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": false,
+      "termination_count_field_meaningful": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 746948924492871,
+      "utc": "2026-10-02T11:14:08.714941+00:00"
+    },
+    {
+      "kind": "source_socket_closed",
+      "monotonic_ns": 746948924568564,
+      "utc": "2026-10-02T11:14:08.715017+00:00"
+    },
+    {
+      "kind": "source_container_closed",
+      "owned_container_removed": true,
+      "force_removal_required": false,
+      "source_controller_cleanup_verified_by_wrapper": false,
+      "interrupted": false,
+      "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    }
+  ],
+  "1": [
+    {
+      "kind": "configuration_requested",
+      "advertising_handle": 1,
+      "script_sha256": "b63676ad722b4ad3a1788760a57a32ce9978437ca87c04759829ff1cda2f6cda",
+      "event_properties": 16,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "interval_ms": 20,
+      "advertising_data_length": 16,
+      "owned_manufacturer_ad_exact_match": true,
+      "max_extended_advertising_events": 0,
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": true,
+      "termination_count_field_meaningful": false,
+      "handle_diagnostic_requested": true,
+      "independently_observed_air_emission_count": null,
+      "operator_preconditions": "Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, selected handle0x01 reserved externally and available; no simultaneous same-opcode advertising commands.",
+      "monotonic_ns": 746954659560093,
+      "utc": "2026-10-02T11:14:14.450012+00:00"
+    },
+    {
+      "kind": "source_socket_ready",
+      "hci_device": 0,
+      "hci_channel": 0,
+      "monotonic_ns": 746954659747477,
+      "utc": "2026-10-02T11:14:14.450197+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "monotonic_ns": 746954659796179,
+      "utc": "2026-10-02T11:14:14.450244+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746954761725314,
+      "utc": "2026-10-02T11:14:14.552181+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746954762045129,
+      "utc": "2026-10-02T11:14:14.552496+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "monotonic_ns": 746954762132925,
+      "utc": "2026-10-02T11:14:14.552582+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746954765529199,
+      "utc": "2026-10-02T11:14:14.555979+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746954765581247,
+      "utc": "2026-10-02T11:14:14.556030+00:00"
+    },
+    {
+      "kind": "source_ready",
+      "advertising_handle": 1,
+      "parameter_and_data_commands_accepted": true,
+      "start_delay_s": 0.0,
+      "monotonic_ns": 746954765603629,
+      "utc": "2026-10-02T11:14:14.556052+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746954765684492,
+      "utc": "2026-10-02T11:14:14.556133+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746954769522271,
+      "utc": "2026-10-02T11:14:14.559971+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746954769578898,
+      "utc": "2026-10-02T11:14:14.560027+00:00"
+    },
+    {
+      "kind": "source_enabled",
+      "advertising_handle": 1,
+      "enable_command_accepted": true,
+      "max_extended_advertising_events": 0,
+      "unlimited_events_diagnostic_requested": true,
+      "duration_10ms_units": 500,
+      "monotonic_ns": 746954769610448,
+      "utc": "2026-10-02T11:14:14.560059+00:00"
+    },
+    {
+      "kind": "termination_observed",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "observed_after_enable_command_sent": true,
+      "monotonic_ns": 746959819024892,
+      "utc": "2026-10-02T11:14:19.609496+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746959819837830,
+      "utc": "2026-10-02T11:14:19.610288+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746959823639590,
+      "utc": "2026-10-02T11:14:19.614091+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746959823741262,
+      "utc": "2026-10-02T11:14:19.614190+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "monotonic_ns": 746959823788261,
+      "utc": "2026-10-02T11:14:19.614237+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746959827657339,
+      "utc": "2026-10-02T11:14:19.618109+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746959827758541,
+      "utc": "2026-10-02T11:14:19.618207+00:00"
+    },
+    {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": true,
+      "termination_count_field_meaningful": false,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "unlimited_events_diagnostic_not_counted",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 746959827813935,
+      "utc": "2026-10-02T11:14:19.618262+00:00"
+    },
+    {
+      "kind": "source_socket_closed",
+      "monotonic_ns": 746959827908825,
+      "utc": "2026-10-02T11:14:19.618357+00:00"
+    },
+    {
+      "kind": "source_container_closed",
+      "owned_container_removed": true,
+      "force_removal_required": false,
+      "source_controller_cleanup_verified_by_wrapper": false,
+      "interrupted": false,
+      "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    }
+  ],
+  "2": [
+    {
+      "kind": "configuration_requested",
+      "advertising_handle": 1,
+      "script_sha256": "b63676ad722b4ad3a1788760a57a32ce9978437ca87c04759829ff1cda2f6cda",
+      "event_properties": 16,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "interval_ms": 20,
+      "advertising_data_length": 16,
+      "owned_manufacturer_ad_exact_match": true,
+      "max_extended_advertising_events": 255,
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": false,
+      "termination_count_field_meaningful": true,
+      "handle_diagnostic_requested": true,
+      "independently_observed_air_emission_count": null,
+      "operator_preconditions": "Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, selected handle0x01 reserved externally and available; no simultaneous same-opcode advertising commands.",
+      "monotonic_ns": 746965576476157,
+      "utc": "2026-10-02T11:14:25.366928+00:00"
+    },
+    {
+      "kind": "source_socket_ready",
+      "hci_device": 0,
+      "hci_channel": 0,
+      "monotonic_ns": 746965576715821,
+      "utc": "2026-10-02T11:14:25.367165+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "monotonic_ns": 746965576777257,
+      "utc": "2026-10-02T11:14:25.367226+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746965680032989,
+      "utc": "2026-10-02T11:14:25.470489+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746965680187712,
+      "utc": "2026-10-02T11:14:25.470637+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "monotonic_ns": 746965680243888,
+      "utc": "2026-10-02T11:14:25.470692+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746965684782753,
+      "utc": "2026-10-02T11:14:25.475234+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746965684866140,
+      "utc": "2026-10-02T11:14:25.475315+00:00"
+    },
+    {
+      "kind": "source_ready",
+      "advertising_handle": 1,
+      "parameter_and_data_commands_accepted": true,
+      "start_delay_s": 0.0,
+      "monotonic_ns": 746965684900135,
+      "utc": "2026-10-02T11:14:25.475348+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746965684992720,
+      "utc": "2026-10-02T11:14:25.475441+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746965689579104,
+      "utc": "2026-10-02T11:14:25.480030+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746965689668714,
+      "utc": "2026-10-02T11:14:25.480117+00:00"
+    },
+    {
+      "kind": "source_enabled",
+      "advertising_handle": 1,
+      "enable_command_accepted": true,
+      "max_extended_advertising_events": 255,
+      "unlimited_events_diagnostic_requested": false,
+      "duration_10ms_units": 500,
+      "monotonic_ns": 746965689707888,
+      "utc": "2026-10-02T11:14:25.480156+00:00"
+    },
+    {
+      "kind": "termination_observed",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "observed_after_enable_command_sent": true,
+      "monotonic_ns": 746970740828146,
+      "utc": "2026-10-02T11:14:30.531281+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746970740990624,
+      "utc": "2026-10-02T11:14:30.531440+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746970743796841,
+      "utc": "2026-10-02T11:14:30.534247+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746970743860211,
+      "utc": "2026-10-02T11:14:30.534308+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "monotonic_ns": 746970743890408,
+      "utc": "2026-10-02T11:14:30.534339+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746970747780436,
+      "utc": "2026-10-02T11:14:30.538230+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746970747827414,
+      "utc": "2026-10-02T11:14:30.538276+00:00"
+    },
+    {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": false,
+      "termination_count_field_meaningful": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 746970747855437,
+      "utc": "2026-10-02T11:14:30.538303+00:00"
+    },
+    {
+      "kind": "source_socket_closed",
+      "monotonic_ns": 746970747916703,
+      "utc": "2026-10-02T11:14:30.538365+00:00"
+    },
+    {
+      "kind": "source_container_closed",
+      "owned_container_removed": true,
+      "force_removal_required": false,
+      "source_controller_cleanup_verified_by_wrapper": false,
+      "interrupted": false,
+      "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    }
+  ],
+  "3": [
+    {
+      "kind": "configuration_requested",
+      "advertising_handle": 1,
+      "script_sha256": "b63676ad722b4ad3a1788760a57a32ce9978437ca87c04759829ff1cda2f6cda",
+      "event_properties": 16,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "interval_ms": 20,
+      "advertising_data_length": 16,
+      "owned_manufacturer_ad_exact_match": true,
+      "max_extended_advertising_events": 0,
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": true,
+      "termination_count_field_meaningful": false,
+      "handle_diagnostic_requested": true,
+      "independently_observed_air_emission_count": null,
+      "operator_preconditions": "Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, selected handle0x01 reserved externally and available; no simultaneous same-opcode advertising commands.",
+      "monotonic_ns": 746976463293630,
+      "utc": "2026-10-02T11:14:36.253744+00:00"
+    },
+    {
+      "kind": "source_socket_ready",
+      "hci_device": 0,
+      "hci_channel": 0,
+      "monotonic_ns": 746976463477498,
+      "utc": "2026-10-02T11:14:36.253927+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "monotonic_ns": 746976463530048,
+      "utc": "2026-10-02T11:14:36.253978+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746976566989724,
+      "utc": "2026-10-02T11:14:36.357442+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746976567163964,
+      "utc": "2026-10-02T11:14:36.357614+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "monotonic_ns": 746976567211774,
+      "utc": "2026-10-02T11:14:36.357660+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746976570907534,
+      "utc": "2026-10-02T11:14:36.361357+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746976570962318,
+      "utc": "2026-10-02T11:14:36.361411+00:00"
+    },
+    {
+      "kind": "source_ready",
+      "advertising_handle": 1,
+      "parameter_and_data_commands_accepted": true,
+      "start_delay_s": 0.0,
+      "monotonic_ns": 746976570988968,
+      "utc": "2026-10-02T11:14:36.361437+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746976571107683,
+      "utc": "2026-10-02T11:14:36.361556+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746976574899875,
+      "utc": "2026-10-02T11:14:36.365349+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746976574944940,
+      "utc": "2026-10-02T11:14:36.365393+00:00"
+    },
+    {
+      "kind": "source_enabled",
+      "advertising_handle": 1,
+      "enable_command_accepted": true,
+      "max_extended_advertising_events": 0,
+      "unlimited_events_diagnostic_requested": true,
+      "duration_10ms_units": 500,
+      "monotonic_ns": 746976574970098,
+      "utc": "2026-10-02T11:14:36.365418+00:00"
+    },
+    {
+      "kind": "termination_observed",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "observed_after_enable_command_sent": true,
+      "monotonic_ns": 746981630163440,
+      "utc": "2026-10-02T11:14:41.420619+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746981630410056,
+      "utc": "2026-10-02T11:14:41.420859+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746981634078725,
+      "utc": "2026-10-02T11:14:41.424574+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746981634240691,
+      "utc": "2026-10-02T11:14:41.424690+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "monotonic_ns": 746981634287380,
+      "utc": "2026-10-02T11:14:41.424736+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746981638067319,
+      "utc": "2026-10-02T11:14:41.428519+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746981638190852,
+      "utc": "2026-10-02T11:14:41.428640+00:00"
+    },
+    {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": true,
+      "termination_count_field_meaningful": false,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "unlimited_events_diagnostic_not_counted",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 746981638284359,
+      "utc": "2026-10-02T11:14:41.428734+00:00"
+    },
+    {
+      "kind": "source_socket_closed",
+      "monotonic_ns": 746981638433000,
+      "utc": "2026-10-02T11:14:41.428882+00:00"
+    },
+    {
+      "kind": "source_container_closed",
+      "owned_container_removed": true,
+      "force_removal_required": false,
+      "source_controller_cleanup_verified_by_wrapper": false,
+      "interrupted": false,
+      "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    }
+  ],
+  "4": [
+    {
+      "kind": "configuration_requested",
+      "advertising_handle": 1,
+      "script_sha256": "b63676ad722b4ad3a1788760a57a32ce9978437ca87c04759829ff1cda2f6cda",
+      "event_properties": 16,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "interval_ms": 20,
+      "advertising_data_length": 16,
+      "owned_manufacturer_ad_exact_match": true,
+      "max_extended_advertising_events": 255,
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": false,
+      "termination_count_field_meaningful": true,
+      "handle_diagnostic_requested": true,
+      "independently_observed_air_emission_count": null,
+      "operator_preconditions": "Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, selected handle0x01 reserved externally and available; no simultaneous same-opcode advertising commands.",
+      "monotonic_ns": 746987398706212,
+      "utc": "2026-10-02T11:14:47.189158+00:00"
+    },
+    {
+      "kind": "source_socket_ready",
+      "hci_device": 0,
+      "hci_channel": 0,
+      "monotonic_ns": 746987398916610,
+      "utc": "2026-10-02T11:14:47.189367+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "monotonic_ns": 746987398966164,
+      "utc": "2026-10-02T11:14:47.189415+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746987503160649,
+      "utc": "2026-10-02T11:14:47.293612+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746987503274845,
+      "utc": "2026-10-02T11:14:47.293724+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "monotonic_ns": 746987503321603,
+      "utc": "2026-10-02T11:14:47.293770+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746987507097805,
+      "utc": "2026-10-02T11:14:47.297548+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746987507210298,
+      "utc": "2026-10-02T11:14:47.297661+00:00"
+    },
+    {
+      "kind": "source_ready",
+      "advertising_handle": 1,
+      "parameter_and_data_commands_accepted": true,
+      "start_delay_s": 0.0,
+      "monotonic_ns": 746987507266474,
+      "utc": "2026-10-02T11:14:47.297715+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746987507344943,
+      "utc": "2026-10-02T11:14:47.297793+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746987511080167,
+      "utc": "2026-10-02T11:14:47.301531+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746987511143958,
+      "utc": "2026-10-02T11:14:47.301593+00:00"
+    },
+    {
+      "kind": "source_enabled",
+      "advertising_handle": 1,
+      "enable_command_accepted": true,
+      "max_extended_advertising_events": 255,
+      "unlimited_events_diagnostic_requested": false,
+      "duration_10ms_units": 500,
+      "monotonic_ns": 746987511176259,
+      "utc": "2026-10-02T11:14:47.301625+00:00"
+    },
+    {
+      "kind": "termination_observed",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "observed_after_enable_command_sent": true,
+      "monotonic_ns": 746992573190382,
+      "utc": "2026-10-02T11:14:52.363643+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746992573342680,
+      "utc": "2026-10-02T11:14:52.363791+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746992577148047,
+      "utc": "2026-10-02T11:14:52.367597+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746992577190126,
+      "utc": "2026-10-02T11:14:52.367638+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "monotonic_ns": 746992577221826,
+      "utc": "2026-10-02T11:14:52.367670+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746992581137983,
+      "utc": "2026-10-02T11:14:52.371587+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 746992581168982,
+      "utc": "2026-10-02T11:14:52.371617+00:00"
+    },
+    {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": false,
+      "termination_count_field_meaningful": true,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "termination_status_or_count_mismatch",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 746992581199239,
+      "utc": "2026-10-02T11:14:52.371648+00:00"
+    },
+    {
+      "kind": "source_socket_closed",
+      "monotonic_ns": 746992581268269,
+      "utc": "2026-10-02T11:14:52.371717+00:00"
+    },
+    {
+      "kind": "source_container_closed",
+      "owned_container_removed": true,
+      "force_removal_required": false,
+      "source_controller_cleanup_verified_by_wrapper": false,
+      "interrupted": false,
+      "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    }
+  ],
+  "5": [
+    {
+      "kind": "configuration_requested",
+      "advertising_handle": 1,
+      "script_sha256": "b63676ad722b4ad3a1788760a57a32ce9978437ca87c04759829ff1cda2f6cda",
+      "event_properties": 16,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "interval_ms": 20,
+      "advertising_data_length": 16,
+      "owned_manufacturer_ad_exact_match": true,
+      "max_extended_advertising_events": 0,
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": true,
+      "termination_count_field_meaningful": false,
+      "handle_diagnostic_requested": true,
+      "independently_observed_air_emission_count": null,
+      "operator_preconditions": "Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, selected handle0x01 reserved externally and available; no simultaneous same-opcode advertising commands.",
+      "monotonic_ns": 746998315942077,
+      "utc": "2026-10-02T11:14:58.106393+00:00"
+    },
+    {
+      "kind": "source_socket_ready",
+      "hci_device": 0,
+      "hci_channel": 0,
+      "monotonic_ns": 746998316178103,
+      "utc": "2026-10-02T11:14:58.106628+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "monotonic_ns": 746998316237005,
+      "utc": "2026-10-02T11:14:58.106685+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746998418379247,
+      "utc": "2026-10-02T11:14:58.208832+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_parameters",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "controller_selected_tx_power_dbm": 7,
+      "monotonic_ns": 746998418510555,
+      "utc": "2026-10-02T11:14:58.208960+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "monotonic_ns": 746998418555981,
+      "utc": "2026-10-02T11:14:58.209004+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746998422268222,
+      "utc": "2026-10-02T11:14:58.212718+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "set_data",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "monotonic_ns": 746998422330230,
+      "utc": "2026-10-02T11:14:58.212779+00:00"
+    },
+    {
+      "kind": "source_ready",
+      "advertising_handle": 1,
+      "parameter_and_data_commands_accepted": true,
+      "start_delay_s": 0.0,
+      "monotonic_ns": 746998422364424,
+      "utc": "2026-10-02T11:14:58.212813+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 746998422448974,
+      "utc": "2026-10-02T11:14:58.212899+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746998426256475,
+      "utc": "2026-10-02T11:14:58.216706+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "enable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 746998426300719,
+      "utc": "2026-10-02T11:14:58.216749+00:00"
+    },
+    {
+      "kind": "source_enabled",
+      "advertising_handle": 1,
+      "enable_command_accepted": true,
+      "max_extended_advertising_events": 0,
+      "unlimited_events_diagnostic_requested": true,
+      "duration_10ms_units": 500,
+      "monotonic_ns": 746998426337488,
+      "utc": "2026-10-02T11:14:58.216786+00:00"
+    },
+    {
+      "kind": "termination_observed",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "observed_after_enable_command_sent": true,
+      "monotonic_ns": 747003473373886,
+      "utc": "2026-10-02T11:15:03.263826+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "advertising_handle": 1,
+      "monotonic_ns": 747003473535282,
+      "utc": "2026-10-02T11:15:03.263984+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 747003477341120,
+      "utc": "2026-10-02T11:15:03.267791+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_disable",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "monotonic_ns": 747003477384111,
+      "utc": "2026-10-02T11:15:03.267832+00:00"
+    },
+    {
+      "kind": "command_sent",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "monotonic_ns": 747003477406243,
+      "utc": "2026-10-02T11:15:03.267854+00:00"
+    },
+    {
+      "kind": "command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 747003481327679,
+      "utc": "2026-10-02T11:15:03.271777+00:00"
+    },
+    {
+      "kind": "command_result",
+      "step": "cleanup_remove",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "monotonic_ns": 747003481441725,
+      "utc": "2026-10-02T11:15:03.271890+00:00"
+    },
+    {
+      "kind": "source_closed",
+      "advertising_handle": 1,
+      "independently_observed_air_emission_count": null,
+      "automatic_restarts": 0,
+      "automatic_fallbacks": 0,
+      "cleanup": {
+        "cleanup_disable": {
+          "status": 0,
+          "command_complete_received": true
+        },
+        "cleanup_remove": {
+          "status": 0,
+          "command_complete_received": true
+        }
+      },
+      "duration_10ms_units": 500,
+      "duration_diagnostic_requested": true,
+      "unlimited_events_diagnostic_requested": true,
+      "termination_count_field_meaningful": false,
+      "handle_diagnostic_requested": true,
+      "termination": {
+        "kind": "termination_observed",
+        "status": 60,
+        "advertising_handle": 1,
+        "controller_reported_completed_extended_advertising_events": 0,
+        "observed_after_enable_command_sent": true
+      },
+      "status": "trial_failed",
+      "error_code": "unlimited_events_diagnostic_not_counted",
+      "termination_events_observed": 1,
+      "accepted_steps": [
+        "cleanup_disable",
+        "cleanup_remove",
+        "enable",
+        "set_data",
+        "set_parameters"
+      ],
+      "controller_completed_count_verified": false,
+      "cleanup_success": true,
+      "monotonic_ns": 747003481478745,
+      "utc": "2026-10-02T11:15:03.271927+00:00"
+    },
+    {
+      "kind": "source_socket_closed",
+      "monotonic_ns": 747003481526565,
+      "utc": "2026-10-02T11:15:03.271975+00:00"
+    },
+    {
+      "kind": "source_container_closed",
+      "owned_container_removed": true,
+      "force_removal_required": false,
+      "source_controller_cleanup_verified_by_wrapper": false,
+      "interrupted": false,
+      "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+      "preloaded_image_reused": true
+    }
+  ]
+}

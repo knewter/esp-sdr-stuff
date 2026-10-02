@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "status": "completed",
+  "kind": "native direct-source receivability comparison",
+  "owned_controller_delivered_reports": 363,
+  "firmware_elapsed_us": 90092890,
+  "nominal_phase_counts": {
+    "initial_off": {
+      "buckets": 7,
+      "owned_reports": 0
+    },
+    "max255_episode0": {
+      "buckets": 2,
+      "owned_reports": 24
+    },
+    "off_after0": {
+      "buckets": 3,
+      "owned_reports": 0
+    },
+    "max0_episode1": {
+      "buckets": 2,
+      "owned_reports": 23
+    },
+    "off_after1": {
+      "buckets": 3,
+      "owned_reports": 0
+    },
+    "max255_episode2": {
+      "buckets": 2,
+      "owned_reports": 21
+    },
+    "off_after2": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "max0_episode3": {
+      "buckets": 1,
+      "owned_reports": 12
+    },
+    "off_after3": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "max255_episode4": {
+      "buckets": 2,
+      "owned_reports": 24
+    },
+    "off_after4": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "max0_episode5": {
+      "buckets": 2,
+      "owned_reports": 20
+    },
+    "off_after5": {
+      "buckets": 17,
+      "owned_reports": 0
+    },
+    "transition_guard": {
+      "buckets": 43,
+      "owned_reports": 239
+    }
+  },
+  "nominal_transition_guard_seconds": 1,
+  "actual_source_termination_fields": [
+    {
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0
+    },
+    {
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0
+    },
+    {
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0
+    },
+    {
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0
+    },
+    {
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0
+    },
+    {
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0
+    }
+  ],
+  "all_received_uart_bytes_saved": true,
+  "saved_uart_bytes": 23457,
+  "saved_uart_sha256": "76ba2496af4043901cd11e6d7f7cd8d125c3fcbcae324674f28d35d0107c8c7b",
+  "source_cleanup_verified": true,
+  "full_original_restoration_verified": true,
+  "transmitted_event_denominator": null,
+  "SDR_decoding_proven": false,
+  "RF_gate_closed": false,
+  "limits": "Native matching controller reports, not protected-PDU replay. Nominal phase mapping uses whole READY receipt and complete firmware intervals plus one-second guards. ESP clock rate, HCI/controller and UART latency are uncalibrated; report counts can duplicate and do not count radiated events.",
+  "postprocessor_sha256": "e4e1e4324c3b2a3f89430d7c19ff8e276856c83b311eee2d917b98b7832d48f9"
+}
