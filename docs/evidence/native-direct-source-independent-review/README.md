@@ -105,3 +105,43 @@ image loads around 1.17–1.22 seconds and capability-free help launches around
 0.52–0.57 seconds each. Repeating those costs risks overrunning the fixed bound.
 A separately reviewed immutable preload/reuse path may address that cost; this
 receipt does not approve longer bounds, shorter conditions or an automatic retry.
+
+## Prospective supervisor v3: guarded preload permits a bounded fresh trial
+
+[Version 3 checks](preflight-v3-checks.json) pass offline preflight. The reviewer
+independently ran **30 private supervisor and 14 public wrapper tests** with
+locked Nix dependencies. The final protocol is committed at `af8a09f`, byte-equal
+to author `85372a9`; the exact caller, wrapper, tests and Task hashes are recorded.
+The failed first comparison and its original false caller cleanup flag remain
+unchanged. Its independently observed controller cleanup and full restoration
+were already verified before this prospective decision.
+
+The caller hashes and loads the exact Nix archive once before starting the native
+parent. Independent archive inspection matches the caller's bounded streaming
+metadata parser: 90,619,442 archive bytes, SHA256 `0263ef47…`, exact single tag
+and 6,357 configuration bytes with SHA256 `699e00a1…`. This configuration digest
+defines the immutable image ID, as documented by the
+[OCI image configuration specification](https://github.com/opencontainers/image-spec/blob/main/config.md).
+The actual host-only preload receipt resolves the loaded tag to that same ID;
+it took 1.852 seconds outside the native observation. Malformed metadata, a
+wrong tag or mismatched configuration/image ID fails before the native child.
+
+Only source children receive the explicit preloaded ID and Task exit passthrough.
+Every episode rechecks the tag, launches by immutable ID and requires the same
+ID plus `preloaded_image_reused=true` in its closure receipt. An explicit mismatch
+has no reload or fallback. Typed command acknowledgements, termination, owned
+disable/remove, socket/container release and natural whole-group closure remain
+required before the next source. Native, monitor and common child commands stay
+unchanged; the native parent is never force-killed or given a competing restore.
+
+The three [public host timing receipts](../native-direct-startup-budget/README.md)
+are byte-equal to their private and committed versions. Six calls to the actual
+reuse branch totaled 0.151470 seconds without image loads; the help path is
+explicitly separate. This removes a measured repeated load cost and permits
+a sole-operator fresh bounded run 002. It **does not guarantee** real HCI startup,
+cleanup or completion of the six-episode schedule. Initial and intervening OFF,
+READY +75 source closure, native 90..92-second stop and greater-than-ten-second
+actual tail remain unchanged and fail closed on an overrun. No episode may be
+shortened or replaced. This review opens no device handles and establishes no
+physical comparison, RF emission denominator, SDR positive, Trial B prerequisite
+or RF/count acceptance.

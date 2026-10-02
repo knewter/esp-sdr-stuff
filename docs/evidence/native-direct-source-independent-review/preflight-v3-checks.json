@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "review_result": "v3_preflight_PASS_conditional_PROCEED_for_fresh_bounded002",
+  "hardware_access": false,
+  "physical_comparison_completed_by_this_review": false,
+  "supervisor_version": 3,
+  "root_protocol_commit": "af8a09fc070edbd8d80b33ded5b2217ce1121a62",
+  "author_protocol_commit": "85372a9e6914ea0c53ff2257ef311624c88ef14c",
+  "protocol_sha256": "9ba6b10d99e2866e41add97316e2093ce3ccf59047751c30c091513bd0e9b3bd",
+  "root_author_protocol_bytes_equal": true,
+  "wrapper_root_commit": "58a25b4bea52e8cb29ff8d84c21f73a12f1b8422",
+  "wrapper_author_commit": "7ee7f8f4e7e3aec3ae82a3e61f971975bb94faa9",
+  "frozen_source_sha256": {
+    ".scratch/run_native_direct_reference.py": "fd40ab67dde6289a8b90686f53280e0fbe99887a20fde7304b8a26d7d1c528fa",
+    ".scratch/test_native_direct_supervisor.py": "61e48fa9ef8c463637d5a0e0b397ea514a1945004f4fb48cce490ea9a693078d",
+    ".scratch/run_native_direct_reference.task.yml": "2efa0adac38239310a5f0308f717fac3adbdb517a00a656957857fce0f08d2bd",
+    "tools/ble_source_container.py": "0efbc47f4e8bc75ba73651043282b477a35cae100ee6dab8000786248fb500f8",
+    "tests/test_ble_source_container.py": "a17bb8701d3dd46a6fd325d9c8a43154c32d822025173faba75037d2f20a8a83"
+  },
+  "independent_Nix_private_Task_tests": {
+    "passed": 30,
+    "seconds": 0.331
+  },
+  "independent_Nix_public_wrapper_tests": {
+    "passed": 14,
+    "seconds": 0.016
+  },
+  "archive_identity": {
+    "archive_bytes": 90619442,
+    "archive_sha256": "0263ef4739a23497128d3e34029c769e71b20ef6d0e553fba318ae00d7310d1a",
+    "exact_single_tag": "esp-sdr-ble-source:c7188d39eacc17b4",
+    "config_bytes": 6357,
+    "config_sha256": "699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+    "expected_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+    "loaded_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+    "independent_archive_reader_and_caller_parser_agree": true,
+    "actual_root_preload_image_id_matches": true,
+    "root_preload_receipt_sha256": "6cffb22d13c4ea7cf696eb44395400b0498cc7d37036aaa26ab2e97bafabe626",
+    "root_preload_host_seconds": 1.852097364,
+    "preload_before_native_parent": true,
+    "one_load_no_per_episode_archive_reread": true,
+    "bounded_streaming_tar_metadata_no_extraction": true,
+    "tag_config_digest_and_selected_image_must_agree": true,
+    "actual_preload_public_receipt": {
+      "path": "docs/evidence/native-direct-startup-budget/exact-preload.json",
+      "commit": "5e2e85cc219b9523e4eaebcd22babc8aa8d7cf3f",
+      "bytes": 1056,
+      "sha256": "6cffb22d13c4ea7cf696eb44395400b0498cc7d37036aaa26ab2e97bafabe626",
+      "private_public_committed_bytes_equal": true
+    }
+  },
+  "each_source": {
+    "source_only_env_image_ID": true,
+    "source_only_Task_exit_passthrough": true,
+    "tag_ID_rechecked": true,
+    "immutable_ID_launch": true,
+    "closure_receipt_reuse_and_ID_must_match": true,
+    "explicit_preload_mismatch_has_no_reload_or_fallback": true,
+    "typed_leaf2_ACK_termination_socket_container_and_group_proof_still_required": true,
+    "unknown_controller_cleanup_blocks_next_episode": true
+  },
+  "startup_timing": {
+    "committed_receipt_revision": "173bc91cebad45b697ad328d9eaba30f1a43d755",
+    "public_receipts": {
+      "image-loads.json": {
+        "bytes": 486,
+        "sha256": "9cbd8ed4d2bdc424a2890f190663c7aa1b9f793a5a1a0cf909376be6a5523c8b",
+        "private_public_committed_bytes_equal": true
+      },
+      "help-containers.json": {
+        "bytes": 500,
+        "sha256": "a93a7af88b6be950522511ec1178e6e855dc705cf613e762f31b8c535ac0d497",
+        "private_public_committed_bytes_equal": true
+      },
+      "image-reuse.json": {
+        "bytes": 1100,
+        "sha256": "c93ae608a307c86c0227a9bff05cb740b2f5eca03d9c10a1a7a7dc395837b07e",
+        "private_public_committed_bytes_equal": true
+      }
+    },
+    "actual_reuse_metadata_calls": 6,
+    "actual_reuse_total_seconds": 0.15147016395349056,
+    "actual_reuse_no_load_each_call_verified": true,
+    "help_path_not_used_as_reuse_benchmark": true,
+    "real_HCI_launch_cleanup_timing_unmeasured": true,
+    "physical_schedule_fit_not_guaranteed": true
+  },
+  "conditions_unchanged": [
+    255,
+    0,
+    255,
+    0,
+    255,
+    0
+  ],
+  "timing_bounds_unchanged": {
+    "initial_OFF_seconds": 10,
+    "inter_episode_OFF_seconds": 5,
+    "all_source_groups_closed_READY_plus_seconds": 75,
+    "native_stop_seconds": [
+      90,
+      92
+    ],
+    "final_actual_tail_strict_min_seconds": 10
+  },
+  "native003_manifest_sha256": "dc4a96c873d69c9ccc09ff5fba5064b9f07332184565b96eee81cc9dad9f0159",
+  "native_monitor_common_Child_SDK_roles_allowlist_unchanged": true,
+  "native_parent_never_force_killed_or_competing_restore_started": true,
+  "original001_failed_five_unrun_retained": true,
+  "prior001_independently_observed_cleanup_and_original_full_restore_verified": true,
+  "prior001_caller_cleanup_false_not_overwritten": true,
+  "source_emission_denominator": null,
+  "SDR_positive": false,
+  "TrialB_prerequisite_met": false,
+  "RF_count_gates_closed": false,
+  "decision_scope": "Reviewed startup optimization lifts v2 preflight timing hold for a sole-operator fresh bounded trial; prospective gates and ordinary identity/preservation/exclusive-ownership checks remain mandatory. No physical completion or timing guarantee."
+}
