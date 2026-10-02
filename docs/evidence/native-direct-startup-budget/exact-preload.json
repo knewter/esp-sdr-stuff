@@ -1,0 +1,27 @@
+{
+  "image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+  "archive_bytes": 90619442,
+  "archive_sha256": "0263ef4739a23497128d3e34029c769e71b20ef6d0e553fba318ae00d7310d1a",
+  "archive_nix_store_path": "/nix/store/597z2qfiqfc5ygp3zpgl3wcgggf9l425-esp-sdr-ble-source.tar.gz",
+  "image_tag": "esp-sdr-ble-source:c7188d39eacc17b4",
+  "loaded_exact_archive_once": true,
+  "reuse_required_before_every_source": true,
+  "archive_image_metadata": {
+    "expected_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+    "config_bytes": 6357,
+    "config_sha256": "699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+    "manifest_repo_tags": [
+      "esp-sdr-ble-source:c7188d39eacc17b4"
+    ]
+  },
+  "archive_image_id_match_verified": true,
+  "host_start": {
+    "monotonic_ns": 746619930221248,
+    "utc": "2026-10-02T11:08:39.720678+00:00"
+  },
+  "host_end": {
+    "monotonic_ns": 746621782318612,
+    "utc": "2026-10-02T11:08:41.572777+00:00"
+  },
+  "hardware_access": false
+}

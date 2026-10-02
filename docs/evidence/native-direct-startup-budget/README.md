@@ -41,3 +41,11 @@ keeping all six RF conditions, OFF intervals and deadlines fixed. An actual
 overrun still fails and is retained; no shortened episode or timing-limit
 change is inferred from these host timings. The prospective caller and actual
 archive-to-ID guard need independent review before another physical run.
+# Exact archive-to-image preload check
+
+The sole operator ran the frozen v3 preload function through locked Nix and
+Task, before starting any native observer. The [actual receipt](exact-preload.json)
+records the 90,619,442-byte archive, its SHA-256, configuration digest, selected
+immutable image ID and exact match. Hashing, metadata checks and loading took
+1.852097364 seconds. This opened no HCI or UART handles and launched no source
+container. The six-source physical timing gate remains unverified.
