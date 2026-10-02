@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "status": "completed",
+  "capture_status": "completed",
+  "completed_native_reference": true,
+  "owned_controller_delivered_reports": 1176,
+  "firmware_elapsed_us": 90092830,
+  "completion_mode": "application_cancel",
+  "cancel_status": 0,
+  "scan_active_after_stop": false,
+  "last_aggregate_elapsed_us": 90092830,
+  "host_observation_seconds": 90.112387467,
+  "aggregate_buckets": 90,
+  "nominal_phase_counts": {
+    "initial_off": {
+      "buckets": 7,
+      "owned_reports": 0
+    },
+    "on_0": {
+      "buckets": 7,
+      "owned_reports": 274
+    },
+    "off_0": {
+      "buckets": 2,
+      "owned_reports": 0
+    },
+    "on_1": {
+      "buckets": 7,
+      "owned_reports": 267
+    },
+    "off_1": {
+      "buckets": 3,
+      "owned_reports": 0
+    },
+    "on_2": {
+      "buckets": 7,
+      "owned_reports": 267
+    },
+    "off_2": {
+      "buckets": 35,
+      "owned_reports": 0
+    },
+    "transition_guard": {
+      "buckets": 22,
+      "owned_reports": 368
+    }
+  },
+  "nominal_guard_seconds": 1,
+  "all_received_uart_bytes_saved": true,
+  "saved_uart_bytes": 23554,
+  "saved_uart_sha256": "40baf507b246944ee8ed3d7a5a56fa32d7331007a9da16592e34bf84c7858813",
+  "transmitted_event_count": null,
+  "SDR_decoding_proven": false,
+  "RF_gate_closed": false,
+  "timing_limits": "Phases map complete firmware buckets from the whole READY receipt bracket using nominal ESP time with one-second transition guards. Clock rate, API/controller and UART latency are uncalibrated; labels and chart are nominal association, not exact RF event times or calibrated timing bounds.",
+  "integrity_limits": "Typed fresh-nonce UART JSON, sequence/cumulative checks and retained byte hashes; no UART transport CRC or independently replayed protected PDUs.",
+  "source_script_sha256": "e214640ad5d3b56c38c463b0f06bfc1b9ecedd7ddf3c5985e22ff4e14c2d91da",
+  "postprocessor_sha256": "a0c3177600345978848a797afdcb0add2334b19731fe3f30ff802029f9fd9621"
+}

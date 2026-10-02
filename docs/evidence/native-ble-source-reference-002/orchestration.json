@@ -1,0 +1,161 @@
+{
+  "kind": "bounded native owned-BLE source reference; not SDR decoding",
+  "started": {
+    "monotonic_ns": 741523455351487,
+    "utc": "2026-10-02T09:43:43.245815+00:00"
+  },
+  "controller_before": {
+    "powered": true,
+    "active_instances": 0
+  },
+  "plan": {
+    "native_scan_ms": 90000,
+    "initial_off_seconds_min": 10,
+    "episodes": 3,
+    "episode_seconds": 10,
+    "off_seconds": 5,
+    "final_off_seconds_strict_min": 10,
+    "monitor_seconds": 120
+  },
+  "supervisor_sha256": "903823c371fbc600108c5b2ea9605af84f698c50bd8f72eb8f95780ac3b049f3",
+  "executed_file_hashes": {
+    ".scratch/run_native_reference.py": {
+      "bytes": 13779,
+      "sha256": "903823c371fbc600108c5b2ea9605af84f698c50bd8f72eb8f95780ac3b049f3"
+    },
+    ".scratch/run_ble_control.py": {
+      "bytes": 20837,
+      "sha256": "79e02469704502d4fec749676d55fdf19efb603ae2651f95ba2e7e9e5d6b012d"
+    },
+    "Taskfile.yml": {
+      "bytes": 6538,
+      "sha256": "16708f1019bcf5e8ec09cc3beded1a6c6600aac500f3f37f70887df7bcf622c8"
+    },
+    "flake.lock": {
+      "bytes": 4632,
+      "sha256": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51"
+    },
+    "tools/native_ble_reference.py": {
+      "bytes": 22818,
+      "sha256": "435e90209125ef923b31fd24e9a68fde5ebc9bdad26dd294d32c07cce9a459ba"
+    },
+    "tools/build_native_ble_reference.py": {
+      "bytes": 7504,
+      "sha256": "06469d69ed6ebddd7d65dffb1ba4abb7da88b3e64d1ff094c9c115a199b1a7fa"
+    },
+    "tools/demo_esp_sdr.py": {
+      "bytes": 28648,
+      "sha256": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966"
+    },
+    "tools/flash_trial.py": {
+      "bytes": 7181,
+      "sha256": "7b8f3629f961b177b074cfa7c1646ae4ab4f1e89fddfc3af44e742a7ef111079"
+    },
+    "tools/esp_sdr_capture.py": {
+      "bytes": 15082,
+      "sha256": "f1aa93c1af1b87ad086fdd7289bfeced4bfbc632e15fc2389098e2f460cea538"
+    },
+    "tools/ble_owned_source.py": {
+      "bytes": 7779,
+      "sha256": "e214640ad5d3b56c38c463b0f06bfc1b9ecedd7ddf3c5985e22ff4e14c2d91da"
+    },
+    "tools/ble_dumpcap_container_monitor.py": {
+      "bytes": 4641,
+      "sha256": "acdddfd2846d8faddbb4375f558c0d0873ce7f22ac6bd9f5afd365cb0c72f498"
+    },
+    "tools/ble_dumpcap_monitor.py": {
+      "bytes": 9919,
+      "sha256": "0697b92276674dffdfa2915736dbc75ca35e85ac504d3287b3f52555c84a2793"
+    },
+    "tools/ble_hci_monitor.py": {
+      "bytes": 8169,
+      "sha256": "fcf8627daddc061612e8e160c5791e2ded0ab17b7a402dfb6061564e79b918e1"
+    }
+  },
+  "integrity_limits": "UART JSON has no transport CRC; exact schema, freshnonce, sequence/cumulative validation and saved byte hashes do not independently replay protected PDUCRC or supply transmitted counts.",
+  "events": [
+    {
+      "event": "child_started",
+      "child": "native-parent",
+      "monotonic_ns": 741523457260465,
+      "utc": "2026-10-02T09:43:43.247718+00:00"
+    },
+    {
+      "event": "NATIVE_REFERENCE_READY",
+      "child": "native-parent",
+      "monotonic_ns": 741638629982737,
+      "utc": "2026-10-02T09:45:38.420437+00:00"
+    },
+    {
+      "event": "child_started",
+      "child": "monitor",
+      "monotonic_ns": 741638631167586,
+      "utc": "2026-10-02T09:45:38.421617+00:00"
+    },
+    {
+      "event": "MONITOR_READY",
+      "child": "monitor",
+      "monotonic_ns": 741641337489226,
+      "utc": "2026-10-02T09:45:41.127941+00:00"
+    },
+    {
+      "event": "child_started",
+      "child": "source",
+      "monotonic_ns": 741648516341569,
+      "utc": "2026-10-02T09:45:48.306792+00:00"
+    },
+    {
+      "event": "child_group_closed",
+      "child": "source",
+      "monotonic_ns": 741690683029016,
+      "utc": "2026-10-02T09:46:30.473487+00:00",
+      "returncode": 0
+    },
+    {
+      "event": "child_group_closed",
+      "child": "native-parent",
+      "monotonic_ns": 741877396114842,
+      "utc": "2026-10-02T09:49:37.186570+00:00",
+      "returncode": 0
+    },
+    {
+      "event": "child_group_closed",
+      "child": "monitor",
+      "monotonic_ns": 741877396229347,
+      "utc": "2026-10-02T09:49:37.186679+00:00",
+      "returncode": 0
+    }
+  ],
+  "status": "completed",
+  "transmitted_event_count": null,
+  "SDR_decoding_proven": false,
+  "RF_acceptance_gate_closed": false,
+  "native_ready": {
+    "schema": 1,
+    "kind": "READY",
+    "version": "native-ble-ref-v2",
+    "nonce": "294284e3e8939ea6",
+    "scan_start_us": 361247,
+    "scan_status": 0,
+    "host_line_start_ns": 741638415043981,
+    "host_line_end_ns": 741638515196775
+  },
+  "source_group_closed_ns": 741690683029016,
+  "successful_actual_hci_command_completions": 15,
+  "schedule_completed": true,
+  "initial_off_seconds": 10.349838601,
+  "tail_after_source_closure_seconds": 37.944555226,
+  "native_owned_received_reports": 1176,
+  "cleanup_failures": [],
+  "child_groups_closed": true,
+  "controller_after": {
+    "powered": true,
+    "active_instances": 0
+  },
+  "monitor_owned_container_removed": true,
+  "source_bus_disconnected": true,
+  "ended": {
+    "monotonic_ns": 741877399785945,
+    "utc": "2026-10-02T09:49:37.190235+00:00"
+  }
+}

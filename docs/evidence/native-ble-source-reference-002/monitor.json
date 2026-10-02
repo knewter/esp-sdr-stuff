@@ -1,0 +1,319 @@
+{
+  "schema": 1,
+  "kind": "read-only sanitized HCI0 advertising control",
+  "transport": "Nix dumpcap owned NET_RAW container stdout pipe",
+  "hci_channel": 2,
+  "started_utc": "2026-10-02T09:45:40Z",
+  "independently_observed_air_emission_count": null,
+  "records": [
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 19,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 7,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790934348657381000,
+      "monotonic_ns": 741648867336175
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790934348758608000,
+      "monotonic_ns": 741648968593977
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790934348758846000,
+      "monotonic_ns": 741648968625176
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790934348762605000,
+      "monotonic_ns": 741648972367218
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790934348762626000,
+      "monotonic_ns": 741648972383770
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790934348766605000,
+      "monotonic_ns": 741648976377518
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790934358778239000,
+      "monotonic_ns": 741658988332295
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790934358879765000,
+      "monotonic_ns": 741659089635432
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790934358879806000,
+      "monotonic_ns": 741659089647885
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790934358883764000,
+      "monotonic_ns": 741659093509845
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 19,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 7,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790934364009321000,
+      "monotonic_ns": 741664219125424
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790934364113850000,
+      "monotonic_ns": 741664323657494
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790934364114019000,
+      "monotonic_ns": 741664323720443
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790934364117847000,
+      "monotonic_ns": 741664327605205
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790934364117870000,
+      "monotonic_ns": 741664327615985
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790934364121846000,
+      "monotonic_ns": 741664331579647
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790934374341205000,
+      "monotonic_ns": 741674551240156
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790934374443013000,
+      "monotonic_ns": 741674652873497
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790934374443066000,
+      "monotonic_ns": 741674652882504
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790934374447011000,
+      "monotonic_ns": 741674656769600
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 19,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 7,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790934380121931000,
+      "monotonic_ns": 741680331844994
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790934380224112000,
+      "monotonic_ns": 741680436299686
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790934380226246000,
+      "monotonic_ns": 741680436337528
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790934380230115000,
+      "monotonic_ns": 741680440274839
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790934380230308000,
+      "monotonic_ns": 741680440292943
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790934380234113000,
+      "monotonic_ns": 741680444079741
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790934390315808000,
+      "monotonic_ns": 741690525829906
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790934390417267000,
+      "monotonic_ns": 741690627261544
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790934390417319000,
+      "monotonic_ns": 741690627275460
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790934390421274000,
+      "monotonic_ns": 741690631263598
+    }
+  ],
+  "raw_capture_written_to_disk": false,
+  "dumpcap_stderr_retained": false,
+  "limitations": "HCI control-plane evidence only. Unknown monitor/socket loss. Unrelated traffic and addresses discarded before storage; libpcap Bluetooth monitor statistics cannot prove loss-free capture.",
+  "validated_header_ready_monotonic_ns": 741641315774534,
+  "owned_container_removed": true,
+  "producer_returncode": 0,
+  "interrupted": false,
+  "status": "completed",
+  "elapsed_s": 120.67806519300211,
+  "packet_counts_by_monitor_kind": {
+    "12": 2,
+    "0": 1,
+    "8": 1,
+    "10": 1,
+    "14": 1,
+    "16": 9,
+    "2": 15,
+    "3": 15,
+    "17": 9
+  },
+  "pcap_packets_seen": 54,
+  "snaplen_truncated_packets_discarded": 0,
+  "pcap_byte_order": "<",
+  "pcap_timestamp_units_per_second": 1000000,
+  "producer_reaped": true,
+  "container_image_id": "sha256:fbdfe3a117505cbdfa090f9d46f4ce9d8ef5b079b7e612b522062a7b23c2697c",
+  "container_host_mounts": [],
+  "container_capabilities": [
+    "NET_RAW"
+  ]
+}
