@@ -1,6 +1,7 @@
 """Source container scoping/interrupt policy without Docker or HCI access."""
 import contextlib
 import io
+import json
 import os
 from pathlib import Path
 import signal
@@ -20,6 +21,78 @@ OPTIONS = ['--handle', '1', '--events', '0', '--unlimited-events', '--duration-m
 
 
 class SourceContainerTests(unittest.TestCase):
+    def test_default_loads_archive_then_inspects_immutable_tag(self):
+        with patch.object(Path,'is_file',return_value=True), \
+                patch.object(wrapper.subprocess,'run') as load, \
+                patch.object(wrapper.subprocess,'check_output',return_value=('[{"Id":"'+IMAGE+'"}]').encode()) as inspect:
+            self.assertEqual(wrapper.resolve_source_image('/nix/store/test-source.tar.gz','esp-source:test'),(IMAGE,False))
+        self.assertEqual(load.call_args.args[0],['docker','load','--input','/nix/store/test-source.tar.gz'])
+        self.assertEqual(inspect.call_args.args[0],['docker','image','inspect','esp-source:test'])
+
+    def test_explicit_valid_preload_inspects_every_call_without_load(self):
+        with patch.object(Path,'is_file',return_value=True), \
+                patch.object(wrapper.subprocess,'run') as load, \
+                patch.object(wrapper.subprocess,'check_output',return_value=('[{"Id":"'+IMAGE+'"}]').encode()) as inspect:
+            for _ in range(2):
+                self.assertEqual(wrapper.resolve_source_image('/nix/store/test-source.tar.gz','esp-source:test',IMAGE),(IMAGE,True))
+        load.assert_not_called();self.assertEqual(inspect.call_count,2)
+
+    def test_malformed_preload_id_is_rejected_before_any_docker(self):
+        for value in ('','latest','sha256:'+'d'*63,'sha256:'+'D'*64,True):
+            with patch.object(Path,'is_file',return_value=True),patch.object(wrapper.subprocess,'run') as load, \
+                    patch.object(wrapper.subprocess,'check_output') as inspect,self.assertRaises(ValueError):
+                wrapper.resolve_source_image('/nix/store/test-source.tar.gz','esp-source:test',value)
+            load.assert_not_called();inspect.assert_not_called()
+
+    def test_tag_mismatch_missing_image_or_malformed_inspect_never_loads_fallback(self):
+        for result in (b'[]',b'[{"Id":"latest"}]',b'[{"Id":true}]',b'null',('[{"Id":"sha256:'+'a'*64+'"}]').encode()):
+            with patch.object(Path,'is_file',return_value=True),patch.object(wrapper.subprocess,'run') as load, \
+                    patch.object(wrapper.subprocess,'check_output',return_value=result),self.assertRaises(ValueError):
+                wrapper.resolve_source_image('/nix/store/test-source.tar.gz','esp-source:test',IMAGE)
+            load.assert_not_called()
+        with patch.object(Path,'is_file',return_value=True),patch.object(wrapper.subprocess,'run') as load, \
+                patch.object(wrapper.subprocess,'check_output',side_effect=subprocess.CalledProcessError(1,['docker'])), \
+                self.assertRaises(subprocess.CalledProcessError):
+            wrapper.resolve_source_image('/nix/store/test-source.tar.gz','esp-source:test',IMAGE)
+        load.assert_not_called()
+
+    def test_bad_archive_or_tag_rejected_before_load_or_inspect(self):
+        for archive,tag in (('/tmp/source.tar','esp-source:test'),('/nix/store/source.tar',''),('/nix/store/source.tar','--help')):
+            with patch.object(Path,'is_file',return_value=True),patch.object(wrapper.subprocess,'run') as load, \
+                    patch.object(wrapper.subprocess,'check_output') as inspect,self.assertRaises(ValueError):
+                wrapper.resolve_source_image(archive,tag,IMAGE)
+            load.assert_not_called();inspect.assert_not_called()
+
+    def test_invalid_preload_main_never_spawns_source_or_loads(self):
+        env={'BLE_SOURCE_IMAGE':'/nix/store/test-source.tar.gz','BLE_SOURCE_IMAGE_TAG':'esp-source:test',
+             'BLE_SOURCE_PYTHON':PYTHON,'BLE_SOURCE_PRELOADED_IMAGE_ID':'latest'}
+        with patch.object(sys,'argv',['wrapper',*OPTIONS]),patch.dict(os.environ,env),patch.object(Path,'is_file',return_value=True), \
+                patch.object(wrapper.subprocess,'run') as load,patch.object(wrapper.subprocess,'Popen') as spawn, \
+                patch.object(wrapper.subprocess,'check_output') as inspect,self.assertRaises(SystemExit):
+            wrapper.main()
+        load.assert_not_called();inspect.assert_not_called();spawn.assert_not_called()
+
+    def test_preloaded_main_receipt_and_immutable_launch_default_still_loads(self):
+        class Producer:
+            returncode=2
+            def poll(self):return 2
+        for reuse in (False,True):
+            env={'BLE_SOURCE_IMAGE':'/nix/store/test-source.tar.gz','BLE_SOURCE_IMAGE_TAG':'esp-source:test','BLE_SOURCE_PYTHON':PYTHON}
+            if reuse:env['BLE_SOURCE_PRELOADED_IMAGE_ID']=IMAGE
+            output=io.StringIO()
+            with patch.object(sys,'argv',['wrapper',*OPTIONS]),patch.dict(os.environ,env,clear=True), \
+                    patch.object(Path,'is_file',return_value=True),patch.object(wrapper.subprocess,'run') as load, \
+                    patch.object(wrapper.subprocess,'check_output',return_value=('[{"Id":"'+IMAGE+'"}]').encode()), \
+                    patch.object(wrapper.subprocess,'Popen',return_value=Producer()) as spawn, \
+                    patch.object(wrapper,'container_absent',return_value=True),contextlib.redirect_stdout(output):
+                self.assertEqual(wrapper.main(),2)
+            if reuse:load.assert_not_called()
+            else:self.assertEqual(load.call_count,1)
+            self.assertIn(IMAGE,spawn.call_args.args[0])
+            receipt=json.loads(output.getvalue());self.assertEqual(receipt['image_id'],IMAGE)
+            self.assertIs(receipt['preloaded_image_reused'],reuse)
+            self.assertIs(receipt['source_controller_cleanup_verified_by_wrapper'],False)
+
     def test_fixed_source_mount_and_capabilities_without_host_writes(self):
         command = wrapper.source_command(NAME, IMAGE, PYTHON, OPTIONS)
         self.assertEqual(command[command.index('--pull')+1], 'never')

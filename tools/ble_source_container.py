@@ -76,6 +76,28 @@ def stop_owned_source(name):
             'force_removal_required': True, 'stop_command_accepted': stopped.returncode == 0}
 
 
+def resolve_source_image(archive, tag, preloaded_id=None):
+    """Load by default; explicit preload must match the current tag, with no fallback."""
+    archive = Path(archive).resolve()
+    if (not archive.is_relative_to('/nix/store') or not archive.is_file() or
+            type(tag) is not str or not tag or tag.startswith('-')):
+        raise ValueError('pinned Nix source archive and tag required')
+    if preloaded_id is not None and (type(preloaded_id) is not str or
+            re.fullmatch(r'sha256:[0-9a-f]{64}', preloaded_id) is None):
+        raise ValueError('strict immutable preloaded source image ID required')
+    if preloaded_id is None:
+        subprocess.run(['docker', 'load', '--input', str(archive)], stdout=subprocess.DEVNULL,
+                       stderr=subprocess.DEVNULL, timeout=60, check=True)
+    images = json.loads(subprocess.check_output(['docker', 'image', 'inspect', tag], timeout=10))
+    if (type(images) is not list or len(images) != 1 or type(images[0]) is not dict or
+            type(images[0].get('Id')) is not str or re.fullmatch(r'sha256:[0-9a-f]{64}',images[0]['Id']) is None):
+        raise ValueError('one immutable source image required')
+    image_id = images[0]['Id']
+    if preloaded_id is not None and image_id != preloaded_id:
+        raise ValueError('current tag does not match the explicit preloaded source image')
+    return image_id, preloaded_id is not None
+
+
 def main():
     argv = sys.argv[1:]
     if not argv or any(arg in ('-h', '--help') for arg in argv):
@@ -84,15 +106,12 @@ def main():
     archive = Path(os.environ.get('BLE_SOURCE_IMAGE', '')).resolve()
     tag = os.environ.get('BLE_SOURCE_IMAGE_TAG')
     executable = os.environ.get('BLE_SOURCE_PYTHON', '')
-    if not archive.is_relative_to('/nix/store') or not archive.is_file() or not tag:
-        raise SystemExit('enter nix develop for the pinned source image')
-    subprocess.run(['docker', 'load', '--input', str(archive)], stdout=subprocess.DEVNULL,
-                   stderr=subprocess.DEVNULL, timeout=60, check=True)
-    images = json.loads(subprocess.check_output(['docker', 'image', 'inspect', tag], timeout=10))
-    if len(images) != 1:
-        raise SystemExit('one immutable source image required')
+    try:
+        image_id, reused = resolve_source_image(archive, tag, os.environ.get('BLE_SOURCE_PRELOADED_IMAGE_ID'))
+    except (ValueError, OSError, subprocess.SubprocessError):
+        raise SystemExit('pinned source image unavailable or preloaded identity mismatch; no source started')
     name = 'esp-sdr-ble-source-'+uuid.uuid4().hex
-    command = source_command(name, images[0]['Id'], executable, argv)
+    command = source_command(name, image_id, executable, argv)
     interrupted = False
     def requested_interrupt(signum, frame):
         nonlocal interrupted
@@ -125,7 +144,8 @@ def main():
             signal.signal(sig, handler)
         print(json.dumps({'kind': 'source_container_closed', **cleanup,
                           'source_controller_cleanup_verified_by_wrapper': False,
-                          'interrupted': interrupted, 'image_id': images[0]['Id']}), flush=True)
+                          'interrupted': interrupted, 'image_id': image_id,
+                          'preloaded_image_reused': reused}), flush=True)
     # Container absence proves socket release, not controller command success.
     # The source's native source_closed cleanup receipt remains authoritative.
     return code if cleanup['owned_container_removed'] and not cleanup['force_removal_required'] and not interrupted else 2
