@@ -184,3 +184,18 @@ retention of actual diagnostic counts without acceptance, and zeroed cleanup.
 Handle tests check default wire compatibility, selected-handle cleanup on
 success/rejection/timeout, foreign-event rejection, strict validation and CLI
 provenance/socket closure using fake sockets only.
+
+## Physical diagnostic outcomes
+
+[Initial count-only trials](../docs/evidence/ble-counted-source-smoke/README.md)
+received no termination event. [Subsequent timer trials](../docs/evidence/ble-duration-source-diagnostics/README.md)
+observe status `0x3C` and actual completed count zero on both native and
+monitor readers. With nonzero MaxEvents, Core §7.7.65.18 makes the count
+meaningful on duration expiry too; it is not generally an unused timer field.
+These zero reports do not supply a validated emitted-event denominator.
+
+[The predeclared RF discriminator](../docs/evidence/ble-zero-counter-rf/README.md)
+finds no CRC-valid owned packet in 262 retained snapshots. Its null result is
+inconclusive and leaves the cause of the zero field unresolved. No mask mutation
+or source fallback was used. Future counted receiver trials still require a
+verified source counter or independent RF reference.
