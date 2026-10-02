@@ -72,7 +72,7 @@ def main():
   for name in FILES[:4]:(project/Path(name).name).write_bytes((ROOT/name).read_bytes())
   source_hash=hashlib.sha256(json.dumps(hashes,sort_keys=True).encode()).hexdigest()
   (build/'build_identity.h').write_text('#define BUILD_SOURCE_SHA256 "'+source_hash+'"\n')
-  execute(['cmake','-S',str(project),'-B',str(build),'-G','Ninja','-DCMAKE_BUILD_TYPE=Release','-DCMAKE_C_FLAGS=-I'+str(build)],log,ROOT)
+  execute(['cmake','-S',str(project),'-B',str(build),'-G','Ninja','-DCMAKE_BUILD_TYPE=Release'],log,ROOT)
   execute(['cmake','--build',str(build),'--parallel',str(a.jobs)],log,ROOT)
   elf=build/'forgix_usb_ram.elf';data=elf.read_bytes()
   (out/elf.name).write_bytes(data)

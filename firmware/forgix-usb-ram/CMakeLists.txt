@@ -9,7 +9,7 @@ project(forgix_usb_ram C CXX ASM)
 set(TINYUSB_OPT_OS OPT_OS_NONE)
 pico_sdk_init()
 add_executable(forgix_usb_ram main.c usb_descriptors.c)
-target_include_directories(forgix_usb_ram PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(forgix_usb_ram PRIVATE ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_BINARY_DIR})
 target_compile_definitions(forgix_usb_ram PRIVATE PICO_STACK_SIZE=4096 PICO_HEAP_SIZE=0
   PICO_STDIO_UART=0 PICO_STDIO_USB=0 PICO_USE_GPIO_COPROCESSOR=0)
 target_compile_options(forgix_usb_ram PRIVATE -Wall -Wextra -Werror)

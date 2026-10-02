@@ -87,4 +87,8 @@ class ElfGuardTests(unittest.TestCase):
         for word in ('gpio_init(','gpio_put(','spi_init(','uart_init(','printf(','multicore_launch_core1('):self.assertNotIn(word,s)
         self.assertIn('watchdog_enable(2000,false)',s);self.assertIn('MAX_LIFETIME_US UINT64_C(120000000)',s)
         cmake=(root/'CMakeLists.txt').read_text();self.assertIn('PICO_HEAP_SIZE=0',cmake);self.assertIn('PICO_STACK_SIZE=4096',cmake);self.assertIn('no_flash)',cmake)
+    def test_identity_include_does_not_replace_sdk_architecture_flags(self):
+        root=Path(__file__).resolve().parents[1]
+        self.assertNotIn('-DCMAKE_C_FLAGS=',(root/'tools/build_forgix_usb_ram.py').read_text())
+        self.assertIn('${CMAKE_BINARY_DIR}',(root/'firmware/forgix-usb-ram/CMakeLists.txt').read_text())
 if __name__=='__main__':unittest.main()
