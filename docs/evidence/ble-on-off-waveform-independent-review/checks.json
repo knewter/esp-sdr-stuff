@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "reviewed_commit": "d3d8efc7f56f8de1737e5ded1a7c454a3572046e",
+  "baseline_commit": "566fb8bcfae5b17a17cafadd3eb7a738b3ccde6f",
+  "audit_source_sha256": "aaac66386b3c91cc20fe0ec42bbf7fb009386b2b469666fc980febbdbf700243",
+  "task_recipe_sha256": "bd2f5b29690ce354bf335152b4cd8c018386145174f87ec6c4a4bcb817c3307b",
+  "flake_lock_sha256": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51",
+  "replay_exit_code": 0,
+  "result_byte_equal": true,
+  "result_sha256": "8bd282b69833ba5d90665fbc49e1051fcf164cea20620d8aa68d24ae5e0fdc29",
+  "ordered_payload_digest": "971041fda0ca4fdab5ba3666728a65f204b1d2cb45793111a16f650b408263b8",
+  "captures": {"A_8bit": 1251, "C_10bit": 997, "total": 2248},
+  "independent_phase_counts": {
+    "A_OFF0_ON0_OFF1_ON1_OFF2_ON2_OFF3_transition": [52,319,48,320,49,321,103,39],
+    "C_OFF0_ON0_OFF1_ON1_OFF2_ON2_OFF3_transition": [42,254,38,256,38,254,82,33]
+  },
+  "phase_summaries_and_12_local_ratios_exact": true,
+  "private_public_source_and_csv_exact": true,
+  "independent_packing_parseval_tone_and_endpoints": "PASS",
+  "supplemental_private_checker_sha256": "78e16ea35d5e3869faa387a35317c0ad5b29acf7a4eaa31f3dbaa6f123a3281a",
+  "supplemental_result_sha256": "4ba8291361281e1dc8fc02f7c5caf13fe3f02ba5bf73623a1b430e02f9623efc",
+  "hardware_accessed": false,
+  "decoder_changed": false,
+  "emission_denominator": null,
+  "acceptance_gates_changed": false
+}
