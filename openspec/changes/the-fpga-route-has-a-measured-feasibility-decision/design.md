@@ -64,3 +64,13 @@ FPGA oscillator and requires a pinned build, actual SRAM-only ELF audit,
 finite watchdog, startup/pin review, physical recovery availability, fresh
 flash verification and factory return. Preparation and any later USB-only
 measurement do not prove the selected FPGA transport or close its gates.
+
+The user now reports USB-only attachment and can replug. An
+[actual offline RAM producer build](docs/evidence/forgix-usb-ram-build/README.md)
+and [independent artifact review](docs/evidence/forgix-usb-ram-independent-review/README.md)
+verify 35,948 bytes of ordinary-SRAM allocation and bound the historical build
+inputs. The [prospective first USB protocol](docs/research/forgix-usb-ram-trial-protocol.md)
+selects one 64 KiB/s, 60-second condition with a measured 100 ms host pause.
+Lifecycle/collector review and fresh device preflight still precede any load.
+Pre-main startup is outside the watchdog and SDK IO resets can change pin states;
+physical recovery availability is not a successful recovery measurement.

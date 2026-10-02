@@ -210,6 +210,9 @@ fresh operation. The auxiliary-mode report does not give a legacy marker
 denominator or close an original RF/burst gate.
 
 The [explicit monitor timer option](docs/research/ble-monitor-readiness-timing.md)
-now has 25 offline subprocess/parser/cleanup tests. Existing default timing and
+now has 26 offline subprocess/parser/cleanup tests. The
+[independent timer review](docs/evidence/ble-monitor-readiness-independent-review/README.md)
+also verifies ten checks, including rejection of a delayed EOF beyond the
+absolute bound. Existing default timing and
 the failed actual receipts remain unchanged. A separate frozen protocol and
 independent review are needed before using it in any new physical episode.

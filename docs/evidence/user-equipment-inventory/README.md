@@ -31,3 +31,9 @@ identification before FPGA programming.
 Later [Forgix identification and MCU preservation](../forgix-preservation/README.md)
 resolve the initial USB uncertainty. Earlier descriptor receipts and inventory
 remain historical; physical FPGA revision, clock and header wiring are still open.
+
+On October 2, 2026 the user confirms that Forgix has **USB only**, with no
+external header wiring, and that unplug/replug is available for recovery.
+This supplies the recovery availability for a reviewed RAM-only MCU USB trial;
+it does not identify the FPGA grade, oscillator frequency or PCB revision.
+No physical RAM load or recovery is established by that statement.
