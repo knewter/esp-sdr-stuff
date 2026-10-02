@@ -51,9 +51,11 @@ def selected_handle(handle):
 def validate_mode_diagnostic(interval_ms, count, duration_ms, handle, unlimited_events, extended):
     if type(extended) is not bool:
         raise ValueError('extended diagnostic must be boolean')
-    if extended and (interval_ms != 20 or count != 255 or duration_ms != 5000
-                     or handle != 1 or unlimited_events):
-        raise ValueError('extended diagnostic requires handle1, interval20, events255, duration5000 and bounded events')
+    if extended and (type(interval_ms) is not int or interval_ms != 20 or
+                     type(count) is not int or count not in (100, 255) or
+                     type(duration_ms) is not int or duration_ms != 5000 or
+                     type(handle) is not int or handle != 1 or unlimited_events is not False):
+        raise ValueError('extended diagnostic requires handle1, interval20, events100 or255, duration5000 and bounded events')
 
 
 def parameters(interval_ms, handle=HANDLE, extended=False):
@@ -269,7 +271,7 @@ def main():
     cli.add_argument('--unlimited-events', action='store_true',
                      help='Diagnostic only: requires --events 0 and bounded --duration-ms; supplies no event denominator')
     cli.add_argument('--extended-mode-diagnostic', action='store_true',
-                     help='Source-only mode probe: requires handle1/interval20/events255/duration5000; auxiliary AD is not a channel37 marker')
+                     help='Source-only mode probe: requires handle1/interval20/events100 or255/duration5000; auxiliary AD is not a channel37 marker')
     cli.add_argument('--start-delay', type=float, default=1)
     cli.add_argument('--handle', type=int, choices=[1, HANDLE], default=HANDLE,
                      help='Explicit diagnostic handle 1 or default239; reserve externally first')

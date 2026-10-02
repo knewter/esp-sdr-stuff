@@ -67,8 +67,10 @@ class DirectSourceTests(unittest.TestCase):
         self.assertEqual([i for i, (a, b) in enumerate(zip(legacy, extended)) if a != b], [1])
         self.assertEqual(legacy[1:3], bytes.fromhex('1000'))
         self.assertEqual(extended[1:3], bytes(2))
-        for kwargs in ({'count': 100}, {'duration_ms': 0}, {'handle': 239},
-                       {'interval_ms': 100}, {'unlimited_events': True}, {'extended': 'yes'}):
+        for kwargs in ({'count': 99}, {'count': 101}, {'count': True}, {'count': 100.0},
+                       {'duration_ms': 0}, {'duration_ms': 5000.0}, {'handle': 239}, {'handle': True},
+                       {'interval_ms': 100}, {'interval_ms': 20.0}, {'unlimited_events': True},
+                       {'unlimited_events': 0}, {'extended': 'yes'}):
             options = dict(interval_ms=20, count=255, start_delay=0, duration_ms=5000,
                            handle=1, extended=True)
             options.update(kwargs)
@@ -76,6 +78,40 @@ class DirectSourceTests(unittest.TestCase):
             with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
                 Source(sock, lambda record: None).run(**options)
             self.assertEqual(sock.sent, [])
+
+    def test_extended100_limit_requires_actual_count_and_preserves_cleanup(self):
+        sock = FakeSocket(termination=bytes.fromhex('043e06124301ffff64'))
+        records = []
+        result = Source(sock, records.append).run(20, 100, 0, 5000, 1, False, True)
+        self.assertEqual(result['status'], 'controller_count_verified')
+        self.assertTrue(result['controller_completed_count_verified'])
+        self.assertTrue(result['extended_mode_diagnostic_requested'])
+        self.assertEqual(result['event_properties'], 0)
+        self.assertTrue(result['cleanup_success'])
+        self.assertIsNone(result['independently_observed_air_emission_count'])
+        self.assertEqual(sock.sent[0][4:], parameters(20, 1, True))
+        self.assertEqual(sock.sent[1][4:], advertising_data(1))
+        self.assertEqual(sock.sent[2][4:], bytes.fromhex('010101f40164'))
+        self.assertEqual(sock.sent[-2][4:], bytes.fromhex('000101000000'))
+        self.assertEqual(sock.sent[-1][4:], b'\x01')
+
+    def test_extended100_duration_or_wrong_limit_never_qualifies(self):
+        for status, count in ((0x3c, 0), (0x3c, 100), (0x43, 99)):
+            sock = FakeSocket(termination=bytes.fromhex('043e0612')+bytes([status, 1, 255, 255, count]))
+            result = Source(sock, lambda record: None).run(20, 100, 0, 5000, 1, False, True)
+            self.assertEqual(result['status'], 'trial_failed')
+            self.assertFalse(result['controller_completed_count_verified'])
+            self.assertTrue(result['cleanup_success'])
+            self.assertEqual(result['termination']['status'], status)
+            self.assertEqual(result['termination']['controller_reported_completed_extended_advertising_events'], count)
+
+    def test_original_counted_report_still_refuses_extended255(self):
+        from test_ble_counted_report import source_fixture
+        from ble_counted_report import validate_source
+        records = source_fixture()
+        next(row for row in records if row['kind'] == 'configuration_requested')['event_properties'] = 0
+        with self.assertRaisesRegex(ValueError, 'source_configuration_mismatch'):
+            validate_source(records, 255)
 
     def test_extended_duration_count_preserved_without_relaxing_limit_gate(self):
         sock = FakeSocket(termination=bytes.fromhex('043e06123c01ffffa0'))

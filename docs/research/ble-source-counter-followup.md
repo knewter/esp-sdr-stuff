@@ -77,6 +77,15 @@ actual duration/limit status and count separately. Neither outcome qualifies the
 legacy source, proves radiated counts, supplies an SDR detection rate, or releases
 the withheld Trial B.
 
+The separately reviewed follow-up diagnostic may request **100** events with
+the same handle 1, 20 ms interval and five-second duration. The helper admits only
+these two explicit extended profiles (100 or 255), with bounded events. An actual
+`0x43/count100` can qualify the new controller-report diagnostic; duration expiry,
+the request alone and clean lifecycle cannot. This admission does not change the
+original 255-event qualification profile or allow extended events to satisfy
+legacy RF/count gates. Its caller and protocol are frozen separately from the
+earlier mode pair and legacy 100-event failure.
+
 Extended advertising carries this AD in an auxiliary PDU, not the channel-37
 legacy packet. An extended event can include multiple PDUs, so its event count
 is not a count of channel-37 marker packets. [Core 6.2 Link Layer
