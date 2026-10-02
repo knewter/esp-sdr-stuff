@@ -45,3 +45,8 @@ freeze and failed receipts stay unchanged. Before a new operation, declare a
 separate prospective caller/protocol, freeze all changed helpers and deadlines,
 and independently review the complete lifecycle. This host correction supplies
 no RF denominator, detection rate, FPGA measurement or task acceptance.
+
+A [separate prospective extended100 follow-up](ble-extended-count-limit-100-readiness-protocol.md)
+now declares the explicit readiness policy and a distinct bounded caller.
+Its independent runtime preflight and physical outcome remain pending; it
+preserves the original failed caller and RF qualification gates.
