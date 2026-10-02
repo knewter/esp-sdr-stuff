@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "evidence_class": "host tool build and reviewed primary sources; no device access",
+  "picotool": {
+    "repository": "https://github.com/raspberrypi/picotool",
+    "tag": "2.3.1",
+    "revision": "2041936441b48a3cc53ae3da9e805229fe8f4e18",
+    "version": "picotool v2.3.1 (Linux, GNU-16.2.1, Release)",
+    "executable_sha256": "cdaca603f918dff63967292466a610aad18ba9df752b524b7318d8eddd42fd64",
+    "configure_exit_code": 0,
+    "build_exit_code": 0,
+    "usb_support": true,
+    "libusb_version": "1.0.30",
+    "signing_hashing_support": false,
+    "device_commands_executed": false
+  },
+  "pico_sdk": {
+    "repository": "https://github.com/raspberrypi/pico-sdk",
+    "tag": "2.2.0",
+    "revision": "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779",
+    "mbedtls_initialized": false
+  },
+  "local_receipts": {
+    "picotool-configure.log": {
+      "sha256": "281657833aa75c4f6e13997536b6d6f0410b2922140f04b89103b57c1e5da449",
+      "bytes": 1239
+    },
+    "picotool-build.log": {
+      "sha256": "2b2536ff87b6cc46693b192dd4dd7f3114511ad23cf50716803175187eaf10ba",
+      "bytes": 7326
+    },
+    "picotool-help-info.txt": {
+      "sha256": "4f24b21af09754064fd0652c3d2ee3724785d97d893b1285d5e5621ea8e65c46",
+      "bytes": 2645
+    },
+    "picotool-help-save.txt": {
+      "sha256": "5004633b2cde17cebe1f7380764436e3217bb84f27f9287cd235b82cc4ae38a0",
+      "bytes": 2856
+    },
+    "picotool-help-verify.txt": {
+      "sha256": "8387133e6abc03b89d9610c289e0fcd2035420f5a543f7c0f402bf4dc00a53f1",
+      "bytes": 2314
+    },
+    "factory-main.c": {
+      "sha256": "ee89cc0d201737ccabacca79d0fdeb3bd994a165578ae0289e1ba5ea209b23d1",
+      "bytes": 9760
+    },
+    "factory-cmake.txt": {
+      "sha256": "80f9992691f557eb61f7837fb509efaab3b862b1ae13fae36e897d657b1dc120",
+      "bytes": 1448
+    },
+    "schematic.pdf": {
+      "sha256": "364ff65046fd3932c8ab8e9acc95e542da2712e0b880dbbc78bb6afe1d6ce4de",
+      "bytes": 203392
+    }
+  },
+  "factory_source": {
+    "revision": "c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f",
+    "source_url": "https://bitbucket.org/adiuvo-engineering/forgix_public/raw/c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f/BitStream_Loader/firmware/pico/src/main.c",
+    "program_pad_gpio": 16,
+    "program_pad_boot_entry_implemented_in_reviewed_main": false,
+    "note": "Review applies to published source, not unknown installed firmware."
+  }
+}
