@@ -7,6 +7,7 @@ from pathlib import Path
 import struct
 import tempfile
 import unittest
+from unittest.mock import patch
 import zlib
 
 SOURCE = Path(__file__).resolve().parents[1]/"tools/forgix_usb_ram_capture.py"
@@ -159,6 +160,9 @@ class ProtocolTests(unittest.TestCase):
         v.finish()
         self.assertEqual(v.gaps,[{"first":3,"last":4,"count":2}])
         self.assertFalse(v.summary()["cdc_accepted_bytes_are_host_delivery"])
+        self.assertTrue(v.summary()["loss_accounted"])
+        self.assertFalse(v.summary()["verified_no_record_loss"])
+        self.assertEqual(v.summary()["loss_result"],"device_discards_accounted")
 
     def test_host_loss_is_not_relabelled_device_drop(self):
         v=self.initial();v.accept(decoded(frame(2,4,200000)),2)
@@ -191,6 +195,9 @@ class CollectorTests(unittest.TestCase):
         self.assertTrue(transport.closed)
         self.assertEqual(transport.command,m.start_command(65536,NONCE))
         self.assertEqual(result["status"],"complete_integrity_verified")
+        self.assertTrue(result["loss_accounted"])
+        self.assertTrue(result["verified_no_record_loss"])
+        self.assertEqual(result["loss_result"],"no_record_loss")
         self.assertEqual(result["verified_data_payload_bytes"],920)
         self.assertEqual(result["device_start_to_end_s"],60)
         self.assertAlmostEqual(result["actual_read_pause"]["actual_duration_s"],.1)
@@ -199,6 +206,16 @@ class CollectorTests(unittest.TestCase):
         for name in ("nonce.bin","raw.bin","manifest.json","receipts.jsonl"):
             self.assertEqual((store.path/name).stat().st_mode & 0o777,0o600)
         self.assertEqual((store.path/"raw.bin").read_bytes(),b"".join(data for _,data in valid_events()))
+
+    def test_complete_capture_with_reconciled_drops_is_explicitly_lossy(self):
+        events=valid_events()[:3]+[(30.1,frame(2,5,30100000)),(60.1,frame(4,6,60100000,dropped=2))]
+        result,transport,_=self.run_capture(events)
+        self.assertTrue(transport.closed)
+        self.assertEqual(result["status"],"complete_integrity_verified")
+        self.assertEqual(result["loss_result"],"device_discards_accounted")
+        self.assertTrue(result["loss_accounted"])
+        self.assertFalse(result["verified_no_record_loss"])
+        self.assertEqual(result["missing_sequence_records"],2)
 
     def check_failed_closed(self, events, expected, *, write_count=32):
         clock=FakeClock(); transport=FakeSerial(clock,events,write_count)
@@ -222,6 +239,62 @@ class CollectorTests(unittest.TestCase):
     def test_transport_error_closes(self):
         self.check_failed_closed(valid_events()[:2]+[(1,OSError("synthetic"))],OSError)
 
+    def test_late_read_exception_after_end_cannot_complete(self):
+        manifest,_=self.check_failed_closed(valid_events()+[(85.1,OSError("synthetic late EOF"))],m.CaptureError)
+        self.assertTrue(manifest["host_deadline_exceeded"])
+        self.assertFalse(manifest["loss_accounted"])
+        self.assertIsNone(manifest["verified_no_record_loss"])
+
+    def test_early_read_exception_after_end_keeps_loss_accounting(self):
+        result,transport,_=self.run_capture(valid_events()+[(61,OSError("synthetic device return"))])
+        self.assertTrue(transport.closed)
+        self.assertEqual(result["status"],"complete_integrity_verified")
+        self.assertTrue(result["disconnect_during_device_grace"])
+        self.assertTrue(result["loss_accounted"])
+
+    def test_late_frame_parser_keeps_raw_but_cannot_complete(self):
+        clock=FakeClock();transport=FakeSerial(clock,valid_events())
+        root=Path(self.temp.name);store=m.PrivateCapture(root/"capture",root)
+        original=m.Validator.accept
+        def late_accept(validator,frame,host_ns):
+            original(validator,frame,host_ns)
+            if frame["type"]==4:clock.ns=85100000000
+        with patch.object(m.Validator,"accept",late_accept), self.assertRaises(m.CaptureError):
+            m.collect(store,SHA,65536,NONCE,lambda p:transport,lambda:{"port":"synthetic-only"},lambda:{},clock,clock.sleep)
+        manifest=json.loads((store.path/"manifest.json").read_text())
+        self.assertTrue(transport.closed)
+        self.assertEqual(manifest["status"],"failed")
+        self.assertEqual(manifest["raw_bytes"],5*512)
+        self.assertFalse(manifest["loss_accounted"])
+
+    def test_late_final_reconciliation_cannot_complete(self):
+        clock=FakeClock();transport=FakeSerial(clock,valid_events())
+        root=Path(self.temp.name);store=m.PrivateCapture(root/"capture",root)
+        original=m.Validator.finish
+        def late_finish(validator):
+            original(validator)
+            clock.ns=85100000000
+        with patch.object(m.Validator,"finish",late_finish), self.assertRaises(m.CaptureError):
+            m.collect(store,SHA,65536,NONCE,lambda p:transport,lambda:{"port":"synthetic-only"},lambda:{},clock,clock.sleep)
+        manifest=json.loads((store.path/"manifest.json").read_text())
+        self.assertTrue(transport.closed)
+        self.assertEqual(manifest["status"],"failed")
+        self.assertTrue(manifest["host_deadline_exceeded"])
+        self.assertTrue(manifest["loss_accounted"])
+
+    def test_late_close_cannot_complete(self):
+        clock=FakeClock();transport=FakeSerial(clock,valid_events())
+        original=transport.close
+        def late_close():original();clock.ns=85100000000
+        transport.close=late_close
+        root=Path(self.temp.name);store=m.PrivateCapture(root/"capture",root)
+        with self.assertRaises(m.CaptureError):
+            m.collect(store,SHA,65536,NONCE,lambda p:transport,lambda:{"port":"synthetic-only"},lambda:{},clock,clock.sleep)
+        manifest=json.loads((store.path/"manifest.json").read_text())
+        self.assertTrue(transport.closed)
+        self.assertEqual(manifest["status"],"failed")
+        self.assertTrue(manifest["host_deadline_exceeded"])
+
     def test_partial_start_write_closes(self):
         self.check_failed_closed(valid_events(),m.CaptureError,write_count=31)
 
@@ -232,6 +305,39 @@ class CollectorTests(unittest.TestCase):
     def test_config_startup_is_bounded(self):
         manifest,_=self.check_failed_closed([],m.CaptureError)
         self.assertLess(manifest["actual_host_operation_s"],21)
+
+    def test_late_config_retained_without_start(self):
+        manifest,store=self.check_failed_closed([(20.05,frame(0,0,5000))],m.CaptureError)
+        self.assertEqual(manifest["unparsed_prefix_bytes"],512)
+        self.assertNotIn("START_write_attempt_host_elapsed_s",manifest)
+        self.assertEqual((store.path/"raw.bin").read_bytes(),frame(0,0,5000))
+
+    def test_late_config_validation_refuses_start(self):
+        clock=FakeClock();transport=FakeSerial(clock,valid_events())
+        root=Path(self.temp.name);store=m.PrivateCapture(root/"capture",root)
+        original=m.Validator.accept
+        def late_config(validator,frame,host_ns):
+            original(validator,frame,host_ns)
+            if frame["type"]==0:clock.ns=20050000000
+        with patch.object(m.Validator,"accept",late_config), self.assertRaises(m.CaptureError):
+            m.collect(store,SHA,65536,NONCE,lambda p:transport,lambda:{"port":"synthetic-only"},lambda:{},clock,clock.sleep)
+        self.assertTrue(transport.closed)
+        self.assertIsNone(transport.command)
+
+    def test_late_start_write_records_attempt_then_fails(self):
+        clock=FakeClock();transport=FakeSerial(clock,valid_events())
+        original=transport.write
+        def late_write(data):
+            sent=original(data);clock.ns=85100000000;return sent
+        transport.write=late_write
+        root=Path(self.temp.name);store=m.PrivateCapture(root/"capture",root)
+        with self.assertRaises(m.CaptureError):
+            m.collect(store,SHA,65536,NONCE,lambda p:transport,lambda:{"port":"synthetic-only"},lambda:{},clock,clock.sleep)
+        self.assertTrue(transport.closed)
+        manifest=json.loads((store.path/"manifest.json").read_text())
+        self.assertEqual(manifest["START_write_return_bytes"],32)
+        self.assertIn("START_write_attempt_host_elapsed_s",manifest)
+        self.assertTrue(manifest["host_deadline_exceeded"])
 
     def test_trailing_partial_record_is_failure(self):
         manifest,_=self.check_failed_closed(valid_events()+[(60.2,b"FRAM")],m.CaptureError)
