@@ -1,0 +1,43 @@
+{
+  "verdict": "PASS_frozen_offline_preflight",
+  "source_revision": "52f827c17b8c9e25d0c0e59205f637bf1d24ce88",
+  "sha256": {
+    "caller": "380bc9602f83a7269449e10a0e92148bf17ad76c9438887b705bfe7c8d26e760",
+    "private_task": "510be4073f6ef39f9615f380ece0ef9ee35c73cfa9d3bd7a73c2fce52122b730",
+    "private_tests": "c26972213e46b272ef65f9bb83feb915c37791bb780c2f41f0e90d8a59ad298d",
+    "protocol": "c0686e503f846517a7dd60a1dbf37a544274a31588a05206a43aa5ec713675ea",
+    "public_source": "7305483d5c2fb3c91a828fc1fd6b918e47f2fa134b3ee70adae4f0bc6c7aa242",
+    "frozen_input_proof": "6b5dd465379394bfa424798f44322b12344252648c5be1c3858d7822b82817e4",
+    "image_receipt": "9f1a62054a6b45b930f3c2d84bc6a0312ffe3cc0684662af30111f6042f58395",
+    "runtime_closure_receipt": "c6f282e36dc25db673b7aa3ba3f6fd00c4891e4c5006e450bf3cb37b39e45ca3"
+  },
+  "checks": {
+    "source_tests_replayed": 33,
+    "original_counted_report_tests_replayed": 12,
+    "private_caller_tests_replayed": 19,
+    "additional_independent_mutations_refused": 29,
+    "legitimate_duration_count_failures_retained": 4,
+    "legacy_wire_variants_byte_equal": 42,
+    "exact_scoped_enable_disable_bytes": true,
+    "frozen_input_bindings_verified": 22,
+    "transitive_project_modules_frozen": 12,
+    "fixture_bindings_verified": 2,
+    "archives_configuration_commands_and_executables_verified": true,
+    "source_closure_nar_entries": 22,
+    "monitor_closure_nar_entries": 72,
+    "recursive_nar_bindings_verified": true,
+    "one_source_only_no_retry": true,
+    "strict_actual_status43_count100_only_success": true,
+    "failed_count_parent_exit": 2,
+    "unknown_cleanup_prevents_success": true,
+    "legacy100_primary_summary_matches_original_review_and_receipts": true,
+    "legacy100_historical_input_bindings_checked": 22,
+    "legacy100_original_file_hashes_checked": 4
+  },
+  "source_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4",
+  "monitor_image_id": "sha256:fbdfe3a117505cbdfa090f9d46f4ce9d8ef5b079b7e612b522062a7b23c2697c",
+  "reviewer_hardware_or_docker_execution": false,
+  "actual_controller_count_verified_at_preflight": false,
+  "independent_air_emission_count": null,
+  "original_255_rf_trial_b_gates_changed": false
+}
