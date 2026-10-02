@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "kind": "preserved bounded gain-state observation",
+  "status": "completed",
+  "started_utc": "2026-10-02T10:03:25.242776+00:00",
+  "common_lock_held_through_restoration": true,
+  "receiver_version": "550fade-uart921600",
+  "executed_file_hashes": {
+    ".scratch/run_gain_state.py": {
+      "bytes": 8135,
+      "sha256": "8c64f838bc47f629274a203aa61191a96145b0aca21a627be56cc4913e9da8d4"
+    },
+    ".scratch/run_native_reference.py": {
+      "bytes": 13779,
+      "sha256": "903823c371fbc600108c5b2ea9605af84f698c50bd8f72eb8f95780ac3b049f3"
+    },
+    "tools/esp_gain_state_probe.py": {
+      "bytes": 15837,
+      "sha256": "87b99b106b2f5dbb50d3b799aea30fd8c8c0d93db84c326ac8e5cd3f60821aca"
+    },
+    "tools/esp_sdr_capture.py": {
+      "bytes": 15082,
+      "sha256": "f1aa93c1af1b87ad086fdd7289bfeced4bfbc632e15fc2389098e2f460cea538"
+    },
+    "tools/demo_esp_sdr.py": {
+      "bytes": 28648,
+      "sha256": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966"
+    },
+    "tools/flash_trial.py": {
+      "bytes": 7181,
+      "sha256": "7b8f3629f961b177b074cfa7c1646ae4ab4f1e89fddfc3af44e742a7ef111079"
+    },
+    "tools/native_ble_reference.py": {
+      "bytes": 22818,
+      "sha256": "435e90209125ef923b31fd24e9a68fde5ebc9bdad26dd294d32c07cce9a459ba"
+    },
+    "tools/build_native_ble_reference.py": {
+      "bytes": 7504,
+      "sha256": "06469d69ed6ebddd7d65dffb1ba4abb7da88b3e64d1ff094c9c115a199b1a7fa"
+    },
+    "Taskfile.yml": {
+      "bytes": 6538,
+      "sha256": "16708f1019bcf5e8ec09cc3beded1a6c6600aac500f3f37f70887df7bcf622c8"
+    },
+    "flake.lock": {
+      "bytes": 4632,
+      "sha256": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51"
+    }
+  },
+  "native_reference_input_hashes": {
+    "native-reference.json": "fdfac6346a346e80e51a5fcb4bbf2be704f2df319b291a18a660b8fbb0b2516d",
+    "capture.json": "e0ba84f39dc94cd2ff07b89f2692de3a685e323c62b34f186d47fb212b6c774f",
+    "restoration.json": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8",
+    "source.json": "1eb222309dc1a9a63334e2f7373f3c2b334395a0ae6943cd756396a19153b599",
+    "monitor.json": "895c429d4589721ae511c3d056fd4ada5821cba50eefce4c3baa0a28ceafd99b",
+    "orchestration.json": "d0d07096b9a1501536b70037b6b75024be98564568920553bb4c76a0e318a3dc"
+  },
+  "manifest_sha256": "f794f69e394e3fb76fb12ad50ce30562dcb79a55ca92ac177f612234ac4a5553",
+  "receiver_parts": [
+    {
+      "name": "0-bootloader.bin",
+      "offset": 4096,
+      "size": 25792,
+      "sha256": "a48cfaef91df68c48dc2a8a7c01b05841abb97b1b8898a38cafb97565b939881",
+      "md5": "154eaad12e0555021e136c2000e52350"
+    },
+    {
+      "name": "1-partition-table.bin",
+      "offset": 32768,
+      "size": 3072,
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+      "md5": "5d61d196adc3dba01928f264eb169be7"
+    },
+    {
+      "name": "2-esp_sdr.bin",
+      "offset": 65536,
+      "size": 664608,
+      "sha256": "55aae718e026e26783693bcb2be455a8c0453922f3aff5c49e38817bf434c9f6",
+      "md5": "94a4e84a550c623386b234a64f57030f"
+    }
+  ],
+  "source_controlled": false,
+  "SDR_decoding_proven": false,
+  "RF_gate_closed": false,
+  "transmitted_event_count": null,
+  "probe_completed": true,
+  "owned_uart_groups_closed": true,
+  "restoration_verified": true,
+  "ended_utc": "2026-10-02T10:08:07.157503+00:00"
+}

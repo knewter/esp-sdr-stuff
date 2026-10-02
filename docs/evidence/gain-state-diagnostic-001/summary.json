@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "kind": "gain-state diagnostic summary",
+  "status": "completed",
+  "capture_count": 20,
+  "integrity_valid_count": 20,
+  "gain_queries": 41,
+  "manual_enable_bit_set_queries": 41,
+  "acquisition_elapsed_seconds": 10.29981707292609,
+  "nominal_rf_window_seconds_total": 0.020475,
+  "payload_bytes_total": 819000,
+  "ac_power_codes_squared_range": [
+    56.08412405834567,
+    40759.55237248066
+  ],
+  "full_restore_verified": true,
+  "source_controlled": false,
+  "SDR_decoding_proven": false,
+  "RF_gate_closed": false,
+  "transmitted_event_count": null,
+  "interpretation": "All queried manual-enable bits were set in this run. Effective gain and earlier gain state are not measured.",
+  "postprocessor_sha256": "e480fffe93dc94001aa7d5b01decb983c697605567fed22b31af8ec9cdb2f5b7"
+}
