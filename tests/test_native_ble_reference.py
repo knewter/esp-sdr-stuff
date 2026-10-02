@@ -1,5 +1,9 @@
 """Native observer metadata and preservation lifecycle; all hardware is mocked."""
 import copy
+import ctypes
+import os
+import shlex
+import subprocess
 import io
 import json
 from pathlib import Path
@@ -78,12 +82,133 @@ class NativeRecordsTests(unittest.TestCase):
         self.assertEqual(r.total,0);self.assertIsNone(r.end['rssi_min'])
 
 
+
+# Compile the exact application C primitive. The failure harness is a PSA
+# contract mock, not an AES implementation; the optional Nix check links real
+# mbedcrypto and runs the independent published NIST vector below.
+MOCK_PSA_HEADER = """
+#include <stdint.h>
+#include <stddef.h>
+typedef int psa_status_t;
+typedef unsigned psa_key_id_t;
+typedef struct { unsigned usage, algorithm, type, bits; } psa_key_attributes_t;
+#define PSA_KEY_ATTRIBUTES_INIT {0,0,0,0}
+#define PSA_SUCCESS 0
+#define PSA_KEY_USAGE_ENCRYPT 1
+#define PSA_ALG_ECB_NO_PADDING 2
+#define PSA_KEY_TYPE_AES 3
+#define psa_set_key_usage_flags(a,v) ((a)->usage=(v))
+#define psa_set_key_algorithm(a,v) ((a)->algorithm=(v))
+#define psa_set_key_type(a,v) ((a)->type=(v))
+#define psa_set_key_bits(a,v) ((a)->bits=(v))
+void psa_reset_key_attributes(psa_key_attributes_t *);
+psa_status_t psa_crypto_init(void);
+psa_status_t psa_import_key(const psa_key_attributes_t *, const uint8_t *,size_t,psa_key_id_t *);
+psa_status_t psa_cipher_encrypt(psa_key_id_t,unsigned,const uint8_t *,size_t,uint8_t *,size_t,size_t *);
+psa_status_t psa_destroy_key(psa_key_id_t);
+"""
+MOCK_PSA_C = """
+#include <string.h>
+#include "psa/crypto.h"
+static int failure, imports, resets, ciphers, destroys;
+void configure(int f) {failure=f;imports=resets=ciphers=destroys=0;}
+int calls(int n) {return n==0?imports:n==1?resets:n==2?ciphers:destroys;}
+psa_status_t psa_crypto_init(void) {return failure==5?-1:0;}
+void psa_reset_key_attributes(psa_key_attributes_t *a) {resets++;memset(a,0,sizeof *a);}
+psa_status_t psa_import_key(const psa_key_attributes_t *a,const uint8_t *key,size_t n,psa_key_id_t *id) {
+    imports++;
+    if(a->usage!=1 || a->algorithm!=2 || a->type!=3 || a->bits!=128 || n!=16) return -1;
+    for(unsigned i=0;i<16;i++) if(key[i]!=i) return -1;
+    if(failure==1) return -1;
+    *id=42;return 0;
+}
+psa_status_t psa_cipher_encrypt(psa_key_id_t id,unsigned alg,const uint8_t *input,size_t n,uint8_t *out,size_t cap,size_t *len) {
+    ciphers++;
+    if(id!=42 || alg!=2 || n!=16 || cap!=16) return -1;
+    for(unsigned i=0;i<16;i++) if(input[i]!=i*17) return -1;
+    if(failure==2) return -1;
+    static const uint8_t answer[16]={0x69,0xc4,0xe0,0xd8,0x6a,0x7b,0x04,0x30,0xd8,0xcd,0xb7,0x80,0x70,0xb4,0xc5,0x5a};
+    memcpy(out,answer,16);*len=failure==3?15:16;return 0;
+}
+psa_status_t psa_destroy_key(psa_key_id_t id) {destroys++;return id!=42 || failure==4?-1:0;}
+"""
+
+class NativeCryptoTests(unittest.TestCase):
+    KEY=bytes.fromhex('000102030405060708090a0b0c0d0e0f')[::-1]
+    PLAIN=bytes.fromhex('00112233445566778899aabbccddeeff')[::-1]
+    EXPECTED=bytes.fromhex('69c4e0d86a7b0430d8cdb78070b4c55a')[::-1]
+
+    def compile(self, folder, real=False):
+        (folder/'host').mkdir();(folder/'host/ble_hs.h').write_text('#define BLE_HS_EUNKNOWN 8\n')
+        command=[os.environ.get('CC','cc'),'-shared','-fPIC','-std=c11','-Wall','-Wextra','-Werror','-I'+str(folder),
+                 str(build.SOURCE/'main/privacy_crypto.c'),'-o',str(folder/'primitive.so')]
+        if real:
+            command+=shlex.split(os.environ['NATIVE_PSA_CFLAGS'])+shlex.split(os.environ['NATIVE_PSA_LIBS'])
+        else:
+            (folder/'psa').mkdir();(folder/'psa/crypto.h').write_text(MOCK_PSA_HEADER)
+            (folder/'mock.c').write_text(MOCK_PSA_C);command.append(str(folder/'mock.c'))
+        subprocess.run(command,check=True,capture_output=True)
+        return ctypes.CDLL(str(folder/'primitive.so'))
+
+    def buffers(self):
+        array=ctypes.c_ubyte*16
+        return array.from_buffer_copy(self.KEY),array.from_buffer_copy(self.PLAIN),array(*([0xA5]*16))
+
+    def test_mock_psa_contract_reversal_in_place_and_selftest(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            lib=self.compile(Path(temporary));lib.configure(0)
+            key,plain,out=self.buffers()
+            self.assertEqual(lib.ble_sm_alg_encrypt(key,plain,out),0);self.assertEqual(bytes(out),self.EXPECTED)
+            self.assertEqual(lib.ble_sm_alg_encrypt(key,plain,plain),0);self.assertEqual(bytes(plain),self.EXPECTED)
+            self.assertEqual(lib.native_privacy_crypto_selftest(),0)
+            self.assertEqual([lib.calls(i) for i in range(4)],[4,4,4,4])
+
+    def test_mock_psa_errors_never_publish_partial_output_and_always_release_import(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            lib=self.compile(Path(temporary))
+            for failure in (1,2,3,4):
+                lib.configure(failure);key,plain,out=self.buffers()
+                self.assertNotEqual(lib.ble_sm_alg_encrypt(key,plain,out),0)
+                self.assertEqual(bytes(out),bytes([0xA5]*16))
+                self.assertEqual([lib.calls(i) for i in range(4)],[1,1,0,0] if failure==1 else [1,1,1,1])
+            lib.configure(5);self.assertNotEqual(lib.native_privacy_crypto_selftest(),0)
+            self.assertEqual([lib.calls(i) for i in range(4)],[0,0,0,0])
+            lib.configure(0);key,plain,out=self.buffers()
+            self.assertNotEqual(lib.ble_sm_alg_encrypt(None,plain,out),0)
+            self.assertEqual([lib.calls(i) for i in range(4)],[0,0,0,0])
+
+    @unittest.skipUnless(os.environ.get('NATIVE_PSA_CFLAGS') and os.environ.get('NATIVE_PSA_LIBS'),
+                         'real PSA vector requires the dedicated pinned Nix native crypto check')
+    def test_real_psa_nist_vector_output_plaintext_and_key_aliases(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            lib=self.compile(Path(temporary),real=True)
+            self.assertEqual(lib.native_privacy_crypto_selftest(),0)
+            for alias in ('output','plaintext','key'):
+                key,plain,out=self.buffers();target={'output':out,'plaintext':plain,'key':key}[alias]
+                self.assertEqual(lib.ble_sm_alg_encrypt(key,plain,target),0)
+                self.assertEqual(bytes(target),self.EXPECTED)
+
+
 class NativePreflightTests(unittest.TestCase):
     def test_generated_observer_roles_and_logging_are_checked(self):
         config='\n'.join(build.REQUIRED)+'\n';build.validate_config(config)
         for required in ('CONFIG_BT_NIMBLE_ROLE_OBSERVER=y','# CONFIG_BT_NIMBLE_ROLE_CENTRAL is not set',
                          'CONFIG_BT_NIMBLE_LOG_LEVEL_NONE=y','CONFIG_LOG_DEFAULT_LEVEL_NONE=y'):
             with self.assertRaises(ValueError):build.validate_config(config.replace(required,'UNSAFE=y'))
+
+    def test_guarded_config_rejects_conflicting_and_duplicate_assignments(self):
+        config='\n'.join(build.REQUIRED)+'\n'
+        for required in build.REQUIRED:
+            key=required.split()[1] if required.startswith('# ') else required.split('=')[0]
+            for extra in (required, key+'=y', key+'=n'):
+                with self.subTest(required=required,extra=extra),self.assertRaises(ValueError):
+                    build.validate_config(config+extra+'\n')
+        build.validate_config(config+'CONFIG_UNRELATED=y\n')
+        for key in build.DISABLED_HIDDEN:
+            build.validate_config(config+f'# {key} is not set\n')
+            for extra in (key+'=y',key+'=n',f'# {key} is not set\n# {key} is not set'):
+                with self.subTest(key=key,extra=extra),self.assertRaises(ValueError):
+                    build.validate_config(config+extra+'\n')
 
     def test_partition_layout_checksum_and_extra_partition_fail(self):
         entries=b''

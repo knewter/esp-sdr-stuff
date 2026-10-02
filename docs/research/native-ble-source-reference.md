@@ -20,11 +20,35 @@ event counts or a detection rate.
 The app is in `firmware/native-ble-reference/`. It uses the already pinned Nix
 ESP-IDF revision `25fe69f946311abdaf9ad56591f25fedbc20ac98`, original ESP32 target,
 BLE-only NimBLE and observer role. Central, peripheral, broadcaster, persistent
-bonds and generic SDK/NimBLE logging are disabled and checked in the **generated**
+bonds, the security manager and generic SDK/NimBLE logging are disabled and checked in the **generated**
 SDKconfig. Boot security/flash encryption/signing are disabled as well; preserved
 board security must already be verified disabled. No code erases NVS, advertises,
 connects, pairs or sends active scan requests. NVS/PHY calibration initialization
 may write reversible state; the final full-image restoration remains necessary.
+
+The first build-only attempt compiled the application but failed to link. In this
+pinned SDK, the original ESP32 unconditionally compiles host privacy code even
+when the privacy Kconfig options are disabled. Its AES helper is otherwise omitted
+when both connection roles are disabled. The application therefore supplies only
+the required real `ble_sm_alg_encrypt` primitive: reverse the key/plaintext bytes,
+AES-128 ECB without padding through SDK PSA, then reverse the ciphertext bytes.
+It does not add a connection role or modify the SDK. Requested privacy options
+remain disabled; **actual SDK host privacy is forced on for this target**.
+
+The exact tracked `main/privacy_crypto.c` uses bounded stack buffers, resets key
+attributes, attempts imported-key destruction on every cipher path, clears local
+key/input/output buffers and emits no key or payload logs. API/length/destruction
+errors leave the caller output untouched and return failure. Before NimBLE
+initialization or CONFIG, a published NIST AES known-answer and an in-place variant
+must pass with the target SDK PSA implementation; failure emits only the typed
+`CRYPTO_SELFTEST` error and never reaches scanning. Host tests separately exercise
+the exact C primitive against pinned Nix mbedTLS PSA and mock API failures; mock
+contracts do not prove AES. These are software/build checks, not reception evidence.
+
+Generated-config validation rejects duplicate or contradictory assignments for
+every guarded key. Hidden NVS-persistence/privacy children may be absent when
+their explicit parents are disabled; any enabled or duplicate child assignment
+is rejected. The actual generated configuration remains part of artifact hashing.
 
 Firmware waits at most 30 seconds for `START <nonce>` after stack initialization.
 A typed CONFIG heartbeat identifies the profile. The host requires that exact
@@ -112,3 +136,10 @@ Primary sources: [pinned Espressif passive-scan example](https://github.com/espr
 and [Espressif discovery guide](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/ble/get-started/ble-device-discovery.html).
 The SDK example also prints foreign fields, initiates connections and can erase
 NVS; this observer-only app uses its API pattern with those behaviors removed.
+
+Crypto provenance: [pinned NimBLE little-endian AES helper](https://github.com/espressif/esp-idf/blob/25fe69f946311abdaf9ad56591f25fedbc20ac98/components/bt/host/nimble/nimble/nimble/host/src/ble_sm_alg.c#L118),
+[pinned original ESP32 forced privacy configuration](https://github.com/espressif/esp-idf/blob/25fe69f946311abdaf9ad56591f25fedbc20ac98/components/bt/host/nimble/port/include/esp_nimble_cfg.h#L964),
+and [NIST FIPS 197 (2001), Appendix C.1 AES-128 vector](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf).
+The independent vector uses key `000102030405060708090a0b0c0d0e0f`, plaintext
+`00112233445566778899aabbccddeeff`, ciphertext
+`69c4e0d86a7b0430d8cdb78070b4c55a`; API arguments/results reverse those bytes.

@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -14,17 +15,20 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT/'firmware/native-ble-reference'
 KIND = 'native-ble-source-reference-v1'
 VERSION = 'native-ble-ref-v1'
-FILES = ('CMakeLists.txt','main/CMakeLists.txt','main/main.c','partitions.csv','sdkconfig.defaults')
+FILES = ('CMakeLists.txt','main/CMakeLists.txt','main/main.c','main/privacy_crypto.c','partitions.csv','sdkconfig.defaults')
 REQUIRED = ('CONFIG_IDF_TARGET="esp32"','CONFIG_BT_ENABLED=y','CONFIG_BTDM_CTRL_MODE_BLE_ONLY=y',
     'CONFIG_BT_NIMBLE_ENABLED=y','CONFIG_BT_NIMBLE_ROLE_OBSERVER=y',
     '# CONFIG_BT_NIMBLE_ROLE_CENTRAL is not set','# CONFIG_BT_NIMBLE_ROLE_PERIPHERAL is not set',
-    '# CONFIG_BT_NIMBLE_ROLE_BROADCASTER is not set','# CONFIG_BT_NIMBLE_NVS_PERSIST is not set',
+    '# CONFIG_BT_NIMBLE_ROLE_BROADCASTER is not set',
+    '# CONFIG_BT_NIMBLE_SECURITY_ENABLE is not set','# CONFIG_BT_NIMBLE_HS_PVCY is not set',
     'CONFIG_BT_NIMBLE_LOG_LEVEL_NONE=y','CONFIG_LOG_DEFAULT_LEVEL_NONE=y',
     'CONFIG_BOOTLOADER_LOG_LEVEL_NONE=y','CONFIG_ESP_CONSOLE_UART_BAUDRATE=115200',
     'CONFIG_ESPTOOLPY_FLASHMODE_DIO=y','CONFIG_ESPTOOLPY_FLASHFREQ_40M=y','CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y',
     'CONFIG_PARTITION_TABLE_CUSTOM=y','CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"',
     'CONFIG_PARTITION_TABLE_OFFSET=0x8000','# CONFIG_SECURE_BOOT is not set',
     '# CONFIG_SECURE_FLASH_ENC_ENABLED is not set','# CONFIG_SECURE_SIGNED_APPS_NO_SECURE_BOOT is not set')
+# Hidden children of explicitly disabled parents can be absent in canonical Kconfig output.
+DISABLED_HIDDEN = ('CONFIG_BT_NIMBLE_NVS_PERSIST', 'CONFIG_BT_NIMBLE_HOST_BASED_PRIVACY')
 PARTS = (('bootloader.bin',0x1000,0x8000),('partition-table.bin',0x8000,0x9000),
          ('native_ble_reference.bin',0x10000,0x110000))
 
@@ -43,7 +47,18 @@ def source_tree_hash(files):
 
 
 def validate_config(text):
-    if any(line not in text.splitlines() for line in REQUIRED):
+    # Canonical sdkconfig has one assignment (including disabled comments) per
+    # guarded key. Required text plus a later unsafe assignment must never pass.
+    guarded = {re.search(r'CONFIG_[A-Z0-9_]+', line).group(): line for line in REQUIRED}
+    seen = {key: [] for key in (*guarded, *DISABLED_HIDDEN)}
+    for line in text.splitlines():
+        match = re.fullmatch(r'(CONFIG_[A-Z0-9_]+)=.*|# (CONFIG_[A-Z0-9_]+) is not set', line)
+        if match:
+            key = match.group(1) or match.group(2)
+            if key in seen:
+                seen[key].append(line)
+    if (any(seen[key] != [expected] for key, expected in guarded.items())
+            or any(seen[key] not in ([], [f'# {key} is not set']) for key in DISABLED_HIDDEN)):
         raise ValueError('Generated configuration is not the observer-only native profile')
 
 
@@ -91,7 +106,7 @@ def main(argv=None):
             parts.append(dict(name=name,offset=offset,size=target.stat().st_size,sha256=sha(target)))
         info=dict(kind=KIND,target='esp32',version=VERSION,source_commit=revision,source_files=files,
                   source_tree_sha256=source_tree_hash(files),idf_commit=SDK,nix_sdk_provenance=provenance,
-                  sdkconfig_sha256=sha(a.output/'sdkconfig'),required_sdkconfig_lines=list(REQUIRED),
+                  sdkconfig_sha256=sha(a.output/'sdkconfig'),required_sdkconfig_lines=list(REQUIRED),disabled_hidden_sdkconfig_keys=list(DISABLED_HIDDEN),
                   compiler_version=subprocess.check_output(['xtensa-esp-elf-gcc','--version'],text=True).splitlines()[0],
                   profile=dict(scan_ms=90000,passive=True,filter_duplicates=False,interval_units=160,window_units=160,uart_baud=115200))
         (a.output/'build-info.json').write_text(json.dumps(info,indent=2)+'\n')

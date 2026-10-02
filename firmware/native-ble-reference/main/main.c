@@ -13,6 +13,8 @@
 #include "nimble/nimble_port_freertos.h"
 #include "nvs_flash.h"
 
+int native_privacy_crypto_selftest(void);
+
 #define VERSION "native-ble-ref-v1"
 #define SCAN_MS 90000
 static const uint8_t owned_ad[] = {0x0f,0xff,0xff,0xff,0x45,0x53,0x50,0x2d,
@@ -151,6 +153,8 @@ void app_main(void) {
     if (result == ESP_OK) result = uart_set_pin(UART_NUM_0,1,3,UART_PIN_NO_CHANGE,UART_PIN_NO_CHANGE);
     if (result == ESP_OK) result = uart_driver_install(UART_NUM_0,256,0,0,NULL,0);
     if (result != ESP_OK) { error("UART",result); return; }
+    int crypto = native_privacy_crypto_selftest();
+    if (crypto) { error("CRYPTO_SELFTEST",crypto); return; }
     /* No erase/retry: initialization failure is inert and retained. */
     result = nvs_flash_init();
     if (result != ESP_OK) { error("NVS",result); return; }

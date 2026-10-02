@@ -20,7 +20,7 @@ import sys
 import time
 
 import demo_esp_sdr as lifecycle_helpers
-from build_native_ble_reference import KIND, PARTS, REQUIRED, ROOT, SDK, SDK_NIX_SOURCE_HASH, VERSION, sha, source_files, source_tree_hash, validate_config
+from build_native_ble_reference import DISABLED_HIDDEN, KIND, PARTS, REQUIRED, ROOT, SDK, SDK_NIX_SOURCE_HASH, VERSION, sha, source_files, source_tree_hash, validate_config
 
 CONFIG=dict(schema=1,kind='CONFIG',version=VERSION,scan_ms=90000,passive=True,
             filter_duplicates=False,interval_units=160,window_units=160,uart_baud=115200,
@@ -28,7 +28,7 @@ CONFIG=dict(schema=1,kind='CONFIG',version=VERSION,scan_ms=90000,passive=True,
 BASE_KEYS={'schema','kind','version'}
 AGG_KEYS=BASE_KEYS|{'nonce','sequence','interval_start_us','interval_end_us','owned_interval',
                    'owned_total','rssi_known','rssi_sum','rssi_min','rssi_max'}
-ERROR_STAGES={'UART','NVS','NIMBLE','COMMAND','START_TIMEOUT','SCAN','SCAN_TIMEOUT','COUNTER_OR_RESET','CONTROLLER_RESET'}
+ERROR_STAGES={'CRYPTO_SELFTEST','UART','NVS','NIMBLE','COMMAND','START_TIMEOUT','SCAN','SCAN_TIMEOUT','COUNTER_OR_RESET','CONTROLLER_RESET'}
 
 
 class ProtocolError(ValueError):pass
@@ -87,7 +87,8 @@ def validate_artifact(artifact,manifest):
     require(info.get('profile')=={k:CONFIG[k] for k in ('scan_ms','passive','filter_duplicates','interval_units','window_units','uart_baud')},'Unexpected native radio/runtime profile')
     require(info.get('sdkconfig_sha256')==sha(manifest.with_name('sdkconfig')),'Native generated config hash mismatch')
     validate_config(manifest.with_name('sdkconfig').read_text())
-    require(info.get('required_sdkconfig_lines')==list(REQUIRED),'Native config policy differs')
+    require(info.get('required_sdkconfig_lines')==list(REQUIRED) and
+            info.get('disabled_hidden_sdkconfig_keys')==list(DISABLED_HIDDEN),'Native config policy differs')
     require(len(data.get('parts',[]))==3,'Unexpected native part count')
     for part,(name,offset,end) in zip(data['parts'],PARTS):
         require(part.get('name')==name and part.get('offset')==offset and type(part.get('size')) is int
