@@ -9,7 +9,8 @@ expected original application and GPIO boot markers were observed.
 The [demo receipt](demo.json), [spectrum receipt](spectrum.json),
 [initial flash comparison](before-install.json) and
 [restoration receipt](restoration.json) record the physical results.
-The independent review separately checks each raw CRC, sequence, CSV row,
+The [independent review](../esp-demo-play-independent-review/README.md)
+separately checks each raw CRC, sequence, CSV row,
 terminal total, flash hash and original boot transcript.
 
 This is the localhost UART-bridge spectrum viewer, with a Start button and
