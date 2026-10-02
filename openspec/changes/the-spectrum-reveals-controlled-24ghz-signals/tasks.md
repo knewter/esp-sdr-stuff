@@ -16,3 +16,12 @@ Physical procedure: fixed source, fixed antenna placement, paired on/off capture
 Partial proof: [owned BLE decoding](docs/evidence/ble-owned-decoding/README.md), [filter/gain pilot](docs/evidence/rf-controls-trial/README.md), and [actual source controls](docs/evidence/ble-dumpcap-source/README.md). These trials do not yet close any complete task above; their settings and limitations must remain visible in later reports.
 
 Required outcome: Three repeatable source-on/source-off pairs with known center frequencies; each claimed extra tuning point has an independently known signal and uncertainty.
+
+## Declared supporting diagnostics
+
+The [DC-first saved-data replay](docs/research/ble-dc-first-replay.md) and
+[separate register-state observation](docs/research/receiver-register-observation-protocol.md)
+support diagnosis of the fresh nulls. They preserve the task criteria above.
+Source review, exact input/artifact integrity and independent result replay are
+required; a register readback or saved-data decoder success is not substituted
+for a controlled live RF response or a counted emitted event.

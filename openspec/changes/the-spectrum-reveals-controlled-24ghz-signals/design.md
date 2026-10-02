@@ -86,3 +86,26 @@ stages, with RAM buffering and diagnostics after payload delivery. A separate
 reviewed diagnostic artifact and declared protocol are prerequisites. No live
 analog gain interpretation, source-count qualification or weakening of the
 existing SDR allowlist follows from this plan.
+
+## Declared diagnostics for the unresolved SDR controls
+
+The [paired DC-first replay](docs/research/ble-dc-first-replay.md) first compares
+saved waveforms using a separately named raw-mean subtraction wrapper around
+the unchanged decoder. All original inputs, blind search bounds, complete packet
+windows, protected CRC24, exact owned AD and deduplication remain required.
+Original null receipts remain unchanged. A corrected saved-data positive would
+establish decoding of that waveform, without supplying a live trial, emitted
+denominator, source cause or three-pair RF response.
+
+The [register-observation protocol](docs/research/receiver-register-observation-protocol.md)
+declares a separate ESP32REGOBS1 artifact, initial readback and four bounded
+acquisition-stage observations per capture. It uses the existing fixed
+MANUAL/48, 2401 MHz, requested 20 MHz, ten-bit/16 MS/s profile for 20 captures,
+with an absolute 30-second worker deadline including UART startup and queries.
+Gain and source settings are never repaired or reapplied. Typed diagnostic
+receipts follow complete binary payloads; failed prefixes stay failed. Exact
+source, actual-C acquisition tests, generated linker-map separation, separate
+artifact guards and independent review precede any installation. Original
+4 MiB preservation, exclusive UART groups and full reset-boot restoration stay
+required. Neither observation is equated with calibrated analog gain or RF
+reception, and none of these diagnostics closes the original RF/count gates.
