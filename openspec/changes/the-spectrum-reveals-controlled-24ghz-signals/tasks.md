@@ -25,3 +25,10 @@ support diagnosis of the fresh nulls. They preserve the task criteria above.
 Source review, exact input/artifact integrity and independent result replay are
 required; a register readback or saved-data decoder success is not substituted
 for a controlled live RF response or a counted emitted event.
+
+Completed supporting evidence: the [waveform audit](docs/evidence/ble-waveform-comparison/README.md)
+reproduces the old outcomes; the [independently checked DC-first replay](docs/evidence/ble-dc-first-independent-review/README.md)
+is null on fresh captures and regresses three historical results, so it remains
+unadopted. Offline register firmware/host tests exercise actual C with synthetic
+MMIO; build, installation lifecycle and hardware observation are not accepted
+by those tests. No original task above is completed by these diagnostics.

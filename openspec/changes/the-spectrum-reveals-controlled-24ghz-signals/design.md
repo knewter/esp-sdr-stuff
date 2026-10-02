@@ -80,7 +80,9 @@ verify. The earlier comparison remains failed. These native observations do
 not close SDR repeatability or transmitted-count gates.
 
 The next [receiver-register observation design](docs/research/receiver-register-observation.md)
-is prospective and unimplemented. It proposes bounded readback of the field
+has an offline implementation with actual-C synthetic MMIO and strict host
+receipt tests. Its build, guarded lifecycle and hardware result remain
+unverified. It proposes bounded readback of the field
 the firmware writes as its forced selector, alongside bit23 at acquisition
 stages, with RAM buffering and diagnostics after payload delivery. A separate
 reviewed diagnostic artifact and declared protocol are prerequisites. No live
@@ -109,3 +111,17 @@ artifact guards and independent review precede any installation. Original
 4 MiB preservation, exclusive UART groups and full reset-boot restoration stay
 required. Neither observation is equated with calibrated analog gain or RF
 reception, and none of these diagnostics closes the original RF/count gates.
+
+The [actual waveform comparison](docs/evidence/ble-waveform-comparison/README.md)
+and independent full numerical replay reproduce the original five verified
+historical results and 2,248 fresh nulls. Fresh ten-bit code power differs
+substantially from the historical matching-profile subset, and the old
+preprocessing retains a coherent translated DC component. Neither association
+establishes a physical cause or calibrated gain. The separately named
+[DC-first paired replay](docs/evidence/ble-dc-first-replay-001/README.md),
+[independently reproduced](docs/evidence/ble-dc-first-independent-review/README.md),
+checks all 3,043 saved captures, recovers no fresh packets and loses three
+historical eight-bit results. It is not adopted as the default decoder.
+Original accepted packets, null receipts and all live RF/count gates remain
+unchanged. Register observation continues as a separate measurement, without
+assuming that gain readback will explain the ADC distributions.
