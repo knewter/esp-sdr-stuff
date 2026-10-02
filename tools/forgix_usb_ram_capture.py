@@ -78,6 +78,7 @@ class Validator:
         self.data_bytes, self.data_arrivals_ns, self.data_device_us = 0, [], []
         self.ready_host_ns = self.end_host_ns = None
         self.boot_us = self.start_us = None
+        self.loss_accounted = False
 
     def control(self, frame):
         p = frame["payload"]
@@ -179,6 +180,7 @@ class Validator:
             raise CaptureError("END counters do not reconcile received records and retained sequence gaps")
         if end["generated"] != received + missing:
             raise CaptureError("END generated records do not reconcile")
+        self.loss_accounted = True
 
     def summary(self):
         intervals = [(b-a)/1e9 for a, b in zip(self.data_arrivals_ns, self.data_arrivals_ns[1:])]
@@ -191,6 +193,8 @@ class Validator:
                    "device_interval_s": (b["device_us"]-a["device_us"])/1e6,
                    **{k: b["counters"][k]-a["counters"][k] for k in COUNTERS}}
                   for a,b in zip(self.controls, self.controls[1:])]
+        missing = sum(g["count"] for g in self.gaps)
+        no_loss = missing == 0 if self.loss_accounted else None
         return {"received_types": {str(k): v for k,v in self.counts.items()}, "verified_data_payload_bytes": self.data_bytes,
                 "host_ready_to_end_s": host_seconds, "host_payload_Bps": self.data_bytes/host_seconds if host_seconds else None,
                 "device_start_to_end_s": (self.previous_us-self.start_us)/1e6 if self.state == "ended" else None,
@@ -198,6 +202,9 @@ class Validator:
                 "sequence_gaps": self.gaps, "data_interarrival": distribution, "control_snapshots": self.controls,
                 "sampled_queue_backlog_records": [c["counters"]["queued_records_before_control"] for c in self.controls],
                 "control_counter_deltas": deltas,
+                "loss_accounted": self.loss_accounted, "verified_no_record_loss": no_loss,
+                "loss_result": "no_record_loss" if no_loss is True else "device_discards_accounted" if self.loss_accounted else "unresolved",
+                "missing_sequence_records": missing,
                 "cdc_accepted_bytes_are_host_delivery": False}
 
 
@@ -279,13 +286,18 @@ def collect(store, source_sha256, rate, nonce, serial_factory, identity_check,
                 "planned_read_pause": {"after_READY_s": 30, "duration_s": .1},
                 "status": "incomplete", "host_receipt_timing": "monotonic_ns after each read; batched frames share arrival"}
     store.write("nonce.bin", nonce)
+    def within_deadline(stage):
+        if clock() >= deadline:
+            raise CaptureError(f"85-second host deadline exceeded {stage}")
     try:
         manifest["operator_lock"] = lock_check()
         manifest["identity_private"] = identity_check()
+        within_deadline("before exclusive serial open")
         with store.open("raw.bin") as raw, store.open("receipts.jsonl") as receipts:
             serial = serial_factory(manifest["identity_private"]["port"])
             if identity_check() != manifest["identity_private"]:
                 raise CaptureError("Diagnostic enumeration changed across exclusive serial open")
+            within_deadline("during exclusive serial open/identity check")
             while clock() < deadline:
                 now = clock()
                 if end_grace is not None and now >= end_grace:
@@ -296,9 +308,11 @@ def collect(store, source_sha256, rate, nonce, serial_factory, identity_check,
                     before = clock()
                     sleep(.1)
                     pause = {"started_after_READY_s": (before-validator.ready_host_ns)/1e9, "actual_duration_s": (clock()-before)/1e9}
+                    within_deadline("during planned read pause")
                 try:
                     data = serial.read(8192)
                 except OSError:
+                    within_deadline("during read exception")
                     if validator.state == "ended":
                         manifest["disconnect_during_device_grace"] = True
                         break
@@ -316,25 +330,36 @@ def collect(store, source_sha256, rate, nonce, serial_factory, identity_check,
                 decoder.feed(data)
                 if arrived >= deadline:
                     raise CaptureError("85-second host deadline exceeded; late read retained")
+                if validator.state == "config" and arrived-began >= 20000000000:
+                    raise CaptureError("CONFIG startup exceeded 20-second allowance; late read retained")
                 while (frame := decoder.next_frame()) is not None:
                     validator.accept(frame, arrived)
+                    within_deadline("during frame parsing/validation; raw prefix retained")
                     if frame["type"] == 0:
                         if decoder.pending:
                             raise CaptureError("Unexpected bytes preceded host START")
                         command = start_command(rate, nonce)
+                        if clock()-began >= 20000000000:
+                            raise CaptureError("CONFIG validation exceeded 20-second allowance; START refused")
                         if clock() >= deadline:
                             raise CaptureError("Host deadline expired before START; command refused")
+                        manifest["START_write_attempt_host_elapsed_s"] = (clock()-began)/1e9
                         sent = serial.write(command)
+                        manifest["START_write_return_bytes"] = sent
                         if sent != len(command):
                             raise CaptureError("START write was incomplete")
                         validator.mark_start()
                         manifest["START_host_elapsed_s"] = (clock()-began)/1e9
+                        within_deadline("during START write")
                     if frame["type"] == 4:
                         end_grace = arrived + 2000000000
             else:
                 raise CaptureError("85-second host deadline exceeded without bounded completion")
+            within_deadline("before final validation")
             decoder.finish()
+            within_deadline("during final framing validation")
             validator.finish()
+            within_deadline("during final counter reconciliation")
             if pause is None:
                 raise CaptureError("Required explicit 100 ms host-read pause was not performed")
             manifest["status"] = "complete_integrity_verified"
@@ -373,6 +398,13 @@ def collect(store, source_sha256, rate, nonce, serial_factory, identity_check,
             manifest["raw_persistence_verified"] = False
             error = error or CaptureError("Saved raw prefix could not be independently read and hashed")
             manifest["status"] = "failed"
+        if clock() >= deadline:
+            error = error or CaptureError("85-second host deadline exceeded during close/persistence verification")
+            manifest["status"] = "failed" if manifest["status"] != "cancelled" else "cancelled"
+            manifest["host_deadline_exceeded"] = True
+        if error is not None and "error_type" not in manifest:
+            manifest["error_type"] = type(error).__name__
+            manifest["error"] = str(error) if isinstance(error, CaptureError) else "Capture cleanup or persistence failure"
         manifest["actual_host_operation_s"] = (clock()-began)/1e9
         manifest["unparsed_prefix_bytes"] = len(decoder.pending)
         manifest["crc_verified_frames"] = decoder.byte_offset // FRAME_BYTES
@@ -407,7 +439,8 @@ def main():
                          lambda: inherited_operator_lock(args.operator_lock_fd, args.operator_lock_path))
     except (CaptureError, OSError, KeyboardInterrupt):
         p.exit(1, "Capture failed or cancelled; private manifest/raw prefix retained. Lifecycle owner must verify return.\n")
-    print(json.dumps({"status": result["status"], "verified_data_payload_bytes": result["verified_data_payload_bytes"]}))
+    print(json.dumps({"status": result["status"], "verified_data_payload_bytes": result["verified_data_payload_bytes"],
+                      "loss_result": result["loss_result"], "verified_no_record_loss": result["verified_no_record_loss"]}))
 
 
 if __name__ == "__main__":
