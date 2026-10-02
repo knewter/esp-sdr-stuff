@@ -1,0 +1,158 @@
+{
+  "hardware_access": false,
+  "trial_revision": "83f050c6f109b5606c1908859bd39521fec45372",
+  "inventory_revision": "d65882c828d05dd9a2b8afe97077eb94707ec9f5",
+  "private_mpx_bytes": 10031104,
+  "private_mpx_sha256": "57abd62b961d95ee8c0e4b471101e6962a3aa1b1b6dbc5768ba12f0e4f255e47",
+  "private_mpx_mode": "0600",
+  "redsea_binary_sha256": "db77a477a4d9747f09f1e4cf8bba98df807b8763d8e752ff4cb74614d64cf461",
+  "liquid_library_sha256": "ca27f66eb3e6a238227d7cc7cc148f6432c062e7a4cdd76ea5dc944fe87920a2",
+  "sources": {
+    "redsea": {
+      "url": "https://github.com/windytan/redsea",
+      "tag": "v1.3.1",
+      "commit": "4cc27df9939798e800c4ff7cb484be6d9bf68b4d",
+      "binary_sha256": "db77a477a4d9747f09f1e4cf8bba98df807b8763d8e752ff4cb74614d64cf461"
+    },
+    "liquid_dsp": {
+      "url": "https://github.com/jgaeddert/liquid-dsp",
+      "tag": "v1.8.3",
+      "commit": "10041f70cebbe3b97887e75bb41e48b73dda1b23",
+      "library_sha256": "ca27f66eb3e6a238227d7cc7cc148f6432c062e7a4cdd76ea5dc944fe87920a2"
+    }
+  },
+  "decoder_flags": [
+    "--input",
+    "mpx",
+    "-r",
+    "171000",
+    "--no-fec",
+    "--show-raw",
+    "--rbds",
+    "--bler",
+    "--time-from-start"
+  ],
+  "returncode": 0,
+  "stderr_bytes": 0,
+  "byte_identical_ndjson": true,
+  "ndjson_sha256": "2b5b82ba24b83802b76a9072dcd93976326f6b46622ac46e48673da4e947ed07",
+  "counts": {
+    "emitted_groups": 317,
+    "complete_four_block_groups": 233,
+    "valid_blocks_in_emitted_groups": 1137,
+    "missing_blocks_in_emitted_groups": 131,
+    "direct_valid_block_a_pi_counts": {
+      "0x9250": 287
+    }
+  },
+  "plot_counts": {
+    "timed_emitted_groups": 316,
+    "valid_blocks": 1135,
+    "direct_pi_9250": 286,
+    "omitted_records_without_timestamp": 1
+  },
+  "decoded_callsigns": [
+    "WXJC"
+  ],
+  "radiotext": [
+    "www.lwf.org -"
+  ],
+  "pi_arithmetic_callsign": "WXJC",
+  "process_duration_s": 30.16224102000706,
+  "nominal_mpx_duration_s": 29.330713450292397,
+  "prior_transport_runs_recounted": [
+    {
+      "rate_hz": 1024000,
+      "stream_before_sigint_s": 65.00937019498087,
+      "loss_reports": 0,
+      "reported_lost_bytes_lower_bound": 0,
+      "returncode": 0,
+      "cleanup_reported": true
+    },
+    {
+      "rate_hz": 2048000,
+      "stream_before_sigint_s": 65.09128099004738,
+      "loss_reports": 1,
+      "reported_lost_bytes_lower_bound": 80,
+      "returncode": 0,
+      "cleanup_reported": true
+    },
+    {
+      "rate_hz": 2400000,
+      "stream_before_sigint_s": 65.06421492400113,
+      "loss_reports": 0,
+      "reported_lost_bytes_lower_bound": 0,
+      "returncode": 0,
+      "cleanup_reported": true
+    },
+    {
+      "rate_hz": 2560000,
+      "stream_before_sigint_s": 65.01578008697834,
+      "loss_reports": 0,
+      "reported_lost_bytes_lower_bound": 0,
+      "returncode": 0,
+      "cleanup_reported": true
+    }
+  ],
+  "station_primary_url": "https://www.wxjcradio.com/",
+  "station_primary_rechecked_utc_date": "2026-10-02",
+  "antenna_suitability_scope": "Current user-reported dipole functionally demonstrated for selected101.1MHz FM/RDS application only",
+  "same_signal_comparison": "Deferred per original conditional task: no external converter/reference reported",
+  "comparison_original_tasks_satisfied": true,
+  "reviewed_document_sha256": {
+    "openspec/changes/the-two-receivers-have-a-measured-division-of-labor/tasks.md": "28f6082db8f3b104ade8269804ddbbfd38bf9d2640cadd7c0fd3f61f0afbe989",
+    "openspec/changes/the-two-receivers-have-a-measured-division-of-labor/specs/radio/receiver-comparison/spec.md": "f8284adaa990ef89362609fb8b45290b55a7137b8ae5ebe33697545cd5d5683d",
+    "docs/research/measured-recommendations.md": "b1962f09662fc186ed2109ed3ba8907846b6d9d07951c090e4a43e031de539e1",
+    "docs/evidence/user-equipment-inventory/inventory.json": "21a69b3348e19b0de836689b26b7805b4b7ffefa68c7f94e0a17c5e113ae7827"
+  },
+  "esp_matrix_inputs_recounted": [
+    {
+      "bits": 8,
+      "rate_hz": 16000000,
+      "attempts": 100,
+      "median_round_trip_ms": 361.8354785,
+      "nominal_window_us": 1023.7499999999999,
+      "nominal_series_coverage_fraction": 0.00281228402083653
+    },
+    {
+      "bits": 8,
+      "rate_hz": 40000000,
+      "attempts": 100,
+      "median_round_trip_ms": 361.3635175,
+      "nominal_window_us": 409.5,
+      "nominal_series_coverage_fraction": 0.0011284889695607847
+    },
+    {
+      "bits": 8,
+      "rate_hz": 80000000,
+      "attempts": 100,
+      "median_round_trip_ms": 360.94494899999995,
+      "nominal_window_us": 204.75,
+      "nominal_series_coverage_fraction": 0.0005646016492767642
+    },
+    {
+      "bits": 10,
+      "rate_hz": 16000000,
+      "attempts": 100,
+      "median_round_trip_ms": 451.477005,
+      "nominal_window_us": 1023.7499999999999,
+      "nominal_series_coverage_fraction": 0.0022570461635838227
+    },
+    {
+      "bits": 10,
+      "rate_hz": 40000000,
+      "attempts": 100,
+      "median_round_trip_ms": 450.93887700000005,
+      "nominal_window_us": 409.5,
+      "nominal_series_coverage_fraction": 0.0009010189228332229
+    },
+    {
+      "bits": 10,
+      "rate_hz": 80000000,
+      "attempts": 100,
+      "median_round_trip_ms": 450.76705000000004,
+      "nominal_window_us": 204.75,
+      "nominal_series_coverage_fraction": 0.0004510423540923194
+    }
+  ]
+}
