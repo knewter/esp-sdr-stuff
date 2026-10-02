@@ -81,12 +81,17 @@ bracket and commanded source span, with no smoothing. The
 [frozen scalar replay](scalar-results.json), [input verification](scalar-verification.json)
 and [method preflight](scalar-preflight-review.json) retain centered AC,
 signed endpoints, integrated Hann +1.5 to +2.5 MHz code power, block-32 ratios
-and guarded ten-second edges. Source-enable target-band ratios are
+and guarded ten-second edges. Source-enable ratios in that fixed offset band are
 **1.100, 1.089, 0.824** for manual and **5.199, 1.275, 0.735** for hardware.
 Neither has three repeated increases; hardware band power also drifts in OFF
 phases. These statistics do not establish owned-source causality, calibrated
 gain, SNR or absence of RF. Gain queries occur before settings; ACKs establish
 requested software mode only.
+
+The frozen +1.5 to +2.5 MHz band is not centered on the nominal +1 MHz offset
+between the requested 2401 MHz LO and the 2402 MHz source. It remains a fixed
+scalar comparison, not a direct channel-37 power measurement. The decoder's
+unchanged translation is -1 MHz; no scalar band is retuned after these outcomes.
 
 The owned packet reproduces a working fresh ten-bit SDR example. Original
 three-response RF and counted-event tasks remain open. Trial B still requires
