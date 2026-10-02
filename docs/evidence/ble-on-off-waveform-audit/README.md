@@ -23,3 +23,8 @@ Sparse snapshots do not calibrate gain/SNR or count emissions. Unknown
 interference/state remain competing causes. Later [stable register fields](../receiver-register-observation-002/README.md)
 do not retrospectively prove analog gain. Five historical positives / 2,248
 fresh nulls remain unchanged; no acceptance gate closes.
+
+[Independent review](../ble-on-off-waveform-independent-review/README.md)
+reproduces the result bytes and separately checks packing, normalization,
+source brackets and all twelve local edge ratios. The block32 statistic
+excludes the final 28 samples; band power is integrated code², not power per Hz.
