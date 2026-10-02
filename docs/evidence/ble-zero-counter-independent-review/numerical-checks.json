@@ -1,0 +1,163 @@
+{
+  "reviewed_receipt_commit": "1cfc291c38ab6d76388db0bb5f12c7d7ead5f496",
+  "public_file_hashes_verified": 55,
+  "captures": 262,
+  "private_bytes_verified": 8583120,
+  "complex_pairs_verified": 4291560,
+  "segments": [
+    {
+      "name": "receiver",
+      "captures": 220,
+      "first_command_ns": 709598081639981,
+      "last_payload_ns": 709678239860941
+    },
+    {
+      "name": "receiver-tail",
+      "captures": 42,
+      "first_command_ns": 709732457710038,
+      "last_payload_ns": 709747774041955
+    }
+  ],
+  "episodes": [
+    {
+      "episode_id": "zero-counter-01",
+      "enable_sent_ns": 709603739783596,
+      "enable_ack_ns": 709603743638668,
+      "term_ns": 709608803823896,
+      "guarded_start_ns": 709603843638668,
+      "guarded_end_ns": 709608703823896,
+      "socket_closed_ns": 709608811858333,
+      "controller_count": 0,
+      "guarded_captures": 13
+    },
+    {
+      "episode_id": "zero-counter-02",
+      "enable_sent_ns": 709610557869354,
+      "enable_ack_ns": 709610561781564,
+      "term_ns": 709615620833914,
+      "guarded_start_ns": 709610661871844,
+      "guarded_end_ns": 709615520833914,
+      "socket_closed_ns": 709615628912003,
+      "controller_count": 0,
+      "guarded_captures": 12
+    },
+    {
+      "episode_id": "zero-counter-03",
+      "enable_sent_ns": 709617306025238,
+      "enable_ack_ns": 709617309904295,
+      "term_ns": 709622360982592,
+      "guarded_start_ns": 709617409904295,
+      "guarded_end_ns": 709622260982592,
+      "socket_closed_ns": 709622369024433,
+      "controller_count": 0,
+      "guarded_captures": 13
+    },
+    {
+      "episode_id": "zero-counter-04",
+      "enable_sent_ns": 709624088074360,
+      "enable_ack_ns": 709624092068024,
+      "term_ns": 709629155106463,
+      "guarded_start_ns": 709624192068024,
+      "guarded_end_ns": 709629055106463,
+      "socket_closed_ns": 709629163131272,
+      "controller_count": 0,
+      "guarded_captures": 12
+    },
+    {
+      "episode_id": "zero-counter-05",
+      "enable_sent_ns": 709630841220823,
+      "enable_ack_ns": 709630845102104,
+      "term_ns": 709635888206415,
+      "guarded_start_ns": 709630945102104,
+      "guarded_end_ns": 709635788206415,
+      "socket_closed_ns": 709635896515130,
+      "controller_count": 0,
+      "guarded_captures": 12
+    },
+    {
+      "episode_id": "zero-counter-06",
+      "enable_sent_ns": 709637606309396,
+      "enable_ack_ns": 709637610207580,
+      "term_ns": 709642666284222,
+      "guarded_start_ns": 709637710207580,
+      "guarded_end_ns": 709642566284222,
+      "socket_closed_ns": 709642674416614,
+      "controller_count": 0,
+      "guarded_captures": 13
+    },
+    {
+      "episode_id": "zero-counter-07",
+      "enable_sent_ns": 709644339383477,
+      "enable_ack_ns": 709644343294555,
+      "term_ns": 709649405360085,
+      "guarded_start_ns": 709644443294555,
+      "guarded_end_ns": 709649305360085,
+      "socket_closed_ns": 709649413427244,
+      "controller_count": 0,
+      "guarded_captures": 12
+    },
+    {
+      "episode_id": "zero-counter-08",
+      "enable_sent_ns": 709651052506800,
+      "enable_ack_ns": 709651056355961,
+      "term_ns": 709656117526515,
+      "guarded_start_ns": 709651156355961,
+      "guarded_end_ns": 709656017526515,
+      "socket_closed_ns": 709656125734269,
+      "controller_count": 0,
+      "guarded_captures": 13
+    },
+    {
+      "episode_id": "zero-counter-09",
+      "enable_sent_ns": 709657791542120,
+      "enable_ack_ns": 709657795476001,
+      "term_ns": 709662860565050,
+      "guarded_start_ns": 709657895476662,
+      "guarded_end_ns": 709662760565050,
+      "socket_closed_ns": 709662868673548,
+      "controller_count": 0,
+      "guarded_captures": 12
+    },
+    {
+      "episode_id": "zero-counter-10",
+      "enable_sent_ns": 709664548699380,
+      "enable_ack_ns": 709664552617732,
+      "term_ns": 709669613700527,
+      "guarded_start_ns": 709664652617732,
+      "guarded_end_ns": 709669513700527,
+      "socket_closed_ns": 709669619851105,
+      "controller_count": 0,
+      "guarded_captures": 13
+    }
+  ],
+  "capture_phases": {
+    "baseline": 15,
+    "guarded_source": 125,
+    "inter_episode_off": 28,
+    "post_source": 65,
+    "boundary": 29
+  },
+  "baseline_s": 5.658143615,
+  "initial_tail_s": 8.620009836,
+  "initial_tail_gate_passed": false,
+  "inter_segment_gap_s": 54.217849097,
+  "supplemental_span_s": 15.316331917,
+  "restoration_full_bytes": 4194304,
+  "restoration_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "no_hardware_access": true,
+  "final_author_replay_revision": "3693fe75b9ad083310cf734a3cde7fa1df2db442",
+  "decoder_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+  "reporter_sha256": "085991f8c9ea172dfe7a5b08379eea42e1d8995b54796564a511f9e43c3409c0",
+  "independent_full_analysis_matches_author": true,
+  "source_only_diagnostic_file_hashes_verified": 12,
+  "crc_valid_owned_packets": 0,
+  "crc_valid_foreign_packets": 0,
+  "failed_crc_candidate": {
+    "segment": "main",
+    "capture_index": 114,
+    "episode": "zero-counter-06",
+    "owned_attribution": false
+  },
+  "source_denominator_accepted": false,
+  "electrical_power_cycle_proven": false
+}
