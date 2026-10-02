@@ -1,0 +1,62 @@
+---
+import results from "../../../docs/evidence/esp-demo-session-003/spectrum.json";
+import restoration from "../../../docs/evidence/esp-demo-session-003/restoration.json";
+import { evidenceUrl, evidenceAsset } from "../lib/specs";
+const command = `nix develop --command task demo:esp -- \\
+  --artifact .scratch/historical-uart921600 \\
+  --manifest .scratch/historical-uart921600/manifest.json \\
+  --output docs/evidence/esp-demo-next \\
+  --private .scratch/esp-demo-next`;
+---
+<section class="section interactive-demo" aria-labelledby="interactive-demo-title">
+  <div class="section-head">
+    <div><p class="eyebrow">RUN / VERIFIED ESP32 DEMO</p><h2 id="interactive-demo-title">Install. Watch the spectrum. Restore.</h2></div>
+    <p>One command owns the receiver, launches a local viewer, records a bounded minute, and verifies the original firmware afterward.</p>
+  </div>
+  <div class="fact-strip">
+    <div><small>ACTUAL CRC-CHECKED FRAMES</small><strong>{results.frames.toLocaleString("en-US")}</strong><span>Matching sequences and end totals</span></div>
+    <div><small>MEASURED SESSION</small><strong>{results.elapsed_seconds.toFixed(3)} s</strong><span>Requested {results.settings.seconds_requested} seconds</span></div>
+    <div><small>FFT WINDOWS / UPDATE</small><strong>{results.settings.ffts_per_frame} averaged</strong><span>Separate acquisitions · linear power mean</span></div>
+    <div><small>NOMINAL TIME COVERAGE</small><strong>{(results.nominal_coverage_fraction * 100).toFixed(3)}%</strong><span>Every frame reports reception gaps</span></div>
+  </div>
+  <div class="demo-layout">
+    <div>
+      <a class="measurement-preview" href={evidenceUrl("docs/evidence/esp-demo-session-003/README.md")}>
+        <img src={evidenceAsset("docs/evidence/esp-demo-session-003/live-spectrum.png")} alt="Actual live spectrum viewer during the successful eight-window ESP32 demo; power codes are uncalibrated and capture windows contain gaps" loading="lazy" />
+        <span>Actual session 003 · 2412 MHz · 512 bins · UART through localhost HTTP ↗</span>
+      </a>
+      <p class="calc-note">Screenshots show the viewer. CRC-checked frames and matching terminal totals establish this bounded transport result. The display uses uncalibrated power codes, not dBm. Averaging can smooth brief signals; it does not create continuous reception.</p>
+      <a class="text-link" href={evidenceAsset("docs/evidence/esp-demo-session-003/completed-spectrum.png")}>See the completed display →</a>
+    </div>
+    <div class="demo-run">
+      <div class="run-heading"><p class="eyebrow">ON THE PRESERVED LOCAL BOARD</p><span class="restore-badge">Original restored</span></div>
+      <h3>Launch an interactive minute</h3>
+      <p>Use the prepared, verified artifact and private original-flash backups. These example directories must be fresh. The command installs experimental firmware on the identified ESP32.</p>
+      <pre class="demo-command"><code>{command}</code></pre>
+      <p>Press <strong>Start bounded trial</strong> in the Chromium window. Keep the terminal open until restoration finishes. Add <code>--headless</code> for automatic Start and browser evidence without a desktop.</p>
+      <a class="primary-link" href={evidenceUrl("docs/research/esp-sdr-demo.md")}>Setup, recovery and command details →</a>
+      <div class="restore-proof">
+        <strong>{(restoration.full_readback_bytes / 1048576).toFixed(0)} MiB verified against the original</strong>
+        <p>The independent full-flash readback matches the preserved SHA-256, and the original application’s reset boot was observed. This session proves warm-reset recovery; it does not prove electrical power removal and reapplication.</p>
+        <a href={evidenceUrl("docs/evidence/esp-demo-session-003/restoration.json")}>Restoration receipt →</a> · <a href={evidenceUrl("docs/evidence/esp-demo-session-003/spectrum.json")}>Session metrics →</a>
+      </div>
+    </div>
+  </div>
+  <p class="calc-note">This is one successful bounded run using the historical UART-only artifact. Earlier CRC failures remain recorded, and the Nix-built candidate has its own physical evaluation. No calibrated RF response, signal identification or general reliability rate is inferred.</p>
+</section>
+<style>
+  .demo-layout {display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:28px; margin-top:28px; align-items:start}
+  .demo-run {padding:24px; border:1px solid var(--rule); border-radius:8px; background:var(--surface)}
+  .run-heading {display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+  .run-heading .eyebrow {margin:0}
+  .restore-badge {color:var(--accent); font:10px var(--mono); border:1px solid var(--accent); border-radius:20px; padding:5px 9px}
+  h3 {font-size:23px; margin:18px 0 12px}
+  .demo-run p {font-size:12px; line-height:1.85; color:var(--ink-2)}
+  .demo-command {overflow-x:auto; padding:18px 14px; border:1px solid var(--rule); border-radius:6px; background:var(--ground); color:var(--ink); font:10px/1.9 var(--mono)}
+  .primary-link {display:inline-block; margin-top:8px; font-size:12px}
+  .restore-proof {border-top:1px solid var(--rule); padding-top:20px; margin-top:24px}
+  .restore-proof strong {font-size:13px; color:var(--accent)}
+  .restore-proof a {font-size:11px}
+  @media(max-width:900px) {.demo-layout {grid-template-columns:1fr}}
+  @media(max-width:500px) {.demo-run {padding:18px} .demo-command {font-size:9px}}
+</style>

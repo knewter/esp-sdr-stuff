@@ -61,8 +61,10 @@ budget tasks. Pass tool arguments after `--`. Firmware builds use the separate
 its immutable SDK provenance is recorded with the build.
 
 The [repeatable ESP demo](docs/research/esp-sdr-demo.md) has `demo:esp` and
-`demo:esp:restore` tasks. The new workflow's fresh physical proof remains open;
-its browser and cleanup tests are host evidence.
+`demo:esp:restore` tasks. Its eight-window profile completes 60.022 seconds with
+2,709 valid frames and matching end totals, then independently verifies the
+original full-flash readback and reset boot. Two earlier CRC failures remain
+recorded; the successful run and recovery pass independent replay.
 
 The [Forgix toolchain setup](docs/research/forgix-toolchain.md) provides a
 separate host shell and checks without opening hardware:

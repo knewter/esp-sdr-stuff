@@ -152,20 +152,27 @@
       }
     },
     "the-esp-demo-can-be-launched-and-restored": {
-      "lane": "in-progress",
-      "source": "in-progress",
-      "physical": "pending",
-      "next": "Evaluate eight averaged FFT windows per emitted frame after two retained CRC failures; require a complete successful minute.",
-      "rationale": "Both Task-launched one-unit profiles failed CRC. Their full original-flash readback and boot verification pass; first failure has independent replay. Host workflow passes 32 tests. Successful physical acquisition remains open.",
+      "lane": "verification",
+      "source": "source-landed",
+      "physical": "verified",
+      "next": "Publish and verify the reviewed minute and documented Task commands on GitHub Pages.",
+      "rationale": "Independent replay accepts the eight-window historical-artifact profile: 2,709 valid frames over 60.022 seconds, matching end totals, all 4 MiB restored and matching original boot. Two one-window CRC failures remain visible; publication is pending.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-board-can-be-restored-after-an-sdr-trial"
       ],
       "evidence": [
         "docs/evidence/esp-demo-session-001/README.md",
+        "docs/evidence/esp-demo-session-002/README.md",
+        "docs/evidence/esp-demo-session-003/README.md",
         "docs/evidence/esp-demo-independent-review/README.md"
       ],
-      "reviewRevision": "3f60332bca83ad60f745c885c2c4dde6b3f1fd84"
+      "reviewRevision": "a16d0b6111261cc07afc09bc70d2c3d98a9c461f",
+      "cover": {
+        "path": "docs/evidence/esp-demo-session-003/completed-spectrum.png",
+        "caption": "Actual Task-launched minute with eight averaged FFT windows per frame",
+        "provenance": "Board capture"
+      }
     }
   }
 }

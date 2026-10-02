@@ -173,7 +173,6 @@ class Trial:
             record['status'] = 'completed'
             if not rows or record['elapsed_seconds'] < a.seconds * .95:
                 raise ProtocolError('bounded duration not established')
-            self.update(status='Completed real hardware trial; UART released')
         except Exception as error:
             record['status'] = 'failed'
             record['error_kind'] = type(error).__name__
@@ -198,6 +197,11 @@ class Trial:
                 record['elapsed_seconds'] = acquisition_finished - t0
                 record['nominal_sampled_seconds'] = sampled / a.rate
                 record['nominal_coverage_fraction'] = sampled / a.rate / record['elapsed_seconds'] if record['elapsed_seconds'] else 0
+                # Terminal timing includes the end report, not only the last
+                # spectrum frame. Keep its arrival time separately for inspection.
+                self.update(elapsed_seconds=record['elapsed_seconds'],
+                            nominal_coverage_fraction=record['nominal_coverage_fraction'],
+                            last_frame_received_seconds=rows[-1]['received_relative_seconds'] if rows else None)
             frame_path = a.private / 'spectrum-frames.bin'
             if private_created and frame_path.is_file():
                 record['private_frames_sha256'] = hashlib.sha256(frame_path.read_bytes()).hexdigest()
@@ -212,6 +216,8 @@ class Trial:
                 temporary = a.output / 'results.json.tmp'
                 temporary.write_text(json.dumps(record, indent=2) + '\n')
                 temporary.replace(a.output / 'results.json')
+                if record['status'] == 'completed':
+                    self.update(status='Completed real hardware trial; UART released')
             print(json.dumps({k:v for k,v in record.items() if k in {'status','frames','elapsed_seconds','error'} }), flush=True)
 
 

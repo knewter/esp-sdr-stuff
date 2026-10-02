@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "started_utc": "2026-10-02T06:10:29.039466+00:00",
+  "action": "run",
+  "tool_sha256": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966",
+  "restore_policy": "always after installation attempt, including failure/cancel",
+  "stable_usb_identity_verified": true,
+  "usb_vid_pid": "10c4:ea60",
+  "source_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "status": "completed",
+  "capture_status": "completed",
+  "restoration_status": "verified",
+  "screenshot_scope": "Live viewer evidence only; RF integrity is established by CRC frames and terminal totals",
+  "limitations": "Snapshot gaps; uncalibrated power codes; no signal identification or continuous reception claim",
+  "receiver": {
+    "firmware_revision": "550fade-uart921600",
+    "source_commit": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+    "sdk_commit": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+    "parts": [
+      {
+        "offset": 4096,
+        "bytes": 25792,
+        "sha256": "ae2641c45d818548d59fa70573b35202b6e315f2b9691de1f5c59736f6478e03",
+        "name": "0-bootloader.bin"
+      },
+      {
+        "offset": 32768,
+        "bytes": 3072,
+        "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+        "name": "1-partition-table.bin"
+      },
+      {
+        "offset": 65536,
+        "bytes": 664608,
+        "sha256": "d7a2d80a70134b04e6078d5ac62b728e79ab33364c1845546f7ca321995e4685",
+        "name": "2-esp_sdr.bin"
+      }
+    ],
+    "receiver_manifest_sha256": "5b0af8d72918bba2c3b2c2cd0d43070e90d61626ac1240fe128525f802cf42c9",
+    "build_info_sha256": "8978c5299da740f5221838aa89dd201a055ae3a4f810a92d0ff08e38e7149170"
+  },
+  "owned_uart_worker_exit_confirmed": true,
+  "ended_utc": "2026-10-02T06:16:19.102651+00:00"
+}

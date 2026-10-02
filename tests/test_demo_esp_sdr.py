@@ -486,7 +486,9 @@ class CompletionFenceTests(unittest.TestCase):
             patch.object(spectrum_bridge, 'command', side_effect=request), \
             patch.object(spectrum_bridge.time, 'monotonic', side_effect=lambda: next(tick)), \
             contextlib.redirect_stdout(io.StringIO()):
-            spectrum_bridge.Trial(args).run()
+            trial = spectrum_bridge.Trial(args)
+            trial.run()
+            self.grouped_state = dict(trial.state)
         self.assertTrue(wire.closed)
         return args, json.loads((args.output/'results.json').read_text()), requests
 
@@ -504,6 +506,15 @@ class CompletionFenceTests(unittest.TestCase):
         self.assertEqual((record['frames'], record['accepted_ffts'], record['accepted_sample_pairs']), (2,16,4096))
         self.assertEqual(record['settings']['ffts_per_frame'], 8)
         self.assertEqual(record['nominal_sampled_seconds'], 4096/80000000)
+
+    def test_completed_viewer_uses_terminal_elapsed_and_coverage(self):
+        frames = [self.grouped_frame(0, 0), self.grouped_frame(1, 80000000)]
+        _, record, _ = self.grouped_trial(frames, [0,0,16,4096,60000000,0,0,2,0,0,16,0])
+        self.assertTrue(self.grouped_state['status'].startswith('Completed'))
+        self.assertEqual(self.grouped_state['elapsed_seconds'], record['elapsed_seconds'])
+        self.assertEqual(self.grouped_state['nominal_coverage_fraction'], record['nominal_coverage_fraction'])
+        self.assertEqual(self.grouped_state['last_frame_received_seconds'], 60)
+        self.assertGreater(self.grouped_state['elapsed_seconds'], self.grouped_state['last_frame_received_seconds'])
 
     def test_crc_rejection_retains_exact_bad_bytes_and_valid_prefix(self):
         first = self.grouped_frame(0, 0)
