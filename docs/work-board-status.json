@@ -94,8 +94,6 @@
         "docs/evidence/register-observation-independent-review/README.md",
         "docs/evidence/ble-on-off-waveform-audit/README.md",
         "docs/evidence/ble-on-off-waveform-independent-review/README.md",
-        "docs/research/ble-source-counter-followup.md",
-        "docs/research/ble-mode-counter-protocol.md",
         "docs/evidence/ble-mode-counter-preflight-review/preflight.json",
         "docs/evidence/ble-mode-counter-001/README.md",
         "docs/evidence/ble-mode-counter-independent-review/README.md"
@@ -151,8 +149,6 @@
         "docs/evidence/register-observation-independent-review/README.md",
         "docs/evidence/ble-on-off-waveform-audit/README.md",
         "docs/evidence/ble-on-off-waveform-independent-review/README.md",
-        "docs/research/ble-source-counter-followup.md",
-        "docs/research/ble-mode-counter-protocol.md",
         "docs/evidence/ble-mode-counter-preflight-review/preflight.json",
         "docs/evidence/ble-mode-counter-001/README.md",
         "docs/evidence/ble-mode-counter-independent-review/README.md"
