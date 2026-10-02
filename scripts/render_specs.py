@@ -51,6 +51,8 @@ from urllib.parse import quote
 # --------------------------------------------------------------------------
 MAX_GENERATION_SECONDS = 5.0
 MAX_OUTPUT_BYTES = 4 * 1024 * 1024
+ASSET_OWNERSHIP_MARKER = ".render-specs-generated-assets"
+ASSET_OWNERSHIP_BYTES = b"render_specs generated evidence image copies v1\n"
 
 GROUNDED = "grounded"
 UNVERIFIED = "unverified"
@@ -638,18 +640,23 @@ def build_data(
     asset_dir: Path | None = None,
     source_revision_value: str | None = None,
 ) -> tuple[dict, Report]:
-    # This directory contains generated copies only. Clearing it prevents an
-    # earlier build's unused media from silently inflating the next bundle.
+    # Only our canonical generated subtree, or a custom subtree previously
+    # marked by this renderer, is owned. Never infer ownership from exclusions
+    # of a few source directories or delete arbitrary --assets/evidence data.
     if asset_dir is not None:
         generated_assets = asset_dir / "evidence"
-        if asset_dir.resolve() == repo_root.resolve() or any(
-            generated_assets.resolve().is_relative_to((repo_root / area).resolve())
-            for area in ("docs", "openspec", "scripts", "tools", "tests", "firmware", "nix", ".skills", ".agents", "site/src")
-        ):
-            raise ValueError("Evidence assets require a generated output directory, not repository sources")
         if generated_assets.is_symlink():
             raise ValueError("Generated evidence directory must not be a symlink")
         if generated_assets.exists():
+            canonical = repo_root.resolve() / "site" / "public"
+            canonical_owned = (asset_dir.absolute() == canonical and asset_dir.resolve() == canonical
+                               and not (canonical.parent.is_symlink() or canonical.is_symlink()))
+            marker = generated_assets / ASSET_OWNERSHIP_MARKER
+            marked_owned = (marker.is_file() and not marker.is_symlink()
+                            and marker.stat().st_size == len(ASSET_OWNERSHIP_BYTES)
+                            and marker.read_bytes() == ASSET_OWNERSHIP_BYTES)
+            if not (canonical_owned or marked_owned):
+                raise ValueError("Refusing unowned evidence output directory")
             shutil.rmtree(generated_assets)
     caps, defects = load_capabilities(repo_root)
     report = Report(capabilities=caps, defects=defects)
@@ -759,6 +766,7 @@ def build_data(
                     if asset_dir is not None:
                         target = asset_dir / asset
                         target.parent.mkdir(parents=True, exist_ok=True)
+                        (target.parent / ASSET_OWNERSHIP_MARKER).write_bytes(ASSET_OWNERSHIP_BYTES)
                         target.write_bytes(source.read_bytes())
         elif source.suffix.lower() in VIDEO_SUFFIXES:
             # Do not decode or copy recordings.  A video evidence page links

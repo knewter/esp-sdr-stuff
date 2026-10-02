@@ -333,7 +333,7 @@ class TestData(unittest.TestCase):
             write_spec(root, "display/panel", "### Requirement: Image\n\n"
                        "The board SHALL show it.\n\n"
                        f"*Grounding: `{path}` records it.*\n")
-            assets = root / "site-public"
+            assets = root / "site/public"
             exported = assets / "source" / "abc123" / path
             exported.parent.mkdir(parents=True)
             exported.write_bytes(payload)
@@ -371,21 +371,41 @@ class TestData(unittest.TestCase):
                        "The board SHALL show it.\n\n"
                        f"*Grounding: `{path}` records it.*\n")
             assets = root / "site-public"
-            data, _ = render_specs.build_data(root, assets, source_revision_value="abc123")
-            self.assertEqual((assets / data["evidence"][0]["asset"]).read_bytes(), b"fixture")
+            for _ in range(2):
+                data, _ = render_specs.build_data(root, assets, source_revision_value="abc123")
+                self.assertEqual((assets / data["evidence"][0]["asset"]).read_bytes(), b"fixture")
+                self.assertEqual((assets / "evidence" / render_specs.ASSET_OWNERSHIP_MARKER).read_bytes(),
+                                 render_specs.ASSET_OWNERSHIP_BYTES)
 
     def test_cleanup_cannot_target_original_repository_evidence(self) -> None:
         with TempRepo() as root:
             original = root / "docs/evidence/capture.png"
             original.parent.mkdir(parents=True); original.write_bytes(b"original")
-            with self.assertRaisesRegex(ValueError, "generated output directory"):
+            with self.assertRaisesRegex(ValueError, "unowned evidence"):
                 render_specs.build_data(root, root / "docs")
             self.assertEqual(original.read_bytes(), b"original")
             page = root / "site/src/pages/evidence/[slug].astro"
             page.parent.mkdir(parents=True); page.write_bytes(b"original page")
-            with self.assertRaisesRegex(ValueError, "generated output directory"):
+            with self.assertRaisesRegex(ValueError, "unowned evidence"):
                 render_specs.build_data(root, root / "site/src/pages")
             self.assertEqual(page.read_bytes(), b"original page")
+
+    def test_arbitrary_existing_asset_directories_are_preserved(self) -> None:
+        for relative in ("site/src", "backups", ".agents", ".git"):
+            with self.subTest(relative=relative), TempRepo() as root:
+                assets = root / relative
+                original = assets / "evidence/original.txt"
+                original.parent.mkdir(parents=True); original.write_bytes(b"original bytes")
+                with self.assertRaisesRegex(ValueError, "unowned evidence"):
+                    render_specs.build_data(root, assets)
+                self.assertEqual(original.read_bytes(), b"original bytes")
+        with TempRepo() as root, tempfile.TemporaryDirectory() as external:
+            assets = Path(external)
+            original = assets / "evidence/original.txt"
+            original.parent.mkdir(); original.write_bytes(b"external original")
+            with self.assertRaisesRegex(ValueError, "unowned evidence"):
+                render_specs.build_data(root, assets)
+            self.assertEqual(original.read_bytes(), b"external original")
 
     def test_the_data_pass_reads_openspec_specs_and_nothing_else(self) -> None:
         with TempRepo() as root:
