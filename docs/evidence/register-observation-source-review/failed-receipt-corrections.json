@@ -1,0 +1,25 @@
+{
+  "synthetic_only": true,
+  "hardware_opened": false,
+  "actual_c_pairs_independently_unpacked": 327600,
+  "successful_fixture_raw_sha256": "957e9b508c28237144d7ad19825813ea7703f5cc611d823a9f0585bc70f439b0",
+  "mutations": [
+    {
+      "case": "complete_failed_data_missing_all_stages",
+      "accepted_as_failed_receipt": false,
+      "successful_completion": false
+    },
+    {
+      "case": "capture_data_before_config",
+      "accepted_as_failed_receipt": false,
+      "successful_completion": false
+    },
+    {
+      "case": "failed_count_exceeds_hardware_mask",
+      "accepted_as_failed_receipt": false,
+      "successful_completion": false
+    }
+  ],
+  "root_revision": "3beae7203825f1922e43eb5fa8946494f614d18a",
+  "parser_sha256": "20d1da9e473ec9ceca4abad7d2a478c8f8fbceafa3f7fcc369841416edb31a7b"
+}

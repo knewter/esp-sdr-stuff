@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "review_kind": "offline committed source and software checkpoint",
+  "reviewed_root_revision": "3beae7203825f1922e43eb5fa8946494f614d18a",
+  "hardware_opened": false,
+  "docker_used": false,
+  "installation_approved": false,
+  "source_hashes": {
+    "tools/esp_register_probe.py": "7393714915b479aeae3d8c0f96e71bbedf8f4f2625e8a86100a58a5562ff1c1c",
+    "tools/esp_register_receipts.py": "20d1da9e473ec9ceca4abad7d2a478c8f8fbceafa3f7fcc369841416edb31a7b",
+    "tools/esp_register_artifact.py": "3266d08d1639c1989e40e1d5a61516e9b25b44a3518360b4f3ccbca102350385",
+    "tools/build_esp_register_observation.py": "26c8fa6a4d7218fb843c654c1bec2c19144cbe2b17f7200513dbe95b768f7204",
+    "firmware/register-observation/overlay.py": "8df89764833f1bf1f01fae63d87ed6b692ff52bc9bd7e06df3f8d790b2cf0963",
+    "firmware/register-observation/register_observation.h": "7f36831c26bf7781fa580c1b0bf02dddb9311c31873641f15b86b262669c9e48",
+    "firmware/register-observation/register_commands.h": "65acb23628aa3407e73f46c94693776574eecd65a309982d2d21e665ae180ffb",
+    "tests/test_esp_register_probe.py": "dc1401a75992c55183ab672474d4fff572924fd55a297a3450da75c8b4892889",
+    "tests/test_esp_register_receipts.py": "c485d2d55253a8b528faffebb6f4ba406d89c4abf51dd6b3e32571b0616f1316",
+    "tests/test_esp_register_artifact.py": "5cca2d51f9cee98b31739676b1de48705d9eb047b52bc599e983f1be95274a20",
+    "tests/test_esp_register_observation_firmware.py": "9dc0bb76c696f1fd3370713a5ac8ee9f7f67e399ce83f7a2907f857c70ca825e"
+  },
+  "locked_nix_task_check": {
+    "command": "nix develop .#ci --command task register:check",
+    "passed_tests": 55,
+    "exit_status": 0,
+    "counts": {
+      "actual_C_and_builder": 22,
+      "artifact_guard": 11,
+      "host_receipts": 11,
+      "worker": 11
+    }
+  },
+  "independent_checks": {
+    "actual_C_pairs_unpacked": 327600,
+    "original_failed_receipt_mutations_now_rejected": 3,
+    "contradictory_elapsed_mutations_rejected": 4,
+    "complete_DATA_followed_by_deadline_failure": "retained failed, zero accepted captures, no END, verified persistence after UART closure",
+    "actual_candidate001_components": "checked against new guard without accepting stale source",
+    "actual_ELF_load_address_mutations_rejected": 2
+  },
+  "timing_scope": {
+    "current_fields": "nominal firmware MMIO-read bracket, not full-hook added cost",
+    "full_hook_overhead_measurement": "pending prospective source/instrumentation and compiled review",
+    "calibrated_RF_timestamp": false
+  },
+  "still_required": [
+    "fresh corrected-source build with new exact ELF/flasher/nm exports",
+    "reviewed full hook timing instrumentation and explicit residual scope",
+    "separate identity/exclusivity/preservation/process-group/cancellation/full-restoration supervisor",
+    "actual target physical receipts and timing measurements"
+  ],
+  "candidate001": "retained build-integrity proof only; whole guard rejects stale source; NOT installation-approved",
+  "RF_or_count_acceptance_changed": false
+}

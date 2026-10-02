@@ -1,0 +1,23 @@
+{
+  "hardware_opened": false,
+  "artifact": "candidate001",
+  "installation_approved": false,
+  "current_guard_sha256": "3266d08d1639c1989e40e1d5a61516e9b25b44a3518360b4f3ccbca102350385",
+  "candidate_manifest_sha256": "219a69bc752613c30da56c9bc93959d1675b568929e227ea5900ffd9764f90d2",
+  "actual_components_passed": [
+    "ELF section/program/symbol boundaries",
+    "ELF-to-image loaded bytes",
+    "linker map",
+    "generated flasher arguments",
+    "canonical partition MD5",
+    "all image XOR/SHA/target headers",
+    "actual fixed SDK source NAR"
+  ],
+  "independent_actual_ELF_program_mutations_rejected": [
+    "load_virtual_MAC",
+    "load_physical_instruction_alias"
+  ],
+  "stale_whole_candidate_rejected": true,
+  "whole_guard_rejection": "Artifact differs from current diagnostic source",
+  "fresh_corrected_artifact_pending": true
+}

@@ -1,0 +1,32 @@
+{
+  "hardware_opened": false,
+  "synthetic_actual_C": true,
+  "parser_sha256": "20d1da9e473ec9ceca4abad7d2a478c8f8fbceafa3f7fcc369841416edb31a7b",
+  "ordinary_completed_and_failed_receipts_retained": true,
+  "checked": [
+    {
+      "mode": 0,
+      "mutated_elapsed_us": 4,
+      "enclosing_stage_bound_us": 3,
+      "rejected_before_record_acceptance": true
+    },
+    {
+      "mode": 0,
+      "mutated_elapsed_us": 50000000,
+      "enclosing_stage_bound_us": 3,
+      "rejected_before_record_acceptance": true
+    },
+    {
+      "mode": 17,
+      "mutated_elapsed_us": 29994648,
+      "enclosing_stage_bound_us": 29994647,
+      "rejected_before_record_acceptance": true
+    },
+    {
+      "mode": 17,
+      "mutated_elapsed_us": 50000000,
+      "enclosing_stage_bound_us": 29994647,
+      "rejected_before_record_acceptance": true
+    }
+  ]
+}

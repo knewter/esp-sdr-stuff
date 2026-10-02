@@ -99,3 +99,50 @@ process-group/full-restoration lifecycle. No persistence/lifecycle fault
 injection or physical stage readback has been completed by this checkpoint.
 No selector continuity, effective analog gain, tuning, sensitivity, SDR packet,
 source-event count or Trial B qualification is claimed.
+
+## Corrected source and worker checkpoint
+
+Root revision `3beae7203825f1922e43eb5fa8946494f614d18a` is a reviewed,
+committed software checkpoint. **Installation remains unapproved.** Exact
+source hashes, test counts and remaining prerequisites are recorded in
+[corrected-checkpoint.json](corrected-checkpoint.json). The reviewer independently
+ran the locked Nix/Task register check: **55 tests passed** (22 actual-C/builder,
+11 artifact, 11 receipt and 11 worker tests). No device or Docker was used.
+
+The three original contradictory failed-receipt mutations now reject before
+records are accepted; the independent 327,600-pair synthetic unpack still
+passes. See [failed-receipt corrections](failed-receipt-corrections.json).
+Another independently reproduced inconsistency made a completed session claim
+a 50-second capture inside a roughly nine-second firmware session. The new
+guard requires elapsed time to fit between the armed-read end and dump-complete
+read start. Both successful and failed actual-C receipts reject that mutation
+and the enclosing bound plus one; ordinary receipts retain their status. See
+[elapsed checks](elapsed-correction-checks.json).
+
+An additional end-to-end worker replay used the actual C deadline-failure
+response after a complete CRC-valid 40,950-byte DATA payload. The worker retains
+that payload and five available records as **failed**, accepts zero captures,
+aborts after the single CAP command and sends no END. Saved bytes were verified
+after UART closure. See [failed DATA worker checks](failed-data-worker-checks.json).
+The worker also bounds write timeouts to the remaining absolute budget and
+requires an explicitly observed closed UART before persisting raw buffers.
+An unconfirmed close returns failed metadata without worker disk persistence;
+the future supervisor must independently establish whole-group closure.
+
+The separate [artifact guard checks](artifact-guard-checks.json) pass against
+candidate 001's actual component files: ELF allocation boundaries, map/symbols,
+ELF-to-image loaded bytes, canonical partition MD5, generated flash arguments,
+image checksums/digests and actual pinned SDK source NAR. Independently moving
+actual ELF LOAD addresses into the MAC slab and its instruction alias rejects.
+The pinned SDK maps the two sample banks to instruction addresses covering
+`[0x400a8000,0x400b8000)`; both aliases are excluded from application allocations.
+The whole new artifact guard **rejects candidate 001's stale source**, as required.
+A fresh build must export the exact reviewed ELF, symbol list and flasher arguments.
+
+The current `read_end_us − read_begin_us` fields measure a nominal bracket around
+the MMIO read, including timestamp-call boundary effects. They omit surrounding
+hook work and do **not** satisfy a claim of measured full-hook added cost. That
+measurement is being revised prospectively and requires another source/build
+review. This checkpoint also does not approve an installation/restoration
+supervisor, target behavior, physical timing, effective analog gain, reception
+or counted source events. The original RF and Trial B gates remain unchanged.

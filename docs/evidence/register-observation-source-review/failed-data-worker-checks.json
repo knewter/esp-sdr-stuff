@@ -1,0 +1,12 @@
+{
+  "synthetic_only": true,
+  "hardware_opened": false,
+  "status": "failed",
+  "verified_capture_count": 0,
+  "actual_available_records": 5,
+  "retained_failed_payload_bytes": 40950,
+  "payload_crc_ok": true,
+  "single_capture_then_abort": true,
+  "uart_closed_before_verified_persistence": true,
+  "terminal_end_sent": false
+}
