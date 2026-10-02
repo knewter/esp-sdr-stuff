@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "review_result": "prospective_diagnostic_preflight_pass",
+  "physical_trial_performed_by_reviewer": false,
+  "hardware_access": false,
+  "physical_trial_acceptance": false,
+  "protocol_author_commit": "837a05b0329d8bec1101e960f8d91ecc6b9aa0d0",
+  "protocol_sha256": "a78cd43951436b60ef215c78f63a0f8d3898f23500c5070ba0bb043c29b62a6c",
+  "source_sha256": {
+    ".scratch/run_native_direct_reference.py": "02f42559a7d3710ebc0e6f996437dbb2cace36193447ba1153335a60c4d805f5",
+    ".scratch/test_native_direct_supervisor.py": "1270c6d2968213ca9b60a447d579c3702a00763124bc9213a73995d4fee812be",
+    ".scratch/run_native_direct_reference.task.yml": "2efa0adac38239310a5f0308f717fac3adbdb517a00a656957857fce0f08d2bd",
+    ".scratch/run_native_reference.py": "903823c371fbc600108c5b2ea9605af84f698c50bd8f72eb8f95780ac3b049f3",
+    ".scratch/run_ble_control.py": "79e02469704502d4fec749676d55fdf19efb603ae2651f95ba2e7e9e5d6b012d",
+    "tools/ble_direct_hci_source.py": "b63676ad722b4ad3a1788760a57a32ce9978437ca87c04759829ff1cda2f6cda",
+    "tools/ble_source_container.py": "e0489670ceee220fd490863ddc4306fc761665c9e68d1b2ae28260f7cb4e1681",
+    "tools/native_ble_reference.py": "435e90209125ef923b31fd24e9a68fde5ebc9bdad26dd294d32c07cce9a459ba",
+    "tools/build_native_ble_reference.py": "06469d69ed6ebddd7d65dffb1ba4abb7da88b3e64d1ff094c9c115a199b1a7fa",
+    "tools/ble_dumpcap_container_monitor.py": "acdddfd2846d8faddbb4375f558c0d0873ce7f22ac6bd9f5afd365cb0c72f498",
+    "tools/ble_dumpcap_monitor.py": "0697b92276674dffdfa2915736dbc75ca35e85ac504d3287b3f52555c84a2793",
+    "tools/ble_hci_monitor.py": "fcf8627daddc061612e8e160c5791e2ded0ab17b7a402dfb6061564e79b918e1",
+    "tools/demo_esp_sdr.py": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966",
+    "tools/flash_trial.py": "7b8f3629f961b177b074cfa7c1646ae4ab4f1e89fddfc3af44e742a7ef111079",
+    "flake.lock": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51"
+  },
+  "private_runner_test_and_task_modes": {
+    ".scratch/run_native_direct_reference.py": "0o600",
+    ".scratch/test_native_direct_supervisor.py": "0o600",
+    ".scratch/run_native_direct_reference.task.yml": "0o600"
+  },
+  "independent_test_command": "nix develop .#ci --command task --taskfile .scratch/run_native_direct_reference.task.yml test",
+  "independent_tests": {
+    "passed": 22,
+    "elapsed_seconds": 0.041
+  },
+  "retained_fixture_hashes": {
+    "source-control.jsonl": "daa1e2b7ea50c7c1427a73365cdd464267134614daa0445541f54ec527d95be7",
+    "hci-control.json": "70df5c34351a66f5946efba158e848902c059fe6ed5033aadb013617c3df12f9"
+  },
+  "fixture_scope": "Actual prior handle1/5s command/ACK/termination/cleanup layout; current flags, start-delay0, helper hash, container fields, Max0 and43/255 branches are explicitly derived synthetic variants, not new physical observations.",
+  "native003_manifest_sha256": "dc4a96c873d69c9ccc09ff5fba5064b9f07332184565b96eee81cc9dad9f0159",
+  "native003_parts_independently_rehashed": [
+    {
+      "name": "bootloader.bin",
+      "offset": 4096,
+      "size": 17888,
+      "sha256": "bc2b126d70f5f93fb2ed21671c73c901c32f0b045d049d41187b5003ddf492a6"
+    },
+    {
+      "name": "partition-table.bin",
+      "offset": 32768,
+      "size": 3072,
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+    },
+    {
+      "name": "native_ble_reference.bin",
+      "offset": 65536,
+      "size": 400144,
+      "sha256": "43875cd929854965e177a02b0b25f22dcac26ddf8390e69ae1f8bf6f593a0e6e"
+    }
+  ],
+  "native003_offline_artifact_guard_in_locked_default_shell_passed": true,
+  "sequence": [
+    255,
+    0,
+    255,
+    0,
+    255,
+    0
+  ],
+  "fixed_source": {
+    "handle": 1,
+    "event_properties": 16,
+    "primary_channel_map": 1,
+    "primary_phy": 1,
+    "secondary_phy": 1,
+    "interval_ms": 20,
+    "duration_ms": 5000,
+    "owned_ad_bytes": 16,
+    "start_delay_seconds": 0
+  },
+  "gates_reviewed": {
+    "validated_native_nonce_READY_then_monitor_READY": true,
+    "initial_OFF_seconds_minimum": 10,
+    "inter_episode_OFF_after_group_closure_seconds_minimum": 5,
+    "all_source_groups_closed_by_READY_plus_seconds": 75,
+    "actual_END_tail_strictly_greater_than_seconds": 10,
+    "native_explicit_cancel_zero_and_inactive_at_90_to_92_seconds": true,
+    "monitor_exact_commands": 30,
+    "monitor_successful_ACKs": 30,
+    "monitor_matching_terminations": 6,
+    "typed_expected_exit2_only": true,
+    "actual_new_43_count255_exit0_retained": true,
+    "unknown_controller_cleanup_blocks_later_source_episode": true,
+    "group_and_container_closure_not_substitute_for_controller_ACKs": true,
+    "no_outer_native_parent_signal_or_competing_restoration": true,
+    "full_original_readback_and_boot_required": true,
+    "phase_buckets_nominal_uncalibrated_one_second_guard": true
+  },
+  "fixed_review_findings": [
+    "Controller cleanup uncertainty separately retained false even after process/group closure.",
+    "Recursive exact-type checks reject bool aliases in source/monitor numeric and nested cleanup fields.",
+    "Protocol distinguishes Bluetooth controller reset prohibition from authorized ESP installation/reset/recovery."
+  ],
+  "primary_semantics_reviewed": {
+    "Core62_HCI_sections": [
+      "7.7.65.18",
+      "7.8.56"
+    ],
+    "cached_official_HTML_sha256": "94da1492e4c1be5e08ad27fb45e02b0aed9ba65dd0658d61257941bf8266d35f",
+    "legacy_and_extended_termination_applicability": true,
+    "nonzero_Max_duration_completed_count_field": true,
+    "zero_Max_completed_count_required_zero": true,
+    "duration_starts_first_advertising_event": true
+  },
+  "limits": {
+    "SDR_positive": false,
+    "Trial_B_prerequisite_satisfied": false,
+    "source_count_gate_closed": false,
+    "RF_gate_closed": false,
+    "radiated_event_count": null,
+    "no_IID_detection_rate": true,
+    "native_reports_may_duplicate": true,
+    "null_inconclusive": true
+  }
+}
