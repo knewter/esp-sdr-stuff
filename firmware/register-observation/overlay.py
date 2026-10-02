@@ -51,3 +51,16 @@ def receiver_text(base=None):
 
 def receiver_sha256():
     return hashlib.sha256(receiver_text().encode()).hexdigest()
+
+
+def transport_text(base=None):
+    original=(HERE/'base/burst_serial.c').read_bytes()
+    if base is not None and base!=original:
+        raise ValueError('Transport is not the exact pinned burst_serial backend')
+    text=original.decode()
+    text=once(text,'#include "burst_serial.h"',
+              '#ifdef REGOBS_HOST_TEST\n#include "transport_shim.h"\n#else\n#include "burst_serial.h"')
+    text=once(text,'#ifndef CONFIG_ESP_SDR_UART_BAUD',
+              '#endif\nextern bool regobs_transport_guard(const char *line);\n\n#ifndef CONFIG_ESP_SDR_UART_BAUD')
+    return once(text,'            if (baud_command(line)) return 0;',
+                '            if (regobs_transport_guard(line)) return 0;\n            if (baud_command(line)) return 0;')

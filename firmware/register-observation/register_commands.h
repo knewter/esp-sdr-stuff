@@ -7,6 +7,16 @@ static bool regobs_valid_nonce(const char *nonce) {
     return true;
 }
 
+/* The common parser consumes BAUD commands before receiver.command(). This
+ * hook is linked only into the diagnostic copy and runs before that consumer. */
+bool regobs_transport_guard(const char *line) {
+    if (regobs_wire_broken) return true;
+    if (regobs_state == REGOBS_NEW || strncmp(line, "BAUD", 4)) return false;
+    if (regobs_state == REGOBS_ARMED) regobs_failed("session_state", regobs_used);
+    else reply("ERR REGOBS1 session_state\n");
+    return true;
+}
+
 static bool regobs_command(const char *line) {
     if (regobs_wire_broken) return true;
     const char *begin = "REGOBS1 BEGIN ", *end = "REGOBS1 END ";

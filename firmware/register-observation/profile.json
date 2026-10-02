@@ -24,6 +24,8 @@
   "base_files": {
     "receiver.c": "ead967784ea8fa69bca4f4ff528d346409b13c6151403a31a83a4f833340d3c0",
     "rx_bandwidth.h": "eeed5216e0aa933df53e280a425659c60fcaa21d306f3555314980a50c482a31",
-    "rx_tuning.h": "d251c194bcd455383e6fc42e1d43185caca88fd32109918e1de49c2042e80c29"
+    "rx_tuning.h": "d251c194bcd455383e6fc42e1d43185caca88fd32109918e1de49c2042e80c29",
+    "burst_serial.c": "460e9639e5d1f01461977cdcea56032c1683b556875e6e5b799789e1ec2a1de3",
+    "burst_serial.h": "18f7dd91f8f6e285ae6da24e33a9595bb686bcc74297e7107688bbc197f709d6"
   }
 }

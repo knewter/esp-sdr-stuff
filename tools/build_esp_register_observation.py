@@ -17,7 +17,7 @@ FIRMWARE = ROOT/'firmware/register-observation'
 KIND = 'esp32-register-observation-v1'
 VERSION = 'regobs-v1'
 FILES = ('README.md','profile.json','overlay.py','register_observation.h','register_commands.h',
-         'base/receiver.c','base/rx_bandwidth.h','base/rx_tuning.h','base/COPYING')
+         'base/receiver.c','base/rx_bandwidth.h','base/rx_tuning.h','base/burst_serial.c','base/burst_serial.h','base/COPYING')
 REQUIRED = ('CONFIG_IDF_TARGET="esp32"','CONFIG_ESP_SDR_UART_ENABLED=y',
     'CONFIG_ESP_SDR_UART_BAUD=921600','CONFIG_ESP_SDR_UART_TX_PIN=1','CONFIG_ESP_SDR_UART_RX_PIN=3',
     'CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y','CONFIG_FREERTOS_UNICORE=y',
@@ -101,7 +101,8 @@ def prepare_project(source,project):
         raise ValueError('Receiver submodules must be initialized at pinned revisions')
     overlay=load_overlay()
     generated=overlay.receiver_text((source/'main/targets/esp32/receiver.c').read_bytes())
-    for name in ('rx_bandwidth.h','rx_tuning.h'):
+    generated_transport=overlay.transport_text((source/'main/common/burst_serial.c').read_bytes())
+    for name in ('rx_bandwidth.h','rx_tuning.h','burst_serial.h'):
         if (source/'main/common'/name).read_bytes()!=(FIRMWARE/'base'/name).read_bytes():
             raise ValueError('Pinned common header mismatch')
     # Copy only Git-pinned files (including initialized submodules). Untracked
@@ -116,6 +117,7 @@ def prepare_project(source,project):
         target.parent.mkdir(parents=True,exist_ok=True,mode=0o700);shutil.copyfile(src,target)
     backend=project/'main/targets/esp32'
     (backend/'receiver.c').write_text(generated)
+    (project/'main/common/burst_serial.c').write_text(generated_transport)
     for name in ('register_observation.h','register_commands.h'):shutil.copyfile(FIRMWARE/name,backend/name)
     defaults=project/'sdkconfig.defaults.esp32'
     value=defaults.read_text()
@@ -123,7 +125,7 @@ def prepare_project(source,project):
     value=value.replace('CONFIG_ESP_SDR_UART_BAUD=2000000','CONFIG_ESP_SDR_UART_BAUD=921600')
     value+='\n# CONFIG_SECURE_BOOT is not set\n# CONFIG_SECURE_FLASH_ENC_ENABLED is not set\n# CONFIG_SECURE_SIGNED_APPS_NO_SECURE_BOOT is not set\n'
     defaults.write_text(value)
-    return dict(receiver_sha256=sha(backend/'receiver.c'),defaults_sha256=sha(defaults),
+    return dict(receiver_sha256=sha(backend/'receiver.c'),transport_sha256=sha(project/'main/common/burst_serial.c'),defaults_sha256=sha(defaults),
                 receiver_submodules=status.strip().splitlines())
 
 

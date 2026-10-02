@@ -47,15 +47,17 @@ class ActualReceiverC(unittest.TestCase):
         cls.temp=tempfile.TemporaryDirectory();cls.path=Path(cls.temp.name)
         overlay=build.load_overlay()
         (cls.path/'receiver.c').write_text(overlay.receiver_text())
+        (cls.path/'burst_serial.c').write_text(overlay.transport_text())
         for name in ('register_observation.h','register_commands.h'):shutil.copyfile(build.FIRMWARE/name,cls.path/name)
-        for name in ('rx_bandwidth.h','rx_tuning.h'):shutil.copyfile(build.FIRMWARE/'base'/name,cls.path/name)
-        for name in ('harness.c','harness_shim.h'):shutil.copyfile(FIXTURE/name,cls.path/name)
+        for name in ('rx_bandwidth.h','rx_tuning.h','burst_serial.h'):shutil.copyfile(build.FIRMWARE/'base'/name,cls.path/name)
+        for name in ('harness.c','harness_shim.h','transport_harness.c','transport_shim.h'):shutil.copyfile(FIXTURE/name,cls.path/name)
         (cls.path/'ring_probe.h').write_text('/* RING_PROBE disabled in diagnostic profile. */\n')
         # The pinned reply() body has an existing int/sizeof comparison. Keep
         # that body untouched while making other host compiler warnings fatal.
-        compiled=subprocess.run([os.environ.get('CC','cc'),'-std=c11','-Wall','-Wextra','-Werror','-Wno-sign-compare','-I'+str(cls.path),
-                        str(cls.path/'harness.c'),'-o',str(cls.path/'check')],capture_output=True,text=True)
-        if compiled.returncode:raise AssertionError(compiled.stderr)
+        for source,binary in (('harness.c','check'),('transport_harness.c','transport')):
+            compiled=subprocess.run([os.environ.get('CC','cc'),'-std=c11','-Wall','-Wextra','-Werror','-Wno-sign-compare','-I'+str(cls.path),
+                        str(cls.path/source),'-o',str(cls.path/binary)],capture_output=True,text=True)
+            if compiled.returncode:raise AssertionError(compiled.stderr)
 
     @classmethod
     def tearDownClass(cls):cls.temp.cleanup()
@@ -154,12 +156,30 @@ class ActualReceiverC(unittest.TestCase):
     def test_excess_capture_cannot_complete_or_restart(self):
         _,p,_,s=self.failure(16,'session_state');self.assertEqual(len(p),20);self.assertEqual(s['triggers'],20)
 
+    def test_actual_common_parser_unarmed_baud_behavior_stays_unchanged(self):
+        done=subprocess.run([str(self.path/'transport'),'0'],check=True,capture_output=True,timeout=5)
+        lines,payloads,partial=parse_wire(done.stdout)
+        self.assertIn(('text','BAUD 921600'),lines);self.assertIn(('text','OK BAUD 1000000'),lines)
+        self.assertFalse(payloads);self.assertFalse(partial)
+
+    def test_actual_common_parser_armed_baud_and_queries_fail_without_rate_change(self):
+        for which in (1,2,3):
+            with self.subTest(which=which):
+                done=subprocess.run([str(self.path/'transport'),str(which)],check=True,capture_output=True,timeout=5)
+                lines,payloads,partial=parse_wire(done.stdout)
+                receipts=[r for tag,r in lines if tag=='REGOBS1']
+                self.assertEqual([r['kind'] for r in receipts],['config','failed'])
+                self.assertEqual(receipts[-1]['failure_kind'],'session_state')
+                self.assertNotIn(('text','OK BAUD 1000000'),lines)
+                self.assertFalse(payloads);self.assertFalse(partial)
+
 
 class BuildGuards(unittest.TestCase):
     def test_exact_base_bytes_and_deterministic_overlay(self):
         files,profile=build.source_files();overlay=build.load_overlay()
         self.assertEqual(len(files),len(build.FILES));self.assertEqual(overlay.receiver_text(),overlay.receiver_text())
         with self.assertRaises(ValueError):overlay.receiver_text(b'wrong base')
+        with self.assertRaises(ValueError):overlay.transport_text(b'wrong transport base')
         self.assertEqual(profile['reserved_sample_slab'],[0x3ffe8000,0x3fff8000])
 
     def test_security_duplicate_and_target_configuration_rejected(self):

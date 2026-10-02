@@ -7,12 +7,16 @@ and bit23. It is not a live analog-gain measurement or a reception result.
 `base/` contains exact source bytes from the GPLv3-licensed
 [ESPARGOS ESP-SDR revision 550fade](https://github.com/ESPARGOS/esp-sdr/tree/550fadea4d00a9e26ce921c5832167becb3dc20c):
 `main/targets/esp32/receiver.c`, `main/common/rx_bandwidth.h` and
-`main/common/rx_tuning.h`. Their hashes are pinned in `profile.json`.
+`main/common/rx_tuning.h` and `main/common/burst_serial.{c,h}`. Their hashes
+are pinned in `profile.json`.
 The upstream license is retained as `base/COPYING`; the overlay and diagnostic
 headers are distributed under the same GPLv3 terms.
 `overlay.py` deterministically inserts the diagnostic headers and four read
 hooks into that receiver. The build copies the pinned project into private
 scratch; it never changes the input checkout or SDK.
+The diagnostic copy of the common serial parser additionally consults the
+armed-session guard before consuming BAUD commands. Unarmed behavior stays
+unchanged; no general SDR source or artifact approval is altered.
 
 The host-only tests compile that generated receiver's real acquisition, packing,
 manual application and command bodies. MMIO, timer, PHY/filter and UART are

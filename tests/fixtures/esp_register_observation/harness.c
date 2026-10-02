@@ -3,7 +3,10 @@
 #define REGOBS_HOST_TEST 1
 #include "receiver.c"
 
-static unsigned mode, gain_writes, triggers, rx_reads, sends, filter_writes;
+static unsigned mode, gain_writes, triggers, rx_reads, filter_writes;
+#ifndef REGOBS_ACTUAL_SERIAL
+static unsigned sends;
+#endif
 static uint32_t control, status, byte_map = 0xdeadbeef, owner = 0xa5a50100;
 static uint32_t gain_word = (72u << 8) | 0x12;
 static unsigned filter[2] = {0x91,0xc2};
@@ -72,6 +75,7 @@ static uint32_t esp_rom_crc32_le(uint32_t initial,const uint8_t *bytes,unsigned 
     }
     return ~crc;
 }
+#ifndef REGOBS_ACTUAL_SERIAL
 static bool burst_serial_send(const void *data,size_t size) {
     assert(!control); assert(owner==0xa5a50100 && byte_map==0xdeadbeef);
     assert(filter[0]==0x91 && filter[1]==0xc2); event(500); sends++;
@@ -83,6 +87,7 @@ static bool burst_serial_send(const void *data,size_t size) {
     now_us+=(int64_t)copied*10000000/921600;
     return !failure;
 }
+#endif
 
 int main(int argc,char **argv) {
     assert(argc==2); mode=(unsigned)strtoul(argv[1],NULL,10); assert(mode<=CAPTURE_DEADLINE);

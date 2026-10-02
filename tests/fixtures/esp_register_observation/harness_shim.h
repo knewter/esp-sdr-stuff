@@ -26,8 +26,12 @@ static void mmio_write(unsigned reg, uint32_t value);
 #define DPORT_REG_WRITE(reg,value) REG_WRITE(reg,value)
 static int64_t esp_timer_get_time(void);
 static void esp_rom_delay_us(unsigned us);
+#ifdef REGOBS_ACTUAL_SERIAL
+#include "burst_serial.h"
+#else
 static bool burst_serial_send(const void *data, size_t size);
 static unsigned burst_serial_baud(void) { return 921600; }
+#endif
 static uint32_t esp_rom_crc32_le(uint32_t initial, const uint8_t *bytes, unsigned length);
 static unsigned rtc_clk_xtal_freq_get(void) { return 40; }
 static void vTaskDelay(unsigned ticks);
