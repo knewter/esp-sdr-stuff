@@ -52,9 +52,10 @@ BLE-PDU replay. Raw UART, flash and original boot content remain private.
 [Source receipts](sources.json) and the separate sanitized
 [monitor](monitor.json) agree on 30 commands, 30 successful ACKs and six
 terminations. Each own-handle disable/remove succeeds; sockets, containers and
-owned process groups close naturally. Wrapper cleanup verification remains
-false for the expected failed source-count diagnostic; the supervisor separately
-validates the complete typed cleanup receipts before the next episode.
+owned process groups close naturally. The wrapper records
+`source_controller_cleanup_verified_by_wrapper=false` because it does not
+assess HCI cleanup; its separate container-removal proof is true. The supervisor
+validates the complete typed controller-cleanup receipts before the next episode.
 [Orchestration](orchestration.json) retains these distinctions, the exact
 preload proof, actual source return codes and immutable executed-file hashes.
 
