@@ -125,3 +125,15 @@ historical eight-bit results. It is not adopted as the default decoder.
 Original accepted packets, null receipts and all live RF/count gates remain
 unchanged. Register observation continues as a separate measurement, without
 assuming that gain readback will explain the ADC distributions.
+
+The [independent register source review](docs/evidence/register-observation-source-review/README.md)
+records the rejected parser cases and their actual-C corrections, strict failed
+receipt guards, bounded worker tests and integrity checks of the stale first
+build. That first build remains unapproved and is refused by the current guard.
+The corrected source now measures complete observation-body cycles separately
+from the MMIO read bracket and declares residual measurement overhead. The
+separate supervisor requires original wire framing/CRC replay, saved IQ checks,
+confirmed whole-group closure and full original restoration. A fresh build,
+target disassembly and independent lifecycle/artifact review still precede the
+first physical register observation. Original RF and transmitted-count gates
+are unchanged.

@@ -19,7 +19,7 @@ STAGES = ('before_acquire', 'armed_before_trigger', 'dump_complete',
 FAILURES = {'capture_timeout', 'capture_count', 'capture_memory',
             'record_capacity', 'session_deadline', 'session_state'}
 RECORD_KEYS = {'sequence', 'capture_ordinal', 'stage', 'read_begin_us',
-               'read_end_us', 'selector', 'bit23'}
+               'read_end_us', 'selector', 'bit23', 'hook_cycles'}
 
 
 class ProtocolError(ValueError):
@@ -100,6 +100,7 @@ class Session:
             require(last <= begin <= end, 'Stage timestamp regression')
             integer(record['selector'], 0, 127)
             integer(record['bit23'], 0, 1)
+            integer(record['hook_cycles'], 0, 0xffffffff)
             last = end
         require(len(self.records)+len(records) <= 81, 'Record capacity exceeded')
 

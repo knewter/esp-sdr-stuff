@@ -97,6 +97,10 @@ class HostActualCReceipts(unittest.TestCase):
             lambda r: r['records'][0].update(read_begin_us=0),
             lambda r: r['records'][0].update(selector=128),
             lambda r: r['records'][0].update(bit23=True),
+            lambda r: r['records'][0].update(hook_cycles=True),
+            lambda r: r['records'][0].update(hook_cycles=-1),
+            lambda r: r['records'][0].update(hook_cycles=4294967296),
+            lambda r: r['records'][0].pop('hook_cycles'),
             lambda r: r['records'][0].update(read_end_us=1.5),
         ]
         for mutation in mutations:

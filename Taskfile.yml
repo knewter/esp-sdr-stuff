@@ -104,6 +104,21 @@ tasks:
     cmds:
       - python3 -m unittest discover -s tests -p 'test_esp_register*.py'
 
+  register:artifact:check:
+    desc: Validate the separate register artifact without opening hardware
+    cmds:
+      - python3 tools/esp_register_artifact.py {{.CLI_ARGS}}
+
+  register:observe:
+    desc: Run the bounded register observation and verify full original restoration (exclusive operator)
+    cmds:
+      - python3 tools/esp_register_observation.py run {{.CLI_ARGS}}
+
+  register:restore:
+    desc: Restore and independently verify the preserved ESP image (exclusive operator)
+    cmds:
+      - python3 tools/esp_register_observation.py restore {{.CLI_ARGS}}
+
   demo:esp:
     desc: Run the preserved ESP live spectrum demo and verify restoration
     cmds:

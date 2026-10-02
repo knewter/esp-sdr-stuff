@@ -1,8 +1,9 @@
 # Observe the forced-selector readback across an IQ dump
 
-**Prospective and unimplemented.** This document proposes a separate diagnostic
-artifact and protocol. No register instrumentation, artifact approval, hardware
-trial or change to the RF/count acceptance gates follows from this document.
+**Hardware unverified.** This document declares a separate diagnostic artifact
+and protocol. Offline firmware, host and lifecycle implementation is under
+review; no installation approval, hardware result or change to RF/count
+acceptance gates follows from this design.
 
 ## The smallest new observation
 
@@ -62,7 +63,9 @@ Keep one initial post-settings record and four small RAM records per capture:
 | `restored_after_dump` | After restoring SRAM ownership, byte selection and filter, before validation, packing or UART output. |
 
 Each record carries a fixed schema version, capture ordinal, stage, nominal
-firmware timestamp, forced-selector readback and bit23. Preserve the existing
+firmware read bracket, forced-selector readback, bit23 and raw measured
+hook-body CPU cycles with explicit measurement overhead and wrap limits.
+Preserve the existing
 completion/count/elapsed metadata to join records to their payload. A complete
 20-capture run has 81 stage records. Failure retains the actual prefix and
 does not manufacture missing stages.

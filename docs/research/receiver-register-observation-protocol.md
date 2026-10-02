@@ -1,6 +1,6 @@
 # Bounded receiver-register observation protocol
 
-**UNVERIFIED: prospective protocol, before implementation.** This makes the
+**UNVERIFIED hardware: declared protocol for the offline implementation.** This makes the
 [register-observation design](receiver-register-observation.md) concrete for
 OpenSpec and source review. It records no hardware result. Existing SDR artifact
 approval, packet acceptance and transmitted-count gates remain unchanged.
@@ -88,7 +88,8 @@ Configuration states the fixed profile, requested settings, rate, bits, sample
 count, capture count, record limit and host-independent firmware start time.
 Stage records have exactly `sequence`, `capture_ordinal` (null only for the
 initial record), `stage`, nonnegative firmware `read_begin_us`
-and `read_end_us`, `selector` integer 0–127 and `bit23` integer 0–1. Require
+and `read_end_us`, `selector` integer 0–127, `bit23` integer 0–1 and
+`hook_cycles` integer 0–4294967295. Require
 `read_begin_us <= read_end_us` and each record's end no later than the next
 record's beginning. Capture metadata carries actual completion flag, actual
 count, existing capture elapsed time, payload bytes and payload CRC.
@@ -114,7 +115,7 @@ register-to-RF and UART latency; neither is an exact RF event timestamp.
 
 ## Stage placement and bounded RAM
 
-Use a static array of exactly 81 records, each at most 32 bytes: at most 2,592
+Use a static array of exactly 81 records, each exactly 32 bytes: exactly 2,592
 bytes, excluding fixed serialization scratch. Check capacity before every
 append. No heap allocation, UART output, hashing or persistence occurs in the
 active acquisition interval.
@@ -134,6 +135,21 @@ not read each field at a different instant. Bracket that read with the two
 nominal firmware times. Do not add any RX_GAIN or other RF write.
 Timestamp/read overhead must be measured and reported, not assumed
 zero. The existing capture elapsed field retains its original placement.
+The prospective implementation brackets the complete non-inlined observation
+body with read-only CCOUNT reads: eligibility/capacity checks, pointer lookup,
+both firmware timers, MMIO, original field stores and body entry/return.
+`hook_cycles` is their unsigned 32-bit modular difference. Guard the fixed
+240 MHz, single-core, disabled power-management configuration. Actual target
+disassembly must confirm the bracket before installation.
+
+Report raw hook-body elapsed cycles separately from the shorter read-time
+bracket. They include intervening interrupts/preemption and are not deterministic
+execution cost. A full counter period (about 17.9 seconds at nominal 240 MHz)
+is ambiguous; raw cycles do not prove the absence of a long stall. The two cycle
+boundaries, subtraction/final delta store and wrapper/callsite instructions
+remain residual measurement overhead. Enumerate those from target disassembly
+and state their uncalibrated cost; do not claim zero total instrumentation cost
+or calibrated RF perturbation. No benchmark loop is added to acquisition.
 
 The record array and serialization buffer must not overlap the entire reserved
 MAC sample slab `[0x3ffe8000, 0x3fff8000)`, including sentinel space. Verify
@@ -209,6 +225,40 @@ After source review, commit the scoped implementation before a fresh Nix-only,
 bounded build. Independently review the actual artifact, generated config/map,
 host tests and frozen caller before the sole operator runs one declared trial.
 No build or physical trial is performed by this planning step.
+
+## Host lifecycle and repeatable commands
+
+The separate supervisor checks committed caller bytes and the narrow artifact
+guard before hardware access. Its run action independently reads the current
+4 MiB and requires the preserved baseline, then validates the artifact again
+before writing its canonical three parts. Diagnostic image headers are 2 MiB;
+the physical preservation/restoration remains the entire 4 MiB. The original
+SDR installer/allowlist is unchanged.
+
+The acquisition worker starts its absolute 30-second deadline immediately after
+exclusive UART ownership. The supervisor drains stdout/stderr into separately
+bounded 512 KiB RAM buffers and imposes a 60-second process deadline including
+startup and post-close persistence. That outer deadline never extends the
+acquisition budget. Parent logs are saved only after complete worker-group
+closure. Unknown closure blocks restoration. Cancellation/failure after an
+installation attempt takes the same full-flash/readback/reset-boot path.
+
+Before a successful public result, independently parse saved original UART
+framing, metadata CRCs, exact DATA binary boundaries and typed receipt order;
+bind those bytes to worker metadata and independently reread/hash all saved IQ.
+A hash of the whole wire or regenerated metadata CRC alone is insufficient.
+Failed/truncated bytes remain private and are never converted into completion.
+
+```sh
+nix develop .#ci --command task register:check
+nix develop .#ci --command task register:artifact:check -- --artifact .scratch/REGISTER_ARTIFACT
+nix develop .#firmware --command task register:observe -- --artifact .scratch/REGISTER_ARTIFACT --manifest .scratch/REGISTER_ARTIFACT/manifest.json --private .scratch/FRESH_REGISTER_RUN --output docs/evidence/FRESH_REGISTER_RUN
+nix develop .#firmware --command task register:restore -- --private .scratch/FRESH_REGISTER_RESTORE --output docs/evidence/FRESH_REGISTER_RESTORE
+```
+
+These are prospective physical bindings, not installation approval. A fresh
+corrected build, actual linked allocations/disassembly, frozen supervisor and
+independent review remain prerequisites for the first run.
 
 ## Decision and limits
 
