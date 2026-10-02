@@ -1,0 +1,17 @@
+Found 1 device(s):
+  0:  RTLSDRBlog, Blog V4, SN: [redacted]
+
+Using device 0: Generic RTL2832U OEM
+Found Rafael Micro R828D tuner
+RTL-SDR Blog V4 Detected
+Tuner gain set to 19.70 dB.
+Tuned to 101442000 Hz.
+Oversampling input by: 8x.
+Oversampling output by: 1x.
+Buffer size: 5.99ms
+Exact sample rate is: 1368000.013046 Hz
+Sampling at 1368000 S/s.
+Output at 171000 Hz.
+Signal caught, exiting!
+
+User cancel, exiting...

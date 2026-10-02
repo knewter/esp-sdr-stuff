@@ -1,0 +1,317 @@
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 2289 2020 ----","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":0.5300584794378224}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":0.6176374273085803}
+{"pi":"0x9250","callsign":"WXJC","bler":23,"raw_data":"---- 228A 2020 ----","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":0.7052163730659331}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"9250 228B 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":0.8805146204805688}
+{"pi":"0x9250","callsign":"WXJC","bler":33,"raw_data":"---- ---- ---- 0000","time_from_start":0.9679532159259271}
+{"pi":"0x9250","callsign":"WXJC","bler":33,"raw_data":"9250 228C 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":1.0555321637787556}
+{"pi":"0x9250","callsign":"WXJC","bler":29,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":1.1431111125808362}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"9250 ---- 2020 2020","time_from_start":1.230690058338189}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"---- 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":1.318269005958187}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 ---- 2020 2020","time_from_start":1.4059883038901795}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"---- 0281 ---- 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":1.4934269002668603}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"9250 0282 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":1.6685847941278018}
+{"pi":"0x9250","callsign":"WXJC","bler":23,"raw_data":"9250 2280 7777 772E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":1.7563040939224395}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":1.8437426893677977}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":1.9313216369877957}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":2.0189005846077936}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 2282 6F72 6720","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":2.1066198830054472}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0281 E0CD 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":2.1940584794000575}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 2283 2D20 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":2.2816374270200557}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 0282 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":2.3692163746400534}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 2284 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":2.456795321328729}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"       Ð","time_from_start":2.5443742689487268}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2285 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":2.6319532151896703}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":2.719532164672313}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2286 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":2.807111110429666}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0281 E0CD 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":2.894690058049664}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2287 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":2.982269005669662}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0282 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":3.0698479532896603}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2288 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":3.157426900461926}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"       Ð","time_from_start":3.245005846219279}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2289 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":3.332584795701922}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":3.42016374332192}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 228A 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":3.5077426900105952}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0281 E0CD ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":3.595321637397763}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"---- ---- 2020 2020","time_from_start":3.682900585734182}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0282 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":3.7704795314915347}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 228C 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":3.858058479111533}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":3.9456374267315306}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 228D 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":4.033216374351529}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 0284 ---- 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":4.120795321622281}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"---- 228E 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":4.2083742672811475}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 0281 E0CD 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":4.295953216763791}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 ---- ---- ----","time_from_start":4.383532164383788}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"---- 0282 ---- 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":4.471111112003786}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 2280 7777 772E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":4.558690058692462}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":4.646269005846799}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":4.733847952553403}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"---- 0284 ---- ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":4.821426900173401}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 0281 ---- 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":4.996584795413397}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 2283 2D20 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":5.084163742567734}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"---- 0282 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":5.171742688343016}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"9250 ---- ---- 2020","time_from_start":5.434479533065655}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"9250 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":5.522058479754331}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"9250 ---- 2020 ----","time_from_start":5.609637426908667}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"9250 0281 E0CD 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":5.697216373615272}
+{"pi":"0x9250","callsign":"WXJC","bler":33,"raw_data":"---- 2287 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":5.7847953230979146}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"9250 0282 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":5.872374268855268}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 2288 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":5.959953216475266}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"---- 0287 ---- 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":6.047532164095264}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"9250 2289 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":6.13511111101677}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":6.222690058887528}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 228A 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":6.310269004644881}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0281 E0CD 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":6.397847954127523}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 228B 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":6.485426899884876}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 0282 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":6.5730058475048745}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 228C 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":6.660584795357703}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"       Ð","time_from_start":6.7481637441597835}
+{"pi":"0x9250","callsign":"WXJC","bler":4,"raw_data":"9250 228D 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":6.8357426899171365}
+{"pi":"0x9250","callsign":"WXJC","bler":4,"raw_data":"9250 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":6.923321637537135}
+{"pi":"0x9250","callsign":"WXJC","bler":4,"raw_data":"9250 228E 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":7.010900585157132}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0281 E0CD 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":7.098479531845808}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 228F 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":7.186058479531289}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0282 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":7.273637425706749}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2280 7777 772E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":7.361216375189392}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"       Ð","time_from_start":7.448795320946745}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":7.536374268566743}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":7.623953216186741}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2282 6F72 6720","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":7.711532163690324}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0281 E0CD 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":7.799111110979005}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2283 2D20 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":7.886830408910997}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0282 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":7.974269006219001}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2284 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":8.061988304150994}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"       Ð","time_from_start":8.149426900527674}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2285 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":8.237005846768618}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0284 E0CD 0000","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":8.32458479625126}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2286 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":8.412304094183254}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0281 E0CD 0001","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":8.499742689628611}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2287 2020 ----","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":8.587461988491926}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 ---- E0CD ----","time_from_start":8.675040935646264}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 2288 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":8.762479532040873}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0287 E0CD 00CE","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":8.850058477798227}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 ---- ---- 2020","time_from_start":8.937637427280869}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0284 E0CD ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":9.025216374900868}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"---- 228A 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":9.112795321589543}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 228B 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":9.28795321731313}
+{"pi":"0x9250","callsign":"WXJC","bler":23,"raw_data":"---- 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":9.375532163070481}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 ---- 2020 2020","time_from_start":9.46311111069048}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"9250 0287 ---- 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":9.550690058310478}
+{"pi":"0x9250","callsign":"WXJC","bler":29,"raw_data":"9250 ---- 2020 ----","time_from_start":9.638269005930477}
+{"pi":"0x9250","callsign":"WXJC","bler":29,"raw_data":"---- 0284 ---- 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":9.725847953201228}
+{"pi":"0x9250","callsign":"WXJC","bler":29,"raw_data":"9250 228E 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":9.813426898860095}
+{"pi":"0x9250","callsign":"WXJC","bler":29,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":9.901005848342738}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 228F 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":9.988584795962735}
+{"pi":"0x9250","callsign":"WXJC","bler":23,"raw_data":"9250 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":10.076163743582734}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 2280 7777 772E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":10.163742690271409}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"  w.lwf.","time_from_start":10.251321637425747}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":10.33890058413235}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0284 E0CD 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":10.42647953175235}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 2282 6F72 6720","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":10.514058479372347}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":10.601637426992344}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 2283 2D20 ----","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":10.689216374146682}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":10.776795319921963}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2284 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":10.864374269404607}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":10.951953217024604}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2285 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":11.039532164644603}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0284 E0CD 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":11.127111111333278}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2286 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":11.214690058487614}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":11.30226900519422}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2287 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":11.389847954676862}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":11.477426900434216}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2288 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":11.565005848054213}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":11.652584795674212}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2289 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":11.740163742595717}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0284 E0CD 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":11.827742690466476}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 228A 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":11.915321636223828}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":12.00290058570647}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 228B 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":12.090479531463824}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":12.178058479083822}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 228C 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":12.265637426936651}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":12.35321637573873}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 228D 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":12.440795321496084}
+{"pi":"0x9250","callsign":"WXJC","bler":4,"raw_data":"9250 ---- E0CD ----","time_from_start":12.528374269116082}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"---- 228E 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":12.615953216736079}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":12.703532163424756}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 228F ---- 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":12.791111111110236}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"---- 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":12.878690057285697}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 2280 7777 772E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":12.96626900676834}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":13.053847952525693}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":13.14142690014569}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0284 ---- 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":13.229005847765688}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 2282 6F72 6720","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":13.316584795269272}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"---- 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":13.404163742557952}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 2283 2D20 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":13.49174269017795}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0282 ---- 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":13.579321637797948}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"---- 2284 ---- ----","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":13.666900584486624}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":13.754479532106622}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 2285 2020 ----","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":13.842058478347566}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 ---- E0CD 7777","time_from_start":13.929637427830208}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 2286 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":14.01721637358756}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 0281 E0CD ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":14.10479532120756}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 2287 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":14.192374268827557}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 ---- E0CD ----","time_from_start":14.279953216447554}
+{"pi":"0x9250","callsign":"WXJC","bler":23,"raw_data":"9250 ---- 2020 2020","time_from_start":14.36753216361982}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":14.455111109377174}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 2289 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":14.542690058859817}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 0284 E0CD 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":14.630409356791809}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 228A 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":14.71784795316849}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":14.805426900555657}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 228B 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":14.893005848892077}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":14.98058479464943}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 228C 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":15.068163742269428}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":15.155742689889426}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 228D 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":15.243321637509423}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0284 E0CD 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":15.330900584780176}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 228E 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":15.418479530439042}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":15.506058479921686}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 228F 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":15.593637427541683}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":15.68121637516168}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2280 7777 772E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":15.768795321850357}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":15.856374269004693}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":15.943953215711298}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0284 E0CD 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":16.031532163331295}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2282 6F72 6720","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":16.119111110951295}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":16.206690058571294}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2283 2D20 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":16.294269005725628}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 ---- E0CD 6C77","time_from_start":16.381847951500912}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2284 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":16.469426900983553}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":16.557005848603552}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2285 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":16.64458479622355}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0284 E0CD 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":16.732163742912224}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2286 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":16.819742690066562}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":16.907321636773165}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2287 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":16.99490058625581}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":17.082479532013163}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2288 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":17.17005847963316}
+{"pi":"0x9250","callsign":"WXJC","bler":4,"raw_data":"9250 0287 E0CD ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":17.257637427253158}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 2289 ---- ----","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":17.345216374174665}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"---- ---- E0CD 7777","time_from_start":17.432795322045422}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 228A ---- 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":17.520374267802776}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"---- 0281 E0CD ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":17.60795321728542}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 ---- 2020 2020","time_from_start":17.69553216304277}
+{"pi":"0x9250","callsign":"WXJC","bler":23,"raw_data":"---- 0282 E0CD ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":17.78311111066277}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 ---- 2020 2020","time_from_start":17.8706900585156}
+{"pi":"0x9250","callsign":"WXJC","bler":35,"raw_data":"9250 0284 E0CD 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":18.133426900695028}
+{"pi":"0x9250","callsign":"WXJC","bler":40,"raw_data":"9250 ---- ---- 2020","time_from_start":18.221005848315027}
+{"pi":"0x9250","callsign":"WXJC","bler":40,"raw_data":"9250 ---- E0CD 772E","time_from_start":18.308584795003704}
+{"pi":"0x9250","callsign":"WXJC","bler":35,"raw_data":"9250 228F 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":18.396163742689183}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"9250 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":18.483742688864645}
+{"pi":"0x9250","callsign":"WXJC","bler":35,"raw_data":"---- ---- ---- 772E","time_from_start":18.571321638347285}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":18.65890058410464}
+{"pi":"0x9250","callsign":"WXJC","bler":29,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":18.74647953172464}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 0284 E0CD 7777","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":18.834058479344634}
+{"pi":"0x9250","callsign":"WXJC","bler":23,"raw_data":"9250 2282 6F72 6720","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":18.921637426848218}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0281 E0CD 772E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":19.0092163741369}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 2283 2D20 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":19.096795321756897}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0282 E0CD 6C77","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":19.184374269376896}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 2284 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":19.271953216065572}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0287 E0CD 662E","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":"www.lwf.","time_from_start":19.359532163685568}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 2285 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":19.447111109926514}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":19.534690059409154}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2286 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":19.62226900516651}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":19.709847952786507}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2287 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":19.797426900406503}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0282 E0CD 202D","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":19.885005848026502}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2288 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":19.972584795198767}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":" org -  ","time_from_start":20.06016374095612}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2289 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":20.147742690438765}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":20.23532163805876}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 ---- 2020 2020","time_from_start":20.322900584747437}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":20.410479532134605}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 228B 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":20.498058480471023}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":20.760795321468372}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 228D 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":20.84837426908837}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 ---- E0CD 206F","time_from_start":20.935953216359124}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 228E 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":21.02353216201799}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 0281 ---- ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":21.111111111500634}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"---- ---- 2020 2020","time_from_start":21.19869005912063}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 0282 E0CD 202D","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":21.28626900674063}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"9250 2280 ---- ----","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":21.373847953429305}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"---- ---- E0CD 2020","time_from_start":21.46142690058364}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":21.549005847290246}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 0284 ---- 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":21.63658479491024}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"---- ---- 6F72 6720","time_from_start":21.72416374253024}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":21.81174269015024}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 2283 2D20 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":21.899321637304578}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 0282 E0CD ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":21.98690058307986}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 2284 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":22.074479532562503}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":22.1620584801825}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 ---- ---- 2020","time_from_start":22.249637427802497}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":22.337216374491174}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 2286 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":22.424795321645508}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":22.512374268352115}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 2287 ---- 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":22.599953217834756}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"---- ---- ---- 202D","time_from_start":22.68753216359211}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 2288 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":22.77511111121211}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 0287 ---- 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":22.862690058832104}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 2289 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":22.95026900575361}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":23.037847953624368}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 228A 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":23.125426899381722}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":23.213005848864366}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 228B 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":23.30058479462172}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 ---- E0CD ----","time_from_start":23.388163742241716}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 228C 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":23.475742690094545}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":23.563321638896625}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 228D 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":23.65090058465398}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":23.738479532273978}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 228E 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":23.826058479893973}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 0281 E0CD ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":23.91363742658265}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0282 E0CD 202D","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":24.08879532044359}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 2280 7777 772E","group":"2A","tp":false,"prog_type":"Religious talk","radiotext":"www.lwf.org -","time_from_start":24.176374269926235}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":24.263953215683586}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":24.351532163303585}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":24.439111110923584}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 2282 6F72 6720","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":24.526690058427167}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":24.614269005715848}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 2283 2D20 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":24.701847953335847}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 0282 E0CD 202D","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":24.789426900955842}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 2284 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":24.87700584764452}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":" org -  ","time_from_start":24.964584795264518}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2285 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":25.05216374150546}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":25.139742690988104}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2286 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":25.227321636745454}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":25.314900584365454}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2287 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":25.402479531985453}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0282 E0CD 202D","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":25.490058479605448}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2288 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":25.577637426777716}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":" org -  ","time_from_start":25.665216372535067}
+{"pi":"0x9250","callsign":"WXJC","bler":0,"raw_data":"9250 2289 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":25.75279532201771}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"---- ---- ---- 206F","time_from_start":25.84037426963771}
+{"pi":"0x9250","callsign":"WXJC","bler":6,"raw_data":"9250 228A 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":25.927953216326387}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 ---- ---- ----","time_from_start":26.01553216371355}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 228B ---- 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":26.103111112049973}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"---- 0282 ---- 202D","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":26.190690057807323}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 228C 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":26.278269005427322}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 0287 ---- 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":26.36584795304732}
+{"pi":"0x9250","callsign":"WXJC","bler":25,"raw_data":"9250 ---- 2020 ----","time_from_start":26.453426900667317}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"---- 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":26.54100584793807}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":26.71616374307958}
+{"pi":"0x9250","callsign":"WXJC","bler":31,"raw_data":"9250 228F 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":26.80374269069958}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"9250 ---- E0CD 202D","time_from_start":26.891321638319575}
+{"pi":"0x9250","callsign":"WXJC","bler":27,"raw_data":"9250 2280 7777 772E","group":"2A","tp":false,"prog_type":"Religious talk","radiotext":"www.lwf.org -","time_from_start":26.97890058500825}
+{"pi":"0x9250","callsign":"WXJC","bler":21,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":27.06647953216259}
+{"pi":"0x9250","callsign":"WXJC","bler":19,"raw_data":"9250 2281 6C77 662E","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":27.154058478869192}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":27.24163742648919}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 2282 ---- 6720","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":27.32921637410919}
+{"pi":"0x9250","callsign":"WXJC","bler":15,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":27.416795321729186}
+{"pi":"0x9250","callsign":"WXJC","bler":10,"raw_data":"9250 2283 2D20 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":27.504374268883524}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 0282 E0CD 202D","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":27.591953214658805}
+{"pi":"0x9250","callsign":"WXJC","bler":4,"raw_data":"9250 2284 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":27.67953216414145}
+{"pi":"0x9250","callsign":"WXJC","bler":4,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"ps":" org -  ","time_from_start":27.767111111761448}
+{"pi":"0x9250","callsign":"WXJC","bler":4,"raw_data":"9250 2285 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":27.854690059381443}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":27.94226900607012}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2286 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":28.029847953224458}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":28.11742689993106}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2287 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":28.205005849413705}
+{"pi":"0x9250","callsign":"WXJC","bler":4,"raw_data":"9250 0282 E0CD ----","group":"0A","tp":false,"prog_type":"Religious talk","di":{"artificial_head":false},"ta":false,"is_music":false,"time_from_start":28.292584795171056}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2288 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":28.380163742791055}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":28.467742690411054}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 2289 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":28.555321637332558}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0284 E0CD 206F","group":"0A","tp":false,"prog_type":"Religious talk","di":{"dynamic_pty":true},"ta":false,"is_music":false,"time_from_start":28.642900585203318}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 228A 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":28.73047953096067}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 0281 E0CD 7267","group":"0A","tp":false,"prog_type":"Religious talk","di":{"compressed":false},"ta":false,"is_music":false,"time_from_start":28.818058480443312}
+{"pi":"0x9250","callsign":"WXJC","bler":2,"raw_data":"9250 228B 2020 2020","group":"2A","tp":false,"prog_type":"Religious talk","time_from_start":28.905637426200666}
+{"pi":"0x9250","callsign":"WXJC","bler":8,"raw_data":"9250 ---- ---- ----","time_from_start":28.993216373820665}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"---- ---- 2020 2020","time_from_start":29.08079532167349}
+{"pi":"0x9250","callsign":"WXJC","bler":13,"raw_data":"9250 0287 E0CD 2020","group":"0A","tp":false,"prog_type":"Religious talk","di":{"stereo":true},"ta":false,"is_music":false,"time_from_start":29.168374270475574}
+{"pi":"0x9250","callsign":"WXJC","bler":17,"raw_data":"9250 228D ---- ----","group":"2A","tp":false,"prog_type":"Religious talk"}

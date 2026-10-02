@@ -1,0 +1,94 @@
+{
+  "recorded_utc": "2026-10-02T03:15:12.199623+00:00",
+  "antenna": "User-attested dipole attached before capture; exact model, dimensions and orientation unverified",
+  "bias_tee": "not enabled",
+  "channel_hz": 101100000,
+  "numpy": "2.5.2",
+  "scipy": "1.18.0",
+  "receiver_command": [
+    "rtl_fm",
+    "-d",
+    "0",
+    "-M",
+    "fm",
+    "-l",
+    "0",
+    "-A",
+    "std",
+    "-p",
+    "0",
+    "-s",
+    "171000",
+    "-g",
+    "19.7",
+    "-F",
+    "9",
+    "-f",
+    "101100000"
+  ],
+  "receiver_returncode": 0,
+  "process_duration_s": 30.16224102000706,
+  "capture_limit_s": 30.0,
+  "forced_kill": false,
+  "rtl_fm_sha256": "026ab2ec1ec62d04731cb32f246eafd582719a284782262d3a2a81d1eacce476",
+  "mpx_rate_requested_hz": 171000,
+  "mpx_samples": 5015552,
+  "nominal_mpx_duration_s": 29.330713450292397,
+  "gain_requested_db": 19.7,
+  "mpx_sha256": "57abd62b961d95ee8c0e4b471101e6962a3aa1b1b6dbc5768ba12f0e4f255e47",
+  "mpx_bytes": 10031104,
+  "redsea_sha256": "db77a477a4d9747f09f1e4cf8bba98df807b8763d8e752ff4cb74614d64cf461",
+  "raw_publication": "IQ/MPX kept private in ignored scratch; decoded public broadcast metadata only",
+  "decoder_command": [
+    "redsea",
+    "--input",
+    "mpx",
+    "-r",
+    "171000",
+    "--no-fec",
+    "--show-raw",
+    "--rbds",
+    "--bler",
+    "--time-from-start"
+  ],
+  "decoder_returncode": 0,
+  "decode_summary": {
+    "emitted_groups": 317,
+    "complete_four_block_groups": 233,
+    "valid_blocks_in_emitted_groups": 1137,
+    "missing_blocks_in_emitted_groups": 131,
+    "direct_valid_block_a_pi_counts": {
+      "0x9250": 287
+    },
+    "callsigns_in_decoder_output": [
+      "WXJC"
+    ],
+    "ps_values": [
+      "       \u00d0",
+      "  w.lwf.",
+      " org -  ",
+      "www.lwf."
+    ],
+    "radiotext_values": [
+      "www.lwf.org -"
+    ],
+    "first_group_time_s": 0.5300584794378224,
+    "last_group_time_s": 29.168374270475574,
+    "count_scope": "Emitted groups only; unsynchronized/omitted groups excluded. PI field can be inherited; direct PI counts use raw block A only.",
+    "checkword_policy": "redsea --no-fec; no burst correction; valid blocks have expected syndrome/offset. This is RDS 10-bit checkword evidence, not a separate external CRC verifier."
+  },
+  "capture_tool_default_antenna_note": "Exact model, attachment and orientation unverified; no physical intervention",
+  "antenna_user_attestation": {
+    "source": "user report before this capture",
+    "type": "dipole",
+    "model_verified": false,
+    "dimensions_verified": false,
+    "orientation_verified": false,
+    "physical_attachment_independently_verified": false
+  },
+  "publication_edits": {
+    "antenna": "User attestation added; capture tool default note retained verbatim in capture_tool_default_antenna_note",
+    "command_paths": "Executable host paths replaced with command names; all arguments and binary hashes preserved",
+    "original_private_trial_sha256": "a58e8c2e7130941210840a5b864ccdc102ef96a0fcb7f99ef364ccf825b03fa6"
+  }
+}
