@@ -2,7 +2,7 @@
   "schema": 1,
   "experiment": "predeclared zero-controller-counter RF discriminator",
   "decoder_script_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
-  "reporter_script_sha256": "55049da0c678b02f874a1637145304b7d9a699b3b2dfe57359c2eabf5f274fba",
+  "reporter_script_sha256": "085991f8c9ea172dfe7a5b08379eea42e1d8995b54796564a511f9e43c3409c0",
   "input_receipt_sha256": {
     "monitor": "d0edf4a7fc665f820b9b567a16a0c30a6b2a9c97edb1d612c32f3b4c4aec5840",
     "source_episodes": "50f627429560fe384cfd084b71fc47215e6a579924987144aa00d364a95a1908",
