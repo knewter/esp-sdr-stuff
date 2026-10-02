@@ -225,7 +225,7 @@ tasks:
   forgix:check:
     desc: Check pinned Forgix host tools without opening hardware (use nix develop .#forgix)
     cmds:
-      - python3 tools/forgix_toolchain_check.py {{.CLI_ARGS}}
+      - python3 tools/efinity_bootstrap.py host-check -- {{.CLI_ARGS}}
 
   forgix:host-check:
     desc: Build the locked Forgix host-tool and upstream protocol checks
@@ -241,3 +241,33 @@ tasks:
     desc: Preserve Forgix using the flake's USB-scoped picotool image
     cmds:
       - python3 scripts/preserve_forgix_container.py {{.CLI_ARGS}}
+
+  forgix:efinity:discover:
+    desc: List completed top-level vendor downloads; never opens partials or license contents
+    cmds:
+      - python3 tools/efinity_bootstrap.py discover {{.CLI_ARGS}}
+
+  forgix:efinity:import:
+    desc: Copy explicit full/patch/tool/license inputs into permanent ignored private storage
+    cmds:
+      - python3 tools/efinity_bootstrap.py import {{.CLI_ARGS}}
+
+  forgix:efinity:install:
+    desc: Extract a staged full Linux release privately and select it atomically
+    cmds:
+      - python3 tools/efinity_bootstrap.py install {{.CLI_ARGS}}
+
+  forgix:efinity:check:
+    desc: Check selected vendor CLI in Nix FHS; raw output stays private, no programming
+    cmds:
+      - python3 tools/efinity_bootstrap.py check
+
+  forgix:efinity:run:
+    desc: Run an explicit command in the selected Nix FHS environment with private output
+    cmds:
+      - python3 tools/efinity_bootstrap.py run -- {{.CLI_ARGS}}
+
+  forgix:efinity:test:
+    desc: Offline staging/extraction/version/privacy guards, synthetic inputs only
+    cmds:
+      - python3 -m unittest discover -s tests -p test_efinity_bootstrap.py

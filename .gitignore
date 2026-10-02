@@ -18,3 +18,5 @@ test-results/
 /result
 /result-*
 /site/.nix-deps-*/
+
+/.vendor/

@@ -62,9 +62,85 @@ locked in `flake.lock`. Runtime distributions report Migen 0.9.2, LiteX/Boards
 2026.8 and mpremote 1.29.0. The independent RTL SHA-256 is
 `b945624a91c355a350e7395b8321c7ed090290aef385310bcd387ea9a2118043`.
 
+## Permanent local downloads and installation
+
+Use the locked shell for each command. The bootstrap does not download files,
+accept a license agreement, install USB rules or program either chip. It copies
+completed inputs, retaining the original Downloads files. Storage is the
+repository's ignored `.vendor/efinity/`, with private directories and receipts
+(0700/0600). Software executables retain owner execution permission. Licensed
+files and captured vendor output never enter Git, the site or the Nix store.
+
+```sh
+nix develop .#forgix --command task forgix:efinity:discover
+nix develop .#forgix --command task forgix:efinity:discover -- --source-dir ~/Downloads
+nix develop .#forgix --command task forgix:efinity:import -- --full /path/to/efinity-RELEASE.tar.bz2
+nix develop .#forgix --command task forgix:efinity:install -- --version RELEASE
+nix develop .#forgix --command task forgix:efinity:check
+nix develop .#forgix --command task forgix:check -- --require-vendor
+```
+
+For example, a full `efinity-2026.1.132.tar.bz2` package imports with
+`--full ~/Downloads/efinity-2026.1.132.tar.bz2` and installs with
+`--version 2026.1.132`. Replace `RELEASE` with the exact numeric release
+recorded in the package's `scripts/sw_version.txt`. Discovery checks only a bounded top-level directory;
+it reports incomplete browser downloads without opening them. Import refuses
+`.crdownload`/`.part` inputs. No completed input means a friendly incomplete
+result; partial browser files are not treated as installers.
+
+The [official Linux installation guide](https://www.efinixinc.com/docs/efinity-installation-v4.1.pdf)
+uses tar.bz2 full releases and ZIP patches. The importer also stages other tar
+compressions or ZIP full releases when their layout is valid. Extraction guards
+reject traversal, special files, hardlinks, duplicate paths and escaping,
+cyclic or missing symlinks. Internal relative symlinks are supported. Archive,
+member count, expanded size and available-space limits apply. A failed private
+extraction is retained as `.failed-*`; it never replaces the current selection.
+Successful installs use fresh version directories and atomic `current.json`
+selection. Repeating the same software hash/version reuses the installation;
+conflicting version bytes or changed required CLI files refuse.
+
+Stage supplementary inputs explicitly:
+
+```sh
+nix develop .#forgix --command task forgix:efinity:import -- --patch /path/to/efinity-RELEASE-patch.zip --tool /path/to/vendor-tool.zip
+nix develop .#forgix --command task forgix:efinity:import -- --license /path/to/private-vendor-license
+```
+
+Patches and standalone tools are retained separately and never mistaken for a
+full compiler or silently applied to a different release. Applying a patch
+requires its release-specific vendor procedure; staging it alone changes no
+installed compiler. If more than one full release is staged, install also
+requires its explicit `--archive SOFTWARE_SHA256` selection.
+
+The installation guide does not specify a universal license environment
+variable or filename. If the supplied vendor instructions call for a license
+inside the installation, pass that exact safe relative location with
+`forgix:efinity:install -- --version RELEASE --license-relative LOCATION`.
+The helper copies opaque license bytes there without reporting their content,
+hash or identifier, and refuses executable-file conflicts. A license already
+configured by the vendor outside the installation remains untouched. No
+invented license-variable setting is used, and CLI help does not verify a
+licensed compile.
+
+After selection, `forgix:check` automatically supplies the local installation
+to the existing Nix FHS wrapper; an explicit `LITEX_ENV_EFINITY` still takes
+precedence. `forgix:check` accepts host checks, declarations and vendor help;
+compilation through `--build-dir` must use the private runtime below.
+`forgix:efinity:run -- COMMAND ARGUMENTS` runs an explicitly supplied
+command in that selected wrapper and retains its output privately. For example,
+`forgix:efinity:run -- @forgix-python tools/forgix_toolchain_check.py --build-dir ...`
+uses the pinned host Python and still requires all the physical declarations below. No command here chooses or
+programs a hardware device automatically. Captured setup/command output stays under `.vendor/efinity/logs`. The vendor
+may also create user logs in `~/.efinity`; HOME remains unchanged, and those
+files and their permissions are not verified until a legitimate CLI runs.
+Timeout or cancellation closes the whole owned command group. An unverified
+group closure blocks later storage changes pending inspection. Sanitized output gives the exit code and software
+version/hash, never a license-compile claim. Re-run the hardware-free bootstrap
+guards with `nix develop .#ci --command task forgix:efinity:test`.
+
 ## Missing vendor input
 
-A metadata-only search inspected about 414,000 filenames across downloads,
+Before the user reported new downloads, a metadata-only search inspected about 414,000 filenames across downloads,
 system/user software locations, configuration and local-share directories,
 and neighboring projects, excluding caches and private backups. It found no
 Efinity compiler, installer or matching license candidate. No credential or
