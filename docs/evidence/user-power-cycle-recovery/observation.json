@@ -1,0 +1,24 @@
+{
+  "checked_utc": "2026-10-02T03:11:06.318962+00:00",
+  "user_statement": "i power cycled the esp",
+  "user_reported_power_cycle": true,
+  "usb_identity_confirmed": "10c4:ea60 stable CP2102 path",
+  "uart_baud": 115200,
+  "operator": "root",
+  "commands_sent_to_esp": 0,
+  "firmware_written": false,
+  "esptool_invoked": false,
+  "intentional_rts_dtr_pulses": false,
+  "serial_handle_closed": true,
+  "original_gpio_activity_observed": true,
+  "original_project_name_observed": true,
+  "limitations": "Power removal/reapplication is user-reported, not host electrical measurement. UART open may cause an additional reset even with DTR/RTS inactive; any boot in this log is not independently timestamped to the physical power application.",
+  "received_uart_bytes": 5490,
+  "saved_log_bytes": 5028,
+  "saved_log_sha256": "82f0e9973c6198882147fbd7579bea5892210290ed2f7b35b1c23cd9916c5ef5",
+  "publication_transforms": [
+    "Decode UART as UTF-8 with replacement",
+    "Strip ANSI color sequences",
+    "Redact address-like strings"
+  ]
+}
