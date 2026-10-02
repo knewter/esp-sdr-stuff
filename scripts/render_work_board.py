@@ -16,6 +16,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from export_sources import committed_payloads
+
 CHANGE_ROOT = "openspec/changes/"
 STATUS_PATH = "docs/work-board-status.json"
 LANES = ("planned", "in-progress", "verification", "archived")
@@ -89,6 +92,7 @@ class SourceTree:
         self.repo = repo
         self.working_tree = working_tree
         self.revision = git(repo, "rev-parse", "HEAD").strip()
+        self.committed_documents = {}
         if working_tree:
             listed = git(repo, "ls-files", "--cached", "--others", "--exclude-standard").splitlines()
             self.paths = {p for p in listed if (repo / p).is_file() and not (repo / p).is_symlink()}
@@ -96,6 +100,8 @@ class SourceTree:
             entries = git(repo, "ls-tree", "-r", "-z", self.revision).split("\0")
             self.paths = {entry.split("\t", 1)[1] for entry in entries
                           if entry.startswith(("100644 ", "100755 "))}
+            documents = sorted(p for p in self.paths if p.endswith(".md") or p == STATUS_PATH)
+            self.committed_documents = dict(committed_payloads(repo, self.revision, documents))
 
     def read(self, path: str) -> str:
         safe_path(path)
@@ -106,6 +112,11 @@ class SourceTree:
             if source.stat().st_size > MAX_DOCUMENT_BYTES:
                 raise WorkError(f"work document exceeds {MAX_DOCUMENT_BYTES} bytes: {path}")
             return source.read_text(encoding="utf-8")
+        if path in self.committed_documents:
+            payload = self.committed_documents[path]
+            if len(payload) > MAX_DOCUMENT_BYTES:
+                raise WorkError(f"work document exceeds {MAX_DOCUMENT_BYTES} bytes: {path}")
+            return payload.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
         size = int(git(self.repo, "cat-file", "-s", f"{self.revision}:{path}").strip())
         if size > MAX_DOCUMENT_BYTES:
             raise WorkError(f"work document exceeds {MAX_DOCUMENT_BYTES} bytes: {path}")
