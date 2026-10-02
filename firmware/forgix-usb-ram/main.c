@@ -15,7 +15,7 @@ static uint8_t queue[QUEUE_RECORDS][FRAME_BYTES];
 static uint8_t nonce[16], command[32];
 static unsigned head, tail, queued, offset, command_length;
 static uint32_t sequence, generated, enqueued, dropped, partial_writes, high_water;
-static uint64_t accepted_bytes, stall_us, last_tx_us;
+static uint64_t accepted_bytes, stall_us;
 static uint64_t boot_us, start_us;
 static uint32_t rate;
 static bool active, ending, end_enqueued;
@@ -44,10 +44,11 @@ static void frame(unsigned type,uint64_t now){
  if(queued>high_water)high_water=queued;
  if(type==4)end_enqueued=true;
 }
-void tud_cdc_tx_complete_cb(uint8_t interface){(void)interface;last_tx_us=time_us_64();}
 int main(void){
  boot_us=time_us_64();watchdog_enable(2000,false);
- if(diagnostic_profile[0]!='F' || !tud_init(0))watchdog_reboot(0,0,1);
+ if(diagnostic_profile[0]!='F' || !tud_init(0)){
+  watchdog_reboot(0,0,1);while(true)tight_loop_contents();
+ }
  bool announced=false;uint64_t previous=time_us_64(),data_records=0,stats_due=0;
  while(true){
   uint64_t now=time_us_64();if(now-boot_us>=MAX_LIFETIME_US)break;
@@ -77,12 +78,14 @@ int main(void){
   if(queued){
    unsigned available=tud_cdc_write_available();
    if(available){unsigned remain=FRAME_BYTES-offset,n=tud_cdc_write(queue[head]+offset,remain);
-    if(n&&n<remain)partial_writes++;offset+=n;accepted_bytes+=n;tud_cdc_write_flush();
+    if(n&&n<remain){partial_writes++;}
+    offset+=n;accepted_bytes+=n;tud_cdc_write_flush();
     if(offset==FRAME_BYTES){head=(head+1)%QUEUE_RECORDS;queued--;offset=0;}
    }else stall_us+=now-previous;
   }
   previous=now;
-  if(ending&&(now-start_us>=RUN_US+DRAIN_US || (end_enqueued&&!queued&&last_tx_us>=start_us+RUN_US)))break;
+  /* Always drain for the fixed grace; callbacks cannot prove END delivery. */
+  if(ending&&now-start_us>=RUN_US+DRAIN_US)break;
  }
  watchdog_reboot(0,0,1);while(true)tight_loop_contents();
 }

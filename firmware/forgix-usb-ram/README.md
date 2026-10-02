@@ -16,11 +16,11 @@ and releases peripheral resets after clock initialization. Therefore zero
 application GPIO calls cannot prove unchanged previous electrical pin states.
 The actual linked map/disassembly require independent review before any load.
 
-A watchdog starts in main before USB initialization (2 seconds, fed only before
+A watchdog starts in main before USB initialization; failed USB initialization stops feeding immediately (2 seconds, fed only before
 an independent120-second deadline). Startup before main is outside this watchdog.
 The application requests normal flash reboot on expiry; that remains untested.
 One START within30 seconds permits one60-second producer run and at most2 seconds
-of drain. Later commands never restart it. No host presence means finite reboot.
+of drain (the full grace is retained even if an earlier TX callback fires). Later commands never restart it. No host presence means finite reboot.
 No physical reset route or replacement-image recovery is proved by compilation.
 
 ## Binary protocol v1

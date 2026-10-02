@@ -26,6 +26,7 @@ def inspect_elf(data):
     loads=[]
     for i in range(phnum):
         t,offset,vaddr,paddr,filesz,memsz,pflags,align=struct.unpack_from('<8I',data,phoff+i*phsize)
+        require(t not in (2,3),'dynamic/interpreter segment forbidden')
         if t!=1:continue
         require(memsz>0 and filesz<=memsz and offset+filesz<=len(data),'load length')
         require(SRAM_START<=vaddr<vaddr+memsz<=SRAM_END and paddr==vaddr,'ordinary SRAM destination')
@@ -84,7 +85,7 @@ def inspect_elf(data):
     # single block loop. This secure execution-mode label is not OTP/security setup.
     block=struct.pack('<7I',0xffffded3,0x10210142,0x00000203,vectors,0x000003ff,0,0xab123579)
     require(data[off:off+min(base['filesz'],4096)].count(block)==1,'RP2350 ARM RAM IMAGE_DEF')
-    require(PROFILE in data,'distinct application profile')
+    require(any(PROFILE in data[r['offset']:r['offset']+r['filesz']] for r in loads),'loadable distinct application profile')
     require('main' in symbols and 'tud_task_ext' in symbols,'application/direct TinyUSB symbols')
     return {'target':'RP2350 ARM','binary_type':'no_flash','allocated_load_bytes':sum(r['memsz'] for r in loads),
             'load_segments':loads,'stack_bytes':4096,'core1_stack_bytes':0,'heap_section_bytes':0,

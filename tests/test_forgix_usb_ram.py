@@ -74,6 +74,13 @@ class ElfGuardTests(unittest.TestCase):
         with self.assertRaises(ValueError):inspect_elf(d)
         d=fixture();struct.pack_into('<H',d,18,243)
         with self.assertRaises(ValueError):inspect_elf(d)
+    def test_profile_only_in_nonloadable_tail_is_refused(self):
+        d=fixture();d[0x1300:0x1300+len(PROFILE)]=bytes(len(PROFILE));d.extend(PROFILE)
+        with self.assertRaises(ValueError):inspect_elf(d)
+    def test_dynamic_interpreter_segments_are_refused(self):
+        for kind in (2,3):
+            d=fixture();struct.pack_into('<I',d,84,kind)
+            with self.assertRaises(ValueError):inspect_elf(d)
     def test_application_has_one_owner_no_stdio_or_gpio_calls(self):
         root=Path(__file__).resolve().parents[1]/'firmware/forgix-usb-ram'
         s=(root/'main.c').read_text();self.assertEqual(s.count('tud_task();'),1)
