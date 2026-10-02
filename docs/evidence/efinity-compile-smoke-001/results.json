@@ -1,0 +1,46 @@
+{
+  "kind": "efinity-offline-compiler-smoke",
+  "schema": 1,
+  "status": "failed",
+  "scope": "Generic shipped software fixture, not connected Forgix gateware",
+  "device": "T8F81",
+  "timing_model": "C2",
+  "version": "2026.1.132",
+  "software_sha256": "8b09bf853cb4c586ef166ae0fc07e8753f58288f7d640b94a236f708f7a069e9",
+  "runner_sha256": "f1d437afeb0b905b957ea0076698b3715888f6ae5ce1b2b1370f280102d21f03",
+  "fixture_sha256": {
+    "pt_demo.xml": "b2f59888c88f97e415532d4b4ec0524dc07440a74b34ad6375c9e0bb395f8124",
+    "pt_demo.peri.xml": "c60daad8ee4d191abb70ffb887777897852c66dc0d3d7dc7aee14efedffb5e28",
+    "pt_demo.v": "54a9ca2898c6047020813c7f269fd0bbac24e2837ec258e186403d82528bd733",
+    "pt_demo.sdc": "4873e59057740a0553bccadd2a9092b55316899731f1b007de2ad4c8d7149f00"
+  },
+  "flow": [
+    "pt_demo.xml",
+    "--flow",
+    "compile",
+    "--timeout",
+    "300"
+  ],
+  "hardware_opened": false,
+  "connected_forgix_compile_verified": false,
+  "compiler_execution_verified": false,
+  "license_compile_verified": false,
+  "owned_process_group_closed": true,
+  "vendor_output_private": true,
+  "started_at_unix_ns": 1790961847975794137,
+  "exit_code": 0,
+  "failure_kind": "Refusal",
+  "reason": "Compiler stages were missing, skipped, repeated or failed",
+  "finished_at_unix_ns": 1790961860718619191,
+  "private_generated_files_verified": true,
+  "source_revision": "da4e22d3ead85e30fcd467c0e8fc9950710de95f",
+  "helper_sha256": "97ffc5b37bb0a1ebb34898f22a76a173d6ebdf9f1dd4417a8306ce8615694ef3",
+  "observed_stage_completions": [
+    "map",
+    "pnr",
+    "pgm"
+  ],
+  "interface_step_completed": false,
+  "bitstream_generated": false,
+  "retained_private_failure": true
+}
