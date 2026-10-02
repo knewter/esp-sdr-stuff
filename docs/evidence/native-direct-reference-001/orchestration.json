@@ -1,0 +1,171 @@
+{
+  "kind": "prospective native direct-source comparison; not SDR/count acceptance",
+  "status": "failed",
+  "started": {
+    "monotonic_ns": 744565290912048,
+    "utc": "2026-10-02T10:34:25.081365+00:00"
+  },
+  "controller_before": {
+    "powered": true,
+    "active_instances": 0
+  },
+  "conditions": [
+    255,
+    0,
+    255,
+    0,
+    255,
+    0
+  ],
+  "executed_file_hashes": {
+    ".scratch/run_native_direct_reference.py": {
+      "bytes": 19610,
+      "sha256": "02f42559a7d3710ebc0e6f996437dbb2cace36193447ba1153335a60c4d805f5"
+    },
+    ".scratch/run_native_direct_reference.task.yml": {
+      "bytes": 249,
+      "sha256": "2efa0adac38239310a5f0308f717fac3adbdb517a00a656957857fce0f08d2bd"
+    },
+    ".scratch/run_native_reference.py": {
+      "bytes": 13779,
+      "sha256": "903823c371fbc600108c5b2ea9605af84f698c50bd8f72eb8f95780ac3b049f3"
+    },
+    ".scratch/run_ble_control.py": {
+      "bytes": 20837,
+      "sha256": "79e02469704502d4fec749676d55fdf19efb603ae2651f95ba2e7e9e5d6b012d"
+    },
+    "Taskfile.yml": {
+      "bytes": 6538,
+      "sha256": "16708f1019bcf5e8ec09cc3beded1a6c6600aac500f3f37f70887df7bcf622c8"
+    },
+    "flake.nix": {
+      "bytes": 14719,
+      "sha256": "3f842db68943c1686088161f642a07ffe78c5535024fbb8950bb271938d61b91"
+    },
+    "flake.lock": {
+      "bytes": 4632,
+      "sha256": "fb43f7a044454e3b3cb1d7a26d9707d101f05321800ac909018001fc5d4eab51"
+    },
+    "tools/native_ble_reference.py": {
+      "bytes": 22818,
+      "sha256": "435e90209125ef923b31fd24e9a68fde5ebc9bdad26dd294d32c07cce9a459ba"
+    },
+    "tools/build_native_ble_reference.py": {
+      "bytes": 7504,
+      "sha256": "06469d69ed6ebddd7d65dffb1ba4abb7da88b3e64d1ff094c9c115a199b1a7fa"
+    },
+    "tools/demo_esp_sdr.py": {
+      "bytes": 28648,
+      "sha256": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966"
+    },
+    "tools/flash_trial.py": {
+      "bytes": 7181,
+      "sha256": "7b8f3629f961b177b074cfa7c1646ae4ab4f1e89fddfc3af44e742a7ef111079"
+    },
+    "tools/esp_sdr_capture.py": {
+      "bytes": 15082,
+      "sha256": "f1aa93c1af1b87ad086fdd7289bfeced4bfbc632e15fc2389098e2f460cea538"
+    },
+    "tools/ble_direct_hci_source.py": {
+      "bytes": 14841,
+      "sha256": "b63676ad722b4ad3a1788760a57a32ce9978437ca87c04759829ff1cda2f6cda"
+    },
+    "tools/ble_source_container.py": {
+      "bytes": 6414,
+      "sha256": "e0489670ceee220fd490863ddc4306fc761665c9e68d1b2ae28260f7cb4e1681"
+    },
+    "tools/ble_dumpcap_container_monitor.py": {
+      "bytes": 4641,
+      "sha256": "acdddfd2846d8faddbb4375f558c0d0873ce7f22ac6bd9f5afd365cb0c72f498"
+    },
+    "tools/ble_dumpcap_monitor.py": {
+      "bytes": 9919,
+      "sha256": "0697b92276674dffdfa2915736dbc75ca35e85ac504d3287b3f52555c84a2793"
+    },
+    "tools/ble_hci_monitor.py": {
+      "bytes": 8169,
+      "sha256": "fcf8627daddc061612e8e160c5791e2ded0ab17b7a402dfb6061564e79b918e1"
+    }
+  },
+  "events": [
+    {
+      "event": "child_started",
+      "child": "native-parent",
+      "monotonic_ns": 744565291621570,
+      "utc": "2026-10-02T10:34:25.082071+00:00"
+    },
+    {
+      "event": "NATIVE_REFERENCE_READY",
+      "child": "native-parent",
+      "monotonic_ns": 744677404575183,
+      "utc": "2026-10-02T10:36:17.195027+00:00"
+    },
+    {
+      "event": "child_started",
+      "child": "monitor",
+      "monotonic_ns": 744677405391587,
+      "utc": "2026-10-02T10:36:17.195840+00:00"
+    },
+    {
+      "event": "MONITOR_READY",
+      "child": "monitor",
+      "monotonic_ns": 744679811237710,
+      "utc": "2026-10-02T10:36:19.601691+00:00"
+    },
+    {
+      "event": "child_started",
+      "child": "source-0",
+      "monotonic_ns": 744687224295439,
+      "utc": "2026-10-02T10:36:27.014747+00:00"
+    },
+    {
+      "event": "child_group_closed",
+      "child": "source-0",
+      "monotonic_ns": 744701209711218,
+      "utc": "2026-10-02T10:36:41.000174+00:00",
+      "returncode": 201
+    },
+    {
+      "event": "child_group_closed",
+      "child": "monitor",
+      "monotonic_ns": 744701426292471,
+      "utc": "2026-10-02T10:36:41.216747+00:00",
+      "returncode": 201
+    },
+    {
+      "event": "child_group_closed",
+      "child": "native-parent",
+      "monotonic_ns": 744911547829769,
+      "utc": "2026-10-02T10:40:11.338296+00:00",
+      "returncode": 0
+    }
+  ],
+  "episodes": [],
+  "radiated_event_count": null,
+  "SDR_decoding_proven": false,
+  "source_count_gate_closed": false,
+  "source_cleanup_verified": false,
+  "native_restoration_verified": true,
+  "monitor_overlap": "Unchanged read-only120s HCI monitor may overlap autonomous native UART restoration; on failure sources and monitor close before awaiting parent.",
+  "native_ready": {
+    "schema": 1,
+    "kind": "READY",
+    "version": "native-ble-ref-v2",
+    "nonce": "3907120b5de7fcc3",
+    "scan_start_us": 386097,
+    "scan_status": 0,
+    "host_line_start_ns": 744677122698347,
+    "host_line_end_ns": 744677222840031
+  },
+  "error_kind": "RuntimeError",
+  "cleanup_failures": [],
+  "child_groups_closed": true,
+  "controller_after": {
+    "powered": true,
+    "active_instances": 0
+  },
+  "ended": {
+    "monotonic_ns": 744911554085556,
+    "utc": "2026-10-02T10:40:11.344541+00:00"
+  }
+}

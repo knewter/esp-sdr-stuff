@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "status": "failed",
+  "failure": "Task returned201 for source leaf exit2; five later conditions did not run",
+  "planned_conditions": [
+    255,
+    0,
+    255,
+    0,
+    255,
+    0
+  ],
+  "source_conditions_attempted": 1,
+  "source_conditions_unrun": 5,
+  "source_task_exit_code_observed": 201,
+  "source_leaf_exit_code_in_task_footer": 2,
+  "source_cleanup_record_in_orchestration": false,
+  "source_cleanup_observed_in_saved_receipts": true,
+  "monitor_status_retained": "interrupted",
+  "native_capture_status": "completed",
+  "owned_controller_delivered_reports": 59,
+  "firmware_elapsed_us": 90087992,
+  "nominal_phase_counts": {
+    "initial_off": {
+      "buckets": 15,
+      "owned_reports": 0
+    },
+    "first_max255_on": {
+      "buckets": 2,
+      "owned_reports": 24
+    },
+    "off_after_source": {
+      "buckets": 63,
+      "owned_reports": 0
+    },
+    "transition_guard": {
+      "buckets": 10,
+      "owned_reports": 35
+    }
+  },
+  "nominal_transition_guard_seconds": 1,
+  "saved_uart_bytes": 23307,
+  "saved_uart_sha256": "b6c7b3a273854a77ff3a8ab53df73f9c65ffc9d53437a27e9826927327c274f5",
+  "controller_termination_status": 60,
+  "controller_completed_event_field": 0,
+  "full_original_restoration_verified": true,
+  "transmitted_event_denominator": null,
+  "SDR_decoding_proven": false,
+  "RF_gate_closed": false,
+  "limits": "Failed six-condition comparison; one observed direct source episode. Nominal phases use whole READY receipt and complete firmware intervals with one-second guards. ESP/HCI/UART timing is uncalibrated. Native matching reports are not protected-PDU replay or radiated event counts.",
+  "postprocessor_sha256": "aa88cfc8da46825debff10287c110b190ff4eff086a69024d25e8d0aa2deef3e"
+}

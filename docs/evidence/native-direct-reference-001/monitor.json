@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "kind": "read-only sanitized HCI0 advertising control",
+  "transport": "Nix dumpcap owned NET_RAW container stdout pipe",
+  "hci_channel": 2,
+  "started_utc": "2026-10-02T10:36:19Z",
+  "independently_observed_air_emission_count": null,
+  "records": [
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 1,
+      "event_properties": 16,
+      "interval_min_ms": 20.0,
+      "interval_max_ms": 20.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790937395594213000,
+      "monotonic_ns": 744695803991820
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790937395696440000,
+      "monotonic_ns": 744695906251343
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 1,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790937395696743000,
+      "monotonic_ns": 744695906407458
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790937395700438000,
+      "monotonic_ns": 744695910127583
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 500,
+          "maximum_extended_advertising_events": 255
+        }
+      ],
+      "capture_timestamp_ns": 1790937395700635000,
+      "monotonic_ns": 744695910285722
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790937395704438000,
+      "monotonic_ns": 744695914175798
+    },
+    {
+      "kind": "controller_advertising_set_terminated",
+      "status": 60,
+      "advertising_handle": 1,
+      "controller_reported_completed_extended_advertising_events": 0,
+      "capture_timestamp_ns": 1790937400759548000,
+      "monotonic_ns": 744700969864911
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 1,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790937400760131000,
+      "monotonic_ns": 744700970023010
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790937400763528000,
+      "monotonic_ns": 744700973442716
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 1,
+      "capture_timestamp_ns": 1790937400763825000,
+      "monotonic_ns": 744700973549699
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790937400767529000,
+      "monotonic_ns": 744700977461486
+    }
+  ],
+  "raw_capture_written_to_disk": false,
+  "dumpcap_stderr_retained": false,
+  "limitations": "HCI control-plane evidence only. Unknown monitor/socket loss. Unrelated traffic and addresses discarded before storage; libpcap Bluetooth monitor statistics cannot prove loss-free capture.",
+  "validated_header_ready_monotonic_ns": 744679730279413,
+  "owned_container_removed": true,
+  "producer_returncode": 0,
+  "interrupted": true,
+  "status": "interrupted",
+  "elapsed_s": 22.019755344022997,
+  "packet_counts_by_monitor_kind": {
+    "12": 2,
+    "0": 1,
+    "8": 1,
+    "10": 1,
+    "14": 2,
+    "2": 5,
+    "3": 6,
+    "15": 1
+  },
+  "pcap_packets_seen": 19,
+  "snaplen_truncated_packets_discarded": 0,
+  "pcap_byte_order": "<",
+  "pcap_timestamp_units_per_second": 1000000,
+  "producer_reaped": true,
+  "container_image_id": "sha256:fbdfe3a117505cbdfa090f9d46f4ce9d8ef5b079b7e612b522062a7b23c2697c",
+  "container_host_mounts": [],
+  "container_capabilities": [
+    "NET_RAW"
+  ]
+}
