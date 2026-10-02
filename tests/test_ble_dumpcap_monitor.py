@@ -1,5 +1,6 @@
 """Synthetic pcap transport tests; no live Bluetooth or network capture."""
 import contextlib
+from unittest.mock import patch
 import io
 import json
 from pathlib import Path
@@ -98,7 +99,9 @@ class DumpcapMonitorTests(unittest.TestCase):
             MonitorPcap().feed(bytes(65537))
 
     def test_command_has_stdout_single_interface_and_capture_bound(self):
-        args = dumpcap_command(12.5)
+        with patch.dict("os.environ", {"DUMPCAP": "/test/bin/dumpcap"}):
+            args = dumpcap_command(12.5)
+        self.assertEqual(args[0], "/test/bin/dumpcap")
         self.assertEqual(args[args.index('-w')+1], '-')
         self.assertEqual(args[args.index('-i')+1], 'bluetooth-monitor')
         self.assertIn('-P', args)

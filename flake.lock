@@ -1,0 +1,169 @@
+{
+  "nodes": {
+    "esp-dev": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1767865407,
+        "narHash": "sha256-QWF1rZYd+HvNzLIeRS+OEBX7HF0EhWCGeLbMkgtbsIo=",
+        "owner": "mirrexagon",
+        "repo": "nixpkgs-esp-dev",
+        "rev": "5287d6e1ca9e15ebd5113c41b9590c468e1e001b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mirrexagon",
+        "repo": "nixpkgs-esp-dev",
+        "rev": "5287d6e1ca9e15ebd5113c41b9590c468e1e001b",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "liquid-dsp-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790455847,
+        "narHash": "sha256-QRCPdngQCpC+o8fCLVoixPsZ25yI1ZEo8ePreC2S0Yk=",
+        "owner": "jgaeddert",
+        "repo": "liquid-dsp",
+        "rev": "10041f70cebbe3b97887e75bb41e48b73dda1b23",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jgaeddert",
+        "repo": "liquid-dsp",
+        "rev": "10041f70cebbe3b97887e75bb41e48b73dda1b23",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1767799921,
+        "narHash": "sha256-r4GVX+FToWVE2My8VVZH4V0pTIpnu2ZE8/Z4uxGEMBE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "d351d0653aeb7877273920cd3e823994e7579b0b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-25.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1789785513,
+        "narHash": "sha256-B44WL6h0XoLjJ41bUPJk0X5SDinLCII//6EcBLXKiJ0=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "20b1ddd1aa5ace70c9468305030aa4f9ef79671b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "20b1ddd1aa5ace70c9468305030aa4f9ef79671b",
+        "type": "github"
+      }
+    },
+    "openspec-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787779197,
+        "narHash": "sha256-efy/YUkr95S44N26FCRQ2/F+ciaaMRvzh/cI1Z0huzU=",
+        "owner": "Fission-AI",
+        "repo": "OpenSpec",
+        "rev": "a0ddb60d040c61f4907436a9d91310934b1dda63",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Fission-AI",
+        "ref": "v1.11.0",
+        "repo": "OpenSpec",
+        "type": "github"
+      }
+    },
+    "pico-sdk-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1753763866,
+        "narHash": "sha256-hQdEZD84/cnLSzP5Xr9vbOGROQz4BjeVOnvbyhe6rfM=",
+        "owner": "raspberrypi",
+        "repo": "pico-sdk",
+        "rev": "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raspberrypi",
+        "ref": "2.2.0",
+        "repo": "pico-sdk",
+        "type": "github"
+      }
+    },
+    "redsea-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783318498,
+        "narHash": "sha256-oQpF11tTTRRimy4vmvSpl5ugIci+Qs6NrGYuWbP/pG8=",
+        "owner": "windytan",
+        "repo": "redsea",
+        "rev": "4cc27df9939798e800c4ff7cb484be6d9bf68b4d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "windytan",
+        "repo": "redsea",
+        "rev": "4cc27df9939798e800c4ff7cb484be6d9bf68b4d",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "esp-dev": "esp-dev",
+        "liquid-dsp-src": "liquid-dsp-src",
+        "nixpkgs": "nixpkgs_2",
+        "openspec-src": "openspec-src",
+        "pico-sdk-src": "pico-sdk-src",
+        "redsea-src": "redsea-src"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

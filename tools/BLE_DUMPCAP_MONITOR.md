@@ -1,6 +1,6 @@
 # Streaming dumpcap Bluetooth Monitor fallback
 
-`ble_dumpcap_monitor.py` uses the host's existing `/usr/bin/dumpcap` executable
+`ble_dumpcap_monitor.py` uses `dumpcap` from the locked Nix environment (or an explicit `DUMPCAP` path)
 to receive Bluetooth Monitor data through an anonymous stdout pipe. It passes
 converted frames to the existing `ble_hci_monitor.sanitized_packet` function,
 storing only its selected HCI0 advertising-control metadata and timestamps.
@@ -14,14 +14,14 @@ It does not configure, power, pair, scan or advertise with the controller.
 From the integrated repository, using a fresh result path:
 
 ```sh
-python3 tools/ble_dumpcap_monitor.py --seconds 30 \
+nix develop --command task capture:ble-monitor -- --seconds 30 \
   --output docs/evidence/YOUR-TRIAL/hci-control.json
 ```
 
 The producer command is fixed to one interface and stdout:
 
 ```sh
-/usr/bin/dumpcap -i bluetooth-monitor -P -Q -s 65539 \
+dumpcap -i bluetooth-monitor -P -Q -s 65539 \
   -a duration:30 -w -
 ```
 
@@ -29,8 +29,9 @@ Use the Python wrapper for real trials so the raw stream is consumed in memory;
 running the producer directly would send raw packets to the terminal. The
 [dumpcap manual](https://www.wireshark.org/docs/man-pages/dumpcap.html)
 documents `-w -` as stdout, `-P` as classic pcap, and duration-based autostop.
-Installed read-only help identifies dumpcap 4.7.2; package metadata identifies
-libpcap 1.10.6 on this host. The wrapper does not request elevated privileges
+The historical host inspection identified dumpcap 4.7.2 and libpcap 1.10.6.
+New trials use the versions pinned by `flake.lock`; a Nix shell does not
+grant capture permissions. The wrapper does not request elevated privileges
 or change executable capabilities.
 
 `MONITOR_STARTING` means the process was created. `MONITOR_READY` means the
@@ -73,7 +74,7 @@ count cannot establish loss-free monitoring or an exact air-packet count.
 ## Synthetic validation
 
 ```sh
-python3 -m unittest discover -s tests -p test_ble_dumpcap_monitor.py -v
+nix develop .#ci --command task test
 ```
 
 Ten tests cover byte order, timestamps, single-byte fragmented input, privacy

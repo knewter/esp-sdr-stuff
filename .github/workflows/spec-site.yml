@@ -18,37 +18,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-          cache-dependency-path: site/package-lock.json
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Install dependencies
-        run: |
-          npm ci --prefix site
-          npm install -g @fission-ai/openspec@1.11.0
-          python3 -m pip install -r tools/requirements-ble.txt -r tools/requirements-analysis.txt
-      - name: Validate proposals and evidence renderers
-        run: |
-          openspec validate --all --strict --no-interactive
-          python3 -m unittest discover -s tests -p 'test_render_specs.py'
-          python3 -m unittest discover -s tests -p 'test_work_board.py'
-      - name: Verify host capture, BLE decoder, and measurement parsers
-        run: |
-          python3 -m unittest discover -s tests -p 'test_esp_sdr_capture.py'
-          python3 -m unittest discover -s tests -p 'test_flash_trial.py'
-          python3 -m unittest discover -s tests -p 'test_spectrum_trial_integrity.py'
-          python3 -m unittest discover -s tests -p 'test_rtl_*.py'
-          python3 -m unittest discover -s tests -p 'test_ble_*.py'
-          python3 tools/RDS_test.py
-      - name: Build and check the published site
-        env:
-          ASTRO_BASE: /esp-sdr-stuff/
-          SITE_ORIGIN: https://knewter.github.io
-        run: python3 scripts/build_site.py
+      - uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31
+      - name: Check and build with locked dependencies
+        run: nix develop .#ci --command task check:pages
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with:

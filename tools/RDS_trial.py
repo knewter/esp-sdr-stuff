@@ -5,7 +5,9 @@ from collections import Counter
 import datetime
 import hashlib
 import json
+import os
 from pathlib import Path
+import shutil
 import signal as os_signal
 import subprocess
 import time
@@ -100,7 +102,10 @@ def main():
         if not 1 <= args.capture_seconds <= 60:
             parser.error("Capture duration must be 1..60 seconds")
         mpx_rate = 171000
-        cmd = ["/usr/bin/rtl_fm", "-d", "0", "-M", "fm", "-l", "0", "-A", "std", "-p", "0",
+        executable = os.environ.get("RTL_FM") or shutil.which("rtl_fm")
+        if not executable:
+            parser.error("rtl_fm is missing; enter the Nix development shell")
+        cmd = [executable, "-d", "0", "-M", "fm", "-l", "0", "-A", "std", "-p", "0",
                "-s", str(mpx_rate), "-g", "19.7", "-F", "9", "-f", str(args.channel_hz)]
         start = time.monotonic()
         forced_kill = False

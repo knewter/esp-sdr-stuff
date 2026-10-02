@@ -33,19 +33,37 @@ bring-up remain open. Design illustrations are labeled separately from captures.
 
 ## Development
 
-Use Node 22+, Python 3.12+ and OpenSpec CLI 1.11.0. Run:
+Use the committed [Nix flake](flake.nix) and [Taskfile](Taskfile.yml) for
+dependencies and repeated work:
 
 ```sh
-npm ci --prefix site
-openspec validate --all --strict --no-interactive
-python3 -m pip install -r tools/requirements-ble.txt -r tools/requirements-analysis.txt
-python3 -m unittest discover -s tests -p 'test_render_specs.py'
-python3 -m unittest discover -s tests -p 'test_work_board.py'
-python3 scripts/build_site.py --local
-python3 -m http.server 4321 --directory site/dist
+nix develop --command task
+nix develop --command task check
+nix develop --command task site:preview
+nix develop .#ci --command task check:pages
 ```
 
-Commit OpenSpec and evidence changes before building: the work board and immutable source export render the committed Git snapshot. The build checks internal links, declared requirement status and output budgets. For the Pages prefix, set `ASTRO_BASE=/esp-sdr-stuff/` and `SITE_ORIGIN=https://knewter.github.io`. The GitHub Actions workflow builds and publishes pushes to master.
+The flake pins the tools and Python packages. Site dependencies come from a
+fixed-hash Nix package using `site/package-lock.json`; `task site:deps` makes
+a writable copy for Astro's cache without downloading npm packages. OpenSpec
+is packaged at 1.11.0. The browser check uses Chromium from the flake, waits
+for its owned preview to become ready, and stops that preview afterward.
+
+Commit OpenSpec and evidence before building: the work board and immutable
+source export render committed Git history. `task check` runs validation,
+site build, host tests and browser checks in order. `task check:pages` uses
+the production URL prefix; GitHub Actions runs that same task in the smaller
+`ci` shell and publishes pushes to master.
+
+Run `nix develop --command task --list` for the capture, plotting and FPGA
+budget tasks. Pass tool arguments after `--`. Firmware builds use the separate
+`nix develop .#firmware --command task firmware:build -- ...` environment;
+its immutable SDK provenance is recorded with the build.
+
+Hardware tasks require explicit device/settings arguments and exclusive device
+ownership. A development shell does not grant USB or Bluetooth permissions.
+The licensed Efinity toolchain and physical FPGA pin/clock inventory remain
+prerequisites for FPGA programming; the MCU preservation proof is separate.
 
 Keep full flash backups under ignored `backups/`; never commit firmware images or device identifiers. The read-only inspection tool resets the selected board and records boot output; it does not flash it. Select the stable serial identity before running it.
 

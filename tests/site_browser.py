@@ -3,7 +3,9 @@
 import argparse
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
+import shutil
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +20,8 @@ def main():
     base = args.url.rstrip("/") + "/"
     errors, failures = [], []
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(executable_path="/usr/bin/chromium", headless=True)
+        executable = os.environ.get("CHROMIUM_EXECUTABLE") or shutil.which("chromium")
+        browser = playwright.chromium.launch(executable_path=executable, headless=True)
         page = browser.new_page(viewport={"width": 1440, "height": 1000}, device_scale_factor=1)
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.on("response", lambda response: failures.append(response.url) if response.status >= 400 and response.url.startswith(base) else None)

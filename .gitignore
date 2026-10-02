@@ -13,3 +13,8 @@ backups/
 *.bin
 *.avm
 test-results/
+/.task/
+/.direnv/
+/result
+/result-*
+/site/.nix-deps-*/

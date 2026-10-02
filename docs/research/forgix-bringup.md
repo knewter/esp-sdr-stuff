@@ -33,6 +33,34 @@ The upstream [save/verify documentation](https://github.com/raspberrypi/picotool
 
 These read-only commands deliberately omit `-f`/`-F`: upstream defines those options as application-reset requests. An explicit, targeted boot request is a separate reversible operation. Do not erase flash, modify OTP, enable security, or load replacement firmware until preservation and the actual recovery route are verified.
 
+## Repeatable preservation task
+
+The repository now supplies the dependencies through [the locked Nix flake](flake.nix)
+and the repeated workflow through [the Taskfile](Taskfile.yml). After identifying
+the actual USB topology and stable factory serial port, use a **fresh** child
+of ignored `backups/`:
+
+```sh
+nix develop --command task forgix:preserve -- \
+  --usb-topology YOUR-TOPOLOGY \
+  --serial-port /dev/serial/by-id/YOUR-IDENTIFIED-PORT \
+  --private-dir backups/forgix-NEW-TRIAL
+```
+
+`task forgix:preserve:container` provides the same workflow with the flake's
+locally loaded, immutable picotool image when host USB permissions require that
+route. It exposes only the selected USB node and private output folder; it does
+not change host device permissions. Both tasks require explicit targets, verify
+the same private USB identity through re-enumeration, read flash twice, compare
+hashes, run device verification, and check the returned factory application.
+They never request replacement firmware, OTP changes or FPGA programming.
+Use `--help` without accessing hardware. Optional public receipts contain
+sanitized proof; flash images and raw transcripts remain private.
+
+The current physical proof used the earlier preserved host tool; these newer
+helpers were checked with host-only tests. Their availability is not a second
+physical preservation trial.
+
 ## Tool preparation
 
 A local host-only build pins picotool 2.3.1 commit `2041936441b48a3cc53ae3da9e805229fe8f4e18` and Pico SDK 2.2.0 commit `a1438dff1d38bd9c65dbd693f0e5db4b9ae91779`. Follow the [official build instructions](https://github.com/raspberrypi/picotool/blob/2041936441b48a3cc53ae3da9e805229fe8f4e18/BUILDING.md): configure with the SDK source path, USB support enabled and Release mode, then compile. This host build does not need a device or cross compiler. Missing mbedTLS disables signing/hashing features; USB information, save and verify remain available. A local tool build does not prove board enumeration, preservation, FPGA configuration or transport throughput.

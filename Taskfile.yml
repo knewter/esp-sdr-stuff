@@ -1,0 +1,126 @@
+version: '3'
+
+tasks:
+  default:
+    desc: List available project tasks
+    cmds:
+      - task --list
+
+  env:check:
+    desc: Check the locked development tools and Python imports
+    cmds:
+      - node --version
+      - openspec --version
+      - task --version
+      - python3 -c 'import numpy, scipy, matplotlib, serial, dbus_next, playwright; print("Python dependencies available")'
+
+  site:deps:
+    desc: Prepare writable site dependencies from the Nix package
+    run: once
+    cmds:
+      - python3 scripts/prepare_site_deps.py
+
+  validate:
+    desc: Validate every OpenSpec change and accepted spec
+    cmds:
+      - openspec validate --all --strict --no-interactive
+
+  test:
+    desc: Run host tests and RDS checks against the current built site
+    cmds:
+      - python3 -m unittest discover -s tests
+      - python3 tools/RDS_test.py
+      - node tests/test_work_markdown_links.mjs
+
+  site:build:
+    desc: Build the committed site and check links, ledger counts and budgets
+    cmds:
+      - task: site:deps
+      - python3 scripts/build_site.py
+
+  site:preview:
+    desc: Preview the built site (Ctrl-C to stop)
+    cmds:
+      - npm run preview --prefix site -- --host 127.0.0.1 --port 4321 --strictPort
+
+  browser:check:
+    desc: Start an owned preview, check the browser, and clean up
+    cmds:
+      - python3 scripts/check_site_browser.py {{.CLI_ARGS}}
+
+  browser:live:
+    desc: Check the published GitHub Pages site
+    cmds:
+      - python3 tests/site_browser.py --url https://knewter.github.io/esp-sdr-stuff/ --output test-results/live-browser
+
+  check:
+    desc: Run environment, spec, build, host and browser checks in order
+    cmds:
+      - task: env:check
+      - task: validate
+      - task: site:build
+      - task: test
+      - task: browser:check
+
+  check:pages:
+    desc: Run all checks with the production GitHub Pages URL prefix
+    cmds:
+      - ASTRO_BASE=/esp-sdr-stuff/ SITE_ORIGIN=https://knewter.github.io task check
+
+  pages:status:
+    desc: Show recent publication workflow runs
+    cmds:
+      - gh run list --repo knewter/esp-sdr-stuff --workflow spec-site.yml --limit 5
+
+  firmware:build:
+    desc: Build a pinned ESP receiver artifact (explicit paths; no flashing)
+    preconditions:
+      - sh: test -n "$ESP_SDR_IDF_PROVENANCE"
+        msg: Use nix develop .#firmware --command task firmware:build with explicit build arguments
+    cmds:
+      - python3 tools/build_esp_sdr_uart.py {{.CLI_ARGS}}
+
+  firmware:trial:
+    desc: Install or restore ESP firmware with verified manifests and explicit arguments
+    cmds:
+      - python3 tools/flash_trial.py {{.CLI_ARGS}}
+
+  capture:esp:
+    desc: Capture ESP snapshots using explicit device/settings arguments
+    cmds:
+      - python3 tools/esp_sdr_capture.py {{.CLI_ARGS}}
+
+  capture:rds:
+    desc: Run a finite RTL FM/RDS trial using explicit arguments
+    cmds:
+      - python3 tools/RDS_trial.py {{.CLI_ARGS}}
+
+  capture:ble-monitor:
+    desc: Record bounded sanitized Bluetooth monitor metadata
+    cmds:
+      - python3 tools/ble_dumpcap_monitor.py {{.CLI_ARGS}}
+
+  plot:rds:
+    desc: Plot sanitized RDS decoder results
+    cmds:
+      - python3 tools/RDS_plot.py {{.CLI_ARGS}}
+
+  plot:esp:
+    desc: Plot saved ESP snapshot metrics
+    cmds:
+      - python3 tools/plot_esp_snapshots.py {{.CLI_ARGS}}
+
+  fpga:budget:
+    desc: Recompute the FPGA payload and buffer budgets
+    cmds:
+      - python3 tools/fpga_budget.py {{.CLI_ARGS}}
+
+  forgix:preserve:
+    desc: Preserve Forgix MCU flash with explicit identity and fresh backup paths
+    cmds:
+      - python3 tools/preserve_forgix.py {{.CLI_ARGS}}
+
+  forgix:preserve:container:
+    desc: Preserve Forgix using the flake's USB-scoped picotool image
+    cmds:
+      - python3 scripts/preserve_forgix_container.py {{.CLI_ARGS}}

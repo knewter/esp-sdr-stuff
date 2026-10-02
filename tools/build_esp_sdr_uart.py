@@ -14,6 +14,27 @@ import sys
 
 SOURCE='550fadea4d00a9e26ce921c5832167becb3dc20c'
 SDK='25fe69f946311abdaf9ad56591f25fedbc20ac98'
+SDK_NIX_SOURCE_HASH='sha256-WGTSV8xTVzuuRGN7ihp5k+v0do97r3d0vTzlyD9TegQ='
+
+
+def nix_sdk_provenance(sdk):
+    """Validate the flake's immutable SDK provenance without fabricated Git IDs."""
+    location = os.environ.get('ESP_SDR_IDF_PROVENANCE')
+    if not location:
+        return None
+    provenance_file = Path(location).resolve()
+    sdk = sdk.resolve()
+    if not str(provenance_file).startswith('/nix/store/') or not str(sdk).startswith('/nix/store/'):
+        raise ValueError('Nix SDK and provenance must both be immutable store paths')
+    provenance = json.loads(provenance_file.read_text())
+    if provenance.get('revision') != SDK or Path(provenance.get('idf_path', '')).resolve() != sdk:
+        raise ValueError('Nix SDK provenance does not match the pinned SDK/path')
+    source_path = Path(provenance.get('source_path', '')).resolve()
+    if not str(source_path).startswith('/nix/store/') or provenance.get('source_hash') != SDK_NIX_SOURCE_HASH:
+        raise ValueError('Nix SDK provenance must identify its fixed-output source')
+    if os.environ.get('ESP_SDR_IDF_REVISION') != SDK:
+        raise ValueError('Nix firmware shell revision does not match this recipe')
+    return provenance
 
 
 def main():
@@ -27,13 +48,18 @@ def main():
     parser.add_argument('--jobs',type=int,default=4)
     args=parser.parse_args()
     source=args.source.resolve();sdk=args.sdk.resolve();build=args.build.resolve();output=args.output.resolve()
-    for path,revision in [(source,SOURCE),(sdk,SDK)]:
+    try:
+        sdk_provenance = nix_sdk_provenance(sdk)
+    except (ValueError, OSError) as error:
+        parser.error(str(error))
+    checkouts = [(source,SOURCE)] + ([(sdk,SDK)] if sdk_provenance is None else [])
+    for path,revision in checkouts:
         actual=subprocess.check_output(['git','-C',str(path),'rev-parse','HEAD'],text=True).strip()
         if actual!=revision:parser.error(f'Pinned checkout mismatch: expected {revision}, found {actual}')
         if subprocess.run(['git','-C',str(path),'diff','--quiet','HEAD'],check=False).returncode:
             parser.error('Tracked source or SDK modifications are not allowed in this configuration-only recipe')
     if not os.environ.get('IDF_PATH') or Path(os.environ['IDF_PATH']).resolve()!=sdk:
-        parser.error('Activate this pinned SDK export.sh before building')
+        parser.error('Use the pinned Nix firmware shell or activate this pinned SDK before building')
     if build.exists() or output.exists() or args.evidence.exists():
         parser.error('Build/output/evidence destinations must be fresh for reproducibility')
     if args.jobs<1:parser.error('jobs must be positive')
@@ -45,7 +71,8 @@ def main():
     suffix = f'{args.baud//1000000}m' if args.baud % 1000000 == 0 else str(args.baud)
     version=f'550fade-uart{suffix}'
     env=dict(os.environ, IDF_PY_BUILD_JOBS=str(args.jobs), IDF_COMPONENT_MANAGER='0')
-    command=[sys.executable,str(sdk/'tools/idf.py'),'-C',str(source),'-B',str(build),
+    idf_command = [str(sdk/'bin/idf.py')] if sdk_provenance else [sys.executable,str(sdk/'tools/idf.py')]
+    command=idf_command+['-C',str(source),'-B',str(build),
              '-DIDF_TARGET=esp32','-DSDKCONFIG='+str(build/'sdkconfig'),
              '-DSDKCONFIG_DEFAULTS='+str(build/'defaults.esp32'),'-DPROJECT_VER='+version,
              '-DRING_PROBE=OFF','-DSAMPLE_RATE_PROBE=OFF','-DFILTER_REGISTER_PROBE=OFF',
@@ -66,6 +93,8 @@ def main():
           'source_code_patch':None,
           'compiler_version':subprocess.check_output(['xtensa-esp-elf-gcc','--version'],text=True).splitlines()[0],
           'source_submodules':subprocess.check_output(['git','-C',str(source),'submodule','status','--recursive'],text=True).strip().splitlines()}
+    if sdk_provenance:
+        info['nix_sdk_provenance'] = sdk_provenance
     (output/'build-info.json').write_text(json.dumps(info,indent=2)+'\n')
     args.evidence.mkdir(parents=True)
     (args.evidence/'build-info.json').write_text(json.dumps(info,indent=2)+'\n')

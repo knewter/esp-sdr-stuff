@@ -23,8 +23,12 @@ dirty evidence/specs. Site screenshots prove the site, not reception. Label
 design illustrations explicitly. Keep hardware tasks unchecked until their
 named physical evidence is recorded. Do not archive unfinished experiments.
 
-Validation: `openspec validate --all --strict --no-interactive` and
-`python3 scripts/build_site.py --local`. Browser check:
-`python3 tests/site_browser.py --url http://localhost:4321` against a preview.
+Use the locked Nix flake for dependencies and the Taskfile for repeated work.
+Do not install project dependencies globally or through ambient pip/npm.
+Validation: `nix develop --command task check`; production/CI check:
+`nix develop .#ci --command task check:pages`. Browser checks own their preview
+and wait for readiness before connecting. Hardware tasks still need an
+identity-selected device and an exclusive operator; entering a shell grants
+no device permissions and starts no hardware operations.
 Use separate worktrees/path ownership for concurrent work; delegation is not
 required for ordinary single-operator work.

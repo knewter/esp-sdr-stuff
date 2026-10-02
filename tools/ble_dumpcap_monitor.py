@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import selectors
+import shutil
 import struct
 import subprocess
 import time
@@ -84,7 +85,10 @@ class MonitorPcap:
 
 
 def dumpcap_command(seconds):
-    return ['/usr/bin/dumpcap', '-i', 'bluetooth-monitor', '-P', '-Q',
+    executable = os.environ.get('DUMPCAP') or shutil.which('dumpcap')
+    if not executable:
+        raise FileNotFoundError('dumpcap is missing; enter the Nix development shell')
+    return [executable, '-i', 'bluetooth-monitor', '-P', '-Q',
             '-s', str(MAX_PACKET), '-a', f'duration:{seconds:g}', '-w', '-']
 
 
