@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "evidence_class": "User-reported physical inventory; local USB descriptor survey separately scoped",
+  "user_statement": "i don't have any rf equipment, the rtl-sdr antenna is a dipole right now, and the forgix is attached",
+  "external_rf_generator_reference_attenuators_converters": "none reported",
+  "rtl_antenna": {
+    "type": "dipole",
+    "model_arm_lengths_orientation": "not provided",
+    "scope": "Current setup, not retrospective confirmation of earlier captures"
+  },
+  "forgix": {
+    "connection": "user reports attached",
+    "usb_interface_identified": false,
+    "revision_clock_chip_grade_wiring": "not yet provided"
+  },
+  "existing_owned_host_source": {
+    "controller": "Intel 8087:0029 BLE",
+    "owned_marker": "ESP-SDR-EVAL",
+    "limitations": "Five earlier verified owned receptions; strict source-only count gate failed and later timer records report zero; 262-snapshot RF discriminator inconclusive. No calibrated RF level or usable emitted-event denominator."
+  },
+  "same_signal_receiver_comparison": {
+    "status": "deferred",
+    "reason": "No external downconverter/reference path inventoried; V4 cannot directly tune the owned 2.4GHz source in its ordinary configuration."
+  },
+  "prospective_esp_rf_trial_settings": {
+    "status": "pending suitable source/reference; no new ESP RF trial in this update",
+    "previous_baseline": "LO2401MHz, BW20MHz, gain48, nominal16MS/s, 8-bit components,16380samples",
+    "constraints": "No extended usable tuning point or analog filter/gain calibration accepted from absent equipment. Preserve source/receiver settings, physical geometry and uncertainty before new RF data."
+  }
+}
