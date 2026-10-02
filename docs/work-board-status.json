@@ -62,7 +62,7 @@
       "physical": "pending",
       "next": "Review a separate bounded receiver-selector observation; obtain antenna/placement details and a qualified counted RF source. Fresh hidden-SDR decoding and Trial B remain unresolved.",
       "rationale": "Five historical SDR packets remain valid; 2,248 fresh transport-valid snapshots have null independent decodes. Native v2 completes with 1,176 owned reports and acknowledged stop; the failed v1 prefix remains visible. The fixed gain diagnostic delivers 20 valid snapshots with all 41 queried manual-enable bits set. These trials restore every original flash byte and reset boot, but do not prove effective gain, earlier state, hidden-SDR decoding or emitted counts. No external RF reference or attenuator is available. Trial B and all RF gates stay open. The native direct-source comparison completes all six MaxEvents 255/0 episodes with 363 owned reports and full restoration; both settings are received while every termination remains 0x3c/count0. Its failed first run is retained. These reports neither supply emitted counts nor resolve the fresh SDR nulls.",
-      "reviewRevision": "be34df0605a577cda88af62eab4f0bd9c60c5ef9",
+      "reviewRevision": "6bdc004faf55463ea5d531645635116bb97e31bf",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -92,7 +92,7 @@
       "physical": "pending",
       "next": "Review a separate bounded receiver-selector observation; obtain antenna/placement details and a qualified counted RF source. Fresh hidden-SDR decoding and Trial B remain unresolved.",
       "rationale": "Five complete historical SDR packets still verify decoding. Counted-source diagnostics lack an emitted denominator and 2,248 fresh SDR snapshots have null independent decodes. Native v2 completes with 1,176 owned reports, successful explicit stop and full restoration; the failed v1 prefix remains visible. All 41 gain queries across 20 valid fixed snapshots show bit23 set. Native reports and register queries provide neither protected-PDU replay nor SDR/count acceptance. Conditional Trial B and hit/miss gates remain open. The native direct-source comparison completes all six MaxEvents 255/0 episodes with 363 owned reports and full restoration; both settings are received while every termination remains 0x3c/count0. Its failed first run is retained. These reports neither supply emitted counts nor resolve the fresh SDR nulls.",
-      "reviewRevision": "be34df0605a577cda88af62eab4f0bd9c60c5ef9",
+      "reviewRevision": "6bdc004faf55463ea5d531645635116bb97e31bf",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
