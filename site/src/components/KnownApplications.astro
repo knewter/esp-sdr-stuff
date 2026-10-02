@@ -6,10 +6,10 @@ import { evidenceUrl, evidenceAsset } from "../lib/specs";
     <img src={evidenceAsset("docs/evidence/ble-owned-decoding/owned-envelope.svg")} alt="Measured amplitudes of four complete owned BLE packet windows with independently verified protected-PDU CRC and exact known advertising data" loading="lazy" />
     <span>ESP32 · four 8-bit packets, plus one 10-bit packet · exact owned marker ↗</span>
   </a>
-  <a class="measurement-preview" href={evidenceUrl("docs/evidence/rtl-rds-trial/README.md")}>
-    <img src={evidenceAsset("docs/evidence/rtl-rds-trial/rds-decoding.png")} alt="Actual RTL-SDR no-FEC RDS decoding progress for retained and fresh captures of WXJC at 101.1 MHz" loading="lazy" />
+  <a class="measurement-preview" href={evidenceUrl("docs/evidence/rtl-dipole-rds/README.md")}>
+    <img src={evidenceAsset("docs/evidence/rtl-dipole-rds/rds-decoding.png")} alt="Actual no-FEC RDS decoding of WXJC at 101.1 MHz with the current user-reported dipole" loading="lazy" />
     <span>RTL-SDR V4 · WXJC 101.1 MHz · no-FEC RDS decoding ↗</span>
   </a>
 </div>
 <p class="calc-note">BLE: five distinct complete packet windows, exact <code>ESP-SDR-EVAL</code> manufacturer data and protected-PDU CRC; unprotected preamble errors are retained. Three-cycle repeatability and a counted RF-emission denominator remain open. <a href={evidenceUrl("docs/evidence/ble-controls-decoding/README.md")}>10-bit observation</a> · <a href={evidenceUrl("docs/evidence/independent-review/README.md")}>Independent BLE replay</a>.</p>
-<p class="calc-note">RDS: 40 direct PI=0x9250 blocks in the retained five-second IQ capture and 297 in a fresh bounded trial identify WXJC. Both decodes disable FEC and reproduce independently. Antenna identity, calibrated sensitivity and other-band applications remain open. <a href={evidenceUrl("docs/evidence/rtl-rds-independent-review/README.md")}>Independent RDS replay</a> · <a href="https://www.wxjcradio.com/">Station's published frequency</a>.</p>
+<p class="calc-note">RDS: the current user-reported dipole yields 287 direct PI=0x9250 blocks identifying WXJC in a fresh 30-second trial with FEC disabled. Earlier retained and fresh captures also reproduce independently. Antenna model, dimensions, orientation, calibrated sensitivity and other-band applications remain unverified. <a href={evidenceUrl("docs/evidence/rtl-rds-independent-review/README.md")}>Independent RDS replay</a> · <a href="https://www.wxjcradio.com/">Station's published frequency</a>.</p>

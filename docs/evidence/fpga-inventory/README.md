@@ -84,3 +84,12 @@ Physical inputs needed to proceed:
 3. For the PCI card, confirm markings and a JTAG adapter with the correct target-voltage support. Map GND/VREF with measurements, then perform a read-only chain scan before selecting constraints or programming. Establish a cold-cycle recovery method before loading a volatile bitstream; host power cycling requires user action.
 
 Once Forgix is connected and identified, the upstream CPU-less SPIBone identifier/scratch test is the first control-plane milestone. It is not the throughput test. Add an FPGA PRBS/counter FIFO and RP binary bridge, then test 1/10/20/40 MHz candidate clocks at bounded rates for 60 seconds each, with sequence/CRC totals, FIFO high-water mark, overruns, host stalls and a deliberate 100 ms host pause. Gate RF integration on zero unexplained integrity errors and a measured payload margin. No script selecting a guessed serial device or installing a blind PCI driver was created.
+
+## Connected-board follow-up
+
+The user now reports Forgix attached. [Descriptor-only observations](../user-equipment-inventory/README.md)
+have not yet identified its USB interface. [Bring-up preparation](../../research/forgix-bringup.md)
+builds a pinned USB-enabled picotool and specifies identity-targeted whole-flash
+backup and verification. This is host-tool readiness, not a hardware benchmark.
+The PROGRAM pad and FPGA user button are distinguished using the actual
+schematic/factory source; neither is blindly assumed to be ROM BOOTSEL.

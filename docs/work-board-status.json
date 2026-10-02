@@ -116,8 +116,7 @@
       ],
       "evidence": [
         "docs/evidence/fpga-inventory/README.md",
-        "docs/evidence/user-equipment-inventory/README.md",
-        "docs/research/forgix-bringup.md"
+        "docs/evidence/user-equipment-inventory/README.md"
       ]
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
