@@ -21,7 +21,8 @@ def main():
     colors={'post_settings':'#f7d572','before_acquire':'#5cc8ff',
             'armed_before_trigger':'#baadff','dump_complete':'#73dda6',
             'restored_after_dump':'#ffad85'}
-    plt.rcParams.update({'svg.fonttype':'none','font.family':'DejaVu Sans','font.size':10})
+    plt.rcParams.update({'svg.fonttype':'none','svg.hashsalt':'esp32-register-observation-v1',
+                         'font.family':'DejaVu Sans','font.size':10})
     fig,axes=plt.subplots(3,1,figsize=(11,7),sharex=True,gridspec_kw={'height_ratios':[1,1,1.6]})
     fig.patch.set_facecolor('#101827')
     for ax in axes:
@@ -57,6 +58,8 @@ def main():
     fig.subplots_adjust(left=.13,right=.97,top=.82,bottom=.16,hspace=.28)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     fig.savefig(args.output,metadata={'Date':None,'Description':'Actual integrity-bound ESP stage readbacks; no RF reception claim.'})
+    if args.output.suffix.lower()=='.svg':
+        args.output.write_text('\n'.join(line.rstrip() for line in args.output.read_text().splitlines())+'\n')
     plt.close(fig)
 
 
