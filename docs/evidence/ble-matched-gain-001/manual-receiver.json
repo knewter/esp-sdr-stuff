@@ -1,0 +1,59 @@
+{
+  "kind": "physical owned-source capture; source controlled separately",
+  "firmware_variant": "550fade-uart921600",
+  "baud": 921600,
+  "nominal_rate_hz": 16000000,
+  "bits_per_component": 10,
+  "samples": 16380,
+  "frequency_mhz": 2401,
+  "bandwidth_mhz": 20,
+  "gain": "48",
+  "source_channel": 37,
+  "source_frequency_mhz": 2402,
+  "actual_RF_event_count": null,
+  "requested_seconds": 460,
+  "started_utc": "2026-10-02T15:18:16Z",
+  "limitations": "Nominal ADC rate; no calibrated power/frequency, hardware capture-start timestamp or emitted-event denominator. Absolute host monotonic timestamps permit same-machine source-log alignment.",
+  "queries": {
+    "INFO": "ESP32SDR 6 burst 16380",
+    "CAPS": "CAPS SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8",
+    "LIMITS?": "LIMITS {\"gain\":[0,72,1],\"bandwidth\":[12,67,1,0],\"rates\":[80000000,40000000,16000000],\"bits\":[8,10]}",
+    "RANGE?": "RANGE 100 6000 1",
+    "TRANSPORT?": "TRANSPORT UART 921600",
+    "SPECINFO?": "SPECINFO {\"continuous\":false,\"transports\":[\"USB\",\"UART\"],\"profiles\":[[80000000,0,256,1,1,0],[80000000,0,512,1,1,0],[80000000,0,1024,1,1,0],[80000000,0,2048,1,1,0],[40000000,1,256,1,1,0],[40000000,1,512,1,1,0],[40000000,1,1024,1,1,0],[40000000,1,2048,1,1,0],[16000000,6,256,1,1,0],[16000000,6,512,1,1,0],[16000000,6,1024,1,1,0],[16000000,6,2048,1,1,0]]}",
+    "GAIN?": "GAIN HARDWARE -1 0 72 0",
+    "BAUD?": "BAUD 921600",
+    "parsed_limits": {
+      "gain": [
+        0,
+        72,
+        1
+      ],
+      "bandwidth": [
+        12,
+        67,
+        1,
+        0
+      ],
+      "rates": [
+        80000000,
+        40000000,
+        16000000
+      ],
+      "bits": [
+        8,
+        10
+      ]
+    }
+  },
+  "setting_replies": {
+    "FREQ 2401": "OK",
+    "BANDWIDTH 20": "OK",
+    "GAIN MANUAL 48": "OK"
+  },
+  "acquisition_ready_monotonic_ns": 761598195542293,
+  "completed": true,
+  "ended_utc": "2026-10-02T15:25:58Z",
+  "captures": 1010,
+  "integrity_failures": 0
+}

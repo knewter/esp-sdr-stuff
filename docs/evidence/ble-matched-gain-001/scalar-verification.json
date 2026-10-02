@@ -1,0 +1,27 @@
+{
+  "method_sha256": "aaac66386b3c91cc20fe0ec42bbf7fb009386b2b469666fc980febbdbf700243",
+  "adapter_sha256": "ac9d45904d2a193cbfc6a5d4fcc39e9e00811cf12d262f3024330975a94779bc",
+  "config_sha256": "8566c8b73998c309b4f2cea41ac6680db6d0423f2794ec6e61d3b5d4cbdf7e5f",
+  "datasets": {
+    "manual": {
+      "captures": 1010,
+      "manifest_sha256": "47f6a62a52b28671ad81af8f3351c3bad877f134cfc51717096c2e51d6f32119",
+      "profile": {
+        "bits": 10,
+        "gain": "48",
+        "bandwidth": 20
+      },
+      "all_payload_sha_crc_count_verified": true
+    },
+    "hardware": {
+      "captures": 984,
+      "manifest_sha256": "d1345f2db0e8911da5ff1b702819943197186d7759af9e2f84566646ab64114e",
+      "profile": {
+        "bits": 10,
+        "gain": "hardware",
+        "bandwidth": 20
+      },
+      "all_payload_sha_crc_count_verified": true
+    }
+  }
+}

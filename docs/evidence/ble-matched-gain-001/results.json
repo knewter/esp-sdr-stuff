@@ -1,0 +1,239 @@
+{
+  "schema": 1,
+  "kind": "actual matched ten-bit gain controls; source uncounted",
+  "requested_gain_order": [
+    "manual48",
+    "hardware"
+  ],
+  "decoder_changed": false,
+  "original_RF_and_count_gates_closed": false,
+  "Trial_B_original_eight_bit_prerequisite_released": false,
+  "emission_denominator": null,
+  "controls": {
+    "manual": {
+      "captures": 1010,
+      "transport_integrity_failures": 0,
+      "private_IQ_bytes": 41359500,
+      "ordered_index_payload_digest": "6552a808843ae3c57123853b1ace2c2d9750b4fab8a1ae82708cef0284f1fd60",
+      "settings": {
+        "bits": 10,
+        "frequency": 2401,
+        "bandwidth": 20,
+        "gain": "48"
+      },
+      "actual_schedule": {
+        "initial_off_seconds": 20.672420365,
+        "actual_tail_after_source_group_closure_seconds": 38.694209534,
+        "source_episodes_completed": 3,
+        "captures": 1010,
+        "source_group_closed_monotonic_ns": 762019898745376,
+        "final_payload_received_monotonic_ns": 762058592954910,
+        "source_denominator": null,
+        "RF_acceptance_gate_closed": false
+      },
+      "restoration": {
+        "full_readback_bytes": 4194304,
+        "full_readback_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+        "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+        "flash_write_verified": true,
+        "full_readback_matches_baseline": true,
+        "boot": {
+          "application_identity_observed": true,
+          "sdk_observed": true,
+          "gpio_high_observed": true,
+          "gpio_low_observed": true,
+          "boot_bytes_private": 5670,
+          "reset_boot_only": true,
+          "power_cycle_proven": false
+        },
+        "verified": true
+      },
+      "all_owned_groups_closed": true,
+      "monitor_container_removed": true,
+      "source_bus_disconnected": true,
+      "raw_owned_candidates": 1,
+      "complete_owned_packets": 1,
+      "foreign_CRC_packets_redacted": 0,
+      "excluded_owned_candidates": 0,
+      "phases": {
+        "source_off_before": {
+          "captures": 43,
+          "captures_with_access_address_candidates": 0,
+          "crc_valid_owned_packets": 0
+        },
+        "control_transition_guard_excluded": {
+          "captures": 33,
+          "captures_with_access_address_candidates": 0,
+          "crc_valid_owned_packets": 0
+        },
+        "source_on_episode_0": {
+          "captures": 256,
+          "captures_with_access_address_candidates": 12,
+          "crc_valid_owned_packets": 1
+        },
+        "source_off_after_episode_0": {
+          "captures": 39,
+          "captures_with_access_address_candidates": 0,
+          "crc_valid_owned_packets": 0
+        },
+        "source_on_episode_1": {
+          "captures": 259,
+          "captures_with_access_address_candidates": 7,
+          "crc_valid_owned_packets": 0
+        },
+        "source_off_after_episode_1": {
+          "captures": 38,
+          "captures_with_access_address_candidates": 0,
+          "crc_valid_owned_packets": 0
+        },
+        "source_on_episode_2": {
+          "captures": 259,
+          "captures_with_access_address_candidates": 6,
+          "crc_valid_owned_packets": 0
+        },
+        "source_off_after": {
+          "captures": 83,
+          "captures_with_access_address_candidates": 1,
+          "crc_valid_owned_packets": 0
+        }
+      },
+      "owned_packets": [
+        {
+          "capture_index": 48,
+          "waveform_sha256": "f5a34238bff52380401ea4503153f1cfc92b27baf33c57f095588a53ad30c967",
+          "source_control_phase": "source_on_episode_0",
+          "packet": {
+            "status": "valid_owned",
+            "pdu_type": 0,
+            "pdu_length": 22,
+            "crc24_ok": true,
+            "owned_manufacturer_ad_exact_match": true,
+            "packet_duration_us": 256,
+            "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+            "access_address_hamming_errors": 1,
+            "access_address_sample_offset": 420.0,
+            "access_correlation": 0.9064350976515804,
+            "estimated_carrier_offset_hz": -199717.70712713758,
+            "iq_polarity": -1,
+            "samples_per_symbol_at_4msps": 4.005,
+            "threshold_bias_deviation_fraction": 0.4000000000000001,
+            "nominal_packet_start_sample": 291.84000000000003,
+            "nominal_packet_end_sample": 4392.96,
+            "complete_preamble_and_pdu_crc_within_capture_nominal": true,
+            "preamble_hamming_errors": 1,
+            "refined": true,
+            "crc_valid_receiver_hypotheses": 1,
+            "receiver_hypotheses_checked": 4324
+          }
+        }
+      ],
+      "inputs_sha256": {
+        "orchestration.json": "d9b61543c679995fabdfbe77b6fb74cf3971e2c88a8601ae7954f3bb9ee9323b",
+        "receiver/manifest.json": "47f6a62a52b28671ad81af8f3351c3bad877f134cfc51717096c2e51d6f32119",
+        "receiver/captures.csv": "23a622b9739d4e2225de0d3558b74acc1eebc7d0ba1fd8a218e23eb328c16344",
+        "source/results.json": "3932036cdbca8ee8d78772d05434f06987532978a0492f465eea1c8a5338a5dd",
+        "monitor.json": "f9da2768eb275898d437ae43d8674f3c8d35232244343433f02007e28e04182a",
+        "decode-001.json": "004df0658db74921df1a5990cd612dc78ab42751a41513209358831c80310036",
+        "report-001/decoder-manifest.json": "6a7c28a072d526ad9c538121db43d470524af01f667f4d719633db06ed6d3070"
+      }
+    },
+    "hardware": {
+      "captures": 984,
+      "transport_integrity_failures": 0,
+      "private_IQ_bytes": 40294800,
+      "ordered_index_payload_digest": "694c25119268d8b4365473a281913535e756e71792ba8d697725b9a6dd3f9c1a",
+      "settings": {
+        "bits": 10,
+        "frequency": 2401,
+        "bandwidth": 20,
+        "gain": "hardware"
+      },
+      "actual_schedule": {
+        "initial_off_seconds": 20.843140396,
+        "actual_tail_after_source_group_closure_seconds": 37.274196836,
+        "source_episodes_completed": 3,
+        "captures": 984,
+        "source_group_closed_monotonic_ns": 762809301447694,
+        "final_payload_received_monotonic_ns": 762846575644530,
+        "source_denominator": null,
+        "RF_acceptance_gate_closed": false
+      },
+      "restoration": {
+        "full_readback_bytes": 4194304,
+        "full_readback_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+        "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+        "flash_write_verified": true,
+        "full_readback_matches_baseline": true,
+        "boot": {
+          "application_identity_observed": true,
+          "sdk_observed": true,
+          "gpio_high_observed": true,
+          "gpio_low_observed": true,
+          "boot_bytes_private": 5670,
+          "reset_boot_only": true,
+          "power_cycle_proven": false
+        },
+        "verified": true
+      },
+      "all_owned_groups_closed": true,
+      "monitor_container_removed": true,
+      "source_bus_disconnected": true,
+      "raw_owned_candidates": 0,
+      "complete_owned_packets": 0,
+      "foreign_CRC_packets_redacted": 1,
+      "excluded_owned_candidates": 0,
+      "phases": {
+        "source_off_before": {
+          "captures": 42,
+          "captures_with_access_address_candidates": 0,
+          "crc_valid_owned_packets": 0
+        },
+        "control_transition_guard_excluded": {
+          "captures": 32,
+          "captures_with_access_address_candidates": 0,
+          "crc_valid_owned_packets": 0
+        },
+        "source_on_episode_0": {
+          "captures": 252,
+          "captures_with_access_address_candidates": 1,
+          "crc_valid_owned_packets": 0
+        },
+        "source_off_after_episode_0": {
+          "captures": 39,
+          "captures_with_access_address_candidates": 0,
+          "crc_valid_owned_packets": 0
+        },
+        "source_on_episode_1": {
+          "captures": 241,
+          "captures_with_access_address_candidates": 1,
+          "crc_valid_owned_packets": 0
+        },
+        "source_off_after_episode_1": {
+          "captures": 39,
+          "captures_with_access_address_candidates": 0,
+          "crc_valid_owned_packets": 0
+        },
+        "source_on_episode_2": {
+          "captures": 258,
+          "captures_with_access_address_candidates": 5,
+          "crc_valid_owned_packets": 0
+        },
+        "source_off_after": {
+          "captures": 81,
+          "captures_with_access_address_candidates": 0,
+          "crc_valid_owned_packets": 0
+        }
+      },
+      "owned_packets": [],
+      "inputs_sha256": {
+        "orchestration.json": "7eaf154c5d2591bfcc39e004257a16913dfaeb710582b13ded11e049f639708c",
+        "receiver/manifest.json": "d1345f2db0e8911da5ff1b702819943197186d7759af9e2f84566646ab64114e",
+        "receiver/captures.csv": "08c419e913f5cec85cc9755f4eacd2c5644f9f3c4e0a97f77f424fc2bb3af50b",
+        "source/results.json": "7477e81b3a53f895cd59003d42cc1fb05643c5a076f07eeeff5915ba8cca9595",
+        "monitor.json": "4eceb8a767d1b55ce5df25081d09a24545ad88c5faff5e580df4417f0afd65bb",
+        "decode-001.json": "82cd23baa8961f722901c65e6f022ede772a833eb84105c692b3b4112ce1880c",
+        "report-001/decoder-manifest.json": "820eaccad45fb977c38a710539f61d31189af183bc1a1e351b42252b7da1570a"
+      }
+    }
+  }
+}

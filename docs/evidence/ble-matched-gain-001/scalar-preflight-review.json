@@ -1,0 +1,34 @@
+{
+  "verdict": "PASS",
+  "adapter_sha256": "ac9d45904d2a193cbfc6a5d4fcc39e9e00811cf12d262f3024330975a94779bc",
+  "method_sha256": "aaac66386b3c91cc20fe0ec42bbf7fb009386b2b469666fc980febbdbf700243",
+  "focused_tests": 10,
+  "all_historical_captures_sha_crc_count_brackets_verified": 2248,
+  "historical_result_byte_identical": true,
+  "report_path_datasets_and_digest_identical": true,
+  "physical_operations": 0,
+  "new_gain_outcomes_inspected": 0,
+  "methods_unchanged": [
+    "signed8/10 packing",
+    "centered AC",
+    "endpoint fraction",
+    "Hann positive1.5..2.5MHz integration",
+    "block32 ratio",
+    "one-second full-bracket guards",
+    "guarded ten-second edge medians"
+  ],
+  "no_decoder_or_RF_gate_changes": true,
+  "zero_results_and_transition_captures_retained": true,
+  "proof_sha256": {
+    "test.log": "f887d8d67cf72b647d3fd6884ba251b1176edb78ecc237d59a393f6428ad10d7",
+    "historical.log": "62ffbd8094e782d16247b16c98aa3752e3306b0ee2409f53c64b3d31b4939eb3",
+    "report-paths.log": "bbe512a26f338102d2f639e9d21e2c49b522ac9a733dff21b0d151bc1dae3516",
+    "independent-historical.json": "8bd282b69833ba5d90665fbc49e1051fcf164cea20620d8aa68d24ae5e0fdc29",
+    "independent-report-paths.json": "2a78dfff55b842b2adf3d38de050b22b689adc30e9e58a2e347f82612da47d30",
+    "independent-historical.verification.json": "20a10995da3de9394ee147351ded284da6938558ecc5132a4916f0d2f355e1e3",
+    "independent-report-paths.verification.json": "8d1a78e82ff1dfd77414486def163137f3f773cb193e185d47f6dbf5f66fabe0",
+    "make_config.py": "80dd6f45a5ec3fc70905aba159a3e5458d1582d879b5b99af9f37af02c45aa61",
+    "test_adapter.py": "187fb2121af92bf22dcbc76ba0b2d88ebf9f8b7013d9f41ebc1e0f0f4602b579",
+    "Taskfile.yml": "f2ed129e424e94ed142fdaf9ae0604ee69c5319d9d5f767d5eb7102ecd050395"
+  }
+}
