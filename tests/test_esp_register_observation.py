@@ -147,11 +147,27 @@ class ActualProcesses(unittest.TestCase):
         self.assertEqual((self.private/'worker-stdout.bin').stat().st_size,supervisor.PIPE_LIMIT)
 
     def test_real_worker_deadline_closes_group_before_saving_prefix(self):
-        command=[sys.executable,'-c',"import os,time; os.write(1,b'prefix'); time.sleep(20)"]
+        # Start the supervision deadline after the fixture has emitted its
+        # prefix. Interpreter startup can exceed 100 ms on a loaded CI host.
+        ready=self.private/'worker-ready'
+        command=[sys.executable,'-c',
+                 "import os,time,pathlib,sys; os.write(1,b'prefix'); "
+                 "pathlib.Path(sys.argv[1]).touch(); time.sleep(20)",str(ready)]
+        real_popen=supervisor.subprocess.Popen
+        def launch(*a,**k):
+            proc=real_popen(*a,**k)
+            startup_deadline=time.monotonic()+5
+            while not ready.exists():
+                if proc.poll() is not None or time.monotonic()>=startup_deadline:
+                    supervisor.lifecycle.stop_process(proc)
+                    self.fail('Deadline fixture failed to emit its prefix')
+                time.sleep(.01)
+            return proc
         before=time.monotonic()
-        with self.assertRaises(protocol.ProtocolError):
+        with patch.object(supervisor.subprocess,'Popen',side_effect=launch), \
+             self.assertRaises(protocol.ProtocolError):
             supervisor.worker_process(command,self.private,seconds=.1)
-        self.assertLess(time.monotonic()-before,2)
+        self.assertLess(time.monotonic()-before,7)
         self.assertEqual((self.private/'worker-stdout.bin').read_bytes(),b'prefix')
 
     def test_unconfirmed_process_group_cannot_persist_parent_buffers(self):
