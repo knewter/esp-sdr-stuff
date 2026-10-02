@@ -1,0 +1,28 @@
+{
+  "kind": "offline build and author self-audit, independent review pending",
+  "source_commit": "0beff50d69ef5cb69939815f9c879a9d84a33678",
+  "source_set_sha256": "d560280bd4c12f2dda3a7312314a0abc968ac2cc4309793709aa4da584bac7ce",
+  "inputs_unchanged_after_build": true,
+  "sdk_revision": "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779",
+  "tinyusb_revision": "86ad6e56c1700e85f1c5678607a762cfe3aa2f47",
+  "composite_sdk_nar": "sha256-X9mPMzmeJzuhHp7VbTc8BLoF1LE41YOLxK0dAwgYEds=",
+  "compiler": "Arm GNU Toolchain 15.3.Rel1 / GCC 15.3.1",
+  "compiler_executable_sha256": "9a5dafde9b51f5f733a4a95616f0eff681f2b90c6323eabe91c6d140142eac04",
+  "artifact_sha256": {
+    "forgix_usb_ram.elf": "6808b8145aada14b53cb0f46bb7379ecc80cb59181c3dd381555f8b934b58784",
+    "forgix_usb_ram.map": "e01031bc4f5163ef50a363f8e93c2bdbda904dd5d67698145b00cc304f6192e8",
+    "disassembly.txt": "3314670e68880b24115f4cb2d39c08ec79e1e51ab5a12623f60b0654d07f81bb",
+    "symbols.txt": "5e90a46b2a1c7a7a24e04862736a6a1a08c0ce96712c77ca150ed0b071d1c25e",
+    "private_manifest": "832086100c1256eef53ec7ca15a10b5414c5e57e1847af4fcbe7f8ea4c1b1da3"
+  },
+  "allocated_load_bytes": 35948,
+  "core0_stack_bytes": 4096,
+  "core1_stack_bytes": 0,
+  "heap_reserved_bytes": 0,
+  "load_ranges": ["0x20000000..0x20007c6c", "0x20081000..0x20082000"],
+  "guard_negative_mutations_refused": 8,
+  "focused_tests_passed": 13,
+  "hardware_operations": 0,
+  "physical_readiness_or_recovery_verified": false,
+  "acceptance_gates_changed": false
+}
