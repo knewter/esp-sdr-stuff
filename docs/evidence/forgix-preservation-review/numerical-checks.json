@@ -1,0 +1,78 @@
+{
+  "review_kind": "Independent offline Forgix MCU preservation review",
+  "public_evidence_revision": "2107e2f1ac0dd05f59ad0b17a47b2509528d8745",
+  "hardware_access": false,
+  "verdict": "Pass for observed2MiB MCU flash preservation and original-loader software round trip only",
+  "backups_each_bytes": 2097152,
+  "backups_sha256": "72b6e55bb321e3d1c11fd7aea5a2db5eb361ec3824c53d564c12b3a0455f91b4",
+  "backups_byte_identical": true,
+  "backups_mode": "0600",
+  "backup_directory_mode": "0700",
+  "backups_ignored": true,
+  "flash_start": "0x10000000",
+  "flash_end_exclusive": "0x10200000",
+  "extent_method": "picotool page-wrap heuristic, not independent JEDEC/BOM capacity measurement",
+  "separate_device_verification_exit_code": 0,
+  "flash_writes_or_otp_operations_in_reviewed_commands": false,
+  "application_frame_checks": [
+    {
+      "phase": "initial",
+      "command": "HELLO",
+      "sequence": 1,
+      "response_type": 128,
+      "response_crc_valid": true,
+      "loader_state": 0,
+      "loader_bytes_written": 0,
+      "message": "forge-loader rp2350 ready",
+      "private_response_sha256": "e1dc0c230b8f4b005987cfefcd9dfab42f126c94b6d30ba3dbc64495b67bc7eb"
+    },
+    {
+      "phase": "initial",
+      "command": "STATUS",
+      "sequence": 2,
+      "response_type": 128,
+      "response_crc_valid": true,
+      "loader_state": 0,
+      "loader_bytes_written": 0,
+      "message": "status",
+      "private_response_sha256": "af37cdf1ebef94255fe1bf120f47dc59a36e38164059f1b3d1b930be9e3372c1"
+    },
+    {
+      "phase": "returned",
+      "command": "HELLO",
+      "sequence": 1,
+      "response_type": 128,
+      "response_crc_valid": true,
+      "loader_state": 0,
+      "loader_bytes_written": 0,
+      "message": "forge-loader rp2350 ready",
+      "private_response_sha256": "e1dc0c230b8f4b005987cfefcd9dfab42f126c94b6d30ba3dbc64495b67bc7eb"
+    },
+    {
+      "phase": "returned",
+      "command": "STATUS",
+      "sequence": 2,
+      "response_type": 128,
+      "response_crc_valid": true,
+      "loader_state": 0,
+      "loader_bytes_written": 0,
+      "message": "status",
+      "private_response_sha256": "af37cdf1ebef94255fe1bf120f47dc59a36e38164059f1b3d1b930be9e3372c1"
+    }
+  ],
+  "picotool_binary_sha256": "cdaca603f918dff63967292466a610aad18ba9df752b524b7318d8eddd42fd64",
+  "picotool_revision": "2041936441b48a3cc53ae3da9e805229fe8f4e18",
+  "pico_sdk_revision": "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779",
+  "public_files_sha256": {
+    "README.md": "6d52384bd091eb46e1cb7a03c0b886adbca5e3c67b85d0d1217f0dba789937df",
+    "returned-application.json": "19453e18f9b75be81c6f42a0aef52ec32cb776ec668ad57fbdee49ec46b2ea0c",
+    "receipt.json": "38e2fe5d51c89ef84fa96f77211c44e890da2bd85d15498990bb65fbbb15e58d",
+    "rom-info.txt": "0564bd00747c66e172524dfbfdaa6ab00e4f9482909548c5bc0849569037ed01",
+    "initial-application.json": "19795dffbb3190ecb28b22620cd06e3e8046f370f94ef9a0cb3acbc89664ac83"
+  },
+  "unique_ids_redacted": true,
+  "fpga_configuration_preserved_or_verified": false,
+  "firmware_rewrite_restoration_trial": false,
+  "physical_bootsel_bypass_verified": false,
+  "fpga_inventory_or_transport_tasks_closed": false
+}
