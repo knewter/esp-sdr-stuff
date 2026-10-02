@@ -21,10 +21,16 @@ FILES = ('README.md','profile.json','overlay.py','register_observation.h','regis
 REQUIRED = ('CONFIG_IDF_TARGET="esp32"','CONFIG_ESP_SDR_UART_ENABLED=y',
     'CONFIG_ESP_SDR_UART_BAUD=921600','CONFIG_ESP_SDR_UART_TX_PIN=1','CONFIG_ESP_SDR_UART_RX_PIN=3',
     'CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y','CONFIG_FREERTOS_UNICORE=y',
+    'CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ=240',
     'CONFIG_ESPTOOLPY_FLASHMODE_DIO=y','CONFIG_ESPTOOLPY_FLASHFREQ_40M=y','CONFIG_ESPTOOLPY_FLASHSIZE_2MB=y',
+    'CONFIG_ESPTOOLPY_FLASHMODE="dio"','CONFIG_ESPTOOLPY_FLASHFREQ="40m"','CONFIG_ESPTOOLPY_FLASHSIZE="2MB"',
+    'CONFIG_PARTITION_TABLE_SINGLE_APP=y','CONFIG_PARTITION_TABLE_FILENAME="partitions_singleapp.csv"','CONFIG_PARTITION_TABLE_MD5=y',
     'CONFIG_PARTITION_TABLE_OFFSET=0x8000','# CONFIG_SECURE_BOOT is not set',
     '# CONFIG_SECURE_FLASH_ENC_ENABLED is not set','# CONFIG_SECURE_SIGNED_APPS_NO_SECURE_BOOT is not set')
-DISABLED_HIDDEN = ('CONFIG_BT_ENABLED',)
+DISABLED_HIDDEN = ('CONFIG_BT_ENABLED','CONFIG_SECURE_BOOT_V1_ENABLED','CONFIG_SECURE_BOOT_V2_ENABLED',
+    'CONFIG_FLASH_ENCRYPTION_ENABLED','CONFIG_PARTITION_TABLE_CUSTOM','CONFIG_PARTITION_TABLE_TWO_OTA',
+    'CONFIG_ESPTOOLPY_FLASHMODE_QIO','CONFIG_ESPTOOLPY_FLASHMODE_QOUT','CONFIG_ESPTOOLPY_FLASHMODE_DOUT',
+    'CONFIG_ESPTOOLPY_FLASHFREQ_80M','CONFIG_ESPTOOLPY_FLASHSIZE_4MB')
 PARTS = (('bootloader.bin',0x1000,0x8000),('partition-table.bin',0x8000,0x9000),
          ('esp_sdr.bin',0x10000,0x110000))
 BUFFER_SYMBOLS = {'regobs_records':(1,81*32), 'regobs_json':(2048,2048),'regobs_wire':(2048,2048)}
@@ -172,7 +178,11 @@ def main(argv=None):
         elf=binary_build/'esp_sdr.elf';map_path=binary_build/'esp_sdr.map'
         symbols=subprocess.check_output(['xtensa-esp-elf-nm','-S',str(elf)],text=True)
         buffers=validate_symbols(symbols)
-        shutil.copyfile(map_path,output/'linker.map');(output/'buffer-symbols.txt').write_text('\n'.join(line for line in symbols.splitlines() if line.split() and line.split()[-1] in BUFFER_SYMBOLS)+'\n')
+        shutil.copyfile(elf,output/'esp_sdr.elf')
+        shutil.copyfile(map_path,output/'linker.map')
+        shutil.copyfile(binary_build/'flasher_args.json',output/'flasher_args.json')
+        (output/'symbols.txt').write_text(symbols)
+        (output/'buffer-symbols.txt').write_text('\n'.join(line for line in symbols.splitlines() if line.split() and line.split()[-1] in BUFFER_SYMBOLS)+'\n')
         folder=output/'esp32';folder.mkdir(mode=0o700)
         locations=(binary_build/'bootloader/bootloader.bin',binary_build/'partition_table/partition-table.bin',binary_build/'esp_sdr.bin')
         parts=[]
@@ -187,6 +197,7 @@ def main(argv=None):
                   disabled_hidden_sdkconfig_keys=list(DISABLED_HIDDEN),
                   profile=profile,prepared_source=prepared,linked_buffers=buffers,
                   linker_map_sha256=sha(output/'linker.map'),elf_sha256=sha(elf),
+                  symbols_sha256=sha(output/'symbols.txt'),flasher_args_sha256=sha(output/'flasher_args.json'),
                   compiler_version=subprocess.check_output(['xtensa-esp-elf-gcc','--version'],text=True).splitlines()[0])
         (output/'build-info.json').write_text(json.dumps(info,indent=2)+'\n')
         manifest=dict(schema=1,kind=KIND,target='esp32',version=VERSION,info=profile['info'],parts=parts,
