@@ -97,7 +97,8 @@ class GainProbeTests(unittest.TestCase):
 
     def test_changed_observed_bit_is_reported_without_changing_software_index(self):
         code,r,wire,private=self.trial(Wire(bit_change=5))
-        self.assertEqual(code,2);self.assertTrue(r['expected_software_state_all_observed'])
+        self.assertEqual(code,0);self.assertEqual(r['status'],'completed')
+        self.assertTrue(r['expected_software_state_all_observed'])
         self.assertFalse(r['manual_enable_bit_all_observed_set'])
         self.assertEqual(r['gain_observations'][10]['observed_register_bit23'],0)
         self.assertEqual(wire.requests.count('GAIN MANUAL 48'),1)

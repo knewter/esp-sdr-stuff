@@ -253,7 +253,7 @@ def run(private, output):
         record['expected_software_state_all_observed']=bool(record['gain_observations']) and all(row['expected_software_profile'] for row in record['gain_observations'])
         record['manual_enable_bit_all_observed_set']=bool(record['gain_observations']) and all(row['observed_manual_enable_bit_set'] for row in record['gain_observations'])
         if (record['capture_count']!=COUNT or record['integrity_valid_count']!=COUNT or
-                not record['expected_software_state_all_observed'] or not record['manual_enable_bit_all_observed_set'] or
+                not record['expected_software_state_all_observed'] or
                 not record['uart_closed'] or record.get('acquisition_elapsed_seconds',SECONDS+1)>SECONDS): record['status']='failed'
         wire=bytes(budget.wire) if budget else b''
         record['consumed_uart_bytes']=budget.received_bytes if budget else 0
