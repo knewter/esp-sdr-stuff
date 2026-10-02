@@ -642,6 +642,11 @@ def build_data(
     # earlier build's unused media from silently inflating the next bundle.
     if asset_dir is not None:
         generated_assets = asset_dir / "evidence"
+        if asset_dir.resolve() == repo_root.resolve() or any(
+            generated_assets.resolve().is_relative_to((repo_root / area).resolve())
+            for area in ("docs", "openspec", "scripts", "tools", "tests", "firmware", "nix", ".skills")
+        ):
+            raise ValueError("Evidence assets require a generated output directory, not repository sources")
         if generated_assets.is_symlink():
             raise ValueError("Generated evidence directory must not be a symlink")
         if generated_assets.exists():

@@ -374,6 +374,14 @@ class TestData(unittest.TestCase):
             data, _ = render_specs.build_data(root, assets, source_revision_value="abc123")
             self.assertEqual((assets / data["evidence"][0]["asset"]).read_bytes(), b"fixture")
 
+    def test_cleanup_cannot_target_original_repository_evidence(self) -> None:
+        with TempRepo() as root:
+            original = root / "docs/evidence/capture.png"
+            original.parent.mkdir(parents=True); original.write_bytes(b"original")
+            with self.assertRaisesRegex(ValueError, "generated output directory"):
+                render_specs.build_data(root, root / "docs")
+            self.assertEqual(original.read_bytes(), b"original")
+
     def test_the_data_pass_reads_openspec_specs_and_nothing_else(self) -> None:
         with TempRepo() as root:
             (root / "openspec" / "changes" / "a-change" / "specs" / "x" / "y").mkdir(
