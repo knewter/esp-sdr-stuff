@@ -65,3 +65,7 @@ PROGRAM-pad and FPGA-button distinction.
 No sustained FPGA transport, clock measurement, pin voltage, external ESP
 wiring or RF integration is proven by these MCU operations. The FPGA
 proposal remains open pending physical inventory and benchmark evidence.
+
+[Independent review](../forgix-preservation-review/README.md) reproduces both
+private backup hashes, raw FLDR reply checks and each successful tool receipt,
+and verifies public sanitization and the stated preservation limits.

@@ -110,14 +110,15 @@
       "physical": "pending",
       "next": "Inspect Forgix PCB/FPGA/oscillator markings and header wiring before selecting constraints or programming a synthetic transport.",
       "rationale": "Factory USB interface and RP2350 ROM entry confirmed. Two detected full-range 2 MiB MCU reads match; separate verify and factory application return pass. FPGA revision/clock/wiring and transport remain unverified; no FPGA configuration or flash writes ran.",
-      "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
+      "reviewRevision": "58ce4e3a34f16f2179f0326d52ca953357862326",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
       "evidence": [
         "docs/evidence/fpga-inventory/README.md",
         "docs/evidence/user-equipment-inventory/README.md",
-        "docs/evidence/forgix-preservation/README.md"
+        "docs/evidence/forgix-preservation/README.md",
+        "docs/evidence/forgix-preservation-review/README.md"
       ]
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
