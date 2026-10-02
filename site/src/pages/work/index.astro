@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import ProjectCheckpoint from "../../components/ProjectCheckpoint.astro";
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import work from "../../data/work.json";
 import { specs, url } from "../../lib/specs";
@@ -68,6 +69,7 @@ const items = await Promise.all(work.items.map(async (item) => ({
       <div class="work-meta"><span>As of <strong>{work.generated}</strong></span><span>Revision <a href={url("revision.json")}><code>{work.sourceRevision.slice(0, 12)}</code></a></span><span>Source: {work.sourceMode}</span></div>
     </header>
 
+    <ProjectCheckpoint />
     <nav class="work-jump" aria-label="Work lanes">
       {work.lanes.map((lane) => <a href={`#${lane.id}`}><span>{names[lane.id].title}</span><b>{lane.count}</b></a>)}
     </nav>

@@ -60,8 +60,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Review bounded monitor readiness/capture clocks before any fresh operation; obtain a usable legacy marker denominator for rates and preserve the original eight-bit/BW12/hardware-gain Trial B prerequisite.",
-      "rationale": "Five historical complete SDR packets remain verified. New matched ten-bit controls retain 1,994 valid snapshots and independently reproduce one fresh complete owned packet in manual48 ON0; hardware gain has zero owned and one redacted foreign CRC packet. Both full original-flash restorations pass. Scalar edges do not show three reciprocal source responses or calibrated gain superiority. Earlier 2,248 fresh nulls, rejected DC-first replay, native/register observations and failed count diagnostics remain preserved. The mode pair still reports 0x3c/count0 for legacy and extended; no emitted denominator or RF/count gate closes. The new ten-bit positive does not replace Trial B\u2019s original eight-bit prerequisite. The single reachable legacy100/5s condition also reports actual 0x3c/count0, with all 22 inputs unchanged and full cleanup independently accepted; timing mismatch alone does not explain the count failure. The distinct extended100 source reports actual0x43/count100 in both readers, while a monitor deadline keeps the full episode failed; allgroups/state cleanup pass independent review. Extended auxiliary AD does not qualify the original legacy marker denominator.",
+      "next": "Freeze and independently review a controlled RF protocol using the corrected monitor clocks. Obtain the required current eight-bit/BW12/hardware-gain positive baseline before Trial B; qualify source counts before reporting rates.",
+      "rationale": "Matched ten-bit controls retained 1,994 valid snapshots and reproduced one fresh complete owned BLE packet at manual48. Both full original-flash restorations pass. Three repeated reciprocal RF responses, calibrated filter/gain limits and the original eight-bit Trial B prerequisite remain unproved. Legacy100 reports actual0x3c/count0. Extended100 reports actual0x43/count100 in both readers, but its monitor deadline fails the whole episode; extended auxiliary AD supplies no legacy RF denominator. Independent review accepts the retained outcomes and cleanup. The corrected readiness/capture clocks now pass 26 project tests and ten independent checks offline; no new hardware episode has used them.",
       "reviewRevision": "8e74fd12524572ab8d3130140fd14dcd41e27fcc",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
@@ -105,7 +105,8 @@
         "docs/evidence/ble-count-limit-100-independent-review/actual-001-checks.json",
         "docs/evidence/ble-extended-count-limit-100-001/README.md",
         "docs/evidence/ble-extended-count-limit-100-independent-review/README.md",
-        "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md"
+        "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md",
+        "docs/evidence/ble-monitor-readiness-independent-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
@@ -117,8 +118,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Review bounded monitor readiness/capture clocks before any fresh operation; obtain a usable legacy marker denominator for rates and preserve the original eight-bit/BW12/hardware-gain Trial B prerequisite.",
-      "rationale": "Five historical complete SDR packets remain verified. New matched ten-bit controls retain 1,994 valid snapshots and independently reproduce one fresh complete owned packet in manual48 ON0; hardware gain has zero owned and one redacted foreign CRC packet. Both full original-flash restorations pass. Scalar edges do not show three reciprocal source responses or calibrated gain superiority. Earlier 2,248 fresh nulls, rejected DC-first replay, native/register observations and failed count diagnostics remain preserved. The mode pair still reports 0x3c/count0 for legacy and extended; no emitted denominator or RF/count gate closes. The new ten-bit positive does not replace Trial B\u2019s original eight-bit prerequisite. The single reachable legacy100/5s condition also reports actual 0x3c/count0, with all 22 inputs unchanged and full cleanup independently accepted; timing mismatch alone does not explain the count failure. The distinct extended100 source reports actual0x43/count100 in both readers, while a monitor deadline keeps the full episode failed; allgroups/state cleanup pass independent review. Extended auxiliary AD does not qualify the original legacy marker denominator.",
+      "next": "Use a valid legacy source denominator before measuring hit rates; retain the fresh ten-bit packet as reception proof. Later Trial B still requires its original current eight-bit/BW12/hardware-gain positive control.",
+      "rationale": "Five historical complete owned SDR packets and one independently reproduced fresh ten-bit/manual48 packet establish working BLE decoding. Repeatable detection rates remain open: legacy100 reports count0; extended100 reports count100 but the full monitoring episode fails and is not the legacy marker condition. The offline monitor deadline correction is reviewed. No loss/rate gate or original Trial B prerequisite is waived.",
       "reviewRevision": "8e74fd12524572ab8d3130140fd14dcd41e27fcc",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
@@ -169,7 +170,8 @@
         "docs/evidence/ble-count-limit-100-independent-review/actual-001-checks.json",
         "docs/evidence/ble-extended-count-limit-100-001/README.md",
         "docs/evidence/ble-extended-count-limit-100-independent-review/README.md",
-        "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md"
+        "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md",
+        "docs/evidence/ble-monitor-readiness-independent-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",

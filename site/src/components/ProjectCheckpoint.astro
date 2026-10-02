@@ -1,0 +1,38 @@
+---
+import { evidenceUrl, url } from "../lib/specs";
+const milestones = [
+  { status: "Verified on hardware", title: "The ESP SDR demo works", text: "Two consecutive 60-second Task sessions delivered 2,712 and 2,713 valid spectrum frames. The original 4 MiB firmware was restored and verified.", proof: "docs/evidence/esp-demo-session-005/README.md", label: "Demo and restoration", kind: "verified" },
+  { status: "Fresh reception reproduced", title: "An owned BLE packet decoded", text: "Matched controls retained 1,994 valid snapshots. One fresh complete owned packet decoded at ten-bit/manual48; this does not establish a detection rate or a gain ranking.", proof: "docs/evidence/ble-matched-gain-001/README.md", label: "Fresh packet and waveform", kind: "verified" },
+  { status: "Partial result · failed episode", title: "The source-count diagnosis advanced", text: "Extended advertising reported 100 completed controller events in both readers. Its monitor deadline failed the overall trial. Legacy advertising still reported zero; RF hit rates remain unqualified.", proof: "docs/evidence/ble-extended-count-limit-100-001/README.md", label: "Count result and retained failure", kind: "partial" },
+  { status: "Verified on hardware", title: "RTL-SDR delivers useful reception", text: "The attached dipole received FM/RDS identifying WXJC. The receiver comparison is accepted; calibrated shared-signal sensitivity remains deferred.", proof: "docs/evidence/rtl-dipole-rds/README.md", label: "Current-dipole RDS proof", kind: "verified" },
+  { status: "Software verified", title: "Efinity is installed and compiling", text: "Nix and Task manage the private 2026.1.132 installation. A generic T8F81/C2 example passes all four stages. A connected Forgix FPGA image still needs confirmed board constraints.", proof: "docs/evidence/efinity-compile-smoke-002/README.md", label: "Actual compiler result", kind: "prepared" },
+  { status: "Reviewed build · hardware pending", title: "Forgix RAM USB test is prepared", text: "The finite producer uses 35,948 SRAM bytes; its actual ELF passed independent review. The collector passes 37 synthetic tests. Loading and recovery lifecycle review is underway; no RAM trial has run.", proof: "docs/evidence/forgix-usb-ram-independent-review/README.md", label: "Artifact audit and limits", kind: "prepared" },
+];
+---
+<section class="project-checkpoint" aria-labelledby="checkpoint-title" data-project-checkpoint>
+  <header><p class="eyebrow">CURRENT CHECKPOINT · OCTOBER 2, 2026</p><h2 id="checkpoint-title">The demo works. The next experiments have clear gates.</h2><p>Hardware results, software preparation and failed experiments are shown separately. The full RF and FPGA evaluations remain open.</p></header>
+  <div class="milestones">{milestones.map(item => <article class={`milestone ${item.kind}`}><span class="milestone-status">{item.status}</span><h3>{item.title}</h3><p>{item.text}</p><a href={evidenceUrl(item.proof)}>{item.label} →</a></article>)}</div>
+  <div class="next-work"><div><p class="eyebrow">NEXT, IN ORDER</p><ol><li><strong>Measure Forgix USB.</strong> Finish lifecycle review, verify original flash, run one RAM-only 64 KiB/s test for 60 seconds with a 100 ms host pause, then verify flash and factory return again.</li><li><strong>Advance controlled ESP reception.</strong> Use the reviewed monitor deadline correction in a separately frozen protocol. Repeat the required eight-bit/BW12/hardware-gain positive control before the later RF trial; source counts must justify any rate.</li><li><strong>Bring in the FPGA.</strong> Confirm FPGA grade, oscillator and PCB revision, build with matching constraints, then measure the selected transport before RF integration.</li></ol></div><aside><h3>What we need from you</h3><p>Readable Forgix FPGA, oscillator and PCB markings. USB-only attachment and replug availability are confirmed; the MCU USB test needs no extra wires or RF equipment.</p><h3>Will Forgix need wires to the ESP?</h3><p>The proposed direct path needs verified SPI I/O and a common ground. Forgix keeps USB to the PC. A PC-mediated processing demo is another option, but keeps ESP capture gaps. No inter-board wiring is needed for the current USB test.</p><a href={url("fpga/")}>Transport stages and pin ownership →</a></aside></div>
+</section>
+<style>
+  .project-checkpoint { margin:2.5rem 0; padding:1.6rem; border:1px solid var(--rule); border-radius:12px; background:var(--surface); color:var(--ink); }
+  header { max-width:64rem; margin-bottom:1.4rem; }
+  h2 { font-size:clamp(1.5rem,2.7vw,2.2rem); line-height:1.15; margin:.5rem 0 .8rem; }
+  header p, article p, aside p, li { color:var(--ink-2); line-height:1.55; }
+  .milestones { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+  .milestone { padding:1.1rem; border:1px solid var(--rule); border-top:3px solid var(--accent); border-radius:7px; }
+  .partial { border-top-color:var(--unverified); }
+  .prepared { border-top-color:var(--muted); }
+  .milestone-status { font: .65rem var(--mono); text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+  h3 { font-size:1.08rem; line-height:1.25; margin:.65rem 0; }
+  article p { font-size:.9rem; margin:.7rem 0 1rem; }
+  a { color:var(--accent); font-size:.88rem; }
+  .next-work { display:grid; grid-template-columns:1.45fr 1fr; gap:2rem; margin-top:1.5rem; padding-top:1.4rem; border-top:1px solid var(--rule); }
+  ol { padding-left:1.2rem; margin:.7rem 0 0; }
+  li { margin:.65rem 0; font-size:.92rem; }
+  aside { padding:1rem 1.2rem; background:var(--surface-2); border-radius:7px; }
+  aside h3:first-child { margin-top:0; }
+  aside p { font-size:.9rem; }
+  @media(max-width:1050px) { .milestones { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media(max-width:650px) { .project-checkpoint { padding:1rem; } .milestones,.next-work { grid-template-columns:1fr; } .next-work { gap:1rem; } }
+</style>
