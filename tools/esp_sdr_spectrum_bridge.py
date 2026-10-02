@@ -17,6 +17,9 @@ import zlib
 from esp_sdr_capture import STABLE_PORT, RATE_CODES, SOURCE_REVISION, command, exact, line, open_board, queries, settings, synchronize, ProtocolError
 
 
+MAX_RETAINED_STREAM_BYTES = 64 * 1024 * 1024  # Accepted bytes; reject/retain the consumed overflow packet.
+
+
 class RejectedFrame(ProtocolError):
     """Retain consumed bytes privately without accepting a malformed frame."""
     def __init__(self, message, raw, kind, crc_ok=None, expected_crc=None, actual_crc=None):
@@ -53,6 +56,22 @@ def spectrum_frame(port, bins):
             'samples_processed': int.from_bytes(raw[16:20], 'little'),
             'ffts': int.from_bytes(raw[20:22], 'little'), 'flags': raw[22], 'gain_code': raw[23],
             'crc32': f'{expected:08x}', 'power_codes': list(raw[28:-4])}, raw
+
+
+def persist_verified(path, data):
+    """Persist only after UART closure; verify saved bytes with a bounded read."""
+    expected = hashlib.sha256(data).hexdigest()
+    if path.write_bytes(data) != len(data):
+        raise OSError('private raw write was incomplete')
+    actual = hashlib.sha256()
+    saved_bytes = 0
+    with path.open('rb') as stream:
+        while chunk := stream.read(65536):
+            actual.update(chunk)
+            saved_bytes += len(chunk)
+    if saved_bytes != len(data) or actual.hexdigest() != expected:
+        raise OSError('private raw write verification failed')
+    return {'bytes': saved_bytes, 'sha256': expected}
 
 
 HTML = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Measured ESP32 spectrum</title><style>
@@ -96,6 +115,9 @@ class Trial:
         private_created = False
         rows = []
         sampled = ffts = 0
+        retained = bytearray()
+        rejected = None
+        acquisition_started = False
         t0 = None
         expected_ffts = getattr(a, 'ffts_per_frame', 1)
         record = {'schema': 1, 'firmware_revision_asserted_from_install_record': getattr(a, 'firmware_revision', SOURCE_REVISION),
@@ -104,6 +126,8 @@ class Trial:
                   'settings': {'frequency_mhz': a.frequency, 'rate_hz': a.rate, 'bins': a.bins, 'gain': a.gain,
                                'ffts_per_frame': expected_ffts, 'detector': 'mean power over separately acquired FFT snapshots',
                                'bandwidth_mhz': a.bandwidth, 'seconds_requested': a.seconds},
+                  'private_stream_retention': 'bounded RAM; persisted only after UART closure',
+                  'private_stream_memory_cap_bytes': MAX_RETAINED_STREAM_BYTES,
                   'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
                   'limitations': 'Snapshot FFTs contain gaps. Codes are uncalibrated. Hardware nominal clock and synthesized sample index do not independently prove actual sample rate.'}
         try:
@@ -124,48 +148,50 @@ class Trial:
             previous = -1
             sampled = 0
             ffts = 0
-            raw_hash = hashlib.sha256()
+            acquisition_started = True
             self.update(status='Acquiring real hardware spectra')
-            with (a.private / 'spectrum-frames.bin').open('wb') as stream:
-                while True:
-                    frame, raw = spectrum_frame(port, a.bins)
-                    elapsed = time.monotonic() - t0
-                    if frame['kind'] == 'end':
-                        record['end_report'] = frame['report']
-                        report = frame['report']
-                        if report[0] != 0:
-                            raise ProtocolError('firmware reported failed spectrum session')
-                        if report[1] != 0 or report[2] != ffts or report[3] != sampled or report[7] != len(rows) or report[10] != ffts or report[11] != 0:
-                            raise ProtocolError('spectrum end totals or stop state do not match received frames')
-                        if report[4] < a.seconds * 1000000 * .95:
-                            raise ProtocolError('firmware duration shorter than requested session')
-                        break
-                    if frame['kind'] == 'statistics':
-                        stream.write(raw); raw_hash.update(raw)
-                        continue
-                    if frame['sample_index'] <= previous or not frame['ffts']:
-                        raise RejectedFrame('non-monotonic or empty FFT frame', raw, 'spectrum', True)
-                    if frame['sequence'] != len(rows):
-                        raise RejectedFrame('lost, duplicate or out-of-order spectrum sequence', raw, 'spectrum', True)
-                    if frame['ffts'] != expected_ffts:
-                        raise RejectedFrame('returned FFT windows per frame do not match requested grouping', raw, 'spectrum', True)
-                    if frame['flags'] & 1:
-                        raise RejectedFrame('returned peak detector does not match requested mean power', raw, 'spectrum', True)
-                    if frame['samples_processed'] != frame['ffts'] * a.bins or not frame['flags'] & 8:
-                        raise RejectedFrame('invalid snapshot sample total or missing gap flag', raw, 'spectrum', True)
-                    stream.write(raw); raw_hash.update(raw)
-                    previous = frame['sample_index']
-                    sampled += frame['samples_processed']
-                    ffts += frame['ffts']
-                    power = frame.pop('power_codes')
-                    row = {**frame, 'received_relative_seconds': elapsed,
-                           'minimum_power_code': min(power), 'maximum_power_code': max(power),
-                           'mean_power_code': sum(power) / len(power)}
-                    rows.append(row)
-                    self.update(frames=len(rows), elapsed_seconds=elapsed, power_codes=power,
-                                snapshot_gap_flag=bool(frame['flags'] & 8),
-                                nominal_coverage_fraction=sampled / a.rate / elapsed if elapsed else 0)
-            record['private_frames_sha256'] = raw_hash.hexdigest()
+            while True:
+                frame, raw = spectrum_frame(port, a.bins)
+                elapsed = time.monotonic() - t0
+                if frame['kind'] == 'end':
+                    record['end_report'] = frame['report']
+                    report = frame['report']
+                    if report[0] != 0:
+                        raise ProtocolError('firmware reported failed spectrum session')
+                    if report[1] != 0 or report[2] != ffts or report[3] != sampled or report[7] != len(rows) or report[10] != ffts or report[11] != 0:
+                        raise ProtocolError('spectrum end totals or stop state do not match received frames')
+                    if report[4] < a.seconds * 1000000 * .95:
+                        raise ProtocolError('firmware duration shorter than requested session')
+                    break
+                if frame['kind'] == 'statistics':
+                    if len(retained) + len(raw) > MAX_RETAINED_STREAM_BYTES:
+                        raise RejectedFrame('private stream memory cap exceeded', raw, 'statistics', True)
+                    retained.extend(raw)
+                    continue
+                if frame['sample_index'] <= previous or not frame['ffts']:
+                    raise RejectedFrame('non-monotonic or empty FFT frame', raw, 'spectrum', True)
+                if frame['sequence'] != len(rows):
+                    raise RejectedFrame('lost, duplicate or out-of-order spectrum sequence', raw, 'spectrum', True)
+                if frame['ffts'] != expected_ffts:
+                    raise RejectedFrame('returned FFT windows per frame do not match requested grouping', raw, 'spectrum', True)
+                if frame['flags'] & 1:
+                    raise RejectedFrame('returned peak detector does not match requested mean power', raw, 'spectrum', True)
+                if frame['samples_processed'] != frame['ffts'] * a.bins or not frame['flags'] & 8:
+                    raise RejectedFrame('invalid snapshot sample total or missing gap flag', raw, 'spectrum', True)
+                if len(retained) + len(raw) > MAX_RETAINED_STREAM_BYTES:
+                    raise RejectedFrame('private stream memory cap exceeded', raw, 'spectrum', True)
+                retained.extend(raw)
+                previous = frame['sample_index']
+                sampled += frame['samples_processed']
+                ffts += frame['ffts']
+                power = frame.pop('power_codes')
+                row = {**frame, 'received_relative_seconds': elapsed,
+                       'minimum_power_code': min(power), 'maximum_power_code': max(power),
+                       'mean_power_code': sum(power) / len(power)}
+                rows.append(row)
+                self.update(frames=len(rows), elapsed_seconds=elapsed, power_codes=power,
+                            snapshot_gap_flag=bool(frame['flags'] & 8),
+                            nominal_coverage_fraction=sampled / a.rate / elapsed if elapsed else 0)
             record['frames'] = len(rows)
             record['elapsed_seconds'] = time.monotonic() - t0
             record['nominal_sampled_seconds'] = sampled / a.rate
@@ -178,7 +204,7 @@ class Trial:
             record['error_kind'] = type(error).__name__
             record['error'] = str(error)[:240]
             if isinstance(error, RejectedFrame) and private_created:
-                (a.private / 'rejected-frame.bin').write_bytes(error.raw)
+                rejected = error.raw
                 record['rejected_frame'] = error.metadata
             self.update(status='Failed', error=str(error)[:240], crc_failures=int('CRC' in str(error)))
         finally:
@@ -202,10 +228,30 @@ class Trial:
                 self.update(elapsed_seconds=record['elapsed_seconds'],
                             nominal_coverage_fraction=record['nominal_coverage_fraction'],
                             last_frame_received_seconds=rows[-1]['received_relative_seconds'] if rows else None)
-            frame_path = a.private / 'spectrum-frames.bin'
-            if private_created and frame_path.is_file():
-                record['private_frames_sha256'] = hashlib.sha256(frame_path.read_bytes()).hexdigest()
-                record['private_frames_bytes'] = frame_path.stat().st_size
+            # Continuous UART output must not wait for filesystem writes. The
+            # accepted stream and a consumed rejection are bounded in RAM until
+            # RELEASE/close, preserving the same byte order and prefix semantics.
+            record['raw_persistence'] = {'accepted_stream': 'not_started', 'rejected_packet': 'not_applicable'}
+            for kind, name, data in [('accepted_stream', 'spectrum-frames.bin', retained),
+                                     ('rejected_packet', 'rejected-frame.bin', rejected)]:
+                if not private_created or (kind == 'accepted_stream' and not acquisition_started) or data is None:
+                    continue
+                record['raw_persistence'][kind + '_expected_bytes'] = len(data)
+                try:
+                    saved = persist_verified(a.private / name, data)
+                    record['raw_persistence'][kind] = 'verified'
+                    if kind == 'accepted_stream':
+                        record['private_frames_sha256'] = saved['sha256']
+                        record['private_frames_bytes'] = saved['bytes']
+                except Exception as error:
+                    # Partial files remain private for inspection. Never label
+                    # their expected buffer hash as a verified saved-file hash.
+                    record['raw_persistence'][kind] = 'unverified'
+                    record['raw_persistence'][kind + '_error_kind'] = type(error).__name__
+                    record['status'] = 'failed'
+                    record.setdefault('error_kind', 'RawPersistenceError')
+                    record.setdefault('error', 'Private raw persistence failed after UART closure')
+                    self.update(status='Failed', error='Private raw persistence failed after UART closure')
             record['prefix_integrity_note'] = 'Retained stream contains accepted spectrum frames and CRC-valid statistics; rejected consumed bytes are saved separately. Prefix success does not establish complete session integrity.'
             if output_created:
                 if rows:

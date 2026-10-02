@@ -472,6 +472,7 @@ class CompletionFenceTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory(); self.addCleanup(temporary.cleanup)
         root = Path(temporary.name)
         wire = spectrum_fixture.Wire(b''.join(frames) + ('SPECEND ' + ' '.join(map(str, report)) + '\n').encode())
+        self.grouped_wire = wire
         args = SimpleNamespace(output=root/'metadata', private=root/'private', port='SYNTHETIC', baud=921600,
             frequency=2412, bandwidth=20, gain='hardware', seconds=60, rate=80000000, bins=256,
             ffts_per_frame=requested)
@@ -515,6 +516,84 @@ class CompletionFenceTests(unittest.TestCase):
         self.assertEqual(self.grouped_state['nominal_coverage_fraction'], record['nominal_coverage_fraction'])
         self.assertEqual(self.grouped_state['last_frame_received_seconds'], 60)
         self.assertGreater(self.grouped_state['elapsed_seconds'], self.grouped_state['last_frame_received_seconds'])
+
+    def test_slow_retention_writer_runs_only_after_UART_close(self):
+        import time
+        frames = [self.grouped_frame(0, 0), self.grouped_frame(1, 80000000)]
+        original_write = Path.write_bytes
+        original_open = Path.open
+        writes = []
+        def inspect_open(path, *args, **kwargs):
+            if path.name in {'spectrum-frames.bin', 'rejected-frame.bin'}:
+                self.assertTrue(self.grouped_wire.closed, 'Raw persistence must not block an open UART')
+            return original_open(path, *args, **kwargs)
+        def slow_write(path, data):
+            if path.name == 'spectrum-frames.bin':
+                self.assertTrue(self.grouped_wire.closed)
+                self.assertEqual(self.grouped_wire.data, bytearray(), 'All frames and end report must be read before slow storage')
+                writes.append(bytes(data))
+                time.sleep(.025)
+            return original_write(path, data)
+        with patch.object(Path, 'write_bytes', slow_write), patch.object(Path, 'open', inspect_open):
+            args, record, _ = self.grouped_trial(frames, [0,0,16,4096,60000000,0,0,2,0,0,16,0])
+        self.assertEqual(record['status'], 'completed')
+        self.assertEqual(writes, [b''.join(frames)])
+        self.assertEqual(record['private_frames_sha256'], hashlib.sha256(b''.join(frames)).hexdigest())
+        self.assertEqual(record['private_frames_bytes'], sum(map(len, frames)))
+        self.assertEqual(record['private_stream_memory_cap_bytes'], 64*1024*1024)
+
+    def test_retention_write_error_publishes_failed_receipt_after_UART_close(self):
+        frames = [self.grouped_frame(0, 0), self.grouped_frame(1, 80000000)]
+        original_write = Path.write_bytes
+        def partial_write_error(path, data):
+            if path.name == 'spectrum-frames.bin':
+                self.assertTrue(self.grouped_wire.closed)
+                original_write(path, data[:11])
+                raise OSError('synthetic storage failure after partial write')
+            return original_write(path, data)
+        with patch.object(Path, 'write_bytes', partial_write_error):
+            args, record, _ = self.grouped_trial(frames, [0,0,16,4096,60000000,0,0,2,0,0,16,0])
+        self.assertEqual(record['status'], 'failed')
+        self.assertEqual(record['error_kind'], 'RawPersistenceError')
+        self.assertEqual(self.grouped_state['status'], 'Failed')
+        self.assertEqual(record['frames'], 2)
+        self.assertEqual(record['raw_persistence']['accepted_stream'], 'unverified')
+        self.assertEqual(record['raw_persistence']['accepted_stream_error_kind'], 'OSError')
+        self.assertEqual(record['raw_persistence']['accepted_stream_expected_bytes'], sum(map(len, frames)))
+        self.assertNotIn('private_frames_sha256', record)
+        self.assertNotIn('private_frames_bytes', record)
+        self.assertEqual((args.private/'spectrum-frames.bin').read_bytes(), b''.join(frames)[:11])
+        self.assertEqual(len((args.output/'spectra.csv').read_text().splitlines()), 3)
+
+    def test_retention_cap_preserves_prefix_and_consumed_overflow_packet(self):
+        first = self.grouped_frame(0, 0)
+        overflow = self.grouped_frame(1, 80000000)
+        with patch.object(spectrum_bridge, 'MAX_RETAINED_STREAM_BYTES', len(first)):
+            args, record, _ = self.grouped_trial([first, overflow], [0,0,16,4096,60000000,0,0,2,0,0,16,0])
+        self.assertEqual(record['status'], 'failed')
+        self.assertIn('memory cap', record['error'])
+        self.assertEqual((record['frames'], record['accepted_ffts'], record['accepted_sample_pairs']), (1,8,2048))
+        self.assertEqual((args.private/'spectrum-frames.bin').read_bytes(), first)
+        self.assertEqual((args.private/'rejected-frame.bin').read_bytes(), overflow)
+        self.assertEqual(record['private_frames_sha256'], hashlib.sha256(first).hexdigest())
+        self.assertEqual(record['private_frames_bytes'], len(first))
+        self.assertTrue(record['rejected_frame']['crc_ok'])
+        self.assertEqual(self.grouped_state['crc_failures'], 0)
+
+    def test_statistics_retention_shares_cap_and_keeps_original_byte_order(self):
+        first = self.grouped_frame(0, 0)
+        statistics = b'SPS1' + bytes(32)
+        statistics += zlib.crc32(statistics).to_bytes(4, 'little')
+        cap = len(first) + len(statistics)
+        with patch.object(spectrum_bridge, 'MAX_RETAINED_STREAM_BYTES', cap):
+            args, record, _ = self.grouped_trial([first, statistics, statistics], [0,0,8,2048,60000000,0,0,1,0,0,8,0])
+        self.assertEqual(record['status'], 'failed')
+        self.assertEqual(record['rejected_frame']['kind'], 'statistics')
+        self.assertEqual(record['frames'], 1)
+        self.assertEqual((args.private/'spectrum-frames.bin').read_bytes(), first+statistics)
+        self.assertEqual((args.private/'rejected-frame.bin').read_bytes(), statistics)
+        self.assertEqual(record['private_frames_bytes'], cap)
+        self.assertEqual(record['private_frames_sha256'], hashlib.sha256(first+statistics).hexdigest())
 
     def test_crc_rejection_retains_exact_bad_bytes_and_valid_prefix(self):
         first = self.grouped_frame(0, 0)
