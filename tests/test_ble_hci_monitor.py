@@ -28,6 +28,13 @@ class HCIMonitorTests(unittest.TestCase):
         # Packing the ABI for host review must not open or require a socket.
         with patch.object(monitor_module, 'socket', SimpleNamespace()):
             self.assertEqual(struct.unpack('=HHH', monitor_sockaddr()), (31, 0xffff, 2))
+    def test_remove_is_handle_scoped_and_malformed_or_global_clear_discarded(self):
+        self.assertEqual(sanitized_packet(command(0x203c, bytes([0xef]))),
+                         {'kind': 'advertising_command', 'hci_opcode_hex': '203c', 'advertising_handle': 0xef})
+        self.assertIsNone(sanitized_packet(command(0x203c, bytes([0xef, 1]))))
+        self.assertIsNone(sanitized_packet(command(0x203c, b'')))
+        self.assertIsNone(sanitized_packet(command(0x203a, b'')))
+
     def test_legacy_parameters_discard_peer_address(self):
         payload = struct.pack('<HHBBB', 0x800, 0x800, 3, 0, 0) + b'SECRET' + bytes([7, 0])
         result = sanitized_packet(command(0x2006, payload))

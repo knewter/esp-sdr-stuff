@@ -14,7 +14,7 @@ import struct
 import sys
 import time
 
-ADV_OPCODES = {0x2006, 0x2008, 0x200A, 0x2036, 0x2037, 0x2039}
+ADV_OPCODES = {0x2006, 0x2008, 0x200A, 0x2036, 0x2037, 0x2039, 0x203c}
 OWNED_MARKER_AD = bytes.fromhex('0fffffff4553502d5344522d4556414c')
 AF_BLUETOOTH_LINUX = 31  # Linux socket ABI, independent of CPython build flags.
 HCI_CHANNEL_MONITOR = 2  # Linux include/net/bluetooth/hci_sock.h; CONTROL is3.
@@ -80,6 +80,8 @@ def sanitized_packet(packet):
                           interval_min_ms=int.from_bytes(payload[3:6], 'little') * .625,
                           interval_max_ms=int.from_bytes(payload[6:9], 'little') * .625,
                           primary_channel_map=payload[9], primary_phy=payload[20], secondary_phy=payload[22])
+        elif opcode == 0x203c and len(payload) == 1:
+            result['advertising_handle'] = payload[0]
         elif opcode == 0x2039 and len(payload) >= 2 and len(payload) == 2 + 4 * payload[1]:
             result['enabled'] = bool(payload[0])
             result['sets'] = []
