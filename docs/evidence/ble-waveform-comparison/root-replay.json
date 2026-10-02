@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "scope": "Offline numerical replay; no new hardware trial",
+  "public_summary_sha256": "93cb2ef1c06e97281a7efb914a22024bad1259a08945a2fc5eabeae841ba9b6d",
+  "private_replay_sha256": "05377585c92cc2c68e74315dced1e4928e87fab39e7664070c5bd70e916f1b14",
+  "audit_script_sha256": "0c508cb5946ad6f80915e9a61ed855c8296efc81b0ef10753b47b1740f988294",
+  "decoder_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+  "author_runtime_seconds": 31.065564977005124,
+  "root_runtime_seconds": 74.62190357397776,
+  "compared_captures": 2809,
+  "excluded_fields": [
+    "runtime_seconds"
+  ],
+  "all_remaining_fields_exactly_equal": true,
+  "independent_raw_packed_ten_bit_projection": {
+    "checked_captures": 4,
+    "receipt_sha256": "35eb2e8dbcf01ee2d2e7557a8b7bfe8213cb74da3031be2ac2abc6541d11f90f",
+    "passed": true
+  },
+  "original_method_unchanged": true,
+  "physical_cause_proved": false,
+  "calibrated_gain_proved": false
+}

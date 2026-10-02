@@ -117,3 +117,10 @@ are exported here. The native reference/comparison is separate Bluetooth
 reception. None of this audit supplies an RF emission denominator, fresh SDR
 positive, repeatability proof, sensitivity/range result, Trial B prerequisite
 or RF/count acceptance.
+
+The operator's separate [full numerical replay](root-replay.json) checked all
+2,809 captures again in 74.62 seconds. Every summary field matches exactly
+after excluding only runtime. A separate bit-by-bit packed-ten-bit reader and
+direct complex projection also reproduce the reported coherent −1 MHz fractions
+for four specified captures. These checks support the numerical audit; they do
+not prove a cause for the fresh nulls.
