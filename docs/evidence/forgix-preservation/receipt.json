@@ -29,6 +29,7 @@
   "fpga_programming_requested": false,
   "serial_closed": true,
   "scope": "Detected RP flash range only; OTP, RAM and any separately stored FPGA configuration are excluded",
+  "publication_transform": "Private captured stdout uses Python text-mode newline normalization. Public stdout redacts unique identity lines and omits transient percentage progress lines. private_stdout_sha256 hashes the private captured string encoded as UTF-8; terminal OK and exit codes are retained.",
   "steps": [
     {
       "utc": "2026-10-02T03:53:24.832064+00:00",
@@ -79,7 +80,7 @@
         "IDENTIFIED_DEVICE"
       ],
       "exit_code": 0,
-      "stdout": "Saving file:          [                              ]  0%\nSaving file:          [                              ]  1%\nSaving file:          [                              ]  2%\nSaving file:          [                              ]  3%\nSaving file:          [=                             ]  4%\nSaving file:          [=                             ]  5%\nSaving file:          [==                            ]  7%\nSaving file:          [==                            ]  8%\nSaving file:          [==                            ]  9%\nWrote 2097152 bytes to /backups/forgix-original-a.bin\nVerifying Flash:      [                              ]  0%\nVerifying Flash:      [                              ]  1%\nVerifying Flash:      [                              ]  2%\nVerifying Flash:      [                              ]  3%\nVerifying Flash:      [=                             ]  4%\nVerifying Flash:      [=                             ]  5%\nVerifying Flash:      [==                            ]  7%\nVerifying Flash:      [==                            ]  8%\nVerifying Flash:      [==                            ]  9%\n  OK",
+      "stdout": "Wrote 2097152 bytes to /backups/forgix-original-a.bin\n  OK",
       "stderr": "",
       "private_stdout_sha256": "094863d0e643e56442b48b022676b81f8b922afb9566f5c2dbea7e712827a3cb"
     },
@@ -99,7 +100,7 @@
         "IDENTIFIED_DEVICE"
       ],
       "exit_code": 0,
-      "stdout": "Saving file:          [                              ]  0%\nSaving file:          [                              ]  1%\nSaving file:          [                              ]  2%\nSaving file:          [                              ]  3%\nSaving file:          [=                             ]  4%\nSaving file:          [=                             ]  5%\nSaving file:          [==                            ]  7%\nSaving file:          [==                            ]  8%\nSaving file:          [==                            ]  9%\nWrote 2097152 bytes to /backups/forgix-original-b.bin\nVerifying Flash:      [                              ]  0%\nVerifying Flash:      [                              ]  1%\nVerifying Flash:      [                              ]  2%\nVerifying Flash:      [                              ]  3%\nVerifying Flash:      [=                             ]  4%\nVerifying Flash:      [=                             ]  5%\nVerifying Flash:      [==                            ]  7%\nVerifying Flash:      [==                            ]  8%\nVerifying Flash:      [==                            ]  9%\n  OK",
+      "stdout": "Wrote 2097152 bytes to /backups/forgix-original-b.bin\n  OK",
       "stderr": "",
       "private_stdout_sha256": "30b94f68249395fccf674f96c292ca4b48d4e1777e5f2f69f642c10d8d4d4ec6"
     },
@@ -117,7 +118,7 @@
         "IDENTIFIED_DEVICE"
       ],
       "exit_code": 0,
-      "stdout": "Verifying Flash:      [                              ]  0%\nVerifying Flash:      [                              ]  1%\nVerifying Flash:      [                              ]  2%\nVerifying Flash:      [                              ]  3%\nVerifying Flash:      [=                             ]  4%\nVerifying Flash:      [=                             ]  5%\nVerifying Flash:      [==                            ]  7%\nVerifying Flash:      [==                            ]  8%\nVerifying Flash:      [==                            ]  9%\n  OK",
+      "stdout": "  OK",
       "stderr": "",
       "private_stdout_sha256": "a8b04b9425515a3d498b62d8894ca40e5e5f0887db4417620be1fd6631a486ff"
     },
