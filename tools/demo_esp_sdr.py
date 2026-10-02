@@ -356,6 +356,7 @@ def live_view(a, listener):
                '--baud', str(a.baud), '--firmware-revision', a.firmware_revision,
                '--seconds', str(a.seconds), '--frequency', str(a.frequency), '--rate', str(a.rate),
                '--bins', str(a.bins), '--bandwidth', str(a.bandwidth)]
+    command += ['--ffts-per-frame', str(a.ffts_per_frame)]
     url = f'http://127.0.0.1:{listener.getsockname()[1]}'
     proc = browser_proc = None
     try:
@@ -540,6 +541,7 @@ def parser():
     p.add_argument('--frequency', type=int, default=2412)
     p.add_argument('--rate', type=int, default=80000000, choices=RATE_CODES)
     p.add_argument('--bins', type=int, default=512, choices=[256, 512, 1024, 2048])
+    p.add_argument('--ffts-per-frame', type=int, default=8, choices=range(1,9), help='Average 1..8 separately acquired FFT windows per update; default8 reduces per-FFT emission overhead')
     p.add_argument('--bandwidth', type=int, default=20)
     p.add_argument('--gain', default='hardware', choices=['hardware'])
     p.add_argument('--viewer-child', action='store_true', help=argparse.SUPPRESS)

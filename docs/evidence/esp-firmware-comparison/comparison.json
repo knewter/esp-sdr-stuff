@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "class": "Offline comparison of existing software artifacts; no hardware operation",
+  "hardware_evidence": false,
+  "cause_of_crc_failure": "not established",
+  "source_commit": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "sdk_commit": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+  "esp_dsp_commit": "a53a0756833c045311ea1d79a2badf495cdfde4c",
+  "compiler_version_both": "xtensa-esp-elf-gcc (crosstool-NG esp-16.1.0_20260609) 16.1.0",
+  "target_both": "esp32",
+  "app_version_both": "550fade-uart921600",
+  "sdkconfig": {
+    "entries": [
+      1323,
+      1323
+    ],
+    "raw_sha256": [
+      "3960909f8e39966096e3b26c1398a0e8959ebc7f48173a9f942042f776da8178",
+      "3960909f8e39966096e3b26c1398a0e8959ebc7f48173a9f942042f776da8178"
+    ],
+    "canonical_entries_sha256": [
+      "cc09ee443dada97cd3692df83f61a42fc386f45c13cadc710e571e6c600f4c35",
+      "cc09ee443dada97cd3692df83f61a42fc386f45c13cadc710e571e6c600f4c35"
+    ],
+    "canonical_entries_equal": true,
+    "differences": []
+  },
+  "artifact_metadata": {
+    "historical": {
+      "manifest.json": "5b0af8d72918bba2c3b2c2cd0d43070e90d61626ac1240fe128525f802cf42c9",
+      "build-info.json": "8978c5299da740f5221838aa89dd201a055ae3a4f810a92d0ff08e38e7149170"
+    },
+    "nix": {
+      "manifest.json": "f794f69e394e3fb76fb12ad50ce30562dcb79a55ca92ac177f612234ac4a5553",
+      "build-info.json": "9bdcc33d278f8cb0041abde24efd3a40182bfeee8e741f3f690cb15a43c5c24e"
+    }
+  },
+  "parts": [
+    {
+      "name": "0-bootloader.bin",
+      "flash_offset": 4096,
+      "bytes": 25792,
+      "sha256": {
+        "historical": "ae2641c45d818548d59fa70573b35202b6e315f2b9691de1f5c59736f6478e03",
+        "nix": "a48cfaef91df68c48dc2a8a7c01b05841abb97b1b8898a38cafb97565b939881"
+      },
+      "different_bytes": 54,
+      "segments": [
+        {
+          "index": 0,
+          "load_address": "0x3fff0040",
+          "file_payload_offset": 32,
+          "bytes": 6360,
+          "different_bytes": 21,
+          "sha256": {
+            "historical": "7b0126fae8027711f02d1b13afb758a1d5201f57229800d4fa5ae5dc3ed2767a",
+            "nix": "ac21882c317de8c53b37bad8156b380d344fd572d0b442168a9271560adee707"
+          }
+        },
+        {
+          "index": 1,
+          "load_address": "0x40078000",
+          "file_payload_offset": 6400,
+          "bytes": 15648,
+          "different_bytes": 0,
+          "sha256": {
+            "historical": "c22d0120c514feca8a451e4785e9a8e4de83f3af2a4946ccb9c907f9a957ba0b",
+            "nix": "c22d0120c514feca8a451e4785e9a8e4de83f3af2a4946ccb9c907f9a957ba0b"
+          }
+        },
+        {
+          "index": 2,
+          "load_address": "0x40080400",
+          "file_payload_offset": 22056,
+          "bytes": 3696,
+          "different_bytes": 0,
+          "sha256": {
+            "historical": "8cea66e71618189ed0ab9842a7ce710990c1b8fd4ad6d38632c33f7caf0beac0",
+            "nix": "8cea66e71618189ed0ab9842a7ce710990c1b8fd4ad6d38632c33f7caf0beac0"
+          }
+        }
+      ],
+      "descriptor": {
+        "file_offset": 32,
+        "bytes": 80,
+        "different_bytes": 21
+      },
+      "footer": {
+        "file_offset": 25759,
+        "bytes": 33,
+        "different_bytes": 33,
+        "checksum_and_validation_hash_both_verified": true
+      },
+      "image_header_and_segment_headers_identical": true,
+      "all_bytes_outside_descriptor_and_footer_identical": true
+    },
+    {
+      "name": "1-partition-table.bin",
+      "flash_offset": 32768,
+      "bytes": 3072,
+      "sha256": {
+        "historical": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+        "nix": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+      },
+      "different_bytes": 0,
+      "segments": []
+    },
+    {
+      "name": "2-esp_sdr.bin",
+      "flash_offset": 65536,
+      "bytes": 664608,
+      "sha256": {
+        "historical": "d7a2d80a70134b04e6078d5ac62b728e79ab33364c1845546f7ca321995e4685",
+        "nix": "55aae718e026e26783693bcb2be455a8c0453922f3aff5c49e38817bf434c9f6"
+      },
+      "different_bytes": 85,
+      "segments": [
+        {
+          "index": 0,
+          "load_address": "0x3f400020",
+          "file_payload_offset": 32,
+          "bytes": 87388,
+          "different_bytes": 52,
+          "sha256": {
+            "historical": "7601b8766d688be983cfe8a9230146bde244b09b58341423b5cd84a9d6c83137",
+            "nix": "72f22dd5058fe7d6c75e328549709057d16b478b99a01ad1249f6455df486b00"
+          }
+        },
+        {
+          "index": 1,
+          "load_address": "0x3ffb0000",
+          "file_payload_offset": 87428,
+          "bytes": 15272,
+          "different_bytes": 0,
+          "sha256": {
+            "historical": "b7c19c2bf43791ccdcbabc45d227670f60b43e8ac018973af0b9c262c22c16fe",
+            "nix": "b7c19c2bf43791ccdcbabc45d227670f60b43e8ac018973af0b9c262c22c16fe"
+          }
+        },
+        {
+          "index": 2,
+          "load_address": "0x40080000",
+          "file_payload_offset": 102708,
+          "bytes": 28388,
+          "different_bytes": 0,
+          "sha256": {
+            "historical": "0c015f36dd361293382e4e375653e1808ddf05579cd0f03ab24498be7e58263b",
+            "nix": "0c015f36dd361293382e4e375653e1808ddf05579cd0f03ab24498be7e58263b"
+          }
+        },
+        {
+          "index": 3,
+          "load_address": "0x400d0020",
+          "file_payload_offset": 131104,
+          "bytes": 503028,
+          "different_bytes": 0,
+          "sha256": {
+            "historical": "57d32aa37877e626c78eab8d5bcaeeadbda9853d6ff1f50bbd115e9165309906",
+            "nix": "57d32aa37877e626c78eab8d5bcaeeadbda9853d6ff1f50bbd115e9165309906"
+          }
+        },
+        {
+          "index": 4,
+          "load_address": "0x40086ee4",
+          "file_payload_offset": 634140,
+          "bytes": 30372,
+          "different_bytes": 0,
+          "sha256": {
+            "historical": "ff9b4edc3a4ec993ec80e905c53750148d44917347e9a9bc594fdc0e43d054d4",
+            "nix": "ff9b4edc3a4ec993ec80e905c53750148d44917347e9a9bc594fdc0e43d054d4"
+          }
+        },
+        {
+          "index": 5,
+          "load_address": "0x50000000",
+          "file_payload_offset": 664520,
+          "bytes": 40,
+          "different_bytes": 0,
+          "sha256": {
+            "historical": "2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb",
+            "nix": "2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb"
+          }
+        }
+      ],
+      "descriptor": {
+        "file_offset": 32,
+        "bytes": 256,
+        "different_bytes": 52
+      },
+      "footer": {
+        "file_offset": 664575,
+        "bytes": 33,
+        "different_bytes": 33,
+        "checksum_and_validation_hash_both_verified": true
+      },
+      "image_header_and_segment_headers_identical": true,
+      "all_bytes_outside_descriptor_and_footer_identical": true
+    }
+  ],
+  "whole_images_byte_identical": false
+}

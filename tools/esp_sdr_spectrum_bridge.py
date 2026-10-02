@@ -17,6 +17,15 @@ import zlib
 from esp_sdr_capture import STABLE_PORT, RATE_CODES, SOURCE_REVISION, command, exact, line, open_board, queries, settings, synchronize, ProtocolError
 
 
+class RejectedFrame(ProtocolError):
+    """Retain consumed bytes privately without accepting a malformed frame."""
+    def __init__(self, message, raw, kind, crc_ok=None, expected_crc=None, actual_crc=None):
+        super().__init__(message)
+        self.raw = raw
+        self.metadata = {'kind': kind, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest(),
+                         'crc_ok': crc_ok, 'expected_crc32': expected_crc, 'actual_crc32': actual_crc}
+
+
 def spectrum_frame(port, bins):
     magic = exact(port, 4)
     if magic == b'SPEC':
@@ -26,17 +35,19 @@ def spectrum_frame(port, bins):
         return {'kind': 'end', 'report': [int(v) for v in report[1:]]}, None
     if magic == b'SPS1':
         raw = magic + exact(port, 36)
-        if zlib.crc32(raw[:-4]) != int.from_bytes(raw[-4:], 'little'):
-            raise ProtocolError('statistics CRC mismatch')
+        actual, expected = zlib.crc32(raw[:-4]), int.from_bytes(raw[-4:], 'little')
+        if actual != expected:
+            raise RejectedFrame('statistics CRC mismatch', raw, 'statistics', False, f'{expected:08x}', f'{actual:08x}')
         return {'kind': 'statistics'}, raw
     if magic != b'SPC1':
-        raise ProtocolError('spectrum framing lost')
+        raise RejectedFrame('spectrum framing lost', magic, 'unknown')
     raw = magic + exact(port, bins + 28)
     expected = int.from_bytes(raw[-4:], 'little')
-    if zlib.crc32(raw[:-4]) != expected:
-        raise ProtocolError('spectrum CRC mismatch')
+    actual = zlib.crc32(raw[:-4])
+    if actual != expected:
+        raise RejectedFrame('spectrum CRC mismatch', raw, 'spectrum', False, f'{expected:08x}', f'{actual:08x}')
     if 1 << raw[26] != bins or raw[27] != 2:
-        raise ProtocolError('unexpected spectrum encoding')
+        raise RejectedFrame('unexpected spectrum encoding', raw, 'spectrum', True)
     return {'kind': 'spectrum', 'sequence': int.from_bytes(raw[4:8], 'little'),
             'sample_index': int.from_bytes(raw[8:16], 'little'),
             'samples_processed': int.from_bytes(raw[16:20], 'little'),
@@ -46,11 +57,11 @@ def spectrum_frame(port, bins):
 
 HTML = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Measured ESP32 spectrum</title><style>
 body{background:#09151c;color:#dce7ed;font:17px system-ui;margin:32px auto;max-width:1120px;padding:0 20px}h1{font-size:42px}p{line-height:1.5}small{color:#a3bac5}button{background:#83e1bd;padding:14px 24px;border:0;border-radius:8px;font-weight:bold}canvas{width:100%;height:360px;background:#0c202a;border:1px solid #446170}pre{white-space:pre-wrap;padding:16px;background:#0c202a}strong{color:#83e1bd}</style>
-<h1>ESP32: a measured spectrum</h1><p><strong>Live hardware trial · host UART bridge</strong><br>This viewer receives CRC-checked on-device FFT frames from the confirmed original ESP32. The browser communicates with localhost HTTP; the host owns the CP2102 UART. Every frame is a separate snapshot with reception gaps.</p>
+<h1>ESP32: a measured spectrum</h1><p><strong>Live hardware trial · host UART bridge</strong><br>This viewer receives CRC-checked on-device FFT frames from the confirmed original ESP32. The browser communicates with localhost HTTP; the host owns the CP2102 UART. Each update averages separately acquired FFT snapshots, with reception gaps between windows and updates.</p>
 <p id="settings"></p><button id="start">Start bounded trial</button><p id="status">Ready. No device handle is open.</p><canvas width="1080" height="360" id="spectrum"></canvas><small>X: frequency in MHz. Y: firmware power code 0–255 (uncalibrated, not dBm). No signal identification is inferred.</small><pre id="stats"></pre><script>
 const c=document.querySelector('canvas'),x=c.getContext('2d');let active=false;
 function draw(s){x.clearRect(0,0,c.width,c.height);x.font='15px monospace';x.fillStyle='#a3bac5';for(let j=0;j<5;j++){let xx=55+j*(c.width-85)/4;x.fillText((s.frequency_mhz+(j/4-.5)*s.rate_hz/1e6).toFixed(1),xx-20,c.height-12);x.strokeStyle='#28424f';x.beginPath();x.moveTo(xx,20);x.lineTo(xx,c.height-36);x.stroke()}for(let j=0;j<5;j++){let yy=20+j*(c.height-56)/4;x.fillText(String(Math.round(255*(1-j/4))),10,yy+5)}if(!s.power_codes)return;x.strokeStyle='#83e1bd';x.lineWidth=2;x.beginPath();let n=s.power_codes.length;for(let j=0;j<n;j++){let yy=20+(255-s.power_codes[(j+n/2)%n])*(c.height-56)/255,xx=55+j*(c.width-85)/(n-1);j?x.lineTo(xx,yy):x.moveTo(xx,yy)}x.stroke()}
-async function poll(){let s=await(await fetch('/state')).json();document.querySelector('#settings').textContent=`${s.frequency_mhz}MHz · ${s.rate_hz/1e6}MS/s nominal · ${s.bins} FFT bins · hardware AGC · ${s.duration_seconds}s requested`;
+async function poll(){let s=await(await fetch('/state')).json();document.querySelector('#settings').textContent=`${s.frequency_mhz}MHz · ${s.rate_hz/1e6}MS/s nominal · ${s.bins} FFT bins · ${s.ffts_per_frame} FFT windows averaged per update · hardware AGC · ${s.duration_seconds}s requested`;
 document.querySelector('#status').textContent=s.status;document.querySelector('#stats').textContent=JSON.stringify({frames:s.frames,crc_failures:s.crc_failures,elapsed_seconds:s.elapsed_seconds,snapshot_gap_flag:s.snapshot_gap_flag,nominal_coverage_fraction:s.nominal_coverage_fraction,error:s.error},null,2);draw(s);setTimeout(poll,200)}
 document.querySelector('#start').onclick=async()=>{document.querySelector('#start').disabled=true;await fetch('/start',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'})};poll();
 </script></html>'''
@@ -62,6 +73,7 @@ class Trial:
         self.lock = threading.Lock()
         self.state = {'status': 'Ready', 'frames': 0, 'crc_failures': 0, 'elapsed_seconds': 0,
                       'frequency_mhz': args.frequency, 'rate_hz': args.rate, 'bins': args.bins,
+                      'ffts_per_frame': getattr(args, 'ffts_per_frame', 1),
                       'duration_seconds': args.seconds, 'transport': 'host UART bridge, localhost HTTP browser'}
         self.started = False
 
@@ -81,11 +93,16 @@ class Trial:
         a = self.args
         port = None
         output_created = False
+        private_created = False
         rows = []
+        sampled = ffts = 0
+        t0 = None
+        expected_ffts = getattr(a, 'ffts_per_frame', 1)
         record = {'schema': 1, 'firmware_revision_asserted_from_install_record': getattr(a, 'firmware_revision', SOURCE_REVISION),
                   'firmware_source_base_revision': SOURCE_REVISION,
                   'browser_transport': 'localhost HTTP polling a host UART reader; not native Web Serial',
                   'settings': {'frequency_mhz': a.frequency, 'rate_hz': a.rate, 'bins': a.bins, 'gain': a.gain,
+                               'ffts_per_frame': expected_ffts, 'detector': 'mean power over separately acquired FFT snapshots',
                                'bandwidth_mhz': a.bandwidth, 'seconds_requested': a.seconds},
                   'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
                   'limitations': 'Snapshot FFTs contain gaps. Codes are uncalibrated. Hardware nominal clock and synthesized sample index do not independently prove actual sample rate.'}
@@ -93,11 +110,14 @@ class Trial:
             a.output.mkdir(parents=True, exist_ok=False)
             output_created = True
             a.private.mkdir(parents=True, exist_ok=False)
+            private_created = True
             port = open_board(a.port, a.baud)
             synchronize(port)
             record['queries'] = queries(port)
             record['setting_replies'] = settings(port, a.frequency, a.bandwidth, a.gain)
-            profile = command(port, f'SPEC {a.seconds * 1000} 1 1 0 {RATE_CODES[a.rate]} {a.bins} 1').split()
+            if not 1 <= expected_ffts <= 8:
+                raise ValueError('FFT windows per frame must be 1..8')
+            profile = command(port, f'SPEC {a.seconds * 1000} 1 {expected_ffts} 0 {RATE_CODES[a.rate]} {a.bins} 1').split()
             if len(profile) != 5 or profile[0] != 'SPEC' or [int(v) for v in profile[1:]] != [a.bins, a.rate, a.bins, a.frequency]:
                 raise ProtocolError('spectrum start does not match requested settings')
             t0 = time.monotonic()
@@ -120,15 +140,20 @@ class Trial:
                         if report[4] < a.seconds * 1000000 * .95:
                             raise ProtocolError('firmware duration shorter than requested session')
                         break
-                    stream.write(raw); raw_hash.update(raw)
                     if frame['kind'] == 'statistics':
+                        stream.write(raw); raw_hash.update(raw)
                         continue
                     if frame['sample_index'] <= previous or not frame['ffts']:
-                        raise ProtocolError('non-monotonic or empty FFT frame')
+                        raise RejectedFrame('non-monotonic or empty FFT frame', raw, 'spectrum', True)
                     if frame['sequence'] != len(rows):
-                        raise ProtocolError('lost, duplicate or out-of-order spectrum sequence')
+                        raise RejectedFrame('lost, duplicate or out-of-order spectrum sequence', raw, 'spectrum', True)
+                    if frame['ffts'] != expected_ffts:
+                        raise RejectedFrame('returned FFT windows per frame do not match requested grouping', raw, 'spectrum', True)
+                    if frame['flags'] & 1:
+                        raise RejectedFrame('returned peak detector does not match requested mean power', raw, 'spectrum', True)
                     if frame['samples_processed'] != frame['ffts'] * a.bins or not frame['flags'] & 8:
-                        raise ProtocolError('invalid snapshot sample total or missing gap flag')
+                        raise RejectedFrame('invalid snapshot sample total or missing gap flag', raw, 'spectrum', True)
+                    stream.write(raw); raw_hash.update(raw)
                     previous = frame['sample_index']
                     sampled += frame['samples_processed']
                     ffts += frame['ffts']
@@ -153,8 +178,12 @@ class Trial:
             record['status'] = 'failed'
             record['error_kind'] = type(error).__name__
             record['error'] = str(error)[:240]
+            if isinstance(error, RejectedFrame) and private_created:
+                (a.private / 'rejected-frame.bin').write_bytes(error.raw)
+                record['rejected_frame'] = error.metadata
             self.update(status='Failed', error=str(error)[:240], crc_failures=int('CRC' in str(error)))
         finally:
+            acquisition_finished = time.monotonic() if t0 is not None else None
             if port is not None:
                 try:
                     command(port, 'RELEASE')
@@ -162,6 +191,18 @@ class Trial:
                     pass
                 port.close()
             record['ended_utc'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+            record['frames'] = len(rows)
+            record['accepted_ffts'] = ffts
+            record['accepted_sample_pairs'] = sampled
+            if t0 is not None:
+                record['elapsed_seconds'] = acquisition_finished - t0
+                record['nominal_sampled_seconds'] = sampled / a.rate
+                record['nominal_coverage_fraction'] = sampled / a.rate / record['elapsed_seconds'] if record['elapsed_seconds'] else 0
+            frame_path = a.private / 'spectrum-frames.bin'
+            if private_created and frame_path.is_file():
+                record['private_frames_sha256'] = hashlib.sha256(frame_path.read_bytes()).hexdigest()
+                record['private_frames_bytes'] = frame_path.stat().st_size
+            record['prefix_integrity_note'] = 'Retained stream contains accepted spectrum frames and CRC-valid statistics; rejected consumed bytes are saved separately. Prefix success does not establish complete session integrity.'
             if output_created:
                 if rows:
                     with (a.output / 'spectra.csv').open('w', newline='') as stream:
@@ -185,6 +226,7 @@ def main():
     parser.add_argument('--seconds', type=int, default=60)
     parser.add_argument('--rate', type=int, default=80000000, choices=RATE_CODES)
     parser.add_argument('--bins', type=int, default=1024, choices=[256,512,1024,2048])
+    parser.add_argument('--ffts-per-frame', type=int, default=1, choices=range(1,9))
     parser.add_argument('--frequency', type=int, default=2412)
     parser.add_argument('--bandwidth', type=int, default=20)
     parser.add_argument('--gain', default='hardware')

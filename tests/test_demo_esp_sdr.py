@@ -2,6 +2,7 @@
 import contextlib
 import copy
 import hashlib
+import zlib
 from http.server import ThreadingHTTPServer
 import io
 import json
@@ -36,6 +37,7 @@ class Fixtures(unittest.TestCase):
             port=demo.STABLE_PORT, http_port=0, seconds=60, bins=512,
             frequency=2412, rate=80000000, bandwidth=20, gain='hardware',
             headless=True, start_timeout=120)
+        self.a.ffts_per_frame = 8
         self.baseline = {'bytes': demo.SIZE, 'sha256': 'a' * 64, 'read_hashes_equal': True}
 
     def make_artifact(self):
@@ -67,6 +69,7 @@ class ProvenanceTests(Fixtures):
         self.assertEqual(result.exception.code, 0); device.assert_not_called()
         args = demo.parser().parse_args(['--output', 'docs/evidence/x', '--private', '.scratch/x'])
         self.assertEqual((args.seconds, args.baud, args.bins), (60, 921600, 512))
+        self.assertEqual(args.ffts_per_frame, 8)
 
     def test_pinned_clean_uart_variant_and_payload_hashes_are_required(self):
         self.make_artifact()
@@ -424,7 +427,8 @@ class ViewerBoundaryTests(unittest.TestCase):
         try:
             with urlopen(url) as response:
                 html = response.read().decode()
-            self.assertIn('snapshot with reception gaps', html)
+            self.assertIn('separately acquired FFT snapshots', html)
+            self.assertIn('reception gaps', html)
             self.assertIn('/start/synthetic-token', html)
             with urlopen(url + '/state') as response:
                 self.assertNotIn('error', json.load(response))
@@ -464,6 +468,104 @@ class CompletionFenceTests(unittest.TestCase):
                 spectrum_fixture.SpectrumTrialIntegrity().trial()
         publish.assert_not_called()
 
+    def grouped_trial(self, frames, report, requested=8):
+        temporary = tempfile.TemporaryDirectory(); self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name)
+        wire = spectrum_fixture.Wire(b''.join(frames) + ('SPECEND ' + ' '.join(map(str, report)) + '\n').encode())
+        args = SimpleNamespace(output=root/'metadata', private=root/'private', port='SYNTHETIC', baud=921600,
+            frequency=2412, bandwidth=20, gain='hardware', seconds=60, rate=80000000, bins=256,
+            ffts_per_frame=requested)
+        requests = []
+        def request(port, command):
+            requests.append(command)
+            return 'SPEC 256 80000000 256 2412' if command.startswith('SPEC ') else 'OK'
+        tick = iter(range(0, 1000, 30))
+        with patch.object(spectrum_bridge, 'open_board', return_value=wire), \
+            patch.object(spectrum_bridge, 'synchronize'), patch.object(spectrum_bridge, 'queries', return_value={}), \
+            patch.object(spectrum_bridge, 'settings', return_value={}), \
+            patch.object(spectrum_bridge, 'command', side_effect=request), \
+            patch.object(spectrum_bridge.time, 'monotonic', side_effect=lambda: next(tick)), \
+            contextlib.redirect_stdout(io.StringIO()):
+            spectrum_bridge.Trial(args).run()
+        self.assertTrue(wire.closed)
+        return args, json.loads((args.output/'results.json').read_text()), requests
+
+    def grouped_frame(self, sequence, index, ffts=8):
+        raw = spectrum_fixture.fft_frame(sequence, index, pairs=256*ffts)
+        raw[20:22] = ffts.to_bytes(2, 'little')
+        raw[-4:] = zlib.crc32(raw[:-4]).to_bytes(4, 'little')
+        return bytes(raw)
+
+    def test_eight_fft_command_frames_and_terminal_totals_match(self):
+        frames = [self.grouped_frame(0, 0), self.grouped_frame(1, 80000000)]
+        args, record, requests = self.grouped_trial(frames, [0,0,16,4096,60000000,0,0,2,0,0,16,0])
+        self.assertIn('SPEC 60000 1 8 0 0 256 1', requests)
+        self.assertEqual(record['status'], 'completed')
+        self.assertEqual((record['frames'], record['accepted_ffts'], record['accepted_sample_pairs']), (2,16,4096))
+        self.assertEqual(record['settings']['ffts_per_frame'], 8)
+        self.assertEqual(record['nominal_sampled_seconds'], 4096/80000000)
+
+    def test_crc_rejection_retains_exact_bad_bytes_and_valid_prefix(self):
+        first = self.grouped_frame(0, 0)
+        bad = bytearray(self.grouped_frame(1, 80000000)); bad[40] ^= 1
+        args, record, _ = self.grouped_trial([first, bytes(bad)], [0,0,16,4096,60000000,0,0,2,0,0,16,0])
+        self.assertEqual(record['status'], 'failed')
+        self.assertEqual((record['frames'], record['accepted_ffts'], record['accepted_sample_pairs']), (1,8,2048))
+        self.assertEqual((args.private/'rejected-frame.bin').read_bytes(), bytes(bad))
+        self.assertEqual((args.private/'spectrum-frames.bin').read_bytes(), first)
+        self.assertFalse(record['rejected_frame']['crc_ok'])
+        self.assertEqual(record['rejected_frame']['sha256'], hashlib.sha256(bad).hexdigest())
+        self.assertEqual(record['private_frames_sha256'], hashlib.sha256(first).hexdigest())
+        self.assertGreater(record['elapsed_seconds'], 0)
+
+    def test_partial_group_is_rejected_even_with_valid_crc(self):
+        raw = self.grouped_frame(0, 0, ffts=7)
+        args, record, _ = self.grouped_trial([raw], [0,0,7,1792,60000000,0,0,1,0,0,7,0])
+        self.assertEqual(record['status'], 'failed')
+        self.assertEqual(record['frames'], 0)
+        self.assertEqual((args.private/'rejected-frame.bin').read_bytes(), raw)
+        self.assertTrue(record['rejected_frame']['crc_ok'])
+
+    def test_peak_detector_is_rejected_in_a_requested_mean_profile(self):
+        raw = bytearray(self.grouped_frame(0, 0)); raw[22] |= 1
+        raw[-4:] = zlib.crc32(raw[:-4]).to_bytes(4, 'little')
+        args, record, _ = self.grouped_trial([bytes(raw)], [0,0,8,2048,60000000,0,0,1,0,0,8,0])
+        self.assertEqual(record['status'], 'failed')
+        self.assertEqual(record['frames'], 0)
+        self.assertIn('peak detector', record['error'])
+        self.assertTrue(record['rejected_frame']['crc_ok'])
+
+    def test_failed_acquisition_elapsed_excludes_delayed_release_cleanup(self):
+        raw = bytearray(self.grouped_frame(0, 0)); raw[40] ^= 1
+        clock = [1.0]
+        original_run = spectrum_bridge.Trial.run
+        # grouped_trial's request function is overridden only to model a very
+        # delayed RELEASE. No serial object or physical device is created.
+        temporary = tempfile.TemporaryDirectory(); self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name); wire = spectrum_fixture.Wire(raw)
+        args = SimpleNamespace(output=root/'metadata', private=root/'private', port='SYNTHETIC', baud=921600,
+            frequency=2412, bandwidth=20, gain='hardware', seconds=60, rate=80000000, bins=256, ffts_per_frame=8)
+        def request(port, command):
+            if command.startswith('SPEC '):
+                return 'SPEC 256 80000000 256 2412'
+            clock[0] = 1000.0
+            return 'OK'
+        def frame(port, bins):
+            clock[0] = 2.0
+            raise spectrum_bridge.RejectedFrame('synthetic spectrum CRC mismatch', bytes(raw), 'spectrum', False)
+        with patch.object(spectrum_bridge, 'open_board', return_value=wire), patch.object(spectrum_bridge, 'synchronize'), \
+            patch.object(spectrum_bridge, 'queries', return_value={}), patch.object(spectrum_bridge, 'settings', return_value={}), \
+            patch.object(spectrum_bridge, 'command', side_effect=request), patch.object(spectrum_bridge, 'spectrum_frame', side_effect=frame), \
+            patch.object(spectrum_bridge.time, 'monotonic', side_effect=lambda: clock[0]), contextlib.redirect_stdout(io.StringIO()):
+            original_run(spectrum_bridge.Trial(args))
+        self.assertTrue(wire.closed)
+        self.assertEqual(json.loads((args.output/'results.json').read_text())['elapsed_seconds'], 1.0)
+
+    def test_standalone_bridge_profile_stays_one_fft_without_explicit_grouping(self):
+        record = spectrum_fixture.SpectrumTrialIntegrity().trial()
+        self.assertEqual(record['settings']['ffts_per_frame'], 1)
+        self.assertEqual(record['status'], 'completed')
+
     @unittest.skipUnless(os.environ.get('CHROMIUM_EXECUTABLE'), 'Nix Chromium is required for browser fixture')
     def test_nix_browser_draws_synthetic_live_frame_and_observes_completion(self):
         # Only synthetic state is served. No Trial or device-opening code runs.
@@ -471,6 +573,7 @@ class CompletionFenceTests(unittest.TestCase):
         state = {'status': 'Synthetic fixture ready', 'frames': 0, 'crc_failures': 0,
             'elapsed_seconds': 0, 'frequency_mhz': 2412, 'rate_hz': 80000000,
             'bins': 512, 'duration_seconds': 60, 'snapshot_gap_flag': True,
+            'ffts_per_frame': 8,
             'nominal_coverage_fraction': .0001}
         trial = SimpleNamespace(lock=threading.Lock(), state=state)
         def start():
@@ -489,6 +592,7 @@ class CompletionFenceTests(unittest.TestCase):
                     page.on('pageerror', lambda error: errors.append(str(error)))
                     page.goto(f'http://127.0.0.1:{server.server_address[1]}')
                     expect(page.locator('#settings')).to_contain_text('512 FFT bins')
+                    expect(page.locator('#settings')).to_contain_text('8 FFT windows averaged per update')
                     before = page.locator('canvas').screenshot()
                     page.locator('#start').click()
                     expect(page.locator('#stats')).to_contain_text('42')
