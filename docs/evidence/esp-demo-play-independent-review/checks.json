@@ -1,0 +1,39 @@
+{
+  "verdict": "PASS",
+  "spectrum_frames": 2706,
+  "statistics_frames": 225,
+  "crc_failures": 0,
+  "ffts": 21648,
+  "sample_pairs": 11083776,
+  "host_seconds": 60.00502428400796,
+  "firmware_seconds": 60.005194,
+  "nominal_sampled_seconds": 0.1385472,
+  "nominal_coverage_fraction": 0.0023089266549455338,
+  "maximum_host_arrival_gap_seconds": 0.0366644790628925,
+  "accepted_stream_bytes": 1481064,
+  "accepted_stream_sha256": "0a6bbbc7ef2c0c5d28ae9bd606c6f054d3e436ef86053b81bd3ff3b07acddb16",
+  "baseline_full_flash_bytes": 4194304,
+  "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "capture_csv_sha256": "1353bdbac2934fb17f1f4cf07c432f32d984ea8391d6d3fddfd99061eff646f3",
+  "receipt_sha256": {
+    "demo.json": "77bff87a61a7d87f58d8a13e7d588c105255cbccd260ba79e6ccaa9a84b81d5e",
+    "before-install.json": "f53a3faf27db6dc867d5d9a607ec18c361649e0b9e1bb0aa1103c0d77d0d23be",
+    "spectrum.json": "3651715da866cd4916770ea012c127b7cddb1d03090350d1f778236ffe1dd835",
+    "restoration.json": "b927245e852c7820b70c7790d60a12465d4482245eeedcbb82622f3689673da8"
+  },
+  "private_retained_viewer_files": {
+    "spectra.csv": {
+      "bytes": 223597,
+      "sha256": "1353bdbac2934fb17f1f4cf07c432f32d984ea8391d6d3fddfd99061eff646f3"
+    },
+    "live-spectrum.png": {
+      "bytes": 138858,
+      "sha256": "3ab7a9b648fd17d1be5698e317a58a1d9be6e3ccc1bc279ef5d1913534b9266b"
+    },
+    "completed-spectrum.png": {
+      "bytes": 143609,
+      "sha256": "3a4b1965052a8e91c334efc2ab4a29adb2c25b88eb1b340bef621aa667917826"
+    }
+  },
+  "review_script_sha256": "5d5ad5aeaf09bdf63fcbbdc73857c8e2e465db9da7748a8de5fb144cb54c4cf5"
+}
