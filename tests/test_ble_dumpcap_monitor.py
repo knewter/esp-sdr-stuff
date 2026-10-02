@@ -7,6 +7,7 @@ from pathlib import Path
 import struct
 import sys
 import time
+import selectors
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'tools'))
@@ -193,6 +194,28 @@ class DumpcapMonitorTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     capture_command(['never'], seconds, grace=grace, readiness_timeout=10)
                 launch.assert_not_called()
+
+    def test_phased_late_selector_eof_cannot_pass_expired_deadline(self):
+        selector = selectors.DefaultSelector()
+        select = selector.select
+        returns = []
+        def late_eof(timeout):
+            events = select(timeout)
+            if events:
+                returns.append(events)
+                if len(returns) == 2:
+                    time.sleep(.4)
+            return events
+        with contextlib.redirect_stdout(io.StringIO()), \
+             patch.object(selector, 'select', side_effect=late_eof), \
+             patch('ble_dumpcap_monitor.selectors.DefaultSelector', return_value=selector):
+            result = capture_command(self.producer(global_header(), 'time.sleep(.05)'),
+                                     .1, grace=0, readiness_timeout=.2)
+        self.assertEqual(len(returns), 2)
+        self.assertEqual(result['status'], 'host_deadline')
+        self.assertEqual(result['producer_returncode'], 0)
+        self.assertTrue(result['producer_reaped'])
+        self.assertGreater(result['elapsed_s'], result['active_total_bound_seconds'])
 
 
 if __name__ == '__main__':

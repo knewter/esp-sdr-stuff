@@ -151,14 +151,24 @@ def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS, produce
                               else 'host_deadline')
                     break
                 events = selector.select(min(.2, max(0, until-time.monotonic())))
+                if readiness_timeout is not None and time.monotonic() >= until:
+                    status = 'startup_deadline' if not ready_announced else 'host_deadline'
+                    break
                 if not events:
                     continue
                 chunk = os.read(proc.stdout.fileno(), 65536)
                 if not chunk:
                     parser.finish()
-                    status = 'completed'
+                    if readiness_timeout is not None and time.monotonic() >= until:
+                        status = 'startup_deadline' if not ready_announced else 'host_deadline'
+                    else:
+                        status = 'completed'
                     break
                 incoming = parser.feed(chunk)
+                if readiness_timeout is not None and time.monotonic() >= until:
+                    record['records'].extend(incoming[:max(0, record_limit-len(record['records']))])
+                    status = 'startup_deadline' if not ready_announced else 'host_deadline'
+                    break
                 if parser.order is not None and not ready_announced:
                     ready_time = time.monotonic()
                     if readiness_timeout is not None:
