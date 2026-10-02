@@ -98,7 +98,7 @@ Firmware names and emits only these allowlisted fields, not a full PHY word.
 | --- | --- |
 | `config` | `profile` = `esp32-register-observation-v1`; `settings` exactly `{frequency_mhz:2401, bandwidth_mhz:20, filter_code:64, gain_mode:"MANUAL", gain_selector:48}`; `rate_hz` = 16000000, `bits` = 10, `samples` = 16380, `captures` = 20, `record_limit` = 81, nonnegative `start_us`, and `records` containing only sequence 0 / post_settings. |
 | `capture` | `capture_ordinal` 0–19, `completion` boolean true, `returned_samples` = 16380, `payload_bytes` = 40950, eight-hex `payload_crc32`, nonnegative `capture_elapsed_us`, and `records` containing exactly four stages in order. |
-| `failed` | Exact `failure_kind`, attempted `capture_ordinal` (null before first capture), `completion`, `returned_samples` and `capture_elapsed_us` holding actual values or null if unobserved, and `records` holding only the actual available stage prefix. |
+| `failed` | Exact `failure_kind`, actual attempted `capture_ordinal` (0–19 only during an acquisition attempt; null when no acquisition was attempted), `completion`, `returned_samples` and `capture_elapsed_us` holding actual values or null if unobserved, and `records` holding only that attempt's actual available stage prefix. Between captures, before BEGIN, at invalid END or after 20 captures, ordinal/completion/count/elapsed are null and the new prefix is empty; earlier receipts remain retained separately. |
 | `end` | `status` = `completed`, `captures` = 20, `pairs` = 327600, `payload_bytes` = 819000, `record_count` = 81, nonnegative `start_us` and `end_us`. No stage records are repeated. |
 
 The implementation review must enforce those exact keys and reject every
@@ -159,6 +159,15 @@ that framing only as failure. Stop accepting captures in this session. If
 UART fails partway through DATA/payload, do not append text into that incomplete
 binary frame; the host closes on failure/deadline and retains consumed bytes.
 Terminal success must never follow an earlier failure.
+
+Source-review clarification before any build: if the entire DATA header and
+binary payload finished before a post-transfer deadline/error is detected,
+firmware may emit the fixed ERR line and typed failed receipt after those
+complete bytes. The host independently verifies and retains that binary frame
+as a failed observation; it does not count a successful diagnostic capture or
+terminal. This permission never applies to partial DATA/header/payload, where
+text remains prohibited. Failure ordinals describe an actual acquisition
+attempt, never an invented ordinal 20 or a previous completed attempt.
 
 The host maintains bounded RAM buffers for consumed UART and payload bytes,
 closes its UART before persistence, and distinguishes bytes consumed from
