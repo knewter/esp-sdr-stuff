@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+from urllib.parse import urljoin
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,6 +39,51 @@ def main():
             page.wait_for_function("image => image.complete && image.naturalWidth > 0", arg=measured_image.element_handle())
         assert "WXJC" in page.locator("#content").inner_text()
         assert "Five known BLE packets" in page.locator("#content").inner_text()
+        # The published demo must show values from its linked physical receipt,
+        # load its actual capture, and expose the matching verified recovery.
+        demo = page.locator(".interactive-demo")
+        assert demo.count() == 1
+        demo.scroll_into_view_if_needed()
+        metrics_url = urljoin(base, demo.get_by_role("link", name="Session metrics →", exact=True).get_attribute("href"))
+        restoration_url = urljoin(base, demo.get_by_role("link", name="Restoration receipt →", exact=True).get_attribute("href"))
+        details_url = urljoin(base, demo.get_by_role("link", name="Setup, recovery and command details →", exact=True).get_attribute("href"))
+        proof = browser.new_page()
+        proof.on("pageerror", lambda error: errors.append(str(error)))
+        proof.on("response", lambda response: failures.append(response.url) if response.status >= 400 and response.url.startswith(base) else None)
+        try:
+            assert proof.goto(metrics_url, wait_until="networkidle").status == 200
+            metrics = json.loads(proof.locator(".ev-text").inner_text())
+            assert metrics["status"] == "completed"
+            assert metrics["demo_duration_gate_passed"] is True
+            assert metrics["settings"]["seconds_requested"] >= 60
+            assert metrics["elapsed_seconds"] >= metrics["settings"]["seconds_requested"]
+            assert metrics["end_report"][4] >= metrics["settings"]["seconds_requested"] * 1000000
+            facts = demo.locator(".fact-strip strong").all_inner_texts()
+            assert facts == [f'{metrics["frames"]:,}', f'{metrics["elapsed_seconds"]:.3f} s',
+                             f'{metrics["settings"]["ffts_per_frame"]} averaged',
+                             f'{metrics["nominal_coverage_fraction"] * 100:.3f}%'], facts
+            assert proof.goto(restoration_url, wait_until="networkidle").status == 200
+            restoration = json.loads(proof.locator(".ev-text").inner_text())
+            assert restoration["verified"] is True
+            assert restoration["full_readback_bytes"] == 4194304
+            assert restoration["full_readback_sha256"] == restoration["baseline_sha256"]
+            assert restoration["boot"]["power_cycle_proven"] is False
+            assert proof.goto(details_url, wait_until="networkidle").status == 200
+            assert "demo:esp:restore" in proof.locator("#content").inner_text()
+        finally:
+            proof.close()
+        capture = demo.locator("img")
+        assert capture.count() == 1
+        assert "actual" in capture.get_attribute("alt").lower()
+        capture.scroll_into_view_if_needed()
+        page.wait_for_function("image => image.complete && image.naturalWidth > 0", arg=capture.element_handle())
+        completed = page.request.get(urljoin(base, demo.get_by_role("link", name="See the completed display →", exact=True).get_attribute("href")))
+        assert completed.status == 200 and completed.headers["content-type"].startswith("image/png")
+        command = demo.locator(".demo-command").inner_text()
+        assert "nix develop --command task demo:esp" in command
+        assert "--output docs/evidence/esp-demo-next" in command and "--private .scratch/esp-demo-next" in command
+        assert "uncalibrated" in demo.inner_text() and "continuous reception" in demo.inner_text()
+        demo.screenshot(path=str(output / "interactive-demo.png"))
         page.screenshot(path=str(output / "overview-desktop.png"), full_page=True)
         theme = page.locator("html").get_attribute("data-theme")
         page.locator("#theme-toggle").click()
@@ -91,7 +137,7 @@ def main():
         "captured": datetime.now(timezone.utc).isoformat(), "url": base,
         "source_revision": revision,
         "evidence_class": "Host browser capture; no hardware reception measured",
-        "checks": ["desktop and mobile navigation", "no horizontal page overflow", "capture budget calculator", "theme toggle", "eight proposal cards", "proposal deep link", "gallery image loaded", "dialog focus restored", "boot evidence link", "actual BLE/RDS images loaded", "archived proposal stable URL", "no page errors or local HTTP failures"],
+        "checks": ["desktop and mobile navigation", "no horizontal page overflow", "capture budget calculator", "theme toggle", "eight proposal cards", "proposal deep link", "gallery image loaded", "dialog focus restored", "boot evidence link", "actual BLE/RDS images loaded", "verified demo metrics, receipt links and actual images", "archived proposal stable URL", "no page errors or local HTTP failures"],
         "result": "passed"
     }, indent=2) + "\n")
     print("Browser checks passed; host screenshots recorded at", output)
