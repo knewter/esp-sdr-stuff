@@ -232,3 +232,29 @@ A native positive can guide a later prospectively declared SDR receiver or
 placement comparison. It does **not** satisfy the current Trial B SDR-positive
 prerequisite, the three-pair SDR RF gate, or the ≥100 counted-event gate. No
 new acceptance requirement is claimed by this preparation.
+
+## Retained native failure and version 2 stop contract
+
+[Native trial 001](../evidence/native-ble-source-reference-001/README.md)
+delivered 1,160 matching reports but failed completion: the observer-only pinned
+SDK omits its GAP timer dispatch with both connection roles disabled. All source
+and monitor processes closed, and the full original flash and boot were restored.
+This failed prefix does not fulfill the prerequisite for the gain observation.
+
+Version `native-ble-ref-v2` retains the 90,000-ms passive discovery request and
+all source/radio settings. The application now deliberately cancels at nominal
+ESP elapsed time at least 90 seconds. CONFIG, build profile and END identify
+`completion_mode=application_cancel`; END must record actual cancel return zero,
+discovery inactive, elapsed 90–92 seconds, and frozen counters. The public cancel
+API waits for the controller's scan-disable acknowledgement. It emits no natural
+discovery-complete callback. An unexpected completion, early inactive scan,
+failed cancel, active scan after cancellation or overrun fails the trial.
+No SDK patch or connection role is added, and v1's failure remains unchanged.
+
+The fresh v2 source, actual artifact and lifecycle need independent review before
+the same three-episode native trial. Only completed positive native evidence plus
+verified full restoration can enable the [fixed gain-state observation](esp-gain-state-diagnostic.md).
+Native success still does not satisfy Trial B's SDR-positive prerequisite or any
+SDR/channel-37/count acceptance gate. The gain probe observes bit23, never silently
+reapplies settings, and records a mismatch as an outcome distinct from acquisition
+failure.
