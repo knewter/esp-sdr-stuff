@@ -16,6 +16,16 @@ HANDLE = 239
 MARKER = '0fffffff4553502d5344522d4556414c'
 STEPS = [('set_parameters', '2036'), ('set_data', '2037'), ('enable', '2039'),
          ('cleanup_disable', '2039'), ('cleanup_remove', '203c')]
+# The committed counted protocol pins the complete blind receiver search.
+# A future decoder/search change requires a deliberate protocol revision.
+EXPECTED_REFINEMENT = {'samples_per_symbol_min': 3.97, 'samples_per_symbol_max': 4.03,
+                       'samples_per_symbol_step': .005,
+                       'start_search_half_width_samples_at_4msps': 2,
+                       'start_search_step_samples_at_4msps': .25,
+                       'threshold_bias_min_deviation_fraction': -.45,
+                       'threshold_bias_max_deviation_fraction': .45,
+                       'threshold_bias_step_deviation_fraction': .025,
+                       'maximum_candidate_clusters_per_capture': 32}
 
 
 def require(condition, code):
@@ -138,6 +148,7 @@ def analyze_receiver(rows, manifest, decoded, source):
             and decoded.get('bits_per_component') == manifest.get('bits_per_component')
             and decoded.get('channel') == 37 and decoded.get('owned_marker_ad_hex') == MARKER, 'decoder_configuration_mismatch')
     require(decoded.get('frequency_translation_hz') == (manifest['frequency_mhz'] - 2402)*1000000, 'decoder_frequency_translation_mismatch')
+    require(decoded.get('blind_receiver_refinement') == EXPECTED_REFINEMENT, 'predeclared_blind_refinement_mismatch')
     enable = source['enable_command_sent_ns']; term = source['termination_observed_ns']; closed = source['source_closed_ns']
     first = int(rows[0]['command_start_ns']); last = int(rows[-1]['payload_received_ns'])
     require(enable - first >= 5000000000 and last - closed >= 10000000000, 'baseline_or_post_source_coverage_short')
@@ -164,7 +175,13 @@ def analyze_receiver(rows, manifest, decoded, source):
             offset = frame['access_address_sample_offset']
             if any(abs(offset - old['access_address_sample_offset']) <= rate / 1000000 * 4 for old in accepted): continue
             accepted.append(frame)
+            # Coarse direct decoding uses exactly four samples per symbol;
+            # refined frames record their selected period explicitly.
+            require(not frame.get('refined') or 'samples_per_symbol_at_4msps' in frame,
+                    'selected_refined_symbol_period_missing')
             period = frame.get('samples_per_symbol_at_4msps', 4)
+            require(isinstance(period, (int, float)) and math.isfinite(period) and 3.97 <= period <= 4.03,
+                    'selected_symbol_period_outside_predeclared_search')
             begin = frame.get('nominal_packet_start_sample', (offset / (rate/4000000)-8*period)*(rate/4000000))
             finish = frame.get('nominal_packet_end_sample', begin + frame['packet_duration_us']*period*(rate/4000000))
             reason = None
@@ -189,6 +206,12 @@ def analyze_receiver(rows, manifest, decoded, source):
                         math.isfinite(begin) and math.isfinite(finish) and (begin < 0 or finish > samples)):
                     incomplete.append({**record, 'classification': 'crc_valid_exact_owned_marker_with_clipped_nominal_packet_window'})
             else: packets.append(record)
+        if phase == 'source_bracket':
+            # The 1.024ms snapshot is shorter than the minimum 20ms source
+            # interval. Distinct exact-marker AA clusters cannot establish
+            # two distinct counted source events in this one snapshot.
+            # Do not choose whichever candidate happens to fit the source.
+            require(len(accepted) <= 1, 'multiple_owned_clusters_in_one_snapshot_unresolved')
     n = source['controller_completed_events']; hits = len(packets)
     require(hits + len(incomplete) <= n, 'numerator_exceeds_controller_events')
     return {'captures_replayed': len(rows), 'capture_phases': counts, 'complete_crc_valid_owned_packets': hits,

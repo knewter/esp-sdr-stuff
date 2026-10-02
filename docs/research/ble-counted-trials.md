@@ -70,6 +70,13 @@ clock or hardware RF timestamp.
 Within each snapshot, access-start positions within four microseconds form one
 packet cluster; successful slicing/timing hypotheses count once. Distinct
 nonoverlapping captures of the same fixed payload remain distinct packets.
+The source interval is at least 20 ms, longer than the 1.024 ms snapshot:
+more than one distinct exact-marker cluster inside a source-bracket snapshot
+is incompatible with two counted source events and rejects the trial as
+unresolved provenance, interference or multipath. The report never silently
+counts both. The complete blind refinement configuration must match the
+committed protocol exactly; selected refined symbol periods must remain
+within 3.97–4.03 samples at 4 MS/s. Coarse direct slicing uses exactly 4.
 
 For each trial and the full aggregate, report `H / N`, where H is full verified
 hits and N is actual controller-completed events. `N − H` means **not verified

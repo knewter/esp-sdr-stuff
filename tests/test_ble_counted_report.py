@@ -8,7 +8,7 @@ import unittest
 import zlib
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'tools'))
-from ble_counted_report import MARKER, STEPS, aggregate, analyze_receiver, validate_monitor, validate_source, verify_private_waveforms
+from ble_counted_report import EXPECTED_REFINEMENT, MARKER, STEPS, aggregate, analyze_receiver, validate_monitor, validate_source, verify_private_waveforms
 
 SECOND = 1000000000
 
@@ -75,7 +75,8 @@ def receiver_fixture():
     manifest = dict(completed=True, integrity_failures=0, captures=4, nominal_rate_hz=16000000,
                     samples=16380, bits_per_component=8, frequency_mhz=2401, bandwidth_mhz=20, gain='48')
     decoded = dict(nominal_rate_hz=16000000, samples_per_capture=16380, bits_per_component=8,
-                   channel=37, owned_marker_ad_hex=MARKER, frequency_translation_hz=-1000000, captures=captures)
+                   channel=37, owned_marker_ad_hex=MARKER, frequency_translation_hz=-1000000,
+                   blind_receiver_refinement=copy.deepcopy(EXPECTED_REFINEMENT), captures=captures)
     return rows, manifest, decoded
 
 
@@ -138,7 +139,8 @@ class CountedReportTests(unittest.TestCase):
     def test_truncation_and_arbitrary_aa_failures_are_not_owned(self):
         rows, manifest, decoded = receiver_fixture()
         decoded['captures'][1]['frames'] = [dict(status='truncated_packet', access_address_sample_offset=1000),
-                                         packet(20), {**packet(6000), 'pdu_type': 0}]
+                                         packet(20)]
+        decoded['captures'][2]['frames'] = [{**packet(6000), 'pdu_type': 0}]
         result = analyze_receiver(rows, manifest, decoded, self.source)
         self.assertEqual(result['complete_crc_valid_owned_packets'], 0)
         self.assertEqual(result['confirmed_owned_incomplete_candidates'], 1)
@@ -146,6 +148,30 @@ class CountedReportTests(unittest.TestCase):
         self.assertEqual(result['owned_incomplete_count_bounds'], [1, 255])
         self.assertEqual(result['owned_incomplete_candidates'][0]['classification'],
                          'crc_valid_exact_owned_marker_with_clipped_nominal_packet_window')
+
+    def test_two_owned_clusters_one_snapshot_are_not_two_source_events(self):
+        rows, manifest, decoded = receiver_fixture()
+        decoded['captures'][1]['frames'] = [packet(1000), packet(7000)]
+        with self.assertRaisesRegex(ValueError, 'multiple_owned_clusters'):
+            analyze_receiver(rows, manifest, decoded, self.source)
+        # Also reject a clipped known-marker cluster plus a complete cluster.
+        decoded['captures'][1]['frames'] = [packet(20), packet(7000)]
+        with self.assertRaisesRegex(ValueError, 'multiple_owned_clusters'):
+            analyze_receiver(rows, manifest, decoded, self.source)
+
+    def test_exact_predeclared_search_and_period_required(self):
+        for mode in ('missing', 'none', 'wider_search', 'period_missing', 'period_low', 'period_high', 'period_nan'):
+            rows, manifest, decoded = receiver_fixture()
+            if mode == 'missing': del decoded['blind_receiver_refinement']
+            elif mode == 'none': decoded['blind_receiver_refinement'] = None
+            elif mode == 'wider_search': decoded['blind_receiver_refinement']['samples_per_symbol_min'] = 3.9
+            elif mode == 'period_missing': decoded['captures'][1]['frames'] = [{**packet(), 'refined': True}]
+            else:
+                frame = packet(); frame['samples_per_symbol_at_4msps'] = {
+                    'period_low': 3.96, 'period_high': 4.04, 'period_nan': float('nan')}[mode]
+                decoded['captures'][1]['frames'] = [frame]
+            with self.subTest(mode=mode), self.assertRaises(ValueError):
+                analyze_receiver(rows, manifest, decoded, self.source)
 
     def test_all_captures_hashes_and_full_time_coverage_required(self):
         for mutation in ('missing', 'hash', 'time', 'integrity', 'duplicate_waveform'):
