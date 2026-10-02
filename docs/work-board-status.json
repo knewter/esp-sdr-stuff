@@ -10,12 +10,12 @@
       "reviewRevision": "8089592836bf1d4a5149e38a62c9dbba2c4730d9"
     },
     "the-board-can-be-restored-after-an-sdr-trial": {
-      "lane": "in-progress",
-      "source": "in-progress",
-      "physical": "pending",
-      "next": "Record an actual power-removal/reapplication boot and finish recovery acceptance.",
-      "rationale": "Complete preservation and repeated full-image restore/readback/reset boot match, including the timer RF diagnostic. Original GPIO firmware is running; actual electrical power-cycle proof remains open.",
-      "reviewRevision": "9481f1fc89265ea48b00a810aa4b0323929b71c9",
+      "lane": "archived",
+      "source": "archived",
+      "physical": "verified",
+      "next": "Recovery accepted for the preserved original image and performed SDR trials.",
+      "rationale": "Two complete preservation reads, full post-trial restore/readback, user-confirmed power cycle and matching application boot pass independent review. UART-open reset and electrical-measurement limits remain explicit.",
+      "reviewRevision": "7f6bd53ae01e338ff7de0fe411c25992cd826f5e",
       "dependencies": [],
       "evidence": [
         "docs/evidence/firmware-preservation/README.md",
@@ -25,7 +25,9 @@
         "docs/evidence/usb-power-control/README.md",
         "docs/evidence/ble-controller-independent-review/README.md",
         "docs/evidence/zero-counter-restoration/README.md",
-        "docs/evidence/ble-zero-counter-independent-review/README.md"
+        "docs/evidence/ble-zero-counter-independent-review/README.md",
+        "docs/evidence/user-power-cycle-recovery/README.md",
+        "docs/evidence/power-cycle-recovery-review/README.md"
       ]
     },
     "the-board-captures-repeatable-radio-snapshots": {

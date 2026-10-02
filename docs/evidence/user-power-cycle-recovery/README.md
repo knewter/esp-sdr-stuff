@@ -27,3 +27,13 @@ The recovery sequence combines user-reported physical power cycling with
 host-observed matching application boot and independently verified restored
 bytes. Electrical rail measurement and exact cold-edge timing were not part
 of the original recovery acceptance criteria and are not claimed here.
+
+A later read-only [kernel USB excerpt](kernel-usb.json) records this CP2102
+interface disconnect at 03:09:33.970735 UTC and re-enumeration as `10c4:ea60`
+at 03:09:41.713475 UTC, before the 03:11:06 application check. This supplies
+retrospective interface chronology; it is not an electrical rail measurement.
+
+[Independent recovery review](../power-cycle-recovery-review/README.md) accepts
+the original preservation and recovery criteria from the composite evidence.
+The reviewed decision is **recoverable** for this preserved baseline and the
+performed SDR trials; it is not a guarantee for arbitrary future images.

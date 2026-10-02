@@ -1,0 +1,21 @@
+{
+  "scope": "Retrospective kernel USB messages for confirmed CP2102 topology only",
+  "records": [
+    {
+      "message": "usb 1-1.4.3: USB disconnect, device number 15",
+      "utc": "2026-10-02T03:09:33.970735+00:00",
+      "kernel_monotonic_microseconds": 717874180287
+    },
+    {
+      "message": "usb 1-1.4.3: new full-speed USB device number 16 using xhci_hcd",
+      "utc": "2026-10-02T03:09:41.576502+00:00",
+      "kernel_monotonic_microseconds": 717881786054
+    },
+    {
+      "message": "usb 1-1.4.3: New USB device found, idVendor=10c4, idProduct=ea60, bcdDevice= 1.00",
+      "utc": "2026-10-02T03:09:41.713475+00:00",
+      "kernel_monotonic_microseconds": 717881923027
+    }
+  ],
+  "limitations": "USB disconnect/reconnect supports interface chronology; electrical removal remains user-reported. UART boot may include an additional reset."
+}

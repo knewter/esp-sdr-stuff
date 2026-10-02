@@ -6,8 +6,8 @@
 
 ## 2. Prove recovery
 
-- [ ] 2.1 After a separately scheduled SDR trial, restore the preserved image and power-cycle; capture a matching application boot.
-- [ ] 2.2 Review the restore evidence and record recoverable/not-recoverable with any failed step.
+- [x] 2.1 After a separately scheduled SDR trial, restore the preserved image and power-cycle; capture a matching application boot.
+- [x] 2.2 Review the restore evidence and record recoverable/not-recoverable with any failed step.
 
 ## Proof procedure
 
@@ -19,4 +19,4 @@ Required outcome: A 4,194,304-byte backup with SHA-256 plus a recorded restorati
 
 [Physical preservation evidence](docs/evidence/firmware-preservation/README.md) verifies independent full reads and the recovery checklist.
 [First restoration](docs/evidence/first-restoration/README.md) verifies the complete restored bytes and a matching reset boot.
-An actual power-removal boot and final recovery decision remain open.
+[User-confirmed power cycling and matching subsequent application boot](docs/evidence/user-power-cycle-recovery/README.md) complete task 2.1. [Independent review](docs/evidence/power-cycle-recovery-review/README.md) completes task 2.2 with a recoverable decision. Physical power cycling is user-reported; UART opening may cause a further reset and the log is not a synchronized electrical cold-start measurement.

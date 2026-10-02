@@ -13,7 +13,7 @@ An evidence-based evaluation of an original ESP32 as an experimental SDR, alongs
 The connected chip is ESP32-D0WD-V3 revision 3.1, with 4 MB physical flash.
 Its original image is an ESP-IDF hello_world/pin-toggle program. Two complete
 backup reads match; the final post-trial restoration also matches every byte
-and boots after reset. The board currently runs its original GPIO firmware. Actual power-removal recovery remains a separate gate.
+and boots after reset. The board currently runs its original GPIO firmware. Recovery now also has user-confirmed power cycling and a matching application boot, accepted in [independent review](docs/evidence/power-cycle-recovery-review/README.md).
 
 The clean ESP-SDR UART921600 build passed all 600 full-size snapshot CRC/count
 checks across three rates and two formats. A 512-bin browser spectrum session
