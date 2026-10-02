@@ -88,6 +88,8 @@ records four ports, USB2 `wHubCharacteristics=0x00a9` and USB3 `0x0009`;
 both advertise **individual** logical port power switching. Advertised
 power-on delay is zero in both descriptors; this is not a measured voltage
 settling time. The image ID and reader hash are retained for provenance.
+[Independent review](../ble-controller-independent-review/README.md) reparses
+the descriptor bytes and checks the read-only reader's ABI and hash.
 
 This removes the inability to inspect class descriptors. It does not establish
 that the particular hub cuts VBUS, that no ESP32 alternate supply exists, or

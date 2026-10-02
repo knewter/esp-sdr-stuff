@@ -15,14 +15,15 @@
       "physical": "pending",
       "next": "Record an actual power-removal/reapplication boot and finish recovery acceptance.",
       "rationale": "Two matching complete flash reads and final post-trial restore/readback match; original GPIO firmware is running. Actual physical power-cycle proof remains open.",
-      "reviewRevision": "82708e7",
+      "reviewRevision": "4c1eac8",
       "dependencies": [],
       "evidence": [
         "docs/evidence/firmware-preservation/README.md",
         "docs/evidence/first-restoration/README.md",
         "docs/evidence/final-restoration/README.md",
         "docs/evidence/power-cycle-wait/README.md",
-        "docs/evidence/usb-power-control/README.md"
+        "docs/evidence/usb-power-control/README.md",
+        "docs/evidence/ble-controller-independent-review/README.md"
       ]
     },
     "the-board-captures-repeatable-radio-snapshots": {
@@ -74,7 +75,7 @@
       "physical": "pending",
       "next": "Obtain an actual recorded source counter independent of ESP decoding, then run the three predeclared receiver trials.",
       "rationale": "Five complete owned BLE packets decode with exact data and protected-PDU CRC. The physical Bluetooth monitor verifies accepted settings; three finite source-only trials accepted commands but reported no completed-event count. Capture hit/miss reliability remains open.",
-      "reviewRevision": "82708e7",
+      "reviewRevision": "4c1eac8",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -85,7 +86,8 @@
         "docs/evidence/ble-monitor-permission/README.md",
         "docs/evidence/independent-review/README.md",
         "docs/evidence/ble-dumpcap-source/README.md",
-        "docs/evidence/ble-counted-source-smoke/README.md"
+        "docs/evidence/ble-counted-source-smoke/README.md",
+        "docs/evidence/ble-controller-independent-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",

@@ -71,3 +71,6 @@ completed-event or independently measured emission counts is the next input.
 
 [Primary-source analysis](../../research/ble-controller-count-limit.md) pins the
 kernel initialization, missing readback and restoration constraints.
+[Independent review](../ble-controller-independent-review/README.md) checks
+all receipt hashes, actual wait durations, cleanup acknowledgements and the
+offline reporting gates. It closes no physical receiver-count requirement.
