@@ -171,6 +171,39 @@ class HostActualCReceipts(unittest.TestCase):
                 with self.assertRaises(host.ProtocolError):
                     session.consume(self.good[-1][0], 211, 212)
 
+    def test_failed_data_requires_config_and_all_four_actual_stages(self):
+        rows = self.output(17)
+        line, data = rows[-1]
+        self.assertIsNotNone(data)
+        obj = host.parse_line(line)
+        self.assertEqual(obj['kind'], 'failed')
+        for configured in (False, True):
+            for remove_stages in (False, True):
+                if configured and not remove_stages:
+                    continue
+                with self.subTest(configured=configured, remove_stages=remove_stages):
+                    altered = copy.deepcopy(obj)
+                    if remove_stages:
+                        altered['records'] = []
+                    session = self.replay(rows[:1]) if configured else host.Session(NONCE, 100000)
+                    with self.assertRaises(host.ProtocolError):
+                        session.consume(frame(altered), 11, 12, data=data)
+                    self.assertEqual(len(session.receipts), 1 if configured else 0)
+                    self.assertEqual(len(session.records), 1 if configured else 0)
+                    self.assertEqual(session.state, 'failed')
+
+    def test_failed_actual_hardware_count_stays_within_fifteen_bits(self):
+        rows = self.output(3)
+        obj = host.parse_line(rows[-1][0])
+        self.assertEqual(obj['returned_samples'], 16379)
+        for invalid in (-1, 32768, True, 1.5):
+            altered = copy.deepcopy(obj)
+            altered['returned_samples'] = invalid
+            session = self.replay(rows[:1])
+            with self.assertRaises(host.ProtocolError):
+                session.consume(frame(altered), 11, 12)
+            self.assertEqual(len(session.records), 1)
+
 
 if __name__ == '__main__':
     unittest.main()

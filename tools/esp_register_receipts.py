@@ -190,6 +190,7 @@ class Session:
                     'Unknown failure kind')
             ordinal = obj['capture_ordinal']
             if ordinal is not None:
+                require(self.state == 'armed', 'Acquisition before configuration')
                 exact(ordinal, len(self.captures))
                 integer(ordinal, 0, 19)
             else:
@@ -200,14 +201,15 @@ class Session:
                     'Invalid completion field')
             for key in ('returned_samples', 'capture_elapsed_us'):
                 if obj[key] is not None:
-                    integer(obj[key])
+                    integer(obj[key], maximum=32767 if key == 'returned_samples' else (1 << 63)-1)
             records = obj['records']
             require(type(records) is list and len(records) <= 4,
                     'Invalid failure stage prefix')
             require(self.state == 'armed' or not records,
                     'Stages before session configuration')
             if data is not None:
-                require(type(data) is tuple and len(data) == 4 and ordinal is not None,
+                require(self.state == 'armed' and type(data) is tuple and
+                        len(data) == 4 and ordinal is not None and len(records) == 4,
                         'Failed receipt lacks complete DATA context')
                 count, crc, elapsed, payload = data
                 exact(obj['completion'], True)
