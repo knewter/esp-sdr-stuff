@@ -53,7 +53,7 @@ let
     name = "forgix-efinity";
     targetPkgs = p: [
       python p.bash p.coreutils p.gnumake p.gcc p.stdenv.cc.cc.lib p.zlib
-      p.libusb1 p.libusb-compat-0_1 p.ncurses5 p.libffi p.openssl
+      p.libusb1 p.libusb-compat-0_1 p.ncurses5 p.libffi p.openssl p.sqlite p.dbus
       p.libx11 p.libxext p.libxrender p.libxtst
       p.libxi p.libxcb p.libxcb-cursor p.libxft
       p.fontconfig p.freetype p.glib p.nss p.alsa-lib p.libxkbcommon p.libglvnd

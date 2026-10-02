@@ -150,4 +150,18 @@ class CompilerSmoke(unittest.TestCase):
         self.assertEqual(external.stat().st_mode&0o777,0o644);self.assertEqual(external.read_bytes(),b'original')
         r=json.loads((self.private/'result.json').read_text());self.assertEqual(r['status'],'failed');self.assertFalse(r['compiler_execution_verified'])
 
+    def test_actual_first_run_shape_cannot_pass_without_interface_or_hex(self):
+        # Sanitized marker shape from actual offline run001: the vendor runner
+        # catches an Interface Designer ImportError, returns0 and prints these
+        # three PASS lines; pgm additionally says missingLPF and creates nohex.
+        def first_run(*args,**kwargs):
+            self.successful_vendor(*args,**kwargs)
+            output=args[2];output.seek(0);output.truncate()
+            output.write(b'\x1b[92m   map :\tPASS \x1b[0m\n\x1b[92m   pnr :\tPASS \x1b[0m\n\x1b[92m   pgm :\tPASS \x1b[0m\n')
+            out=kwargs['cwd']/'outflow';(out/'pt_demo.hex').unlink()
+            (out/'pt_demo.log').write_text('Stage completed: map\nWarning: Failed to import Interface Designer library, Interface Designer may not be installed correctly\nWarning: Skipping Interface Designer step\nStage completed: pnr\nINFO: Missing Interface Designer LPF constraint file, no programming file will be generated.\nStage completed: pgm\n')
+            return 0
+        with self.assertRaisesRegex(b.Refusal,'stages'):self.run_fixture(first_run)
+        r=json.loads((self.private/'result.json').read_text());self.assertEqual(r['exit_code'],0);self.assertFalse(r['compiler_execution_verified']);self.assertFalse(r['license_compile_verified'])
+
 if __name__=='__main__':unittest.main()
