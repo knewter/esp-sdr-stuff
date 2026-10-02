@@ -22,8 +22,8 @@ CRC and remains visible. Independent review reproduced the data, and that
 proposal is archived with two accepted requirements. Full I/Q transfers take
 about 361–451 ms, giving only 0.045–0.281% nominal RF time coverage in the series.
 
-Three evaluations remain active: controlled RF, burst reliability and FPGA
-feasibility. Recovery, snapshot transport and receiver comparison are accepted
+Four evaluations remain active: the repeatable demo workflow, controlled RF,
+burst reliability and FPGA feasibility. Recovery, snapshot transport and receiver comparison are accepted
 and archived; AtomVM is deferred by user. Five owned BLE packets pass
 protected-PDU CRC and exact marker verification. The user's current dipole
 receives WXJC at 101.1 MHz with no-FEC RDS, independently replayed.
@@ -60,10 +60,23 @@ budget tasks. Pass tool arguments after `--`. Firmware builds use the separate
 `nix develop .#firmware --command task firmware:build -- ...` environment;
 its immutable SDK provenance is recorded with the build.
 
+The [repeatable ESP demo](docs/research/esp-sdr-demo.md) has `demo:esp` and
+`demo:esp:restore` tasks. The new workflow's fresh physical proof remains open;
+its browser and cleanup tests are host evidence.
+
+The [Forgix toolchain setup](docs/research/forgix-toolchain.md) provides a
+separate host shell and checks without opening hardware:
+
+```sh
+nix develop .#forgix --command task forgix:check
+nix develop .#forgix --command task forgix:host-check
+```
+
 Hardware tasks require explicit device/settings arguments and exclusive device
 ownership. A development shell does not grant USB or Bluetooth permissions.
-The licensed Efinity toolchain and physical FPGA pin/clock inventory remain
-prerequisites for FPGA programming; the MCU preservation proof is separate.
+The Forgix shell includes a built Efinity runtime wrapper. A separately
+installed licensed Efinity compiler and physical FPGA pin/clock inventory
+remain prerequisites for gateware compilation; the MCU preservation proof is separate.
 
 Keep full flash backups under ignored `backups/`; never commit firmware images or device identifiers. The read-only inspection tool resets the selected board and records boot output; it does not flash it. Select the stable serial identity before running it.
 

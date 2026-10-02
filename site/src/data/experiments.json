@@ -76,5 +76,17 @@
     ],
     "number": 7,
     "status": "archived"
+  },
+  {
+    "id": "the-esp-demo-can-be-launched-and-restored",
+    "short": "Run the live ESP demo",
+    "summary": "One Task command coordinates receiver installation, an observable bounded spectrum session and independent full-flash restoration. Fresh physical proof and review remain open.",
+    "gate": "A successful 60-second real spectrum session with CRC/sequence/end totals, visible gaps, full original-flash readback and matching boot, independently reviewed.",
+    "depends": [
+      "the-board-captures-repeatable-radio-snapshots",
+      "the-board-can-be-restored-after-an-sdr-trial"
+    ],
+    "number": 8,
+    "status": "active"
   }
 ]

@@ -163,10 +163,14 @@ class Trial:
                 port.close()
             record['ended_utc'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
             if output_created:
-                (a.output / 'results.json').write_text(json.dumps(record, indent=2) + '\n')
                 if rows:
                     with (a.output / 'spectra.csv').open('w', newline='') as stream:
                         writer = csv.DictWriter(stream, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
+                # This atomic publication is the completion fence: UART closed,
+                # CSV closed and JSON complete before a viewer can observe it.
+                temporary = a.output / 'results.json.tmp'
+                temporary.write_text(json.dumps(record, indent=2) + '\n')
+                temporary.replace(a.output / 'results.json')
             print(json.dumps({k:v for k,v in record.items() if k in {'status','frames','elapsed_seconds','error'} }), flush=True)
 
 

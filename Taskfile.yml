@@ -85,10 +85,50 @@ tasks:
     cmds:
       - python3 tools/flash_trial.py {{.CLI_ARGS}}
 
+  demo:esp:
+    desc: Run the preserved ESP live spectrum demo and verify restoration
+    cmds:
+      - python3 tools/demo_esp_sdr.py run {{.CLI_ARGS}}
+
+  demo:esp:restore:
+    desc: Restore and independently verify the preserved ESP image
+    cmds:
+      - python3 tools/demo_esp_sdr.py restore {{.CLI_ARGS}}
+
+  source:ble-bluez:
+    desc: Run a finite owned BLE source with BlueZ
+    cmds:
+      - python3 tools/ble_owned_source.py {{.CLI_ARGS}}
+
+  source:ble-direct:
+    desc: Run an explicitly configured owned HCI BLE source
+    cmds:
+      - python3 tools/ble_direct_hci_source.py {{.CLI_ARGS}}
+
+  source:ble-direct:container:
+    desc: Run the Nix BLE source image with scoped HCI capabilities
+    cmds:
+      - python3 tools/ble_source_container.py {{.CLI_ARGS}}
+
+  decode:ble:
+    desc: Decode retained ESP BLE snapshots with explicit settings
+    cmds:
+      - python3 tools/ble_decode_iq.py {{.CLI_ARGS}}
+
+  report:ble:
+    desc: Join owned-source timing and retained BLE decode evidence
+    cmds:
+      - python3 tools/ble_trial_report.py {{.CLI_ARGS}}
+
   capture:esp:
     desc: Capture ESP snapshots using explicit device/settings arguments
     cmds:
       - python3 tools/esp_sdr_capture.py {{.CLI_ARGS}}
+
+  capture:owned-ble:
+    desc: Record bounded private ESP I/Q while the owned BLE source runs
+    cmds:
+      - python3 tools/measure_owned_ble.py {{.CLI_ARGS}}
 
   capture:rds:
     desc: Run a finite RTL FM/RDS trial using explicit arguments
@@ -99,6 +139,11 @@ tasks:
     desc: Record bounded sanitized Bluetooth monitor metadata
     cmds:
       - python3 tools/ble_dumpcap_monitor.py {{.CLI_ARGS}}
+
+  capture:ble-monitor:container:
+    desc: Capture sanitized HCI metadata using the Nix dumpcap image
+    cmds:
+      - python3 tools/ble_dumpcap_container_monitor.py {{.CLI_ARGS}}
 
   plot:rds:
     desc: Plot sanitized RDS decoder results
@@ -114,6 +159,16 @@ tasks:
     desc: Recompute the FPGA payload and buffer budgets
     cmds:
       - python3 tools/fpga_budget.py {{.CLI_ARGS}}
+
+  forgix:check:
+    desc: Check pinned Forgix host tools without opening hardware (use nix develop .#forgix)
+    cmds:
+      - python3 tools/forgix_toolchain_check.py {{.CLI_ARGS}}
+
+  forgix:host-check:
+    desc: Build the locked Forgix host-tool and upstream protocol checks
+    cmds:
+      - nix build .#forgix-host-tools --no-link
 
   forgix:preserve:
     desc: Preserve Forgix MCU flash with explicit identity and fresh backup paths

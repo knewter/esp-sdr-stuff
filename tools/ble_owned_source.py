@@ -6,6 +6,7 @@ controller repetitions and exact over-the-air packet count remain unknown.
 """
 import argparse
 import asyncio
+import hashlib
 import json
 from pathlib import Path
 import signal
@@ -17,6 +18,10 @@ from dbus_next import Variant
 
 MARKER = b'ESP-SDR-EVAL'
 PATH = '/org/espsdr/evaluation/advertisement'
+
+
+class OwnedSourceError(RuntimeError):
+    """Fixed public codes; external D-Bus errors may contain private text."""
 
 
 class Advertisement(ServiceInterface):
@@ -52,9 +57,14 @@ async def run(args):
               'manufacturer_test_marker_hex': MARKER.hex(), 'manufacturer_id': 'ffff',
               'expected_manufacturer_ad_hex': (bytes([len(MARKER)+3, 0xff, 0xff, 0xff])+MARKER).hex(),
               'exact_over_air_emission_count': None, 'episodes':[],
+              'source_script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              'requested_episode_seconds': args.seconds,
+              'requested_off_seconds': args.off_seconds,
+              'requested_episodes': args.episodes,
+              'requested_advertisement_type': 'broadcast',
               'commanded_advertising_interval_ms': args.interval_ms,
               'limitations':'RegisterAdvertisement success establishes controller configuration acceptance, not an independently observed transmission count, packet timing, channel map or actual RF. No address or local network name is published.'}
-    bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+    bus = None
     registered = False
     adv = Advertisement(args.interval_ms)
     stop = asyncio.Event()
@@ -63,16 +73,17 @@ async def run(args):
     def save():
         (args.output/'results.json').write_text(json.dumps(record,indent=2)+'\n')
     try:
+        bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
         adapter_path = '/org/bluez/hci0'
         tree = await bus.introspect('org.bluez', adapter_path)
         adapter = bus.get_proxy_object('org.bluez', adapter_path, tree)
         properties = adapter.get_interface('org.freedesktop.DBus.Properties')
         powered = (await properties.call_get('org.bluez.Adapter1','Powered')).value
         if not powered:
-            raise RuntimeError('Controller is powered off; no power mutation authorized')
+            raise OwnedSourceError('controller_powered_off')
         active = (await properties.call_get('org.bluez.LEAdvertisingManager1','ActiveInstances')).value
         if active:
-            raise RuntimeError('Other advertisements are active; stop to avoid source overlap')
+            raise OwnedSourceError('other_advertisements_active')
         record['active_instances_before'] = active
         record['supported_instances'] = (await properties.call_get('org.bluez.LEAdvertisingManager1','SupportedInstances')).value
         manager = adapter.get_interface('org.bluez.LEAdvertisingManager1')
@@ -100,16 +111,22 @@ async def run(args):
             episode['unregistration_accepted_monotonic_ns']=time.monotonic_ns()
             episode['active_instances_after']=(await properties.call_get('org.bluez.LEAdvertisingManager1','ActiveInstances')).value
             if episode['active_instances_after']:
-                raise RuntimeError('Advertising instances remain after source removal; source trial cannot continue')
+                raise OwnedSourceError('advertising_instances_remain_after_removal')
             print(f'SOURCE_OFF episode={index} accepted',flush=True)
             save()
+            if episode['release_observed_before_unregister']:
+                raise OwnedSourceError('source_released_before_scheduled_removal')
             if index+1<args.episodes and not stop.is_set():
                 try:await asyncio.wait_for(stop.wait(),args.off_seconds)
                 except asyncio.TimeoutError:pass
         record['status']='completed' if len(record['episodes'])==args.episodes and not stop.is_set() else 'interrupted'
     except Exception as error:
-        record['status']='failed';record['error_kind']=type(error).__name__;record['error']=str(error)[:240]
-        print(f'SOURCE_FAILED {type(error).__name__}: {str(error)[:240]}',flush=True)
+        # D-Bus error text can contain peer names or device addresses. Keep
+        # classification only; raw diagnostic text must not enter public proof.
+        record['status']='failed';record['error_kind']=type(error).__name__
+        if isinstance(error, OwnedSourceError):
+            record['error_code']=str(error)
+        print(f'SOURCE_FAILED {type(error).__name__}',flush=True)
     finally:
         if registered and not adv.released:
             try:
@@ -117,7 +134,11 @@ async def run(args):
                 record['cleanup_unregistration']='accepted'
             except Exception as error:
                 record['cleanup_unregistration']=type(error).__name__
-        bus.disconnect();save()
+                record['status']='failed'
+        if bus is not None:
+            bus.disconnect()
+            record['source_bus_disconnected']=True
+        save()
     return 0 if record['status']=='completed' else 2
 
 

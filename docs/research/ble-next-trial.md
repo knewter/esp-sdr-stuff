@@ -1,0 +1,140 @@
+# Reproduce reception before changing the source limiter
+
+This is a prospective operator protocol and offline readiness record. It closes
+no hardware task and changes no acceptance gate. The root operator alone owns
+the selected ESP serial port and host Bluetooth controller.
+
+## What the existing evidence distinguishes
+
+The [first 549 snapshots](../evidence/ble-owned-decoding/README.md) contain four
+complete CRC-valid exact-marker packets; the [246 controls snapshots](../evidence/ble-controls-decoding/README.md)
+contain one. All five protected PDUs are type 0 / ADV_IND. A later
+[BlueZ monitor receipt](../evidence/ble-dumpcap-source/hci-control.json) records
+properties `0x0013`, all three primary channels (`0x07`), 20 ms interval,
+LE1M, exact marker, duration zero and MaxEvents zero. It does not retrospectively
+measure the first runs' HCI configuration.
+
+Every failed direct-HCI count/timer trial instead used properties `0x0010`,
+channel map `0x01` and **nonzero** MaxEvents. The [ten-episode RF discriminator](../evidence/ble-zero-counter-rf/README.md)
+found no valid owned packet. Its null result cannot locate the fault. PDU
+properties, channel map and event limiter all differ between the positive and
+negative paths; changing them together would not identify a cause.
+
+The [BlueZ advertising API](https://github.com/bluez/bluez/blob/master/doc/org.bluez.LEAdvertisement.rst)
+defines requested type and interval, with Release indicating removal. It offers
+no emitted-packet counter. The helper now records its executed SHA-256 and
+requested schedule, retains connection failures without private error text,
+and fails an episode released before its scheduled removal. Existing receipts
+remain historical records produced by their original helper revisions.
+
+## Trial A: the known BlueZ reception control
+
+Keep ESP receiver settings pinned to the original four-packet run: LO 2401 MHz,
+requested filter 12 MHz, hardware AGC, nominal 16 MS/s, 8-bit I/Q, 16,380 complex
+samples and verified 921600-baud receiver firmware. Record identity selection,
+firmware hash, setting acknowledgements and fixed physical placement. No antenna
+distance, calibrated power or oscillator accuracy is assumed.
+
+Reserve the already identified controller; verify powered state and zero active
+BlueZ advertising instances without modifying adapter settings. Start the
+sanitized monitor, wait for validated readiness, then start receiver acquisition.
+Record at least 20 seconds OFF before the first source registration. Predeclare
+three episodes: each 120 seconds registered with 20 seconds OFF between them,
+using the existing `broadcast` request, interval 20 ms and exact marker
+`0fffffff4553502d5344522d4556414c`. Continue acquisition for **more than ten
+seconds after actual final source cleanup and bus closure**. A suggested 460-second
+receiver bound provides margin, but the actual receipt must prove the tail;
+extend within the capture tool's 600-second limit before the deadline if needed.
+
+The source command, through a Task binding, is:
+
+```sh
+nix develop --command task source:ble-bluez -- \
+  --output FRESH-SOURCE-DIRECTORY --episodes 3 --seconds 120 \
+  --off-seconds 20 --interval-ms 20
+```
+
+Replay every saved private waveform with the existing bounded blind decoder,
+channel 37, digital translation −1 MHz and refinement. Verify every hash, length,
+sample count and transport CRC. A positive demo packet requires protected CRC24,
+complete exact owned AD and full nominal preamble-through-CRC window within the
+snapshot. Report its actual PDU type, AA/preamble errors and duplicate-hypothesis
+collapse. Do not train or repair bits from the marker.
+
+Use the **whole command-send through complete payload-receipt bracket**, with
+one-second guards, for source-phase joins. Retain boundary snapshots, failed
+registrations, premature releases and zero-hit repetitions. Verify all three
+OFF/ON pairs independently. A positive in only one pair is a working demo,
+without proving the three-pair RF requirement. A null result remains inconclusive;
+do not expand decoder bounds after inspecting this dataset. Record monitor
+parameters actually observed, rather than substituting the API request.
+
+Registrations, timestamps and snapshots are not emission counts. The source
+denominator remains null and the ≥100 counted-event task stays open even if this
+control reproduces owned packets.
+
+## Trial B: remove only the direct-HCI event limiter
+
+Run only after Trial A produces a current positive receiver control. Preserve
+direct-HCI handle 1 (externally reserved), properties `0x0010`, channel 37,
+interval 20 ms, LE1M, exact AD and five-second duration. Change **only** MaxEvents
+from 255 to zero. This setting was not used in earlier direct-HCI trials.
+
+```sh
+nix develop --command task source:ble-direct:container -- \
+  --handle 1 --interval-ms 20 --events 0 --unlimited-events \
+  --duration-ms 5000 --start-delay 0
+```
+
+The explicit opt-in requires duration 100–5000 ms in exact 10 ms units. There is
+one enable, a bounded duration-plus-five-second host wait, and handle-specific
+disable/remove cleanup. No reset, event-mask write, adapter power change,
+fallback or automatic restart occurs. Keep a monitor and receiver spanning three
+predeclared repetitions with five seconds baseline, one-second OFF gaps and a
+continuous tail longer than ten seconds; retain every diagnostic exit code 2.
+
+The source wrapper uses the flake's separate Python image with only NET_ADMIN
+and NET_RAW, a read-only filesystem and one read-only bind of the fixed source
+helper. It exposes no host USB devices and writes sanitized JSONL to stdout.
+SIGINT/SIGTERM request graceful source cleanup before any forced container
+removal. Container disappearance proves socket release; successful native
+disable/remove and socket-closure receipts separately prove controller cleanup.
+Do not start another HCI operation if either cleanup proof remains unverified.
+
+With MaxEvents zero, the termination event's completed-count field is **not a
+meaningful source denominator**. Store its raw numeric field with
+`termination_count_field_meaningful=false`; never accept it as a count, even if
+nonzero. The existing status `0x43` / exact nonzero requested-count gate remains
+unchanged. A packet associated with the unlimited trial demonstrates that
+configuration can radiate a receivable marker; it does not independently prove
+what happened in an earlier nonzero-limit trial. If positive, a subsequent
+prospectively paired comparison can isolate the limiter further. If null, return
+to the retained controls rather than repeating identical failed settings.
+
+## Nix monitor permissions and cleanup
+
+The flake's dumpcap lacks the host-installed binary's ambient file capabilities.
+`tools/ble_dumpcap_container_monitor.py` uses the Nix-built monitor image, resolved
+to an immutable local image ID. It runs a fixed Bluetooth-monitor command with
+host networking, capability `NET_RAW` only, all other capabilities dropped,
+no-new-privileges, a read-only filesystem and **no host mounts or USB devices**.
+The unprivileged parent immediately sanitizes its stdout pipe and discards stderr;
+no raw HCI capture is written to disk.
+
+[libpcap's monitor backend](https://github.com/the-tcpdump-group/libpcap/blob/master/pcap-bt-monitor-linux.c)
+binds a Bluetooth MONITOR socket and identifies CAP_NET_RAW as the relevant
+permission. It does not inject packets or provide meaningful loss statistics.
+The wrapper's random owned container name is removed on every exit, including
+parser failure or timeout. Failure to remove it cannot become successful monitor
+completion. A terminating Docker client alone does not prove socket release.
+
+```sh
+nix develop --command task capture:ble-monitor:container -- \
+  --seconds 480 --output FRESH-MONITOR.json
+```
+
+Host-only tests check capability/mount policy, immutable-image validation,
+exact-name cleanup, parser-failure cleanup, bounded unlimited-mode encoding,
+unchanged counted-mode behavior and source release/privacy failures. Actual
+container monitor access and reception still require the root operator's physical
+receipts. Restore the ESP original image and verify it after the trial.

@@ -27,6 +27,17 @@ def source_phase(start,end,episodes,guard_ns=1000000000):
     return 'control_transition_guard_excluded'
 
 
+def capture_phase(row, episodes):
+    if row.get('payload_received_ns') in (None, ''):
+        return 'capture_payload_timing_unknown_excluded'
+    start = int(row['command_start_ns'])
+    header = int(row['header_received_ns'])
+    end = int(row['payload_received_ns'])
+    if not start <= header <= end:
+        raise ValueError('Invalid full capture bracket')
+    return source_phase(start, end, episodes)
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--decoder',type=Path,required=True)
@@ -45,10 +56,12 @@ def main():
         row=by_index[capture['capture_index']]
         if row['private_payload_sha256']!=capture['payload_sha256']:
             raise ValueError('Decoder input hash differs from physical capture manifest')
-        phase=source_phase(int(row['command_start_ns']),int(row['header_received_ns']),episodes)
+        phase=capture_phase(row, episodes)
         capture['source_control_phase']=phase
         capture['command_start_ns']=int(row['command_start_ns'])
         capture['header_received_ns']=int(row['header_received_ns'])
+        capture['payload_received_ns']=(int(row['payload_received_ns'])
+                                        if row.get('payload_received_ns') not in (None, '') else None)
         counts=phases.setdefault(phase,{'captures':0,'captures_with_access_address_candidates':0,'crc_valid_owned_packets':0})
         counts['captures']+=1
         if capture['frames']:counts['captures_with_access_address_candidates']+=1
@@ -61,6 +74,7 @@ def main():
     decoded['source_schedule_sha256']=hashlib.sha256(args.source.read_bytes()).hexdigest()
     decoded['source_control_phases']=phases
     decoded['phase_classification_guard_seconds']=1
+    decoded['phase_classification_capture_bracket']='command_start_ns through payload_received_ns'
     decoded['exact_over_air_emission_count']=None
     decoded['packet_counting_note']='One packet per capture/access-start cluster; receiver timing/slicing hypotheses are not emissions. Source phase is control-plane schedule with1s guards, not an independent RF timing reference.'
     (args.output/'decoder-manifest.json').write_text(json.dumps(decoded,indent=2)+'\n')

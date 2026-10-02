@@ -99,14 +99,16 @@ packets or other units; a monitor receives no independent RF confirmation.
 ## Reproduce host checks
 
 ```sh
-python3 -m pip install -r tools/requirements-ble.txt
-python3 -m unittest discover -s tests -p 'test_ble*.py' -v
+nix develop .#ci --command python3 -m unittest discover -s tests -p 'test_ble*.py' -v
 ```
 
-Fourteen tests passed during preparation. No real IQ input was used in these tests.
+Fourteen tests passed during the original preparation. No real IQ input was used in those tests.
 The source-lifecycle regression simulates BlueZ releasing an advertisement on
 unregistration, and verifies that all three subsequent episodes still remove
 their own registration. This is simulated control behavior, not RF evidence.
 The recorded host used Python 3.14.7, NumPy 2.5.2, SciPy 1.18.0 and
 dbus-next 0.2.3. The source and monitor require Linux/BlueZ; packet/decoder
-tests have no Bluetooth-device dependency.
+tests have no Bluetooth-device dependency. Current reproduction uses the locked
+Nix environment rather than that historical host environment. See the
+[next-trial protocol](ble-next-trial.md) for the known-positive control,
+bounded source-limiter diagnostic and scoped Nix container commands.

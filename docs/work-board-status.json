@@ -108,9 +108,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Inspect Forgix PCB/FPGA/oscillator markings and header wiring before selecting constraints or programming a synthetic transport.",
-      "rationale": "Factory USB interface and RP2350 ROM entry confirmed. Two detected full-range 2 MiB MCU reads match; separate verify and factory application return pass. FPGA revision/clock/wiring and transport remain unverified; no FPGA configuration or flash writes ran.",
-      "reviewRevision": "58ce4e3a34f16f2179f0326d52ca953357862326",
+      "next": "Provide licensed Efinity installation and inspect actual FPGA/oscillator/PCB markings and wiring before compiling gateware.",
+      "rationale": "Factory MCU preservation and application return pass. Nix Forgix host tools, real RTL generation, 17 upstream tests and the Efinity runtime wrapper now pass host checks. Vendor compiler/license and physical constraints remain missing; no FPGA programming or transport benchmark ran.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -118,7 +117,8 @@
         "docs/evidence/fpga-inventory/README.md",
         "docs/evidence/user-equipment-inventory/README.md",
         "docs/evidence/forgix-preservation/README.md",
-        "docs/evidence/forgix-preservation-review/README.md"
+        "docs/evidence/forgix-preservation-review/README.md",
+        "docs/evidence/forgix-toolchain/README.md"
       ]
     },
     "the-two-receivers-have-a-measured-division-of-labor": {

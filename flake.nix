@@ -111,6 +111,21 @@
         doCheck = true;
       };
       pythonBase = pkgs.python313;
+      forgix = import ./nix/forgix-toolchain.nix { inherit pkgs; };
+      bleMonitorImageTag = builtins.substring 0 16 (builtins.hashString "sha256" pkgs.wireshark-cli.drvPath);
+      bleMonitorImage = pkgs.dockerTools.buildLayeredImage {
+        name = "esp-sdr-ble-monitor";
+        tag = bleMonitorImageTag;
+        contents = [ pkgs.wireshark-cli ];
+        config.Cmd = [ "${pkgs.wireshark-cli}/bin/dumpcap" ];
+      };
+      bleSourceImageTag = builtins.substring 0 16 (builtins.hashString "sha256" pythonBase.drvPath);
+      bleSourceImage = pkgs.dockerTools.buildLayeredImage {
+        name = "esp-sdr-ble-source";
+        tag = bleSourceImageTag;
+        contents = [ pythonBase ];
+        config.Cmd = [ "${pythonBase}/bin/python3" ];
+      };
       firmwarePkgs = import inputs.esp-dev.inputs.nixpkgs {
         inherit system;
         overlays = [ inputs.esp-dev.overlays.default ];
@@ -224,9 +239,17 @@
         liquid-dsp = liquidDsp;
         rtl-sdr = pkgs.rtl-sdr-blog;
         picotool-usb-image = picotoolImage;
+        ble-monitor-image = bleMonitorImage;
+        ble-source-image = bleSourceImage;
+        forgix-python = forgix.python;
+        forgix-efinity-runtime = forgix.efinityRuntime;
+        forgix-upstream-tests = forgix.testSource;
+        forgix-host-tools = forgix.hostCheck;
         esp-idf = espIdf;
       };
+      checks.${system}.forgix-host-tools = forgix.hostCheck;
       devShells.${system} = {
+        forgix = forgix.shell;
         ci = pkgs.mkShell (shellVariables // {
           packages = commonPackages ++ [ pythonFull ];
         });
@@ -240,6 +263,12 @@
           PICO_SDK_PATH = "${picoSdk}/lib/pico-sdk";
           PICOTOOL_USB_IMAGE = "${picotoolImage}";
           PICOTOOL_USB_IMAGE_TAG = "esp-sdr-picotool:${picotoolImageTag}";
+          BLE_MONITOR_IMAGE = "${bleMonitorImage}";
+          BLE_MONITOR_IMAGE_TAG = "esp-sdr-ble-monitor:${bleMonitorImageTag}";
+          DUMPCAP = "${pkgs.wireshark-cli}/bin/dumpcap";
+          BLE_SOURCE_IMAGE = "${bleSourceImage}";
+          BLE_SOURCE_IMAGE_TAG = "esp-sdr-ble-source:${bleSourceImageTag}";
+          BLE_SOURCE_PYTHON = "${pythonBase}/bin/python3";
         });
         firmware = firmwarePkgs.mkShell {
           packages = [ espIdf pkgs.go-task pkgs.git ];
@@ -259,8 +288,9 @@
       # Python5.5 recipe is extended for this SDK's checked core requirements.
       # This environment does not assert archived firmware binary equivalence.
       # No ambient IDF installer/pip/compiler fallback is supported or implied.
-      # Licensed Efinity is also unavailable and deliberately not represented
-      # as an included tool. Nix builds of replay tools need not reproduce old
+      # The Forgix shell provides a runtime for a separately installed licensed
+      # Efinity compiler; vendor installation/license files never enter the store.
+      # Nix builds of replay tools need not reproduce old
       # host-compiler binary hashes; source pins and decoder output are checked.
     };
 }

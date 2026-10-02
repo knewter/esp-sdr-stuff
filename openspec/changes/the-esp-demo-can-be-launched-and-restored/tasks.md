@@ -1,7 +1,7 @@
 ## 1. Provide the repeatable workflow
 
-- [ ] 1.1 Implement and document Nix-backed `demo:esp` and standalone `demo:esp:restore` Task commands with verified identity, preservation and artifact gates; verify hardware-free help and meaningful preflight/lifecycle tests.
-- [ ] 1.2 Exercise the actual local viewer with Nix Chromium using synthetic frames; verify live canvas updates, start controls, gap labels and successful/failed terminal states without hardware access.
+- [x] 1.1 Implement and document Nix-backed `demo:esp` and standalone `demo:esp:restore` Task commands with verified identity, preservation and artifact gates; verify hardware-free help and meaningful preflight/lifecycle tests.
+- [x] 1.2 Exercise the actual local viewer with Nix Chromium using synthetic frames; verify live canvas updates, start controls, gap labels and successful/failed terminal states without hardware access.
 
 Proof command: `nix develop .#ci --command python3 -m unittest discover -s tests -p test_demo_esp_sdr.py`. The synthetic browser proof is labeled host evidence and does not complete the physical tasks.
 

@@ -1,0 +1,6 @@
+Host imports and independent counter RTL generation passed; no hardware or Efinity invoked
+.................
+----------------------------------------------------------------------
+Ran 17 tests in 0.004s
+
+OK

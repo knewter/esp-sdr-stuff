@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import selectors
 import shutil
+import signal
 import struct
 import subprocess
 import time
@@ -92,7 +93,7 @@ def dumpcap_command(seconds):
             '-s', str(MAX_PACKET), '-a', f'duration:{seconds:g}', '-w', '-']
 
 
-def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS):
+def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS, producer_cleanup=None):
     """Run a bounded producer. Tests substitute a synthetic stdout-only process."""
     parser = MonitorPcap()
     record = {'schema': 1, 'kind': 'read-only sanitized HCI0 advertising control',
@@ -104,6 +105,12 @@ def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS):
     proc = None
     started = time.monotonic()
     status = 'starting'
+    interrupted = False
+    def request_stop(signum, _):
+        nonlocal interrupted
+        interrupted = True
+    previous_handlers = {sig: signal.signal(sig, request_stop)
+                         for sig in (signal.SIGINT, signal.SIGTERM)}
     try:
         proc = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                                 stderr=subprocess.DEVNULL, bufsize=0)
@@ -113,6 +120,9 @@ def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS):
             until = started+seconds+grace
             ready_announced = False
             while True:
+                if interrupted:
+                    status = 'interrupted'
+                    break
                 if time.monotonic() >= until:
                     status = 'host_deadline'
                     break
@@ -126,6 +136,7 @@ def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS):
                     break
                 incoming = parser.feed(chunk)
                 if parser.order is not None and not ready_announced:
+                    record['validated_header_ready_monotonic_ns'] = time.monotonic_ns()
                     print('MONITOR_READY validated DLT254 pcap header; sanitized metadata only', flush=True)
                     ready_announced = True
                 remaining = record_limit-len(record['records'])
@@ -140,23 +151,41 @@ def capture_command(command, seconds, grace=5, record_limit=MAX_RECORDS):
         status = 'producer_or_pipe_error'
         record['error_errno'] = error.errno
     finally:
-        if proc is not None:
-            if proc.poll() is None:
-                if status == 'completed':
-                    try:
-                        proc.wait(timeout=1)
-                    except subprocess.TimeoutExpired:
-                        status = 'producer_not_closed'
-                if proc.poll() is None:
-                    proc.terminate()
-                    try:
-                        proc.wait(timeout=2)
-                    except subprocess.TimeoutExpired:
-                        proc.kill()
-                        proc.wait(timeout=2)
-            record['producer_returncode'] = proc.returncode
-            proc.stdout.close()
-        parser.buffer.clear()  # No retained raw HCI or foreign packet bytes.
+        # Managed signals only request stop, including repeated cancellation
+        # during exact-name container removal and producer reaping.
+        try:
+            if producer_cleanup is not None:
+                try:
+                    record['owned_container_removed'] = bool(producer_cleanup())
+                except Exception:
+                    record['owned_container_removed'] = False
+                if not record['owned_container_removed']:
+                    status = 'container_cleanup_failed'
+        finally:
+            try:
+                if proc is not None:
+                    if proc.poll() is None:
+                        if status == 'completed':
+                            try:
+                                proc.wait(timeout=1)
+                            except subprocess.TimeoutExpired:
+                                status = 'producer_not_closed'
+                        if proc.poll() is None:
+                            proc.terminate()
+                            try:
+                                proc.wait(timeout=2)
+                            except subprocess.TimeoutExpired:
+                                proc.kill()
+                                proc.wait(timeout=2)
+                    record['producer_returncode'] = proc.returncode
+                    proc.stdout.close()
+            finally:
+                parser.buffer.clear()
+                for sig, handler in previous_handlers.items():
+                    signal.signal(sig, handler)
+    if interrupted and status == 'completed':
+        status = 'interrupted'
+    record['interrupted'] = interrupted
     if status == 'completed' and record.get('producer_returncode') != 0:
         status = 'producer_failed'
     record.update(status=status, elapsed_s=time.monotonic()-started,

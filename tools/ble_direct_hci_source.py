@@ -7,6 +7,7 @@ import json
 import hashlib
 from pathlib import Path
 import socket
+import signal
 import struct
 import sys
 import time
@@ -66,8 +67,11 @@ def duration_units(duration_ms):
     return duration_ms // 10
 
 
-def enable(enabled, count=100, duration_ms=0, handle=HANDLE):
-    if not 1 <= count <= 255:
+def enable(enabled, count=100, duration_ms=0, handle=HANDLE, unlimited_events=False):
+    if unlimited_events:
+        if count != 0 or (enabled and duration_ms == 0):
+            raise ValueError('unlimited diagnostic requires events=0 and a bounded nonzero duration')
+    elif not 1 <= count <= 255:
         raise ValueError('count must be 1..255')
     units = duration_units(duration_ms)
     # Num_Sets=1 scopes BOTH enable and cleanup disable to our handle.
@@ -153,17 +157,19 @@ class Source:
             self.accepted_steps.add(step)
             return result
 
-    def run(self, interval_ms=20, count=100, start_delay=1, duration_ms=0, handle=HANDLE):
+    def run(self, interval_ms=20, count=100, start_delay=1, duration_ms=0, handle=HANDLE, unlimited_events=False):
         # Reject invalid diagnostic fields before any controller command.
         handle = selected_handle(handle)
         param_frame = parameters(interval_ms, handle)
-        enable_frame = enable(True, count, duration_ms, handle)
+        enable_frame = enable(True, count, duration_ms, handle, unlimited_events)
         self.handle = handle
         summary = {'kind': 'source_closed', 'advertising_handle': handle,
                    'independently_observed_air_emission_count': None,
                    'automatic_restarts': 0, 'automatic_fallbacks': 0, 'cleanup': {},
                    'duration_10ms_units': duration_units(duration_ms),
                    'duration_diagnostic_requested': duration_ms != 0,
+                   'unlimited_events_diagnostic_requested': unlimited_events,
+                   'termination_count_field_meaningful': not unlimited_events,
                    'handle_diagnostic_requested': handle != HANDLE}
         attempted = False
         verified = False
@@ -179,6 +185,7 @@ class Source:
             self.command('enable', 0x2039, enable_frame)
             self.emit({'kind': 'source_enabled', 'advertising_handle': handle,
                        'enable_command_accepted': True, 'max_extended_advertising_events': count,
+                       'unlimited_events_diagnostic_requested': unlimited_events,
                        'duration_10ms_units': duration_units(duration_ms)})
             # Controller adds advDelay; permit up to 10ms per event plus 5s.
             expected_wait = count*(interval_ms/1000+.010)
@@ -190,13 +197,13 @@ class Source:
             while not self.terminations:
                 self.event(until)
             term = self.terminations[0]
-            verified = (term['status'] == 0x43
+            verified = (not unlimited_events and term['status'] == 0x43
                         and term['controller_reported_completed_extended_advertising_events'] == count)
             summary['termination'] = term
             if not verified:
                 # Preserve actual 0x3c/count for diagnosis, never relax the
                 # requested-limit/status0x43 success gate.
-                raise SourceError('termination_status_or_count_mismatch')
+                raise SourceError('unlimited_events_diagnostic_not_counted' if unlimited_events else 'termination_status_or_count_mismatch')
             summary['status'] = 'controller_count_verified'
         except SourceError as error:
             summary['status'] = 'trial_failed'
@@ -208,7 +215,7 @@ class Source:
             summary['status'] = 'interrupted'
         finally:
             if attempted:
-                for step, opcode, payload in [('cleanup_disable', 0x2039, enable(False, count, handle=handle)),
+                for step, opcode, payload in [('cleanup_disable', 0x2039, enable(False, count, handle=handle, unlimited_events=unlimited_events)),
                                                ('cleanup_remove', 0x203c, bytes([handle]))]:
                     try:
                         result = self.command(step, opcode, payload)
@@ -238,20 +245,27 @@ def emit_stdout(record):
     print(json.dumps(record, separators=(',', ':')), flush=True)
 
 
+def interrupt_source(signum, frame):
+    raise KeyboardInterrupt
+
+
 def main():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--interval-ms', type=int, choices=[20, 100], default=20)
     cli.add_argument('--events', type=int, default=100)
+    cli.add_argument('--unlimited-events', action='store_true',
+                     help='Diagnostic only: requires --events 0 and bounded --duration-ms; supplies no event denominator')
     cli.add_argument('--start-delay', type=float, default=1)
     cli.add_argument('--handle', type=int, choices=[1, HANDLE], default=HANDLE,
                      help='Explicit diagnostic handle 1 or default239; reserve externally first')
     cli.add_argument('--duration-ms', type=int, default=0,
                      help='Diagnostic only: 0 (default) or 100..5000 in multiples of 10 ms')
     args = cli.parse_args()
-    if not 1 <= args.events <= 255 or not 0 <= args.start_delay <= 60:
-        cli.error('Events must be 1..255; start delay must be 0..60s')
+    if not 0 <= args.start_delay <= 60:
+        cli.error('Start delay must be 0..60s')
     try:
         units = duration_units(args.duration_ms)
+        enable(True, args.events, args.duration_ms, args.handle, args.unlimited_events)
     except ValueError as error:
         cli.error(str(error))
     script_sha256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
@@ -261,15 +275,18 @@ def main():
                  'advertising_data_length': len(OWNED_AD), 'owned_manufacturer_ad_exact_match': True,
                  'max_extended_advertising_events': args.events, 'duration_10ms_units': units,
                  'duration_diagnostic_requested': args.duration_ms != 0,
+                 'unlimited_events_diagnostic_requested': args.unlimited_events,
+                 'termination_count_field_meaningful': not args.unlimited_events,
                  'handle_diagnostic_requested': args.handle != HANDLE,
                  'independently_observed_air_emission_count': None,
                  'operator_preconditions': f'Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, selected handle0x{args.handle:02x} reserved externally and available; no simultaneous same-opcode advertising commands.'})
     sock = None
+    previous_term_handler = signal.signal(signal.SIGTERM, interrupt_source)
     try:
         sock = socket.socket(31, socket.SOCK_RAW, 1)
         bind_raw(sock)
         emit_stdout({'kind': 'source_socket_ready', 'hci_device': 0, 'hci_channel': 0})
-        summary = Source(sock, emit_stdout).run(args.interval_ms, args.events, args.start_delay, args.duration_ms, args.handle)
+        summary = Source(sock, emit_stdout).run(args.interval_ms, args.events, args.start_delay, args.duration_ms, args.handle, args.unlimited_events)
     except OSError as error:
         emit_stdout({'kind': 'source_closed', 'status': 'socket_or_bind_failed', 'error_errno': error.errno,
                      'independently_observed_air_emission_count': None, 'cleanup_attempted': False})
@@ -278,6 +295,7 @@ def main():
         if sock is not None:
             sock.close()
             emit_stdout({'kind': 'source_socket_closed'})
+        signal.signal(signal.SIGTERM, previous_term_handler)
     return 0 if summary['status'] == 'controller_count_verified' else 2
 
 

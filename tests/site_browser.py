@@ -44,7 +44,7 @@ def main():
         assert page.locator("html").get_attribute("data-theme") != theme
         page.locator("#theme-toggle").click()
         assert page.goto(base + "work/", wait_until="networkidle").status == 200
-        assert page.locator("[data-work-id]").count() == 7
+        assert page.locator("[data-work-id]").count() == 8
         trigger = page.locator("[data-work-id]").first
         item = trigger.get_attribute("data-work-id")
         trigger.click()
@@ -91,7 +91,7 @@ def main():
         "captured": datetime.now(timezone.utc).isoformat(), "url": base,
         "source_revision": revision,
         "evidence_class": "Host browser capture; no hardware reception measured",
-        "checks": ["desktop and mobile navigation", "no horizontal page overflow", "capture budget calculator", "theme toggle", "seven proposal cards", "proposal deep link", "gallery image loaded", "dialog focus restored", "boot evidence link", "actual BLE/RDS images loaded", "archived proposal stable URL", "no page errors or local HTTP failures"],
+        "checks": ["desktop and mobile navigation", "no horizontal page overflow", "capture budget calculator", "theme toggle", "eight proposal cards", "proposal deep link", "gallery image loaded", "dialog focus restored", "boot evidence link", "actual BLE/RDS images loaded", "archived proposal stable URL", "no page errors or local HTTP failures"],
         "result": "passed"
     }, indent=2) + "\n")
     print("Browser checks passed; host screenshots recorded at", output)

@@ -209,6 +209,67 @@ class DirectSourceTests(unittest.TestCase):
         self.assertEqual(result['termination']['controller_reported_completed_extended_advertising_events'], 255)
         self.assertEqual(sock.sent[2][4:].hex(), '0101ef0000ff')
 
+    def test_unlimited_diagnostic_is_explicit_bounded_and_not_counted(self):
+        for status, counter in ((0x3c, 0), (0x3c, 100), (0x43, 0)):
+            packet = bytes.fromhex('043e0612')+bytes([status, 1, 255, 255, counter])
+            sock = FakeSocket(termination=packet)
+            result = Source(sock, lambda record: None).run(20, 0, 0, 5000, 1, True)
+            self.assertEqual(result['status'], 'trial_failed')
+            self.assertEqual(result['error_code'], 'unlimited_events_diagnostic_not_counted')
+            self.assertFalse(result['controller_completed_count_verified'])
+            self.assertFalse(result['termination_count_field_meaningful'])
+            self.assertEqual(result['termination']['controller_reported_completed_extended_advertising_events'], counter)
+            self.assertIsNone(result['independently_observed_air_emission_count'])
+            self.assertTrue(result['cleanup_success'])
+            self.assertEqual(sock.sent[2][4:].hex(), '010101f40100')
+            self.assertEqual(sock.sent[-2][4:].hex(), '000101000000')
+            self.assertEqual(sock.sent[-1][4:], b'\x01')
+
+    def test_unlimited_invalid_arguments_never_send_a_controller_command(self):
+        for count, duration, unlimited in ((0, 5000, False), (0, 0, True),
+                                             (255, 5000, True), (0, 5010, True)):
+            sock = FakeSocket()
+            with self.subTest(count=count, duration=duration, unlimited=unlimited), self.assertRaises(ValueError):
+                Source(sock, lambda record: None).run(20, count, 0, duration, 1, unlimited)
+            self.assertEqual(sock.sent, [])
+
+    def test_unlimited_cli_diagnostic_records_mode_and_closes_socket(self):
+        sock = FakeSocket(termination=bytes.fromhex('043e06123c01ffff00'))
+        records = []
+        with patch('sys.argv', ['source', '--handle', '1', '--events', '0',
+                                 '--unlimited-events', '--duration-ms', '5000', '--start-delay', '0']), \
+                patch('ble_direct_hci_source.socket.socket', return_value=sock), \
+                patch('ble_direct_hci_source.bind_raw'), \
+                patch('ble_direct_hci_source.emit_stdout', records.append):
+            self.assertEqual(main(), 2)
+        self.assertTrue(records[0]['unlimited_events_diagnostic_requested'])
+        self.assertFalse(records[0]['termination_count_field_meaningful'])
+        self.assertEqual(records[0]['max_extended_advertising_events'], 0)
+        self.assertTrue(sock.closed)
+
+    def test_unlimited_cli_cannot_open_socket_without_a_duration_bound(self):
+        with patch('sys.argv', ['source', '--events', '0', '--unlimited-events']), \
+                patch('ble_direct_hci_source.socket.socket') as socket_factory, \
+                redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            main()
+        socket_factory.assert_not_called()
+
+    def test_source_sigterm_during_enable_cleans_only_selected_handle(self):
+        from ble_direct_hci_source import interrupt_source
+        import signal
+        class TerminatedOnEnable(FakeSocket):
+            def send(self, frame):
+                if frame[1:3] == bytes.fromhex('3920') and frame[4] == 1:
+                    interrupt_source(signal.SIGTERM, None)
+                return super().send(frame)
+        sock = TerminatedOnEnable()
+        result = Source(sock, lambda record: None).run(20, 0, 0, 5000, 1, True)
+        self.assertEqual(result['status'], 'interrupted')
+        self.assertTrue(result['cleanup_success'])
+        self.assertFalse(result['controller_completed_count_verified'])
+        self.assertEqual(sock.sent[-2][4:].hex(), '000101000000')
+        self.assertEqual(sock.sent[-1][4:], b'\x01')
+
     def test_duration_diagnostic_wire_bounds_and_cleanup_zeros(self):
         self.assertEqual(enable(True, 255, 100).hex(), '0101ef0a00ff')
         self.assertEqual(enable(True, 255, 1000).hex(), '0101ef6400ff')

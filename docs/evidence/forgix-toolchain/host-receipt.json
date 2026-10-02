@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-10-02T05:37:22.462339+00:00",
+  "scope": "Host toolchain checks; no hardware opened or configured",
+  "hardware_opened": false,
+  "mcu_firmware_replaced": false,
+  "versions": {
+    "migen": "0.9.2",
+    "litex": "2026.8",
+    "litex-boards": "2026.8",
+    "mpremote": "1.29.0"
+  },
+  "source_pins": {
+    "boards": "10debf146d433ce8ac8aedcac84e97d252ff4d5b",
+    "efinity": "Runtime installation required; not bundled or licensed by this shell",
+    "litex": "8c01073afb71aa0a0709f02f8e24247589e8f5e4",
+    "migen": "0.9.2-unstable-2025-10-03",
+    "mpremote": "1.29.0",
+    "upstreamTests": "e7c71b750ca61690a70bc79ebd6ff5fbc65cedad"
+  },
+  "rtl_sha256": "b945624a91c355a350e7395b8321c7ed090290aef385310bcd387ea9a2118043",
+  "upstream_unverified_defaults": {
+    "device": "T8F49C2",
+    "clock_hz": 32000000,
+    "clock_ball": "B4"
+  },
+  "physical_parameters": null,
+  "checks": [
+    {
+      "command": "mpremote",
+      "arguments": [
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "849af5c993748c42d9d104fe87dd9e4371974f376dc7fb8f4e06705880d709ac",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "litex_server",
+      "arguments": [
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "f6f2d9611a220bb094c2dbee9120e1213a28f8fc9be8f160100c1bdc6b13247f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "vendor_installation_present": false,
+  "vendor_cli_verified": false,
+  "license_compile_verified": false,
+  "compile_inputs_ready": false,
+  "gateware_ready": false,
+  "status": "host_ready",
+  "execution": {
+    "host_receipt_command": "nix develop .#forgix --command task forgix:check -- --output FRESH_RECEIPT.json",
+    "host_receipt_exit_code": 0,
+    "upstream_check_command": "nix develop .#forgix --command task forgix:host-check",
+    "upstream_check_exit_code": 0,
+    "upstream_host_tests_passed": 17,
+    "local_tests_command": "nix develop .#forgix --command python3 -m unittest discover -s tests -p test_forgix_toolchain.py",
+    "local_tests_exit_code": 0,
+    "local_tests_passed": 4,
+    "fhs_missing_installation_guard_exit_code": 2,
+    "fhs_vendor_binary_abi_tested": false
+  },
+  "built_nix_outputs": [
+    {
+      "output": "9sp97cynkpfh3f4smgh6r3w3faljz7sl-forgix-efinity",
+      "nar_sha256": "sha256-7QgtMoqsUtlA8BfQszSJtBfEqa1a5RK/VU+n1hIT3nw=",
+      "nar_bytes": 520,
+      "derivation": "hj4pl609hf2x1njv88kkb5m44k435cs6-forgix-efinity.drv"
+    },
+    {
+      "output": "kh1imr28wc0a8z87szqzzvnxbxbmy26m-forgix-host-tools-check",
+      "nar_sha256": "sha256-UNAWMkuZSWambnMJq8wCfbsF681tZcEQj5cZCboBJW0=",
+      "nar_bytes": 5064,
+      "derivation": "jq49shnkz4c77293mzdm333y0i7hcmx0-forgix-host-tools-check.drv"
+    },
+    {
+      "output": "rhx3d0ddbrps675y4mcm6vii2nxl840j-python3-3.13.15-env",
+      "nar_sha256": "sha256-ojrucUA6uBgUmojuiDsFRwGVU+iblsWM9y9sWDmaWhg=",
+      "nar_bytes": 562128,
+      "derivation": "55zf8dn6vfl5ikngm15sy7qqfhchl844-python3-3.13.15-env.drv"
+    }
+  ],
+  "local_vendor_search": {
+    "mode": "Filename metadata only; no credential/account contents read",
+    "categories": [
+      {
+        "category": "downloads",
+        "files_checked": 159624,
+        "matching_candidates": 0
+      },
+      {
+        "category": "opt",
+        "files_checked": 24676,
+        "matching_candidates": 0
+      },
+      {
+        "category": "usr_local",
+        "files_checked": 72,
+        "matching_candidates": 0
+      },
+      {
+        "category": "user_software",
+        "files_checked": 18110,
+        "matching_candidates": 0
+      },
+      {
+        "category": "configuration",
+        "files_checked": 11596,
+        "matching_candidates": 0
+      },
+      {
+        "category": "local_share",
+        "files_checked": 33378,
+        "matching_candidates": 0
+      },
+      {
+        "category": "neighboring_projects",
+        "files_checked": 167364,
+        "matching_candidates": 0
+      }
+    ],
+    "files_checked_total": 414820,
+    "scope_limits": "Depth-limited walks excluded caches, generated artifacts and private backups; not an exhaustive scan of every filesystem or online account",
+    "online_account_status": "Not inspected"
+  },
+  "sources": [
+    "https://www.efinixinc.com/support/",
+    "https://www.efinixinc.com/products-efinity.html",
+    "https://www.efinixinc.com/docs/efinity-installation-v4.1.pdf",
+    "https://github.com/enjoy-digital/aduivo_forgix_test/tree/e7c71b750ca61690a70bc79ebd6ff5fbc65cedad",
+    "https://github.com/litex-hub/litex-boards/blob/10debf146d433ce8ac8aedcac84e97d252ff4d5b/litex_boards/platforms/adiuvo_forgix.py"
+  ],
+  "source_file_sha256": {
+    "nix/forgix-toolchain.nix": "e8d115e5afc2a45659ce51ca07333a36c6050c8f09064443e075d7bf005209b1",
+    "tools/forgix_toolchain_check.py": "d857996c2b2759aac7e9ff790b6fcaf4d19a9b2722a7df4cdf03ce4c92ae0841",
+    "tests/test_forgix_toolchain.py": "effadd73d817b7d360ca866591d8549124d0b14010e16f47d4b7c3513bc01a2a"
+  }
+}

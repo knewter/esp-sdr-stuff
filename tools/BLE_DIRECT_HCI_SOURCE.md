@@ -11,16 +11,17 @@ observed BlueZ-managed handles; these preconditions require an external check.
 The helper does not query or change BlueZ state.
 
 ```sh
-python3 tools/ble_direct_hci_source.py --interval-ms 20 --events 100 \
+nix develop --command task source:ble-direct:container -- --interval-ms 20 --events 100 \
   --start-delay 10 > docs/evidence/YOUR-TRIAL/source-control.jsonl
 ```
 
-For root's isolated container, mount this file read-only and give the existing
-Python container host networking with only `NET_ADMIN` and `NET_RAW` added
-after dropping other capabilities. This recipe does not create that container
-or alter host executable capabilities. The helper uses standard-library Python
+The Task wrapper uses the flake's Python image, one read-only source-file mount,
+host networking and only `NET_ADMIN` and `NET_RAW` after dropping other
+capabilities. It cleans up only its owned container. The helper uses standard-library Python
 and numeric Linux AF/protocol constants, allowing builds without Python's
-Bluetooth named constants.
+Bluetooth named constants. The [next-trial protocol](../docs/research/ble-next-trial.md)
+adds an explicit five-second MaxEvents-zero diagnostic; its count is never an
+accepted denominator. The nonzero counted-mode acceptance checks below remain unchanged.
 
 ## Fixed source and allowed operations
 
