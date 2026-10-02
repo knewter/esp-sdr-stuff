@@ -196,6 +196,15 @@ class ActualReceiverC(unittest.TestCase):
         self.assertEqual(len(payloads),1);self.assertFalse(partial)
         self.assertFalse(any(tag=='REGOBS1' for tag,_ in lines))
 
+    def test_actual_parser_rejects_nul_suffix_on_new_diagnostic_begin(self):
+        done=subprocess.run([str(self.path/'transport'),'10'],check=True,capture_output=True,timeout=5)
+        lines,payloads,partial=parse_wire(done.stdout)
+        receipts=[r for tag,r in lines if tag=='REGOBS1']
+        self.assertEqual([r['kind'] for r in receipts],['failed'])
+        self.assertEqual(receipts[0]['failure_kind'],'session_state')
+        self.assertEqual(receipts[0]['records'],[])
+        self.assertFalse(payloads);self.assertFalse(partial)
+
     def test_actual_parser_after_partial_data_suppresses_overlong_and_nul_output(self):
         for which in (6,9):
             with self.subTest(which=which):

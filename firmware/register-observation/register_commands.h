@@ -12,8 +12,9 @@ static bool regobs_valid_nonce(const char *nonce) {
 bool regobs_transport_bytes_guard(const char *line, size_t length) {
     if (regobs_wire_broken) return true;
     /* Examine the original byte span before any C-string interpretation. */
-    if (regobs_state == REGOBS_NEW || !memchr(line, '\0', length)) return false;
-    if (regobs_state == REGOBS_ARMED) regobs_failed("session_state", regobs_used);
+    if (!memchr(line, '\0', length)) return false;
+    if (regobs_state == REGOBS_NEW && (length < 7 || memcmp(line, "REGOBS1", 7))) return false;
+    if (regobs_state == REGOBS_ARMED || regobs_state == REGOBS_NEW) regobs_failed("session_state", regobs_used);
     else reply("ERR REGOBS1 session_state\n");
     return true;
 }

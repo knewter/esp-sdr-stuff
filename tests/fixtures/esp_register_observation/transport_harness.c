@@ -41,7 +41,7 @@ static int submit_bytes(const char *text,size_t length) {
 }
 static int submit(const char *text) { return submit_bytes(text,strlen(text)); }
 int main(int argc,char **argv) {
-    assert(argc==2);unsigned which=(unsigned)strtoul(argv[1],NULL,10);assert(which<10);
+    assert(argc==2);unsigned which=(unsigned)strtoul(argv[1],NULL,10);assert(which<11);
     burst_serial_init();gain_max=72;
     assert(submit("INFO\n")==1);assert(submit("BAUD?\n")==0);
     char overlong[201];memset(overlong,'X',200);overlong[200]='\n';
@@ -57,6 +57,13 @@ int main(int argc,char **argv) {
         assert(triggers==1 && regobs_state==REGOBS_NEW);
     } else {
         submit("FREQ 2401\n");submit("BANDWIDTH 20\n");submit("GAIN MANUAL 48\n");
+        if(which==10) {
+            const char bad_begin[]="REGOBS1 BEGIN 0123456789abcdef0123456789abcdef\0trailing\n";
+            unsigned writes=gain_writes;
+            assert(submit_bytes(bad_begin,sizeof(bad_begin)-1)==0);
+            assert(regobs_state==REGOBS_FAILED && !regobs_used && !triggers && gain_writes==writes);
+            fwrite(wire,1,wire_used,stdout);return 0;
+        }
         submit("REGOBS1 BEGIN 0123456789abcdef0123456789abcdef\n");assert(regobs_state==REGOBS_ARMED);
         if(which==6 || which==9) {
             fail_payload=true;assert(submit("CAP20 16380 6\n")==1);
