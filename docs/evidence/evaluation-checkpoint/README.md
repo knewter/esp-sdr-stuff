@@ -27,11 +27,11 @@ explicitly deferred by the user.
 
 | Evaluation | Remaining physical requirement | Needed next input |
 | --- | --- | --- |
-| Recovery | Actual power removal/reapplication and recorded original boot | User-confirmed ESP USB unplug/reconnect; current wait timed out without a disconnect |
+| Recovery | Complete for the preserved baseline and performed trials | User-confirmed cycle plus matching original boot accepted by independent review |
 | RF path | Three repeatable controlled pairs, filter/gain/tuning characterization and uncertainty | Known RF source/reference, attenuator inventory and a reproducible physical setup |
 | Burst reliability | At least 100 events with a recorded source count, complete hits and unresolved misses/truncations | An observable source counter independent of ESP decoding; requested intervals or event limits are insufficient |
 | FPGA feasibility | Actual board/electrical/clock inventory, synthetic sequence/CRC/stall measurements, conditional RF integration | Connect Forgix and identify revision/wiring; identify PCI-card markings and programming interface |
-| Receiver comparison | Inspect RTL antenna; inventory same-signal conversion/reference hardware | Antenna identity/attachment and available converter/reference equipment |
+| Receiver comparison | Fresh dipole FM test and user inventory received; review underway | No conversion/reference equipment reported; same-signal sensitivity comparison deferred |
 
 The native corrected HCI MONITOR bind was denied. A capability-enabled
 [dumpcap fallback](../ble-dumpcap-source/README.md) now physically records actual
@@ -49,7 +49,7 @@ software readiness, not a physical receiver result.
 Historical wrong-channel attempts provide no emission count. No calibration,
 event hit rate, continuous ESP IQ or FPGA transport success is inferred.
 
-Only the snapshot-transport proposal is accepted and archived. Five evaluations
+The snapshot-transport and recovery proposals are accepted and archived. Four evaluations
 remain open; checked tasks retain their original requirements. See the
 [independent requirement audit](../independent-review/requirement-audit.md) and
 [measured recommendations](../../research/measured-recommendations.md).
@@ -62,3 +62,11 @@ removal remains unmeasured; logical port state cannot close recovery proof.
 reproduces the complete null replay, all raw integrity checks, source-only timer
 receipts and latest full-image restoration. It closes no additional hardware
 acceptance gate.
+
+The user confirms actual ESP power cycling. [Fresh matching application boot](../user-power-cycle-recovery/README.md)
+and [independent review](../power-cycle-recovery-review/README.md) close recovery.
+[Current equipment inventory](../user-equipment-inventory/README.md) supplies a
+dipole antenna and reports no external RF equipment. [Fresh dipole reception](../rtl-dipole-rds/README.md)
+again decodes WXJC with FEC disabled. Forgix is reported attached but its USB
+interface remains unidentified; [preserve-first bring-up](../../research/forgix-bringup.md)
+is prepared and no FPGA firmware has been replaced.

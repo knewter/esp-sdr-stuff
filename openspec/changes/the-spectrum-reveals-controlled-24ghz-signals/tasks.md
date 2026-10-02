@@ -1,6 +1,6 @@
 ## 1. Define controlled inputs
 
-- [ ] 1.1 Inventory the source/reference/attenuator equipment; write settings and known limits before collecting RF data.
+- [x] 1.1 Inventory the source/reference/attenuator equipment; write settings and known limits before collecting RF data. Proof: [user equipment inventory and prospective settings/limits](docs/evidence/user-equipment-inventory/README.md). No external reference/attenuator is reported; the host BLE source remains uncalibrated and uncounted. This closes inventory only, not later RF response gates.
 - [ ] 1.2 Record at least three repeated source-on/source-off pairs at known 2.4 GHz channels; compare tone/channel location and background.
 
 ## 2. Measure receiver limits

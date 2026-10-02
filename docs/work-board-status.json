@@ -60,8 +60,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Establish repeatable source-on/off responses and calibrated filter/gain/tuning references.",
-      "rationale": "Five owned BLE packets prove narrow known-signal reception. Three-cycle RF repeatability, calibrated filtering/gain and extended tuning references remain open.",
+      "next": "Use a suitable repeatable source/reference and recorded physical setup to characterize the RF path.",
+      "rationale": "User equipment inventory is recorded: no external RF reference, generator, attenuator or converter. Five earlier owned BLE packets prove specific reception; repeatable responses, filter/gain characterization and extended tuning remain unverified.",
       "reviewRevision": "82708e7",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
@@ -70,7 +70,8 @@
         "docs/evidence/ble-reception-trial/README.md",
         "docs/evidence/rf-controls-trial/README.md",
         "docs/evidence/ble-controls-decoding/README.md",
-        "docs/evidence/independent-review/requirement-audit.md"
+        "docs/evidence/independent-review/requirement-audit.md",
+        "docs/evidence/user-equipment-inventory/README.md"
       ]
     },
     "the-receiver-can-observe-and-decode-short-bursts": {
@@ -107,14 +108,16 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Identify the actual Forgix revision and electrical interface before a bounded synthetic transport trial.",
-      "rationale": "Source review and reproducible budgets select a bounded route. No FPGA programming, transport/DMA or RF benchmark has run.",
+      "next": "Identify Forgix USB interface after a known-data-cable/direct-host reconnect, then preserve MCU firmware before trials.",
+      "rationale": "User reports Forgix attached; descriptor-only survey found no newly identifiable interface. Pinned picotool is built and source-checked preservation steps are ready. Physical revision, clock and wiring remain unknown; no FPGA transport/programming has run.",
       "reviewRevision": "4ac9017145a32e6db8b108d49c2e3ebe287cc255",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
       "evidence": [
-        "docs/evidence/fpga-inventory/README.md"
+        "docs/evidence/fpga-inventory/README.md",
+        "docs/evidence/user-equipment-inventory/README.md",
+        "docs/research/forgix-bringup.md"
       ]
     },
     "the-two-receivers-have-a-measured-division-of-labor": {

@@ -19,7 +19,11 @@ Every serial handle is closed. The ESP is currently running the original
 application. The earlier [restoration checkpoint](../final-restoration/README.md)
 remains historical evidence.
 
-**Electrical power-cycle recovery remains open.** RTS reset and a successful
+**At this checkpoint, electrical power-cycle recovery remained open.** RTS reset and a successful
 boot/readback do not prove removal of the ESP supply. No USB power-switch
 command was issued; user-confirmed power removal/reapplication and a subsequent
 original application boot are still required.
+
+[Subsequent user-confirmed power cycling and matching application boot](../user-power-cycle-recovery/README.md)
+now complete the recovery sequence in [independent review](../power-cycle-recovery-review/README.md).
+This historical write/readback record remains unchanged.
