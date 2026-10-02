@@ -47,6 +47,8 @@ Inventory is the first proof artifact. The benchmark command is selected only af
 The [local toolchain setup](docs/research/forgix-toolchain.md) now provides
 Task commands for completed-download discovery, private permanent staging,
 versioned Linux installation and execution through the locked Nix FHS runtime.
-Thirty offline tests pass; the actual vendor download remains incomplete at
-this checkpoint. No vendor CLI or licensed compile has been verified. This
-setup closes no physical inventory or transport benchmark task.
+Thirty-three offline tests pass. [Actual installation evidence](docs/evidence/efinity-install-001/README.md)
+now verifies Efinity 2026.1.132 installation, repeat reuse, real vendor CLI and
+full host/vendor checks inside Nix FHS after a retained Python-environment
+failure was corrected. No licensed compile has been verified. This setup
+closes no physical inventory or transport benchmark task.

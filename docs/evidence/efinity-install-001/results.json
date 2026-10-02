@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "scope": "Actual Linux Efinity staging, installation and hardware-free CLI/runtime checks; no FPGA build or programming",
+  "version": "2026.1.132",
+  "archive_bytes": 998122197,
+  "software_sha256": "8b09bf853cb4c586ef166ae0fc07e8753f58288f7d640b94a236f708f7a069e9",
+  "completed_download_import_verified": true,
+  "versioned_install_verified": true,
+  "repeat_install_reused_verified": true,
+  "vendor_cli_verified": true,
+  "host_and_vendor_check": {
+    "schema_version": 1,
+    "captured_at_utc": "2026-10-02T16:30:59.964386+00:00",
+    "scope": "Host toolchain checks; no hardware opened or configured",
+    "hardware_opened": false,
+    "mcu_firmware_replaced": false,
+    "versions": {
+      "migen": "0.9.2",
+      "litex": "2026.8",
+      "litex-boards": "2026.8",
+      "mpremote": "1.29.0"
+    },
+    "source_pins": {
+      "boards": "10debf146d433ce8ac8aedcac84e97d252ff4d5b",
+      "efinity": "Runtime installation required; not bundled or licensed by this shell",
+      "litex": "8c01073afb71aa0a0709f02f8e24247589e8f5e4",
+      "migen": "0.9.2-unstable-2025-10-03",
+      "mpremote": "1.29.0",
+      "upstreamTests": "e7c71b750ca61690a70bc79ebd6ff5fbc65cedad"
+    },
+    "rtl_sha256": "b945624a91c355a350e7395b8321c7ed090290aef385310bcd387ea9a2118043",
+    "upstream_unverified_defaults": {
+      "device": "T8F49C2",
+      "clock_hz": 32000000,
+      "clock_ball": "B4"
+    },
+    "physical_parameters": null,
+    "checks": [
+      {
+        "command": "mpremote",
+        "arguments": [
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "849af5c993748c42d9d104fe87dd9e4371974f376dc7fb8f4e06705880d709ac",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "command": "litex_server",
+        "arguments": [
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "f6f2d9611a220bb094c2dbee9120e1213a28f8fc9be8f160100c1bdc6b13247f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "command": "forgix-efinity",
+        "arguments": [
+          "VENDOR_PYTHON",
+          "VENDOR_EFX_RUN",
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "360a283eb150992bd2ef7ea5d3b7e7db89bc9527973fdb6cde2c4470ee7f28a7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "vendor_installation_present": true,
+    "vendor_cli_verified": true,
+    "license_compile_verified": false,
+    "compile_inputs_ready": false,
+    "gateware_ready": false,
+    "status": "host_and_vendor_cli_ready"
+  },
+  "initial_full_runtime_host_alias_attempt": {
+    "status": "failed",
+    "exit_code": 1,
+    "reason": "Vendor Python environment conflicted with pinned host interpreter; missing encodings",
+    "raw_output_private": true
+  },
+  "full_runtime_host_alias_verified": true,
+  "license_compile_verified": false,
+  "gateware_ready": false,
+  "hardware_opened": false,
+  "mcu_firmware_replaced": false,
+  "raw_vendor_logs_public": false,
+  "physical_parameters_confirmed": false,
+  "full_runtime_host_and_vendor_check": {
+    "schema_version": 1,
+    "captured_at_utc": "2026-10-02T16:38:49.049021+00:00",
+    "scope": "Host toolchain checks; no hardware opened or configured",
+    "hardware_opened": false,
+    "mcu_firmware_replaced": false,
+    "versions": {
+      "migen": "0.9.2",
+      "litex": "2026.8",
+      "litex-boards": "2026.8",
+      "mpremote": "1.29.0"
+    },
+    "source_pins": {
+      "boards": "10debf146d433ce8ac8aedcac84e97d252ff4d5b",
+      "efinity": "Runtime installation required; not bundled or licensed by this shell",
+      "litex": "8c01073afb71aa0a0709f02f8e24247589e8f5e4",
+      "migen": "0.9.2-unstable-2025-10-03",
+      "mpremote": "1.29.0",
+      "upstreamTests": "e7c71b750ca61690a70bc79ebd6ff5fbc65cedad"
+    },
+    "rtl_sha256": "b945624a91c355a350e7395b8321c7ed090290aef385310bcd387ea9a2118043",
+    "upstream_unverified_defaults": {
+      "device": "T8F49C2",
+      "clock_hz": 32000000,
+      "clock_ball": "B4"
+    },
+    "physical_parameters": null,
+    "checks": [
+      {
+        "command": "mpremote",
+        "arguments": [
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "849af5c993748c42d9d104fe87dd9e4371974f376dc7fb8f4e06705880d709ac",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "command": "litex_server",
+        "arguments": [
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "f6f2d9611a220bb094c2dbee9120e1213a28f8fc9be8f160100c1bdc6b13247f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "command": "python3",
+        "arguments": [
+          "VENDOR_PYTHON",
+          "VENDOR_EFX_RUN",
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "117b6c43b3fe291970f48e4f69b1544abfbe6f8abb2dc0770dd8aa5515bf1388",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "vendor_installation_present": true,
+    "vendor_cli_verified": true,
+    "license_compile_verified": false,
+    "compile_inputs_ready": false,
+    "gateware_ready": false,
+    "status": "host_and_vendor_cli_ready"
+  },
+  "helper_sha256": "4a09e298e2916e72421d53b4dbd0acc1233aa9b804c85f9eac89d2a92518fb69",
+  "source_commit": "a86ebbc40767d125933accaad423e3814e4e0431",
+  "vendor_binaries_or_license_contents_public": false,
+  "vendor_setup_library_compatibility_warning_observed": true
+}

@@ -3,7 +3,9 @@
 Checked 2026-10-02. The project now has an actual Nix-built host environment
 for Forgix: Migen, LiteX, the Forgix platform/target, MicroPython `mpremote`,
 Icarus Verilog, Verilator and Yosys. Efinity is a separate licensed input;
-no vendor compiler, license or FPGA bitstream has been installed or verified.
+Efinity 2026.1.132 is now installed in permanent ignored local storage and its
+CLI works through Nix. Licensed compilation and FPGA bitstream generation
+remain unverified. [Actual installation evidence](../evidence/efinity-install-001/README.md).
 These checks opened no hardware and replaced no MCU firmware.
 
 ## Open components and the complete FPGA build flow
@@ -144,7 +146,7 @@ group closure blocks later storage changes pending inspection. Sanitized output 
 version/hash, never a license-compile claim. Re-run the hardware-free bootstrap
 guards with `nix develop .#ci --command task forgix:efinity:test`.
 
-## Missing vendor input
+## Vendor download and license workflow
 
 Before the user reported new downloads, a metadata-only search inspected about 414,000 filenames across downloads,
 system/user software locations, configuration and local-share directories,
@@ -165,10 +167,11 @@ supports Ubuntu 20.04+ and RHEL 8.8+, specifies 8 GB RAM for Trion T8 builds,
 and installs Linux releases by unpacking the archive into a user directory.
 Its CLI setup sources `bin/setup.sh`; `efx_run.py --help` is the first smoke
 check. Our Nix FHS environment supplies runtime libraries but is not a
-vendor-certified OS or a tested Efinity installation yet. Java-dependent IP
+vendor-certified OS. The actual 2026.1.132 CLI and full host/vendor runtime
+checks now pass; compilation remains untested. Java-dependent IP
 configuration and GUI operation are outside the current SPIBone build check.
 
-After placing a legitimate installation outside the repository, set
+For an existing external installation instead, set
 `LITEX_ENV_EFINITY` to that directory and run:
 
 ```sh

@@ -169,8 +169,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Finish the Linux Efinity download, import/install it with the repo Tasks, and verify its CLI; inspect actual FPGA/oscillator/PCB markings and wiring before compiling gateware.",
-      "rationale": "Factory MCU preservation and application return pass. Nix host tools and 17 upstream tests pass. Private versioned Efinity staging/install Tasks now pass 30 offline tests; actual vendor execution, licensed compilation and physical constraints remain pending. No FPGA programming or transport benchmark ran.",
+      "next": "Inspect actual FPGA/oscillator/PCB markings and wiring, then verify a licensed gateware compile with confirmed constraints before any programming or transport benchmark.",
+      "rationale": "Factory MCU preservation and application return pass. Efinity 2026.1.132 is installed privately; real vendor CLI and full Nix host/vendor runtime checks pass, including repeat install reuse. Thirty-three installer tests pass. Licensed compilation and physical constraints remain pending; no FPGA programming or transport benchmark ran.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -182,7 +182,10 @@
         "docs/evidence/forgix-toolchain/README.md",
         "docs/evidence/forgix-toolchain/current-host-followup.md",
         "docs/evidence/forgix-toolchain-subagent/README.md",
-        "docs/research/forgix-toolchain.md"
+        "docs/research/forgix-toolchain.md",
+        "docs/evidence/efinity-bootstrap-independent-review/README.md",
+        "docs/evidence/efinity-install-001/README.md",
+        "docs/evidence/efinity-host-python-independent-review/README.md"
       ],
       "reviewRevision": "ae381eca9c49710a151a1716d3c9c7d0461c0042"
     },
