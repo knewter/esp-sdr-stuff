@@ -149,6 +149,18 @@
         "caption": "Actual current-dipole no-FEC RDS decoding: 287 directly valid WXJC PI blocks",
         "provenance": "Board capture"
       }
+    },
+    "the-esp-demo-can-be-launched-and-restored": {
+      "lane": "in-progress",
+      "source": "in-progress",
+      "physical": "pending",
+      "next": "Run the new Task command for a fresh 60-second spectrum session and independently verify restoration.",
+      "rationale": "The owned viewer lifecycle, preservation gates and recovery command have host tests. Current full flash matches both original backups; new physical capture and independent review remain open.",
+      "dependencies": [
+        "the-board-captures-repeatable-radio-snapshots",
+        "the-board-can-be-restored-after-an-sdr-trial"
+      ],
+      "evidence": []
     }
   }
 }
