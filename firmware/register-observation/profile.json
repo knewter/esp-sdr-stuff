@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "kind": "esp32-register-observation-v1",
+  "version": "regobs-v1",
+  "info": "ESP32REGOBS1 regobs-v1 burst 16380",
+  "source_base": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "sdk_revision": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+  "target": "esp32",
+  "uart_baud": 921600,
+  "frequency_mhz": 2401,
+  "bandwidth_mhz": 20,
+  "filter_code": 64,
+  "gain_mode": "MANUAL",
+  "gain_selector": 48,
+  "sample_rate_hz": 16000000,
+  "bits": 10,
+  "samples": 16380,
+  "captures": 20,
+  "host_deadline_seconds": 30,
+  "record_limit": 81,
+  "record_size_limit": 32,
+  "line_limit": 2048,
+  "reserved_sample_slab": [1073643520, 1073709056],
+  "base_files": {
+    "receiver.c": "ead967784ea8fa69bca4f4ff528d346409b13c6151403a31a83a4f833340d3c0",
+    "rx_bandwidth.h": "eeed5216e0aa933df53e280a425659c60fcaa21d306f3555314980a50c482a31",
+    "rx_tuning.h": "d251c194bcd455383e6fc42e1d43185caca88fd32109918e1de49c2042e80c29"
+  }
+}
