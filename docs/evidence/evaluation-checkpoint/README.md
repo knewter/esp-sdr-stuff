@@ -29,11 +29,17 @@ explicitly deferred by the user.
 | --- | --- | --- |
 | Recovery | Actual power removal/reapplication and recorded original boot | User-confirmed ESP USB unplug/reconnect; current wait timed out without a disconnect |
 | RF path | Three repeatable controlled pairs, filter/gain/tuning characterization and uncertainty | Known RF source/reference, attenuator inventory and a reproducible physical setup |
-| Burst reliability | At least 100 independently counted emissions with hits/misses/truncations | A source with an observable RF-event denominator; requested advertising intervals are insufficient |
+| Burst reliability | At least 100 events with a recorded source count, complete hits and unresolved misses/truncations | An observable source counter independent of ESP decoding; requested intervals or event limits are insufficient |
 | FPGA feasibility | Actual board/electrical/clock inventory, synthetic sequence/CRC/stall measurements, conditional RF integration | Connect Forgix and identify revision/wiring; identify PCI-card markings and programming interface |
 | Receiver comparison | Inspect RTL antenna; inventory same-signal conversion/reference hardware | Antenna identity/attachment and available converter/reference equipment |
 
-The corrected HCI MONITOR bind requires privileges unavailable in this session.
+The native corrected HCI MONITOR bind was denied. A capability-enabled
+[dumpcap fallback](../ble-dumpcap-source/README.md) now physically records actual
+accepted source settings. This unlimited-source trial supplies no event count.
+Three [finite source-only diagnostics](../ble-counted-source-smoke/README.md)
+also receive successful command acknowledgements but no termination count.
+The [predeclared reporting protocol](../../research/ble-counted-trials.md) is
+software readiness, not a physical receiver result.
 Historical wrong-channel attempts provide no emission count. No calibration,
 event hit rate, continuous ESP IQ or FPGA transport success is inferred.
 
@@ -41,3 +47,7 @@ Only the snapshot-transport proposal is accepted and archived. Five evaluations
 remain open; checked tasks retain their original requirements. See the
 [independent requirement audit](../independent-review/requirement-audit.md) and
 [measured recommendations](../../research/measured-recommendations.md).
+
+[USB hub inspection](../usb-power-control/README.md) finds advertised individual
+port switching via a scoped descriptor-only container. Electrical VBUS/ESP-rail
+removal remains unmeasured; logical port state cannot close recovery proof.

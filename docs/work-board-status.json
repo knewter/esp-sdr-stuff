@@ -21,7 +21,8 @@
         "docs/evidence/firmware-preservation/README.md",
         "docs/evidence/first-restoration/README.md",
         "docs/evidence/final-restoration/README.md",
-        "docs/evidence/power-cycle-wait/README.md"
+        "docs/evidence/power-cycle-wait/README.md",
+        "docs/evidence/usb-power-control/README.md"
       ]
     },
     "the-board-captures-repeatable-radio-snapshots": {
@@ -71,8 +72,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Obtain at least 100 independently counted RF emissions and measure hits/misses/truncations.",
-      "rationale": "Five complete owned BLE packets decode with exact known data and protected-PDU CRC. Counted emissions and capture hit/miss reliability remain open.",
+      "next": "Obtain an actual recorded source counter independent of ESP decoding, then run the three predeclared receiver trials.",
+      "rationale": "Five complete owned BLE packets decode with exact data and protected-PDU CRC. The physical Bluetooth monitor verifies accepted settings; three finite source-only trials accepted commands but reported no completed-event count. Capture hit/miss reliability remains open.",
       "reviewRevision": "82708e7",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
@@ -82,7 +83,9 @@
         "docs/evidence/ble-owned-decoding/README.md",
         "docs/evidence/ble-controls-decoding/README.md",
         "docs/evidence/ble-monitor-permission/README.md",
-        "docs/evidence/independent-review/README.md"
+        "docs/evidence/independent-review/README.md",
+        "docs/evidence/ble-dumpcap-source/README.md",
+        "docs/evidence/ble-counted-source-smoke/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-owned-decoding/owned-envelope.svg",

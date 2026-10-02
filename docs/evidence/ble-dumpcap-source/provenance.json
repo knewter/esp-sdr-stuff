@@ -1,0 +1,12 @@
+{
+  "captured_utc": "2026-10-01T23:52:30.247199+00:00",
+  "dumpcap_version": "4.7.2",
+  "dumpcap_file_capabilities": "cap_dac_override,cap_net_admin,cap_net_raw=eip",
+  "transport_source_revision": "079bdca",
+  "transport_sha256": "362d841571340d3b8fa8b00a92297281a9eaf797027882e6b2543048fbfc0dd2",
+  "monitor_duration_requested_s": 15,
+  "source_duration_requested_s": 5,
+  "no_executable_capabilities_changed": true,
+  "raw_hci_saved": false,
+  "receiver_flashed_or_opened": false
+}

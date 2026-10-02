@@ -1,0 +1,21 @@
+{"kind":"configuration_requested","advertising_handle":239,"script_sha256":"50bdcec8491626ad0ba2628cf776ad49c8f0b2188f6431fab454b4f3cc69723f","event_properties":16,"primary_channel_map":1,"primary_phy":1,"secondary_phy":1,"interval_ms":100,"advertising_data_length":16,"owned_manufacturer_ad_exact_match":true,"max_extended_advertising_events":10,"duration_10ms_units":0,"independently_observed_air_emission_count":null,"operator_preconditions":"Exclusive HCI0 source ownership, BlueZ ActiveInstances=0 checked externally, reserved handleEF available; no simultaneous same-opcode advertising commands.","monotonic_ns":707430709942302,"utc":"2026-10-02T00:15:30.500398+00:00"}
+{"kind":"source_socket_ready","hci_device":0,"hci_channel":0,"monotonic_ns":707430710119899,"utc":"2026-10-02T00:15:30.500569+00:00"}
+{"kind":"command_sent","step":"set_parameters","hci_opcode_hex":"2036","advertising_handle":239,"monotonic_ns":707430710158542,"utc":"2026-10-02T00:15:30.500607+00:00"}
+{"kind":"command_complete","hci_opcode_hex":"2036","status":0,"controller_selected_tx_power_dbm":7,"monotonic_ns":707430813711158,"utc":"2026-10-02T00:15:30.604162+00:00"}
+{"kind":"command_result","step":"set_parameters","hci_opcode_hex":"2036","status":0,"controller_selected_tx_power_dbm":7,"monotonic_ns":707430813841445,"utc":"2026-10-02T00:15:30.604290+00:00"}
+{"kind":"command_sent","step":"set_data","hci_opcode_hex":"2037","advertising_handle":239,"monotonic_ns":707430813868116,"utc":"2026-10-02T00:15:30.604316+00:00"}
+{"kind":"command_complete","hci_opcode_hex":"2037","status":0,"monotonic_ns":707430817667433,"utc":"2026-10-02T00:15:30.608116+00:00"}
+{"kind":"command_result","step":"set_data","hci_opcode_hex":"2037","status":0,"monotonic_ns":707430817714502,"utc":"2026-10-02T00:15:30.608163+00:00"}
+{"kind":"source_ready","advertising_handle":239,"parameter_and_data_commands_accepted":true,"start_delay_s":1.0,"monotonic_ns":707430817732927,"utc":"2026-10-02T00:15:30.608181+00:00"}
+{"kind":"command_sent","step":"enable","hci_opcode_hex":"2039","advertising_handle":239,"monotonic_ns":707431817842044,"utc":"2026-10-02T00:15:31.608293+00:00"}
+{"kind":"command_complete","hci_opcode_hex":"2039","status":0,"monotonic_ns":707431821745468,"utc":"2026-10-02T00:15:31.612197+00:00"}
+{"kind":"command_result","step":"enable","hci_opcode_hex":"2039","status":0,"monotonic_ns":707431821850507,"utc":"2026-10-02T00:15:31.612300+00:00"}
+{"kind":"source_enabled","advertising_handle":239,"enable_command_accepted":true,"max_extended_advertising_events":10,"monotonic_ns":707431821881987,"utc":"2026-10-02T00:15:31.612330+00:00"}
+{"kind":"command_sent","step":"cleanup_disable","hci_opcode_hex":"2039","advertising_handle":239,"monotonic_ns":707437922961906,"utc":"2026-10-02T00:15:37.713417+00:00"}
+{"kind":"command_complete","hci_opcode_hex":"2039","status":0,"monotonic_ns":707438024961756,"utc":"2026-10-02T00:15:37.815421+00:00"}
+{"kind":"command_result","step":"cleanup_disable","hci_opcode_hex":"2039","status":0,"monotonic_ns":707438025148269,"utc":"2026-10-02T00:15:37.815597+00:00"}
+{"kind":"command_sent","step":"cleanup_remove","hci_opcode_hex":"203c","advertising_handle":239,"monotonic_ns":707438025184578,"utc":"2026-10-02T00:15:37.815633+00:00"}
+{"kind":"command_complete","hci_opcode_hex":"203c","status":0,"monotonic_ns":707438028913161,"utc":"2026-10-02T00:15:37.819364+00:00"}
+{"kind":"command_result","step":"cleanup_remove","hci_opcode_hex":"203c","status":0,"monotonic_ns":707438028992261,"utc":"2026-10-02T00:15:37.819441+00:00"}
+{"kind":"source_closed","advertising_handle":239,"independently_observed_air_emission_count":null,"automatic_restarts":0,"automatic_fallbacks":0,"cleanup":{"cleanup_disable":{"status":0,"command_complete_received":true},"cleanup_remove":{"status":0,"command_complete_received":true}},"status":"trial_failed","error_code":"event_timeout","termination_events_observed":0,"accepted_steps":["cleanup_disable","cleanup_remove","enable","set_data","set_parameters"],"controller_completed_count_verified":false,"cleanup_success":true,"monotonic_ns":707438029053236,"utc":"2026-10-02T00:15:37.819501+00:00"}
+{"kind":"source_socket_closed","monotonic_ns":707438029112959,"utc":"2026-10-02T00:15:37.819561+00:00"}

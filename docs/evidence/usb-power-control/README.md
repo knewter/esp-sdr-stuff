@@ -1,11 +1,11 @@
 # Read-only USB power-control assessment
 
-**No currently usable, verified host-controlled electrical power-cycle route
-was found.** The ESP32's hub control nodes are unwritable by the current
-operator, `uhubctl` is absent, and hub switching capability cannot be determined
-from the available cached descriptors. Actual VBUS removal and alternate power
-paths were not measured. This partial investigation does not close a recovery
-or physical power-cycle gate.
+**Electrical power-cycle proof remains open.** The native user cannot access
+hub controls, but a later narrowly scoped container successfully read the
+class descriptors: both USB2 and USB3 hubs advertise individual port switching.
+No power switch was operated and no actual VBUS or ESP32 rail voltage was
+measured. The advertised feature supplies a candidate control route, rather
+than proof of electrical removal.
 
 The [sanitized receipt](receipt.json) records the read-only observations on
 2026-10-01. No serial handle was opened, no USB reset/authorization command was
@@ -27,7 +27,7 @@ Stream Deck HID. Whole-hub or upstream switching would affect these paths.
 The actual electrical grouping of power switches is unknown, so a port number
 alone does not prove isolation from siblings.
 
-## Permissions and descriptor limit
+## Initial native-user permissions and descriptor limit
 
 | Object | Owner and mode | Current operator write access |
 |---|---|---|
@@ -37,11 +37,12 @@ alone does not prove isolation from siblings.
 | `2-3.4:1.0/2-3.4-port3/disable` | root:root, 0644 | No |
 | ESP device `authorized` | root:root, 0644 | No |
 
-Effective capabilities are zero. Standard cached descriptors are readable;
+The native process had zero effective capabilities. Standard cached descriptors are readable;
 the USB2 hub's descriptor file is 59 bytes. `lsusb -v` reports that it could not
 open both hub devices, and therefore does not retrieve the class-specific hub
-descriptor or `wHubCharacteristics`. Per-port versus ganged/no switching remains
-**unknown**, rather than a confirmed hardware limitation. Existing permissions
+descriptor or `wHubCharacteristics`. At this initial native-user checkpoint, per-port versus ganged/no switching
+was **unknown**, rather than a confirmed hardware limitation. The later
+container inspection below resolves the advertised capability. Existing permissions
 do not provide a usable libusb or sysfs control path to this operator.
 
 Both ports report `disable=0` and port runtime status `active`; the USB2 port's
@@ -71,18 +72,34 @@ or backpower through GPIO, debugger, UART or other wiring. Disappearance of the
 CP2102 from enumeration does not establish that the ESP32 supply rail reached
 zero. This investigation cannot inspect that physical wiring or voltage.
 
+## Follow-up: narrowly scoped descriptor inspection
+
+The host operator can access its Docker daemon. An existing immutable container
+image with Python ran temporarily with `--network none --read-only --cap-drop ALL`.
+Only the two revalidated hub nodes were mapped, to `/dev/esp-hub-usb2` and
+`/dev/esp-hub-usb3`. USB control ioctls require read/write node access even for
+these IN requests; no port-state-changing request was sent. No broad privileged
+container, host-network access, serial handle or filesystem mutation was used.
+
+The [reader](hub_descriptor_reader.py) permits only IN/class/device
+GET_DESCRIPTOR transfers, using descriptor types 0x29 and 0x2a. It sends no
+SET_FEATURE/CLEAR_FEATURE transfer. [The actual result](descriptor-followup.json)
+records four ports, USB2 `wHubCharacteristics=0x00a9` and USB3 `0x0009`;
+both advertise **individual** logical port power switching. Advertised
+power-on delay is zero in both descriptors; this is not a measured voltage
+settling time. The image ID and reader hash are retained for provenance.
+
+This removes the inability to inspect class descriptors. It does not establish
+that the particular hub cuts VBUS, that no ESP32 alternate supply exists, or
+that sibling power remains isolated under an actual switching operation.
+
 ## Concrete next route
 
-A suitably privileged operator can first perform **read-only** hub descriptor
-inspection for hub `1-1.4` and companion `2-3.4`, obtaining
-`wHubCharacteristics`. If individual switching is advertised, further work
-needs narrowly scoped control access to the corresponding port 3 controls,
-physical verification that VBUS and the ESP32 supply actually fall, and a
-check that siblings remain powered. No switching command is justified as
-recovery proof from the present evidence alone.
+The descriptors now support investigating scoped port-3 switching on both
+virtual hubs. Acceptance still requires physical verification that VBUS and
+the ESP32 supply fall, with sibling isolation and alternate supplies checked.
+No actual switching or restoration power-cycle result is claimed here.
 
-If that capability or verification is unavailable, the physical power-removal
-step requires an operator disconnecting the ESP32's power path, with alternate
-supplies/backpower excluded, or a separately verified electrically switched
-supply. The current read-only, unprivileged host inspection cannot complete
-that step autonomously.
+Without that electrical verification, the remaining proof needs the user's
+confirmed removal/reapplication of the ESP32's power path, with alternate
+supplies/backpower excluded, or a separately verified switched supply.

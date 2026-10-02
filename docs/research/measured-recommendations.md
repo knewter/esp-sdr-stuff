@@ -64,6 +64,8 @@ Preamble/access hard-decision errors, source API/wire-type mismatch, uncalibrate
 frequency offsets and the missing 100-emission denominator remain explicit.
 This is a useful DSP experiment and specific reception proof, with large gaps.
 
+A [physical Bluetooth monitor](docs/evidence/ble-dumpcap-source/README.md) now verifies accepted source settings. [Three finite source diagnostics](docs/evidence/ble-counted-source-smoke/README.md) accept commands but supply no actual completed-event count. The reporting protocol is ready; receiver hit-rate trials remain pending on a source counter independent of the ESP decoder.
+
 ## FPGA decision so far
 
 [Inventory and calculations](docs/evidence/fpga-inventory/README.md) identify

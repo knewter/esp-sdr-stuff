@@ -1,0 +1,15 @@
+SOURCE_ON episode=0 marker=4553502d5344522d4556414c accepted
+SOURCE_OFF episode=0 accepted
+ERROR:root:got unexpected error processing a message: interface "org.bluez.LEAdvertisement1" does not have property "TxPower".
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/site-packages/dbus_next/message_bus.py", line 621, in _on_message
+    self._process_message(msg)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/usr/lib/python3.14/site-packages/dbus_next/message_bus.py", line 712, in _process_message
+    handler(msg, send_reply)
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/site-packages/dbus_next/message_bus.py", line 898, in _default_properties_handler
+    raise DBusError(
+        ErrorType.UNKNOWN_PROPERTY,
+        f'interface "{interface_name}" does not have property "{prop_name}"')
+dbus_next.errors.DBusError: interface "org.bluez.LEAdvertisement1" does not have property "TxPower"

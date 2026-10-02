@@ -22,7 +22,9 @@ Unknown antenna response and AGC can change relative readings. Strong sources ma
 
 Three repeatable source-on/source-off pairs with known center frequencies; each claimed extra tuning point has an independently known signal and uncertainty.
 
-Physical procedure: fixed source, fixed antenna placement, paired on/off captures, three repeats per condition. Future plot harness consumes the saved capture manifest and CSV; raw acceptance is based on the known-source shift and repeated response, not just an OK command.
+Physical procedure: fixed source, fixed antenna placement, paired on/off captures, three repeats per condition. The existing capture and analysis tools consume saved manifests and CSV. Acceptance requires the known-source response and repeated observations.
+
+Pilot trials decoded [four owned BLE packets](docs/evidence/ble-owned-decoding/README.md) and [one packet during the filter/gain trial](docs/evidence/ble-controls-decoding/README.md). These establish narrow channel-37 reception; they do not satisfy three-cycle repeatability, calibrated filter/gain behavior or extended tuning. A [physical Bluetooth monitor trial](docs/evidence/ble-dumpcap-source/README.md) now checks accepted source settings independently of the ESP decoder. Its unlimited advertising episode provides no counted-emission denominator.
 
 ## Visual plan
 

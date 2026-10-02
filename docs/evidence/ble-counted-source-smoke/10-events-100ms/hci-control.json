@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "kind": "read-only sanitized HCI0 advertising control",
+  "transport": "dumpcap classic-pcap stdout pipe",
+  "hci_channel": 2,
+  "started_utc": "2026-10-02T00:15:29Z",
+  "independently_observed_air_emission_count": null,
+  "records": [
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2036",
+      "advertising_handle": 239,
+      "event_properties": 16,
+      "interval_min_ms": 100.0,
+      "interval_max_ms": 100.0,
+      "primary_channel_map": 1,
+      "primary_phy": 1,
+      "secondary_phy": 1,
+      "capture_timestamp_ns": 1790900130500655000,
+      "monotonic_ns": 707430710332772
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2036",
+      "status": 0,
+      "capture_timestamp_ns": 1790900130604071000,
+      "monotonic_ns": 707430813757686
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2037",
+      "advertising_handle": 239,
+      "advertising_data_length": 16,
+      "fragment_operation": 3,
+      "owned_manufacturer_ad_exact_match": true,
+      "capture_timestamp_ns": 1790900130604351000,
+      "monotonic_ns": 707430813965370
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2037",
+      "status": 0,
+      "capture_timestamp_ns": 1790900130608069000,
+      "monotonic_ns": 707430817689344
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": true,
+      "sets": [
+        {
+          "handle": 239,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 10
+        }
+      ],
+      "capture_timestamp_ns": 1790900131608386000,
+      "monotonic_ns": 707431818084593
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790900131612098000,
+      "monotonic_ns": 707431821782999
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "2039",
+      "enabled": false,
+      "sets": [
+        {
+          "handle": 239,
+          "duration_10ms_units": 0,
+          "maximum_extended_advertising_events": 0
+        }
+      ],
+      "capture_timestamp_ns": 1790900137713570000,
+      "monotonic_ns": 707437923276241
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "2039",
+      "status": 0,
+      "capture_timestamp_ns": 1790900137815221000,
+      "monotonic_ns": 707438025071283
+    },
+    {
+      "kind": "advertising_command",
+      "hci_opcode_hex": "203c",
+      "advertising_handle": 239,
+      "capture_timestamp_ns": 1790900137815685000,
+      "monotonic_ns": 707438025338259
+    },
+    {
+      "kind": "advertising_command_complete",
+      "hci_opcode_hex": "203c",
+      "status": 0,
+      "capture_timestamp_ns": 1790900137819214000,
+      "monotonic_ns": 707438028854440
+    }
+  ],
+  "raw_capture_written_to_disk": false,
+  "dumpcap_stderr_retained": false,
+  "limitations": "HCI control-plane evidence only. Unknown monitor/socket loss. Unrelated traffic and addresses discarded before storage; libpcap Bluetooth monitor statistics cannot prove loss-free capture.",
+  "producer_returncode": 0,
+  "status": "completed",
+  "elapsed_s": 15.178772846003994,
+  "packet_counts_by_monitor_kind": {
+    "12": 2,
+    "0": 1,
+    "8": 1,
+    "10": 1,
+    "14": 2,
+    "2": 5,
+    "3": 5,
+    "15": 1
+  },
+  "pcap_packets_seen": 18,
+  "snaplen_truncated_packets_discarded": 0,
+  "pcap_byte_order": "<",
+  "pcap_timestamp_units_per_second": 1000000,
+  "producer_reaped": true
+}

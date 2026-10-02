@@ -18,8 +18,9 @@ Every serial handle is closed. The board is currently running that original
 application rather than the experimental SDR image.
 
 **Physical power-cycle recovery remains open.** The user has been asked to
-remove/reapply only the ESP32 USB power while the host observer waits with no
-serial handle open. USB disappearance alone will not be called power-removal
+remove/reapply the ESP32 USB power. The bounded host observer subsequently
+timed out without a disconnect; its [record](../power-cycle-wait/README.md)
+supplies no cold-boot proof. No serial handle remains open. USB disappearance alone will not be called power-removal
 proof; user confirmation and a matching post-cycle application boot are
 required. The completed capture/display proposal is independent of this final
 recovery gate.

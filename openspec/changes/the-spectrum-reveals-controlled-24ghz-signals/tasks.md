@@ -11,6 +11,8 @@
 
 ## Proof procedure
 
-Physical procedure: fixed source, fixed antenna placement, paired on/off captures, three repeats per condition. Future plot harness consumes the saved capture manifest and CSV; raw acceptance is based on the known-source shift and repeated response, not just an OK command.
+Physical procedure: fixed source, fixed antenna placement, paired on/off captures, three repeats per condition. The capture and analysis tools consume saved manifests and CSV. Acceptance requires the known-source response and repeated observations.
+
+Partial proof: [owned BLE decoding](docs/evidence/ble-owned-decoding/README.md), [filter/gain pilot](docs/evidence/rf-controls-trial/README.md), and [actual source controls](docs/evidence/ble-dumpcap-source/README.md). These trials do not yet close any complete task above; their settings and limitations must remain visible in later reports.
 
 Required outcome: Three repeatable source-on/source-off pairs with known center frequencies; each claimed extra tuning point has an independently known signal and uncertainty.

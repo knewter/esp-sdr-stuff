@@ -10,7 +10,7 @@ counted-source attempts.
 Root operated the hardware. This analysis read the resulting sanitized logs and
 primary source documents only; it made no controller, serial, event-mask or
 power changes. The physical receipts are published separately under
-[the counted-source evidence](../evidence/ble-counted-source-smoke/).
+[the counted-source evidence](../evidence/ble-counted-source-smoke/README.md).
 
 ## What the trials actually established
 

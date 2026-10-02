@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "kind": "Physical source-only counted advertising diagnostics; no ESP receiver trial",
+  "controller": {
+    "usb_vid_pid": "8087:0029",
+    "hci_version": 11,
+    "hci_revision": 8641,
+    "manufacturer": 2,
+    "cached_le_features_hex": "ff59000800000000",
+    "hardware_info": "INTEL platform=55 variant=20"
+  },
+  "source_sha256": "50bdcec8491626ad0ba2628cf776ad49c8f0b2188f6431fab454b4f3cc69723f",
+  "source_revision": "9bf8205",
+  "image_id": "sha256:8cae9cbe8e906e0c14ce1a8fdb0dc4edb5ee5eb440ad73eb8e53878eda2b2223",
+  "source_container_scope": "read-only script bind, read-only rootfs, host networking, cap-drop ALL then NET_ADMIN/NET_RAW only",
+  "monitor_tool_sha256": "362d841571340d3b8fa8b00a92297281a9eaf797027882e6b2543048fbfc0dd2",
+  "controller_event_mask_changed": false,
+  "power_pairing_scanning_changed": false,
+  "raw_hci_or_addresses_saved": false,
+  "esp_flashed_or_opened": false,
+  "trials": [
+    {
+      "trial_id": "255-events-20ms",
+      "requested_count": 255,
+      "interval_ms": 20,
+      "source_status": "trial_failed",
+      "source_error": "event_timeout",
+      "observed_termination_count": 0,
+      "completed_event_count": null,
+      "cleanup_success": true,
+      "monitor_status": "completed",
+      "monitor_elapsed_s": 20.147660654969513,
+      "pcap_packets_seen": 18,
+      "sanitized_control_records": 10,
+      "file_sha256": {
+        "source-control.jsonl": "39294cd11261eb64f6583b1df5faf58531bb683b3ed18076465f753f8e247c99",
+        "hci-control.json": "49a72baa6cf13296e75f376e85979449f76e8f2e8e6ce49b5e73a8cb56645698",
+        "preflight.json": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+        "postflight.json": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+        "source-operation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "monitor-operation.log": "100931822497ef82f5e68c806eb292c78f6f9162e904092b8f5faef047c44f62"
+      }
+    },
+    {
+      "trial_id": "10-events-20ms",
+      "requested_count": 10,
+      "interval_ms": 20,
+      "source_status": "trial_failed",
+      "source_error": "event_timeout",
+      "observed_termination_count": 0,
+      "completed_event_count": null,
+      "cleanup_success": true,
+      "monitor_status": "completed",
+      "monitor_elapsed_s": 15.14263097802177,
+      "pcap_packets_seen": 18,
+      "sanitized_control_records": 10,
+      "file_sha256": {
+        "source-control.jsonl": "27c2b4a3eaec7e09d9aabf53e25cefc6c6b0d00ec38cf517ce64f8250ecc83d1",
+        "hci-control.json": "6c8bbea34590424a948d9afb83ba05b6ea1934b9e851ce79cb00da4aa052236d",
+        "preflight.json": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+        "postflight.json": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+        "source-operation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "monitor-operation.log": "100931822497ef82f5e68c806eb292c78f6f9162e904092b8f5faef047c44f62"
+      }
+    },
+    {
+      "trial_id": "10-events-100ms",
+      "requested_count": 10,
+      "interval_ms": 100,
+      "source_status": "trial_failed",
+      "source_error": "event_timeout",
+      "observed_termination_count": 0,
+      "completed_event_count": null,
+      "cleanup_success": true,
+      "monitor_status": "completed",
+      "monitor_elapsed_s": 15.178772846003994,
+      "pcap_packets_seen": 18,
+      "sanitized_control_records": 10,
+      "file_sha256": {
+        "source-control.jsonl": "675ce9f99185b9cd22a2d3412adea6504bb85deab77f1f88d74cd5d7ab80ba16",
+        "hci-control.json": "a14c1978852a76fb4c4bf26892e3a9306c0cb17b4c24ef5de356ec2d17ff687a",
+        "preflight.json": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+        "postflight.json": "d723a266bf9573107e6f5aa6756b2018f796dbee799b6a6a4dc6ada43f1879ce",
+        "source-operation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "monitor-operation.log": "100931822497ef82f5e68c806eb292c78f6f9162e904092b8f5faef047c44f62"
+      }
+    }
+  ]
+}

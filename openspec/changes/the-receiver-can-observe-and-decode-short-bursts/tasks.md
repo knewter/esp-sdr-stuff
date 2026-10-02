@@ -13,6 +13,12 @@ packet windows inside the captures. They do not establish 100 emitted events,
 missed-event rates or reliable detection in three repetitions. The first two
 tasks remain open; registration counts and snapshot counts are not emissions.
 
+[The predeclared accounting tool](docs/research/ble-counted-trials.md) is ready,
+but [three finite source-only diagnostics](docs/evidence/ble-counted-source-smoke/README.md)
+produced no actual termination counter. Their accepted requested limits do not
+close task 1.1 or supply input to task 1.2. Keep the three receiver trials pending
+until the independent source-count gate passes.
+
 ## Proof procedure
 
 Physical proof: 100 counted emissions plus capture timestamps and a saved waveform; offline proof: run the selected decoder on the pinned capture and compare output to the known payload. No decoder or protocol support is assumed in advance.

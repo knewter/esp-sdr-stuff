@@ -8,7 +8,7 @@ Decide which interference, educational DSP and short-burst applications are usef
 
 The evaluation SHALL report observed and missed controlled events against a recorded source count.
 
-<!-- UNVERIFIED: Physical snapshots and source cycles ran, but no independently counted emission denominator exists; missed-event/hit rates remain unknown. -->
+<!-- UNVERIFIED: Five owned packets decode, but no actual recorded source counter exists. Three finite source-only HCI trials accepted commands without an observed termination count; requested event limits do not establish a denominator. Hit rates and unresolved misses/truncations remain unknown. See docs/evidence/ble-counted-source-smoke/README.md. -->
 
 #### Scenario: Evaluation result is inspected
 - **WHEN** event detection is assessed

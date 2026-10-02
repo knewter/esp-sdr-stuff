@@ -112,3 +112,11 @@ python3 -m unittest discover -s tests -p 'test_ble*.py' -v
 
 The capture files are required for physical replay and are intentionally absent
 from Git/site export. Public hashes and summaries do not replace that replay.
+
+## Later source-control observation
+
+[A later capability-enabled HCI monitor](../ble-dumpcap-source/README.md)
+observes event properties0x0013 (legacy/connectable/scannable), even though the
+API source requests `broadcast`. That is consistent with these actual type0
+PDUs, but does not retrospectively prove earlier HCI settings or establish
+an emission denominator for the original trials.

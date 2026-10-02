@@ -1,0 +1,36 @@
+{
+  "read_only_control_transfers": true,
+  "no_port_state_changed": true,
+  "hubs": [
+    {
+      "device_scope": "/dev/esp-hub-usb2",
+      "request": "GET_DESCRIPTOR (IN/class/device)",
+      "descriptor_type": 41,
+      "returned_bytes": 9,
+      "descriptor_hex": "092904a900006400ff",
+      "hub_ports": 4,
+      "hub_characteristics_hex": "0x00a9",
+      "logical_power_switching_mode": "individual",
+      "power_on_delay_ms": 0,
+      "electrical_power_removal_measured": false
+    },
+    {
+      "device_scope": "/dev/esp-hub-usb3",
+      "request": "GET_DESCRIPTOR (IN/class/device)",
+      "descriptor_type": 42,
+      "returned_bytes": 12,
+      "descriptor_hex": "0c2a040900000202c8000000",
+      "hub_ports": 4,
+      "hub_characteristics_hex": "0x0009",
+      "logical_power_switching_mode": "individual",
+      "power_on_delay_ms": 0,
+      "electrical_power_removal_measured": false
+    }
+  ],
+  "captured_utc": "2026-10-01T23:57:57.617464+00:00",
+  "method": "Temporary read-only/network-disabled container, all capabilities dropped, only two exact hub nodes mapped; IN GET_DESCRIPTOR transfers only",
+  "image_id": "sha256:8cae9cbe8e906e0c14ce1a8fdb0dc4edb5ee5eb440ad73eb8e53878eda2b2223",
+  "reader_sha256": "bab3b62de1c6c8ed2571d0610d25d5c57b80881cdeb4c23352cbe78db39ded29",
+  "logical_power_control_performed": false,
+  "electrical_power_removal_proven": false
+}
