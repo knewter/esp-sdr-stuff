@@ -50,3 +50,9 @@ now passes all four offline Efinity stages with exactly four assigned internal
 pins. This is software preparation. The factory loader still drives MOSI after
 END; reviewed RP SPI turnaround and a fresh preserved attachment precede any
 physical readback. No FPGA transport/RF task closes; progress remains 1/5.
+
+The [reconnect follow-up](docs/evidence/forgix-toolchain/README.md) now verifies
+fresh original-flash copies, separate device comparison and factory return
+after a retained serial-control failure and user reconnect. Guarded candidate003
+passes offline compilation and asynchronous simulations. Its actual RP pin
+release, grade/clock and register transport remain unqualified; no checkbox changes.

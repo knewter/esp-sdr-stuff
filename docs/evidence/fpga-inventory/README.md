@@ -122,7 +122,7 @@ Factory source SHA-256:
 `9aa9674c328cec6603f235e3398a3f4621a94a42868d901c034008c98df26246`.
 
 A [provisional T8F49/I2 offline build](../forgix-toolchain/README.md) now exists.
-It is not physical FPGA acceptance. The current read-only sysfs survey found
-the preserved USB attachment absent; it opened no device. The earlier condition006
-flash/factory verification remains historical, not a fresh preservation claim.
+It is not physical FPGA acceptance. The earlier read-only survey found the
+preserved USB attachment absent. The user has now reconnected it and
+[fresh original-flash/factory verification passes](../forgix-toolchain/README.md).
 No more photos are needed for the current software preparation.

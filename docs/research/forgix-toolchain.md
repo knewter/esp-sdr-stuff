@@ -236,6 +236,7 @@ parameters are confirmed:
 
 ```sh
 nix develop .#forgix --command task forgix:fpga:candidate:test
+nix develop .#forgix --command task forgix:fpga:guard:test
 nix develop .#forgix --command task forgix:fpga:candidate -- --private .scratch/forgix-fpga-candidate-next
 ```
 
@@ -245,6 +246,10 @@ LED chaser, edge demos and scope, hashes consumed RTL/ROM/constraints, requires
 all four compiler stages and retains failed attempts. It does not program a
 board or set `--verified-parameters`. [Actual candidate evidence](../evidence/forgix-toolchain/README.md)
 records the passing second attempt and retained initial guard failure.
+Guarded candidate003 also passes compilation. Its 32-cycle idle qualification
+and 64-cycle request guard require the explicit RP release/clock-handoff
+contract in `tools/forgix_spi_guard.py`. Eight asynchronous simulations test
+that digital contract; no actual RP bridge or physical timing is qualified.
 
 The [pinned LiteX platform](https://github.com/litex-hub/litex-boards/blob/10debf146d433ce8ac8aedcac84e97d252ff4d5b/litex_boards/platforms/adiuvo_forgix.py)
 assumes `T8F49C2`, 32 MHz, clock ball B4 and its published I/O layout.

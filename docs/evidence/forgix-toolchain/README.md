@@ -76,3 +76,51 @@ Process closure is the parent receipt's attestation, not an independent PID
 survey. Projects, vendor logs, bitstreams and photos stay
 ignored and private. The existing verified-parameter build path is unchanged;
 the FPGA feasibility proposal remains **1/5 tasks complete**.
+
+## Reconnect and guarded candidate003
+
+After reconnect, the preserved USB identity and two HELLO/STATUS pairs passed
+a five-second stability check. A later fresh-preservation attempt timed out
+at the initial serial DTR control request, before ROM or picotool operations;
+its worker was closed and the failure remains retained. Following the user's
+second reconnect, dedicated preservation002 passed in **43.23 seconds**:
+two fresh **2,097,152-byte** reads match the original
+`72b6e55bb321e3d1c11fd7aea5a2db5eb361ec3824c53d564c12b3a0455f91b4`,
+separate device verification passes, and the factory application returns.
+All six picotool operations exit 0 with owned closure; no flash write, RAM
+diagnostic load or FPGA programming occurred. Private session SHA-256:
+`ec9bb8ff0f1fb18601c9309c1b6a8da72f1e4b4f54bae97c2aef52df6a9757fa`.
+Earlier CI-shell/missing-SDK/timeout refusals occurred in host preflight and
+opened no device; exact pinned dependencies were restored through Nix.
+
+Source `60ba10c686db5c039a10c077ec4f0fa1e2465cb9` adds a contained wrapper
+around pinned SPIBone: 32 stable synchronized idle cycles before activation,
+64 cycles after request capture plus a new falling-clock handoff before
+output/bus admission, and immediate raw-CS output/request suppression.
+Eight asynchronous Migen simulations and 15 candidate tests pass. Independent
+source review adds seven response/phase probes. These prove the digital model
+under its stated RP contract; unsampled glitches and actual high-Z/timing
+are unqualified. The RP bridge is still required.
+
+Actual003 completes map/interface/pnr/pgm in **33.93 seconds**, exit 0,
+producing a fresh **520,140-byte** hex. Receipt SHA-256:
+`09e88d3c7a7fac53b6e8f40b974ad1ea42cf84ff0e98883cf1937f7f2ecfb576`.
+Hex SHA-256:
+`2c74a218e8bc654aafae74cff9ba4ae4cb7eb11b657ab6ab7a540044868140b1`.
+All physical/programming/RP-contract verification flags remain false.
+Candidate002 stays immutable and unadmitted. Independent actual003 review
+checks all 72 retained files and the placed guard logic: exactly four assigned
+pins, 566 logic elements, one RAM, internal setup +7.421 ns/hold +0.642 ns at
+the provisional 32 MHz/I2 model. External SPI delays remain unconstrained.
+Source-admission receipt SHA-256:
+`8de3f735ff41625dddd94d1409bcb5d0ef96af9c8b3ef2c04a9059d3b8de75e8`.
+Actual-artifact review SHA-256:
+`d5c056ea22e17ecea1e003539134511dc11437a2af8b212ba0568611bd8ec238`.
+The failed preservation001 audit SHA-256 is
+`a42e0a13ea5b234ebcd2093a7db515ecc7578ff5348b1e8af533d2c142040d62`;
+process closure is the parent attestation, not an independent PID survey.
+Successful preservation002 review hashes all 28 private files and checks both
+reads, separate verification and raw factory frames; six saved process groups
+are absent. Query group IDs and live Docker absence were not independently
+checked. Review SHA-256:
+`bbd32c3a999fc45ff36581f8a1804c6850592e1b37ce34a247761ca63a4107c6`.

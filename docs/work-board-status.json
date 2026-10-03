@@ -185,8 +185,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Review RP GPIO3 SPI turnaround and original-factory return; qualify actual FPGA grade/clock/connectivity and refresh preservation before synthetic register readback. Offline candidate now compiles.",
-      "rationale": "Photos and pinned KiCad BOM resolve the documented RP 12 MHz crystal and FPGA 32 MHz oscillator. Provisional T8F49/I2 candidate002 passes map/interface/pnr/pgm with exactly four assigned internal pins; no board was programmed. Actual grade, PCB revision, clock and SPI I/O timing remain unverified. Factory loader keeps MOSI driven after END; reviewed RP bridge is required. Latest read-only survey finds preserved USB attachment absent. MCU USB 64 KiB/s remains lossless; 256 KiB/s lost 431 records exactly matching device discards, with original flash/factory verification passing. Maximum USB capacity, complete FPGA transport and RF continuity remain open.",
+      "next": "Implement the RP bridge for the guarded FPGA protocol, qualify actual grade/clock/connectivity, then test scratch/counter readback. Reconnect and fresh original-flash/factory verification pass.",
+      "rationale": "Guarded candidate003 passes all four offline Efinity stages; eight asynchronous simulations and 15 candidate tests pass under an explicit unmeasured RP release contract. No FPGA was programmed. Following a retained serial DTR-control timeout and user reconnect, two fresh full 2 MiB reads match the original, separate device verification and factory return pass, and owned processes close. Actual FPGA grade, PCB revision, clock and SPI timing remain unverified. MCU USB 64 KiB/s remains lossless; 256 KiB/s lost 431 records exactly matching device discards. Complete FPGA transport and RF continuity remain open.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -214,7 +214,7 @@
         "docs/evidence/forgix-usb-ram-trial-001-review/README.md",
         "docs/evidence/forgix-usb-ram-recovery/README.md"
       ],
-      "reviewRevision": "fdde1e55a3e68c074611af70b96081849803e14c"
+      "reviewRevision": "60ba10c686db5c039a10c077ec4f0fa1e2465cb9"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
