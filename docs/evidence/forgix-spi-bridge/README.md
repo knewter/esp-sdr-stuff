@@ -100,7 +100,7 @@ For GPIO1/2/3/4/5/19, the SDK documents null function31, pad isolation and enabl
 pull-down at reset. External physical levels are unmeasured. The main watchdog
 starts afterward. This narrow audit is not full boot-ROM/startup control-flow
 or electrical proof. Four independent mutated-ELF probes refuse altered code,
-reset mapping/masks or initializer bindings.
+reset masks or initializer bindings.
 
 The lifecycle must qualify configuration retention through that transition or
 configure the exact guarded image after RAM startup. Neither configuration
