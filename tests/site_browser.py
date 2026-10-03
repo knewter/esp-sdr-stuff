@@ -6,6 +6,8 @@ import json
 import os
 from pathlib import Path
 import shutil
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 from urllib.parse import urljoin
 from playwright.sync_api import sync_playwright
 
@@ -20,7 +22,13 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     base = args.url.rstrip("/") + "/"
     errors, failures = [], []
-    with sync_playwright() as playwright:
+    # Keep owned browser files outside Nix's ephemeral shell directory and
+    # keep Chromium's UNIX socket path below its length limit.
+    runtime = os.environ.get("XDG_RUNTIME_DIR", "/tmp")
+    if len(runtime) > 30 or not Path(runtime).is_dir():
+        runtime = "/tmp"
+    with TemporaryDirectory(prefix="sdr-", dir=runtime) as browser_tmp, \
+            patch.dict(os.environ, {"TMPDIR": browser_tmp}), sync_playwright() as playwright:
         executable = os.environ.get("CHROMIUM_EXECUTABLE") or shutil.which("chromium")
         browser = playwright.chromium.launch(executable_path=executable, headless=True)
         page = browser.new_page(viewport={"width": 1440, "height": 1000}, device_scale_factor=1)
