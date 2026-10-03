@@ -351,3 +351,8 @@ tasks:
     desc: Generate a finite offline register plan in a fresh private directory
     cmds:
       - python3 tools/forgix_spi_bridge.py {{.CLI_ARGS}}
+
+  forgix:spi-bridge:startup-audit:
+    desc: Inspect a saved bridge ELF and pinned SDK reset metadata without hardware
+    cmds:
+      - python3 tools/audit_forgix_spi_startup.py {{.CLI_ARGS}}
