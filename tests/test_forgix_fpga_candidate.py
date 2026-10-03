@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
 import efinity_bootstrap as b
 import forgix_fpga_candidate as c
 
-XML = f'''<project xmlns="http://www.efinixinc.com/enf_proj" name="{c.NAME}"><device_info><family name="Trion"/><device name="T8F49"/><timing_model name="I2"/></device_info><design_info><design_file name="{c.NAME}.v"/></design_info><constraint_info><sdc_file name="{c.NAME}_merged.sdc"/></constraint_info><bitstream_generation><param name="mode" value="passive"/><param name="width" value="1"/></bitstream_generation></project>'''
+XML = f'''<project xmlns="http://www.efinixinc.com/enf_proj" name="{c.NAME}"><device_info><family name="Trion"/><device name="T8F49"/><timing_model name="I2"/></device_info><design_info><design_file name="{c.NAME}.v"/></design_info><constraint_info><sdc_file name="{c.NAME}_merged.sdc"/></constraint_info><synthesis><param name="mode" value="speed"/></synthesis><bitstream_generation><param name="mode" value="passive"/><param name="width" value="1"/></bitstream_generation></project>'''
 
 class Candidate(unittest.TestCase):
     def setUp(self):
@@ -85,6 +85,31 @@ class Candidate(unittest.TestCase):
             with self.assertRaises(subprocess.TimeoutExpired):c.compile_candidate(store,new)
         r=json.loads((new/'result.json').read_text());self.assertEqual(r['status'],'failed');self.assertFalse(r['owned_process_group_closed'])
         self.assertFalse(r['programming_admitted']);self.assertEqual((new/'console.log').read_bytes(),b'failed prefix')
+
+    def test_actual_pinned_project_generator_scopes_configuration_mode(self):
+        try:
+            from litex.build.efinix import efinity as e
+        except ImportError:self.skipTest('Requires locked Forgix shell')
+        from types import SimpleNamespace as S
+        install=self.root/'software';(install/'scripts').mkdir(parents=True)
+        (install/'scripts/sw_version.txt').write_text('2026.1.132')
+        tool=e.EfinityToolchain.__new__(e.EfinityToolchain)
+        tool.efinity_path=str(install);tool._build_name=c.NAME
+        tool.platform=S(device='T8F49',family='Trion',timing_model='I2',spi_mode='passive',spi_width='1',
+                        sources=[(c.NAME+'.v','verilog',None)],verilog_include_paths=[])
+        tool._efx_map_params=e._default_efx_map_params();tool._efx_pnr_params=e._default_efx_pnr_params()
+        tool._efx_pgm_params=e._default_efx_pgm_params();tool._efx_debugger_params={};tool._efx_security_params={}
+        tool.ipmwriter=S(blocks=[]);tool.ifacewriter=S(xml_blocks=[],fix_xml=[])
+        (self.work/(c.NAME+'.peri.xml')).write_text('<periphery/>')
+        cwd=Path.cwd()
+        try:
+            os.chdir(self.work)
+            with patch.object(e,'load_efinity_env',return_value={}),patch.object(e.tools,'subprocess_call_filtered',return_value=0) as vendor:
+                tool.build_project()
+            self.assertEqual(vendor.call_args.args[0], [str(install)+'/bin/python3','iface.py'])
+        finally:os.chdir(cwd)
+        self.assertIn('value="speed"',(self.work/(c.NAME+'.xml')).read_text())
+        c.validate_project(self.work)
 
     def test_real_soc_only_four_ports_counter_scratch_no_leds(self):
         try:

@@ -60,7 +60,10 @@ def validate_project(work):
             expected = {'design_file': NAME + '.v', 'sdc_file': NAME + '_merged.sdc'}
             b.require(tag in expected and tag not in found and node.get('name') == expected[tag], 'Unexpected compiler input path')
             found[tag] = node.get('name')
-        if tag == 'param' and node.get('name') in ('mode', 'width'):
+    sections = root.findall(ns + 'bitstream_generation')
+    b.require(len(sections) == 1, 'Missing or duplicate bitstream configuration')
+    for node in sections[0]:
+        if node.tag == ns + 'param' and node.get('name') in ('mode', 'width'):
             key = node.get('name')
             b.require(key not in found and node.get('value') == {'mode': 'passive', 'width': '1'}[key], 'Configuration mode changed')
             found[key] = node.get('value')
