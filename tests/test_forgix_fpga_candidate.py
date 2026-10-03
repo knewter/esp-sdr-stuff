@@ -14,6 +14,11 @@ import forgix_fpga_candidate as c
 
 XML = f'''<project xmlns="http://www.efinixinc.com/enf_proj" name="{c.NAME}"><device_info><family name="Trion"/><device name="T8F49"/><timing_model name="I2"/></device_info><design_info><design_file name="{c.NAME}.v"/></design_info><constraint_info><sdc_file name="{c.NAME}_merged.sdc"/></constraint_info><synthesis><param name="mode" value="speed"/></synthesis><bitstream_generation><param name="mode" value="passive"/><param name="width" value="1"/></bitstream_generation></project>'''
 
+# Physical GPIO portion of actual backend-lowered candidate001 iface.py;
+# software paths and unrelated vendor header are deliberately omitted.
+IFACE = '\n'.join('design.create_'+mode+'_gpio('+repr(name)+')\ndesign.assign_pkg_pin('+repr(name)+','+repr(pin)+')' for name,(mode,pin) in c.GPIO.items())
+PERI = '<design_db xmlns="http://www.efinixinc.com/peri_design_db" name="'+c.NAME+'" device_def="T8F49"><gpio_info>'+''.join('<gpio name="'+name+'" mode="'+mode+'"/>' for name,(mode,pin) in c.GPIO.items())+'</gpio_info></design_db>'
+
 class Candidate(unittest.TestCase):
     def setUp(self):
         self.t = tempfile.TemporaryDirectory(); self.root = Path(self.t.name)
@@ -24,8 +29,10 @@ class Candidate(unittest.TestCase):
         (self.out / (c.NAME + '.log')).write_text(''.join('Stage completed: '+s+'\n' for s in c.smoke.STAGES))
         self.image = self.out / (c.NAME + '.hex'); self.image.write_bytes(b'0123abcd\n')
         self.generated={'pins':c.PINS,'generated_sha256':{}}
-        for name in (c.NAME+'.v',c.NAME+'.sdc','iface.py'):
-            (self.work/name).write_text(c.CLOCK if name.endswith('.sdc') else '# synthetic input');self.generated['generated_sha256'][name]=b.sha(self.work/name)
+        content={c.NAME+'.v':'$readmemh("'+c.NAME+'_mem.init", mem);', c.NAME+'.sdc':c.CLOCK,'iface.py':IFACE,c.NAME+'_mem.init':'4c\n69\n'}
+        for name,data in content.items():
+            (self.work/name).write_text(data);self.generated['generated_sha256'][name]=b.sha(self.work/name)
+        (self.work/(c.NAME+'.peri.xml')).write_text(PERI)
         (self.private / 'generated.json').write_text(json.dumps(self.generated))
     def tearDown(self):self.t.cleanup()
     def test_exact_speculative_profile_and_fresh_image(self):
@@ -37,6 +44,26 @@ class Candidate(unittest.TestCase):
             with self.subTest(new=new):
                 (self.work/(c.NAME+'.xml')).write_text(XML.replace(old,new))
                 with self.assertRaises(b.Refusal):c.verify_outputs(self.private,0)
+    def test_absolute_exact_private_rtl_only(self):
+        xml=self.work/(c.NAME+'.xml')
+        xml.write_text(XML.replace('name="'+c.NAME+'.v"','name="'+str(self.work/(c.NAME+'.v'))+'"'))
+        c.validate_project(self.work)
+        xml.write_text(XML.replace('name="'+c.NAME+'.v"','name="/other/forgix_candidate.v"'))
+        with self.assertRaises(b.Refusal):c.validate_project(self.work)
+    def test_lowered_physical_pins_and_direction_reject_extra_gpio(self):
+        self.assertEqual(c.validate_interface(self.work),c.PINS)
+        for bad in (IFACE.replace("'F2'","'G4'"),IFACE.replace('create_inout_gpio','create_output_gpio'),IFACE+'\ndesign.create_input_gpio("edge")\ndesign.assign_pkg_pin("edge","A5")'):
+            with self.subTest(bad=bad[-40:]):
+                (self.work/'iface.py').write_text(bad)
+                with self.assertRaises(b.Refusal):c.validate_interface(self.work)
+        (self.work/'iface.py').write_text(IFACE)
+        (self.work/(c.NAME+'.peri.xml')).write_text(PERI.replace('mode="inout"','mode="output"'))
+        with self.assertRaises(b.Refusal):c.validate_interface(self.work)
+    def test_consumed_memory_input_hash_and_path_are_bound(self):
+        (self.work/(c.NAME+'_mem.init')).write_text('00\n')
+        with self.assertRaisesRegex(b.Refusal,'hashes'):c.verify_outputs(self.private,0)
+        (self.work/(c.NAME+'.v')).write_text('$readmemh("../foreign.init", mem);')
+        with self.assertRaisesRegex(b.Refusal,'memory'):c.generated_hashes(self.work)
     def test_clock_change_rejected(self):
         (self.work/(c.NAME+'.sdc')).write_text(c.CLOCK.replace('31.25','83.333'))
         with self.assertRaisesRegex(b.Refusal,'clock'):c.verify_outputs(self.private,0)
@@ -100,7 +127,6 @@ class Candidate(unittest.TestCase):
         tool._efx_map_params=e._default_efx_map_params();tool._efx_pnr_params=e._default_efx_pnr_params()
         tool._efx_pgm_params=e._default_efx_pgm_params();tool._efx_debugger_params={};tool._efx_security_params={}
         tool.ipmwriter=S(blocks=[]);tool.ifacewriter=S(xml_blocks=[],fix_xml=[])
-        (self.work/(c.NAME+'.peri.xml')).write_text('<periphery/>')
         cwd=Path.cwd()
         try:
             os.chdir(self.work)

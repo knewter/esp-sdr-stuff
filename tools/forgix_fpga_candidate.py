@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Compile a provisional T8F49/I2 candidate privately; never loads or programs it."""
 import argparse
+import ast
 import inspect
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -16,6 +18,9 @@ import efinity_compile_smoke as smoke
 NAME = 'forgix_candidate'
 CLOCK = 'create_clock -name clk32 -period 31.25 [get_ports {clk32}]'
 PINS = {'clk32': ['B4'], 'spibone_cs_n': ['G3'], 'spibone_clk': ['F3'], 'spibone_mosi': ['F2']}
+GPIO = {'clk32': ('input', 'B4'), 'spibone_cs_n': ('input', 'G3'),
+        'spibone_clk': ('input', 'F3'), 'spibone0_mosi0': ('inout', 'F2')}
+GENERATED = (NAME + '.v', NAME + '.sdc', 'iface.py', NAME + '_mem.init')
 REVISIONS = {'boards': '10debf146d433ce8ac8aedcac84e97d252ff4d5b', 'litex': '8c01073afb71aa0a0709f02f8e24247589e8f5e4'}
 PROFILE = {'device': 'T8F49', 'timing_model': 'I2', 'requested_clock_hz': 32000000,
            'configuration_mode': 'passive', 'physical_confirmation': False,
@@ -58,7 +63,9 @@ def validate_project(work):
         tag = node.tag.removeprefix(ns)
         if tag.endswith('_file'):
             expected = {'design_file': NAME + '.v', 'sdc_file': NAME + '_merged.sdc'}
-            b.require(tag in expected and tag not in found and node.get('name') == expected[tag], 'Unexpected compiler input path')
+            permitted = {expected.get(tag)}
+            if tag == 'design_file':permitted.add(str(work / (NAME + '.v')))
+            b.require(tag in expected and tag not in found and node.get('name') in permitted, 'Unexpected compiler input path')
             found[tag] = node.get('name')
     sections = root.findall(ns + 'bitstream_generation')
     b.require(len(sections) == 1, 'Missing or duplicate bitstream configuration')
@@ -70,6 +77,49 @@ def validate_project(work):
     b.require(set(found) == {'design_file', 'sdc_file', 'mode', 'width'}, 'Missing candidate project constraints')
     sdc = work / (NAME + '.sdc')
     b.require(sdc.is_file() and not sdc.is_symlink() and sdc.stat().st_size < 4096 and sdc.read_text().strip() == CLOCK, 'Candidate clock constraint changed')
+
+
+def validate_interface(work):
+    path = work / 'iface.py'
+    b.require(path.is_file() and not path.is_symlink() and path.stat().st_size < 65536, 'Invalid interface script')
+    tree = ast.parse(path.read_text())
+    top_calls = {id(n.value) for n in tree.body if isinstance(n, ast.Expr)}
+    created, assigned = {}, {}
+    allowed = {'create', 'set_iobank_voltage', 'set_property', 'create_input_gpio',
+               'create_inout_gpio', 'assign_pkg_pin', 'generate', 'save'}
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):continue
+        if not isinstance(node.func.value, ast.Name) or node.func.value.id != 'design':continue
+        method = node.func.attr
+        b.require(method in allowed and id(node) in top_calls, 'Unexpected interface operation')
+        if method not in ('create_input_gpio', 'create_inout_gpio', 'assign_pkg_pin'):continue
+        b.require(not node.keywords and all(isinstance(x, ast.Constant) and type(x.value) is str for x in node.args), 'Dynamic GPIO definition')
+        args = [x.value for x in node.args]
+        if method == 'assign_pkg_pin':
+            b.require(len(args) == 2 and args[0] not in assigned, 'Duplicate pin assignment')
+            assigned[args[0]] = args[1]
+        else:
+            b.require(len(args) == 1 and args[0] not in created, 'Duplicate GPIO definition')
+            created[args[0]] = method.removeprefix('create_').removesuffix('_gpio')
+    b.require({k: (v, assigned.get(k)) for k, v in created.items()} == GPIO and set(assigned) == set(GPIO), 'Unexpected physical GPIO map')
+    peri = work / (NAME + '.peri.xml')
+    b.require(peri.is_file() and not peri.is_symlink() and peri.stat().st_size < 1024**2, 'Invalid peripheral XML')
+    root = ET.parse(peri).getroot(); ns = '{http://www.efinixinc.com/peri_design_db}'
+    b.require(root.get('name') == NAME and root.get('device_def') == 'T8F49', 'Wrong peripheral project')
+    nodes = list(root.iter(ns + 'gpio'))
+    b.require(len(nodes) == 4 and {x.get('name'): x.get('mode') for x in nodes} == created, 'Peripheral GPIO modes changed')
+    return PINS
+
+
+def generated_hashes(work):
+    result = {}
+    for name in GENERATED:
+        f = work / name
+        b.require(f.is_file() and not f.is_symlink() and f.stat().st_nlink == 1 and 0 < f.stat().st_size <= 1024**2, 'Invalid generated input')
+        result[name] = b.sha(f)
+    text = (work / (NAME + '.v')).read_text()
+    b.require(re.findall(r'\$readmemh\("([^"\n]+)"', text) == [NAME + '_mem.init'], 'Unexpected RTL memory input')
+    return result
 
 
 def make_soc(platform_class):
@@ -116,10 +166,9 @@ def worker(private):
                           __import__('litex.soc.cores.spi.spi_bone', fromlist=['SPIBone'])))}
     Builder(soc, output_dir=str(private / 'work'), compile_software=False, csr_csv=str(private / 'csr.csv')).build(build_name=NAME, run=False)
     work = private / 'work/gateware'
-    resolved = {name: pins for name, pins, others, resource in soc.platform.toolchain.named_sc}
-    b.require(resolved == PINS, 'Candidate requests unexpected external pins')
+    resolved = validate_interface(work)
     validate_project(work)
-    fixed = {name: b.sha(work / name) for name in (NAME + '.v', NAME + '.sdc', 'iface.py')}
+    fixed = generated_hashes(work)
     project = b.sha(work / (NAME + '.xml'))
     original_call = tools.subprocess_call_filtered
     def compile_only(command, *args, **kwargs):
@@ -134,7 +183,8 @@ def worker(private):
     finally:
         os.chdir(cwd)
         tools.subprocess_call_filtered = original_call
-    b.require(fixed == {name: b.sha(work / name) for name in fixed}, 'Generated RTL or constraints changed during compile')
+    b.require(fixed == generated_hashes(work), 'Generated RTL, constraints or memory changed during compile')
+    validate_interface(work)
     validate_project(work)
     b.save(private / 'generated.json', {'pins': resolved, 'upstream_files': sources, 'generated_sha256': fixed,
            'project_before_sha256': project, 'project_after_sha256': b.sha(work / (NAME + '.xml'))})
@@ -157,6 +207,8 @@ def compile_candidate(store, requested):
                    source_commit=subprocess.check_output(['git', '-C', str(store.root), 'rev-parse', 'HEAD'], text=True).strip(),
                    toolchain=provenance(), version=smoke.VERSION, software_sha256=smoke.ARCHIVE_SHA,
                    hardware_opened=False, owned_process_group_closed=False)
+    started_ns = time.time_ns(); started_mono = time.monotonic()
+    receipt['started_at_unix_ns'] = started_ns
     try:
         env = os.environ.copy(); env['LITEX_ENV_EFINITY'] = str(installation)
         console = private / 'console.log'; started = time.time_ns()
@@ -165,6 +217,7 @@ def compile_candidate(store, requested):
             code = b.run_owned([wrapper, envbin, '-u', 'PYTHONHOME', '-u', 'PYTHONPATH', python, '-E', '-s',
                 str(store.root / 'tools/forgix_fpga_candidate.py'), '_worker', '--private', str(private)], env, output, 330, store, cwd=private)
         receipt['owned_process_group_closed'] = True
+        receipt['exit_code'] = code
         b.require(code == 0, 'Candidate compiler failed; inspect private logs')
         # Reuse reviewed full-flow gates by presenting only the fixed build-name paths.
         receipt.update(verify_outputs(private, started))
@@ -177,6 +230,7 @@ def compile_candidate(store, requested):
         # before/inside that boundary remain conservative unknown outcomes.
         raise
     finally:
+        receipt.update(finished_at_unix_ns=time.time_ns(), duration_seconds=time.monotonic()-started_mono)
         unsafe_success = False
         if receipt['owned_process_group_closed']:
             safe = smoke.harden_outputs(private)
@@ -205,11 +259,8 @@ def verify_outputs(private, started):
     meta = private / 'generated.json'
     b.require(meta.is_file() and not meta.is_symlink() and meta.stat().st_nlink == 1 and meta.stat().st_size <= 65536, 'Invalid generated provenance')
     generated = json.loads(meta.read_text())
-    b.require(generated['pins'] == PINS, 'Unexpected candidate pins')
-    fixed = generated.get('generated_sha256', {})
-    b.require(set(fixed) == {NAME + '.v', NAME + '.sdc', 'iface.py'} and all(
-        (work / name).is_file() and not (work / name).is_symlink() and b.sha(work / name) == digest
-        for name, digest in fixed.items()), 'Generated source hashes changed')
+    b.require(generated['pins'] == validate_interface(work), 'Unexpected candidate pins')
+    b.require(generated.get('generated_sha256') == generated_hashes(work), 'Generated source hashes changed')
     return {'stages': list(smoke.STAGES), 'bitstream_sha256': b.sha(image), 'bitstream_bytes': image.stat().st_size, 'generated': generated}
 
 
