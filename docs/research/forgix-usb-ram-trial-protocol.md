@@ -95,3 +95,17 @@ build004 and all original identity, nonce, deadlines, full pre/post-flash,
 factory return and owned-worker closure gates. Freeze the amended protocol
 and execution inputs; use a fresh private directory. No automatic retries,
 firmware rebuild, other rate condition or FPGA programming is admitted.
+
+## Separately declared condition 004
+
+After the user's new physical reconnect, factory stability 002 and recovery
+004 passed. Retain condition 003 as failed before loading. Declare one fresh
+attempt at the same 65,536 payload bytes/s for 60 seconds with the requested
+100 ms host read pause after 30 seconds. Use historical build004 and the
+independently reviewed prefix-preserving collector from `6a9e6d29`.
+An independent saved-file audit of both new recovery/stability receipts and
+review of this committed declaration must pass before device access. Freeze
+the amended execution inputs. All original identity, nonce, strict decoding,
+deadlines, fresh full pre/post-flash verification, factory return and owned
+closure gates remain required. Use a fresh private episode directory. No
+automatic retry, other rate, firmware rebuild or FPGA programming is admitted.
