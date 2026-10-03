@@ -131,3 +131,15 @@ factory-return and owned-resource closure gates.
 Retain any loss or failure; no automatic retry or 768 KiB/s condition is admitted.
 The pause stops application reads, not kernel USB service. This measures only
 the MCU USB segment, not maximum throughput, FPGA transport or RF continuity.
+
+## Separately declared condition 006
+
+Condition 005 failed at initial factory serial open before any ROM/RAM/capture
+operation; retain that failure. After the user's new reconnect, recovery005
+reports full original-flash verification and factory return. Its saved receipts
+and closure require independent audit before access. Declare one fresh attempt
+at the same 262,144 B/s, 60-second condition and 100 ms application-read pause,
+using exact build004 and the reviewed rate selector. Freeze this declaration,
+execution inputs, a new private caller/Task and current runtime preflight;
+independent admission and every original gate remain required. No automatic
+retry, power-policy change, firmware rebuild, other rate or FPGA operation.
