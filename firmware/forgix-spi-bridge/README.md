@@ -53,11 +53,14 @@ fractional divider and physical pad latency remain unmeasured. Each request
 bit takes33PIO cycles, with long low/high phases. All request words are queued
 before CS assertion. The final request rise is followed by17PIO cycles before
 `SET PINDIRS,0`, then80additional high-clock cycles before a completion IRQ.
-No CPU instruction or host response is required to release DATA. The CPU may
-delay indefinitely at this completed handoff without generating the falling
-edge; the independent20ms transaction deadline aborts instead.
+No CPU instruction or host response is required to release DATA. A delayed CPU
+leaves SCK high and DATA input at this completed handoff. Fresh20ms software
+deadline checks precede handoff and result acceptance, even when flags/FIFOs
+are already ready. The deadline is capped by the120second lifetime. These
+polling checks are not a CPU-stall-independent hard real-time pin-abort proof;
+the2second watchdog is the separate fallback for a stopped CPU.
 
-The receive program's first low side-set supplies the falling handoff only
+Receive initialization's low side-set supplies the falling handoff only
 after that guard. DATA stays input throughout64response bytes, including
 pending0xff bytes and the response header/payload. A fixed20ms deadline bounds
 both PIO waits and FIFO drains. Ending/aborting raises raw CS first, stops PIO,
