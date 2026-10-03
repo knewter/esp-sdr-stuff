@@ -129,6 +129,22 @@ class Guards(unittest.TestCase):
         with patch.object(m,'OwnedPicotool',return_value=runner),patch.object(m.preserve,'preserve',side_effect=broken),self.assertRaises(m.OwnedHardwareClosureError):m.full_preservation(Mock(),'synthetic',Mock(),'synthetic',{},9,time.monotonic()+1)
 
 class QueryReadiness(unittest.TestCase):
+    def test_late_success_cannot_qualify(self):
+        clock=[0.0];store=Mock();store.path=Path('/synthetic')
+        def worker(*args):clock[0]=16;return 0
+        with patch.object(m.time,'monotonic',side_effect=lambda:clock[0]),patch.object(m,'fresh_tty',return_value='/synthetic/tty'),patch.object(m.os,'access',return_value=True),patch.object(m,'check_inputs'),patch.object(m,'owned_worker',side_effect=worker),patch.object(Path,'read_text') as read,self.assertRaises(m.preserve.PreservationError):
+            m.bounded_query(Mock(),Mock(),store,'returned',9,600,Mock())
+        read.assert_not_called()
+    def test_diagnostic_permission_delay_and_absolute_expiry(self):
+        clock=[0.0]
+        def sleep(seconds):clock[0]+=seconds
+        with patch.object(m.time,'monotonic',side_effect=lambda:clock[0]),patch.object(m.time,'sleep',side_effect=sleep),patch.object(m,'fresh_tty',return_value='/synthetic/tty') as select,patch.object(m.os,'access',side_effect=[False,True]):
+            self.assertEqual(m.ready_diagnostic_tty(20),'/synthetic/tty')
+            select.assert_called_with('3-3','cafe','4011','Forgix USB RAM diagnostic v1')
+        clock[0]=0
+        with patch.object(m.time,'monotonic',side_effect=lambda:clock[0]),patch.object(m.time,'sleep',side_effect=sleep),patch.object(m,'fresh_tty',return_value='/synthetic/tty'),patch.object(m.os,'access',return_value=False),self.assertRaises(m.preserve.PreservationError):
+            m.ready_diagnostic_tty(.2)
+        self.assertAlmostEqual(clock[0],.2)
     def test_permission_wait_uses_same_budget_and_rechecks_identity(self):
         clock=[0.0]
         def sleep(seconds): clock[0]+=seconds
@@ -203,6 +219,7 @@ class Lifecycle(unittest.TestCase):
             stack.enter_context(patch.object(m,'ROOT',self.root))
             stack.enter_context(patch.object(m,'check_inputs'))
             stack.enter_context(patch.object(m,'fresh_tty',return_value='/synthetic/ttyACM4'))
+            stack.enter_context(patch.object(m.os,'access',return_value=True))
             stack.enter_context(patch.object(m,'BudgetInspector',return_value=self.inspector))
             stack.enter_context(patch.object(m,'OwnedPicotool',return_value=self.runner))
             full=stack.enter_context(patch.object(m,'full_preservation',side_effect=pre_error if pre_error else [({'status':'before'},Mock()),post_error if post_error else ({'status':'after'},Mock())]))
@@ -220,6 +237,10 @@ class Lifecycle(unittest.TestCase):
     def test_capture_failure_still_verifies_original(self):
         full,query,_=self.invoke(capture_error=RuntimeError('synthetic'))
         self.assertEqual(full.call_count,2);query.assert_called_once();self.assertTrue(self.record['original_flash_and_factory_verified']);self.assertEqual(self.record['status'],'failed')
+    def test_diagnostic_permission_failure_still_verifies_original(self):
+        with patch.object(m,'ready_diagnostic_tty',side_effect=m.preserve.PreservationError('permission deadline')),self.assertRaises(m.preserve.PreservationError):self.invoke()
+        self.assertTrue(self.record['original_flash_and_factory_verified'])
+        self.assertNotIn('capture',self.record)
     def test_cancel_still_verifies_original(self):
         full,query,_=self.invoke(capture_error=m.Cancelled('synthetic'))
         self.assertEqual(full.call_count,2);query.assert_called_once();self.assertTrue(self.args.cleaning)

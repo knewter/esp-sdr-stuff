@@ -235,6 +235,7 @@ def bounded_query(inspector, target, store, label, lockfd, deadline, runner):
     except OwnedHardwareClosureError:
         runner.hardware_process_closed = False
         raise
+    remaining(query_deadline, 1)
     require(code == 0, 'Bounded factory query failed; private transcript retained')
     return json.loads((store.path/(label+'-query-result.json')).read_text())
 
@@ -385,6 +386,19 @@ class BudgetInspector(preserve.Inspector):
         return super().wait(pid, bus, remaining(self.deadline, seconds))
 
 
+def ready_diagnostic_tty(deadline):
+    while True:
+        remaining(deadline, 1)
+        try:
+            port = fresh_tty('3-3', 'cafe', '4011', 'Forgix USB RAM diagnostic v1')
+            require(os.access(port, os.R_OK | os.W_OK, effective_ids=True), 'Diagnostic tty permissions not ready')
+        except (OSError, preserve.PreservationError):
+            time.sleep(remaining(deadline, .1))
+        else:
+            remaining(deadline, 1)
+            return port
+
+
 def full_preservation(inspector, tool, store, image, frozen, lockfd, deadline):
     runner = OwnedPicotool(tool, inspector, store, image, frozen, deadline)
     try:
@@ -450,13 +464,7 @@ def run_session(args, lockfd, record, frozen, binding, artifact, image):
         record['load_completed_monotonic_ns'] = time.monotonic_ns()
         factory_until = min(deadline, time.monotonic()+140)
         diag_until = time.monotonic()+min(20, remaining(deadline, 20))
-        while True:
-            try:
-                args.diagnostic_port = fresh_tty('3-3', 'cafe', '4011', 'Forgix USB RAM diagnostic v1')
-                break
-            except (OSError, preserve.PreservationError):
-                require(time.monotonic() < diag_until, 'Diagnostic USB/tty did not enumerate within allowance')
-                time.sleep(.1)
+        args.diagnostic_port = ready_diagnostic_tty(diag_until)
         record['capture'] = spawn_collector(args, private, lockfd, artifact['build_source_sha256'], deadline)
         record['collector_group_closed'] = True
     except BaseException as exc:

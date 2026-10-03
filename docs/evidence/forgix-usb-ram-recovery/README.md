@@ -18,5 +18,8 @@ The apparent device-node permission timing race is addressed by waiting for
 read/write access within the existing 15-second factory-query budget. Identity
 is checked on every poll and source inputs are rechecked before launch. The
 worker receives only the remaining budget; its errors are not retried. All
-32 focused tests pass, including delayed permissions, persistent denial and
-identity replacement. This is preparation, not a successful recovery result.
+35 focused tests pass, including delayed permissions, persistent denial,
+identity replacement and late-worker rejection. The diagnostic tty receives
+the same access gate within its existing 20-second enumeration budget;
+failure still invokes factory/flash verification. This is preparation, not
+a successful recovery result.
