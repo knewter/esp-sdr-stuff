@@ -106,7 +106,21 @@ scratch patterns including a final zero bit, then reads the counter again.
 The future physical collector must verify counter progression and every
 scratch value, restore the original scratch, read it back, then FINISH and
 independently verify complete original flash/factory return. It must retain
-failed or partial runs. The offline codec is not yet a serial trial runner.
+failed or partial runs. The injected-transport `RegisterRun` engine now implements that register test
+and retains partial exchanges in memory. Its caller must persist raw prefixes,
+own USB identity/lock/closure, and verify full factory return. Ambiguous replies
+stop further commands; valid pattern mismatch still attempts restoration.
+FINISH acknowledgment is not factory return. No serial trial runner or load
+lifecycle is provided. The saved-ELF startup audit runs separately:
+
+```sh
+nix develop .#forgix-spi-bridge --command task forgix:spi-bridge:startup-audit -- \
+  --artifact .scratch/forgix-spi-bridge-artifact-008 \
+  --output .scratch/forgix-startup-audit-001
+```
+
+The narrow recognized-sequence audit binds linked reset code/initializer slots
+and SDK reset defaults; it does not prove electrical/configuration continuity.
 
 Primary implementation references: [pinned SPIBone](https://github.com/enjoy-digital/litex/blob/8c01073afb71aa0a0709f02f8e24247589e8f5e4/litex/soc/cores/spi/spi_bone.py),
 [Raspberry Pi PIO APIs](https://www.raspberrypi.com/documentation/pico-sdk/hardware.html#hardware_pio)

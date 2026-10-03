@@ -1,0 +1,77 @@
+{
+  "kind": "offline-linked-startup-audit",
+  "result": "reviewed_transition_requires_qualification",
+  "source_commit": "a2995d769d1942714218d1a2388239160f061cc8",
+  "elf_sha256": "025d367aec734ad45be6e0709b9074bc7665e87c1abb35bb8d259f3cd776d7eb",
+  "manifest_sha256": "f9c80d7297c245881777e9b6a97ed997ad5201db40020488fa0b8c15443eda27",
+  "sdk_revision": "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779",
+  "sdk_nar_hash": "sha256-X9mPMzmeJzuhHp7VbTc8BLoF1LE41YOLxK0dAwgYEds=",
+  "sdk_source_sha256": {
+    "src/rp2_common/pico_runtime_init/runtime_init.c": "8f27e869e89fd761675ea9ab7acf253cd961e63c087243d1fdf21de87fcc6a0a",
+    "src/rp2350/hardware_regs/include/hardware/regs/resets.h": "8beb5a3e0820209846a558e685c5018d6902e6ff009e57d28534ad1ceed5fe11",
+    "src/rp2350/hardware_regs/include/hardware/regs/io_bank0.h": "a17c776050d23fc42edcccb828dc88b5ab2461495cbc26ecb1efeb7513cadc57",
+    "src/rp2350/hardware_regs/include/hardware/regs/pads_bank0.h": "42f57f7da807f41c54cb56b7b28b6ad2575a900ea215997674814a91f1a93a06"
+  },
+  "initializer_bindings": [
+    "runtime_init_early_resets",
+    "runtime_init_post_clock_resets"
+  ],
+  "early_assert_mask": "0xefef3b7f",
+  "early_release_mask": "0x3f3fff6",
+  "reset_blocks": {
+    "IO_BANK0": {
+      "asserted_by_early_reset": true,
+      "released_by_early_reset": true
+    },
+    "PADS_BANK0": {
+      "asserted_by_early_reset": true,
+      "released_by_early_reset": true
+    },
+    "PIO0": {
+      "asserted_by_early_reset": true,
+      "released_by_early_reset": true
+    }
+  },
+  "documented_gpio_reset_defaults": {
+    "1": {
+      "function_select": 31,
+      "pad_isolated": true,
+      "pull_down": true,
+      "pull_up": false
+    },
+    "2": {
+      "function_select": 31,
+      "pad_isolated": true,
+      "pull_down": true,
+      "pull_up": false
+    },
+    "3": {
+      "function_select": 31,
+      "pad_isolated": true,
+      "pull_down": true,
+      "pull_up": false
+    },
+    "4": {
+      "function_select": 31,
+      "pad_isolated": true,
+      "pull_down": true,
+      "pull_up": false
+    },
+    "5": {
+      "function_select": 31,
+      "pad_isolated": true,
+      "pull_down": true,
+      "pull_up": false
+    },
+    "19": {
+      "function_select": 31,
+      "pad_isolated": true,
+      "pull_down": true,
+      "pull_up": false
+    }
+  },
+  "hardware_opened": false,
+  "loading_admitted": false,
+  "conclusion": "Linked startup resets ordinary GPIO, pads and PIO before main. Prior FPGA configuration/pin continuity cannot be assumed. Main watchdog does not protect pre-main startup.",
+  "limits": "One recognized reset function and initializer bindings plus pinned SDK reset metadata. Not full boot-ROM/startup control-flow, external pull network, physical pin levels, timing, image continuity or recovery proof."
+}

@@ -185,8 +185,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Qualify FPGA grade, clock and timing; review linked startup and the complete load/recovery lifecycle, then test scratch/counter readback. Corrected bridge006 passes independent offline review; no FPGA was programmed.",
-      "rationale": "RAM PIO bridge006 allocates 27,968 SRAM bytes and passes layout/metadata checks. Nine real C/PIO/guard tests pass, including register readback across four nominal clock phases. Independent offline source/artifact review and 11 actual-C deadline/init regressions pass after the retained bridge004 failure. Linked PIO words match tested words. Physical electrical/startup/lifecycle qualification remains open. Guarded FPGA candidate003 passes all four Efinity stages. Fresh original-flash/factory verification passes after the retained timeout. Physical FPGA grade, revision, clock, timing and transport remain unverified. MCU USB 64 KiB/s remains lossless; 256 KiB/s lost 431 records exactly matching device discards. RF continuity remains open.",
+      "next": "Qualify FPGA grade, clock and timing; resolve configuration continuity across the audited SDK pin resets and review the complete load/recovery lifecycle. Host restoration engine passes injected-transport tests; physical readback remains pending.",
+      "rationale": "RAM PIO bridge008 allocates 27,968 SRAM bytes and passes layout/metadata checks. Nine real C/PIO/guard tests pass, including register readback across four nominal clock phases. Independent offline source/artifact review and 11 actual-C deadline/init regressions pass after the retained bridge004 failure. Linked PIO words match tested words. Nine host-engine checks and five independent fault probes pass. Linked startup audit binds GPIO/pad/PIO resets before main; FPGA image continuity and the complete USB load/recovery lifecycle remain unqualified. Guarded FPGA candidate003 passes all four Efinity stages. Fresh original-flash/factory verification passes after the retained timeout. Physical FPGA grade, revision, clock, timing and transport remain unverified. MCU USB 64 KiB/s remains lossless; 256 KiB/s lost 431 records exactly matching device discards. RF continuity remains open.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -215,7 +215,7 @@
         "docs/evidence/forgix-usb-ram-recovery/README.md",
         "docs/evidence/forgix-spi-bridge/README.md"
       ],
-      "reviewRevision": "8bcedf578491bdfff5ebdb3b05059ddc7a6e1430"
+      "reviewRevision": "a2995d769d1942714218d1a2388239160f061cc8"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",

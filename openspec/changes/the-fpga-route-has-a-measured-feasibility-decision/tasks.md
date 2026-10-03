@@ -63,3 +63,9 @@ offline artifact review and 11 actual-C deadline regressions; bridge004's failur
 is retained. Linked PIO words match the tested words. This is offline preparation: physical parameters, independent startup
 and load/recovery review, register readback and continuity remain gates.
 No bridge was loaded or FPGA programmed; progress remains 1/5.
+
+Bridge008 adds a tested finite host restoration engine and saved-ELF/SDK reset
+audit. GPIO/pads/PIO reset before main, so prior FPGA image continuity needs
+qualification or configuration after RAM startup. Host tests use injected
+transport; no physical register trial ran. Complete identity-selected USB
+load/recovery and physical timing remain open; progress stays 1/5.

@@ -9,24 +9,24 @@ is retained; it does not identify the physical FPGA grade or prove SPI timing.
 ## Actual build and artifact audit
 
 The locked `.#forgix-spi-bridge` shell and `task forgix:spi-bridge:build` produced
-corrected bridge006 from source commit `8bcedf578491bdfff5ebdb3b05059ddc7a6e1430` in
-5.37 seconds. Pico SDK2.2.0, exact TinyUSB revision86ad6e56, ARM GCC15.3.Rel1
+bridge008 from source commit `a2995d769d1942714218d1a2388239160f061cc8` in
+20.58 seconds. Pico SDK2.2.0, exact TinyUSB revision86ad6e56, ARM GCC15.3.Rel1
 and SDK pioasm2.2.0 come from Nix. The ELF has **27,968 allocated SRAM bytes**,
 an explicit4KiB core0 stack, no core1/heap allocation and RP2350 ARM no-flash
 metadata. ELF file size620,444 bytes includes nonloaded debug information.
 
-ELF SHA256: `7076ccec0a9e81d07e18405c1a5334cf7e256d10dbbab3d9bef8cd5e0cd4488e`.
+ELF SHA256: `025d367aec734ad45be6e0709b9074bc7665e87c1abb35bb8d259f3cd776d7eb`.
 Private build manifest SHA256:
-`bde5a519ad842ced02f89ec381d47d39be295fd8b80e51dca9146b76a2beba2c`.
+`f9c80d7297c245881777e9b6a97ed997ad5201db40020488fa0b8c15443eda27`.
 The [own-operator artifact audit](artifact-audit.json) checks committed inputs,
 every exported artifact hash, load layout, embedded PIO words and a freshly
 assembled RP2350-version1 header. This is not independent-agent review or
 whole-program/physical electrical proof. Loading admission stays false.
 
-Separate independent review passes bridge006's source/artifact bindings,
-layout and embedded instructions, plus all 11 actual-C adapter regressions.
+Separate independent review passes bridge008's source/artifact bindings,
+layout, embedded instructions, linked reset audit and finite host engine.
 Private review receipt SHA256:
-`f51483f9eaa06ea88783a80939ba48fa6ab616580bc81294b3f7c92abfa00f54`.
+`354d1320ec9ba11150f45e8230f017bf6a525741625854bc3152a7b287e2567d`.
 Its conclusion is **offline preparation only**. Physical timing, linked startup,
 configuration continuity and the complete load/recovery lifecycle remain open.
 
@@ -51,10 +51,10 @@ reads across four nominal clock phases, with delayed Wishbone ACK and CPU
 handoff stalls. It detects modeled RP/FPGA output contention and verifies no
 Wishbone request precedes the handoff. This is a digital instruction-subset
 model, not physical PIO, pad timing, input synchronization, FIFO-full stalling,
-fractional-divider jitter or metastability proof. Current CI runs 20 tests:
-19 pass, including 11 deadline/init-failure regressions against the actual C
-transaction functions using a mocked SDK; the Migen integration test explicitly
-skips in CI. The original
+fractional-divider jitter or metastability proof. Current CI runs 29 tests: 28 pass and the Migen integration test explicitly
+skips. This includes 11 deadline/init-failure regressions against actual C
+transaction functions using a mocked SDK and nine host-engine checks against
+fragmented replies from the compiled C protocol (fake register bank/transport). The original
 USB layout-policy suite also passes13tests.
 
 ## Retained failures
@@ -79,6 +79,32 @@ regressions now pass independently. These are software polling/acceptance
 bounds, not CPU-stall-independent physical pin-abort deadlines. The 2-second
 watchdog is a separate fallback; an already-issued scratch write cannot be
 rolled back. Failed builds and bridge004 review/reproducer remain retained.
+
+## Host engine and startup transition
+
+`RegisterRun` now saves scratch, checks all three patterns and advancing counter
+(including wrap), restores/readbacks scratch, and verifies FINISH. It retains
+partial requests/replies in memory. Valid semantic failure still attempts
+restore/FINISH; ambiguous framing, source/nonce/sequence/status, late replies or
+transport failure poison the session without retry or guessed cleanup. Failed
+restoration cannot report success. Cancellation propagates with the failed
+summary. Five additional independent late-frame/parser/cleanup/cancellation
+probes pass. This injected-transport engine opens no port: its future caller
+must persist private raw prefixes and own USB identity, lock, closure and full
+flash/factory verification. FINISH acknowledgment alone is not factory return.
+
+The [actual linked startup audit](startup-audit.json) recognizes the saved
+bridge008 reset instruction sequence and initializer-table bindings. It binds
+the exact SDK NAR and reset metadata: GPIO, pads and PIO0 are reset before main.
+For GPIO1/2/3/4/5/19, the SDK documents null function31, pad isolation and enabled
+pull-down at reset. External physical levels are unmeasured. The main watchdog
+starts afterward. This narrow audit is not full boot-ROM/startup control-flow
+or electrical proof. Four independent mutated-ELF probes refuse altered code,
+reset mapping/masks or initializer bindings.
+
+The lifecycle must qualify configuration retention through that transition or
+configure the exact guarded image after RAM startup. Neither configuration
+continuity nor the complete physical load/recovery path is admitted yet.
 
 ## Next physical gate
 
