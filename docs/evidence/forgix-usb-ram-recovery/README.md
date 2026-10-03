@@ -170,7 +170,7 @@ Private raw SHA-256:
 This verifies one synthetic MCU-to-host USB condition, not maximum throughput,
 FPGA transport, ESP DMA access or RF continuity. Earlier failures remain
 failed; the collector race remains a possible cause of condition 002.
-FPGA/RF task checkboxes remain unchanged. No further rate condition ran.
+FPGA/RF task checkboxes remain unchanged. At this checkpoint no further rate condition had run.
 
 Independent fixed-offset replay verified every CRC, deterministic payload,
 sequence, profile, private nonce and control-counter reconciliation. Replayed
@@ -179,3 +179,48 @@ flash copies and ten raw factory replies passed. All 14 recorded owned groups
 were independently absent; Docker absence was not independently queried.
 Review receipt SHA-256:
 `ca4813947107b749d1179f1488d5e505ad3f0060809ceaa43828b9ccca38b85c`.
+
+## Conditions 005/006: measured loss at 256 KiB/s
+
+Condition005 failed at factory serial open, errno5, before any query write,
+ROM/RAM operation or capture (8.067 s). Its worker closed. After the user's
+reconnect, recovery005 independently verified two fresh full original-flash
+copies, separate device verification and factory return. Failure-audit SHA:
+`8df478490ffe0ff0de0a1b9e193c5710c4952b015df45cc563cc222dd3805ef9`.
+Recovery-audit SHA:
+`4bdfa525856db83d80a452444ccca7570ead804862c53bca73f66d8ebc678512`.
+
+Separately declared condition006 at `213aff2` used the same reviewed RAM ELF
+and an explicit 262,144 B/s START. **Zero-loss qualification failed**:
+
+| Observed quantity | Result |
+| --- | ---: |
+| Device / host READY-to-END | 60.000002 / 60.001840703 s |
+| DATA payload / records | 15,530,520 B / 33,762 |
+| Host payload rate | 258,834.059 B/s |
+| Framed host bytes / CRC-valid records | 17,317,888 B / 33,824 |
+| Missing records / device discards / gap ranges | 431 / 431 / 13 |
+| Queue high-water / partial writes / stalled time | 16/16 / 2,423 / 1.315917 s |
+| Actual read pause / after READY | 0.100082557 / 30.023290385 s |
+
+Independent fixed-offset replay verified every retained CRC, deterministic
+payload, build/profile/nonce and counter reconciliation. All missing records
+match device discards. 114 were observed before the pause; it cannot explain
+all loss. Offline Nix/image/closure preparation ran concurrently on the host;
+its effect is unmeasured. This is no USB throughput ceiling or FPGA/RF result.
+
+Full pre/post preservation passed: four fresh 2 MiB copies, two device verifies
+and ten raw factory CRC/idle replies. Fourteen retained groups were absent;
+collector closure is supported by the verified cleanup path and same-user
+worker scan, since its exact PGID was not retained. No unclosed marker remained;
+Docker absence was not independently queried. No flash write or FPGA command.
+The 64 KiB/s zero-loss result remains the qualified condition.
+
+Session SHA:
+`7da74f973127bf1c4bc4f7f812925db7d9610c211b1d4c1e97a899947324d950`.
+Capture SHA:
+`91c0834a376a42a951756dbdbb2b411ba9320d82e21a8a688eb343477dd5b6d3`.
+Independent audit SHA:
+`0c8779e9332221e3629d982f6eaa2215c11a55e230ae08c522f961a351c78370`.
+Gap timing audit SHA:
+`b0a155dca7a0725c261fbd488394d915670d0018ffeb29f4b85a46f198f1eff4`.

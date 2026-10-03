@@ -21,7 +21,7 @@ const markdown = file.kind === "text" && file.text !== undefined && file.path.to
   : null;
 ---
 
-<Base title={`${file.name} — evidence`} description={`Committed evidence at ${file.path}.`}>
+<Base title={`${file.name} — evidence`} description={`Evidence: ${file.path}.`}>
   <nav class="crumbs">
     <a href={url("")}>&larr; all capabilities</a>
     <span class="mono dim">{file.path}</span>

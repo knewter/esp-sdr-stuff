@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Freeze and independently review a controlled RF protocol using the corrected monitor clocks. Obtain the required current eight-bit/BW12/hardware-gain positive baseline before Trial B; qualify source counts before reporting rates.",
-      "rationale": "Matched ten-bit controls retained 1,994 valid snapshots and reproduced one fresh complete owned BLE packet at manual48. Both full original-flash restorations pass. Three repeated reciprocal RF responses, calibrated filter/gain limits and the original eight-bit Trial B prerequisite remain unproved. Legacy100 reports actual0x3c/count0. Extended100 reports actual0x43/count100 in both readers, but its monitor deadline fails the whole episode; extended auxiliary AD supplies no legacy RF denominator. Independent review accepts the retained outcomes and cleanup. The corrected readiness/capture clocks now pass 26 project tests and ten independent checks offline; no new hardware episode has used them.",
-      "reviewRevision": "8e74fd12524572ab8d3130140fd14dcd41e27fcc",
+      "next": "Prepare the required current eight-bit/BW12/hardware-gain RF positive control. Qualify an applicable emitted denominator before reception rates; Trial B remains gated.",
+      "rationale": "Matched ten-bit controls retain 1,994 valid snapshots and one fresh complete owned packet at manual48; full restorations pass. Three reciprocal RF responses, calibrated gain/filter limits and the required original eight-bit positive control remain unproved. Extended100 readiness001 now completes with controller count100 and cleanup, but supplies no applicable legacy RF denominator or new ESP capture. Earlier failed source episodes remain retained.",
+      "reviewRevision": "213aff2dede63bcc97993694fb78e11aeeea85bd",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -106,7 +106,8 @@
         "docs/evidence/ble-extended-count-limit-100-001/README.md",
         "docs/evidence/ble-extended-count-limit-100-independent-review/README.md",
         "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md",
-        "docs/evidence/ble-monitor-readiness-independent-review/README.md"
+        "docs/evidence/ble-monitor-readiness-independent-review/README.md",
+        "docs/evidence/ble-extended-count-limit-100-readiness-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
@@ -118,9 +119,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Freeze and review exact runtime images/closures in the root context before the source-only extended100 readiness episode; 24 source tests and independent timing review pass. The failed predecessor and original RF Trial B gates remain unchanged.",
-      "rationale": "Five historical complete owned SDR packets and one independently reproduced fresh ten-bit/manual48 packet establish working BLE decoding. Repeatable detection rates remain open: legacy100 reports count0; extended100 reports count100 but the full monitoring episode fails and is not the legacy marker condition. The offline monitor deadline correction is reviewed. No loss/rate gate or original Trial B prerequisite is waived.",
-      "reviewRevision": "8e74fd12524572ab8d3130140fd14dcd41e27fcc",
+      "next": "Prepare the required current eight-bit/BW12/hardware-gain RF positive control. Qualify an applicable emitted denominator before reception rates; Trial B remains gated.",
+      "rationale": "Five historical complete owned packets and one fresh ten-bit/manual48 packet establish decoding. Extended100 readiness001 now passes actual controller count100 in both readers, normal monitor completion and full cleanup. Auxiliary-channel advertising supplies no legacy channel-37 air denominator. Earlier failed episodes, legacy count0/unknown and original RF gates remain retained; observation rates are open.",
+      "reviewRevision": "213aff2dede63bcc97993694fb78e11aeeea85bd",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -184,8 +185,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Prepare separately reviewed higher-rate MCU USB conditions. One 64 KiB/s condition passed; maximum throughput is unknown. Confirm FPGA grade, oscillator and PCB revision before the selected FPGA transport.",
-      "rationale": "After reconnect, factory stability002 and recovery004 passed. RAM condition004 delivered 3,932,540 payload bytes in a 60-second device run, with 8,611 CRC-valid records, zero missing records/discards and a 101 ms host-read pause. Full pre/post original-flash and factory verification passed; owned workers closed. Earlier failures remain retained. This narrows one MCU USB condition only: maximum throughput, FPGA transport, DMA access and RF continuity remain unverified.",
+      "next": "Diagnose USB stalls and buffering before separately declaring another condition. Confirm FPGA grade, oscillator and PCB revision before matching gateware.",
+      "rationale": "MCU RAM USB condition004 passes 64 KiB/s without loss. Condition005 failed before loading; user reconnect and recovery005 verified original flash and factory return. Condition006 delivered 15,530,520 payload bytes over 60 seconds at requested 256 KiB/s, with 431 missing records exactly matching device discards. Full preservation passes; zero-loss qualification fails. Loss predates the host pause, with concurrent offline host preparation of unmeasured effect. Maximum USB capacity, FPGA transport and RF continuity remain unverified.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -213,7 +214,7 @@
         "docs/evidence/forgix-usb-ram-trial-001-review/README.md",
         "docs/evidence/forgix-usb-ram-recovery/README.md"
       ],
-      "reviewRevision": "cc9599dcbcbccf7f4a926a08298616830b82908d"
+      "reviewRevision": "213aff2dede63bcc97993694fb78e11aeeea85bd"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",

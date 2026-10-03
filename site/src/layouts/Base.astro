@@ -3,7 +3,7 @@ import "../styles/global.css";
 import "../styles/sdr.css";
 import { specs, url } from "../lib/specs";
 interface Props { title: string; description?: string; source?: "specs" | "hand" | "work" }
-const { title, description = "Evaluate an original ESP32 as an SDR alongside an RTL-SDR Blog V4 and FPGA options.", source = "hand" } = Astro.props;
+const { title, description = "ESP32 SDR experiments with RTL-SDR and FPGA comparisons.", source = "hand" } = Astro.props;
 const links = [["", "Overview"], ["work/", "Experiments"], ["compare/", "RTL-SDR comparison"], ["fpga/", "FPGA routes"], ["evidence/", "Evidence"], ["sources/", "Sources"]];
 ---
 <!doctype html>
@@ -19,7 +19,7 @@ const links = [["", "Overview"], ["work/", "Experiments"], ["compare/", "RTL-SDR
   <a class="skip-link" href="#content">Skip to content</a>
   <header class="site-header"><a class="brand" href={url("")} aria-label="ESP32 SDR Lab home"><span class="brand-mark" aria-hidden="true">∿</span><span>ESP32 <b>SDR LAB</b></span></a><nav aria-label="Main navigation">{links.map(([path,label]) => <a href={url(path)} aria-current={Astro.url.pathname === url(path) ? "page" : undefined}>{label}</a>)}</nav><button id="theme-toggle" class="theme-button" type="button" aria-label="Switch between light and dark">◐</button></header>
   <div id="content" class="page-shell"><slot /></div>
-  <footer class="lab-footer"><div><a class="brand" href={url("")}>ESP32 <b>SDR LAB</b></a><p>One board. Two receivers. Evidence before assumptions.</p></div><div><p>Snapshot {specs.generated} · <a href={url("revision.json")}><code>{specs.sourceRevision.slice(0,12)}</code></a></p><p><a href={url("ledger/")}>Accepted ledger</a> · <a href="https://github.com/knewter/esp-sdr-stuff">GitHub</a> · <a href="https://openspec.dev">OpenSpec</a></p><p class="dim">{source === "work" ? "Committed task status; hardware proof is separate." : source === "specs" ? "Accepted requirements rendered from the repository." : "Results, upstream reports and plans are distinct."}</p></div></footer>
+  <footer class="lab-footer"><div><a class="brand" href={url("")}>ESP32 <b>SDR LAB</b></a><p>Measured SDR experiments.</p></div><div><p>Snapshot {specs.generated} · <a href={url("revision.json")}><code>{specs.sourceRevision.slice(0,12)}</code></a></p><p><a href={url("ledger/")}>Accepted ledger</a> · <a href="https://github.com/knewter/esp-sdr-stuff">GitHub</a> · <a href="https://openspec.dev">OpenSpec</a></p><p class="dim">{source === "work" ? "Committed task status; hardware proof is separate." : source === "specs" ? "Accepted requirements rendered from the repository." : "Measurements and plans."}</p></div></footer>
   <script>document.querySelector("#theme-toggle")?.addEventListener("click",()=>{const root=document.documentElement;root.dataset.theme=root.dataset.theme === "dark" ? "light" : "dark";try{localStorage.setItem("sdr-theme",root.dataset.theme)}catch{}});</script>
 </body>
 </html>

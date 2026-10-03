@@ -56,3 +56,5 @@ reproduce one fresh complete owned packet in manual ten-bit capture 48 and
 retain zero owned packets in the hardware-gain condition. All 1,994 transport
 records, source cleanup and full restorations pass. No emitted denominator or
 three-response result follows, and tasks 1.1/1.2 stay unchecked.
+
+The [October 3 readiness condition](docs/evidence/ble-extended-count-limit-100-readiness-review/README.md) passes typed controller count100 in both readers, normal monitor completion and cleanup. Extended auxiliary-channel AD supplies no original legacy-channel air denominator or reception hit rate. Tasks 1.1/1.2 and original Trial B gates stay open; earlier failed diagnostics remain retained.

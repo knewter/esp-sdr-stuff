@@ -40,3 +40,5 @@ can narrow the downstream host-link budget without assuming FPGA constraints.
 Actual compiled ELF, bounded lifecycle/recovery review and physical preflight
 are still required; USB-only success would not complete task 2.1 for the selected
 FPGA transport or establish SRAM/RF integration.
+
+The [October 3 MCU USB follow-up](docs/evidence/forgix-usb-ram-recovery/README.md) retains failed005, verified recovery005 and condition006: 256 KiB/s loses 431 records, exactly accounted by device discards; full original-flash/factory preservation passes. Earlier 64 KiB/s remains qualified. This narrows the MCU segment, not the selected FPGA transport; checkboxes remain unchanged.
