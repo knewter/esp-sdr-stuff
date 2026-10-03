@@ -345,7 +345,7 @@ tasks:
   forgix:spi-bridge:test:
     desc: Check real C protocol and PIO/guard simulations without hardware
     cmds:
-      - python3 -m unittest discover -s tests -p test_forgix_spi_bridge.py
+      - python3 -m unittest discover -s tests -p 'test_forgix_spi_bridge*.py'
 
   forgix:spi-bridge:plan:
     desc: Generate a finite offline register plan in a fresh private directory
