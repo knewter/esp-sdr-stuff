@@ -1,11 +1,11 @@
 # Forgix host toolchain setup
 
-Checked 2026-10-02. The project now has an actual Nix-built host environment
+Checked 2026-10-03. The project now has an actual Nix-built host environment
 for Forgix: Migen, LiteX, the Forgix platform/target, MicroPython `mpremote`,
 Icarus Verilog, Verilator and Yosys. Efinity is a separate licensed input;
 Efinity 2026.1.132 is now installed in permanent ignored local storage and its
-CLI works through Nix. A complete generic T8F81/C2 vendor example now compiles
-and produces a fresh bitstream; the connected Forgix build remains unverified.
+CLI works through Nix. A generic T8F81/C2 example and an explicitly provisional
+T8F49/I2 Forgix candidate now compile; connected-board behavior remains unverified.
 [Complete compiler evidence](../evidence/efinity-compile-smoke-002/README.md). [Actual installation evidence](../evidence/efinity-install-001/README.md).
 These checks opened no hardware and replaced no MCU firmware.
 
@@ -231,11 +231,28 @@ compatibility must be checked rather than assumed.
 
 ## Physical constraints and compilation gate
 
+An isolated software candidate can be reproduced without pretending the board
+parameters are confirmed:
+
+```sh
+nix develop .#forgix --command task forgix:fpga:candidate:test
+nix develop .#forgix --command task forgix:fpga:candidate -- --private .scratch/forgix-fpga-candidate-next
+```
+
+Use a fresh private directory. This fixes T8F49/I2, 32 MHz, passive-SPI x1,
+SPIBone/counter/scratch, and exactly four internal physical pins. It disables
+LED chaser, edge demos and scope, hashes consumed RTL/ROM/constraints, requires
+all four compiler stages and retains failed attempts. It does not program a
+board or set `--verified-parameters`. [Actual candidate evidence](../evidence/forgix-toolchain/README.md)
+records the passing second attempt and retained initial guard failure.
+
 The [pinned LiteX platform](https://github.com/litex-hub/litex-boards/blob/10debf146d433ce8ac8aedcac84e97d252ff4d5b/litex_boards/platforms/adiuvo_forgix.py)
 assumes `T8F49C2`, 32 MHz, clock ball B4 and its published I/O layout.
 The [manufacturer schematic](https://bitbucket.org/adiuvo-engineering/forgix_public/raw/c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f/Schematic/RP2350_FPGA_eensy.pdf)
 instead labels `T8F49I2X` and does not establish the fitted oscillator frequency.
-The connected board's grade, oscillator marking and revision remain unverified.
+The [pinned KiCad BOM](https://api.bitbucket.org/2.0/repositories/adiuvo-engineering/forgix_public/src/c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f/Kicad_Project/RP2350_FPGA_eensy-main.zip)
+documents a 32 MHz KYX oscillator at B4, enabled by RP GPIO19. Photos resolve
+the RP's separate 12 MHz crystal; physical FPGA grade, clock and revision remain unverified.
 No upstream default is accepted as a measured board constraint.
 
 The user's underside photo shows an AP MEMORY package and NANO / FPGA HORIZONS
@@ -246,7 +263,9 @@ The visible memory package and branding are consistent with that board;
 NANO is consistent with the manufacturing partner's branding. This is a photo
 interpretation, not a fitted FPGA identification: the underside image does not
 confirm the opposite-side FPGA grade, oscillator marking or board revision.
-It provides no reason to substitute another FPGA family's toolchain.
+Later component-side photos and the BOM support the T8F49 candidate;
+the physical grade remains provisional. There is no reason to substitute
+another FPGA family's toolchain.
 
 `--plan` and `--build-dir` require `--device`, `--clock-hz`,
 `--board-revision` and `--verified-parameters`. The software cannot verify the
@@ -260,6 +279,9 @@ with external demo I/O and scope disabled.
 Keep the preserved native RP2350 factory loader. Installing `mpremote` on the
 host does not install MicroPython on the board. The upstream MicroPython
 SPIBone example is a possible later, separately preserved MCU experiment.
+The unchanged factory loader keeps GPIO3 driving MOSI after END and cannot
+read SPIBone registers. A separately reviewed RP bridge must release and
+reacquire that bidirectional line and verify the original factory return.
 Its host unit tests and register transactions do not establish sustained IQ
 transport rate, overflow behavior, latency, RF sampling or SDR usefulness.
 Those need named physical evidence under the existing FPGA evaluation plan.

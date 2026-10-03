@@ -42,3 +42,11 @@ are still required; USB-only success would not complete task 2.1 for the selecte
 FPGA transport or establish SRAM/RF integration.
 
 The [October 3 MCU USB follow-up](docs/evidence/forgix-usb-ram-recovery/README.md) retains failed005, verified recovery005 and condition006: 256 KiB/s loses 431 records, exactly accounted by device discards; full original-flash/factory preservation passes. Earlier 64 KiB/s remains qualified. This narrows the MCU segment, not the selected FPGA transport; checkboxes remain unchanged.
+
+The [October 3 photo/BOM review](docs/evidence/fpga-inventory/README.md) resolves
+the documented RP 12 MHz crystal and FPGA 32 MHz oscillator, but physical grade,
+clock and revision remain unverified. A [provisional T8F49/I2 candidate](docs/evidence/forgix-toolchain/README.md)
+now passes all four offline Efinity stages with exactly four assigned internal
+pins. This is software preparation. The factory loader still drives MOSI after
+END; reviewed RP SPI turnaround and a fresh preserved attachment precede any
+physical readback. No FPGA transport/RF task closes; progress remains 1/5.

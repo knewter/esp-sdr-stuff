@@ -185,8 +185,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Diagnose USB stalls and buffering before separately declaring another condition. Confirm FPGA grade, oscillator and PCB revision before matching gateware.",
-      "rationale": "MCU RAM USB condition004 passes 64 KiB/s without loss. Condition005 failed before loading; user reconnect and recovery005 verified original flash and factory return. Condition006 delivered 15,530,520 payload bytes over 60 seconds at requested 256 KiB/s, with 431 missing records exactly matching device discards. Full preservation passes; zero-loss qualification fails. Loss predates the host pause, with concurrent offline host preparation of unmeasured effect. Maximum USB capacity, FPGA transport and RF continuity remain unverified.",
+      "next": "Review RP GPIO3 SPI turnaround and original-factory return; qualify actual FPGA grade/clock/connectivity and refresh preservation before synthetic register readback. Offline candidate now compiles.",
+      "rationale": "Photos and pinned KiCad BOM resolve the documented RP 12 MHz crystal and FPGA 32 MHz oscillator. Provisional T8F49/I2 candidate002 passes map/interface/pnr/pgm with exactly four assigned internal pins; no board was programmed. Actual grade, PCB revision, clock and SPI I/O timing remain unverified. Factory loader keeps MOSI driven after END; reviewed RP bridge is required. Latest read-only survey finds preserved USB attachment absent. MCU USB 64 KiB/s remains lossless; 256 KiB/s lost 431 records exactly matching device discards, with original flash/factory verification passing. Maximum USB capacity, complete FPGA transport and RF continuity remain open.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -214,7 +214,7 @@
         "docs/evidence/forgix-usb-ram-trial-001-review/README.md",
         "docs/evidence/forgix-usb-ram-recovery/README.md"
       ],
-      "reviewRevision": "213aff2dede63bcc97993694fb78e11aeeea85bd"
+      "reviewRevision": "fdde1e55a3e68c074611af70b96081849803e14c"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",

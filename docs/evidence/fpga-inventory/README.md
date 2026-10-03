@@ -13,13 +13,13 @@ Evidence classes: **read-only host enumeration**, **reviewed primary designs** a
 
 ## Forgix design versus the actual board
 
-The user reports owning an **Adiuvo Forgix**. The physical revision, oscillator marking and edge-pin availability remain uninspected. A later [physical MCU preservation trial](../forgix-preservation/README.md) identifies the factory loader and USB interface.
+The user owns an **Adiuvo Forgix** and supplied component-side, underside and clock close-up photos. They are retained privately. The FPGA grade, PCB revision and electrical behavior remain unverified. A later [physical MCU preservation trial](../forgix-preservation/README.md) identifies the factory loader and USB interface.
 
 The [official Forgix specifications](https://forgix.tech/) list RP2354, Trion T8F49, USB 1.1, APS1604M PSRAM, an external oscillator, 3.3 V I/O and 1.1 V FPGA core. These are product specifications rather than measurements of this user's board.
 
 The [Adiuvo schematic at revision c1d83e3](https://bitbucket.org/adiuvo-engineering/forgix_public/raw/c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f/Schematic/RP2350_FPGA_eensy.pdf) is dated February 24, 2026 and has a blank drawing revision. Its hash and reviewed repository revisions are in [source metadata](source-revisions.json). The drawing identifies **T8F49I2X** and wires PSRAM to the **RP QSPI** controller. It does not expose a direct FPGA-to-PSRAM bus. Oscillator part `ECS-2520MV-xxx-xx` is a placeholder, not a frequency specification.
 
-[LiteX's pinned platform](https://github.com/litex-hub/litex-boards/blob/10debf146d433ce8ac8aedcac84e97d252ff4d5b/litex_boards/platforms/adiuvo_forgix.py) instead selects **T8F49C2**, assumes **32 MHz** at FPGA **B4**, and sets FPGA banks to 3.3 V. Confirm silicon grade and oscillator against the physical board before compiling its target. Differences must be resolved explicitly, not silently treated as equivalent revisions.
+[LiteX's pinned platform](https://github.com/litex-hub/litex-boards/blob/10debf146d433ce8ac8aedcac84e97d252ff4d5b/litex_boards/platforms/adiuvo_forgix.py) instead selects **T8F49C2**, assumes **32 MHz** at FPGA **B4**, and sets FPGA banks to 3.3 V. The explicitly provisional offline candidate below does not declare those physical parameters verified. Resolve the differences before admitting a matching physical trial.
 
 The [upstream developer's tested SPIBone flow](https://github.com/enjoy-digital/aduivo_forgix_test/tree/e7c71b750ca61690a70bc79ebd6ff5fbc65cedad) loads a passive-SPI FPGA image from MicroPython and reuses a bidirectional three-wire bus. Its reported validation belongs to the upstream assembly, not this one. Pin mappings agree with the reviewed schematic:
 
@@ -79,7 +79,7 @@ This is a **partial feasibility decision**. Sustained rates, CRC/sequence integr
 
 Physical inputs needed to proceed:
 
-1. Connect Forgix by USB and identify it by an unplug/replug delta. Provide its board revision and readable oscillator/FPGA markings (or the exact accompanying schematic/BOM revision). Establish current RP firmware and preserve it before replacement.
+1. Re-establish the preserved USB identity when a physical trial is ready. Photos are already received; qualify actual FPGA grade, used-pin connectivity and clock against the reviewed design. Refresh original-firmware preservation before replacement.
 2. Confirm exposed ESP and Forgix edge pins, common ground, actual I/O voltage and clock source. Make the ESP data link only after the mapping is checked; no wiring is performed by software.
 3. For the PCI card, confirm markings and a JTAG adapter with the correct target-voltage support. Map GND/VREF with measurements, then perform a read-only chain scan before selecting constraints or programming. Establish a cold-cycle recovery method before loading a volatile bitstream; host power cycling requires user action.
 
@@ -94,8 +94,35 @@ the detected 2 MiB flash range match exactly, separate verification passes,
 and the unchanged factory application responds after returning from ROM.
 The pinned picotool capacity heuristic and MCU-only backup limits are explicit.
 
-This clears USB identification and MCU preservation prerequisites, not FPGA
+This historically clears USB identification and MCU preservation prerequisites, not FPGA
 inventory or transport acceptance. Physical PCB revision, FPGA grade,
-oscillator and header wiring remain unknown. [Bring-up preparation](../../research/forgix-bringup.md)
+clock behavior and header wiring remain unverified. [Bring-up preparation](../../research/forgix-bringup.md)
 distinguishes PROGRAM and the FPGA button; neither is assumed to be a
 physical ROM BOOTSEL bypass.
+
+## October 3 photo and primary-design follow-up
+
+The [pinned KiCad archive and BOMs](https://api.bitbucket.org/2.0/repositories/adiuvo-engineering/forgix_public/src/c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f/Kicad_Project/RP2350_FPGA_eensy-main.zip)
+resolve the documented clocks: **Y1 is the RP's 12 MHz crystal**;
+**Y2 is KYX K2C320003.310, 32 MHz**, output to FPGA B4 and enable from RP GPIO19.
+The photo's clear `12.000 MHz` marking belongs to Y1; Y2's coded marking
+is unresolved and no physical frequency was measured. The archive SHA-256 is
+`b4c04a7688cdd3a145507b3b02c25549b651a09d15a957aa136e9d7901a36bd0`.
+The BOM names T8F49I2X; the official example and LiteX use C2. Photo I2 remains
+provisional. The PCB source's `>>REVISION<<` is a placeholder, not a revision.
+Independent private documentary/photo review SHA-256:
+`12390e406b2b0deb2878d3fb21eb3156f5953414ede158417c88c0592b0689e7`.
+
+The [pinned factory loader](https://api.bitbucket.org/2.0/repositories/adiuvo-engineering/forgix_public/src/c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f/BitStream_Loader/firmware/pico/src/fpga_config.c)
+keeps RP GPIO3 driving SPI MOSI after END. SPIBone reuses F2 bidirectionally;
+register readback requires a reviewed RP turnaround bridge. END also leaves
+LOADER_DONE, so return to the preserved idle factory state needs an explicit
+lifecycle. HELLO/STATUS do not identify FPGA grade or measure its clock.
+Factory source SHA-256:
+`9aa9674c328cec6603f235e3398a3f4621a94a42868d901c034008c98df26246`.
+
+A [provisional T8F49/I2 offline build](../forgix-toolchain/README.md) now exists.
+It is not physical FPGA acceptance. The current read-only sysfs survey found
+the preserved USB attachment absent; it opened no device. The earlier condition006
+flash/factory verification remains historical, not a fresh preservation claim.
+No more photos are needed for the current software preparation.
