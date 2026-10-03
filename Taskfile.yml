@@ -321,3 +321,13 @@ tasks:
     desc: Test RAM lifecycle identity, timeout, cancellation and closure with synthetic fixtures only
     cmds:
       - python3 -m unittest discover -s tests -p test_forgix_usb_ram_trial.py
+
+  forgix:fpga:candidate:
+    desc: Compile provisional T8F49/I2 32MHz gateware privately; never programs a device
+    cmds:
+      - python3 tools/forgix_fpga_candidate.py {{.CLI_ARGS}}
+
+  forgix:fpga:candidate:test:
+    desc: Candidate source, output and refusal checks; no hardware or vendor compile
+    cmds:
+      - python3 -m unittest discover -s tests -p test_forgix_fpga_candidate.py
