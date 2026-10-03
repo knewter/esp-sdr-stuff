@@ -118,7 +118,7 @@ def assemble(directory):
     if not pioasm or not str(Path(pioasm).resolve()).startswith('/nix/store/'):
         raise RuntimeError('Pinned Nix pioasm required')
     output=Path(directory)/'wire.pio.h'
-    subprocess.run([pioasm,'-o','c-sdk',str(ROOT/'firmware/forgix-spi-bridge/wire.pio'),str(output)],check=True,capture_output=True,timeout=30)
+    subprocess.run([pioasm,'-o','c-sdk','-v','1',str(ROOT/'firmware/forgix-spi-bridge/wire.pio'),str(output)],check=True,capture_output=True,timeout=30)
     text=output.read_text();result={}
     for name in ('request','response'):
         body=re.search(r'forgix_'+name+r'_program_instructions\[\] = \{(.*?)\};',text,re.S).group(1)
