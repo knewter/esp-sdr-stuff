@@ -471,14 +471,14 @@ const items = await Promise.all(work.items.map(async (item) => ({
   }
 </script>
 
-<style>
-  :global(body:has(.work-page)) { padding-inline: clamp(16px, 3vw, 40px); }
+<style is:global>
+  body:has(.work-page) { padding-inline: clamp(16px, 3vw, 40px); }
   .work-page { max-width: 1540px; margin: 0 auto 5rem; }
   .work-breadcrumb, .work-kicker, .work-meta, .work-jump, .lane-head, .card-top, .card-states, .card-next strong { font-family: var(--mono); }
   .work-breadcrumb { display:flex; gap:.7rem; font-size:.77rem; color:var(--muted); margin-bottom:clamp(1.5rem,3vw,2.5rem); }
   .work-intro { max-width:1100px; }
   .work-kicker { color:var(--accent); text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; font-weight:600; }
-  h1 { font-family:var(--sans); font-size:clamp(2.35rem,4vw,4rem); line-height:1.04; letter-spacing:-.035em; margin:.5rem 0 .9rem; max-width:1100px; }
+  .work-intro h1 { font-family:var(--sans); font-size:clamp(2.35rem,4vw,4rem); line-height:1.04; letter-spacing:-.035em; margin:.5rem 0 .9rem; max-width:1100px; }
   .work-lede { font-size:clamp(1rem,1.2vw,1.16rem); color:var(--ink-2); line-height:1.48; max-width:960px; }
   .work-meta { display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; color:var(--muted); font-size:.7rem; margin:1.3rem 0 1.9rem; }
   .work-meta strong { color:var(--ink); }
@@ -594,17 +594,17 @@ const items = await Promise.all(work.items.map(async (item) => ({
   .detail-document-heading span { color:var(--muted); font-size:.59rem; overflow-wrap:anywhere; }
   .detail-sources { display:flex; flex-wrap:wrap; gap:.4rem 1rem; border-top:1px solid var(--rule); padding-top:1rem; color:var(--muted); font-size:.67rem; }
   .detail-sources strong { flex-basis:100%; color:var(--ink-2); }
-  :global(.work-markdown) { overflow-wrap:anywhere; font-size:.94rem; line-height:1.65; }
-  :global(.work-markdown h1), :global(.work-markdown h2), :global(.work-markdown h3), :global(.work-markdown h4) { font-family:var(--sans); line-height:1.18; margin:1.4em 0 .5em; }
-  :global(.work-markdown h1) { font-size:1.65rem; } :global(.work-markdown h2) { font-size:1.3rem; } :global(.work-markdown h3) { font-size:1.08rem; }
-  :global(.work-markdown p), :global(.work-markdown ul), :global(.work-markdown ol) { margin:.65rem 0 1rem; }
-  :global(.work-markdown li) { margin:.3rem 0; }
-  :global(.work-markdown pre) { overflow-x:auto; max-width:100%; padding:.85rem; border:1px solid var(--rule); border-radius:5px; background:var(--surface-2); font: .77rem/1.5 var(--mono); }
-  :global(.work-markdown pre code) { border:0; background:none; padding:0; word-break:normal; white-space:pre; }
-  :global(.work-markdown table) { display:block; overflow-x:auto; border-collapse:collapse; max-width:100%; margin:1rem 0; font-size:.78rem; }
-  :global(.work-markdown th), :global(.work-markdown td) { border:1px solid var(--rule); padding:.4rem .55rem; min-width:5rem; }
-  :global(.work-markdown th) { background:var(--surface-2); font-family:var(--sans); text-align:left; }
-  :global(.work-markdown blockquote) { border-left:3px solid var(--accent); margin:1rem 0; padding:.1rem 1rem; color:var(--ink-2); }
+  .work-markdown { overflow-wrap:anywhere; font-size:.94rem; line-height:1.65; }
+  .work-markdown h1, .work-markdown h2, .work-markdown h3, .work-markdown h4 { font-family:var(--sans); line-height:1.18; margin:1.4em 0 .5em; }
+  .work-markdown h1 { font-size:1.65rem; } .work-markdown h2 { font-size:1.3rem; } .work-markdown h3 { font-size:1.08rem; }
+  .work-markdown p, .work-markdown ul, .work-markdown ol { margin:.65rem 0 1rem; }
+  .work-markdown li { margin:.3rem 0; }
+  .work-markdown pre { overflow-x:auto; max-width:100%; padding:.85rem; border:1px solid var(--rule); border-radius:5px; background:var(--surface-2); font: .77rem/1.5 var(--mono); }
+  .work-markdown pre code { border:0; background:none; padding:0; word-break:normal; white-space:pre; }
+  .work-markdown table { display:block; overflow-x:auto; border-collapse:collapse; max-width:100%; margin:1rem 0; font-size:.78rem; }
+  .work-markdown th, .work-markdown td { border:1px solid var(--rule); padding:.4rem .55rem; min-width:5rem; }
+  .work-markdown th { background:var(--surface-2); font-family:var(--sans); text-align:left; }
+  .work-markdown blockquote { border-left:3px solid var(--accent); margin:1rem 0; padding:.1rem 1rem; color:var(--ink-2); }
   @media (max-width:1100px) { .work-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .lane-head { min-height:95px; } }
   @media (max-width:650px) { .work-grid { grid-template-columns:minmax(0,1fr); } .work-jump { grid-template-columns:repeat(2,minmax(0,1fr)); } .lane-head { min-height:0; margin-top:.65rem; } .lane-items { grid-template-columns:minmax(0,1fr); } .work-card { padding:1rem 1.1rem; } .work-dialog { width:100vw; height:100dvh; margin:0; border:0; border-radius:0; } .dialog-bar { padding:.5rem .9rem; } .detail-body { padding:1rem; } .detail-document-heading span { flex-basis:100%; } }
 </style>
