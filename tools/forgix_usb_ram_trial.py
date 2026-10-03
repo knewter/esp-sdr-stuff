@@ -31,6 +31,13 @@ ELF_SHA = '6808b8145aada14b53cb0f46bb7379ecc80cb59181c3dd381555f8b934b58784'
 MANIFEST_SHA = '832086100c1256eef53ec7ca15a10b5414c5e57e1847af4fcbe7f8ea4c1b1da3'
 PROFILE_SOURCE_SHA = 'd560280bd4c12f2dda3a7312314a0abc968ac2cc4309793709aa4da584bac7ce'
 PROTOCOL = 'docs/research/forgix-usb-ram-trial-protocol.md'
+RATES = (65536, 262144, 786432)
+
+
+def requested_rate(args):
+    rate = getattr(args, 'rate', 65536)
+    require(type(rate) is int and rate in RATES, 'Unsupported payload rate')
+    return rate
 
 
 def sha(path):
@@ -418,17 +425,21 @@ def full_preservation(inspector, tool, store, image, frozen, lockfd, deadline):
 
 
 def spawn_collector(args, private, lockfd, source_sha, deadline):
-    command = [sys.executable, str(ROOT/'tools/forgix_usb_ram_capture.py'), '--usb-topology', '3-3', '--port', args.diagnostic_port, '--operator-lock-fd', str(lockfd), '--operator-lock-path', str(ROOT/'.scratch/esp-demo.lock'), '--build-source-sha256', source_sha, '--rate', '65536', '--output', str(private/'capture')]
+    rate = requested_rate(args)
+    command = [sys.executable, str(ROOT/'tools/forgix_usb_ram_capture.py'), '--usb-topology', '3-3', '--port', args.diagnostic_port, '--operator-lock-fd', str(lockfd), '--operator-lock-path', str(ROOT/'.scratch/esp-demo.lock'), '--build-source-sha256', source_sha, '--rate', str(rate), '--output', str(private/'capture')]
     code = owned_worker(command, private/'collector.log', lockfd, remaining(deadline, 100))
     remaining(deadline, 1)
     require(code == 0, 'Collector failed; retained private prefix')
     capture = json.loads((private/'capture/manifest.json').read_text())
+    echoed = capture.get('requested_payload_Bps')
+    require(type(echoed) is int and echoed == rate, 'Collector requested rate differs')
     require(capture.get('status') == 'complete_integrity_verified' and capture.get('raw_persistence_verified') is True and capture.get('raw_saved_matches_received_length') is True and capture.get('loss_accounted') is True and capture.get('verified_no_record_loss') is True, 'Zero-loss collector terminal receipt not verified; drops retained as failed qualification')
     return capture
 
 
 def run_session(args, lockfd, record, frozen, binding, artifact, image):
     """Injectable through module helpers in synthetic lifecycle tests."""
+    record['requested_payload_Bps'] = requested_rate(args)
     deadline = time.monotonic()+600
     initial_port = fresh_tty('3-3', '2e8a', preserve.FACTORY_PID)
     require(args.factory_port is None or str(Path(args.factory_port).resolve()) == initial_port, 'Initial explicit factory port does not match fresh identity-selected tty')
@@ -519,6 +530,7 @@ def run_session(args, lockfd, record, frozen, binding, artifact, image):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--action', choices=('run', 'recover'), default='run')
+    parser.add_argument('--rate', type=int, choices=RATES, default=65536, help='Payload bytes/s for one run')
     parser.add_argument('--factory-port', help='Optional constraint on initial factory tty only; future tty is identity-derived')
     parser.add_argument('--private-dir', required=True, type=Path)
     parser.add_argument('--prior-session', type=Path)
@@ -542,6 +554,8 @@ def main():
     handlers = {s: signal.signal(s, cancel) for s in (signal.SIGINT, signal.SIGTERM)}
     private = None
     record = {'kind': 'RAM-only synthetic USB trial', 'status': 'failed', 'flash_writes': 0, 'fpga_programming_requested': False}
+    if a.action == 'run':
+        record['requested_payload_Bps'] = a.rate
     code = 2
     try:
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(), 'Unverified owned resource marker blocks all device access')

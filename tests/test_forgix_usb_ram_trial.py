@@ -7,6 +7,34 @@ from unittest.mock import patch,Mock
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
 import forgix_usb_ram_trial as m
 
+class Rates(unittest.TestCase):
+    def test_collector_rate_propagation_and_receipt_binding(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);(root/'capture').mkdir()
+            receipt=dict(status='complete_integrity_verified',raw_persistence_verified=True,raw_saved_matches_received_length=True,loss_accounted=True,verified_no_record_loss=True)
+            for rate in m.RATES:
+                args=SimpleNamespace(diagnostic_port='/synthetic',rate=rate)
+                receipt['requested_payload_Bps']=rate
+                (root/'capture/manifest.json').write_text(json.dumps(receipt))
+                with patch.object(m,'owned_worker',return_value=0) as worker:
+                    self.assertEqual(m.spawn_collector(args,root,9,'a'*64,time.monotonic()+200),receipt)
+                    command=worker.call_args.args[0]
+                    self.assertEqual(command[command.index('--rate')+1],str(rate))
+            args.rate=65536
+            for echo in (786432,65536.0):
+                receipt['requested_payload_Bps']=echo
+                (root/'capture/manifest.json').write_text(json.dumps(receipt))
+                with patch.object(m,'owned_worker',return_value=0),self.assertRaises(m.preserve.PreservationError):m.spawn_collector(args,root,9,'a'*64,time.monotonic()+200)
+    def test_default_and_invalid_internal_rates(self):
+        self.assertEqual(m.requested_rate(SimpleNamespace()),65536)
+        for rate in (True,False,0,65537,'262144'):
+            with patch.object(m,'owned_worker') as worker,self.assertRaises(m.preserve.PreservationError):m.spawn_collector(SimpleNamespace(rate=rate),Path('/synthetic'),9,'a'*64,200)
+            worker.assert_not_called()
+    def test_invalid_cli_rate_refuses_preflight(self):
+        stderr=io.StringIO()
+        with patch.object(m.sys,'argv',['trial','--rate','65537']),patch.object(m,'original_binding') as binding,patch.object(m.sys,'stderr',stderr),self.assertRaises(SystemExit) as error:m.main()
+        self.assertEqual(error.exception.code,2);self.assertIn('invalid choice',stderr.getvalue());binding.assert_not_called()
+
 class PicotoolVersion(unittest.TestCase):
     def test_exact_banner_accepted_from_either_stream_after_success(self):
         banner='picotool v2.3.1 (Linux, GNU-15.3.0, Release)\n'
@@ -234,6 +262,12 @@ class Lifecycle(unittest.TestCase):
         full,query,cap=self.invoke();self.assertEqual(full.call_count,2);query.assert_called_once();cap.assert_called_once()
         self.assertTrue(self.record['original_flash_and_factory_verified']);self.assertEqual(self.record['flash_writes'],0)
         self.assertEqual([c.args[0] for c in self.runner.run.call_args_list],['boot','load'])
+        self.assertEqual(self.record['requested_payload_Bps'],65536)
+    def test_selected_rate_session_provenance(self):
+        self.args.rate=262144
+        _,_,cap=self.invoke()
+        self.assertEqual(self.record['requested_payload_Bps'],262144)
+        self.assertEqual(cap.call_args.args[0].rate,262144)
     def test_capture_failure_still_verifies_original(self):
         full,query,_=self.invoke(capture_error=RuntimeError('synthetic'))
         self.assertEqual(full.call_count,2);query.assert_called_once();self.assertTrue(self.record['original_flash_and_factory_verified']);self.assertEqual(self.record['status'],'failed')
