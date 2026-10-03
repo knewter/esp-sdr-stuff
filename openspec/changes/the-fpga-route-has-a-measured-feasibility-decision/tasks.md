@@ -56,3 +56,9 @@ fresh original-flash copies, separate device comparison and factory return
 after a retained serial-control failure and user reconnect. Guarded candidate003
 passes offline compilation and asynchronous simulations. Its actual RP pin
 release, grade/clock and register transport remain unqualified; no checkbox changes.
+
+The [RAM PIO register bridge](docs/evidence/forgix-spi-bridge/README.md) now
+compiles and passes C/PIO/guard host tests. Linked PIO words match the tested
+words. This is offline preparation: physical parameters, independent startup
+and load/recovery review, register readback and continuity remain gates.
+No bridge was loaded or FPGA programmed; progress remains 1/5.

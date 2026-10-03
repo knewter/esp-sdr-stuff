@@ -185,8 +185,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Implement the RP bridge for the guarded FPGA protocol, qualify actual grade/clock/connectivity, then test scratch/counter readback. Reconnect and fresh original-flash/factory verification pass.",
-      "rationale": "Guarded candidate003 passes all four offline Efinity stages; eight asynchronous simulations and 15 candidate tests pass under an explicit unmeasured RP release contract. No FPGA was programmed. Following a retained serial DTR-control timeout and user reconnect, two fresh full 2 MiB reads match the original, separate device verification and factory return pass, and owned processes close. Actual FPGA grade, PCB revision, clock and SPI timing remain unverified. MCU USB 64 KiB/s remains lossless; 256 KiB/s lost 431 records exactly matching device discards. Complete FPGA transport and RF continuity remain open.",
+      "next": "Review the compiled RAM PIO bridge and its load/recovery lifecycle; qualify FPGA grade, clock and timing, then test scratch/counter readback. The bridge and guarded gateware compile; no FPGA was programmed.",
+      "rationale": "RAM PIO bridge004 allocates 27,616 SRAM bytes and passes layout/metadata checks. Nine real C/PIO/guard tests pass, including register readback across four nominal clock phases. Own-operator audit matches linked PIO words to tested words; independent electrical/startup/lifecycle review remains open. Guarded FPGA candidate003 passes all four Efinity stages. Fresh original-flash/factory verification passes after the retained timeout. Physical FPGA grade, revision, clock, timing and transport remain unverified. MCU USB 64 KiB/s remains lossless; 256 KiB/s lost 431 records exactly matching device discards. RF continuity remains open.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -212,9 +212,10 @@
         "docs/evidence/forgix-usb-ram-version-review/README.md",
         "docs/evidence/forgix-usb-ram-trial-001/README.md",
         "docs/evidence/forgix-usb-ram-trial-001-review/README.md",
-        "docs/evidence/forgix-usb-ram-recovery/README.md"
+        "docs/evidence/forgix-usb-ram-recovery/README.md",
+        "docs/evidence/forgix-spi-bridge/README.md"
       ],
-      "reviewRevision": "60ba10c686db5c039a10c077ec4f0fa1e2465cb9"
+      "reviewRevision": "2fc097ebcbf45a5ecc0be18a09da84c9c003c201"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",

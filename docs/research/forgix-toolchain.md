@@ -290,3 +290,11 @@ reacquire that bidirectional line and verify the original factory return.
 Its host unit tests and register transactions do not establish sustained IQ
 transport rate, overflow behavior, latency, RF sampling or SDR usefulness.
 Those need named physical evidence under the existing FPGA evaluation plan.
+
+The [RAM-only PIO bridge](../evidence/forgix-spi-bridge/README.md) now compiles
+and supplies a prospective handoff for the guarded register ABI. Use
+`nix develop .#forgix-spi-bridge --command task forgix:spi-bridge:test` for host
+checks. Build and offline-plan commands are in
+[its protocol documentation](../../firmware/forgix-spi-bridge/README.md).
+There is no load/program task: fitted parameters, physical timing and the
+identity-preserving load/recovery lifecycle still need qualification.

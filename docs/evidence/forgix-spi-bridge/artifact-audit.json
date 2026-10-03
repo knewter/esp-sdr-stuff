@@ -1,0 +1,24 @@
+{
+  "kind": "own-operator-offline-bridge-artifact-audit",
+  "result": "passed",
+  "source_commit": "2f86290a319ca037baac3dc6b857d462bd5fb72a",
+  "manifest_sha256": "e36c1c5b2e0b52cf13c2f5b7a105910d81aebb46016b4fc1f3f27729f95bf928",
+  "allocated_load_bytes": 27616,
+  "elf_bytes": 618148,
+  "embedded_pio_programs": {
+    "request": {
+      "words": 12,
+      "embedded_sha256": "2c401ee9b39bb95870e5eede2ac77434a9749097ae5cd106c71cf04db7d5f78e"
+    },
+    "response": {
+      "words": 7,
+      "embedded_sha256": "4121d7dc34176fc5b437ffc775ecd13c5dd19ff7049bdc02cf0d88ff9d2d3bc8"
+    }
+  },
+  "source_and_artifact_hashes_match": true,
+  "fresh_pio_v1_header_matches": true,
+  "tested_v0_instruction_words_identical_to_actual_v1": true,
+  "hardware_opened": false,
+  "loading_admitted": false,
+  "limitations": "Own-operator layout/metadata and PIO word audit. Not an independent agent review, whole-program electrical proof, startup/MMIO/input synchronization/fractional divider proof, factory recovery proof or physical timing qualification."
+}
