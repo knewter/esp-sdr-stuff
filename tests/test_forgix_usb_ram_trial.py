@@ -128,6 +128,30 @@ class Guards(unittest.TestCase):
         def broken(*args,**kwargs):runner.hardware_process_closed=False;raise OSError('synthetic receipt failure')
         with patch.object(m,'OwnedPicotool',return_value=runner),patch.object(m.preserve,'preserve',side_effect=broken),self.assertRaises(m.OwnedHardwareClosureError):m.full_preservation(Mock(),'synthetic',Mock(),'synthetic',{},9,time.monotonic()+1)
 
+class QueryReadiness(unittest.TestCase):
+    def test_permission_wait_uses_same_budget_and_rechecks_identity(self):
+        clock=[0.0]
+        def sleep(seconds): clock[0]+=seconds
+        inspector=Mock();runner=Mock();store=Mock();store.path=Path('/synthetic')
+        with patch.object(m.time,'monotonic',side_effect=lambda:clock[0]),patch.object(m.time,'sleep',side_effect=sleep),patch.object(m,'fresh_tty',return_value='/synthetic/tty'),patch.object(m.os,'access',side_effect=[False,False,True]),patch.object(m,'check_inputs') as checks,patch.object(m,'owned_worker',return_value=0) as worker,patch.object(Path,'read_text',return_value='{}'):
+            self.assertEqual(m.bounded_query(inspector,Mock(),store,'returned',9,600,runner),{})
+            self.assertAlmostEqual(worker.call_args.args[-1],14.9)
+            self.assertEqual(inspector.confirm.call_count,4)
+            self.assertEqual(checks.call_count,2)
+    def test_missing_permission_expires_without_worker_or_request(self):
+        clock=[0.0]
+        def sleep(seconds): clock[0]+=1
+        store=Mock();runner=Mock()
+        with patch.object(m.time,'monotonic',side_effect=lambda:clock[0]),patch.object(m.time,'sleep',side_effect=sleep),patch.object(m,'fresh_tty',return_value='/synthetic/tty'),patch.object(m.os,'access',return_value=False),patch.object(m,'check_inputs'),patch.object(m,'owned_worker') as worker,self.assertRaises(m.preserve.PreservationError):
+            m.bounded_query(Mock(),Mock(),store,'returned',9,600,runner)
+        worker.assert_not_called();store.json.assert_not_called()
+    def test_changed_identity_refuses_during_permission_wait(self):
+        inspector=Mock();inspector.confirm.side_effect=[None,m.preserve.PreservationError('identity changed')]
+        store=Mock()
+        with patch.object(m.time,'monotonic',return_value=0),patch.object(m.time,'sleep'),patch.object(m,'fresh_tty',return_value='/synthetic/tty'),patch.object(m.os,'access',return_value=False),patch.object(m,'check_inputs'),patch.object(m,'owned_worker') as worker,self.assertRaises(m.preserve.PreservationError):
+            m.bounded_query(inspector,Mock(),store,'returned',9,600,Mock())
+        worker.assert_not_called();store.json.assert_not_called()
+
 class LockedAdmission(unittest.TestCase):
     def invoke_main(self, root, action, flock_effect=None, input_effect=None):
         argv=['trial','--action',action,'--private-dir',str(root/'backups/new'),

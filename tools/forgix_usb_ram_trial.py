@@ -217,13 +217,21 @@ def owned_worker(command, log, lockfd, timeout):
 
 
 def bounded_query(inspector, target, store, label, lockfd, deadline, runner):
+    query_deadline = time.monotonic() + remaining(deadline, 15)
+    check_inputs(runner.frozen)
+    while True:
+        remaining(query_deadline, 1)
+        inspector.confirm(target)
+        inspector.port = Path(fresh_tty('3-3', '2e8a', preserve.FACTORY_PID))
+        if os.access(inspector.port, os.R_OK | os.W_OK, effective_ids=True):
+            break
+        time.sleep(min(.05, remaining(query_deadline, .05)))
     check_inputs(runner.frozen)
     inspector.confirm(target)
-    inspector.port = Path(fresh_tty('3-3', '2e8a', preserve.FACTORY_PID))
     request = {'topology': inspector.topology, 'port': str(inspector.port), 'target': target.__dict__, 'label': label, 'lockfd': lockfd}
     path = store.json(label+'-query-request.json', request)
     try:
-        code = owned_worker([sys.executable, str(Path(__file__).resolve()), '_query', '--request', str(path)], store.path/(label+'-query.log'), lockfd, remaining(deadline, 15))
+        code = owned_worker([sys.executable, str(Path(__file__).resolve()), '_query', '--request', str(path)], store.path/(label+'-query.log'), lockfd, remaining(query_deadline, 15))
     except OwnedHardwareClosureError:
         runner.hardware_process_closed = False
         raise
