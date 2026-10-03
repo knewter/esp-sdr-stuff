@@ -15,7 +15,7 @@
 #define CLOCK_ENABLE 19u
 #define MAX_LIFETIME_US UINT64_C(120000000)
 #define TRANSACTION_US UINT64_C(20000)
-const char diagnostic_profile[] __attribute__((used,retain)) = "FORGIX_SPI_RAM_V1;no_flash;rp2350-arm;heap0;stack4096;max120s;sdk2.2.0;tinyusb86ad6e56";
+const char diagnostic_profile[] = "FORGIX_SPI_RAM_V1;no_flash;rp2350-arm;heap0;stack4096;max120s;sdk2.2.0;tinyusb86ad6e56";
 static PIO const wire_pio=pio0;
 static unsigned sm,tx_offset,rx_offset;
 static bool pins_ready;
