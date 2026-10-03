@@ -9,19 +9,26 @@ is retained; it does not identify the physical FPGA grade or prove SPI timing.
 ## Actual build and artifact audit
 
 The locked `.#forgix-spi-bridge` shell and `task forgix:spi-bridge:build` produced
-bridge004 from source commit `2f86290a319ca037baac3dc6b857d462bd5fb72a` in
-9.99 seconds. Pico SDK2.2.0, exact TinyUSB revision86ad6e56, ARM GCC15.3.Rel1
-and SDK pioasm2.2.0 come from Nix. The ELF has **27,616 allocated SRAM bytes**,
+corrected bridge006 from source commit `8bcedf578491bdfff5ebdb3b05059ddc7a6e1430` in
+5.37 seconds. Pico SDK2.2.0, exact TinyUSB revision86ad6e56, ARM GCC15.3.Rel1
+and SDK pioasm2.2.0 come from Nix. The ELF has **27,968 allocated SRAM bytes**,
 an explicit4KiB core0 stack, no core1/heap allocation and RP2350 ARM no-flash
-metadata. ELF file size618,148 bytes includes nonloaded debug information.
+metadata. ELF file size620,444 bytes includes nonloaded debug information.
 
-ELF SHA256: `c8c3da4cb4748054d256db645f23d068b6eff4272396079d98f3017d78f0b22d`.
+ELF SHA256: `7076ccec0a9e81d07e18405c1a5334cf7e256d10dbbab3d9bef8cd5e0cd4488e`.
 Private build manifest SHA256:
-`e36c1c5b2e0b52cf13c2f5b7a105910d81aebb46016b4fc1f3f27729f95bf928`.
+`bde5a519ad842ced02f89ec381d47d39be295fd8b80e51dca9146b76a2beba2c`.
 The [own-operator artifact audit](artifact-audit.json) checks committed inputs,
 every exported artifact hash, load layout, embedded PIO words and a freshly
 assembled RP2350-version1 header. This is not independent-agent review or
 whole-program/physical electrical proof. Loading admission stays false.
+
+Separate independent review passes bridge006's source/artifact bindings,
+layout and embedded instructions, plus all 11 actual-C adapter regressions.
+Private review receipt SHA256:
+`f51483f9eaa06ea88783a80939ba48fa6ab616580bc81294b3f7c92abfa00f54`.
+Its conclusion is **offline preparation only**. Physical timing, linked startup,
+configuration continuity and the complete load/recovery lifecycle remain open.
 
 The request program has12words and the response program7words. The actual
 linked instruction arrays match those used in the passing simulation. The
@@ -44,8 +51,10 @@ reads across four nominal clock phases, with delayed Wishbone ACK and CPU
 handoff stalls. It detects modeled RP/FPGA output contention and verifies no
 Wishbone request precedes the handoff. This is a digital instruction-subset
 model, not physical PIO, pad timing, input synchronization, FIFO-full stalling,
-fractional-divider jitter or metastability proof. Current CI repeats eight
-host/PIO checks and explicitly skips the Migen integration test. The original
+fractional-divider jitter or metastability proof. Current CI runs 20 tests:
+19 pass, including 11 deadline/init-failure regressions against the actual C
+transaction functions using a mocked SDK; the Migen integration test explicitly
+skips in CI. The original
 USB layout-policy suite also passes13tests.
 
 ## Retained failures
@@ -60,6 +69,16 @@ unchanged identity requirement. All failed directories/manifests/logs remain
 private and unchanged; none opened hardware. The initial standalone pioasm
 invocation also refused because the SDK package exports no executable; a
 separate SDK-pinned Nix pioasm derivation supplies it.
+
+Independent review then rejected bridge004's deadline behavior: an already-ready
+PIO flag or FIFO could bypass elapsed-time checks; init failures were ignored.
+The retained actual-C regression reproduced 10 failures and one timely baseline
+pass. Bridge006 checks ready stages, init results and late acceptance, caps the
+transaction deadline at the 120-second lifetime, and uses fresh ARM time. All 11
+regressions now pass independently. These are software polling/acceptance
+bounds, not CPU-stall-independent physical pin-abort deadlines. The 2-second
+watchdog is a separate fallback; an already-issued scratch write cannot be
+rolled back. Failed builds and bridge004 review/reproducer remain retained.
 
 ## Next physical gate
 

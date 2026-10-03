@@ -1,10 +1,10 @@
 {
   "kind": "own-operator-offline-bridge-artifact-audit",
   "result": "passed",
-  "source_commit": "2f86290a319ca037baac3dc6b857d462bd5fb72a",
-  "manifest_sha256": "e36c1c5b2e0b52cf13c2f5b7a105910d81aebb46016b4fc1f3f27729f95bf928",
-  "allocated_load_bytes": 27616,
-  "elf_bytes": 618148,
+  "source_commit": "8bcedf578491bdfff5ebdb3b05059ddc7a6e1430",
+  "manifest_sha256": "bde5a519ad842ced02f89ec381d47d39be295fd8b80e51dca9146b76a2beba2c",
+  "allocated_load_bytes": 27968,
+  "elf_bytes": 620444,
   "embedded_pio_programs": {
     "request": {
       "words": 12,
