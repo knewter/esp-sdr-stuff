@@ -93,3 +93,38 @@ injects a valid CONFIG at DTR: stock pyserial loses it, the corrected opener
 retains and decodes all 512 bytes. A second test verifies descriptor closure
 on configuration failure. All 39 collector tests pass through Nix/Task.
 This source correction is not a successful hardware result.
+
+Independent review of condition 002 verified the loaded ELF, 13 frozen inputs,
+four fresh matching flash copies, separate device verifications and ten raw
+CRC-valid factory replies. It checked 14 recorded process-group closures and
+independently found those groups absent; it did not query Docker containers.
+Review receipt SHA-256:
+`642e4d7a919aa90c5305d1614865f7b444efef37829823acbe98512c91df55c5`.
+The committed opener correction at `6a9e6d29d0f437d3b22884cf757639b9fcfdacdc`
+passed 39 independent tests plus six extra POSIX-open probes, including bytes
+arriving at kernel open, unexpected-prefix rejection and descriptor cleanup.
+Code/admission receipt SHA-256:
+`14c9d69d97b9e0f7d0bf996dba395a535318507d2d8fc20b69e9faeb1d497070`.
+
+## Condition 003: factory preflight stopped before loading
+
+The separately declared attempt at that revision failed its initial factory
+query: the USB DTR-control ioctl timed out (errno 110), and the parent's
+15-second worker deadline expired. Total hardware session: **15.929222235
+seconds**. The owned worker closed; no factory reply, ROM operation, RAM load,
+capture, flash write or FPGA programming occurred. This does not test the
+collector correction. Session receipt SHA-256:
+`4c8eabe1fc9ec79433fa0d53a036b7e8821bd7f2c38a1a363262b5e79a5e4f51`.
+
+A subsequent read-only sysfs survey still sees the original factory identity
+and a read/write-accessible tty at the selected topology. Enumeration and
+permissions do not prove factory communication. The condition 002 post-trial
+flash/factory proof remains a historical pass; current factory communication
+needs a physical reconnect and new verification before another declared trial.
+No automatic retry ran. All FPGA tasks remain unchanged.
+
+Independent saved-file review verified all five condition 003 files, frozen
+inputs and original artifact. A same-user process scan found no matching owned
+workers or unclosed marker; specific query PID reaping is a parent attestation
+because no query group ID was recorded. Review receipt SHA-256:
+`4fbf8ca3741ea745f107cd5d9c2936784353c69431880fc91c1e2f767d6370cc`.

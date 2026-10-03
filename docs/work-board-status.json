@@ -184,8 +184,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Establish a stable Forgix USB connection and verify factory return. Fresh full original-flash verification passed, but both recovery attempts remain failed. Declare a separate payload episode only after recovery; FPGA markings remain required.",
-      "rationale": "After user replug, recovery001 obtained valid factory replies, two matching original 2 MiB reads and separate ROM verification, then failed on returned serial permissions. Reviewed bounded readiness fixes pass 35 tests and five independent probes. Recovery002 failed at initial serial open with I/O error; kernel USB descriptor errors followed and the device disappeared. No RAM load, payload condition, flash write or FPGA programming ran. Recovery awaits another physical reconnect; original FPGA/RF gates remain open.",
+      "next": "Reconnect Forgix and verify stable factory communication and original flash. The reviewed collector fix still needs a fresh physical episode: condition003 stopped before loading. FPGA markings and the selected transport remain separate gates.",
+      "rationale": "A 60-second factory check and recovery003 passed. RAM condition002 loaded but received zero bytes before CONFIG timeout; full original-flash/factory verification passed afterward. A possible serial-open flush race is corrected and independently reviewed with 39 tests plus six probes. Condition003 stopped at factory USB control timeout before ROM/RAM operations; owned workers closed. The original identity still enumerates, but present factory communication is unverified. All failed episodes and FPGA/RF gates remain open.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -213,7 +213,7 @@
         "docs/evidence/forgix-usb-ram-trial-001-review/README.md",
         "docs/evidence/forgix-usb-ram-recovery/README.md"
       ],
-      "reviewRevision": "e315d6bc7aa897e6524f763b152d0ddebdf9e0b1"
+      "reviewRevision": "6a9e6d29d0f437d3b22884cf757639b9fcfdacdc"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
