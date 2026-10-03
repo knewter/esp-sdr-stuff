@@ -28,7 +28,7 @@ class Candidate(unittest.TestCase):
         (self.private / 'console.log').write_text(''.join(s+' : PASS\n' for s in c.smoke.STAGES))
         (self.out / (c.NAME + '.log')).write_text(''.join('Stage completed: '+s+'\n' for s in c.smoke.STAGES))
         self.image = self.out / (c.NAME + '.hex'); self.image.write_bytes(b'0123abcd\n')
-        self.generated={'pins':c.PINS,'generated_sha256':{}}
+        self.generated={'pins':c.PINS,'generated_sha256':{},'guard':{'sha256':b.sha(b.ROOT/'tools/forgix_spi_guard.py'),'idle_cycles':32,'turnaround_cycles':64}}
         content={c.NAME+'.v':'$readmemh("'+c.NAME+'_mem.init", mem);', c.NAME+'.sdc':c.CLOCK,'iface.py':IFACE,c.NAME+'_mem.init':'4c\n69\n'}
         for name,data in content.items():
             (self.work/name).write_text(data);self.generated['generated_sha256'][name]=b.sha(self.work/name)
@@ -67,6 +67,10 @@ class Candidate(unittest.TestCase):
     def test_clock_change_rejected(self):
         (self.work/(c.NAME+'.sdc')).write_text(c.CLOCK.replace('31.25','83.333'))
         with self.assertRaisesRegex(b.Refusal,'clock'):c.verify_outputs(self.private,0)
+    def test_guard_source_and_cycle_policy_are_bound(self):
+        self.generated['guard']['turnaround_cycles']=63
+        (self.private/'generated.json').write_text(json.dumps(self.generated))
+        with self.assertRaisesRegex(b.Refusal,'Guard'):c.verify_outputs(self.private,0)
     def test_missing_stage_and_pgmpass_without_image_rejected(self):
         (self.private/'console.log').write_text('map : PASS\npnr : PASS\npgm : PASS\n')
         with self.assertRaises(b.Refusal):c.verify_outputs(self.private,0)

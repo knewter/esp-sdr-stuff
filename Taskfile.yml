@@ -331,3 +331,8 @@ tasks:
     desc: Candidate source, output and refusal checks; no hardware or vendor compile
     cmds:
       - python3 -m unittest discover -s tests -p test_forgix_fpga_candidate.py
+
+  forgix:fpga:guard:test:
+    desc: Simulate guarded SPIBone under the explicit RP release contract; no hardware
+    cmds:
+      - python3 -m unittest discover -s tests -p test_forgix_spi_guard.py

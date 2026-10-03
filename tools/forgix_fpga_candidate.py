@@ -24,7 +24,8 @@ GENERATED = (NAME + '.v', NAME + '.sdc', 'iface.py', NAME + '_mem.init')
 REVISIONS = {'boards': '10debf146d433ce8ac8aedcac84e97d252ff4d5b', 'litex': '8c01073afb71aa0a0709f02f8e24247589e8f5e4'}
 PROFILE = {'device': 'T8F49', 'timing_model': 'I2', 'requested_clock_hz': 32000000,
            'configuration_mode': 'passive', 'physical_confirmation': False,
-           'programming_admitted': False, 'spi_turnaround_verified': False}
+           'programming_admitted': False, 'spi_turnaround_verified': False, 'spi_guard_system_cycles': {'idle':32,'turnaround':64},
+           'rp_release_contract_physically_verified': False}
 
 
 def provenance():
@@ -35,7 +36,7 @@ def provenance():
 
 def source_hashes():
     root = b.ROOT
-    files = ('tools/forgix_fpga_candidate.py', 'tools/efinity_bootstrap.py', 'tools/efinity_compile_smoke.py',
+    files = ('tools/forgix_fpga_candidate.py', 'tools/forgix_spi_guard.py', 'tools/efinity_bootstrap.py', 'tools/efinity_compile_smoke.py',
              'Taskfile.yml', 'flake.nix', 'flake.lock', 'nix/forgix-toolchain.nix')
     result = {}
     for name in files:
@@ -127,7 +128,8 @@ def make_soc(platform_class):
     from litex.soc.interconnect.csr import AutoCSR, CSRStatus, CSRStorage
     from litex.gen import LiteXModule
     from litex_boards.platforms import adiuvo_forgix as board
-    from litex_boards.targets.adiuvo_forgix import BaseSoC
+    from litex_boards.targets import adiuvo_forgix as target
+    from forgix_spi_guard import GuardedSPIBone
     class Registers(LiteXModule, AutoCSR):
         def __init__(self):
             self.counter = CSRStatus(32, name='counter')
@@ -136,14 +138,17 @@ def make_soc(platform_class):
             self.sync += count.eq(count + 1)
             self.comb += self.counter.status.eq(count)
     original = board.Platform
+    original_core = target.SPIBone
     try:
         board.Platform = platform_class
-        soc = BaseSoC(sys_clk_freq=32000000, with_spibone=True, with_led_chaser=False,
+        target.SPIBone = GuardedSPIBone
+        soc = target.BaseSoC(sys_clk_freq=32000000, with_spibone=True, with_led_chaser=False,
                       with_demo_leds=False, with_demo_io=False, with_demo_scope=False)
         soc.registers = Registers()
         return soc
     finally:
         board.Platform = original
+        target.SPIBone = original_core
 
 
 def worker(private):
@@ -153,6 +158,7 @@ def worker(private):
     from litex_boards.platforms import adiuvo_forgix as board
     from litex.soc.integration.builder import Builder
     from litex.build import tools
+    from forgix_spi_guard import GuardedSPIBone, ARM_CYCLES, TURN_CYCLES
     class Candidate(board.Platform):
         default_clk_freq = 32000000
         default_clk_period = 31.25
@@ -186,7 +192,8 @@ def worker(private):
     b.require(fixed == generated_hashes(work), 'Generated RTL, constraints or memory changed during compile')
     validate_interface(work)
     validate_project(work)
-    b.save(private / 'generated.json', {'pins': resolved, 'upstream_files': sources, 'generated_sha256': fixed,
+    b.save(private / 'generated.json', {'pins': resolved,
+           'guard': {'sha256': b.sha(Path(inspect.getfile(GuardedSPIBone))), 'idle_cycles':ARM_CYCLES, 'turnaround_cycles':TURN_CYCLES}, 'upstream_files': sources, 'generated_sha256': fixed,
            'project_before_sha256': project, 'project_after_sha256': b.sha(work / (NAME + '.xml'))})
 
 
@@ -260,6 +267,9 @@ def verify_outputs(private, started):
     b.require(meta.is_file() and not meta.is_symlink() and meta.stat().st_nlink == 1 and meta.stat().st_size <= 65536, 'Invalid generated provenance')
     generated = json.loads(meta.read_text())
     b.require(generated['pins'] == validate_interface(work), 'Unexpected candidate pins')
+    guard = generated.get('guard', {})
+    expected = {'sha256':b.sha(b.ROOT / 'tools/forgix_spi_guard.py'), 'idle_cycles':32, 'turnaround_cycles':64}
+    b.require(guard == expected and type(guard.get('idle_cycles')) is int and type(guard.get('turnaround_cycles')) is int, 'Guard source or cycle policy changed')
     b.require(generated.get('generated_sha256') == generated_hashes(work), 'Generated source hashes changed')
     return {'stages': list(smoke.STAGES), 'bitstream_sha256': b.sha(image), 'bitstream_bytes': image.stat().st_size, 'generated': generated}
 
