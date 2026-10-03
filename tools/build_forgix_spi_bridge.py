@@ -47,7 +47,10 @@ def main():
   execute(['cmake','-S',str(project),'-B',str(build),'-G','Ninja','-DCMAKE_BUILD_TYPE=Release'],log,ROOT)
   execute(['cmake','--build',str(build),'--parallel','2'],log,ROOT)
   elf=build/'forgix_spi_bridge.elf';payload=elf.read_bytes();(out/elf.name).write_bytes(payload)
-  for name in ('forgix_spi_bridge.map','wire.pio.h'):(out/name).write_bytes((build/name).read_bytes())
+  maps=list(build.glob('*.map'))
+  if len(maps)!=1:raise ValueError('exactly one linked map required')
+  (out/'forgix_spi_bridge.map').write_bytes(maps[0].read_bytes())
+  (out/'wire.pio.h').write_bytes((build/'wire.pio.h').read_bytes())
   for name,command in [('symbols.txt',['arm-none-eabi-readelf','-W','-l','-S','-s',str(elf)]),
                        ('disassembly.txt',['arm-none-eabi-objdump','-d',str(elf)])]:
    execute(command,out/name,ROOT,timeout=30)
