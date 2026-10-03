@@ -1,4 +1,4 @@
-# Forgix recovery after physical replug
+# Forgix RAM USB trials and recovery
 
 Recovery 001 ran October 2, 2026 local time (October 3 UTC), using execution
 revision `3aa20b7a66336811efb17b85c87c42bd3e9011fd`. Initial factory
@@ -128,3 +128,54 @@ inputs and original artifact. A same-user process scan found no matching owned
 workers or unclosed marker; specific query PID reaping is a parent attestation
 because no query group ID was recorded. Review receipt SHA-256:
 `4fbf8ca3741ea745f107cd5d9c2936784353c69431880fc91c1e2f767d6370cc`.
+
+## Condition 004: one MCU USB condition passed
+
+After the next user reconnect, factory stability 002 passed for 60.000972
+seconds with 121 identity/access samples. Recovery 004 then verified two fresh
+full original 2 MiB copies, separate device verification and factory return.
+Independent admission receipt SHA-256:
+`d0fb0184ea5adff4902b19b99ca2f03e263ccc3da0ef2c8a45c24b0c693baa84`.
+
+One RAM-only trial at `cc9599dcbcbccf7f4a926a08298616830b82908d` **passed**:
+
+| Observed quantity | Result |
+| --- | ---: |
+| Requested DATA payload rate | 65,536 B/s |
+| Device START to END | 60.000001 s |
+| Host READY to END receipts | 59.972962819 s |
+| DATA payload / records | 3,932,540 B / 8,549 |
+| Host payload / receipt interval | 65,571.881 B/s |
+| Framed host bytes / CRC-valid records | 4,408,832 B / 8,611 |
+| Missing records / device discards | 0 / 0 |
+| Actual host read pause / after READY | 0.101455235 s / 30.001229554 s |
+
+All deterministic DATA payloads and nonce/profile bindings passed. END's
+pre-enqueue counters report queue high-water 2 of 16, zero partial writes,
+zero measured stall time and 4,408,320 CDC-accepted bytes (excluding END).
+All 62 control snapshots report zero queued backlog before their enqueue.
+Host DATA receipt gaps: p95 0.051371195 s, maximum 0.112110895 s; frames
+from one read share a timestamp. The host read pause does not halt kernel USB
+reception or establish a physical backpressure stress test.
+
+Full pre- and post-trial original-flash verification and factory HELLO/STATUS
+passed. Owned resources closed; zero flash writes or FPGA programming ran.
+Session SHA-256:
+`a1970545ad049de79e8bda49263e184773c37b25ffb098681c95949dbf64257c`.
+Manifest SHA-256:
+`e8bd3cb413d5e083014dce1848c29f7107a1d53c49dae8bda6ad215d8447ac29`.
+Private raw SHA-256:
+`fd1a62929acaa636260bf1351f84461be363357e9784f919b3b43f1240fa6870`.
+
+This verifies one synthetic MCU-to-host USB condition, not maximum throughput,
+FPGA transport, ESP DMA access or RF continuity. Earlier failures remain
+failed; the collector race remains a possible cause of condition 002.
+FPGA/RF task checkboxes remain unchanged. No further rate condition ran.
+
+Independent fixed-offset replay verified every CRC, deterministic payload,
+sequence, profile, private nonce and control-counter reconciliation. Replayed
+host receipt timing agrees with the table. Both device verifies, four fresh
+flash copies and ten raw factory replies passed. All 14 recorded owned groups
+were independently absent; Docker absence was not independently queried.
+Review receipt SHA-256:
+`ca4813947107b749d1179f1488d5e505ad3f0060809ceaa43828b9ccca38b85c`.

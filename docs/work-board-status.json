@@ -184,8 +184,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Reconnect Forgix and verify stable factory communication and original flash. The reviewed collector fix still needs a fresh physical episode: condition003 stopped before loading. FPGA markings and the selected transport remain separate gates.",
-      "rationale": "A 60-second factory check and recovery003 passed. RAM condition002 loaded but received zero bytes before CONFIG timeout; full original-flash/factory verification passed afterward. A possible serial-open flush race is corrected and independently reviewed with 39 tests plus six probes. Condition003 stopped at factory USB control timeout before ROM/RAM operations; owned workers closed. The original identity still enumerates, but present factory communication is unverified. All failed episodes and FPGA/RF gates remain open.",
+      "next": "Prepare separately reviewed higher-rate MCU USB conditions. One 64 KiB/s condition passed; maximum throughput is unknown. Confirm FPGA grade, oscillator and PCB revision before the selected FPGA transport.",
+      "rationale": "After reconnect, factory stability002 and recovery004 passed. RAM condition004 delivered 3,932,540 payload bytes in a 60-second device run, with 8,611 CRC-valid records, zero missing records/discards and a 101 ms host-read pause. Full pre/post original-flash and factory verification passed; owned workers closed. Earlier failures remain retained. This narrows one MCU USB condition only: maximum throughput, FPGA transport, DMA access and RF continuity remain unverified.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -213,7 +213,7 @@
         "docs/evidence/forgix-usb-ram-trial-001-review/README.md",
         "docs/evidence/forgix-usb-ram-recovery/README.md"
       ],
-      "reviewRevision": "6a9e6d29d0f437d3b22884cf757639b9fcfdacdc"
+      "reviewRevision": "cc9599dcbcbccf7f4a926a08298616830b82908d"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
