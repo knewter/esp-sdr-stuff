@@ -23,3 +23,29 @@ identity replacement and late-worker rejection. The diagnostic tty receives
 the same access gate within its existing 20-second enumeration budget;
 failure still invokes factory/flash verification. This is preparation, not
 a successful recovery result.
+
+Independent review of `e315d6bc7aa897e6524f763b152d0ddebdf9e0b1`
+replayed all 35 tests and five additional deadline/mutation/no-retry probes.
+It verified recovery 001's raw reply CRCs, fresh flash hashes and six closed
+step attestations. The private review receipt SHA-256 is
+`93a0f718bc8dcc75af2e10f9f0b723ee74eeda6bd18cc52ac23646988dc046e1`.
+The reviewer did not inspect live processes; root separately verified exact
+owned containers/groups and the returned-query process were absent.
+
+Recovery 002 used that reviewed revision. **It also failed**, at initial
+serial `os.open` with errno 5 (I/O error), before any factory reply or ROM
+operation. The kernel subsequently reported USB descriptor/setup-address
+errors (including -71), and the selected device disappeared. This establishes
+a USB enumeration failure, not its cause. No RAM load, flash write or FPGA
+operation ran. Root requested another physical replug, an alternate data
+cable if available, and confirmation of whether the USB port changed.
+Factory return and aggregate recovery remain unverified; no automatic payload
+retry or new rate condition has run.
+
+Independent saved-file review of recovery 002 verified its five retained files,
+all 13 frozen source inputs, selected private identity and prior backup hashes.
+Its receipt SHA-256 is
+`f5c4b0358108ac94bb142820dc9c253178a82fda74836071bc0b53199d34fcf9`.
+Both failed recovery sessions lack an aggregate closure flag; the review does
+not invent one or claim independent live-process/kernel inspection. Root's
+selected-port kernel snapshot is retained privately.

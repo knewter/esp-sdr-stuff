@@ -184,8 +184,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Replug Forgix, then verify factory HELLO/STATUS and full original flash with guarded recovery. The first RAM episode stopped before loading. A new payload episode needs a separately frozen protocol; FPGA markings remain required.",
-      "rationale": "Efinity generic compilation, exact RAM artifact and independently reviewed lifecycle/collector preparation pass. The first physical episode failed during factory serial open: USB DTR control timed out and the owned worker was reaped. No RAM image or payload condition ran; no flash write or FPGA programming occurred. Factory USB remains enumerated but responsiveness and fresh device flash are unverified. Recovery awaits user USB replug. Original FPGA and RF gates remain open.",
+      "next": "Establish a stable Forgix USB connection and verify factory return. Fresh full original-flash verification passed, but both recovery attempts remain failed. Declare a separate payload episode only after recovery; FPGA markings remain required.",
+      "rationale": "After user replug, recovery001 obtained valid factory replies, two matching original 2 MiB reads and separate ROM verification, then failed on returned serial permissions. Reviewed bounded readiness fixes pass 35 tests and five independent probes. Recovery002 failed at initial serial open with I/O error; kernel USB descriptor errors followed and the device disappeared. No RAM load, payload condition, flash write or FPGA programming ran. Recovery awaits another physical reconnect; original FPGA/RF gates remain open.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -210,9 +210,10 @@
         "docs/evidence/forgix-usb-ram-lifecycle-review/README.md",
         "docs/evidence/forgix-usb-ram-version-review/README.md",
         "docs/evidence/forgix-usb-ram-trial-001/README.md",
-        "docs/evidence/forgix-usb-ram-trial-001-review/README.md"
+        "docs/evidence/forgix-usb-ram-trial-001-review/README.md",
+        "docs/evidence/forgix-usb-ram-recovery/README.md"
       ],
-      "reviewRevision": "f2cbe79064d7e451908ca24e6ea8a6c390de5dfe"
+      "reviewRevision": "e315d6bc7aa897e6524f763b152d0ddebdf9e0b1"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
