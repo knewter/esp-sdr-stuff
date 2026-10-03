@@ -49,3 +49,20 @@ Its receipt SHA-256 is
 Both failed recovery sessions lack an aggregate closure flag; the review does
 not invent one or claim independent live-process/kernel inspection. Root's
 selected-port kernel snapshot is retained privately.
+
+## Fresh connection and recovery 003
+
+After another user-directed reconnect, the factory-only check at execution
+revision `852c5cfa4a8a3868825f26f961e94d6d94f668a6` passed: the original
+private USB identity remained at one enumeration for **60.000929 seconds**,
+with **121** identity/access samples. Initial and final HELLO/STATUS replies
+had valid CRCs and ready/idle fields. Both serial workers closed. That check
+requested no ROM transition, RAM load, flash write or FPGA operation.
+
+One subsequent controlled recovery 003 at the same revision **passed**:
+two fresh 2,097,152-byte reads matched the original hash above, separate ROM
+verification passed, and returned factory HELLO/STATUS again passed. All six
+scoped picotool operations and owned workers closed. Its terminal status is
+`recovered_and_verified`, with original flash/factory verified and zero flash
+writes. Earlier failures remain failed; this does not establish their cause
+or general reboot reliability. No USB payload measurement has run yet.

@@ -63,3 +63,18 @@ Publish sanitized numeric receipts and an independent review. Success narrows
 the USB segment budget; it establishes neither FPGA-to-RP transport, FPGA SRAM
 access, ESP DMA reachability nor RF continuity. All original FPGA and RF
 acceptance gates remain unchanged.
+
+## Separately declared condition 002
+
+Declared before loading after the user-directed reconnect and successful
+[factory stability and recovery 003](../evidence/forgix-usb-ram-recovery/README.md).
+The failed pre-load episode 001 and failed recoveries 001/002 remain retained.
+This permits one new attempt at the same 65,536 payload bytes/s, 60-second
+condition and requested 100 ms host read pause, using the exact reviewed
+historical build004. The lifecycle's bounded factory/diagnostic access waits
+and late-result rejection have passed independent review at `e315d6b`.
+Freeze this amended protocol and the current committed execution inputs,
+repeat all runtime/artifact and fresh full-flash gates, then load once.
+Use a new private episode directory. All capture, closure, full post-trial
+flash/factory verification and failure retention rules above still apply.
+No automatic retry or rate sweep is permitted.
