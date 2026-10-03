@@ -39,7 +39,7 @@ errors (including -71), and the selected device disappeared. This establishes
 a USB enumeration failure, not its cause. No RAM load, flash write or FPGA
 operation ran. Root requested another physical replug, an alternate data
 cable if available, and confirmation of whether the USB port changed.
-Factory return and aggregate recovery remain unverified; no automatic payload
+At that checkpoint, factory return and aggregate recovery remained unverified; no automatic payload
 retry or new rate condition has run.
 
 Independent saved-file review of recovery 002 verified its five retained files,
@@ -65,4 +65,31 @@ verification passed, and returned factory HELLO/STATUS again passed. All six
 scoped picotool operations and owned workers closed. Its terminal status is
 `recovered_and_verified`, with original flash/factory verified and zero flash
 writes. Earlier failures remain failed; this does not establish their cause
-or general reboot reliability. No USB payload measurement has run yet.
+or general reboot reliability. No USB payload was measured in recovery 003.
+
+## RAM condition 002: loaded, startup failed, recovery passed
+
+At execution revision `dd58652e5c622abbbb14a441b0b894681a53c362`, one
+65,536-byte/s condition loaded the independently reviewed historical build004
+ELF and enumerated the distinct RAM diagnostic. The collector received **zero
+bytes**, failing its CONFIG deadline after **20.039980584 seconds**. No START,
+DATA, END or host pause occurred; throughput and loss remain unmeasured.
+The finite image returned to factory. Both pre- and post-trial preservation
+passed: fresh paired full 2 MiB reads, separate device verification and
+CRC-valid factory HELLO/STATUS. The failed session records owned hardware
+closure, original flash/factory verified, zero flash writes and no FPGA
+programming. Earlier failures remain retained.
+
+Private session receipt SHA-256:
+`5d8904c4c23bcb1637ee8ced77d3d2003e9f689b4dfb48766c72b5f2840afe72`.
+Capture manifest SHA-256:
+`4efd26ae5a348dac9d728eeb44f6c3e3c466ff9c2d0fc17c5733598dbd8d9ec1`.
+
+Locked pyserial 3.5 asserts DTR before an implicit input flush; pinned firmware
+queues CONFIG once when TinyUSB sees DTR. This can discard the announcement,
+but the empty capture does not prove the timing of this physical failure.
+The collector now preserves input during open. A real local PTY regression
+injects a valid CONFIG at DTR: stock pyserial loses it, the corrected opener
+retains and decodes all 512 bytes. A second test verifies descriptor closure
+on configuration failure. All 39 collector tests pass through Nix/Task.
+This source correction is not a successful hardware result.

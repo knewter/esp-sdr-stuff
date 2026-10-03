@@ -78,3 +78,20 @@ repeat all runtime/artifact and fresh full-flash gates, then load once.
 Use a new private episode directory. All capture, closure, full post-trial
 flash/factory verification and failure retention rules above still apply.
 No automatic retry or rate sweep is permitted.
+
+## Separately declared condition 003
+
+Condition 002 loaded the reviewed image but received no CONFIG; its full
+post-trial original flash and factory verification passed. Retain it as failed.
+The source-supported DTR/input-flush race has a host-only correction: the
+collector suppresses pyserial's implicit input flush and preserves the entire
+prefix for strict validation. The real POSIX/PTY regression and descriptor
+cleanup test pass. Independent review of the committed correction must pass
+before device access; a source hypothesis does not establish the physical cause.
+
+Declare one new attempt at the same 65,536 payload bytes/s for 60 seconds,
+with the requested 100 ms host read pause after 30 seconds. Keep historical
+build004 and all original identity, nonce, deadlines, full pre/post-flash,
+factory return and owned-worker closure gates. Freeze the amended protocol
+and execution inputs; use a fresh private directory. No automatic retries,
+firmware rebuild, other rate condition or FPGA programming is admitted.

@@ -415,6 +415,25 @@ def collect(store, source_sha256, rate, nonce, serial_factory, identity_check,
     return manifest
 
 
+def open_retaining_serial(port):
+    """Keep CONFIG even if it arrives during the POSIX serial open.
+
+    Locked pyserial 3.5 asserts DTR before its implicit input flush. The
+    producer announces CONFIG once on DTR, so that flush can erase the only
+    announcement. Preserve the entire prefix instead; unexpected/stale bytes
+    must fail the strict decoder, never disappear through a flush or retry.
+    """
+    import serial
+
+    class RetainingSerial(serial.Serial):
+        def _reset_input_buffer(self):
+            # Includes the implicit flush in Serial.open(). No input discard.
+            pass
+
+    return RetainingSerial(port, baudrate=115200, timeout=.05,
+                           write_timeout=1, exclusive=True)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--usb-topology", required=True, choices=["3-3"])
@@ -428,13 +447,9 @@ def main():
     def cancel(signum, frame):
         raise KeyboardInterrupt()
     signal.signal(signal.SIGTERM, cancel)
-    import serial
     store = PrivateCapture(args.output, REPO/"backups")
-    def open_serial(port):
-        # Exclusive flock held by lifecycle, plus pyserial exclusive tty open.
-        return serial.Serial(port, baudrate=115200, timeout=.05, write_timeout=1, exclusive=True)
     try:
-        result = collect(store, args.build_source_sha256, args.rate, secrets.token_bytes(16), open_serial,
+        result = collect(store, args.build_source_sha256, args.rate, secrets.token_bytes(16), open_retaining_serial,
                          lambda: select_diagnostic(args.usb_topology, args.port),
                          lambda: inherited_operator_lock(args.operator_lock_fd, args.operator_lock_path))
     except (CaptureError, OSError, KeyboardInterrupt):

@@ -1,10 +1,13 @@
 """Exercise the actual parser/collector with synthetic byte streams; no devices."""
 import fcntl
+import errno
 import importlib.util
 import json
 import os
+import pty
 from pathlib import Path
 import struct
+import select
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -83,6 +86,52 @@ def valid_events():
     return [(.05, frame(0,0,5000)), (.1, frame(1,1,100000)),
             (.2, frame(2,2,200000)), (30.1, frame(2,3,30100000)),
             (60.1, frame(4,4,60100000))]
+
+
+class SerialOpenTests(unittest.TestCase):
+    """Exercise locked pyserial's real POSIX open on a local PTY, no USB."""
+    def test_config_arriving_at_dtr_survives_open(self):
+        import serial
+        config = frame(0, 0, 5000)
+        for factory, expected in ((serial.Serial, b""), (m.open_retaining_serial, config)):
+            master, slave = pty.openpty()
+            transport = None
+            try:
+                def announce(opening):
+                    self.assertTrue(opening.dtr)
+                    self.assertEqual(os.write(master, config), len(config))
+                    # Establish that bytes reached the tty before open's flush.
+                    self.assertEqual(select.select([opening.fd], [], [], .5)[0], [opening.fd])
+                with patch.object(serial.Serial, "_update_dtr_state", announce):
+                    transport = factory(os.ttyname(slave))
+                transport.timeout = .05
+                received = transport.read(512)
+                self.assertEqual(received, expected)
+                if received:
+                    self.assertEqual(decoded(received)["type"], 0)
+            finally:
+                if transport is not None:
+                    transport.close()
+                os.close(master)
+                os.close(slave)
+
+    def test_open_configuration_failure_closes_actual_descriptor(self):
+        import serial
+        master, slave = pty.openpty()
+        opened = []
+        def fail(opening):
+            opened.append(opening.fd)
+            raise OSError(errno.EIO, "synthetic configuration failure")
+        try:
+            with patch.object(serial.Serial, "_update_dtr_state", fail), self.assertRaises(OSError):
+                m.open_retaining_serial(os.ttyname(slave))
+            self.assertEqual(len(opened), 1)
+            with self.assertRaises(OSError) as closed:
+                os.fstat(opened[0])
+            self.assertEqual(closed.exception.errno, errno.EBADF)
+        finally:
+            os.close(master)
+            os.close(slave)
 
 
 class ProtocolTests(unittest.TestCase):
