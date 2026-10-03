@@ -3,7 +3,7 @@ import "../styles/global.css";
 import "../styles/sdr.css";
 import { specs, url } from "../lib/specs";
 interface Props { title: string; description?: string; source?: "specs" | "hand" | "work" }
-const { title, description = "ESP32 SDR experiments with RTL-SDR and FPGA comparisons.", source = "hand" } = Astro.props;
+const { title, description = "ESP32 SDR experiments and measurements.", source = "hand" } = Astro.props;
 const links = [["", "Overview"], ["work/", "Experiments"], ["compare/", "RTL-SDR comparison"], ["fpga/", "FPGA routes"], ["evidence/", "Evidence"], ["sources/", "Sources"]];
 ---
 <!doctype html>
