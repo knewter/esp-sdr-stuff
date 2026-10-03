@@ -109,3 +109,25 @@ the amended execution inputs. All original identity, nonce, strict decoding,
 deadlines, fresh full pre/post-flash verification, factory return and owned
 closure gates remain required. Use a fresh private episode directory. No
 automatic retry, other rate, firmware rebuild or FPGA programming is admitted.
+
+## Separately declared condition 005
+
+Declared October 3, 2026 after condition 004 passed and its independent audit
+verified complete original-flash/factory restoration and owned-worker closure.
+Run exactly one **262,144 payload bytes/s (256 KiB/s), 60-second** condition,
+with the same requested 100 ms application-read pause after 30 seconds. The
+historical build004 already accepts this START rate; reuse its exact reviewed
+ELF, firmware profile and runtime closure without rebuilding.
+
+The lifecycle must select this rate explicitly, bind it into its private
+preflight/session and verify the collector's reported requested rate. Independent
+review must accept the committed rate propagation, this declaration, the exact
+private caller and condition004's restoration/closure receipts before device
+access. Freeze their hashes and current execution inputs; use a fresh private
+episode directory. Repeat all original identity, operator-lock, nonce, strict
+record validation, absolute deadline, fresh full pre/post-flash verification,
+factory-return and owned-resource closure gates.
+
+Retain any loss or failure; no automatic retry or 768 KiB/s condition is admitted.
+The pause stops application reads, not kernel USB service. This measures only
+the MCU USB segment, not maximum throughput, FPGA transport or RF continuity.
