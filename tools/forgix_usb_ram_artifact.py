@@ -8,13 +8,15 @@ SRAM_START=0x20000000
 SRAM_END=0x20082000
 BUDGET=128*1024
 PROFILE=b'FORGIX_USB_RAM_V1;no_flash;rp2350-arm;heap0;stack4096;max120s;sdk2.2.0;tinyusb86ad6e56\0'
+BRIDGE_PROFILE=b'FORGIX_SPI_RAM_V1;no_flash;rp2350-arm;heap0;stack4096;max120s;sdk2.2.0;tinyusb86ad6e56\0'
 
 
 def require(condition, reason):
     if not condition: raise ValueError(reason)
 
 
-def inspect_elf(data):
+def inspect_elf(data, *, application='usb'):
+    require(application in ('usb','spi-bridge'), 'unknown application layout policy')
     require(52 <= len(data) <= 4*1024*1024, 'ELF byte bound')
     require(data[:7]==b'\x7fELF\x01\x01\x01', 'ELF32 little endian required')
     h=struct.unpack_from('<16sHHIIIIIHHHHHH',data)
@@ -74,8 +76,9 @@ def inspect_elf(data):
     require(SRAM_START<=symbols['__StackBottom']<symbols['__StackTop']<=SRAM_END,'stack range')
     require(any(r['vaddr']<=symbols['__StackBottom'] and symbols['__StackTop']<=r['vaddr']+r['memsz'] for r in loads),'stack outside LOAD')
     require(SRAM_START<=symbols['__bss_start__']<=symbols['__bss_end__']<=SRAM_END,'BSS range')
-    forbidden=('gpio_init','gpio_set_dir','gpio_put','spi_init','uart_init','pio_add_program','multicore_launch_core1',
+    forbidden=('spi_init','uart_init','multicore_launch_core1',
                'flash_range_erase','flash_range_program','malloc','calloc','realloc','free','_sbrk','_sbrk_r')
+    if application=='usb':forbidden+=('gpio_init','gpio_set_dir','gpio_put','pio_add_program')
     require(not any(label.split('.')[0] in forbidden or label.split('.')[0] in tuple('__wrap_'+n for n in forbidden) for label in defined),'prohibited application/peripheral/allocation symbol')
     vectors=symbols['__vectors'];base=next((r for r in loads if r['vaddr']<=vectors and vectors+8<=r['vaddr']+r['filesz']),None)
     require(base is not None and vectors==ranges[0][0] and vectors%512==0,'initial vector table')
@@ -85,9 +88,12 @@ def inspect_elf(data):
     # single block loop. This secure execution-mode label is not OTP/security setup.
     block=struct.pack('<7I',0xffffded3,0x10210142,0x00000203,vectors,0x000003ff,0,0xab123579)
     require(data[off:off+min(base['filesz'],4096)].count(block)==1,'RP2350 ARM RAM IMAGE_DEF')
-    require(any(PROFILE in data[r['offset']:r['offset']+r['filesz']] for r in loads),'loadable distinct application profile')
+    profile=PROFILE if application=='usb' else BRIDGE_PROFILE
+    require(any(profile in data[r['offset']:r['offset']+r['filesz']] for r in loads),'loadable distinct application profile')
+    if application=='spi-bridge':
+        require(all(n in symbols for n in ('bridge_spi_transaction','bridge_parse','bridge_wire_response')), 'required bridge implementation symbols')
     require('main' in symbols and 'tud_task_ext' in symbols,'application/direct TinyUSB symbols')
-    return {'target':'RP2350 ARM','binary_type':'no_flash','allocated_load_bytes':sum(r['memsz'] for r in loads),
+    return {'target':'RP2350 ARM','application_policy':application,'binary_type':'no_flash','allocated_load_bytes':sum(r['memsz'] for r in loads),
             'load_segments':loads,'stack_bytes':4096,'core1_stack_bytes':0,'heap_section_bytes':0,
             'entry':entry,'vector_table':vectors,'symbols':symbols,
             'limitations':'Layout/metadata guard; no hardware, electrical pin-state or recovery proof. SDK startup peripheral resets remain audited separately.'}

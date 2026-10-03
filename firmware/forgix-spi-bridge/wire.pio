@@ -1,0 +1,31 @@
+; Fixed request-to-response handoff. Only DATA and SCK belong to this SM.
+; Nominal PIO clock = 32 MHz; actual board timing still needs qualification.
+.program forgix_request
+.side_set 1
+    pull block side 0
+    out x, 32 side 0
+bits:
+    out pins, 1 side 0 [15]
+    nop side 1 [15]
+    jmp x-- bits side 1
+    set pindirs, 0 side 1
+    nop side 1 [15]
+    nop side 1 [15]
+    nop side 1 [15]
+    nop side 1 [15]
+    nop side 1 [15]
+    irq wait 0 side 1
+.wrap
+
+.program forgix_response
+.side_set 1
+    set y, 15 side 0
+words:
+    set x, 31 side 0 [15]
+bits:
+    nop side 1 [15]
+    in pins, 1 side 1
+    jmp x-- bits side 0 [15]
+    jmp y-- words side 0
+    irq wait 1 side 0
+.wrap

@@ -79,6 +79,14 @@
         rmdir $out/lib/tinyusb
         cp -a ${inputs.tinyusb-src} $out/lib/tinyusb
       '';
+      pioAsm = pkgs.stdenv.mkDerivation {
+        pname = "pioasm";
+        version = "2.2.0";
+        src = inputs.pico-sdk-src;
+        sourceRoot = "source/tools/pioasm";
+        nativeBuildInputs = [ pkgs.cmake ];
+        cmakeFlags = [ "-DPIOASM_VERSION_STRING=2.2.0" ];
+      };
       picotool = pkgs.picotool.override { pico-sdk = picoSdk; };
       picotoolImageTag = builtins.substring 0 16 (builtins.hashString "sha256" picotool.drvPath);
       picotoolImage = pkgs.dockerTools.buildLayeredImage {
@@ -240,7 +248,7 @@
       '';
       commonPackages = [
         node pkgs.go-task openspec pkgs.chromium pkgs.git pkgs.coreutils
-        pkgs.ripgrep pkgs.curl pkgs.jq
+        pkgs.ripgrep pkgs.curl pkgs.jq pkgs.stdenv.cc pioAsm
       ];
       shellVariables = {
         SITE_NODE_MODULES = "${siteDependencies}/node_modules";
@@ -256,6 +264,7 @@
         inherit openspec picotool redsea;
         site-dependencies = siteDependencies;
         pico-sdk = picoSdk;
+        pioasm = pioAsm;
         pico-firmware-sdk = picoFirmwareSdk;
         liquid-dsp = liquidDsp;
         rtl-sdr = pkgs.rtl-sdr-blog;
@@ -273,6 +282,16 @@
       checks.${system}.native-ble-crypto-check = nativeBleCryptoCheck;
       devShells.${system} = {
         forgix = forgix.shell;
+        forgix-spi-bridge = pkgs.mkShell {
+          packages = [ forgix.python pkgs.go-task pkgs.cmake pkgs.ninja pkgs.gcc-arm-embedded
+            pkgs.stdenv.cc pioAsm pkgs.git pkgs.nix ];
+          PICO_SDK_PATH = "${picoFirmwareSdk}";
+          PIOASM_EXECUTABLE = "${pioAsm}/bin/pioasm";
+          PICO_SDK_REVISION = "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779";
+          PICO_TINYUSB_REVISION = "86ad6e56c1700e85f1c5678607a762cfe3aa2f47";
+          PYTHONNOUSERSITE = "1";
+          PYTHONPATH = "";
+        };
         forgix-usb-ram = pkgs.mkShell {
           packages = [ pkgs.python3 pkgs.go-task pkgs.cmake pkgs.ninja pkgs.gcc-arm-embedded pkgs.git pkgs.nix ];
           PICO_SDK_PATH = "${picoFirmwareSdk}";

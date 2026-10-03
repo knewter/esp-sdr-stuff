@@ -336,3 +336,18 @@ tasks:
     desc: Simulate guarded SPIBone under the explicit RP release contract; no hardware
     cmds:
       - python3 -m unittest discover -s tests -p test_forgix_spi_guard.py
+
+  forgix:spi-bridge:build:
+    desc: Build the finite RP PIO register bridge privately; never load or program
+    cmds:
+      - python3 tools/build_forgix_spi_bridge.py {{.CLI_ARGS}}
+
+  forgix:spi-bridge:test:
+    desc: Check real C protocol and PIO/guard simulations without hardware
+    cmds:
+      - python3 -m unittest discover -s tests -p test_forgix_spi_bridge.py
+
+  forgix:spi-bridge:plan:
+    desc: Generate a finite offline register plan in a fresh private directory
+    cmds:
+      - python3 tools/forgix_spi_bridge.py {{.CLI_ARGS}}
