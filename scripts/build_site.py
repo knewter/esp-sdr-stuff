@@ -24,6 +24,17 @@ def main():
     env = {**os.environ, "CI": "1"}
     if args.local: env.pop("ASTRO_BASE", None)
     subprocess.run(["npm", "run", "build", "--prefix", "site"], cwd=ROOT, env=env, check=True)
+    # Compact generated pages while retaining all immutable source/evidence
+    # bytes. Keep tags, whitespace and defaults; the browser checks cover the
+    # rendered UI. The executable comes from the locked Nix shell.
+    minifier = Path(os.environ["MINIFY_EXECUTABLE"]).resolve(strict=True)
+    if not minifier.is_relative_to("/nix/store"):
+        raise RuntimeError("Locked Nix HTML minifier required")
+    dist = ROOT / "site/dist"
+    pages = sorted(p for p in dist.rglob("*.html") if not p.is_relative_to(dist / "source"))
+    run(str(minifier), "--type=html", "--inplace", "--html-keep-document-tags",
+        "--html-keep-end-tags", "--html-keep-default-attrvals", "--html-keep-whitespace",
+        "--js-keep-var-names", "--json-keep-numbers", *map(str, pages))
     run(sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_site_output.py")
     size = sum(p.stat().st_size for p in (ROOT / "site/dist").rglob("*") if p.is_file())
     elapsed = time.monotonic() - started

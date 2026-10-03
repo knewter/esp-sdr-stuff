@@ -101,6 +101,28 @@ class RegisterEngine(unittest.TestCase):
  def test_absolute_deadline_includes_transport_return_and_cleanup(self):
   d=Device(native.NativeProtocol.lib);e=host.RegisterRun(d,'a'*64,b'x'*16,clock=lambda:d.now)
   d.now=30;r=e.run();self.assertEqual(r['result'],'failed');self.assertFalse(d.commands)
+  d=Device(native.NativeProtocol.lib);write=d.write
+  def late_restore(data,deadline):
+   n=write(data,deadline)
+   if len(d.commands)==11:d.now=30
+   return n
+  d.write=late_restore;e=host.RegisterRun(d,'a'*64,b'x'*16,clock=lambda:d.now)
+  r=e.run();self.assertEqual(r['result'],'failed');self.assertTrue(r['session_ambiguous'])
+  self.assertFalse(r['scratch_restore_verified'] or r['finish_reply_verified'])
+  self.assertEqual(d.scratch,0xdeadbeef) # Issued write alone is not verified restore.
+  self.assertEqual(len(d.commands),11)
+ def test_partial_write_and_partial_reply_exceptions_retain_prefixes(self):
+  for side in ('write','read'):
+   d=Device(native.NativeProtocol.lib);original=getattr(d,side);calls=[0]
+   def interrupted(data,deadline):
+    calls[0]+=1
+    if calls[0]==3:raise TimeoutError('transport stall')
+    return original(data,deadline)
+   setattr(d,side,interrupted)
+   e=host.RegisterRun(d,'a'*64,b'x'*16,clock=lambda:d.now);r=e.run()
+   self.assertTrue(r['session_ambiguous']);self.assertEqual(r['result'],'failed')
+   if side=='write':self.assertEqual(e.transcript[0]['sent'],14);self.assertFalse(d.commands)
+   else:self.assertEqual(len(e.transcript[0]['response']),18);self.assertEqual(len(d.commands),1)
  def test_cancellation_propagates_with_failed_prefix_and_no_more_commands(self):
   d=Device(native.NativeProtocol.lib,fault='cancel')
   e=host.RegisterRun(d,'a'*64,b'x'*16,clock=lambda:d.now)

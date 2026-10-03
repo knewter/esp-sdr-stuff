@@ -248,11 +248,12 @@
       '';
       commonPackages = [
         node pkgs.go-task openspec pkgs.chromium pkgs.git pkgs.coreutils
-        pkgs.ripgrep pkgs.curl pkgs.jq pkgs.stdenv.cc pioAsm
+        pkgs.ripgrep pkgs.curl pkgs.jq pkgs.stdenv.cc pioAsm pkgs.minify
       ];
       shellVariables = {
         SITE_NODE_MODULES = "${siteDependencies}/node_modules";
         CHROMIUM_EXECUTABLE = "${pkgs.chromium}/bin/chromium";
+        MINIFY_EXECUTABLE = "${pkgs.minify}/bin/minify";
         PYTHONNOUSERSITE = "1";
         PYTHONPATH = "";
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
