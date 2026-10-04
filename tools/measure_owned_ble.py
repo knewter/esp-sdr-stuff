@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 import time
 import numpy as np
-from esp_sdr_capture import STABLE_PORT, open_board, synchronize, queries, settings, capture, numerical_stats, unpack, command
+from esp_sdr_capture import STABLE_PORT, open_board, synchronize, queries, settings, capture, numerical_stats, unpack, command, write_private, attach_capture_failure, retain_capture_failure
 
 
 def main(argv=None):
@@ -36,6 +36,10 @@ def main(argv=None):
               "started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
               "limitations": "Nominal ADC rate; no calibrated power/frequency, hardware capture-start timestamp or emitted-event denominator. Absolute host monotonic timestamps permit same-machine source-log alignment."}
     rows = []
+    failure = None
+    payload = None
+    result = None
+    record['completed'] = False
     p = open_board(STABLE_PORT, baud=921600)
     try:
         synchronize(p)
@@ -45,13 +49,14 @@ def main(argv=None):
         record["acquisition_ready_monotonic_ns"] = start
         print("ACQUISITION_READY", flush=True)
         while (time.monotonic_ns() - start) / 1e9 < args.seconds:
+            payload = result = None
             payload, result = capture(p, 16380, 16000000, args.bits)
             index = len(rows)
             row = {"capture_index": index, **result,
                    "crc_and_count_valid": result["crc_ok"] and result["sample_count_ok"],
                    "private_payload_sha256": hashlib.sha256(payload).hexdigest()}
             path = private / f"iq-{index:04d}.bin"
-            path.write_bytes(payload); path.chmod(0o600)
+            write_private(path, payload)
             if row["crc_and_count_valid"]:
                 row.update(numerical_stats(payload, 16380, args.bits))
                 iq = unpack(payload, 16380, args.bits)
@@ -64,17 +69,64 @@ def main(argv=None):
             if index % 25 == 0:
                 print(f"capture={index} CRC={row['crc_and_count_valid']}", flush=True)
         record["completed"] = True
+    except BaseException as error:
+        failure = error
+        if not hasattr(error, 'capture_failure'):
+            context = {'stage': 'private_payload_or_processing' if payload is not None else 'receiver_setup',
+                       'payload_complete': payload is not None, 'framing_uncertain': payload is None,
+                       'capture_index': len(rows)}
+            if result is not None:
+                context.update(result)
+                context['full_read_crc_and_count_valid'] = bool(result['crc_ok'] and result['sample_count_ok'])
+                context['expected_payload_bytes'] = len(payload)
+            attach_capture_failure(error, context, payload or b'')
+        error.capture_failure['capture_index'] = len(rows)
+        record['terminal_failure'] = dict(error.capture_failure)
+        raise
     finally:
-        try: command(p, "RELEASE")
-        except Exception: pass
-        p.close()
+        # A partial response leaves UART framing uncertain. Do not send SYNC,
+        # another CAP, or a RELEASE whose reply could be confused with its tail.
+        if failure is None or not failure.capture_failure.get('framing_uncertain'):
+            try:
+                command(p, "RELEASE")
+                record['release_command'] = 'reply_received'
+            except Exception as cleanup:
+                record['release_command'] = {'error_kind': type(cleanup).__name__}
+        else:
+            record['release_command'] = 'skipped_uncertain_framing'
+        try:
+            p.close()
+            record['port_close'] = 'returned'
+        except Exception as cleanup:
+            record['port_close'] = {'error_kind': type(cleanup).__name__}
+            if failure is None:
+                failure = cleanup
+                attach_capture_failure(cleanup, {'stage':'port_close','payload_complete':False,
+                                                 'framing_uncertain':False})
+                record['terminal_failure'] = dict(cleanup.capture_failure)
+                record['completed'] = False
+        # Close serial before failure-prefix filesystem work, including fsync.
+        if failure is not None:
+            record['failed_capture'] = retain_capture_failure(private, f'failed-{len(rows):04d}', failure)
         record["ended_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         record["captures"] = len(rows)
         record["integrity_failures"] = sum(not r["crc_and_count_valid"] for r in rows)
-        (args.output / "manifest.json").write_text(json.dumps(record, indent=2) + "\n")
-        with (args.output / "captures.csv").open("w", newline="") as stream:
-            writer = csv.DictWriter(stream, fieldnames=sorted({k for row in rows for k in row}))
-            writer.writeheader(); writer.writerows(rows)
+        record['terminal_capture_failures'] = int(failure is not None)
+        record['integrity_failures_scope'] = 'Complete capture rows only; terminal read/persistence/closure failures are separate and are not integrity successes.'
+        try:
+            with (args.output / "captures.csv").open("w", newline="") as stream:
+                writer = csv.DictWriter(stream, fieldnames=sorted({k for row in rows for k in row}))
+                writer.writeheader(); writer.writerows(rows)
+            (args.output / "manifest.json").write_text(json.dumps(record, indent=2) + "\n")
+        except Exception as publication:
+            if failure is None:
+                raise
+            # Preserve the precise original read/transport/cancellation failure
+            # even when the filesystem cannot hold its terminal receipt.
+            failure.publication_error_kind = type(publication).__name__
+            failure.add_note('Terminal receipt publication failed: ' + type(publication).__name__)
+        if failure is not None and failure.capture_failure.get('stage') == 'port_close':
+            raise failure
 
 
 if __name__ == "__main__":

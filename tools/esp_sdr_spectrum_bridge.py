@@ -9,12 +9,13 @@ import csv
 import hashlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import os
 from pathlib import Path
 import struct
 import threading
 import time
 import zlib
-from esp_sdr_capture import STABLE_PORT, RATE_CODES, SOURCE_REVISION, command, exact, line, open_board, queries, settings, synchronize, ProtocolError
+from esp_sdr_capture import STABLE_PORT, RATE_CODES, SOURCE_REVISION, command, exact, line, raw_line, open_board, queries, settings, synchronize, ProtocolError, ReadPrefix
 
 
 MAX_RETAINED_STREAM_BYTES = 64 * 1024 * 1024  # Accepted bytes; reject/retain the consumed overflow packet.
@@ -30,21 +31,67 @@ class RejectedFrame(ProtocolError):
 
 
 def spectrum_frame(port, bins):
-    magic = exact(port, 4)
+    received = bytearray()
+    started = time.monotonic_ns()
+    magic_received = None
+    kind = 'unknown'
+
+    def remember(error, size):
+            prefix = bytes(received) + getattr(error, 'partial', b'')
+            error.rejected_raw = prefix
+            error.rejected_metadata = {
+                'kind': kind, 'complete_frame': False, 'bytes': len(prefix),
+                'sha256': hashlib.sha256(prefix).hexdigest(), 'crc_ok': None,
+                'expected_crc32': None, 'actual_crc32': None,
+                'expected_frame_bytes': len(received) + size if size is not None else None,
+                'frame_read_start_ns': started, 'magic_received_ns': magic_received,
+                'failure_ns': getattr(error, 'failure_ns', None),
+                'failure_kind': type(error).__name__,
+                'read_failure_reason': getattr(error, 'reason', None),
+                'underlying_read_error_kind': getattr(error, 'read_error_kind', None),
+                'unreturned_read_bytes_unknown': getattr(error, 'unreturned_read_bytes_unknown', False)}
+
+    def piece(size):
+        try:
+            chunk = exact(port, size)
+        except BaseException as error:
+            remember(error, size)
+            raise
+        received.extend(chunk)
+        return chunk
+
+    magic = piece(4)
+    magic_received = time.monotonic_ns()
     if magic == b'SPEC':
-        report = (magic.decode() + line(port)).split()
+        kind = 'end'
+        try:
+            tail = raw_line(port)
+        except BaseException as error:
+            remember(error, None)
+            raise
+        raw = magic + tail
+        try:
+            report = raw.decode('ascii', errors='strict').split()
+        except UnicodeError as error:
+            raise RejectedFrame('invalid SPECEND encoding', raw, 'end') from error
         if len(report) != 13 or report[0] != 'SPECEND':
-            raise ProtocolError('invalid SPECEND report')
-        return {'kind': 'end', 'report': [int(v) for v in report[1:]]}, None
+            raise RejectedFrame('invalid SPECEND report', raw, 'end')
+        try:
+            values = [int(v) for v in report[1:]]
+        except ValueError as error:
+            raise RejectedFrame('invalid SPECEND values', raw, 'end') from error
+        return {'kind': 'end', 'report': values}, None
     if magic == b'SPS1':
-        raw = magic + exact(port, 36)
+        kind = 'statistics'
+        raw = magic + piece(36)
         actual, expected = zlib.crc32(raw[:-4]), int.from_bytes(raw[-4:], 'little')
         if actual != expected:
             raise RejectedFrame('statistics CRC mismatch', raw, 'statistics', False, f'{expected:08x}', f'{actual:08x}')
         return {'kind': 'statistics'}, raw
     if magic != b'SPC1':
         raise RejectedFrame('spectrum framing lost', magic, 'unknown')
-    raw = magic + exact(port, bins + 28)
+    kind = 'spectrum'
+    raw = magic + piece(bins + 28)
     expected = int.from_bytes(raw[-4:], 'little')
     actual = zlib.crc32(raw[:-4])
     if actual != expected:
@@ -61,6 +108,8 @@ def spectrum_frame(port, bins):
 def persist_verified(path, data):
     """Persist only after UART closure; verify saved bytes with a bounded read."""
     expected = hashlib.sha256(data).hexdigest()
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+    os.close(fd)
     if path.write_bytes(data) != len(data):
         raise OSError('private raw write was incomplete')
     actual = hashlib.sha256()
@@ -117,6 +166,7 @@ class Trial:
         sampled = ffts = 0
         retained = bytearray()
         rejected = None
+        interrupted = None
         acquisition_started = False
         t0 = None
         expected_ffts = getattr(a, 'ffts_per_frame', 1)
@@ -133,7 +183,7 @@ class Trial:
         try:
             a.output.mkdir(parents=True, exist_ok=False)
             output_created = True
-            a.private.mkdir(parents=True, exist_ok=False)
+            a.private.mkdir(parents=True, exist_ok=False, mode=0o700)
             private_created = True
             port = open_board(a.port, a.baud)
             synchronize(port)
@@ -141,7 +191,9 @@ class Trial:
             record['setting_replies'] = settings(port, a.frequency, a.bandwidth, a.gain)
             if not 1 <= expected_ffts <= 8:
                 raise ValueError('FFT windows per frame must be 1..8')
+            record['start_command_ns'] = time.monotonic_ns()
             profile = command(port, f'SPEC {a.seconds * 1000} 1 {expected_ffts} 0 {RATE_CODES[a.rate]} {a.bins} 1').split()
+            record['start_reply_received_ns'] = time.monotonic_ns()
             if len(profile) != 5 or profile[0] != 'SPEC' or [int(v) for v in profile[1:]] != [a.bins, a.rate, a.bins, a.frequency]:
                 raise ProtocolError('spectrum start does not match requested settings')
             t0 = time.monotonic()
@@ -199,22 +251,38 @@ class Trial:
             record['status'] = 'completed'
             if not rows or record['elapsed_seconds'] < a.seconds * .95:
                 raise ProtocolError('bounded duration not established')
-        except Exception as error:
+        except BaseException as error:
+            if not isinstance(error, Exception):
+                interrupted = error
             record['status'] = 'failed'
             record['error_kind'] = type(error).__name__
-            record['error'] = str(error)[:240]
+            record['error'] = str(error)[:240] if isinstance(error, (ProtocolError, ReadPrefix)) else 'Spectrum acquisition failed'
             if isinstance(error, RejectedFrame) and private_created:
                 rejected = error.raw
                 record['rejected_frame'] = error.metadata
-            self.update(status='Failed', error=str(error)[:240], crc_failures=int('CRC' in str(error)))
+            if hasattr(error, 'rejected_raw') and private_created:
+                rejected = error.rejected_raw
+                record['rejected_frame'] = error.rejected_metadata
+                record['framing_uncertain'] = True
+            self.update(status='Failed', error=record['error'], crc_failures=int('CRC' in record['error']))
         finally:
             acquisition_finished = time.monotonic() if t0 is not None else None
             if port is not None:
                 try:
-                    command(port, 'RELEASE')
+                    if not record.get('framing_uncertain'):
+                        command(port, 'RELEASE')
+                    else:
+                        record['release_command'] = 'skipped_uncertain_framing'
                 except Exception:
                     pass
-                port.close()
+                try:
+                    port.close()
+                    record['port_close'] = 'returned'
+                except Exception as cleanup:
+                    record['port_close'] = {'error_kind': type(cleanup).__name__}
+                    record['status'] = 'failed'
+                    record.setdefault('error_kind', type(cleanup).__name__)
+                    record.setdefault('error', 'UART closure failed')
             record['ended_utc'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
             record['frames'] = len(rows)
             record['accepted_ffts'] = ffts
@@ -265,6 +333,8 @@ class Trial:
                 if record['status'] == 'completed':
                     self.update(status='Completed real hardware trial; UART released')
             print(json.dumps({k:v for k,v in record.items() if k in {'status','frames','elapsed_seconds','error'} }), flush=True)
+        if interrupted is not None:
+            raise interrupted
 
 
 def main():
