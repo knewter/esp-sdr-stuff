@@ -299,7 +299,7 @@ loading/recovery and selected-transport measurements remain required; tasks
 ## Complete offline synthetic lifecycle checkpoint
 
 The [separate production stream lifecycle](docs/evidence/forgix-synthetic-lifecycle/README.md)
-now passes 31 author and 11 independent groups, including actual compiled-C
+now passes 35 author and 18 independent groups, including actual compiled-C
 wire/replay, real process/lock/death fixtures and explicit known-closed recovery.
 It binds PID4013, original UID/full baseline, exact RP/image/full nonce/profile,
 62 execution files and verified immutable runtime. Its registry remains empty.
@@ -312,3 +312,10 @@ Existing ARM001 metadata was checked read-only; no new build, device operation,
 loading or FPGA/RF measurement occurred. Physical inventory, measured clock,
 voltages/pin timing/handoff, loading/recovery and several-rate transport proof
 remain gates. Tasks 1.1 and 2.1–2.3 and accepted requirements are unchanged.
+
+An additive actual POSIX PTY audit found bulk-read bytes hidden by a subsequent
+EIO. The synthetic-only bytewise correction retains returned prefixes across
+errors, interruption and late returns; seven new independent groups replayed
+with the original eleven. This narrows software uncertainty only: unread or
+lower-level lost bytes and physical transport remain unqualified. Historical
+source/proofs and all physical checkboxes are retained.

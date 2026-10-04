@@ -65,6 +65,37 @@
     "Tests use actual compiled-C protocol frames, regular files, processes and injected hardware adapters; no device operations.",
     "Known-closed terminal recovery only. Unknown/crashed/missing receipts require independent resource investigation; no automated override.",
     "Physical grade, measured clock, voltages, pin ownership/turnaround, loading/recovery and selected-transport rate/loss/timing measurements remain gates.",
-    "The admission clock includes persistence; OS calls and bounded cleanup can overrun an operation ceiling, which cannot qualify a late result."
-  ]
+    "The admission clock includes persistence; OS calls and bounded cleanup can overrun an operation ceiling, which cannot qualify a late result.",
+    "Deadline acceptance and owned cleanup are not CPU-stall-independent timing or a strict 600-second wall-clock guarantee."
+  ],
+  "source_scope": "source_sha256 and initial counts name the historical 2f101d3 recovery freeze; additive final correction below",
+  "prefix_retention_supplement": {
+    "commit": "a36f4562d334ebd538f997eb3d4f5da0feafbf6c",
+    "source_sha256": {
+      "tools/forgix_synthetic_backend.py": "0b6b44eaef06093e00696331be8401c57b6ee72464fd5409f67507bd3bdffd7b",
+      "tests/test_forgix_synthetic_lifecycle.py": "00fe330a390eb09c4b5d3afd0ffe07ec615f06cb7316e35eae031ef20051af99",
+      "docs/research/forgix-synthetic-lifecycle.md": "1c47fe6ed612ce3225f419a2ddae950f154f80dd87da18aa7c97b283dbadb91e"
+    },
+    "author_groups": 35,
+    "prior_independent_groups_replayed": 11,
+    "new_independent_groups": 7,
+    "skips": 0,
+    "author_receipt_sha256": "d64f2a7e2e2908c6ce7d3fd45bc71f60da449c2aa1bfba97c20612ba83fdb041",
+    "author_log_sha256": "2ca37f5f44c10601969fca46936677e4eff861fd4deab50c3e202283cff1f776",
+    "peer_receipt_sha256": "bebd69524eedfdbb8a8be2fadeff4879576fd58325cc7747fb06a9ece9a90eac",
+    "independent_baseline_bulk_requests": [
+      512,
+      501
+    ],
+    "baseline_consumed_bytes": 11,
+    "baseline_exception_prefix_bytes": 0,
+    "new_one_byte_read_calls": 12,
+    "new_consumed_and_exposed_bytes": 11,
+    "interrupted_prefix_bytes": 9,
+    "deadline_prefix_bytes": 2,
+    "collector_verified_saved_prefix_bytes": 11,
+    "scope": "Actual POSIX pyserial PTY/syscall faults; no device. Bytes returned by driver retained; unread/lower-level lost bytes unobserved. Old register adapter unchanged.",
+    "execution_input_fixture_sha256": "1c8019a5459989a4fc9650d1ded12dddd74ce6553c8977eedb6abfd69e773f40",
+    "runtime_scope": "Isolated reviewed source context; merged production execution/Nix tuple requires a fresh freeze before qualification."
+  }
 }

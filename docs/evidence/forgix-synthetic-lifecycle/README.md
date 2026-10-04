@@ -22,8 +22,9 @@ closure. It performs no RAM load or CONFIG/START: only factory return, two fresh
 full original reads and separate device comparison. Failed stream evidence
 remains failed. Missing closure/receipt, changed inputs or a foreign lease refuse.
 
-**31 author and 11 independent test groups pass, without skips**, against
-final source `2f101d3`. The initial run-path review is retained separately.
+The recovery freeze `2f101d3` passes **31 author and 11 independent groups**.
+The final correction `a36f456` passes **35 author, 11 replayed independent and
+7 new independent groups**, without skips. Historical proofs remain separate.
 
 Author checks cover compiled-C wire frames, saved replay, strict UID/nonce/
 profile/qualification bindings, real flock inheritance and lease-owner
@@ -32,6 +33,17 @@ late/storage failures and authoritative terminal receipts. Early review found
 missing board/execution bindings, a cross-route lease gap, misleading fixture
 labels and final lease durability/late-result issues; these were corrected
 before the frozen run-path review. Separate recovery preparation followed.
+
+A later actual POSIX test exposed a bulk-read prefix gap: pyserial consumed
+11 bytes before EIO but returned none. The synthetic-only bytewise adapter now
+exposes all 11 for private retention. Independent PTY tests cover interruption,
+partial deadlines, late bytes, timeout setters and a full 512-byte read; the
+collector saves and hashes the failed prefix after closing, without START or
+retry. Unread kernel/device bytes and losses below the syscall boundary remain
+unobserved; this is not physical throughput proof. The old register adapter is
+unchanged. The reviewed 62-file fixture is an isolated source context; the
+merged production execution/Nix tuple must be freshly frozen before
+qualification. Deadline acceptance is not an unconditional wall-clock bound.
 
 The existing 220,200-byte ARM001 artifact was read-only checked in its original
 root context, including exact source/export/layout, embedded image/build/CRC
