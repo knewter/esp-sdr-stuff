@@ -89,3 +89,32 @@ and original holder/caller versions. Freeze holder, tests, Task and protocol bef
 independent review. The reviewed root holder plus a fresh complete root freeze
 and current admission are required before any physical invocation. No source
 count becomes an air denominator and no RF, hardware task or Trial B is accepted.
+
+## Prospective correction after the first holder peer review
+
+The initial immutable f420 holder (author receipt97cd9) passed40 author groups
+but independent harmless-process probes reproduced six boundary defects. Keep
+that version and its failed proof intact; it is not physical admission. The
+replacement retains the unchanged inner15 inputs and all fixed RF/count gates.
+
+The5400-second success bound includes normal-completion persistence, real keeper
+release/reap and final result persistence. Recheck the strict clock after each;
+equality/late returns2 with a durably corrected failed terminal status. An
+intermediate receipt must say qualification pending, never completed before the
+keeper closes, and cannot remain a completed claim after cancellation/failure.
+If terminal persistence itself crosses the clock, preserve the failed decision
+in the final receipt; a success-written-before-fsync return is insufficient.
+
+Every replacement-keeper operation, including directory creation and all
+identity/storage setup, belongs inside the protected parent-FD quarantine
+boundary. If any replacement step fails, keep the parent alive with its global
+FD held; no exception may fall through to descriptor close on uncertain UART
+ownership. Persist the parent's exact identity before any receiver spawn, so
+qualified root recovery can identify either the parent or keeper. Controller
+preflight JSON must have exact keys and actual bool/int/string types; numeric1
+cannot stand for true and false cannot stand for active-instance integer0.
+
+Prove the correction with the same late-persistence/real-release/final-result
+and actual dead-keeper+mkdir-error process fixtures, plus late-cancel and wrong
+controller-type cases. Offline preparation still invokes no real endpoint,
+controller, UART or producer and requires a new independent immutable review.
