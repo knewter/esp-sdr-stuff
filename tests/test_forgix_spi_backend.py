@@ -25,7 +25,7 @@ from test_forgix_spi_capture import Device
 class Gates(unittest.TestCase):
     def profile(self):
         return {n:'a'*64 for n in ('elf_sha256','manifest_sha256','bridge_source_sha256',
-                                 'bitstream_sha256','qualification_sha256','backend_source_sha256')}
+                                 'bitstream_sha256','qualification_sha256','backend_source_sha256','coordinator_source_sha256')}
     def test_registry_empty_and_booleans_cannot_admit(self):
         p=self.profile();p.update(qualification_verified=True,physical_execution_admitted=True)
         self.assertEqual(backend.QUALIFIED,())
@@ -96,27 +96,57 @@ class Gates(unittest.TestCase):
     def test_changed_preservation_and_backend_inputs_refuse(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);(root/'.scratch').mkdir();(root/'tools').mkdir()
-            paths={name:root/name for name in ('tool','python','elf','binding','qualification','tools/forgix_spi_backend.py')}
+            paths={name:root/name for name in ('tool','python','elf','binding','qualification','tools/forgix_spi_backend.py','tools/run_forgix_spi_trial.py')}
             for p in paths.values():p.write_bytes(b'fixture')
             b=object.__new__(backend.Backend);b.owner=backend.AggregateOwner(SimpleNamespace(closed=True))
-            b.lockfd=1;b.lockpath=root/'.scratch/lock';b.frozen={'inputs':dict.fromkeys(('tools/forgix_spi_backend.py','tools/forgix_spi_qualifications.py'),'fixture')}
+            b.private=root/'backups/session'
+            b.lockfd=1;b.lockpath=root/'.scratch/lock';b.frozen={'inputs':dict.fromkeys(backend.EXECUTION_FILES,'fixture')}
             b.environment={name:str(paths[p]) for name,p in [('picotool_executable','tool'),('python_executable','python')]}
             b.environment.update({name+'_sha256':trial.sha(Path(b.environment[name])) for name in ('picotool_executable','python_executable')})
             binding={'binding_path':str(paths['binding']),'binding_sha256':trial.sha(paths['binding']),
                      'baseline_paths':['fixture-a','fixture-b'],'baseline_sha256':'b'*64,'uid_sha256':'c'*64}
             b.profile=dict(binding,elf=str(paths['elf']),elf_sha256=trial.sha(paths['elf']),
                            backend_source_sha256=trial.sha(paths['tools/forgix_spi_backend.py']),
+                           coordinator_source_sha256=trial.sha(paths['tools/run_forgix_spi_trial.py']),
                            qualification_path=str(paths['qualification']),qualification_sha256=trial.sha(paths['qualification']))
             with patch.object(backend,'ROOT',root), patch.object(backend,'inherited_operator_lock',return_value={}), \
+                 patch.object(backend,'session_lease'), \
                  patch.object(trial,'check_inputs'),patch.object(trial,'original_binding',return_value=binding), \
                  patch.object(trial,'private_file',return_value=paths['qualification']):
                 b.check_inputs()
-                for name in ('tool','python','elf','tools/forgix_spi_backend.py','qualification'):
+                for name in ('tool','python','elf','tools/forgix_spi_backend.py','tools/run_forgix_spi_trial.py','qualification'):
                     paths[name].write_bytes(b'changed')
                     with self.assertRaises((ValueError,preserve.PreservationError)):b.check_inputs()
                     paths[name].write_bytes(b'fixture')
                 with patch.object(trial,'original_binding',return_value=dict(binding,uid_sha256='d'*64)):
                     with self.assertRaisesRegex(ValueError,'preservation binding'):b.check_inputs()
+    def test_partial_frozen_map_is_refused_before_hash_checks(self):
+        with patch.object(trial,'check_inputs',side_effect=AssertionError('partial map accepted')):
+            with self.assertRaisesRegex(ValueError,'Complete exact execution'):backend.frozen_inputs({'inputs':{'tools/forgix_spi_backend.py':'a'*64}})
+
+class Readiness(unittest.TestCase):
+    def test_wait_missing_interface_and_permissions_but_not_wrong_identity(self):
+        now=[0];calls=[0]
+        def select():
+            calls[0]+=1
+            if calls[0]==1:raise FileNotFoundError()
+            return {'port':'fixture','enumeration':'expected'}
+        def pause(seconds):now[0]+=seconds
+        with patch.object(backend.os,'access',side_effect=[False,True]):
+            r=backend.ready_bridge(select,1,lambda:now[0],pause)
+        self.assertEqual(r['enumeration'],'expected');self.assertEqual(calls[0],3)
+        with self.assertRaisesRegex(ValueError,'wrong UID'):
+            backend.ready_bridge(lambda:(_ for _ in ()).throw(ValueError('wrong UID')),1,lambda:0,pause)
+    def test_missing_or_late_readiness_fails_at_absolute_deadline(self):
+        now=[0]
+        def pause(seconds):now[0]+=seconds
+        with self.assertRaises(TimeoutError):
+            backend.ready_bridge(lambda:(_ for _ in ()).throw(FileNotFoundError()),.1,lambda:now[0],pause)
+        self.assertEqual(now[0],.1)
+        def late():now[0]=1;return {'port':'fixture'}
+        now[0]=0
+        with patch.object(backend.os,'access',return_value=True),self.assertRaises(TimeoutError):
+            backend.ready_bridge(late,1,lambda:now[0],pause)
 
 class Identity(unittest.TestCase):
     def test_uid_normalized_missing_wrong_and_reenumerated(self):

@@ -27,6 +27,14 @@ from forgix_usb_ram_capture import PrivateCapture,inherited_operator_lock,open_r
 from demo_esp_sdr import OwnedHardwareClosureError
 
 ROOT=Path(__file__).resolve().parents[1]
+EXECUTION_FILES=frozenset({
+    '.gitignore','Taskfile.yml','flake.nix','flake.lock',trial.PROTOCOL,
+    *('tools/'+name+'.py' for name in (
+        'run_forgix_spi_trial','forgix_spi_backend','forgix_spi_qualifications',
+        'forgix_spi_lifecycle','forgix_spi_capture','forgix_spi_bridge',
+        'forgix_config','forgix_usb_ram_trial','forgix_usb_ram_capture',
+        'forgix_usb_ram_artifact','preserve_forgix','demo_esp_sdr','flash_trial',
+        'esp_sdr_capture','esp_sdr_spectrum_bridge'))})
 
 def require(value,message):
     if not value:raise ValueError(message)
@@ -59,7 +67,7 @@ def artifact(folder):
 
 def qualification_key(profile):
     names=('elf_sha256','manifest_sha256','bridge_source_sha256','bitstream_sha256',
-           'qualification_sha256','backend_source_sha256')
+           'qualification_sha256','backend_source_sha256','coordinator_source_sha256')
     values=tuple(profile.get(n) for n in names)
     require(all(type(v) is str and re.fullmatch('[0-9a-f]{64}',v) for v in values),'Complete qualification binding required')
     return values
@@ -68,10 +76,19 @@ def qualified(profile):
     require(qualification_key(profile) in QUALIFIED,'No committed physical qualification/loading review admits this backend')
 
 def frozen_inputs(frozen):
-    require('tools/forgix_spi_backend.py' in frozen['inputs'] and
-            'tools/forgix_spi_qualifications.py' in frozen['inputs'],
-            'Backend and qualification registry must be frozen')
+    require(set(frozen['inputs'])==EXECUTION_FILES,'Complete exact execution input set required')
     trial.check_inputs(frozen)
+
+def session_lease(profile,private=None):
+    """A durable pre-access lease survives operator/process failure."""
+    path=trial.private_file(ROOT/'.scratch/forgix-spi-active.json','.scratch')
+    require(trial.sha(path)==profile.get('session_lease_sha256'),'Session lease changed or missing')
+    record=json.loads(path.read_text())
+    require(record.get('uid_sha256')==profile['uid_sha256'] and
+            record.get('private_dir')==profile.get('session_private_dir') and
+            (private is None or record['private_dir']==str(private)),
+            'Session lease owner differs')
+    return path
 
 class AggregateOwner:
     def __init__(self,workers):self.workers=workers;self.runners=[];self.unknown=False
@@ -99,7 +116,7 @@ class Backend:
         self.profile,self.private,self.lockfd=profile,trial.no_symlinks(private),lockfd
         require(self.private.parent==ROOT/'backups','Fresh direct private backup directory required')
         self.environment,self.frozen,self.clock=environment,frozen,clock
-        self.cleaning=False;self.used=False;self.admitted=False;self.bus=None;self.configuration=None
+        self.cleaning=False;self.used=False;self.admitted=False;self.bus=None;self.configuration=None;self.loader=None
         self.lockpath=ROOT/'.scratch/esp-demo.lock'
         self.private.mkdir(mode=0o700);(self.private/'workers').mkdir(mode=0o700)
         self.workers=WorkerOwner(self.private/'workers',lockfd,self.lockpath,clock)
@@ -111,6 +128,7 @@ class Backend:
         require(self.owner.closed,'Unknown owned worker/container closure blocks access')
         inherited_operator_lock(self.lockfd,self.lockpath)
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(),'Unclosed-resource marker blocks access')
+        session_lease(self.profile,self.private)
         frozen_inputs(self.frozen)
         for name in ('picotool_executable','python_executable'):
             require(trial.sha(self.environment[name])==self.environment[name+'_sha256'],'Frozen tool executable differs')
@@ -118,6 +136,7 @@ class Backend:
         binding=trial.original_binding(self.profile['binding_path'],*self.profile['baseline_paths'])
         require(all(self.profile[k]==v for k,v in binding.items()),'Original preservation binding differs')
         require(trial.sha(ROOT/'tools/forgix_spi_backend.py')==self.profile['backend_source_sha256'],'Backend source differs')
+        require(trial.sha(ROOT/'tools/run_forgix_spi_trial.py')==self.profile['coordinator_source_sha256'],'Coordinator source differs')
         qualification=trial.private_file(self.profile['qualification_path'],'.scratch')
         require(trial.sha(qualification)==self.profile['qualification_sha256'],'Qualification receipt differs')
 
@@ -211,6 +230,13 @@ class Backend:
     def return_factory(self,until):
         self.hardware_gate(until)
         self.inspector.deadline=until
+        if self.loader is None:
+            # An enter-ROM intent may have been persisted before store creation
+            # failed. Recovery must not depend on that stage having a loader.
+            store=preserve.PrivateStore(self.private/'factory-return',ROOT/'backups')
+            self.loader=RegisterPicotool(self.environment['picotool_executable'],self.inspector,store,
+                self.environment['image_id'],self.frozen,until,bridge=self.profile)
+            self.owner.runners.append(self.loader)
         self.loader.deadline=until
         factory=trial.watched_factory(self.inspector,self.bus,until,self.loader)
         trial.bounded_query(self.inspector,factory,self.loader.store,'returned-after-ram',self.lockfd,until,self.loader)
@@ -276,9 +302,23 @@ def serial_operation(request,store,select,open_transport,clock=time.monotonic):
     check();require(result.get('persistence_verified') is True and result.get('transport_closed') is True,'Serial receipt incomplete')
     return result
 
+def ready_bridge(select,until,clock=time.monotonic,pause=time.sleep):
+    """Only wait for enumeration/permissions; identity failures stay fatal."""
+    while clock()<until:
+        try:
+            identity=select()
+        except FileNotFoundError:
+            pass
+        else:
+            if os.access(identity['port'],os.R_OK|os.W_OK,effective_ids=True) and clock()<until:return identity
+        left=until-clock()
+        if left>0:pause(min(.05,left))
+    raise TimeoutError('Selected bridge did not become ready before stage deadline')
+
 def serial_worker(path):
     path=trial.private_file(path,'backups');request=json.loads(path.read_text());profile=request['profile']
     qualified(profile)
+    session_lease(profile)
     frozen_inputs(request['frozen']);inherited_operator_lock(request['lockfd'],request['lockpath'])
     require(request['lockpath']==str(ROOT/'.scratch/esp-demo.lock'),'Original lifecycle lock required')
     current=artifact(Path(profile['elf']).parent)
@@ -286,10 +326,19 @@ def serial_worker(path):
     bound_files={profile['elf']:profile['elf_sha256'],
                  str(Path(profile['elf']).parent/'manifest.json'):profile['manifest_sha256'],
                  str(ROOT/'tools/forgix_spi_backend.py'):profile['backend_source_sha256']}
-    def selected():
+    def selected(ready=False):
+        session_lease(profile)
         frozen_inputs(request['frozen']);inherited_operator_lock(request['lockfd'],request['lockpath'])
         require(all(trial.sha(Path(name))==digest for name,digest in bound_files.items()),'Worker bound artifact/source changed')
-        port=trial.fresh_tty('3-3','cafe','4012','Forgix SPI RAM bridge v1')
+        if ready:
+            usb=Path('/sys/bus/usb/devices/3-3')
+            mode=((usb/'idVendor').read_text().strip().lower(),(usb/'idProduct').read_text().strip().lower())
+            if mode in (('2e8a',preserve.FACTORY_PID),('2e8a',preserve.BOOT_PID)):
+                serial=(usb/'serial').read_text().strip().casefold()
+                require(hashlib.sha256(serial.encode()).hexdigest()==profile['uid_sha256'] and
+                        int((usb/'busnum').read_text())==request['bus'],'Original device changed during mode transition')
+                raise FileNotFoundError('Original device has not enumerated its RAM bridge yet')
+        port=trial.fresh_tty('3-3','cafe','4012','Forgix SPI RAM bridge v1',wait_missing=ready)
         result=capture.select_bridge('3-3',port,uid_sha256=profile['uid_sha256'])
         require(int(result['bus'])==request['bus'],'Bridge changed physical bus')
         return result
@@ -297,6 +346,7 @@ def serial_worker(path):
         serial=open_retaining_serial(port)
         return capture.SerialDeadlineTransport(serial)
     store=PrivateCapture(path.parent/'capture',ROOT/'backups')
+    ready_bridge(lambda:selected(ready=True),request['until'])
     result=serial_operation(request,store,selected,opened)
     capture.save(store,'result.json',result)
     require(time.monotonic()<request['until'],'Worker result persistence exceeded deadline')

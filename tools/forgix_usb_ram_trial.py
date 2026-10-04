@@ -368,7 +368,7 @@ def watched_factory(inspector, bus, until, runner=None):
     raise preserve.PreservationError('Factory return not observed; unplug/replug USB, then use recover. No image rewrite attempted')
 
 
-def fresh_tty(topology, vid, pid, product=None, sys_root=Path('/sys'), dev_root=Path('/dev')):
+def fresh_tty(topology, vid, pid, product=None, sys_root=Path('/sys'), dev_root=Path('/dev'), wait_missing=False):
     usb = (sys_root/'bus/usb/devices'/topology).resolve(strict=True)
     require((usb/'idVendor').read_text().strip().lower() == vid and (usb/'idProduct').read_text().strip().lower() == pid, 'TTY selection requires expected selected USB mode')
     if product is not None:
@@ -382,6 +382,8 @@ def fresh_tty(topology, vid, pid, product=None, sys_root=Path('/sys'), dev_root=
                 matches.append(dev_root/tty.name)
         except OSError:
             continue
+    if not matches and wait_missing:
+        raise FileNotFoundError('Selected CDC interface is not ready')
     require(len(matches) == 1, 'Fresh unique CDC tty on exact selected USB node required')
     require(stat.S_ISCHR(matches[0].stat().st_mode), 'Selected tty must be a character device')
     return str(matches[0])
@@ -562,6 +564,7 @@ def main():
     code = 2
     try:
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(), 'Unverified owned resource marker blocks all device access')
+        require(not (ROOT/'.scratch/forgix-spi-active.json').exists(), 'Unresolved register session lease blocks all device access')
         binding = original_binding(a.binding, a.baseline_a, a.baseline_b)
         artifact = artifact_check(a.artifact) if a.action == 'run' else None
         image = image_check(shutil.which('picotool') or '', a.image_id)
@@ -581,6 +584,7 @@ def main():
             # Another operator can fail while our offline preflight runs. The
             # shared lock serializes this final admission with its marker write.
             require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(), 'Unverified owned resource marker blocks all device access')
+            require(not (ROOT/'.scratch/forgix-spi-active.json').exists(), 'Unresolved register session lease blocks all device access')
             check_inputs(frozen)
             if a.action == 'recover':
                 prior = json.loads(private_file(a.prior_session, 'backups').read_text())

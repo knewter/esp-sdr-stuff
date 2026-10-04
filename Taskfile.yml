@@ -386,3 +386,18 @@ tasks:
     desc: Save backend preparation plan; empty qualification registry refuses hardware
     cmds:
       - python3 tools/forgix_spi_backend.py {{.CLI_ARGS}}
+
+  forgix:spi-bridge:coordinator:test:
+    desc: Test exact committed inputs, exclusive flock and durable episode faults offline
+    cmds:
+      - python3 -m unittest discover -v -s tests -p test_forgix_spi_coordinator.py
+
+  forgix:spi-bridge:preflight:
+    desc: Verify a registry-qualified register profile without opening hardware
+    cmds:
+      - python3 tools/run_forgix_spi_trial.py preflight {{.CLI_ARGS}}
+
+  forgix:spi-bridge:trial:
+    desc: Run one preserved register episode only when its exact qualification tuple is committed
+    cmds:
+      - python3 tools/run_forgix_spi_trial.py run {{.CLI_ARGS}}
