@@ -111,3 +111,12 @@ fragment was not saved. Interrupted monitoring and a truncated source phase
 prevent complete schedule/scalar qualification. Preserve this failed condition;
 zero saved-row integrity failures does not describe the failed read. No task
 or accepted requirement changes.
+
+
+The [BW20/hardware condition](docs/evidence/ble-bluez-control-006/README.md)
+completes all source pairs, 1,257 intact snapshots and original restoration.
+Independent full decoder/scalar replay retains zero CRC-valid packets and no
+repeated source-attributed nominal-band rise. HCI completions lie within the
+predeclared guards; DBus acknowledgements alone are not synchronous completion.
+The original BW12 condition is next after reviewed prefix retention. Original
+Trial B and count/detection gates remain open; no checkbox changes.
