@@ -81,8 +81,9 @@ class Lifecycle:
     return_factory(deadline), preserve_after(deadline).
 
     The two configuration strategies are modeled, not admitted on hardware.
-    The actual bridge has no configuration writer. A physical adapter must
-    provide its reviewed implementation and qualification before using this
+    The register-only bridge has no configuration writer; an opt-in embedded
+    variant is offline preparation. A physical adapter must provide reviewed
+    configuration implementation and qualification before using this
     controller. write_event must durably retain private intent/result records.
     """
     def __init__(self, adapter, write_event, clock=time.monotonic):

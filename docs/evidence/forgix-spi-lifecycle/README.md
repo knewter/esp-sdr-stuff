@@ -51,6 +51,11 @@ qualification. Setting a receipt flag is not physical evidence. The controller
 always labels results `model_policy_only` and leaves physical execution and
 qualification unadmitted.
 
+Later [configuration-bridge preparation](../forgix-spi-config/README.md) adds
+an opt-in exact-image writer after SDK startup. The no-writer boundary above
+describes the source revision in this receipt. A physical lifecycle backend
+and independently reviewed configuration/load/recovery path remain open.
+
 ## Actual worker ownership checks
 
 `WorkerOwner` uses the existing RAM trial's spawn-cancellation protection and

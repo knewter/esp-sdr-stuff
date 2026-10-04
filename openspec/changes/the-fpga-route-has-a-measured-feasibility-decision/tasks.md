@@ -84,3 +84,12 @@ real regular-file/process fixtures verify inherited-lock and whole-group
 closure. No physical backend, FPGA configuration writer or load/program CLI
 is implemented. Tasks 1.1 and 2.1–2.3 remain unchecked. These software checkpoints
 support task 2.1 without replacing its several-rate physical transport proof.
+
+The [exact-image configuration variant](docs/evidence/forgix-spi-config/README.md)
+now compiles after SDK startup and passes 15 own-operator configuration checks.
+It allocates 202,680 SRAM bytes, includes the complete 173,380-byte decoded
+candidate and passes the linked startup audit. Register-only bridge009 remains
+27,968 bytes. The separate profile's 256 KiB guard preserves the original
+128 KiB profiles. No device was opened or programmed. Physical grade/clock,
+pin handoff, identity-selected backend and independent loading/recovery review
+remain gates. Task 1.1 and tasks 2.1–2.3 stay unchecked, at 1/5.

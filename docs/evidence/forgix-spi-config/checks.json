@@ -1,0 +1,151 @@
+{
+  "checked_utc": "2026-10-04T04:57:38.737953+00:00",
+  "source_commit": "6aee05c9f7962180bda948dd6de8c03eb8c31eb5",
+  "result": "passed",
+  "evidence_class": "Own-operator offline builds, native C/fake SDK and digital simulations; no independent-agent review or physical qualification",
+  "configuration_checks": 15,
+  "configuration_test_duration_s": 0.815,
+  "bridge_regression_checks": 29,
+  "bridge_regression_duration_s": 214.305,
+  "skips": 0,
+  "hardware_opened": false,
+  "ram_loaded": false,
+  "fpga_programmed": false,
+  "physical_backend_implemented": false,
+  "loading_admitted": false,
+  "builds": {
+    "configuration": {
+      "source_commit": "6aee05c9f7962180bda948dd6de8c03eb8c31eb5",
+      "status": "built_layout_guard_passed",
+      "build_duration_s": 9.105157318990678,
+      "elf_sha256": "4c1caaaae3b944c57437e33051a9780ed008123312a99daf4af5dea0ac62edf9",
+      "elf_bytes": 814292,
+      "manifest_sha256": "08ca22a751fbb6e82813d3711bf4038e972ae6146847b86e4ec619bbcf5c878c",
+      "allocated_load_bytes": 202680,
+      "application_policy": "spi-config-bridge",
+      "stack_bytes": 4096,
+      "heap_bytes": 0,
+      "core1_stack_bytes": 0,
+      "build_source_sha256": "94a8fe76f056515ce145b68a0e0cc86dcdc99521986e73d4d23d22bb09b6a9a9",
+      "fpga_configuration_writer": true,
+      "linked_embedded_image_verified": true,
+      "configuration": {
+        "candidate_source_commit": "60ba10c686db5c039a10c077ec4f0fa1e2465cb9",
+        "candidate_manifest_sha256": "09e88d3c7a7fac53b6e8f40b974ad1ea42cf84ff0e98883cf1937f7f2ecfb576",
+        "hex_sha256": "2c74a218e8bc654aafae74cff9ba4ae4cb7eb11b657ab6ab7a540044868140b1",
+        "decoded_sha256": "cfeea136b92c4d93d7f0ba5a1b5f3f50859e56bb0ad1ff4f8ae0a177d7ff4975",
+        "decoded_bytes": 173380,
+        "decoded_crc32": 2761582856,
+        "physical_qualification_proved": false
+      },
+      "startup_audit_sha256": "75f8e9363a60d7466cb0b126f0cf3556445958276bfb8c71e5df99e196fcc3d9",
+      "startup_result": "reviewed_transition_requires_qualification",
+      "reset_blocks": {
+        "IO_BANK0": {
+          "asserted_by_early_reset": true,
+          "released_by_early_reset": true
+        },
+        "PADS_BANK0": {
+          "asserted_by_early_reset": true,
+          "released_by_early_reset": true
+        },
+        "PIO0": {
+          "asserted_by_early_reset": true,
+          "released_by_early_reset": true
+        }
+      },
+      "source_sha256": {
+        "firmware/forgix-spi-bridge/CMakeLists.txt": "56d7a3f1d1c5000028195dae3e5f01490dbddde35e30a6ef8e1718f72fcf204a",
+        "firmware/forgix-spi-bridge/main.c": "2daed4a6d20c7cf860e3f17b2ebf336e64c00d990f00e60cc3d5126dcbc0cd57",
+        "firmware/forgix-spi-bridge/protocol.h": "6bf6a3a6ffe1048d2df01d2fd30833ef7c5b415175abec4d0e9acadd1d02d9c5",
+        "firmware/forgix-spi-bridge/protocol.c": "3e19f315b3b61ec4c26425c9042863a0be07bd2213dba4b0091a70c3a2133010",
+        "firmware/forgix-spi-bridge/config.h": "ba77befbe0f00d2a85e38926ad855fd33f5c7197b78adf393e523d0ab205d813",
+        "firmware/forgix-spi-bridge/config.c": "5b33a720d235ee4bf4d2910e93c5ee62154a16aedc90e7c4440522291650f521",
+        "firmware/forgix-spi-bridge/wire.pio": "244148190ce9b06848f3c21f90834421d8de4510528717be666a59753f35347e",
+        "firmware/forgix-spi-bridge/usb_descriptors.c": "6bc8a3c68ffb740293db64b07186977884727690e29dfbec4bc5d1cc1a61c933",
+        "firmware/forgix-spi-bridge/tusb_config.h": "139ecc378a05dc7624134b314db880a9886f55ebe79d1030e34840f5d5f7a7ce",
+        "tools/build_forgix_spi_bridge.py": "bed1d957d3801f61cf069d8e5d97218ebe07eef4faab3cdddb0dfc01080730f2",
+        "tools/build_forgix_usb_ram.py": "4192951a520bfd7798f192d6029989ce5104c9fd4be977d9bf141eb00d7838d9",
+        "tools/forgix_usb_ram_artifact.py": "dae28f917b49ad1ce527264d6149d8aa6f6afd033b7b98099f2a1a02504c5f53",
+        "tools/forgix_spi_guard.py": "1912f418ca88f1cc68487b39403f7c0dd58aab141aae079453359b1a1f67e3b1",
+        "tools/forgix_config.py": "722a2002fb6cdd09e8e9571462001bbeda9d2f80560844f8148625645e216e6e",
+        "flake.nix": "e98adf25cffbeb76bf793aece4415870bf079e87755d551eddb93e5aca16d322",
+        "flake.lock": "8e36636eed6ce15d544e2ac98ca030b07ea5a697be2e68824df9df599c264a9e",
+        "Taskfile.yml": "285273b0b51ac11a7fa40331a7d571dd2463a816fb18fb5e1d3e29a0e8cfb03c"
+      }
+    },
+    "register_only": {
+      "source_commit": "6aee05c9f7962180bda948dd6de8c03eb8c31eb5",
+      "status": "built_layout_guard_passed",
+      "build_duration_s": 7.627363245002925,
+      "elf_sha256": "1e20beddfb3e41af6b2d4d38029c61b2223fbf3d891707ec1c9c1eab5aecf8a0",
+      "elf_bytes": 620460,
+      "manifest_sha256": "4f027f08d969f80b7f671f37f8aaa7dbe3a5ff1118c861146b06920353968077",
+      "allocated_load_bytes": 27968,
+      "application_policy": "spi-bridge",
+      "stack_bytes": 4096,
+      "heap_bytes": 0,
+      "core1_stack_bytes": 0,
+      "build_source_sha256": "989fa888aaea87581d96a00a8d18367a2a7f7b7d9c9c0bc344022fcaa7500e1d",
+      "fpga_configuration_writer": false,
+      "linked_embedded_image_verified": false,
+      "configuration": null,
+      "startup_audit_sha256": "690b4de5b45076e421d74414377e7b1eac2d05950e6d0c9580cae6016bc60f95",
+      "startup_result": "reviewed_transition_requires_qualification",
+      "reset_blocks": {
+        "IO_BANK0": {
+          "asserted_by_early_reset": true,
+          "released_by_early_reset": true
+        },
+        "PADS_BANK0": {
+          "asserted_by_early_reset": true,
+          "released_by_early_reset": true
+        },
+        "PIO0": {
+          "asserted_by_early_reset": true,
+          "released_by_early_reset": true
+        }
+      },
+      "source_sha256": {
+        "firmware/forgix-spi-bridge/CMakeLists.txt": "56d7a3f1d1c5000028195dae3e5f01490dbddde35e30a6ef8e1718f72fcf204a",
+        "firmware/forgix-spi-bridge/main.c": "2daed4a6d20c7cf860e3f17b2ebf336e64c00d990f00e60cc3d5126dcbc0cd57",
+        "firmware/forgix-spi-bridge/protocol.h": "6bf6a3a6ffe1048d2df01d2fd30833ef7c5b415175abec4d0e9acadd1d02d9c5",
+        "firmware/forgix-spi-bridge/protocol.c": "3e19f315b3b61ec4c26425c9042863a0be07bd2213dba4b0091a70c3a2133010",
+        "firmware/forgix-spi-bridge/config.h": "ba77befbe0f00d2a85e38926ad855fd33f5c7197b78adf393e523d0ab205d813",
+        "firmware/forgix-spi-bridge/config.c": "5b33a720d235ee4bf4d2910e93c5ee62154a16aedc90e7c4440522291650f521",
+        "firmware/forgix-spi-bridge/wire.pio": "244148190ce9b06848f3c21f90834421d8de4510528717be666a59753f35347e",
+        "firmware/forgix-spi-bridge/usb_descriptors.c": "6bc8a3c68ffb740293db64b07186977884727690e29dfbec4bc5d1cc1a61c933",
+        "firmware/forgix-spi-bridge/tusb_config.h": "139ecc378a05dc7624134b314db880a9886f55ebe79d1030e34840f5d5f7a7ce",
+        "tools/build_forgix_spi_bridge.py": "bed1d957d3801f61cf069d8e5d97218ebe07eef4faab3cdddb0dfc01080730f2",
+        "tools/build_forgix_usb_ram.py": "4192951a520bfd7798f192d6029989ce5104c9fd4be977d9bf141eb00d7838d9",
+        "tools/forgix_usb_ram_artifact.py": "dae28f917b49ad1ce527264d6149d8aa6f6afd033b7b98099f2a1a02504c5f53",
+        "tools/forgix_spi_guard.py": "1912f418ca88f1cc68487b39403f7c0dd58aab141aae079453359b1a1f67e3b1",
+        "tools/forgix_config.py": "722a2002fb6cdd09e8e9571462001bbeda9d2f80560844f8148625645e216e6e",
+        "flake.nix": "e98adf25cffbeb76bf793aece4415870bf079e87755d551eddb93e5aca16d322",
+        "flake.lock": "8e36636eed6ce15d544e2ac98ca030b07ea5a697be2e68824df9df599c264a9e",
+        "Taskfile.yml": "285273b0b51ac11a7fa40331a7d571dd2463a816fb18fb5e1d3e29a0e8cfb03c"
+      }
+    }
+  },
+  "private_log_sha256": {
+    "tests-003.log": "53f491572412ae8c833933ca5120e194c7ceaa46cfd503109577f672f56585f3",
+    "bridge-regressions-001.log": "b51a92bf86455670973986d409c2fa13da9e3420067a1a76fc7e733a42be3175",
+    "config-build-001.log": "d25418046e941445f9230d5223e5c0936b58c2cea56bb4c0e41dec7a8ca738e0",
+    "base-build-001.log": "233717d631bcdcaead28d75ac6f0883eb26381ea95d5535b26031886ca2bb67c",
+    "config-audit-001.log": "1b21132942e0aa12243831aeedb728cb4635960a3131d7a6b231a00cfdc6b324",
+    "base-audit-001.log": "35384ddf3706d811628e1e9b23736497e778546009f14f033f9e0810d9697dbd"
+  },
+  "primary_revision": "c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f",
+  "primary_source_sha256": {
+    "upstream-fpga-config.c": "9aa9674c328cec6603f235e3398a3f4621a94a42868d901c034008c98df26246",
+    "upstream-board-config.h": "23e6cde33fb0629d1f7c342e6c8259d124b9720173a561b7d16b1012c05991ae",
+    "upstream-bitstream.py": "7892d48ac4feafb40016da1c80002ffc6f2dc2bd0055b8449efab2a188c840b2"
+  },
+  "commands": [
+    "nix develop .#ci --command task forgix:spi-bridge:config:test",
+    "nix develop .#forgix-spi-bridge --command task forgix:spi-bridge:test",
+    "nix develop .#forgix-spi-bridge --command task forgix:spi-bridge:build -- <fresh private paths; optional --candidate>",
+    "nix develop .#forgix-spi-bridge --command task forgix:spi-bridge:startup-audit -- <saved artifact and fresh private output>"
+  ],
+  "limits": "No physical reset/clock/pad/contention/image-continuity/register measurement, port ownership or factory recovery trial. Candidate I2/32 MHz remains provisional. Complete backend and independent loading/recovery review remain open; acceptance 1/5 unchanged."
+}

@@ -1,9 +1,12 @@
 # Finite Forgix RP PIO register bridge
 
-This is an offline RAM-only candidate, not a verified FPGA transport. It has no
-flash/OTP writer, FPGA configuration loader, RF input, PSRAM access or sustained
-streaming path. The connected FPGA must already contain the exact qualified
-guarded candidate before a separately reviewed hardware lifecycle can use it.
+This is an offline RAM-only candidate, not a verified FPGA transport. The
+default register-only variant has no FPGA configuration loader and requires
+the exact qualified guarded image already present. An opt-in
+[exact-image configuration variant](../../docs/evidence/forgix-spi-config/README.md)
+now compiles and can configure its embedded candidate after SDK startup,
+before ARM. Neither variant has a flash/OTP writer, RF input, PSRAM access or
+sustained streaming path. Both require a separately reviewed hardware lifecycle.
 No load/program task is provided. Physical grade/clock, PIO handoff timing,
 linked startup, exclusive USB identity, fresh preservation and factory recovery
 remain prerequisites. Compilation and digital simulation do not satisfy them.
@@ -35,12 +38,14 @@ PIO words, ELF/map/disassembly and a distinct application layout policy. The
 original synthetic USB diagnostic still uses its stricter no-application-GPIO
 policy. Both reject flash/peripheral ELF destinations, heap/core1 allocations,
 flash-writing symbols and allocations beyond128KiB. These are layout checks,
-not an instruction-level safety proof. The SDK resets IO before main; a RAM
+not an instruction-level safety proof. The separate configuration profile has
+a 256 KiB allocation limit, a 192 KiB image cap and required image/writer symbols;
+the default profiles retain their 128 KiB limits. The SDK resets IO before main; a RAM
 image cannot promise that the previous FPGA configuration or pin state survives.
 
 ## Requested pin and timing contract
 
-Application GPIO work begins only after a valid ARM request within30seconds:
+For the register-only variant, application GPIO work begins only after a valid ARM request within30seconds:
 GPIO1 CS high, GPIO2 SCK low, GPIO3 DATA input, GPIO5 CDONE input,
 GPIO19 oscillator enable high. GPIO4 CRESET is untouched by application code.
 The bridge requires the SDK's150MHz MCU clock, waits100us, and refuses unless
