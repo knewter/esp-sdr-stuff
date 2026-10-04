@@ -1,6 +1,6 @@
 {
   "kind": "synthetic vendor-route preparation and retained first runtime failure",
-  "status": "runtime_fixed_second_build_failed_verification",
+  "status": "third_build_artifacts_verified_internal_setup_failed",
   "executed_commit": "0c4161b4b16f6f27c33994ff22b5f5a602349e42",
   "executed_inputs_sha256": {
     "firmware/forgix-synthetic-source/source.v": "ec067fbbe7ebcab49c4924afda7a8303ef581945924db2658b77ff807bdaf48c",
@@ -161,5 +161,78 @@
     "focused_checks": 20,
     "scope": "exact vendor XML rewrite plus empty auxiliary inventory; fresh actual run still required",
     "hardware_opened": false
+  },
+  "third_attempt": {
+    "executed_commit": "9ebac506e54e8e86570c97d029376461cc4144f4",
+    "source_sha256": "d0d6cb975f12cde961457c21036a6a8acb9c077d5befbd45240c02c831d54626",
+    "result_sha256": "e86a2f560c3dbb7e71fbd964b8d341fd564de9e552dc59230f3bfaa2a661f2fc",
+    "duration_seconds": 51.281378871,
+    "vendor_stage_attestations": [
+      "map:PASS",
+      "interface:PASS",
+      "pnr:PASS",
+      "pgm:PASS"
+    ],
+    "post_verification": "passed_exact_inputs_generated_files_XML_policy_and_image",
+    "private_artifact_review_sha256": "bf3f40683bdddf0820516cf406eb6a61abacac2ac01e9b2538dc30085fa126c8",
+    "review_verdict": "PASS_COMPILE_ARTIFACTS_TIMING_FAIL_NO_PHYSICAL_ADMISSION",
+    "project_XML": {
+      "before_sha256": "dcc1be4c3f3c22c44fcb1016a37714000dc15e1fdd36c00a2f18e87045732c36",
+      "after_sha256": "b916f879c79149ffb0f8aefc1e2cf1a7c87bc7c1e526f9abc8cccec7771cea91",
+      "policy": "efinity-2026.1.132-location-date-etree-v1"
+    },
+    "image": {
+      "bytes": 520140,
+      "sha256": "c3d57e64c5d047afd3a2bf75028895d5e55d0ec2b497b9bfaeaebd6b79d851be"
+    },
+    "resources": {
+      "logic_elements": 3630,
+      "logic_available": 7384,
+      "LUT4": 2211,
+      "ADD": 484,
+      "FF": 1657,
+      "RAM5K": 8,
+      "RAM_available": 24,
+      "source_FIFO_RAM5K": 7
+    },
+    "timing": {
+      "requested_hz": 32000000,
+      "setup_slack_ns": -1.763,
+      "hold_slack_ns": 0.641,
+      "analyzed_max_mhz": 30.291
+    },
+    "critical_path": {
+      "begin": "tick[5]",
+      "end": "stop_tick[41] CE",
+      "logic_levels": 55,
+      "non_global_nets": 56,
+      "data_delay_ns": 31.73,
+      "cone": "64-bit tick-start subtraction -> due -> finite completion enable"
+    },
+    "pins_verified": [
+      "B4 clk32",
+      "F2 shared MOSI input/output/enable",
+      "F3 SCK",
+      "G3 CS"
+    ],
+    "warnings_reviewed": {
+      "full_warning_log_sha256": "4d6c2a290538bd84b446a1715757299eee6e8dd4b9748391386efa1fe33d792f",
+      "compiler_environment_warning": "host libstdc++ newer than bundled version",
+      "constant_and_width_warnings": "shift truncations, modular pointer/count decrements, CSR narrowing; actual HDL regressions cover intended behavior",
+      "unconnected_dummy_mosi": "real shared F2 inout remains present in interface and pinout",
+      "FIFO_uninitialized": "head-valid gates uninitialized storage until enqueue/read settling",
+      "programming_CRC": "T8F49 does not support programming CRC; image hash is artifact integrity only"
+    },
+    "parent_owned_process_group_closed": true,
+    "private_outputs_hardened": true,
+    "hardware_opened": false,
+    "programming_admitted": false,
+    "internal_setup_closed": false,
+    "external_SPI_timing_qualified": false,
+    "limits": [
+      "No external SPI input/output delay constraints; electrical turnaround and RP-release qualification remain open.",
+      "No loading, transport measurement, calibration or timing admission.",
+      "Compile002 failed input-guard episode remains failed; this is a separate fresh episode."
+    ]
   }
 }

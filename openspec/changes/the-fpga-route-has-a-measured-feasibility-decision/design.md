@@ -219,3 +219,23 @@ The [finite codecs](docs/evidence/forgix-synthetic-codec/README.md) pass actual 
 ## Actual routed failure and reviewed correction
 
 The [actual compiler reports](docs/evidence/forgix-synthetic-compiler/README.md) fit the requested target resources but miss internal 32 MHz setup by 0.694 ns. Exact vendor XML rewrite and empty-auxiliary inventory corrections pass review. The [deadline-register optimization](docs/evidence/forgix-synthetic-timing/README.md) preserves cycle behavior in actual differential HDL tests. Fresh routed timing, RP/host stream, physical grade/clock/pins and complete recovery remain gates; no task is accepted.
+
+## Third routed result and next scheduler proof
+
+[Actual attempt003](docs/evidence/forgix-synthetic-compiler/README.md) passes
+complete artifact/XML verification and independent report review but misses
+internal 32 MHz setup by 1.763 ns. Requested-target resources fit; no physical
+clock, pad timing or loading is qualified. The critical path is the 64-bit
+relative scheduling comparison feeding finite completion. The earlier
+deadline-register optimization preserves behavior but did not improve this
+routed result.
+
+Replace only the due scheduler with a period countdown. Preserve the exact
+first/last record ticks, sequence/pattern/CRC, source offers under full FIFO,
+START one-shot/window, concurrent POP/STOP/SNAPSHOT, coherent snapshots, reset
+and five-second drain. Supported finite profiles last 60 nominal seconds; the
+countdown must not change timestamps or silently throttle offers. Prove actual
+old/new HDL equality with full-target profiles, carry/wrap and accelerated
+reconciled edge states, then obtain independent review and a fresh vendor build
+at unchanged 32 MHz. Continue RP/host and complete load/recovery review in
+parallel. This closes no physical inventory or transport task.
