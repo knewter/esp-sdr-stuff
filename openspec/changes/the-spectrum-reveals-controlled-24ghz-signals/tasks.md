@@ -128,3 +128,7 @@ repeated source-attributed nominal-band rise. HCI completions lie within the
 predeclared guards; DBus acknowledgements alone are not synchronous completion.
 The original BW12 condition is next after reviewed prefix retention. Original
 Trial B and count/detection gates remain open; no checkbox changes.
+
+## Final original ladder outcome
+
+The [final original BW12 control](docs/evidence/ble-bluez-control-007/README.md) completes the prospective ladder: all1,151 captures, whole decoder/scalar replay, source schedule, cleanup and full restoration pass independent audit. Zero CRC-valid packets and no repeated owned-source nominal-band rise supply no emitted-event denominator or detection/miss rate. Original TrialB remains withheld; neither radio acceptance gate is relaxed.

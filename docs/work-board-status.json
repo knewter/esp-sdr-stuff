@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Run the final original eight-bit/BW12/hardware control with a fresh runtime/device freeze. Failed-prefix retention and caller integration pass independent review; original Trial B and air counts remain gated.",
-      "rationale": "Independent reviews verify 1,260 original eight-bit and 1,010 ten-bit/manual snapshots with full restorations. The ten-bit run decodes three other-source CRC-valid packets and zero owned packets; fixed-band controls show no repeated owned-source rise. Fuller HCI metadata passes 134 focused checks and 23 independent probe groups, without upgrading older receipts or supplying an air denominator. The next eight-bit/manual episode retained 1,047 valid snapshots before a short payload terminated its third source phase. Independent review verifies restoration, but no complete schedule or scalar trial follows. The BW20/hardware condition passes independent replay of all 1,257 intact snapshots and full restoration, with zero CRC-valid packets and no repeated source-attributed nominal-band rise. Failure-prefix retention passes 88 focused checks, seven independent checks and four actual START probes; caller integration passes 34+26 checks and three probes.",
-      "reviewRevision": "89324cf",
+      "next": "The original control ladder is complete with retained null/failed outcomes. Original Trial B stays withheld; independently counted legacy RF emissions and repeated owned-source reception remain external gates. Continue FPGA preparation and review.",
+      "rationale": "Independent reviews verify 1,260 original eight-bit and 1,010 ten-bit/manual snapshots with full restorations. The ten-bit run decodes three other-source CRC-valid packets and zero owned packets; fixed-band controls show no repeated owned-source rise. Fuller HCI metadata passes 134 focused checks and 23 independent probe groups, without upgrading older receipts or supplying an air denominator. The next eight-bit/manual episode retained 1,047 valid snapshots before a short payload terminated its third source phase. Independent review verifies restoration, but no complete schedule or scalar trial follows. The BW20/hardware condition passes independent replay of all 1,257 intact snapshots and full restoration, with zero CRC-valid packets and no repeated source-attributed nominal-band rise. Failure-prefix retention passes 88 focused checks, seven independent checks and four actual START probes; caller integration passes 34+26 checks and three probes. Final original BW12/hardware control passes independent replay of all 1,151 captures, whole decoder/scalar analysis, all source pairs, cleanup and full restoration. Zero CRC-valid packets and no repeated nominal-band rise leave air counts and detection rates unproved.",
+      "reviewRevision": "8887f3b",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -114,7 +114,8 @@
         "docs/evidence/ble-hci-metadata-preparation/README.md",
         "docs/evidence/ble-bluez-control-005-failed/README.md",
         "docs/evidence/ble-bluez-control-006/README.md",
-        "docs/evidence/capture-failure-retention/README.md"
+        "docs/evidence/capture-failure-retention/README.md",
+        "docs/evidence/ble-bluez-control-007/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
@@ -126,9 +127,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Run the final original eight-bit/BW12/hardware control with a fresh runtime/device freeze. Failed-prefix retention and caller integration pass independent review; original Trial B and air counts remain gated.",
-      "rationale": "Independent reviews verify 1,260 original eight-bit and 1,010 ten-bit/manual snapshots with full restorations. The ten-bit run decodes three other-source CRC-valid packets and zero owned packets; fixed-band controls show no repeated owned-source rise. Fuller HCI metadata passes 134 focused checks and 23 independent probe groups, without upgrading older receipts or supplying an air denominator. The next eight-bit/manual episode retained 1,047 valid snapshots before a short payload terminated its third source phase. Independent review verifies restoration, but no complete schedule or scalar trial follows. The BW20/hardware condition passes independent replay of all 1,257 intact snapshots and full restoration, with zero CRC-valid packets and no repeated source-attributed nominal-band rise. Failure-prefix retention passes 88 focused checks, seven independent checks and four actual START probes; caller integration passes 34+26 checks and three probes.",
-      "reviewRevision": "89324cf",
+      "next": "The original control ladder is complete with retained null/failed outcomes. Original Trial B stays withheld; independently counted legacy RF emissions and repeated owned-source reception remain external gates. Continue FPGA preparation and review.",
+      "rationale": "Independent reviews verify 1,260 original eight-bit and 1,010 ten-bit/manual snapshots with full restorations. The ten-bit run decodes three other-source CRC-valid packets and zero owned packets; fixed-band controls show no repeated owned-source rise. Fuller HCI metadata passes 134 focused checks and 23 independent probe groups, without upgrading older receipts or supplying an air denominator. The next eight-bit/manual episode retained 1,047 valid snapshots before a short payload terminated its third source phase. Independent review verifies restoration, but no complete schedule or scalar trial follows. The BW20/hardware condition passes independent replay of all 1,257 intact snapshots and full restoration, with zero CRC-valid packets and no repeated source-attributed nominal-band rise. Failure-prefix retention passes 88 focused checks, seven independent checks and four actual START probes; caller integration passes 34+26 checks and three probes. Final original BW12/hardware control passes independent replay of all 1,151 captures, whole decoder/scalar analysis, all source pairs, cleanup and full restoration. Zero CRC-valid packets and no repeated nominal-band rise leave air counts and detection rates unproved.",
+      "reviewRevision": "8887f3b",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -187,7 +188,8 @@
         "docs/evidence/ble-hci-metadata-preparation/README.md",
         "docs/evidence/ble-bluez-control-005-failed/README.md",
         "docs/evidence/ble-bluez-control-006/README.md",
-        "docs/evidence/capture-failure-retention/README.md"
+        "docs/evidence/capture-failure-retention/README.md",
+        "docs/evidence/ble-bluez-control-007/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",

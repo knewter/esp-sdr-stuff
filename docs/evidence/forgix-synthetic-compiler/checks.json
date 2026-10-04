@@ -50,6 +50,116 @@
     "hardware_opened": false,
     "internal_32MHz_setup_slack_ns": -0.694,
     "setup_timing_pass": false,
-    "report_review": "independent_full_audit_pending"
+    "report_review": "independent_failed_qualification_audit_passed",
+    "private_artifact_review_sha256": "3941bf2c019ca67cd123c9a4e3c0b970cf50620a10e4567665b1606e3f3ef5e8",
+    "resources": {
+      "requested_device": "T8F49",
+      "requested_grade": "I2",
+      "final_logic_elements": 3652,
+      "logic_elements_capacity": 7384,
+      "final_LUT_adders": 2720,
+      "registers": 1603,
+      "registers_capacity": 5280,
+      "RAM_blocks": 8,
+      "RAM_capacity": 24,
+      "multipliers": 0,
+      "synthesis_LUT_estimate": 2234,
+      "synthesis_adders": 484,
+      "synthetic_source_RAM_blocks": 7,
+      "identifier_RAM_blocks": 1
+    },
+    "timing": {
+      "requested_clock_hz": 32000000,
+      "period_ns": 31.25,
+      "analyzed_max_frequency_MHz": 31.305,
+      "setup_slack_ns": -0.694,
+      "hold_slack_ns": 0.641,
+      "internal_setup_closed": false,
+      "critical_begin": "forgix_synthetic_source/stop_tick[31]~FF|CLK",
+      "critical_end": "forgix_synthetic_source/high_water[4]~FF|CE",
+      "logic_levels": 10,
+      "non_global_nets": 11,
+      "Q_plus_data_delay_ns": 31.804,
+      "data_path_delay_ns": 30.661,
+      "clock_uncertainty_ns": 0.14,
+      "LUT_chain": [
+        "LUT__7478",
+        "LUT__7495",
+        "LUT__7626",
+        "LUT__7632",
+        "LUT__7636",
+        "LUT__7648",
+        "LUT__7693",
+        "LUT__7694",
+        "LUT__8056",
+        "LUT__8252"
+      ],
+      "source_control_cone": [
+        "source.v:43 drain_expired=done&&(tick>=stop_tick+DRAIN_CYCLES)",
+        "source.v:45 pop_ok gated by !drain_expired",
+        "source.v:47 push allows simultaneous POP when FIFO full",
+        "source.v:162-165 case push/pop then high_water update"
+      ],
+      "CRC_or_SPI_guard_is_reported_worst_setup_path": false,
+      "external_SPI_timing_qualified": false
+    },
+    "image": {
+      "bytes": 520140,
+      "sha256": "855b46dfeae788b6eac7800b7066c03f2f663b962038248c30b0f8165bab775d",
+      "all_lines_exact_two_hex_digits": true,
+      "decoded_bytes": 173380,
+      "decoded_sha256": "7dadbf84117754724bfefe42b3a860f20206aaf2a2c2d4ae0a753c5833277063",
+      "functional_proof": false
+    },
+    "four_assigned_user_pins": [
+      {
+        "pin": "B4",
+        "signal": "clk32",
+        "direction": "Input",
+        "bank": "1B",
+        "voltage": "3.3 V"
+      },
+      {
+        "pin": "F2",
+        "signal": "spibone0_mosi0",
+        "direction": "Bidirectional",
+        "bank": "1A",
+        "voltage": "3.3 V"
+      },
+      {
+        "pin": "F3",
+        "signal": "spibone_clk",
+        "direction": "Input",
+        "bank": "1A",
+        "voltage": "3.3 V"
+      },
+      {
+        "pin": "G3",
+        "signal": "spibone_cs_n",
+        "direction": "Input",
+        "bank": "1A",
+        "voltage": "3.3 V"
+      }
+    ],
+    "warnings": {
+      "count": 27,
+      "warning_log_sha256": "aefd61853c16c0683d29550fb38da90506a5cfc8f09f3b3adb8835a60f7550af",
+      "retained_classes": [
+        "project XML source overrides --v CLI sources",
+        "constant initialized unused interface ERR/bus CTI/BTE",
+        "intentional source/SoC width truncations require exact-source validation; simulation is not post-route physical proof",
+        "identifier mem no-driver warning with retained readmemh init/RAM block; no usable identifier readback claim",
+        "function temporaries and unused CSR/guard internals removed",
+        "unused original spibone_mosi port eliminated from assigned user pinout"
+      ]
+    }
+  },
+  "corrected_validator": {
+    "author_revision": "4694dc0fc7fb35342c905d9baabddc31a31a1cbb",
+    "root_revision": "87448a0",
+    "private_peer_review_sha256": "da7a80a7cfcbd0c24c8500e7f486e05455ee6eb15287f57d1252e6aa1558b4f8",
+    "focused_checks": 20,
+    "scope": "exact vendor XML rewrite plus empty auxiliary inventory; fresh actual run still required",
+    "hardware_opened": false
   }
 }

@@ -78,3 +78,7 @@ and Trial B prerequisites remain unchanged; no task is checked by these tests.
 ## Reviewed implementation prerequisites
 
 The [failure-retention review](docs/evidence/capture-failure-retention/README.md) verifies private UART prefixes, uncertain START closure and unchanged successful CSV bytes. Caller integration passes independently. The earlier failed fragment remains unavailable. The final original BW12 trial requires a fresh runtime/device freeze and full preservation/restoration; this source preparation supplies no reception or air denominator.
+
+## Final original ladder outcome
+
+The [final original BW12 control](docs/evidence/ble-bluez-control-007/README.md) completes the prospective ladder: all1,151 captures, whole decoder/scalar replay, source schedule, cleanup and full restoration pass independent audit. Zero CRC-valid packets and no repeated owned-source nominal-band rise supply no emitted-event denominator or detection/miss rate. Original TrialB remains withheld; neither radio acceptance gate is relaxed.
