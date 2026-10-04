@@ -231,3 +231,13 @@ Controller events remain distinct from emitted primary PDUs; previous failures,
 original legacyTrialB/count/RF gates and accepted specs stay unchanged. A future
 three-repeat ten-bit/BW20/manual48 receiver trial is conditional and separately
 frozen; this appendix admits no source action or receiver.
+
+## Corrected source-only preflight proof
+
+The [readiness preparation](docs/evidence/ble-primary-zero-data-readiness-preparation/README.md)
+now passes 104 author and five independent groups after rejecting late intent/lock
+and spawn returns, and force-cleaned descendants incorrectly counted as natural
+completion. Exact source/runtime/import and owned-group checks are retained;
+old failures remain failed. Physical profile qualification still needs a fresh
+root binding/freeze and one separately operated source trial. No receiver,
+radiated-primary denominator, original Trial B or accepted requirement is admitted.

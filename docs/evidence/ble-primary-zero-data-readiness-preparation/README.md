@@ -1,7 +1,8 @@
 # Zero-data extended-primary readiness preparation
 
 This is offline preparation for one source-only controller-profile trial.
-Independent preflight review and the physical source trial are pending. No
+The corrected independent preflight below passes; the physical source trial
+remains pending. No
 receiver, Bluetooth source, monitor container or device was opened by this
 preparation. The existing legacy Trial B and RF reception gates remain open.
 
@@ -28,7 +29,7 @@ supported range −127 through 20 dBm. The two readers must agree. Requested
 no calibrated RF measurement. Failed acknowledgements retain their previous
 status-only shape; other acknowledgement records are unchanged.
 
-The final locked Nix/Task replay passed **100 test groups**: 17 private caller,
+The original locked Nix/Task replay passed **100 test groups**: 17 private caller,
 24 HCI, 26 monitor/wrapper and 33 native-source groups, with no skips. Fixtures
 exercise actual emitted HCI bytes, exhaustive selected-power bytes, truncated
 and chunked transport, full profile mutations, ordering, actual host process
@@ -76,3 +77,22 @@ three-repetition receiver trial at ten-bit/BW20/manual48 is conditional on that
 source qualification and has not been implemented here. Neither this
 preparation nor a future source-only success closes the original counted-air,
 known-received-payload or reciprocal-response requirements.
+
+## Corrected independent preflight
+
+The preserved initial caller failed three independent probes: late intent/lock
+persistence still launched the source; a zero-exit leader with a live descendant
+qualified after signal cleanup; and source spawn returning late could qualify.
+The corrected caller `96729304…` checks all deadlines and monitor liveness both
+immediately before and after spawn, waits for natural whole-group disappearance,
+and retains forced cleanup as a failed outcome. Shared helpers/profile are unchanged.
+
+**104 author and five independent groups pass without skips.** Real harmless
+process fixtures verify natural descendant completion versus required signal
+cleanup. All 18 file inputs, eight runtime files and 253 Nix paths, full snapshot
+equality and both loaded immutable image IDs pass independent read-only checks.
+Ten actual project imports and 208 external Nix imports are bound. The initial
+summary mislabeled the Nix store; actual frozen executable `3vd56d4l…/bin/nix`
+has SHA `05c4fbc0…`, retained exactly in the corrected checks. Original failed
+proofs/versions are preserved. No controller action occurred; root must freshly
+bind identity and freeze its actual execution/runtime. No RF/count gate closes.

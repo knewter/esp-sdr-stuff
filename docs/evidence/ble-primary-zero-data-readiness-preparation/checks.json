@@ -132,5 +132,53 @@
     "Requested TX power 127 means no preference; observed selected power is not calibration.",
     "Controller completed events do not independently count radiated primary PDUs.",
     "Author freeze binds isolated absolute paths and private historical identity; root must verify current identity and freeze its actual runtime before any action."
-  ]
+  ],
+  "source_scope": "Historical original preparation values retained; corrected independently reviewed freeze is below. Original locked_nix_store summary mislabeled the actual frozen executable.",
+  "corrected_preflight": {
+    "result": "PASS_OFFLINE_ONLY",
+    "planning_clarifications": [
+      "d3dc75a",
+      "e2c8ef5"
+    ],
+    "source_sha256": {
+      "caller.py": "96729304447b20c1e4674d3b90c4e8506279882bc87c4d4d03fa2be406371058",
+      "test_caller.py": "f18294f1398be01568bcfe3a69ce1ff50c9689c910092143718cc82a9bf4eda6",
+      "task.yml": "040ed20133b4460fca83cb98cd04d9a447fc55a8d3524db0a73640220bdd8c7b"
+    },
+    "protocol_sha256": "ff6b98e0037a4f314a1e8fb1220933e320ad1e18fdb1d63bc11bb0a773dd5896",
+    "author_groups": 104,
+    "independent_groups": 5,
+    "skips": 0,
+    "author_review_ready_sha256": "b1f94184cf7e9cf7f334ac24da68fdba41c9336f3909acea836496f18f75e4b7",
+    "peer_review_sha256": "4fd314dbee15fdd4f8c7b4e350a954f860dfaa5678b3bdf0745006ac6c5f395a",
+    "private_freeze_sha256": "472a24050ac084edc60c6328684ddd9037f2626892727b2efc50eb2a71f1bd3c",
+    "author_log_sha256": "16d1a7bceec5df4d2eb590165d114f4fedde613aa61a24502b261f17735569f9",
+    "file_inputs": 18,
+    "runtime_paths": 8,
+    "verified_recursive_nix_paths": 253,
+    "actual_project_import_files": 10,
+    "external_nix_import_files": 208,
+    "locked_nix_executable": {
+      "path": "/nix/store/3vd56d4l3ih231ci008zyvrjjs199zz5-nix-2.34.8/bin/nix",
+      "bytes": 4032400,
+      "sha256": "05c4fbc073d68c5d09f5254eebb3fd92594a5f1c10bd9e01a50c6136a76caee4"
+    },
+    "baseline_failed_logs_sha256": {
+      "correction-baseline-failed.log": "71250d7ca1e950a5a0c2c9f4a46a2c7afffd5c5988f499813139f06ff890e424",
+      "postspawn-baseline-failed.log": "8951ec387500cc7557164ff79ffced593e295e9f96d2549668ad8ef5fe49a851"
+    },
+    "defects_rejected": [
+      "Intent/lock persistence crossing outer readiness deadline before spawn",
+      "Zero-exit leader with live descendant force-cleaned but qualified",
+      "Source spawn returning after outer readiness deadline"
+    ],
+    "corrections": "Pre/post spawn monitor-alive and strict minimum deadlines; natural whole-group disappearance required for normal success; forced cleanup recorded and fails qualification.",
+    "old_versions_and_receipts_preserved": true,
+    "whole_snapshot_and_loaded_image_ids_rechecked": true,
+    "physical_source_trial_performed": false,
+    "controller_profile_qualified": false,
+    "radiated_primary_count": null,
+    "RF_ownership_verified": false,
+    "root_fresh_binding_and_runtime_freeze_required": true
+  }
 }
