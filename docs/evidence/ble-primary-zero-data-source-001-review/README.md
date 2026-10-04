@@ -30,11 +30,15 @@ legacy 255 denominator or TrialB release. Original physical RF tasks remain open
 The [declared protocol](../../research/ble-primary-zero-data-readiness-protocol.md)
 and prior preparation failures are unchanged.
 
-## Timing visualization plan
+## Measured host/HCI timing
 
-Generate a standard matplotlib SVG from the hash-bound private lifecycle and
-these committed checks, exposing relative host/HCI times only. Show monitor
-readiness, configuration, enable acknowledgement, termination and socket closure;
-label the 2.41618 s enable-to-termination span as controller activity, not measured
-RF airtime. Do not invent individual emission times or process/container closure
-brackets that were not retained. The plot will be source-only evidence.
+![Actual relative host/HCI timing; RF reception unmeasured](source-timing.svg)
+
+The hash-bound private lifecycle yields a 2.416180382 s enable-ACK to
+termination span and a 40.212939816 s recorded supervisor. The plot contains
+relative host/HCI times only, with no individual RF emission ticks or inferred
+process/container closure brackets. It does not describe final persistence time.
+
+Reproduce with the locked Nix shell and `task plot:primary-source-timing`, passing
+the retained private lifecycle, this directory's `checks.json`, and an output path.
+Published SVG SHA256: `3b2f01b68b0230dc7b64262f77574a0b731a2cb1e027dfa5569b5f1cf8c8e146`.
