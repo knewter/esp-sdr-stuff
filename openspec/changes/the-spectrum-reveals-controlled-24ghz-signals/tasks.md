@@ -167,3 +167,16 @@ This is implementation preparation; no physical checkbox or accepted requirement
 changes, original TrialB/count/reciprocal-response gates and previous outcomes
 remain unchanged. Proof is frozen offline caller tests and independent preflight
 before a sole-root-operated receiver condition.
+
+## Independently reviewed actual source-only profile
+
+The [saved source001 audit](docs/evidence/ble-primary-zero-data-source-001-review/README.md),
+merged as rootfdd8c63, verifies23 native and11 monitor records, all five ACK/status0
+pairs per reader, selected power7 (uncalibrated) and matching0x43/count100 for the
+exact empty-data extended profile. Original failure and preparation text remain
+historical. Closure is retained checked-code/operator attestation; the historical
+receipt did not retain childPGIDs/containerIDs. Controller completed events are
+not independently counted radiated primary PDUs; no RF response, air denominator,
+receiver admission, original TrialB or accepted requirement follows. The separate
+conditional receiver still requires corrected independent preflight and a fresh
+current-root runtime/input/device freeze before sole-root physical operation.
