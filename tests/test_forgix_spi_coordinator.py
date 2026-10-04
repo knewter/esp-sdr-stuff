@@ -74,7 +74,7 @@ class Episode(unittest.TestCase):
     def run_episode(self):
         return coordinator.execute(self.adapter,self.store,{'fixture_only':True,'physical_execution_requested':False},lambda:self.adapter.now)
     def test_durable_full_policy_order_does_not_promote_physical_acceptance(self):
-        r=self.run_episode();self.assertEqual(r['status'],'backend_episode_completed')
+        r=self.run_episode();self.assertEqual(r['status'],'backend_episode_observed')
         self.assertEqual(r['physical_measurement_acceptance'],'pending independent result review')
         self.assertTrue(r['event_persistence_verified'] and r['owned_processes_closed'])
         self.assertTrue(r['lifecycle_policy']['model_policy_only']);self.assertFalse(r['lifecycle_policy']['physical_execution_admitted'])
@@ -135,7 +135,7 @@ class Episode(unittest.TestCase):
         events=[json.loads(line) for line in (self.path/'lifecycle.jsonl').read_text().splitlines()]
         self.assertEqual(events[0]['deadline'],130)
         self.assertTrue(all(e.get('deadline',0)<=600 for e in events))
-        self.assertEqual(r['status'],'backend_episode_completed')
+        self.assertEqual(r['status'],'backend_episode_observed')
     def test_receipt_path_traversal_and_nonprivate_directory_refused(self):
         with self.assertRaisesRegex(ValueError,'basename'):self.store.open('../escape')
         self.path.chmod(0o755)

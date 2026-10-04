@@ -36,17 +36,30 @@ class SessionLease:
     """Created before access; kept unless final factory/flash/closure proof passes."""
     def __init__(self,profile,private):
         self.path=trial.no_symlinks(ROOT/'.scratch/forgix-spi-active.json')
+        self.pending_path=trial.no_symlinks(ROOT/'.scratch/forgix-spi-finalization-pending.json')
         self.profile=profile
         profile['session_private_dir']=str(private)
         data=(json.dumps({'kind':'Forgix register session lease','private_dir':str(private),
                          'uid_sha256':profile['uid_sha256'],'owner_pid':os.getpid(),
                          'token':os.urandom(16).hex()},sort_keys=True)+'\n').encode()
+        self.data=data
         # O_EXCL retains even a partial failed write as an admission blocker.
         with os.fdopen(os.open(self.path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600),'wb') as stream:
             capture.durable(stream,data)
         capture.sync_directory(self.path.parent)
         profile['session_lease_sha256']=hashlib.sha256(data).hexdigest()
         self.identity=(self.path.stat().st_dev,self.path.stat().st_ino)
+    def pending(self):
+        """Separate durable blocker survives a failed active-lease recreation."""
+        if self.pending_path.exists():
+            require(self.pending_path.read_bytes()==self.data,'Finalization blocker owner changed')
+            return
+        with os.fdopen(os.open(self.pending_path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600),'wb') as stream:
+            capture.durable(stream,self.data)
+        capture.sync_directory(self.pending_path.parent)
+    def clear_pending(self):
+        require(self.pending_path.read_bytes()==self.data,'Finalization blocker owner changed')
+        self.pending_path.unlink();capture.sync_directory(self.pending_path.parent)
     def release(self,record):
         require(record.get('original_flash_and_factory_verified') is True and
                 record.get('owned_processes_closed') is True,'Incomplete recovery retains the session lease')
@@ -54,6 +67,16 @@ class SessionLease:
         info=self.path.stat()
         require((info.st_dev,info.st_ino)==self.identity,'Session lease inode changed')
         self.path.unlink();capture.sync_directory(self.path.parent)
+    def retain(self):
+        """Restore the exact conservative blocker after uncertain final release."""
+        if self.path.exists():
+            require(self.path.read_bytes()==self.data,'Finalization lease owner changed')
+            return
+        # A partial write is itself retained as a blocker; never remove on error.
+        with os.fdopen(os.open(self.path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600),'wb') as stream:
+            capture.durable(stream,self.data)
+        capture.sync_directory(self.path.parent)
+        info=self.path.stat();self.identity=(info.st_dev,info.st_ino)
 
 class ReceiptStore:
     """Attach durable receipt operations to the backend-created private directory."""
@@ -117,13 +140,14 @@ def operator_lock():
         capture.inherited_operator_lock(fd,path)
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(),'Unknown resource closure blocks device access')
         require(not (ROOT/'.scratch/forgix-spi-active.json').exists(),'Unresolved register session lease blocks device access')
+        require(not (ROOT/'.scratch/forgix-spi-finalization-pending.json').exists(),'Unresolved register finalization blocks device access')
         yield fd
     finally:
         os.close(fd)
 
 def execute(adapter,store,preflight,clock=time.monotonic):
     """Persist policy events without promoting its model receipts to RF proof."""
-    began=clock();events=[];pending=None;failure=None;summary=None
+    began=preflight.get('session_began_monotonic',clock());events=[];pending=None;failure=None;summary=None
     record=dict(preflight,status='failed',physical_measurement_acceptance='pending independent result review',
                 session_deadline_policy_seconds=600,flash_write_operations=0,
                 deadline_scope='Cooperative stage/acceptance deadline. Existing owned container cleanup may add up to 42 seconds after an operation timeout; OS responsiveness and physical recovery remain separately qualified.',
@@ -166,18 +190,72 @@ def execute(adapter,store,preflight,clock=time.monotonic):
         if record['host_elapsed_seconds']>=600:
             record['deadline_exceeded']=True;failure=failure or TimeoutError('Session acceptance deadline exceeded')
         if failure is None and summary and summary.get('status')=='model_completed' and record['original_flash_and_factory_verified']:
-            record['status']='backend_episode_completed'
+            record['status']='backend_episode_observed'
+            record['finalization_status']='pending'
         if failure is not None:record['failure_kind']=type(failure).__name__
         capture.save(store,'session.json',record)
         # Final durable receipt is inside the acceptance bound too. If its I/O
         # crosses the deadline, atomically retain an authoritative failure.
-        if clock()-began>=600 and record['status']=='backend_episode_completed':
+        if clock()-began>=600 and record['status']=='backend_episode_observed':
             record.update(status='failed',deadline_exceeded=True,failure_kind='TimeoutError',host_elapsed_seconds=clock()-began)
             capture.save(store,'late-session.json',record)
             os.replace(store.path/'late-session.json',store.path/'session.json')
             capture.sync_directory(store.path)
             failure=failure or TimeoutError('Terminal receipt exceeded deadline')
     if failure is not None and not isinstance(failure,Exception):raise failure
+    return record
+
+def finalize_session(lease,store,record,began,clock=time.monotonic):
+    """One clock includes release and durable terminal acknowledgement.
+
+    Pending intent is retained independently of session replacement. Any known
+    finalization failure restores the conservative lease before corrective I/O.
+    """
+    candidate=record.get('status') in ('backend_episode_observed','backend_episode_completed')
+    record.update(status='pending_finalization' if candidate else 'failed',finalization_status='pending')
+    def within(message):
+        if clock()>=began+600:raise TimeoutError(message)
+    def replace(name):
+        capture.save(store,name,record)
+        os.replace(store.path/name,store.path/'session.json')
+        capture.sync_directory(store.path)
+    try:
+        capture.save(store,'finalization-intent.json',record)
+        lease.pending()
+        within('Finalization acceptance deadline expired')
+        if record.get('original_flash_and_factory_verified') is True and record.get('owned_processes_closed') is True:
+            lease.release(record)
+            record['lease_release_status']='released'
+        else:
+            record['lease_release_status']='retained'
+            candidate=False
+        within('Lease release exceeded acceptance deadline')
+        record.update(status='pending_finalization' if candidate else 'failed',finalization_status='pending',host_elapsed_seconds=clock()-began)
+        replace('final-session.json')
+        within('Final terminal persistence exceeded acceptance deadline')
+        record.update(status='backend_episode_completed' if candidate else 'failed',finalization_status='acknowledged',host_elapsed_seconds=clock()-began)
+        replace('acknowledged-final-session.json')
+        within('Acknowledged terminal persistence exceeded acceptance deadline')
+        lease.clear_pending()
+        within('Finalization blocker closure exceeded acceptance deadline')
+    except BaseException as primary:
+        record.update(status='failed',finalization_status='failed',finalization_failure_kind=type(primary).__name__,host_elapsed_seconds=clock()-began)
+        record.setdefault('failure_kind',type(primary).__name__)
+        if clock()>=began+600:record['deadline_exceeded']=True
+        try:
+            lease.retain();record['lease_release_status']='retained'
+        except BaseException as error:
+            record.update(lease_retention_failure_kind=type(error).__name__,lease_release_status='uncertain')
+            # The independent pending marker normally already exists. If final
+            # marker closure itself failed, re-establish it before returning.
+            try:
+                lease.pending();record['admission_blocked_by_pending_finalization']=True
+            except BaseException as blocked:record['pending_retention_failure_kind']=type(blocked).__name__
+        try:replace('failed-final-session.json')
+        except BaseException as error:
+            record['corrective_journal_failure_kind']=type(error).__name__
+        # Preserve primary cancellation/error even if corrective persistence fails.
+        if not isinstance(primary,Exception):raise primary
     return record
 
 def parser():
@@ -208,18 +286,23 @@ def main():
             backend.frozen_inputs(frozen);backend.qualified(profile);runtime.check(environment)
             adapter=backend.Backend(profile,private,lockfd,environment,frozen)
             store=ReceiptStore(private)
+            began=time.monotonic()
             lease=SessionLease(profile,private)
             try:
                 record=execute(adapter,store,{'kind':'identity-selected Forgix register episode',
                     'profile_private':profile,'environment_private':environment,'execution':frozen,
-                    'physical_execution_requested':True})
+                    'physical_execution_requested':True,'session_began_monotonic':began})
             finally:
                 # Cancellation may propagate only after the terminal receipt.
                 terminal=private/'session.json'
                 if terminal.exists():
+                    adapter.cleaning=True
                     saved=json.loads(terminal.read_text())
-                    if saved.get('original_flash_and_factory_verified') is True and saved.get('owned_processes_closed') is True:
-                        lease.release(saved)
+                    # The returned saved lifecycle duration must never restart
+                    # the acceptance clock (including injected host fixtures).
+                    elapsed=saved.get('host_elapsed_seconds',0)
+                    original_began=min(began,time.monotonic()-elapsed)
+                    record=finalize_session(lease,store,saved,original_began,time.monotonic)
         return 0 if record['status']=='backend_episode_completed' else 2
     except BaseException as exc:
         record.update(status='refused' if adapter is None else 'failed',failure_kind=type(exc).__name__)

@@ -26,7 +26,7 @@ class Gates(unittest.TestCase):
     def profile(self):
         return {n:'a'*64 for n in ('elf_sha256','manifest_sha256','bridge_source_sha256',
                                  'bitstream_sha256','qualification_sha256','backend_source_sha256','coordinator_source_sha256',
-                                 'execution_sha256','environment_sha256')}
+                                 'execution_sha256','environment_sha256','uid_sha256','baseline_sha256')}
     def test_registry_empty_and_booleans_cannot_admit(self):
         p=self.profile();p.update(qualification_verified=True,physical_execution_admitted=True)
         self.assertEqual(backend.QUALIFIED,())

@@ -73,7 +73,7 @@ def artifact(folder):
 def qualification_key(profile):
     names=('elf_sha256','manifest_sha256','bridge_source_sha256','bitstream_sha256',
            'qualification_sha256','backend_source_sha256','coordinator_source_sha256',
-           'execution_sha256','environment_sha256')
+           'execution_sha256','environment_sha256','uid_sha256','baseline_sha256')
     values=tuple(profile.get(n) for n in names)
     require(all(type(v) is str and re.fullmatch('[0-9a-f]{64}',v) for v in values),'Complete qualification binding required')
     return values
@@ -95,6 +95,10 @@ def qualification_receipt(profile,environment,frozen):
     path=trial.private_file(profile['qualification_path'],'.scratch')
     require(trial.sha(path)==profile['qualification_sha256'],'Qualification receipt differs')
     q=json.loads(path.read_text())
+    for name in ('uid_sha256','baseline_sha256'):
+        value=profile.get(name)
+        require(type(value) is str and re.fullmatch('[0-9a-f]{64}',value) is not None
+                and q.get(name)==value,'Qualification original board binding differs: '+name)
     require(q.get('kind')=='Forgix physical register episode qualification' and
             q.get('configuration_strategy')=='after_ram_startup' and
             q.get('reviewed_execution_sha256')==expected and
@@ -107,6 +111,10 @@ def qualification_receipt(profile,environment,frozen):
     require(q.get('elf_sha256')==profile['elf_sha256'] and
             q.get('bitstream_sha256')==profile['bitstream_sha256'],'Qualification artifact identity differs')
     return q
+
+def original_profile(profile):
+    binding=trial.original_binding(profile['binding_path'],*profile['baseline_paths'])
+    require(all(profile[k]==v for k,v in binding.items()),'Original preservation binding differs')
 
 
 def session_lease(profile,private=None):
@@ -170,8 +178,7 @@ class Backend:
             require(trial.sha(self.environment[name])==self.environment[name+'_sha256'],'Frozen tool executable differs')
         require(trial.sha(self.profile['elf'])==self.profile['elf_sha256'],'Frozen ELF differs')
         require(trial.sha(Path(self.profile['elf']).parent/'manifest.json')==self.profile['manifest_sha256'],'Frozen artifact manifest differs')
-        binding=trial.original_binding(self.profile['binding_path'],*self.profile['baseline_paths'])
-        require(all(self.profile[k]==v for k,v in binding.items()),'Original preservation binding differs')
+        original_profile(self.profile)
         require(trial.sha(ROOT/'tools/forgix_spi_backend.py')==self.profile['backend_source_sha256'],'Backend source differs')
         require(trial.sha(ROOT/'tools/run_forgix_spi_trial.py')==self.profile['coordinator_source_sha256'],'Coordinator source differs')
         qualification=trial.private_file(self.profile['qualification_path'],'.scratch')
@@ -320,6 +327,7 @@ def factory_query_worker(path):
     path=trial.private_file(path,'backups');request=json.loads(path.read_text())
     qualified(request['profile']);session_lease(request['profile']);frozen_inputs(request['frozen'])
     qualification_receipt(request['profile'],request['environment'],request['frozen'])
+    original_profile(request['profile'])
     runtime.check(request['environment'])
     inherited_operator_lock(request['lockfd'],ROOT/'.scratch/esp-demo.lock')
     # Reuse actual shared parsing/target/label/serial admission unchanged.
@@ -408,6 +416,7 @@ def serial_worker(path):
     qualified(profile)
     session_lease(profile)
     frozen_inputs(request['frozen']);qualification_receipt(profile,request['environment'],request['frozen'])
+    original_profile(profile)
     runtime.check(request['environment']);inherited_operator_lock(request['lockfd'],request['lockpath'])
     require(request['lockpath']==str(ROOT/'.scratch/esp-demo.lock'),'Original lifecycle lock required')
     current=artifact(Path(profile['elf']).parent)

@@ -29,13 +29,14 @@ class RegisterRuntime(unittest.TestCase):
         frozen={'inputs':dict.fromkeys(backend.EXECUTION_FILES,'a'*64)}
         profile={n:'b'*64 for n in ('elf_sha256','manifest_sha256','bridge_source_sha256',
              'bitstream_sha256','backend_source_sha256','coordinator_source_sha256')}
-        profile.update(environment_sha256=backend.digest(env),execution_sha256=backend.digest(
+        profile.update(uid_sha256='a'*64,baseline_sha256='b'*64,environment_sha256=backend.digest(env),execution_sha256=backend.digest(
             {n:h for n,h in frozen['inputs'].items()if n!='tools/forgix_spi_qualifications.py'}))
         q={'kind':'Forgix physical register episode qualification','configuration_strategy':'after_ram_startup',
            'admission_registry_binding':'separately frozen committed registry',
            'reviewed_execution_sha256':{n:h for n,h in frozen['inputs'].items()if n!='tools/forgix_spi_qualifications.py'},
            'reviewed_environment_sha256':profile['environment_sha256'],
-           'elf_sha256':profile['elf_sha256'],'bitstream_sha256':profile['bitstream_sha256']}
+           'elf_sha256':profile['elf_sha256'],'bitstream_sha256':profile['bitstream_sha256'],
+           'uid_sha256':profile['uid_sha256'],'baseline_sha256':profile['baseline_sha256']}
         q.update(dict.fromkeys(('fpga_grade_verified','clock_verified','spi_handoff_verified',
                               'whole_loading_recovery_reviewed','startup_uid_reviewed'),True))
         path=self.root/'qualification.json';path.write_text(json.dumps(q))
@@ -71,6 +72,34 @@ class RegisterRuntime(unittest.TestCase):
             profile['environment_sha256']='0'*64
             with self.assertRaisesRegex(ValueError,'No committed physical'):backend.qualified(profile)
 
+    def test_original_uid_and_flash_baseline_are_exact_qualification_and_registry_inputs(self):
+        env=self.image();profile,frozen,q,path=self.qualification(env)
+        original_key=backend.qualification_key(profile)
+        with patch.object(trial,'private_file',return_value=path):
+            for field in ('uid_sha256','baseline_sha256'):
+                for value in (None,False,'invalid','c'*64):
+                    changed=dict(q);changed[field]=value;path.write_text(json.dumps(changed))
+                    profile['qualification_sha256']=trial.sha(path)
+                    with self.subTest(field=field,value=value),self.assertRaisesRegex(ValueError,'original board binding'):
+                        backend.qualification_receipt(profile,env,frozen)
+                path.write_text(json.dumps(q));profile['qualification_sha256']=trial.sha(path)
+                with patch.object(backend,'QUALIFIED',(backend.qualification_key(profile),)):
+                    changed=dict(profile);changed[field]='c'*64
+                    with self.assertRaisesRegex(ValueError,'No committed physical'):backend.qualified(changed)
+                changed=dict(profile);changed[field]=True
+                with self.assertRaisesRegex(ValueError,'Complete qualification'):backend.qualification_key(changed)
+        self.assertEqual(backend.qualification_key(profile),original_key)
+
+    def test_actual_original_binding_recheck_refuses_worker_before_shared_query(self):
+        env=self.image();profile,frozen,q,qpath=self.qualification(env)
+        profile.update(binding_path='fixture-binding',baseline_paths=['fixture-a','fixture-b'])
+        path=self.root/'request.json';path.write_text(json.dumps({'profile':profile,'environment':env,'frozen':frozen}))
+        binding={'uid_sha256':profile['uid_sha256'],'baseline_sha256':profile['baseline_sha256']}
+        with patch.object(trial,'private_file',side_effect=lambda p,*a:Path(p)),patch.object(backend,'qualified'),patch.object(backend,'session_lease'),patch.object(backend,'frozen_inputs'),patch.object(trial,'original_binding',return_value=dict(binding,baseline_sha256='c'*64)),patch.object(trial,'query_worker')as query:
+            with self.assertRaisesRegex(ValueError,'Original preservation'):backend.factory_query_worker(path)
+            query.assert_not_called()
+        with patch.object(trial,'original_binding',return_value=binding):backend.original_profile(profile)
+
     def test_coordinator_activates_dispatch_before_artifact_queries(self):
         calls=[]
         def artifact(*args):
@@ -105,7 +134,7 @@ class RegisterRuntime(unittest.TestCase):
         path.write_text(json.dumps(request))
         def private_file(value,*args):return Path(value)
         original=list(sys.argv)
-        with patch.object(trial,'private_file',side_effect=private_file),patch.object(backend,'qualified'),patch.object(backend,'session_lease'),patch.object(backend,'frozen_inputs'),patch.object(backend,'inherited_operator_lock'),patch('forgix_usb_ram_capture.inherited_operator_lock'),patch.object(trial.signal,'signal'),patch.object(preserve,'query_factory',return_value={'fixture':True})as query,patch.object(preserve.PrivateStore,'json')as save:
+        with patch.object(trial,'private_file',side_effect=private_file),patch.object(backend,'qualified'),patch.object(backend,'session_lease'),patch.object(backend,'original_profile'),patch.object(backend,'frozen_inputs'),patch.object(backend,'inherited_operator_lock'),patch('forgix_usb_ram_capture.inherited_operator_lock'),patch.object(trial.signal,'signal'),patch.object(preserve,'query_factory',return_value={'fixture':True})as query,patch.object(preserve.PrivateStore,'json')as save:
             self.assertEqual(backend.factory_query_worker(path),0);self.assertEqual(sys.argv,original)
             self.assertEqual(query.call_args.args[3],'returned-after-ram');save.assert_called_once()
             request['environment']=copy.deepcopy(env);request['environment']['host_tools']['docker']['sha256']='0'*64
@@ -122,7 +151,7 @@ class RegisterRuntime(unittest.TestCase):
     def test_serial_worker_rejects_runtime_before_artifact_or_serial(self):
         env=self.image();profile,frozen,q,qpath=self.qualification(env);path=self.root/'request.json'
         path.write_text(json.dumps({'profile':profile,'environment':env,'frozen':frozen,'lockfd':17,'lockpath':'fixture'}))
-        with patch.object(trial,'private_file',side_effect=lambda p,*a:Path(p)),patch.object(backend,'qualified'),patch.object(backend,'session_lease'),patch.object(backend,'frozen_inputs'),patch.dict(os.environ,{'DOCKER_CONTEXT':'foreign'}),patch.object(backend,'artifact')as artifact,patch.object(backend,'open_retaining_serial')as opened,self.assertRaises(ValueError):backend.serial_worker(path)
+        with patch.object(trial,'private_file',side_effect=lambda p,*a:Path(p)),patch.object(backend,'qualified'),patch.object(backend,'session_lease'),patch.object(backend,'original_profile'),patch.object(backend,'frozen_inputs'),patch.dict(os.environ,{'DOCKER_CONTEXT':'foreign'}),patch.object(backend,'artifact')as artifact,patch.object(backend,'open_retaining_serial')as opened,self.assertRaises(ValueError):backend.serial_worker(path)
         artifact.assert_not_called();opened.assert_not_called()
 
     def test_serial_stage_rechecks_tools_after_durable_request_before_worker_spawn(self):
