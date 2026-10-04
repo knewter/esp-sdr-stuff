@@ -331,12 +331,29 @@ endmodule
             with self.assertRaisesRegex(ValueError,'Commit'):generator.committed_inputs()
         with self.assertRaisesRegex(ValueError,'private|Private|Fresh'):
             generator.generate(Path('/tmp/unsupported-forgix-source-output'))
-        # Original candidate imports the two vendor helper modules even though
-        # this path never invokes their vendor actions. Bind their loaded bytes.
-        for module in tuple(sys.modules.values()):
-            path=getattr(module,'__file__',None)
-            if path and Path(path).resolve().is_relative_to(ROOT/'tools'):
-                self.assertIn(str(Path(path).resolve().relative_to(ROOT)),generator.INPUTS)
+        # Inspect the generator's imports in a fresh interpreter. Combined
+        # unittest discovery has unrelated repository helpers in sys.modules;
+        # they are not part of this generator's execution input closure.
+        script = r'''
+import sys
+from pathlib import Path
+root = Path.cwd()
+sys.path.insert(0, str(root/'tools'))
+import forgix_synthetic_gateware as generator
+try:
+    generator.generate(Path('/tmp/unsupported-forgix-source-output'))
+except ValueError:
+    pass
+else:
+    raise AssertionError('Unsupported output was not refused')
+for module in tuple(sys.modules.values()):
+    path = getattr(module, '__file__', None)
+    if path and Path(path).resolve().is_relative_to(root/'tools'):
+        assert str(Path(path).resolve().relative_to(root)) in generator.INPUTS
+'''
+        result = subprocess.run([sys.executable, '-B', '-c', script], cwd=ROOT,
+                                capture_output=True, text=True, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
 
 
 if __name__ == '__main__':
