@@ -268,3 +268,30 @@ passes 32 author groups and three independent retained fault probes. Rejection
 is permanent, final source snapshots are monotonic, and observed FPGA completion
 is distinct from RP clock duration. Complete identity-selected worker/lifecycle
 integration and physical qualification remain; no hardware task is accepted.
+
+## Distinct synthetic lifecycle implementation prerequisite
+
+Implement a separate registry-gated synthetic-stream coordinator/backend. The
+register collector, its 24-command route, registry and artifact profiles remain
+unchanged. One contained inherited-lock worker owns PID4013 USB selection and
+CONFIG/START/DATA/END, binding the checked original UID, full nonce, compiled
+build identity, embedded image and exact finite profile. Saved raw replay must
+agree with a lossless terminal receipt; accounted losses remain failed.
+
+Freeze committed transitive execution inputs, immutable Nix/container/runtime
+and complete artifact/export bindings. Freeze the empty synthetic qualification
+registry separately from the reviewed tuple to avoid circular hashes. A durable
+pre-access lease and the shared unknown-resource marker are rechecked under the
+one global flock. The 600-second acceptance clock includes durable receipt
+writes and reserves 325 seconds for factory/full-original readback recovery.
+Initial preservation can change USB mode; its intent therefore requires recovery
+even if it fails. Every possibly consumed load/configuration/START failure must
+recover after verified whole-group/container closure. Unknown closure prohibits
+further device access and retains the lease for operator investigation.
+
+Test actual inherited locks, process death, blocked workers/descendants,
+cancellation, late receipts, storage errors and failed preservation/recovery,
+plus strict stream identity/schema and artifact refusal. Offline tests admit no
+physical episode. Physical grade, measured clock, voltages, pin ownership,
+loading/recovery and selected-transport measurements remain required; tasks
+1.1 and 2.1–2.3 and the accepted ledger are unchanged.
