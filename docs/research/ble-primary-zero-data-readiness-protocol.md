@@ -47,6 +47,10 @@ validated readiness, one source (40s parent cap) and normal monitor completion;
 check clocks before/after spawn, marker scans, waits and group closure. No source
 launches before validated MONITOR_READY or after its bound. Final cleanup uses
 separate finite waits; interrupted/forced/unknown cleanup cannot qualify success.
+Immediately before source spawn, after durable source-intent persistence and
+inherited-lock validation, require the monitor still alive and the current clock
+strictly below all outer-readiness, source-parent and supervisor deadlines.
+Until that final check passes, source-attempted remains false.
 
 After profile readiness passes, a separately frozen future receiver protocol
 may request three repetitions at fixed ten-bit/16MS/s/16380 pairs,LO2401MHz,
