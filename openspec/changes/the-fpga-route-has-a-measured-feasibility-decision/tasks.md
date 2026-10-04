@@ -228,3 +228,20 @@ plus strict stream identity/schema and artifact refusal. Offline tests admit no
 physical episode. Physical grade, measured clock, voltages, pin ownership,
 loading/recovery and selected-transport measurements remain required; tasks
 1.1 and 2.1–2.3 and the accepted ledger are unchanged.
+
+## Complete offline synthetic lifecycle checkpoint
+
+The [separate production stream lifecycle](docs/evidence/forgix-synthetic-lifecycle/README.md)
+now passes 31 author and 11 independent groups, including actual compiled-C
+wire/replay, real process/lock/death fixtures and explicit known-closed recovery.
+It binds PID4013, original UID/full baseline, exact RP/image/full nonce/profile,
+62 execution files and verified immutable runtime. Its registry remains empty.
+One shared durable lease and a 600-second persistence-inclusive acceptance
+clock protect preservation/load/CONFIG/START/END and factory/full-original
+verification. Recovery rotates the lease before access and cannot reload/start;
+unknown or missing closure prohibits all further access without an override.
+
+Existing ARM001 metadata was checked read-only; no new build, device operation,
+loading or FPGA/RF measurement occurred. Physical inventory, measured clock,
+voltages/pin timing/handoff, loading/recovery and several-rate transport proof
+remain gates. Tasks 1.1 and 2.1–2.3 and accepted requirements are unchanged.

@@ -1,0 +1,70 @@
+{
+  "kind": "offline finite synthetic lifecycle implementation review",
+  "result": "PASS_OFFLINE_SOURCE_ONLY",
+  "implementation_commits": [
+    "8ec94b5",
+    "bd22db9a3c594a0dab15b627ce33a8647735d835",
+    "6aff3e6",
+    "2f101d3b8ec4db8027db885a5a6baea7552a36a6"
+  ],
+  "source_sha256": {
+    "tools/forgix_synthetic_backend.py": "4f129706c56de55a28aeaa8f917b2fffdf9e77cb538e307e12cbd7ee2a812a18",
+    "tools/forgix_synthetic_lifecycle.py": "b9307111597a530c40bb3c37ebb2d9e05d7a7cb409312812b2f9c51d4012e28a",
+    "tools/forgix_synthetic_qualifications.py": "97ff5b74f4ce2125d7696d76154c3cb85542200ae394f4893c9cc866160a459c",
+    "tools/run_forgix_synthetic_trial.py": "b1bcf09afe106eb24abc7b52e3bfba350e6ec2d4c204a32c4533f90466f35cac",
+    "tests/test_forgix_synthetic_lifecycle.py": "a32774c67d8f4e6161fefdfa1ff51d6ad2270502ae0d79f9dff101eeb5c2752a",
+    "docs/research/forgix-synthetic-lifecycle.md": "fdb1f59886bc121b048278bd5cd7aff017de210860c00fc858b301425c8884b6"
+  },
+  "author_groups": 31,
+  "independent_groups": 11,
+  "skips": 0,
+  "author_receipt_sha256": "1082fdc762a24c457a475dc3c065ee16904b58f1a6bbc335b1ccedf6095e97fa",
+  "author_log_sha256": "28c791f2d4e758e6c6ab547b3c13b51da8055858048ec65115f91425a332f05f",
+  "initial_run_review_sha256": "b0f7feb4a1821a8e1b4212172917ac4fb71cea458f5fdf3f8f9ed2e6c6effc29",
+  "final_recovery_review_sha256": "a43fba9594aa3664e501701e6bb0dbebea8f680e0582387ff428696c5cf13f51",
+  "execution_files": 62,
+  "qualification_registry_entries": 0,
+  "registry_binding": "separately committed and frozen; excluded from qualification execution digest",
+  "pid": "4013",
+  "profile_pairs": [
+    [
+      2000000,
+      960
+    ],
+    [
+      500000,
+      3840
+    ],
+    [
+      250000,
+      7680
+    ]
+  ],
+  "operator_lock": "single inherited global flock",
+  "lease": "shared register/USB/stream admission blocker, rotated before explicit recovery",
+  "acceptance_seconds": 600,
+  "recovery_reserved_seconds": 325,
+  "host_boot_anchor": "before possibly executing RAM load",
+  "serial_route": "one CONFIG/START/DATA/END worker; independent saved replay in a separate bounded worker",
+  "known_closed_recovery": "identical qualified tuple/runtime/original UID and baseline; no install or CONFIG/START",
+  "unknown_or_missing_closure": "refuse device access and preserve lease; no override",
+  "actual_arm001_read_only_check": {
+    "elf_sha256": "1f179d51e477f96185eea11d2062d8349cfe314e643e281c34381b7498e84665",
+    "manifest_sha256": "adfbabd810e28ea090733b36babff963cb76609d2bc95f490017f65284a19418",
+    "build_source_sha256": "c648ca0b71f699466ad812ad4c2b2bab2b58651fc15977603bc1410f72432ad5",
+    "allocated_sram_bytes": 220200,
+    "scope": "Existing exact artifact/startup/image metadata checked read-only in original root context; not a new build or physical qualification"
+  },
+  "hardware_opened": false,
+  "vendor_or_compiler_run": false,
+  "physical_execution_admitted": false,
+  "whole_boot_path_qualified": false,
+  "physical_transport_accepted": false,
+  "rf_accepted": false,
+  "limitations": [
+    "Tests use actual compiled-C protocol frames, regular files, processes and injected hardware adapters; no device operations.",
+    "Known-closed terminal recovery only. Unknown/crashed/missing receipts require independent resource investigation; no automated override.",
+    "Physical grade, measured clock, voltages, pin ownership/turnaround, loading/recovery and selected-transport rate/loss/timing measurements remain gates.",
+    "The admission clock includes persistence; OS calls and bounded cleanup can overrun an operation ceiling, which cannot qualify a late result."
+  ]
+}
