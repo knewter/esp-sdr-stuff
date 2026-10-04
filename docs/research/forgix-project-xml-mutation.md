@@ -38,3 +38,9 @@ original, and changes combined with the legitimate rewrite. Keep complete
 post-compile validation, fresh stage/image checks, private modes and closure
 requirements. A replacement real build and independent report/artifact review
 remain root-owned future work.
+
+The retained output also contains an empty auxiliary `.peri.cdo` report. The
+bounded report inventory may retain an empty regular auxiliary file with its
+zero byte count and SHA256. Critical generated inputs, console/stage logs and
+bitstream remain nonempty. Empty reports still require single-link regular
+files, no symlinks, bounded count/total bytes and exact private inventory.
