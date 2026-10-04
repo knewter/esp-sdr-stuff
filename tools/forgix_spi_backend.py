@@ -16,6 +16,9 @@ import subprocess
 import sys
 import time
 
+import forgix_synthetic_runtime as runtime
+from build_forgix_spi_bridge import FILES as ARTIFACT_FILES
+
 import forgix_config as config
 import forgix_spi_capture as capture
 import forgix_usb_ram_trial as trial
@@ -35,7 +38,7 @@ EXECUTION_FILES=frozenset({
         'forgix_spi_lifecycle','forgix_spi_capture','forgix_spi_bridge',
         'forgix_config','forgix_usb_ram_trial','forgix_usb_ram_capture',
         'forgix_usb_ram_artifact','preserve_forgix','demo_esp_sdr','flash_trial',
-        'esp_sdr_capture','esp_sdr_spectrum_bridge'))})
+        'esp_sdr_capture','esp_sdr_spectrum_bridge','forgix_synthetic_runtime'))} | set(ARTIFACT_FILES))
 
 def require(value,message):
     if not value:raise ValueError(message)
@@ -47,6 +50,7 @@ def artifact(folder):
     elf=trial.private_file(folder/'forgix_spi_bridge.elf','.scratch')
     require(manifest.stat().st_size<=1024*1024 and 0<elf.stat().st_size<=4*1024*1024,'Artifact bounds')
     m=json.loads(manifest.read_text())
+    require(set(m.get('source_sha256',{}))==set(ARTIFACT_FILES),'Complete bridge build-source map required')
     require(m.get('status')=='built_layout_guard_passed' and m.get('inputs_unchanged_after_build') is True
             and m.get('fpga_configuration_writer') is True and m.get('linked_embedded_image_verified') is True,
             'Exact-image configuration variant required')
@@ -68,7 +72,8 @@ def artifact(folder):
 
 def qualification_key(profile):
     names=('elf_sha256','manifest_sha256','bridge_source_sha256','bitstream_sha256',
-           'qualification_sha256','backend_source_sha256','coordinator_source_sha256')
+           'qualification_sha256','backend_source_sha256','coordinator_source_sha256',
+           'execution_sha256','environment_sha256')
     values=tuple(profile.get(n) for n in names)
     require(all(type(v) is str and re.fullmatch('[0-9a-f]{64}',v) for v in values),'Complete qualification binding required')
     return values
@@ -79,6 +84,30 @@ def qualified(profile):
 def frozen_inputs(frozen):
     require(set(frozen['inputs'])==EXECUTION_FILES,'Complete exact execution input set required')
     trial.check_inputs(frozen)
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+def qualification_receipt(profile,environment,frozen):
+    require(digest(environment)==profile['environment_sha256'],'Register runtime tuple differs')
+    expected={n:h for n,h in frozen['inputs'].items() if n!='tools/forgix_spi_qualifications.py'}
+    require(digest(expected)==profile['execution_sha256'],'Register execution tuple differs')
+    path=trial.private_file(profile['qualification_path'],'.scratch')
+    require(trial.sha(path)==profile['qualification_sha256'],'Qualification receipt differs')
+    q=json.loads(path.read_text())
+    require(q.get('kind')=='Forgix physical register episode qualification' and
+            q.get('configuration_strategy')=='after_ram_startup' and
+            q.get('reviewed_execution_sha256')==expected and
+            q.get('reviewed_environment_sha256')==profile['environment_sha256'] and
+            q.get('admission_registry_binding')=='separately frozen committed registry',
+            'Qualification must bind complete execution and runtime')
+    for name in ('fpga_grade_verified','clock_verified','spi_handoff_verified',
+                 'whole_loading_recovery_reviewed','startup_uid_reviewed'):
+        require(q.get(name) is True,'Physical/review qualification missing: '+name)
+    require(q.get('elf_sha256')==profile['elf_sha256'] and
+            q.get('bitstream_sha256')==profile['bitstream_sha256'],'Qualification artifact identity differs')
+    return q
+
 
 def session_lease(profile,private=None):
     """A durable pre-access lease survives operator/process failure."""
@@ -99,7 +128,11 @@ class AggregateOwner:
 
 class RegisterPicotool(trial.OwnedPicotool):
     """Exact SRAM-only bridge load; the USB diagnostic whitelist stays fixed."""
-    def __init__(self,*args,bridge,**kwargs):super().__init__(*args,**kwargs);self.bridge=bridge
+    def __init__(self,*args,bridge,environment,**kwargs):
+        super().__init__(*args,**kwargs);self.bridge=bridge;self.environment=environment
+    def run(self,*args,**kwargs):
+        runtime.check(self.environment)
+        return super().run(*args,**kwargs)
     def load_args(self,target,backup,path):
         require(target.pid==preserve.BOOT_PID and Path(path)==Path('/private/ram-spi-bridge.elf'),'Selected ROM/dedicated bridge ELF required')
         require(trial.sha(backup)==self.bridge['elf_sha256'],'Staged bridge changed')
@@ -131,6 +164,8 @@ class Backend:
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(),'Unclosed-resource marker blocks access')
         session_lease(self.profile,self.private)
         frozen_inputs(self.frozen)
+        qualification_receipt(self.profile,self.environment,self.frozen)
+        runtime.check(self.environment)
         for name in ('picotool_executable','python_executable'):
             require(trial.sha(self.environment[name])==self.environment[name+'_sha256'],'Frozen tool executable differs')
         require(trial.sha(self.profile['elf'])==self.profile['elf_sha256'],'Frozen ELF differs')
@@ -165,12 +200,24 @@ class Backend:
         self.hardware_gate(until)
         self.inspector.deadline=until
         store=preserve.PrivateStore(self.private/name,ROOT/'backups')
+        runner=RegisterPicotool(self.environment['picotool_executable'],self.inspector,store,
+            self.environment['image_id'],self.frozen,until,bridge=self.profile,environment=self.environment)
+        self.owner.runners.append(runner) # Own cleanup before any possible storage failure.
         try:
-            receipt,runner=trial.full_preservation(self.inspector,self.environment['picotool_executable'],store,
-                self.environment['image_id'],self.frozen,self.lockfd,until)
-            self.owner.runners.append(runner)
-        except OwnedHardwareClosureError:
-            self.owner.unknown=True;raise
+            receipt,error=preserve.preserve(self.inspector,runner,store,trial.FLASH_BYTES,
+                query=lambda i,t,s,label:bounded_factory_query(i,t,s,label,self.lockfd,until,runner,self.profile,self.environment,self.frozen))
+        except BaseException as exc:
+            if not runner.hardware_process_closed:
+                self.owner.unknown=True
+                raise OwnedHardwareClosureError('Register preservation closure unverified') from exc
+            raise
+        if not runner.hardware_process_closed:
+            self.owner.unknown=True
+            raise OwnedHardwareClosureError('Register preservation owned closure unverified')
+        if error:raise error
+        require(receipt['independent_device_verify'] is True and receipt['status']=='preserved_and_returned',
+                'Fresh original factory/verification proof differs')
+        trial.remaining(until,1)
         copies=receipt['backups']
         require(copies['sha256']==self.profile['baseline_sha256'] and copies['bytes_per_read']==trial.FLASH_BYTES
                 and copies['reads']==2 and copies['matching'] is True,'Fresh original flash differs')
@@ -185,7 +232,7 @@ class Backend:
         self.inspector.deadline=until
         store=preserve.PrivateStore(self.private/'load',ROOT/'backups')
         self.loader=RegisterPicotool(self.environment['picotool_executable'],self.inspector,store,
-            self.environment['image_id'],self.frozen,until,bridge=self.profile)
+            self.environment['image_id'],self.frozen,until,bridge=self.profile,environment=self.environment)
         self.owner.runners.append(self.loader)
         store.create('ram-spi-bridge.elf',Path(self.profile['elf']).read_bytes())
         self.loader.run('boot',self.inspector.target(preserve.FACTORY_PID,self.bus))
@@ -200,11 +247,12 @@ class Backend:
 
     def serial_stage(self,action,until):
         self.hardware_gate(until)
-        request={'action':action,'profile':self.profile,'frozen':self.frozen,'lockfd':self.lockfd,
+        request={'action':action,'profile':self.profile,'environment':self.environment,'frozen':self.frozen,'lockfd':self.lockfd,
                  'lockpath':str(self.lockpath),'bus':self.bus,'until':until}
         if action=='collect':request['expected_identity']=self.configuration['identity_private']
         store=preserve.PrivateStore(self.private/action,ROOT/'backups')
         path=store.json('request.json',request)
+        runtime.check(self.environment)
         self.workers.run([self.environment['python_executable'],str(ROOT/'tools/forgix_spi_backend.py'),
                           '_serial-worker','--request',str(path)],action,until)
         result=json.loads((store.path/'capture/result.json').read_text())
@@ -237,12 +285,50 @@ class Backend:
             # failed. Recovery must not depend on that stage having a loader.
             store=preserve.PrivateStore(self.private/'factory-return',ROOT/'backups')
             self.loader=RegisterPicotool(self.environment['picotool_executable'],self.inspector,store,
-                self.environment['image_id'],self.frozen,until,bridge=self.profile)
+                self.environment['image_id'],self.frozen,until,bridge=self.profile,environment=self.environment)
             self.owner.runners.append(self.loader)
         self.loader.deadline=until
         factory=trial.watched_factory(self.inspector,self.bus,until,self.loader)
-        trial.bounded_query(self.inspector,factory,self.loader.store,'returned-after-ram',self.lockfd,until,self.loader)
+        bounded_factory_query(self.inspector,factory,self.loader.store,'returned-after-ram',self.lockfd,until,self.loader,self.profile,self.environment,self.frozen)
         return {'factory_application_verified':True}
+
+def bounded_factory_query(inspector,target,store,label,lockfd,deadline,runner,profile,environment,frozen):
+    """Same shared15-second query policy with register runtime admission at entry."""
+    query_deadline=time.monotonic()+trial.remaining(deadline,15)
+    runtime.check(environment);frozen_inputs(frozen);qualification_receipt(profile,environment,frozen)
+    while True:
+        trial.remaining(query_deadline,1);inspector.confirm(target)
+        inspector.port=Path(trial.fresh_tty('3-3','2e8a',preserve.FACTORY_PID))
+        if os.access(inspector.port,os.R_OK|os.W_OK,effective_ids=True):break
+        time.sleep(min(.05,trial.remaining(query_deadline,.05)))
+    runtime.check(environment);frozen_inputs(frozen);inspector.confirm(target)
+    request={'topology':inspector.topology,'port':str(inspector.port),'target':target.__dict__,
+             'label':label,'lockfd':lockfd,'profile':profile,'environment':environment,'frozen':frozen}
+    path=store.json(label+'-query-request.json',request)
+    runtime.check(environment);trial.remaining(query_deadline,1)
+    try:
+        code=trial.owned_worker([environment['python_executable'],str(Path(__file__).resolve()),
+              '_factory-query-worker','--request',str(path)],store.path/(label+'-query.log'),lockfd,
+              trial.remaining(query_deadline,15))
+    except OwnedHardwareClosureError:
+        runner.hardware_process_closed=False;raise
+    trial.remaining(query_deadline,1)
+    require(code==0,'Bounded register factory query failed; private transcript retained')
+    return json.loads((store.path/(label+'-query-result.json')).read_text())
+
+def factory_query_worker(path):
+    path=trial.private_file(path,'backups');request=json.loads(path.read_text())
+    qualified(request['profile']);session_lease(request['profile']);frozen_inputs(request['frozen'])
+    qualification_receipt(request['profile'],request['environment'],request['frozen'])
+    runtime.check(request['environment'])
+    inherited_operator_lock(request['lockfd'],ROOT/'.scratch/esp-demo.lock')
+    # Reuse actual shared parsing/target/label/serial admission unchanged.
+    original=sys.argv
+    try:
+        sys.argv=[str(Path(trial.__file__)), '_query','--request',str(path)]
+        return trial.query_worker()
+    finally:sys.argv=original
+
 
 def serial_operation(request,store,select,open_transport,clock=time.monotonic):
     """Injectable real serial logic. Production worker also checks registry/lock.
@@ -321,7 +407,8 @@ def serial_worker(path):
     path=trial.private_file(path,'backups');request=json.loads(path.read_text());profile=request['profile']
     qualified(profile)
     session_lease(profile)
-    frozen_inputs(request['frozen']);inherited_operator_lock(request['lockfd'],request['lockpath'])
+    frozen_inputs(request['frozen']);qualification_receipt(profile,request['environment'],request['frozen'])
+    runtime.check(request['environment']);inherited_operator_lock(request['lockfd'],request['lockpath'])
     require(request['lockpath']==str(ROOT/'.scratch/esp-demo.lock'),'Original lifecycle lock required')
     current=artifact(Path(profile['elf']).parent)
     require(all(profile[k]==v for k,v in current.items()),'Worker artifact binding differs')
@@ -331,6 +418,8 @@ def serial_worker(path):
                  str(ROOT/'tools/forgix_spi_backend.py'):profile['backend_source_sha256']}
     def selected(ready=False):
         session_lease(profile)
+        qualification_receipt(profile,request['environment'],request['frozen'])
+        runtime.check(request['environment'],verify_bytes=False)
         frozen_inputs(request['frozen']);inherited_operator_lock(request['lockfd'],request['lockpath'])
         require(all(trial.sha(Path(name))==digest for name,digest in bound_files.items()),'Worker bound artifact/source changed')
         if ready:
@@ -356,9 +445,10 @@ def serial_worker(path):
 
 def main():
     os.umask(0o077)
-    if len(sys.argv)>1 and sys.argv[1]=='_serial-worker':
+    if len(sys.argv)>1 and sys.argv[1] in ('_serial-worker','_factory-query-worker'):
         cli=argparse.ArgumentParser();cli.add_argument('--request',type=Path,required=True)
-        serial_worker(cli.parse_args(sys.argv[2:]).request);return
+        path=cli.parse_args(sys.argv[2:]).request
+        return factory_query_worker(path) if sys.argv[1]=='_factory-query-worker' else serial_worker(path)
     cli=argparse.ArgumentParser(description=__doc__);cli.add_argument('--plan',required=True,type=Path)
     args=cli.parse_args()
     from build_forgix_usb_ram import fresh
@@ -371,4 +461,4 @@ def main():
                      'production coordinator admission','fresh preservation and physical register proof']},indent=2)+'\n')
     print('Private backend plan saved; hardware loading remains unadmitted.')
 
-if __name__=='__main__':main()
+if __name__=='__main__':raise SystemExit(main())

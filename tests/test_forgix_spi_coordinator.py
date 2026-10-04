@@ -190,7 +190,7 @@ class Recovery(unittest.TestCase):
             b.inspector=SimpleNamespace(deadline=0);b.bus=3;b.private=private;b.profile={}
             b.environment={'picotool_executable':str(tool),'image_id':'fixture'};b.frozen={};b.lockfd=1
             b.owner=backend.AggregateOwner(SimpleNamespace(closed=True))
-            with patch.object(backend,'ROOT',root),patch.object(trial,'watched_factory',return_value='fixture target'),patch.object(trial,'bounded_query') as query:
+            with patch.object(backend,'ROOT',root),patch.object(trial,'watched_factory',return_value='fixture target'),patch.object(backend,'bounded_factory_query') as query:
                 r=b.return_factory(140)
             self.assertTrue(r['factory_application_verified']);self.assertIsNotNone(b.loader)
             self.assertEqual(b.owner.runners,[b.loader]);self.assertEqual(b.loader.store.path,private/'factory-return')

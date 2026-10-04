@@ -494,6 +494,12 @@ tasks:
     cmds:
       - python3 tools/forgix_spi_backend.py {{.CLI_ARGS}}
 
+  forgix:spi-bridge:runtime:test:
+    desc: Verify immutable register dispatch and admitted factory workers (no hardware)
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_forgix_spi_runtime.py
+      - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_runtime.py
+
   forgix:spi-bridge:coordinator:test:
     desc: Test exact committed inputs, exclusive flock and durable episode faults offline
     cmds:

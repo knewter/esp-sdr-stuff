@@ -13,7 +13,6 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import shutil
 import signal
 import stat
 import subprocess
@@ -21,6 +20,7 @@ import sys
 import time
 
 import forgix_spi_backend as backend
+import forgix_synthetic_runtime as runtime
 import forgix_spi_capture as capture
 import forgix_usb_ram_trial as trial
 from forgix_spi_lifecycle import Lifecycle
@@ -82,6 +82,7 @@ def freeze():
 def prepare(args):
     # No file flags or CLI switches can create an entry in this source registry.
     require(bool(backend.QUALIFIED),'No committed qualification admits a physical register episode')
+    tools=runtime.select();runtime.activate(tools)
     profile=backend.artifact(args.artifact)
     profile.update(trial.original_binding(args.binding,args.baseline_a,args.baseline_b))
     qualification=trial.private_file(args.qualification,'.scratch')
@@ -89,21 +90,12 @@ def prepare(args):
     profile.update(qualification_path=str(qualification),qualification_sha256=trial.sha(qualification),
                    backend_source_sha256=trial.sha(ROOT/'tools/forgix_spi_backend.py'),
                    coordinator_source_sha256=trial.sha(ROOT/'tools/run_forgix_spi_trial.py'))
-    backend.qualified(profile)
     frozen=freeze()
-    q=json.loads(qualification.read_text())
-    require(q.get('kind')=='Forgix physical register episode qualification' and
-            q.get('configuration_strategy')=='after_ram_startup' and
-            q.get('reviewed_execution_sha256')=={n:h for n,h in frozen['inputs'].items() if n!=REGISTRY} and
-            q.get('admission_registry_binding')=='separately frozen committed registry',
-            'Qualification must bind the complete reviewed execution inputs')
-    for name in ('fpga_grade_verified','clock_verified','spi_handoff_verified',
-                 'whole_loading_recovery_reviewed','startup_uid_reviewed'):
-        require(q.get(name) is True,'Physical/review qualification missing: '+name)
-    require(q.get('elf_sha256')==profile['elf_sha256'] and
-            q.get('bitstream_sha256')==profile['bitstream_sha256'],
-            'Qualification artifact identity differs')
-    environment=trial.image_check(shutil.which('picotool') or '',args.image_id)
+    environment=runtime.image_check(args.image_id,tools)
+    profile.update(execution_sha256=backend.digest({n:h for n,h in frozen['inputs'].items() if n!=REGISTRY}),
+                   environment_sha256=backend.digest(environment))
+    backend.qualified(profile)
+    backend.qualification_receipt(profile,environment,frozen)
     backend.frozen_inputs(frozen)
     require(trial.sha(qualification)==profile['qualification_sha256'],'Qualification changed during preflight')
     private=trial.no_symlinks(args.private_dir)
@@ -213,7 +205,7 @@ def main():
             record={'status':'preflight_passed','physical_execution_requested':False}
             print('Qualified immutable preflight passed; no hardware opened.');return 0
         with operator_lock() as lockfd:
-            backend.frozen_inputs(frozen);backend.qualified(profile)
+            backend.frozen_inputs(frozen);backend.qualified(profile);runtime.check(environment)
             adapter=backend.Backend(profile,private,lockfd,environment,frozen)
             store=ReceiptStore(private)
             lease=SessionLease(profile,private)

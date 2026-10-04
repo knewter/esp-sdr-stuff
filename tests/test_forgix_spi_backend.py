@@ -25,7 +25,8 @@ from test_forgix_spi_capture import Device
 class Gates(unittest.TestCase):
     def profile(self):
         return {n:'a'*64 for n in ('elf_sha256','manifest_sha256','bridge_source_sha256',
-                                 'bitstream_sha256','qualification_sha256','backend_source_sha256','coordinator_source_sha256')}
+                                 'bitstream_sha256','qualification_sha256','backend_source_sha256','coordinator_source_sha256',
+                                 'execution_sha256','environment_sha256')}
     def test_registry_empty_and_booleans_cannot_admit(self):
         p=self.profile();p.update(qualification_verified=True,physical_execution_admitted=True)
         self.assertEqual(backend.QUALIFIED,())
@@ -76,7 +77,7 @@ class Gates(unittest.TestCase):
             with patch.object(backend,'ROOT',Path(tmp)):
                 (Path(tmp)/'backups').mkdir()
                 b.private=Path(tmp)/'backups/session';b.private.mkdir()
-                with patch.object(trial,'full_preservation',return_value=(r,SimpleNamespace(hardware_process_closed=True))):
+                with patch.object(backend,'RegisterPicotool',return_value=SimpleNamespace(hardware_process_closed=True)),patch.object(preserve,'preserve',return_value=(r,None)),patch.object(trial,'remaining',return_value=1):
                     out=b.preservation('before',30)
                     self.assertEqual(out['flash_bytes'],2097152);self.assertEqual(out['read_sha256'],['a'*64]*2)
                     r['backups']['reads']=1
@@ -111,7 +112,7 @@ class Gates(unittest.TestCase):
                            coordinator_source_sha256=trial.sha(paths['tools/run_forgix_spi_trial.py']),
                            qualification_path=str(paths['qualification']),qualification_sha256=trial.sha(paths['qualification']))
             with patch.object(backend,'ROOT',root), patch.object(backend,'inherited_operator_lock',return_value={}), \
-                 patch.object(backend,'session_lease'), \
+                 patch.object(backend,'session_lease'),patch.object(backend,'qualification_receipt'),patch.object(backend.runtime,'check'), \
                  patch.object(trial,'check_inputs'),patch.object(trial,'original_binding',return_value=binding), \
                  patch.object(trial,'private_file',return_value=paths['qualification']):
                 b.check_inputs()
