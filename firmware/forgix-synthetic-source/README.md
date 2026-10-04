@@ -113,16 +113,21 @@ artifact review is bound by SHA256
 `3941bf2c019ca67cd123c9a4e3c0b970cf50620a10e4567665b1606e3f3ef5e8`.
 These failed results remain failed; no32MHz timing closure is claimed.
 
-The prospective optimization will latch the existing64-bit drain deadline
+The source-only optimization latches the existing64-bit drain deadline
 when STOP or finite completion latches `stop_tick`, removing deadline addition
 from the per-cycle POP/high-water control cone. It will retain the exact edge,
 unsigned wrapping arithmetic,5-second drain comparison, snapshots, simultaneous
-POP/PUSH, refused controls and all record/count semantics. Tests will compare
+POP/PUSH, refused controls and all record/count semantics. Tests compare
 the actual revised RTL against the immutable original RTL cycle by cycle at
 STOP/completion, exact drain boundaries, high-word carries, wrap and reset.
 Existing finite-profile/FIFO/CRC and full-wrapper simulations remain required.
 Independent source review and a fresh actual vendor run must demonstrate any
 timing improvement; clock constraints and physical admission stay unchanged.
+The14 source-test groups pass, including19 differential scenarios. The original
+RTL oracle is reconstructed and required to match its complete immutable SHA256
+before either module is simulated. Boundary cases deposit explicitly labelled
+accelerated checkpoints in both modules; full finite-sequence tests remain
+separate. All8 existing guard groups and13 synthetic-builder groups also pass.
 
 Commit these sources before generation. Use the locked `.#forgix` shell plus an
 owned private Taskfile (no shared Taskfile/flake changes in this step). Simulations
