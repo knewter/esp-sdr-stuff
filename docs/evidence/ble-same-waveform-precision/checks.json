@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "kind": "completed offline same-waveform precision diagnostic; independent peer review pending",
+  "source_commit": "792afb1bf255feffba4e5b16e85dd210f838e713",
+  "plan_commit": "fbc9d61",
+  "decoder_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+  "script_sha256": "8cabb3b1a1a31545e347bcb180e074f7992d3759c9697a880b6dd4d9c686bb42",
+  "private_input_receipt_sha256": "9166c1775adf8d1d96e52288ef98a1915789b9b4e2969465ba91c6d3eb98184b",
+  "private_complete_results_sha256": "ed0c35fa33c838248f6dda5d5763a88cba921ce48cef64c1797523b56df5dbfd",
+  "private_byte_verification_sha256": "aadbafeef28e5ed2e7f1f7f80022fdad7abd16baa59b4714e04e5bd80ba87be6",
+  "paired_csv_sha256": "b129c4fe6a0e10de895c7627b38cc9c3f9f3ae5a82af3b4756225acfbad3cef7",
+  "nominal_rate_hz": 16000000,
+  "samples_per_capture": 16380,
+  "channel": 37,
+  "blind_receiver_refinement": {
+    "samples_per_symbol_min": 3.97,
+    "samples_per_symbol_max": 4.03,
+    "samples_per_symbol_step": 0.005,
+    "start_search_half_width_samples_at_4msps": 2,
+    "start_search_step_samples_at_4msps": 0.25,
+    "threshold_bias_min_deviation_fraction": -0.45,
+    "threshold_bias_max_deviation_fraction": 0.45,
+    "threshold_bias_step_deviation_fraction": 0.025,
+    "maximum_candidate_clusters_per_capture": 32
+  },
+  "runtime_versions": {
+    "python": "3.13.15",
+    "numpy": "2.5.2",
+    "scipy": "1.18.1"
+  },
+  "runtime_seconds": 106.04661961994134,
+  "datasets": {
+    "historical246": {
+      "rows": 246,
+      "transport_invalid_rows": 0,
+      "paired_full_owned_capture_counts": {
+        "(0, 0)": 245,
+        "(1, 0)": 0,
+        "(0, 1)": 0,
+        "(1, 1)": 1
+      },
+      "foreign_CRC_packets_redacted": {
+        "original10": 0,
+        "derived8": 0
+      },
+      "csv_sha256": "aa86c97b5ba4a1bfe1d9a093436883ba07317e82b7b10a3bff245253663c9739",
+      "receiver_manifest_sha256": "81c02de86936ac80fc903115b811502276d86fbe4fa3c2c7f24b0130ed69b981"
+    },
+    "matched_manual1010": {
+      "rows": 1010,
+      "transport_invalid_rows": 0,
+      "paired_full_owned_capture_counts": {
+        "(0, 0)": 1009,
+        "(1, 0)": 0,
+        "(0, 1)": 0,
+        "(1, 1)": 1
+      },
+      "foreign_CRC_packets_redacted": {
+        "original10": 0,
+        "derived8": 0
+      },
+      "csv_sha256": "23a622b9739d4e2225de0d3558b74acc1eebc7d0ba1fd8a218e23eb328c16344",
+      "receiver_manifest_sha256": "47f6a62a52b28671ad81af8f3351c3bad877f134cfc51717096c2e51d6f32119"
+    }
+  },
+  "verification": {
+    "kind": "additive byte-level verification of complete paired replay",
+    "pairs": 1256,
+    "original_bytes": 51433200,
+    "derived_bytes": 41146560,
+    "independent_byte_formula_equal_for_every_pair": true,
+    "raw_sha_crc_size_count_all_valid": true,
+    "private_modes_all_valid": true,
+    "row_receipts_equal_final_report": true,
+    "result_sha256": "ed0c35fa33c838248f6dda5d5763a88cba921ce48cef64c1797523b56df5dbfd",
+    "input_sha256": "9166c1775adf8d1d96e52288ef98a1915789b9b4e2969465ba91c6d3eb98184b",
+    "known_owned_packets": [
+      {
+        "dataset": "historical246",
+        "capture_index": 103,
+        "paired_outcome": [
+          1,
+          1
+        ],
+        "proofs": [
+          {
+            "crc24_ok": true,
+            "owned_manufacturer_ad_exact_match": true,
+            "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+            "pdu_type": 0,
+            "pdu_length": 22,
+            "nominal_packet_start_sample": 7464.0,
+            "nominal_packet_end_sample": 11560.0,
+            "complete_preamble_and_pdu_crc_within_capture_nominal": true
+          },
+          {
+            "crc24_ok": true,
+            "owned_manufacturer_ad_exact_match": true,
+            "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+            "pdu_type": 0,
+            "pdu_length": 22,
+            "nominal_packet_start_sample": 7465.0,
+            "nominal_packet_end_sample": 11561.0,
+            "complete_preamble_and_pdu_crc_within_capture_nominal": true
+          }
+        ]
+      },
+      {
+        "dataset": "matched_manual1010",
+        "capture_index": 48,
+        "paired_outcome": [
+          1,
+          1
+        ],
+        "proofs": [
+          {
+            "crc24_ok": true,
+            "owned_manufacturer_ad_exact_match": true,
+            "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+            "pdu_type": 0,
+            "pdu_length": 22,
+            "nominal_packet_start_sample": 291.84000000000003,
+            "nominal_packet_end_sample": 4392.96,
+            "complete_preamble_and_pdu_crc_within_capture_nominal": true
+          },
+          {
+            "crc24_ok": true,
+            "owned_manufacturer_ad_exact_match": true,
+            "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+            "pdu_type": 0,
+            "pdu_length": 22,
+            "nominal_packet_start_sample": 291.84000000000003,
+            "nominal_packet_end_sample": 4392.96,
+            "complete_preamble_and_pdu_crc_within_capture_nominal": true
+          }
+        ]
+      }
+    ],
+    "limitations": "No separate hardware acquisition or physical timing/source denominator inference."
+  },
+  "author_groups": 7,
+  "original_decoder_groups": 16,
+  "actual_new_RF_captures": 0,
+  "physical_eight_bit_acquisition_verified": false,
+  "RF_acceptance_gate_closed": false,
+  "counted_emission_gate_closed": false,
+  "Trial_B_prerequisite_released": false,
+  "emission_denominator": null,
+  "limitations": "Deterministic upper-bit conversion of saved waveforms only; no actual eight-bit RF acquisition, physical sensitivity, air-event denominator, detection rate or acceptance gate."
+}
