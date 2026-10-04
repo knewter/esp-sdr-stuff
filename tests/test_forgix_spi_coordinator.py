@@ -117,6 +117,7 @@ class Episode(unittest.TestCase):
             if name=='session.json':self.adapter.now=600
         with patch.object(capture,'save',delayed):r=self.run_episode()
         self.assertEqual(r['status'],'failed');self.assertTrue(r['deadline_exceeded'])
+        self.assertGreaterEqual(r['host_elapsed_seconds'],600)
         self.assertEqual(json.loads((self.path/'session.json').read_text())['status'],'failed')
     def test_initial_persistence_cannot_restart_hardware_budget(self):
         save=capture.save

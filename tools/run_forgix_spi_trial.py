@@ -180,7 +180,7 @@ def execute(adapter,store,preflight,clock=time.monotonic):
         # Final durable receipt is inside the acceptance bound too. If its I/O
         # crosses the deadline, atomically retain an authoritative failure.
         if clock()-began>=600 and record['status']=='backend_episode_completed':
-            record.update(status='failed',deadline_exceeded=True,failure_kind='TimeoutError')
+            record.update(status='failed',deadline_exceeded=True,failure_kind='TimeoutError',host_elapsed_seconds=clock()-began)
             capture.save(store,'late-session.json',record)
             os.replace(store.path/'late-session.json',store.path/'session.json')
             capture.sync_directory(store.path)
