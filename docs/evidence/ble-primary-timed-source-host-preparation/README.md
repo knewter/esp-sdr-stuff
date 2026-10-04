@@ -17,11 +17,17 @@ bytes. The v1 image and default/CI derivations remain unchanged. Six executable
 files and the complete 260-path, 1,075-reference graph are bound to the proof;
 author content verification and independent metadata checks have distinct scopes.
 
-The optional source archive is still **unbuilt** at this checkpoint. Archive
-verification, caller admission, source-only qualification and receiver coverage
-remain pending; task 4.2 and all physical tasks stay unchecked. Changed flake/Task
-inputs make historical Forgix configuration004 stale under its unchanged guard.
-A fresh root artifact and production freezes are required before later trials.
+The root-built 90,629,082-byte source archive passes independent review of all
+24 layers, its command and labels, both source files and interpreter. The 23-path
+resident runtime matches 7,642 regular files and 1,218 links in the immutable
+store. Root verifies all 263 host/archive Nix paths; the old v1 archive matches
+its historical byte hash. Refreshed Forgix ARM005 and 36/65-input production
+snapshots also pass independent review. This completes software task 4.2.
+
+Loaded-image and caller admission, source-only qualification and receiver
+coverage remain pending. The caller's first real-archive parser failure is
+retained; its correction is under independent review. No physical action or
+reception claim follows from these software and archive checks.
 
 The 20:12 UTC read-only USB survey finds the ESP and RTL-SDR, verifies preserved
 ESP backups, and finds no Forgix application, boot-ROM or RAM device. No serial

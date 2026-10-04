@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "reviewed merged register and synthetic preparation checkpoint",
-  "source_commit": "12138abbfab31115cc0eff89b84aaa0048f697f7",
+  "source_commit": "f6f555496b25c27bc86fb01d22e7857fcce30c7c",
   "root_tests": {
     "distinct_groups": 272,
     "raw_groups": 286,
@@ -16,17 +16,18 @@
     "original_cross_route_probe_passed": true
   },
   "current_ARM_configuration": {
-    "artifact_number": 4,
+    "artifact_number": 5,
     "actual_build_terminal_exit": 0,
-    "ELF_sha256": "5084d4679fb5784c256d43c39f35e3468b6498b9e6394f332b780ad4f7aad9ab",
-    "build_identity_sha256": "029deac87af8a305f7f80edbf022043b43db4672fd2c2b1cef6ab7be286c6b9f",
+    "ELF_sha256": "a6991bebbd17e2593765ea44da238ac85fd2c4057b05afda73a88c9082d30fc8",
+    "build_identity_sha256": "72fdede88123a76f8b094fadd90c2782c8c7395f1de04bf802cc547f399b509b",
     "current_build_sources": 19,
     "ordinary_SRAM_bytes": 203700,
     "stack_bytes": 4096,
     "embedded_FPGA_image_bytes": 173380,
-    "independent_review_sha256": "1b299b60f75684ffe7af9c92aa928bb220dbced6102f369157451816f280324a",
-    "actual_C_cases": 30,
-    "actual_ELF_negative_mutations": 9
+    "independent_review_sha256": "e34cca91c3adc25a3e8a0e0e00e6bb537a1479150dcc12a5d1b43dfe4c95910d",
+    "actual_C_cases": 0,
+    "actual_ELF_negative_mutations": 9,
+    "source_test_scope": "No new compiler tests during saved-artifact review; unchanged firmware actual-C proof is historical above."
   },
   "root_runtime": {
     "register_inputs": 36,
@@ -35,17 +36,17 @@
     "content_verified_Nix_paths": 268,
     "reference_edges": 1097,
     "imported_external_Nix_files": 136,
-    "register_execution_sha256": "b0976d453bec1b8edaaa1fe4c32aecb0acc1e30909157e972824875a891391ff",
-    "synthetic_execution_sha256": "194a97016010e46c3f4cf9e984caca54ffd0dd399f718aaad00ee3d669433c9f",
+    "register_execution_sha256": "aa30dc79d9098fcd6e9fa9f7a075c61e914aafc360c16c010362035368a7e195",
+    "synthetic_execution_sha256": "dfe35308a701b4a5e7481cc01fc88a0bd5d565df93d7fbed66456330abe83427",
     "environment_sha256": "8b7d046b1e23d5e0b972198ae25c733d59011f4d85fde0a2a20138bea6c43f16",
-    "actual_root_proof_sha256": "3868785c305df609c406c59b1e34d73b3a0c5bc5790133fd2e3c4a3961be34b6",
-    "register_freeze_sha256": "2d8fa99d6562d7e6436ec679c3d7160b5c610bbc5d33254168c2be7d66ac44e8",
-    "synthetic_freeze_sha256": "636fa7a0b2308911f2cd09463120a9bef51f5367e15ef871c1ea9d927fcd4867",
-    "independent_root_transfer_sha256": "7d4cc8ea730d8870c17612dfbafc0f2b9bea76a4ee44a6ef945e268746d32fe6",
+    "actual_root_proof_sha256": "07195b2f42b7930366aa0f6433b88515fb5fb865f09140fec3705fe2ad3648d0",
+    "register_freeze_sha256": "5a501ea1feddcdcb5680843f409b0ab6dfbbfa213d3aca99be8a36cd2fa2e3b1",
+    "synthetic_freeze_sha256": "329a3b0770f335b6a1ab024d47f2941c7ca6171e8fd898ef5fd2dd2383d35009",
+    "independent_root_transfer_sha256": "c74038970bec99abec86f03ec488f6561b486cd85357dd14597881d0b5bb05ce",
     "historical_synthetic_artifact_profile_unchanged": true,
     "real_host_only_inherited_worker_passed": true
   },
-  "USB_survey_UTC": "2026-10-04T17:37:48.642891+00:00",
+  "USB_survey_UTC": "2026-10-04T20:12:48.022382Z",
   "Forgix_factory_devices": 0,
   "RP_ROM_devices": 0,
   "RP_vendor_devices_any_PID": 0,
@@ -59,5 +60,39 @@
     "Current content verification and harmless fixture worker executed at root; peer binds saved operation/source receipts without repeating hardware or NAR verification.",
     "Synthetic historical artifact permits Task/docs advancement under its existing policy; register artifact requires all 19 current build-source bytes. Neither guard was relaxed.",
     "OS, filesystem, Nix/Docker daemons and pre-Python/selected-Task ancestor boundaries remain trusted."
-  ]
+  ],
+  "historical_configuration004_checkpoint": {
+    "source_commit": "12138abbfab31115cc0eff89b84aaa0048f697f7",
+    "configuration": {
+      "artifact_number": 4,
+      "actual_build_terminal_exit": 0,
+      "ELF_sha256": "5084d4679fb5784c256d43c39f35e3468b6498b9e6394f332b780ad4f7aad9ab",
+      "build_identity_sha256": "029deac87af8a305f7f80edbf022043b43db4672fd2c2b1cef6ab7be286c6b9f",
+      "current_build_sources": 19,
+      "ordinary_SRAM_bytes": 203700,
+      "stack_bytes": 4096,
+      "embedded_FPGA_image_bytes": 173380,
+      "independent_review_sha256": "1b299b60f75684ffe7af9c92aa928bb220dbced6102f369157451816f280324a",
+      "actual_C_cases": 30,
+      "actual_ELF_negative_mutations": 9
+    },
+    "runtime": {
+      "register_inputs": 36,
+      "synthetic_inputs": 65,
+      "host_tools": 7,
+      "content_verified_Nix_paths": 268,
+      "reference_edges": 1097,
+      "imported_external_Nix_files": 136,
+      "register_execution_sha256": "b0976d453bec1b8edaaa1fe4c32aecb0acc1e30909157e972824875a891391ff",
+      "synthetic_execution_sha256": "194a97016010e46c3f4cf9e984caca54ffd0dd399f718aaad00ee3d669433c9f",
+      "environment_sha256": "8b7d046b1e23d5e0b972198ae25c733d59011f4d85fde0a2a20138bea6c43f16",
+      "actual_root_proof_sha256": "3868785c305df609c406c59b1e34d73b3a0c5bc5790133fd2e3c4a3961be34b6",
+      "register_freeze_sha256": "2d8fa99d6562d7e6436ec679c3d7160b5c610bbc5d33254168c2be7d66ac44e8",
+      "synthetic_freeze_sha256": "636fa7a0b2308911f2cd09463120a9bef51f5367e15ef871c1ea9d927fcd4867",
+      "independent_root_transfer_sha256": "7d4cc8ea730d8870c17612dfbafc0f2b9bea76a4ee44a6ef945e268746d32fe6",
+      "historical_synthetic_artifact_profile_unchanged": true,
+      "real_host_only_inherited_worker_passed": true
+    }
+  },
+  "TinyUSB_vendor_devices_any_PID": 0
 }
