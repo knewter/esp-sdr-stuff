@@ -57,3 +57,5 @@ return, absence of that marker and complete closure receipts are all required.
 Post-result keeper replacement has its own newer identity/subreceipt; manual
 recovery must inspect those latest exact records instead of an older result's
 quarantine identity. This limitation is explicit, not a physical recovery proof.
+
+The later [fixed receiver trial and independent whole audit](../ble-primary-zero-data-receiver-001-review/README.md) complete current root admission, normal holder closure and full original restoration. Its sparse-window null does not qualify RF acceptance. This earlier preparation record remains host evidence; future hardware invocations still require fresh admission.

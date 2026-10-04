@@ -193,3 +193,7 @@ This is implementation preparation; no physical checkbox or accepted requirement
 changes, original TrialB/count/reciprocal-response gates and previous outcomes
 remain unchanged. Proof is frozen offline caller tests and independent preflight
 before a sole-root-operated receiver condition.
+
+## Fixed zero-data primary receiver outcome
+
+The [independent whole receiver review](docs/evidence/ble-primary-zero-data-receiver-001-review/README.md) verifies all 365 ten-bit waveforms, three monitored count100 controller phases and full original 4 MiB restoration with reset boot. The unchanged primary decoder finds zero owned or foreign CRC-valid primary packets. Guarded ON captures are 3/4/4; 347 OFF and seven boundary captures remain accounted for. Low snapshot duty makes this null inconclusive. The 300 controller events are not independently counted primary emissions; source attribution, detection/miss rates, three reciprocal RF responses and original Trial B remain unproved. No physical acceptance task or accepted requirement changes.
