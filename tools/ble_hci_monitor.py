@@ -49,6 +49,68 @@ def bind_monitor(monitor):
         raise OSError(error, 'Cannot open the explicit read-only HCI monitor channel')
 
 
+def extended_parameters_metadata(payload):
+    """Decode opcode2036's exact v1 wire layout; never retain Peer_Address.
+
+    Core5.4 Vol4 PartE7.8.53/Table7.2 defines this supported envelope.
+    Later decision-advertising properties and opcode207f/v2 are outside it.
+    These are requested control values, not observed PHY or radiated power.
+    """
+    if len(payload) != 25:
+        return None
+    handle, properties, low_bytes, high_bytes, channels, own_type, peer_type, peer, policy, power, primary, skip, secondary, sid, notify = struct.unpack(
+        '<BH3s3sBBB6sBbBBBBB', payload)
+    low = int.from_bytes(low_bytes, 'little')
+    high = int.from_bytes(high_bytes, 'little')
+    legacy = bool(properties & 0x10)
+    high_duty = properties == 0x1d
+    if (handle > 0xef or properties & ~0x7f or
+            (legacy and properties not in (0x10, 0x12, 0x13, 0x15, 0x1d)) or
+            (not legacy and (properties & 3 == 3 or properties & 8)) or
+            (not high_duty and not 0x20 <= low <= high <= 0xffffff) or
+            not 1 <= channels <= 7 or own_type > 3 or peer_type > 1 or
+            policy > 3 or (power != 127 and not -127 <= power <= 20) or
+            primary not in (1, 3) or (legacy and primary != 1) or
+            (not legacy and secondary not in (1, 2, 3)) or
+            sid > 15 or notify > 1):
+        return None
+    return {
+        'extended_parameters_wire_version': 1,
+        'advertising_handle': handle, 'event_properties': properties,
+        'interval_min_ms': low * .625, 'interval_max_ms': high * .625,
+        'interval_min_625us_units': low, 'interval_max_625us_units': high,
+        'primary_intervals_ignored_high_duty': high_duty,
+        'primary_channel_map': channels, 'own_address_type': own_type,
+        'peer_address_type': peer_type,
+        # A boolean can verify the deliberately zero, unused peer field in
+        # the undirected source profile without publishing an address/hash.
+        'peer_address_is_zero': peer == bytes(6),
+        'advertising_filter_policy': policy,
+        'requested_tx_power_dbm': None if power == 127 else power,
+        'tx_power_no_preference': power == 127,
+        'primary_phy': primary, 'secondary_max_skip': skip,
+        'secondary_phy': secondary, 'secondary_parameters_ignored_legacy': legacy,
+        'advertising_sid': sid, 'scan_request_notification_enabled': bool(notify),
+    }
+
+
+def extended_data_metadata(payload):
+    """Core5.4 Vol4 PartE7.8.54; fragment data stays redacted/unassembled."""
+    if not 4 <= len(payload) <= 255:
+        return None
+    handle, operation, preference, length = payload[:4]
+    if (handle > 0xef or operation > 4 or preference > 1 or length > 251 or
+            len(payload) != 4 + length or
+            (operation == 4 and length != 0) or
+            (operation not in (3, 4) and length == 0)):
+        return None
+    return {
+        'advertising_handle': handle, 'advertising_data_length': length,
+        'fragment_operation': operation, 'fragmentation_preference': preference,
+        'owned_manufacturer_ad_exact_match': owned_ad_match(payload[4:]) if operation == 3 else None,
+    }
+
+
 def sanitized_packet(packet):
     if len(packet) < 6:
         return None
@@ -71,15 +133,12 @@ def sanitized_packet(packet):
         elif opcode == 0x2008 and len(payload) == 32 and payload[0] <= 31:
             result.update(advertising_data_length=payload[0],
                           owned_manufacturer_ad_exact_match=owned_ad_match(payload[1:1 + payload[0]]))
-        elif opcode == 0x2037 and len(payload) >= 4 and payload[3] == len(payload) - 4:
-            result.update(advertising_handle=payload[0], advertising_data_length=payload[3],
-                          fragment_operation=payload[1],
-                          owned_manufacturer_ad_exact_match=owned_ad_match(payload[4:]) if payload[1] == 3 else None)
-        elif opcode == 0x2036 and len(payload) == 25:
-            result.update(advertising_handle=payload[0], event_properties=struct.unpack_from('<H', payload, 1)[0],
-                          interval_min_ms=int.from_bytes(payload[3:6], 'little') * .625,
-                          interval_max_ms=int.from_bytes(payload[6:9], 'little') * .625,
-                          primary_channel_map=payload[9], primary_phy=payload[20], secondary_phy=payload[22])
+        elif opcode in (0x2036, 0x2037):
+            metadata = (extended_parameters_metadata(payload) if opcode == 0x2036
+                        else extended_data_metadata(payload))
+            if metadata is None:
+                return None
+            result.update(metadata)
         elif opcode == 0x203c and len(payload) == 1:
             result['advertising_handle'] = payload[0]
         elif opcode == 0x2039 and len(payload) >= 2 and len(payload) == 2 + 4 * payload[1]:
