@@ -106,7 +106,11 @@ def audit(folder):
 
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--artifact',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
- a=p.parse_args();os.umask(0o077);result=audit(a.artifact);out=fresh(a.output);receipt=out/'startup-audit.json'
- receipt.write_text(json.dumps(result,indent=2)+'\n')
- print(json.dumps({'result':result['result'],'receipt_sha256':sha(receipt),'hardware_opened':False,'loading_admitted':False}))
-if __name__=='__main__':main()
+ a=p.parse_args();os.umask(0o077)
+ try:
+  result=audit(a.artifact);out=fresh(a.output);receipt=out/'startup-audit.json'
+  receipt.write_text(json.dumps(result,indent=2)+'\n')
+  print(json.dumps({'result':result['result'],'receipt_sha256':sha(receipt),'hardware_opened':False,'loading_admitted':False}));return 0
+ except Exception as error:
+  print(json.dumps({'result':'failed','error_kind':type(error).__name__,'hardware_opened':False,'loading_admitted':False}));return 2
+if __name__=='__main__':raise SystemExit(main())

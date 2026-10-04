@@ -1,5 +1,5 @@
 """Fail-closed loaded reset recognizer and private stream artifact admission."""
-import hashlib,json,os,struct,sys,tempfile,unittest
+import hashlib,json,os,struct,subprocess,sys,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
@@ -59,6 +59,12 @@ class Startup(unittest.TestCase):
   with self.assertRaises(ValueError):a.regular(q,2)
   q.unlink();os.link(p,q)
   with self.assertRaises(ValueError):a.regular(p,2)
+ def test_cli_refusal_is_typed_without_private_path_or_partial_output(self):
+  out=self.root/'PRIVATE-output';r=subprocess.run([sys.executable,str(ROOT/'tools/audit_forgix_synthetic_startup.py'),
+   '--artifact',str(self.root/'PRIVATE-input'),'--output',str(out)],capture_output=True,text=True,timeout=20)
+  self.assertEqual(r.returncode,2);self.assertEqual(r.stderr,'');self.assertNotIn('PRIVATE',r.stdout)
+  self.assertEqual(json.loads(r.stdout),{'result':'failed','error_kind':'ValueError','hardware_opened':False,'loading_admitted':False})
+  self.assertFalse(out.exists())
   q.unlink();p.write_bytes(b'')
   with self.assertRaises(ValueError):a.regular(p,2)
  def test_whole_manifest_hash_set_source_and_nar_fail_closed(self):
