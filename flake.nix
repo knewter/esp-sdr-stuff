@@ -232,6 +232,7 @@
       esptool = pkgs.esptool.override { python3Packages = pkgs.python313Packages; };
       pythonFull = pythonBase.withPackages (ps: with ps; [
         numpy scipy matplotlib dbus-next pyserial playwright (toPythonModule esptool)
+        migen forgix.litex forgix.boards
       ]);
       nativeBleCryptoCheck = pkgs.runCommand "native-ble-real-psa-check" {
         nativeBuildInputs = [ pkgs.stdenv.cc pythonFull ];
@@ -249,6 +250,7 @@
       commonPackages = [
         node pkgs.go-task openspec pkgs.chromium pkgs.git pkgs.coreutils
         pkgs.ripgrep pkgs.curl pkgs.jq pkgs.stdenv.cc pioAsm pkgs.minify
+        pkgs.iverilog
       ];
       shellVariables = {
         SITE_NODE_MODULES = "${siteDependencies}/node_modules";
@@ -256,6 +258,7 @@
         MINIFY_EXECUTABLE = "${pkgs.minify}/bin/minify";
         PYTHONNOUSERSITE = "1";
         PYTHONPATH = "";
+        FORGIX_TOOLCHAIN_PROVENANCE = forgix.shell.FORGIX_TOOLCHAIN_PROVENANCE;
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
         # No pip/global-npm/browser installation is needed by project tasks.
         PIP_REQUIRE_VIRTUALENV = "true";
