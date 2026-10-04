@@ -22,6 +22,10 @@ static bool transfer(fs_engine *e,bool write,unsigned off,uint32_t *v,uint64_t u
 }
 static bool rd(fs_engine *e,unsigned off,uint32_t *v,uint64_t until){return transfer(e,false,off,v,until);}
 static bool wr(fs_engine *e,unsigned off,uint32_t v,uint64_t until){return transfer(e,true,off,&v,until);}
+static bool coherent_state(uint32_t s){
+ return !(s&~127u)&&(!(s&64u)||((s&1u)&&((s&6u)==2u||(s&6u)==4u)))&&
+        (!(s&6u)||(s&64u))&&(!(s&8u)||(s&64u));
+}
 static bool snapshot(fs_engine *e,uint64_t until){
  uint32_t v[16];fs_snapshot s={0};e->flags&=~4u;
  static const unsigned offsets[16]={0x4c,0x50,0x54,0x58,0x5c,0x60,0x64,0x68,0x6c,0x70,0x74,0x78,0x7c,0x80,0x84,0x88};
@@ -30,9 +34,10 @@ static bool snapshot(fs_engine *e,uint64_t until){
  s.id=v[0];s.tick=(uint64_t)v[1]|((uint64_t)v[2]<<32);s.state=v[3];
  s.generated=v[4];s.enqueued=v[5];s.dropped=v[6];s.popped=v[7];s.refused_pop=v[8];s.refused_command=v[9];
  s.remaining=v[10];s.highwater=v[11];s.start=(uint64_t)v[12]|((uint64_t)v[13]<<32);s.stop=(uint64_t)v[14]|((uint64_t)v[15]<<32);
- if((s.state&~127u)||!s.id||s.id<=e->snapshot.id||s.generated>e->target||
+ if(!coherent_state(s.state)||!s.id||s.id<=e->snapshot.id||s.generated>e->target||
     s.enqueued>s.generated||s.dropped!=s.generated-s.enqueued||s.popped>s.enqueued||
     s.remaining!=s.enqueued-s.popped||s.remaining>64||s.highwater>64||s.highwater<s.remaining||
+    s.highwater>s.enqueued||(s.enqueued&&!s.highwater)||((s.state&8u)&&!s.remaining)||
     s.tick<e->snapshot.tick||((s.state&64u)&&s.tick<s.start)||
     ((e->flags&2u)&&s.start!=e->snapshot.start)||
     ((s.state&4u)&&(s.stop<s.start||s.stop>s.tick))){failed(e,FS_SOURCE);return false;}
@@ -114,7 +119,7 @@ static void acquire(fs_engine *e){
  uint32_t state,v,words[4];
  if(e->queued==16||e->batch.count==26)return; /* Reserve first; no POP while full. */
  if(!rd(e,0x28,&state,e->until))return;
- if((state&~127u)||!(state&64u)){failed(e,FS_SOURCE);return;}
+ if(!coherent_state(state)||!(state&64u)){failed(e,FS_SOURCE);return;}
  if(!(state&8u)){
   if(state&4u){if(!rd(e,0x2c,&v,e->until))return;if(v>64){failed(e,FS_SOURCE);return;}if(!v)e->phase=FS_FINAL;}
   return;
@@ -145,7 +150,8 @@ static void finalize(fs_engine *e){
   if(e->source_start_intent&&e->trustworthy){
    uint32_t state;
    if(rd(e,0x28,&state,cap)){
-    if(state&2u){e->stop_state=1;if(wr(e,0x0c,2,cap)&&snapshot(e,cap)){if(e->snapshot.state&2u)failed(e,FS_SOURCE);else e->stop_state=2;}}
+    if(!coherent_state(state))failed(e,FS_SOURCE);
+    else if(state&2u){e->stop_state=1;if(wr(e,0x0c,2,cap)&&snapshot(e,cap)){if(e->snapshot.state&2u)failed(e,FS_SOURCE);else e->stop_state=2;}}
     else snapshot(e,cap); /* STOP on an already completed source is refused. */
    }
   }

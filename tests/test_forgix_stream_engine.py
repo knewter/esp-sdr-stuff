@@ -220,13 +220,21 @@ class ActualEngine(unittest.TestCase):
         self.assertEqual(struct.unpack_from('<I',end,188)[0],1)
         self.assertEqual(r.field(1),4)
     def test_final_snapshot_semantics_cannot_forge_zero_loss_success(self):
-        for mutation in ('state','start','tick','stop'):
+        for mutation in ('state','start','tick','stop','head','highwater'):
             with self.subTest(mutation=mutation):
                 r=Rig(self.lib);r.ready()
-                r.final_forge={'state':(0x58,0),'start':(0x7c,(r.start+1)&0xffffffff),'tick':(0x50,0),'stop':(0x84,0)}[mutation]
+                r.final_forge={'state':(0x58,0),'start':(0x7c,(r.start+1)&0xffffffff),'tick':(0x50,0),'stop':(0x84,0),
+                    'head':(0x58,77),'highwater':(0x78,0)}[mutation]
                 for _ in range(60001):r.time+=1000;r.step()
                 r.finish();self.assertNotEqual(r.field(1),0)
                 self.assertNotEqual(struct.unpack_from('<I',r.frames()[-1],128)[0],0)
+    def test_contradictory_live_state_is_rejected_before_head_or_pop(self):
+        for state in (72,74,79):
+            with self.subTest(state=state):
+                r=Rig(self.lib);r.ready();r.state=lambda:state
+                r.time+=70000;r.step();r.finish()
+                self.assertEqual(r.field(1),5);self.assertEqual(r.popped,0)
+                self.assertFalse(any(o in (0x34,0x38,0x3c,0x44,0x40) for _,o,_,_ in r.calls))
     def test_fresh_configuration_cap_clock_cannot_launch_late_side_effect(self):
         r=Rig(self.lib);calls=0
         def sampled(_):
