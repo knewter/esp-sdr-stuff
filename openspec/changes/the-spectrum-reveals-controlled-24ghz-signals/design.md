@@ -219,4 +219,4 @@ independent review are needed before using it in any new physical episode.
 
 ## Final original ladder outcome
 
-The [final original BW12 control](docs/evidence/ble-bluez-control-007/README.md) completes the prospective ladder: all1,151 captures, whole decoder/scalar replay, source schedule, cleanup and full restoration pass independent audit. Zero CRC-valid packets and no repeated owned-source nominal-band rise supply no emitted-event denominator or detection/miss rate. Original TrialB remains withheld; neither radio acceptance gate is relaxed.
+The [final original BW12 control](docs/evidence/ble-bluez-control-007/README.md) completes the prospective ladder: all 1,151 captures, whole decoder/scalar replay, source schedule, cleanup and full restoration pass independent audit. Zero CRC-valid packets and no repeated owned-source nominal-band rise supply no emitted-event denominator or detection/miss rate. Original Trial B remains withheld; neither radio acceptance gate is relaxed.

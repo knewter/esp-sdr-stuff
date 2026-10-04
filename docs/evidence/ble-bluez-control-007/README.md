@@ -6,15 +6,15 @@ completion, complete resource closure and original firmware restoration. Whole
 legacy decoder replay finds **zero owned and zero other-source CRC-valid packets**.
 [Checks](checks.json) bind executed inputs, independent review and measurements.
 
-The preset is eight-bit, BW12, hardware gain, LO2401MHz, nominal16MS/s and
+The preset is eight-bit, BW12, hardware gain, LO 2401 MHz, nominal 16 MS/s and
 16,380 samples. The unchanged blind decoder uses channel37 and translation
 −1MHz, replaying every private waveform rather than selected candidates.
 The final bandwidth condition completes the prospective ladder; previous
 nulls and the failed manual-gain episode remain retained.
 
-The initial source-OFF interval is20.313579143s; the final payload arrives
+The initial source-OFF interval is 20.313579143s; the final payload arrives
 39.138131413s after source-group closure. Receiver host duration is
-460.011285906s. Combined nominal RF windows total1.17833625s; sparse windows
+460.011285906s. Combined nominal RF windows total 1.17833625s; sparse windows
 and unknown emitted-event counts prevent sensitivity, hit/miss rates or a
 claim that the source did not transmit. Command/response brackets are host
 timestamps, not hardware RF-start timestamps.
@@ -44,19 +44,19 @@ claim. Profile order, resets and interference remain confounds.
 
 ## Preservation and boundaries
 
-Both full pre/post images match the original4MiB SHA256
+Both full pre/post images match the original 4 MiB SHA256
 `6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974`.
 Write verification, original application/SDK and GPIO high/low reset-boot tokens
 pass. This is reset verification, not a fresh electrical power-cycle measurement.
 UART/process groups, source bus and the exact monitor container close.
 
 Reviewed failed-prefix retention was used; no terminal capture failure occurred.
-All private capture/decoder artifacts stay0600 under0700 directories. Complete
+All private capture/decoder artifacts stay 0600 under 0700 directories. Complete
 source/monitor metadata passes independent replay; DBus acknowledgement timing
 is not radiated timing. Repeat the reviewed private coordinator with a fresh
 input/runtime/device freeze, then `task decode:ble` and `task report:ble` using
 the explicit settings above. Hardware ownership and preservation remain required.
 
-The original TrialB prerequisite remains unmet. Controller counts do not supply
+The original Trial B prerequisite remains unmet. Controller counts do not supply
 an independently verified legacy-air denominator. The OpenSpec RF tasks remain
 unchecked; earlier owned decoding remains a separate historical demonstration.

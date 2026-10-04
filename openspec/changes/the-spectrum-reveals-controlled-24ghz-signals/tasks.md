@@ -86,10 +86,10 @@ verifies truthful failure retention and cleanup. No original task above closes.
 
 The [October 4 control](docs/evidence/ble-bluez-control-003/README.md) completes
 three source ON/OFF pairs,1,260 independently verified snapshots, normal monitor
-cleanup and full original4MiBrestoration. Entire decoder replay retains zero
+cleanup and full original 4 MiBrestoration. Entire decoder replay retains zero
 CRC-valid packets; fixed prospective-band scalar replay supplies no reciprocal
 source attribution. Sparse windows and unknown air emissions make this a null
-control, not a detection-failure or missed-event rate. Original TrialB remains
+control, not a detection-failure or missed-event rate. Original Trial B remains
 gated. The next separate bridge-profile ladder starts ten-bit/BW20/manual48
 and isolates precision, gain and bandwidth; earlier results remain unchanged.
 No original task checkbox or accepted requirement changes.
@@ -131,4 +131,4 @@ Trial B and count/detection gates remain open; no checkbox changes.
 
 ## Final original ladder outcome
 
-The [final original BW12 control](docs/evidence/ble-bluez-control-007/README.md) completes the prospective ladder: all1,151 captures, whole decoder/scalar replay, source schedule, cleanup and full restoration pass independent audit. Zero CRC-valid packets and no repeated owned-source nominal-band rise supply no emitted-event denominator or detection/miss rate. Original TrialB remains withheld; neither radio acceptance gate is relaxed.
+The [final original BW12 control](docs/evidence/ble-bluez-control-007/README.md) completes the prospective ladder: all 1,151 captures, whole decoder/scalar replay, source schedule, cleanup and full restoration pass independent audit. Zero CRC-valid packets and no repeated owned-source nominal-band rise supply no emitted-event denominator or detection/miss rate. Original Trial B remains withheld; neither radio acceptance gate is relaxed.

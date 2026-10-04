@@ -33,13 +33,13 @@ XML contract is needed; removing the input guard would not resolve the issue.
 
 The actual internal timing report also shows setup slack −0.694 ns against the
 requested 31.25 ns period. This does not close 32 MHz timing, regardless of
-compiler stage status. Independent report review verifies3,652/7,384logic elements,8/24RAM blocks,
+compiler stage status. Independent report review verifies 3,652/7,384 logic elements, 8/24 RAM blocks,
 exactly four assigned user pads and the failed timing result. The worst path
 starts at stop_tick and reaches FIFO high-water control through drain expiry.
 A source optimization must retain the exact five-second drain semantics. No image was loaded and no physical FPGA claim follows.
 
 The [corrected XML contract](../../research/forgix-project-xml-mutation.md)
-passes20 focused checks and independent rewrite/tamper/file probes. It accepts
+passes 20 focused checks and independent rewrite/tamper/file probes. It accepts
 only unchanged project bytes or the exact pinned vendor rewrite, retains original
 bytes and both hashes, and keeps the other seven generated inputs exact. Empty
 auxiliary reports are bounded and hash-retained; critical files stay nonempty.
