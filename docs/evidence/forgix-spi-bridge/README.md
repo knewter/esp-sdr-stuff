@@ -89,9 +89,12 @@ restore/FINISH; ambiguous framing, source/nonce/sequence/status, late replies or
 transport failure poison the session without retry or guessed cleanup. Failed
 restoration cannot report success. Cancellation propagates with the failed
 summary. Five additional independent late-frame/parser/cleanup/cancellation
-probes pass. This injected-transport engine opens no port: its future caller
-must persist private raw prefixes and own USB identity, lock, closure and full
-flash/factory verification. FINISH acknowledgment alone is not factory return.
+probes pass. This injected-transport engine opens no port. The subsequent
+[private collector](../forgix-spi-collector/README.md) now implements prefix
+persistence, caller-supplied lock/enumeration checks and transport closure,
+with 15 own-operator C/PTY/fault tests. Its complete bounded load/recovery owner
+and full flash/factory verification remain unimplemented. FINISH acknowledgment
+alone is not factory return.
 
 The [actual linked startup audit](startup-audit.json) recognizes the saved
 bridge008 reset instruction sequence and initializer-table bindings. It binds
@@ -112,7 +115,7 @@ The [bridge source and protocol](../../../firmware/forgix-spi-bridge/README.md)
 allow only counter reads at0x1000 and scratch read/write at0x1004, with bounded
 PIO and a finite watchdog/lifetime. An offline plan saves original scratch,
 checks three patterns/counter progression, then requires original-scratch
-restore/readback and FINISH. It is not a serial trial runner.
+restore/readback and FINISH. The private collector has no physical trial CLI.
 
 Before loading, qualify the fitted FPGA suffix, actual clock/connectivity and
 electrical handoff, and independently review linked startup plus the complete

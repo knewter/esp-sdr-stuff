@@ -1,0 +1,27 @@
+{
+  "checked_utc": "2026-10-04T00:53:24.121718+00:00",
+  "source_commit": "f2b5db2b549e5296509756f42f2588d05837cd29",
+  "command": "nix develop .#ci --command task forgix:spi-bridge:collector:test",
+  "result": "passed",
+  "tests": 15,
+  "skips": 0,
+  "test_elapsed_s": 1.013,
+  "private_log_sha256": "fa182eacf210255b345e8a949540ba0df2fb21fe89645a24185efc57be798ffb",
+  "source_sha256": {
+    "tools/forgix_spi_capture.py": "b728f3c11566185462dcfd9d6504f2a8a0a6ba050c62dd4302837a82b28603c5",
+    "tools/forgix_spi_bridge.py": "cc3b5847c3b41fe8474547fb5b9de48f6001cd25047e093662478fbb7ff2423c",
+    "tools/forgix_usb_ram_capture.py": "fe620fcef9373854abb688ef5ccecca5a120053791f426e308efa27e57eab2e7",
+    "tests/test_forgix_spi_capture.py": "4d2528537b89adfb2f352341f93f34404397b0ad0108caf4e2206ab3a47eedcf",
+    "tests/test_forgix_spi_bridge.py": "1d80fddcebd8d6ffb698914ab3b3e09db7d012f6c56ff7aa3b424fa3a31d847f",
+    "tests/test_forgix_spi_bridge_host.py": "f07813a7b8c08756d9f6c7e8bf97550864585cc87a0e18fd20ee2b6da688ec7d",
+    "firmware/forgix-spi-bridge/protocol.c": "3e19f315b3b61ec4c26425c9042863a0be07bd2213dba4b0091a70c3a2133010",
+    "firmware/forgix-spi-bridge/protocol.h": "6bf6a3a6ffe1048d2df01d2fd30833ef7c5b415175abec4d0e9acadd1d02d9c5",
+    "Taskfile.yml": "c0d30cc361ee5141c063287e40bfca0f2ee5f271a3e36fc3ba3a5a5fba641c7c"
+  },
+  "hardware_opened": false,
+  "fpga_programmed": false,
+  "ram_loaded": false,
+  "loading_admitted": false,
+  "factory_recovery_measured": false,
+  "scope": "Host collector using fragmented compiled-C replies, injected faults and a local PTY. No physical FPGA/USB, image identity, clock/timing or load/recovery qualification."
+}

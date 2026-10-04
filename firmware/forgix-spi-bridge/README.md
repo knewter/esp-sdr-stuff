@@ -103,15 +103,19 @@ sequence, nonce, register, clock profile, reserved fields, CRC or error status.
 
 The offline plan saves original scratch, reads the counter, verifies three
 scratch patterns including a final zero bit, then reads the counter again.
-The future physical collector must verify counter progression and every
+The physical collector must verify counter progression and every
 scratch value, restore the original scratch, read it back, then FINISH and
 independently verify complete original flash/factory return. It must retain
 failed or partial runs. The injected-transport `RegisterRun` engine now implements that register test
-and retains partial exchanges in memory. Its caller must persist raw prefixes,
-own USB identity/lock/closure, and verify full factory return. Ambiguous replies
+and retains partial exchanges in memory. The new private collector persists
+transfer intents and raw reply prefixes, checks the caller's lock/enumeration,
+and verifies serial closure. Fifteen own-operator C/PTY/fault checks pass; see
+[collector evidence](../../docs/evidence/forgix-spi-collector/README.md).
+Its caller still owns complete image binding, a bounded worker, load/recovery
+and full factory return. Ambiguous replies
 stop further commands; valid pattern mismatch still attempts restoration.
-FINISH acknowledgment is not factory return. No serial trial runner or load
-lifecycle is provided. The saved-ELF startup audit runs separately:
+FINISH acknowledgment is not factory return. No physical trial CLI or complete
+load lifecycle is provided. The saved-ELF startup audit runs separately:
 
 ```sh
 nix develop .#forgix-spi-bridge --command task forgix:spi-bridge:startup-audit -- \

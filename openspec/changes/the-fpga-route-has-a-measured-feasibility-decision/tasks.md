@@ -69,3 +69,10 @@ audit. GPIO/pads/PIO reset before main, so prior FPGA image continuity needs
 qualification or configuration after RAM startup. Host tests use injected
 transport; no physical register trial ran. Complete identity-selected USB
 load/recovery and physical timing remain open; progress stays 1/5.
+
+The [private register collector](docs/evidence/forgix-spi-collector/README.md)
+now retains raw prefixes and transfer intents on disk, checks caller-supplied
+lock/enumeration, and verifies transport closure. Fifteen own-operator tests
+pass using compiled-C replies, injected failures and a local PTY. No physical
+collector CLI or complete bounded load/recovery owner exists. No new hardware
+trial ran; configuration transition and physical gates remain open, at 1/5.
