@@ -21,8 +21,12 @@ CS-glitch detection claim: the RP maintains stable controlled CS.
 After separately verified exact-image configuration, RP holds CS high/SCK low,
 GPIO3 input/pulls disabled, then an input-only PIO loop at integer divider1
 counts 16 complete rising-to-rising periods. No output/set/side-set pin mapping.
+The C capture budget is capped at two seconds; a caller cannot enlarge it.
 FIFO blocking occurs outside each measured period: samples may skip whole
 source periods and are not continuity measurements. One consumed attempt,
+RP may stop with CS high after 16 samples, spending/aborting the FPGA burst
+early. C status0 means completed sample capture and cleanup, not natural
+completion or delivery of all1024 source periods.
 fresh before/after callback deadlines, watchdog, retained completed samples and
 CS-high cleanup apply on every failure. No automatic retry or register followup.
 
@@ -31,6 +35,9 @@ instructions. Transition/setup/sampling phases are conservatively enclosed by
 `[2*n-16,2*n+16]` PIO clocks. An instruction interpreter checks the envelope
 against asynchronous periods/phases. This digital bound excludes actual pad
 propagation, metastability and unverified electrical synchronizer margins.
+Physical interpretation also needs a no-undersampling envelope grounded in the
+fitted FPGA/oscillator and actual RP clock configuration; digital samples alone
+cannot exclude an arbitrarily fast aliased input.
 Intersect each valid frequency-ratio interval `[1024/high,1024/low]`; refuse
 zero/overflow/impossible/inconsistent measurements. No calibrated MHz or ppm
 claim: RP's crystal/timer is not a calibrated standard. Clock ratio informs a
