@@ -1,0 +1,256 @@
+"""Actual HDL source/control/FIFO simulations; no vendor compiler or device.
+
+Icarus executes the committed Verilog. Python checks literal bus fixtures and
+zlib's independent CRC implementation, not a second copy of the HDL generator.
+Scaled SYSTEM_HZ shortens simulation; production wrapper pins32MHz.
+"""
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import struct
+import subprocess
+import sys
+import tempfile
+import unittest
+import zlib
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT/'tools'))
+import forgix_synthetic_gateware as generator
+
+COMMON = r'''
+module tb;
+  reg clk=0, reset=1, cyc=0, stb=0, we=0;
+  reg [11:0] addr=0; reg [31:0] data=0; reg [3:0] sel=15;
+  wire ack,err; wire [31:0] q;
+  localparam HZ=12800;
+  forgix_synthetic_source #(.SYSTEM_HZ(HZ)) dut(clk,reset,cyc,stb,we,addr,data,sel,ack,err,q);
+  always #5 clk=~clk;
+  task wr(input [11:0] a,input [31:0] v,input expected_error);
+    begin
+      @(negedge clk); addr=a;data=v;we=1;cyc=1;stb=1;
+      @(posedge clk);#1;if(!ack || err!==expected_error)$fatal(1,"write %h ack/err %b/%b",a,ack,err);
+      @(negedge clk);cyc=0;stb=0;we=0;
+      @(posedge clk);#1;
+    end
+  endtask
+  task rd(input [11:0] a,output [31:0] v);
+    begin
+      @(negedge clk);addr=a;we=0;cyc=1;stb=1;
+      @(posedge clk);#1;if(!ack || err)$fatal(1,"read %h failed",a);v=q;
+      @(negedge clk);cyc=0;stb=0;
+      @(posedge clk);#1;
+    end
+  endtask
+  task setup(input [31:0] period,input [31:0] count);
+    begin
+      wr('h010,period,0);wr('h014,count,0);
+      wr('h018,'h01234567,0);wr('h01c,'h89abcdef,0);
+      wr('h020,'h13579bdf,0);wr('h024,'h2468ace0,0);
+    end
+  endtask
+  reg [31:0] st,s,t,p,c,g,e,d,o,l,h,id0,id1;
+  task snapshot;
+    begin
+      wr('h00c,4,0);rd('h05c,g);rd('h060,e);rd('h064,d);rd('h068,o);rd('h074,l);rd('h078,h);
+      if(g!==e+d || e!==o+l || h>64 || l>64)$fatal(1,"counter reconciliation");
+    end
+  endtask
+  task take;
+    begin
+      rd('h034,s);rd('h038,t);rd('h03c,p);rd('h044,c);
+      $display("R %08x %08x %08x %08x",s,t,p,c);
+      wr('h040,s,0);rd('h048,o);
+    end
+  endtask
+  initial begin
+    repeat(5)@(posedge clk);@(negedge clk);reset=0;
+    SCRIPT
+    $display("PASS");$finish;
+  end
+  initial begin #20000000;$fatal(1,"simulation deadline");end
+endmodule
+'''
+
+
+class ActualHDL(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.iverilog, cls.vvp = shutil.which('iverilog'), shutil.which('vvp')
+        if not cls.iverilog or not cls.vvp or not str(Path(cls.iverilog).resolve()).startswith('/nix/store/'):
+            raise RuntimeError('Use locked nix develop .#forgix for Icarus HDL simulations')
+
+    def run_hdl(self, script):
+        with tempfile.TemporaryDirectory(prefix='forgix-source-hdl-') as directory:
+            folder=Path(directory);tb=folder/'tb.v';tb.write_text(COMMON.replace('SCRIPT',script))
+            subprocess.run([self.iverilog,'-g2012','-s','tb','-o',str(folder/'sim'),str(ROOT/generator.CORE),str(tb)],
+                           check=True,capture_output=True,timeout=30)
+            result=subprocess.run([self.vvp,str(folder/'sim')],check=True,capture_output=True,text=True,timeout=30)
+            self.assertIn('PASS',result.stdout)
+            return result.stdout
+
+    def test_all_three_rates_exact_finite_records_crc_ticks_and_pop_readback(self):
+        for period,count in [(800,960),(200,3840),(100,7680)]:
+            with self.subTest(period=period):
+                out=self.run_hdl(f'''
+                    setup({period},{count});wr('h00c,1,0);
+                    $display("BEGIN %0d",dut.start_tick);
+                    begin : drain
+                      integer loops;reg[31:0] previous_pop;
+                      previous_pop=0;
+                      for(loops=0;loops<1000000;loops=loops+1)begin
+                        rd('h028,st);
+                        if(st[3])begin take;if(o!=previous_pop+1)$fatal(1,"POP readback");previous_pop=o;end
+                        if(st[2] && dut.level==0)disable drain;
+                      end
+                      $fatal(1,"not finite");
+                    end
+                    snapshot;
+                    if(g!={count} || e!={count} || d!=0 || o!={count} || l!=0)$fatal(1,"rate counters");
+                    repeat(2000)@(posedge clk);snapshot;
+                    if(g!={count})$fatal(1,"generation continued after target");
+                    wr('h00c,1,1);wr('h010,{period},1);
+                    $display("END %0d %0d %0d %0d %0d",g,e,d,o,l);
+                ''')
+                start=int(next(line.split()[1] for line in out.splitlines() if line.startswith('BEGIN ')))
+                parsed=[tuple(int(v,16) for v in line.split()[1:]) for line in out.splitlines() if line.startswith('R ')]
+                self.assertEqual(len(parsed),count)
+                nonce_xor=0x01234567^0x89abcdef^0x13579bdf^0x2468ace0
+                for expected,(seq,tick,pattern,crc) in enumerate(parsed):
+                    self.assertEqual(seq,expected)
+                    self.assertEqual(tick,(start+(seq+1)*period)&0xffffffff)
+                    rotated=((seq<<7)|(seq>>25))&0xffffffff
+                    self.assertEqual(pattern,seq^rotated^nonce_xor^0x46534731)
+                    self.assertEqual(crc,zlib.crc32(struct.pack('<III',seq,tick,pattern)))
+
+    def test_backpressure_full_fifo_stable_head_and_exact_accounted_loss(self):
+        out=self.run_hdl(r'''
+            setup(800,960);wr('h00c,1,0);
+            wait(dut.level==64);repeat(10000)@(posedge clk);
+            rd('h034,s);rd('h038,t);rd('h03c,p);rd('h044,c);
+            if(s!=0)$fatal(1,"head overwritten");
+            repeat(10000)@(posedge clk);rd('h034,st);if(st!=s)$fatal(1,"head unstable");
+            wait(dut.done);snapshot;
+            if(g!=960 || e!=64 || d!=896 || o!=0 || l!=64 || h!=64)$fatal(1,"full counters");
+            repeat(64)begin take;end
+            snapshot;if(o!=64 || l!=0)$fatal(1,"drain reconciliation");
+        ''')
+        records=[tuple(int(v,16) for v in line.split()[1:]) for line in out.splitlines() if line.startswith('R ')]
+        self.assertEqual([r[0] for r in records],list(range(64)))
+        for seq,tick,pattern,crc in records:
+            self.assertEqual(crc,zlib.crc32(struct.pack('<III',seq,tick,pattern)))
+
+    def test_wrong_stale_empty_pop_and_head_valid_delay(self):
+        self.run_hdl(r'''
+            wr('h040,0,1);setup(800,960);wr('h00c,1,0);
+            wait(dut.generated_count>=2);repeat(3)@(posedge clk);
+            rd('h034,s);if(s!=0)$fatal(1,"first");wr('h040,1,1);
+            rd('h034,s);if(s!=0)$fatal(1,"wrong POP moved head");
+            take;wr('h040,0,1);rd('h034,s);if(s!=1)$fatal(1,"stale POP moved head");
+            snapshot;rd('h06c,p);if(p!=3 || o!=1)$fatal(1,"refusal count");
+        ''')
+
+    def test_snapshot_is_coherent_immutable_while_source_runs(self):
+        self.run_hdl(r'''
+            setup(100,7680);wr('h00c,1,0);wait(dut.generated_count>=7);snapshot;
+            rd('h04c,id0);s=g;t=l;repeat(1000)@(posedge clk);
+            rd('h05c,p);rd('h074,c);rd('h04c,id1);
+            if(p!=s || c!=t || id1!=id0)$fatal(1,"snapshot changed without SNAPSHOT");
+            snapshot;rd('h04c,id1);if(id1!=id0+1 || g<=s)$fatal(1,"snapshot not refreshed");
+        ''')
+
+    def test_pause_is_one_bounded_pop_block_without_stopping_generator(self):
+        self.run_hdl(r'''
+            setup(100,7680);wr('h00c,1,0);wait(dut.head_valid);
+            wr('h00c,8,0);s=dut.generated_count;
+            wr('h040,0,1);wr('h00c,8,1);
+            if(!dut.pause_active)$fatal(1,"no pause");
+            wait(!dut.pause_active);repeat(3)@(posedge clk);
+            if(dut.generated_count<=s || dut.level<12)$fatal(1,"pause hid generation/backlog");
+            if(dut.pause_end-dut.pause_begin!=1280)$fatal(1,"pause bound");
+            take;wr('h00c,8,1);
+        ''')
+
+    def test_start_refusals_window_no_restart_and_no_bad_select_mutation(self):
+        self.run_hdl(r'''
+            wr('h00c,1,1);wr('h010,800,1);wr('h00c,1,1);
+            if(dut.running || dut.accepted || !dut.attempted)$fatal(1,"failed intent started");
+        ''')
+        self.run_hdl(r'''
+            setup(799,960);wr('h00c,1,1);if(dut.running)$fatal(1,"unsupported rate");
+        ''')
+        self.run_hdl(r'''
+            setup(800,961);wr('h00c,1,1);if(dut.running)$fatal(1,"unbounded target");
+        ''')
+        self.run_hdl(r'''
+            setup(800,960);wait(dut.tick>=384000);wr('h00c,1,1);
+            if(dut.running)$fatal(1,"late start");
+        ''')
+        self.run_hdl(r'''
+            sel=1;wr('h010,800,1);sel=15;rd('h010,s);if(s!=0)$fatal(1,"partial mutation");
+            wr('h011,800,1);wr('h000,0,1);wr('h0fc,0,1);wr('h00c,3,1);
+            if(dut.attempted)$fatal(1,"bad control consumed valid intent");
+        ''')
+
+    def test_early_stop_freezes_source_and_bounded_drain_expires(self):
+        self.run_hdl(r'''
+            setup(800,960);wr('h00c,1,0);wait(dut.generated_count>=4);
+            wr('h00c,2,0);s=dut.generated_count;repeat(10000)@(posedge clk);
+            if(dut.generated_count!=s || !dut.done || dut.running)$fatal(1,"STOP did not freeze");
+            wr('h00c,1,1);wait(dut.drain_expired);wr('h040,0,1);
+            if(dut.level!=4 || dut.popped_count!=0)$fatal(1,"late drain moved data");
+            snapshot;if(g!=4 || e!=4 || d!=0 || o!=0 || l!=4)$fatal(1,"STOP counters");
+        ''')
+
+    def test_pop_push_same_full_cycle_does_not_drop_or_overwrite(self):
+        self.run_hdl(r'''
+            setup(100,7680);wr('h00c,1,0);wait(dut.level==64);
+            // Aim the request at the actual source's next due edge, not a
+            // second software generator. This exercises concurrent full POP/PUSH.
+            @(negedge clk);
+            while(dut.tick-dut.start_tick<dut.next_due)@(negedge clk);
+            addr='h040;data=0;we=1;cyc=1;stb=1;
+            @(posedge clk);#1;if(!ack || err)$fatal(1,"simultaneous POP refused");
+            @(negedge clk);cyc=0;stb=0;we=0;
+            @(posedge clk);#1;
+            if(dut.generated_count!=65 || dut.enqueued_count!=65 || dut.dropped_count!=0 || dut.popped_count!=1 || dut.level!=64)
+              $fatal(1,"full concurrent counts %d %d %d",dut.generated_count,dut.enqueued_count,dut.dropped_count);
+            wr('h00c,2,0);
+            repeat(64)begin take;end
+            snapshot;if(l!=0 || o!=65)$fatal(1,"pointer wrap drain");
+        ''')
+
+
+class Wrapper(unittest.TestCase):
+    def test_production_soc_adds_no_pins_and_preserves_old_register_bank_guard(self):
+        from litex.build.generic_platform import GenericPlatform
+        from litex_boards.platforms import adiuvo_forgix as board
+        import forgix_fpga_candidate as original
+        class Platform(GenericPlatform):
+            default_clk_freq=32000000
+            def __init__(self):super().__init__('T8F49I2',board._io,board._connectors)
+            def do_finalize(self,fragment):pass
+        soc=generator.make_soc(Platform);soc.finalize()
+        conversion=soc.platform.get_verilog(soc.get_fragment(),name='source_fixture')
+        pins={name:pins for name,pins,others,res in soc.platform.resolve_signals(conversion.ns)[0]}
+        self.assertEqual(pins,original.PINS)
+        self.assertEqual(soc.csr_regions['registers'].origin,0x1000)
+        self.assertEqual(soc.bus.regions['synthetic_source'].origin,0x10000)
+        self.assertEqual(soc.bus.regions['synthetic_source'].size,0x1000)
+        self.assertIn('.SYSTEM_HZ(32000000)',str(conversion).replace(' ',''))
+        self.assertEqual(soc.registers.counter.size,32);self.assertEqual(soc.registers.scratch.size,32)
+
+    def test_generator_requires_committed_fresh_private_inputs(self):
+        hashes=generator.committed_inputs()
+        self.assertEqual(hashes[generator.CORE],hashlib.sha256((ROOT/generator.CORE).read_bytes()).hexdigest())
+        with patch.object(generator.subprocess,'check_output',return_value=b'foreign'):
+            with self.assertRaisesRegex(ValueError,'Commit'):generator.committed_inputs()
+        with self.assertRaisesRegex(ValueError,'private|Private|Fresh'):
+            generator.generate(Path('/tmp/unsupported-forgix-source-output'))
+
+
+if __name__ == '__main__':
+    unittest.main()
