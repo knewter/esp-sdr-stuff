@@ -260,8 +260,7 @@ class Descriptor(unittest.TestCase):
         compiler=shutil.which('cc')
         self.assertTrue(compiler and str(Path(compiler).resolve()).startswith('/nix/store/'))
         with tempfile.TemporaryDirectory() as tmp:
-            d=Path(tmp);(d/'pico').mkdir()
-            (d/'pico/unique_id.h').write_text('#include <stddef.h>\n#define PICO_UNIQUE_BOARD_ID_SIZE_BYTES 8\nvoid pico_get_unique_board_id_string(char*,size_t);\n')
+            d=Path(tmp)
             (d/'tusb.h').write_text('''#include <stdint.h>
 typedef struct { uint8_t bLength,bDescriptorType; uint16_t bcdUSB; uint8_t bDeviceClass,bDeviceSubClass,bDeviceProtocol,bMaxPacketSize0; uint16_t idVendor,idProduct,bcdDevice; uint8_t iManufacturer,iProduct,iSerialNumber,bNumConfigurations; } tusb_desc_device_t;
 #define TUSB_DESC_DEVICE 1
@@ -277,7 +276,9 @@ typedef struct { uint8_t bLength,bDescriptorType; uint16_t bcdUSB; uint8_t bDevi
             (d/'adapter.c').write_text('''#include "tusb.h"
 #include <stddef.h>
 #include <string.h>
-void pico_get_unique_board_id_string(char *p,size_t n){if(n>=17)memcpy(p,"A1B2C3D4E5F60708",17);}
+static int valid=1;
+void uid_valid(int v){valid=v;}
+void pico_get_unique_board_id_string(char *p,unsigned n){if(n>=17)memcpy(p,valid?"A1B2C3D4E5F60708":"",valid?17:1);}
 const uint8_t *tud_descriptor_device_cb(void);
 unsigned serial_index(void){return ((const tusb_desc_device_t*)tud_descriptor_device_cb())->iSerialNumber;}
 ''')
@@ -291,3 +292,4 @@ unsigned serial_index(void){return ((const tusb_desc_device_t*)tud_descriptor_de
             self.assertEqual(''.join(chr(uid[i]) for i in range(1,17)),'A1B2C3D4E5F60708')
             self.assertEqual(lib.tud_descriptor_string_cb(0,0)[1],0x409)
             self.assertFalse(lib.tud_descriptor_string_cb(4,0))
+            lib.uid_valid(0);self.assertFalse(lib.tud_descriptor_string_cb(3,0x409))

@@ -12,7 +12,7 @@ from forgix_config import candidate
 from build_forgix_usb_ram import ROOT, SDK, TINY, execute, fresh, sha
 from forgix_usb_ram_artifact import inspect_elf
 
-PROJECT=['CMakeLists.txt','main.c','protocol.h','protocol.c','config.h','config.c','wire.pio','usb_descriptors.c','tusb_config.h']
+PROJECT=['CMakeLists.txt','main.c','protocol.h','protocol.c','config.h','config.c','wire.pio','usb_descriptors.c','tusb_config.h','uid.h','uid.c']
 FILES=['firmware/forgix-spi-bridge/'+n for n in PROJECT]+[
  'tools/build_forgix_spi_bridge.py','tools/build_forgix_usb_ram.py',
  'tools/forgix_usb_ram_artifact.py','tools/forgix_spi_guard.py','tools/forgix_config.py','flake.nix','flake.lock','Taskfile.yml']

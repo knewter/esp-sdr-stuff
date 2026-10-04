@@ -7,6 +7,7 @@
 #include "wire.pio.h"
 #include "protocol.h"
 #include "build_identity.h"
+#include "uid.h"
 #include <string.h>
 #ifdef BRIDGE_EMBEDDED_CONFIG
 #include "config.h"
@@ -112,7 +113,7 @@ finished:
 int main(void) {
  uint64_t boot=time_us_64(),finish=0;watchdog_enable(2000,false);
  lifetime_until=boot+MAX_LIFETIME_US;
- if(diagnostic_profile[0]!='F'||!tud_init(0)){watchdog_reboot(0,0,1);while(true)tight_loop_contents();}
+ if(diagnostic_profile[0]!='F'||!bridge_uid_init(boot+UINT64_C(500000))||!tud_init(0)){watchdog_reboot(0,0,1);while(true)tight_loop_contents();}
  unsigned length=0,pending=0,offset=0;bridge_session session={0};
  while(time_us_64()-boot<MAX_LIFETIME_US){
   tud_task();watchdog_update();uint64_t now=time_us_64();
