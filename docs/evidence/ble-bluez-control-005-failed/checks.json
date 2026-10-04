@@ -1,0 +1,52 @@
+{
+  "kind": "retained failed eight-bit manual bridge-profile trial",
+  "status": "failed",
+  "receiver_settings": {
+    "bits": 8,
+    "frequency": 2401,
+    "bandwidth": 20,
+    "gain": "48"
+  },
+  "saved_complete_captures": 1047,
+  "saved_payload_bytes": 34299720,
+  "saved_rows_length_sha256_crc_count_order_verified": true,
+  "saved_prefix_decoder_owned": 0,
+  "saved_prefix_decoder_other_redacted": 0,
+  "whole_scheduled_trial_accepted": false,
+  "monitor_completed_normally": false,
+  "original_restoration_verified": true,
+  "full_readback_bytes": 4194304,
+  "full_readback_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+  "reset_boot_verified": true,
+  "power_cycle_measured": false,
+  "closure": {
+    "owned_UART_groups_closed": true,
+    "owned_child_groups_closed": true,
+    "monitor_owned_container_removed": true,
+    "source_bus_disconnect_recorded": true
+  },
+  "read_failure": {
+    "expected_bytes": 32760,
+    "received_bytes_from_traceback": 31995,
+    "missing_bytes": 765,
+    "failed_fragment_saved": false,
+    "failed_header_crc_and_timestamps_saved": false
+  },
+  "source_on_seconds": [
+    120.1003,
+    120.2248,
+    89.1526
+  ],
+  "source_last_on_truncated": true,
+  "normal_final_off_tail_accepted": false,
+  "independent_review_sha256": "e9b8d92276a704db629c8e69b9fc2a1ef2d5f4f17c279f227c9d4747d49ad538",
+  "source_emission_denominator": null,
+  "RF_acceptance_gate_closed": false,
+  "original_Trial_B_released": false,
+  "limits": [
+    "integrity_failures zero covers saved complete rows only, not the failed read",
+    "Missing fragment bytes cannot be recovered or retrospectively CRC checked",
+    "No complete schedule or fixed-band trial qualification",
+    "Sparse snapshots and unknown emitted counts prevent detection/miss rates or absent-emission claims"
+  ]
+}

@@ -110,3 +110,12 @@ passes 134 focused checks and 23 independent probe groups. It retains additional
 redacted requested fields for future profile validation. Earlier trial records
 remain bound to their older helper; no omitted field, emitted PHY/power, air
 count or reception is inferred from this software preparation.
+
+
+The [next eight-bit/manual control](docs/evidence/ble-bluez-control-005-failed/README.md)
+failed a short UART payload during its third source phase. All 1,047 saved
+complete payloads and original restoration pass independent audit; the failed
+fragment was not saved. Interrupted monitoring and a truncated source phase
+prevent complete schedule/scalar qualification. Preserve this failed condition;
+zero saved-row integrity failures does not describe the failed read. No task
+or accepted requirement changes.

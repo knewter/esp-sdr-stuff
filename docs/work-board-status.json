@@ -60,8 +60,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Complete the reviewed profile ladder: eight-bit/BW20/manual48, then eight-bit/BW20/hardware. Original Trial B remains gated; independent air counts remain unavailable.",
-      "rationale": "Independent reviews verify 1,260 original eight-bit and 1,010 ten-bit/manual snapshots with full restorations. The ten-bit run decodes three other-source CRC-valid packets and zero owned packets; fixed-band controls show no repeated owned-source rise. Fuller HCI metadata passes 134 focused checks and 23 independent probe groups, without upgrading older receipts or supplying an air denominator.",
+      "next": "Complete eight-bit/BW20/hardware controls and repair future failed-prefix retention. The eight-bit manual trial failed a short UART read; restoration passes. Original Trial B and independent air counts remain gated.",
+      "rationale": "Independent reviews verify 1,260 original eight-bit and 1,010 ten-bit/manual snapshots with full restorations. The ten-bit run decodes three other-source CRC-valid packets and zero owned packets; fixed-band controls show no repeated owned-source rise. Fuller HCI metadata passes 134 focused checks and 23 independent probe groups, without upgrading older receipts or supplying an air denominator. The next eight-bit/manual episode retained 1,047 valid snapshots before a short payload terminated its third source phase. Independent review verifies restoration, but no complete schedule or scalar trial follows.",
       "reviewRevision": "89324cf",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
@@ -111,7 +111,8 @@
         "docs/evidence/ble-bluez-control-003/README.md",
         "docs/evidence/ble-primary-preparation/README.md",
         "docs/evidence/ble-bluez-control-004/README.md",
-        "docs/evidence/ble-hci-metadata-preparation/README.md"
+        "docs/evidence/ble-hci-metadata-preparation/README.md",
+        "docs/evidence/ble-bluez-control-005-failed/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
@@ -123,8 +124,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Complete the reviewed profile ladder: eight-bit/BW20/manual48, then eight-bit/BW20/hardware. Original Trial B remains gated; independent air counts remain unavailable.",
-      "rationale": "Independent reviews verify 1,260 original eight-bit and 1,010 ten-bit/manual snapshots with full restorations. The ten-bit run decodes three other-source CRC-valid packets and zero owned packets; fixed-band controls show no repeated owned-source rise. Fuller HCI metadata passes 134 focused checks and 23 independent probe groups, without upgrading older receipts or supplying an air denominator.",
+      "next": "Complete eight-bit/BW20/hardware controls and repair future failed-prefix retention. The eight-bit manual trial failed a short UART read; restoration passes. Original Trial B and independent air counts remain gated.",
+      "rationale": "Independent reviews verify 1,260 original eight-bit and 1,010 ten-bit/manual snapshots with full restorations. The ten-bit run decodes three other-source CRC-valid packets and zero owned packets; fixed-band controls show no repeated owned-source rise. Fuller HCI metadata passes 134 focused checks and 23 independent probe groups, without upgrading older receipts or supplying an air denominator. The next eight-bit/manual episode retained 1,047 valid snapshots before a short payload terminated its third source phase. Independent review verifies restoration, but no complete schedule or scalar trial follows.",
       "reviewRevision": "89324cf",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
@@ -181,7 +182,8 @@
         "docs/evidence/ble-bluez-control-003/README.md",
         "docs/evidence/ble-primary-preparation/README.md",
         "docs/evidence/ble-bluez-control-004/README.md",
-        "docs/evidence/ble-hci-metadata-preparation/README.md"
+        "docs/evidence/ble-hci-metadata-preparation/README.md",
+        "docs/evidence/ble-bluez-control-005-failed/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
