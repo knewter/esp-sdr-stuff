@@ -88,3 +88,8 @@ large ignored workspace must not become a Nix source input. Freeze the corrected
 caller/tests/protocol anew and independently replay this narrow correction
 before physical admission. Source profile, timing limits, cleanup requirements,
 RF/count gates and all earlier failed receipts remain unchanged.
+
+The tracked-source query also introduces Git execution. Select the exact
+Nix-store Git executable, freeze its path/bytes and recursive closure, and use
+that resolved path for both tracked-input checks. The historical eight-runtime
+freeze remains historical; the corrected query has nine explicit runtime files.
