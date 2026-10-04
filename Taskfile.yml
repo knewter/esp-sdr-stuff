@@ -383,6 +383,26 @@ tasks:
       - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_stream.py
       - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_collect.py
 
+  forgix:synthetic:trial:test:
+    desc: Verify bounded run, shared leases and known-closed recovery (no hardware)
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_lifecycle.py
+
+  forgix:synthetic:trial:preflight:
+    desc: Check committed synthetic qualification and exact private inputs (no device access)
+    cmds:
+      - python3 tools/run_forgix_synthetic_trial.py preflight {{.CLI_ARGS}}
+
+  forgix:synthetic:trial:run:
+    desc: Run one qualified, preserved finite FPGA transport episode
+    cmds:
+      - python3 tools/run_forgix_synthetic_trial.py run {{.CLI_ARGS}}
+
+  forgix:synthetic:trial:recover:
+    desc: Recover a qualified retained session with proved resource closure
+    cmds:
+      - python3 tools/run_forgix_synthetic_trial.py recover {{.CLI_ARGS}}
+
   forgix:synthetic:source:rtl:
     desc: Generate committed private finite-source RTL (no vendor or hardware)
     cmds:
