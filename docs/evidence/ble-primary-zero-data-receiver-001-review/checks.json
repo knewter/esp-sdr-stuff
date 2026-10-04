@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "kind": "independently reviewed fixed primary receiver diagnostic",
+  "executed_source_commit": "7e157805b61b1717663bf676981d5686a560fe00",
+  "independent_saved_review_sha256": "d9849f5634524da5293c16f2dc8bfc754afe733dc5bad2372de9dca87b75a112",
+  "settings": {
+    "bits_per_component": 10,
+    "nominal_rate_hz": 16000000,
+    "pairs_per_capture": 16380,
+    "LO_MHz": 2401,
+    "bandwidth_MHz": 20,
+    "gain": "manual48",
+    "UART_baud": 921600,
+    "channel": 37,
+    "frequency_translation_hz": -1000000
+  },
+  "captures": 365,
+  "raw_bytes": 14946750,
+  "raw_payload_digest": "74f5563803a1202a5cac5c5754fc2f1785ebff5436d13b4a7199e9285aa9e07a",
+  "nominal_RF_pairs": 5978700,
+  "nominal_RF_window_sum_seconds": 0.37366875,
+  "receiver_payload_span_seconds": 180.009958295,
+  "phase_counts": {
+    "guarded_ON_1": 3,
+    "guarded_ON_2": 4,
+    "guarded_ON_3": 4,
+    "OFF": 347,
+    "boundary_or_guard": 7
+  },
+  "source_ON_seconds": [
+    2.43907268,
+    2.477150722,
+    2.491102903
+  ],
+  "OFF_gaps_seconds": [
+    9.489394638,
+    8.850721785
+  ],
+  "initial_OFF_seconds": 21.267223134,
+  "continuous_final_OFF_seconds": 128.591680442,
+  "native_records": 69,
+  "monitor_relevant_records": 33,
+  "controller_completed_extended_events_per_repetition": [
+    100,
+    100,
+    100
+  ],
+  "controller_termination_status_hex": "43",
+  "selected_tx_power_dbm": [
+    7,
+    7,
+    7
+  ],
+  "selected_power_calibrated": false,
+  "decoder_counts": {
+    "valid_owned_primary": 0,
+    "valid_other_primary_redacted": 0,
+    "total_receiver_candidates": 0
+  },
+  "source_associated_complete_primary_per_repetition": [
+    0,
+    0,
+    0
+  ],
+  "whole_replay_matches_root_excluding_runtime": true,
+  "whole_guarded_accounting_matches_root": true,
+  "all_input_files": 69,
+  "runtime_paths": 11,
+  "private_raw_integrity_and_closure_receipts_verified": true,
+  "full_flash_before_and_after_bytes": 4194304,
+  "reset_boot_bytes": 5670,
+  "original_full_flash_restored": true,
+  "saved_single_latest_lease_chain_verified": true,
+  "reset_boot_identity_sdk_GPIO_verified": true,
+  "power_cycle_proven": false,
+  "air_primary_count": null,
+  "reception_rate": null,
+  "RF_accepted": false,
+  "original_Trial_B_accepted": false,
+  "hardware_proposal_tasks_checked": false,
+  "raw_or_private_identity_published": false,
+  "limits": [
+    "Whole saved-only review; historical named-group/container absence and flash subprocess closure remain saved operator/checked-code attestations.",
+    "Normal single latest lease chain is verified here; keeper-replacement episodes would require their latest subreceipt chain, not a stale result.quarantine snapshot.",
+    "Controller completed events are not independently counted primary air emissions; a null under low snapshot duty is inconclusive.",
+    "Observed reset boot is not an independently verified electrical power cycle."
+  ]
+}
