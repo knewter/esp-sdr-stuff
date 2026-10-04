@@ -256,7 +256,10 @@ class Trial:
                 interrupted = error
             record['status'] = 'failed'
             record['error_kind'] = type(error).__name__
-            record['error'] = str(error)[:240] if isinstance(error, (ProtocolError, ReadPrefix)) else 'Spectrum acquisition failed'
+            startup_uncertain = 'start_command_ns' in record and 'start_reply_received_ns' not in record
+            record['error'] = (str(error)[:240] if isinstance(error, (ProtocolError, ReadPrefix))
+                               and not startup_uncertain and not hasattr(error, 'private_reply')
+                               else 'Spectrum acquisition failed')
             if isinstance(error, RejectedFrame) and private_created:
                 rejected = error.raw
                 record['rejected_frame'] = error.metadata
@@ -264,19 +267,18 @@ class Trial:
                 rejected = error.rejected_raw
                 record['rejected_frame'] = error.rejected_metadata
                 record['framing_uncertain'] = True
-            elif ('start_command_ns' in record and 'start_reply_received_ns' not in record
-                  and (isinstance(error, ReadPrefix) or getattr(error, 'reason', None) == 'reply_read_exception')):
+            elif startup_uncertain:
                 # SPEC may already be streaming after a partial START reply.
                 # Retain the observed reply and close; RELEASE cannot be safely
                 # interpreted against that remaining response/stream tail.
-                rejected = getattr(error, 'partial', b'')
+                rejected = getattr(error, 'private_reply', getattr(error, 'partial', b''))
                 record['rejected_frame'] = {
                     'kind': 'start_reply', 'complete_frame': False, 'bytes': len(rejected),
                     'sha256': hashlib.sha256(rejected).hexdigest(), 'crc_ok': None,
                     'expected_crc32': None, 'actual_crc32': None,
                     'expected_frame_bytes': None, 'reply_limit_bytes': 8192,
                     'command_start_ns': record['start_command_ns'],
-                    'failure_ns': getattr(error, 'failure_ns', None),
+                    'failure_ns': error.failure_ns if hasattr(error, 'failure_ns') else time.monotonic_ns(),
                     'failure_kind': type(error).__name__,
                     'read_failure_reason': getattr(error, 'reason', None),
                     'underlying_read_error_kind': getattr(error, 'read_error_kind', None),

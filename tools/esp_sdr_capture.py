@@ -145,12 +145,20 @@ def retain_capture_failure(private, stem, error):
 
 
 def command(port, request):
-    port.write((request + '\n').encode('ascii'))
-    port.flush()
-    reply = line(port)
-    if reply.startswith('ERR '):
-        raise ProtocolError(reply)
-    return reply
+    raw = b''
+    try:
+        port.write((request + '\n').encode('ascii'))
+        port.flush()
+        raw = raw_line(port)
+        reply = raw.decode('ascii', errors='strict').strip()
+        if reply.startswith('ERR '):
+            raise ProtocolError(reply)
+        return reply
+    except BaseException as error:
+        # Preserve default exception semantics; consuming callers may retain
+        # this attribute privately without reproducing raw text publicly.
+        error.private_reply = getattr(error, 'partial', raw)
+        raise
 
 
 def synchronize(port, seconds=5):

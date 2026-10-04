@@ -287,6 +287,36 @@ class SpectrumRetention(unittest.TestCase):
             self.assertNotIn('PRIVATE-ADDRESS',json.dumps(result))
             self.assertNotIn('PRIVATE-ADDRESS',json.dumps(trial.state))
 
+    def test_actual_start_write_flush_interruption_and_bad_replies_never_send_release_or_publish_header(self):
+        cases=[('flush',OSError('PRIVATE-FLUSH'),b''),('flush',KeyboardInterrupt(),b''),
+               ('write',OSError('PRIVATE-WRITE'),b''),('reply',None,b'\xffPRIVATE-HEADER\n'),
+               ('reply',None,b'ERR PRIVATE-HEADER\n')]
+        for operation,error,header in cases:
+            with self.subTest(operation=operation,header=header),tempfile.TemporaryDirectory() as folder:
+                root=Path(folder);wire=Wire([],header=header or b'OK\n')
+                args=SimpleNamespace(output=root/'public',private=root/'.scratch/raw',port='MOCK',baud=921600,
+                    frequency=2401,bandwidth=12,gain='hardware',seconds=60,rate=16000000,bins=256)
+                with contextlib.ExitStack() as stack:
+                    stack.enter_context(patch.object(spectrum,'open_board',return_value=wire))
+                    stack.enter_context(patch.object(spectrum,'synchronize'))
+                    stack.enter_context(patch.object(spectrum,'queries',return_value={}))
+                    stack.enter_context(patch.object(spectrum,'settings',return_value={}))
+                    stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
+                    if operation!='reply':stack.enter_context(patch.object(wire,operation,side_effect=error))
+                    trial=spectrum.Trial(args)
+                    if isinstance(error,KeyboardInterrupt):
+                        with self.assertRaises(KeyboardInterrupt):trial.run()
+                    else:trial.run()
+                result=json.loads((args.output/'results.json').read_text())
+                self.assertTrue(wire.closed)
+                self.assertNotIn(b'RELEASE\n',wire.requests)
+                self.assertTrue(result['framing_uncertain'])
+                self.assertEqual(result['status'],'failed')
+                self.assertEqual((args.private/'rejected-frame.bin').read_bytes(),header)
+                self.assertNotIn('PRIVATE-',json.dumps(result))
+                self.assertNotIn('PRIVATE-',json.dumps(trial.state))
+                self.assertIsInstance(result['rejected_frame']['failure_ns'],int)
+
     def test_every_short_frame_stage_keeps_all_consumed_bytes(self):
         for prefix,expected in [(b'SP',4),(b'SPC1'+bytes(15),288),(b'SPS1abc',40)]:
             wire=Wire([prefix,b'',b'late'])
