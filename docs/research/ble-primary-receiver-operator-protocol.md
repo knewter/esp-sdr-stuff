@@ -13,11 +13,11 @@ assuming Task forwards the operator descriptor. Require both the independently
 reviewed corrected author receipt (SHA256
 `2d09b7608f950f8a1ae2230fe58ec0363e270b4f7e44339f130286cbdd7a0f7f`)
 and a separately pinned final root-transfer peer receipt. A placeholder or missing
-root-transfer hash is a refusal, not admission. Root additionally supplies a fresh
-bounded monotonic/boot-bound admission for the current clean source revision,
+root-transfer hash is a refusal, not admission. Root additionally supplies a current boot-bound admission for the clean source revision,
 all copied receiver caller/support/test/Task bytes, complete inner frozen inputs,
 exact Nix runtime executables/closures, full private environment, current private
-controller/owned references and the original source qualification. Do not reuse
+controller/owned references and the original source qualification. Static independent receipts have no age
+expiry; current launch samples have separate bounded operation clocks. Do not reuse
 the historical source001 Docker endpoint receipt as current evidence.
 
 Only `unix:///run/docker.sock` is permitted, explicitly on every Docker query and
@@ -26,16 +26,22 @@ before launch and after closure. Context, TLS and arbitrary source overrides are
 refused. Both loaded source/monitor image IDs must match the frozen archives;
 selected-image containers must be absent before and after under the held global
 0600 regular-file non-symlink exclusive flock. Root owns current endpoint/runtime
-and controller admission; this holder never queries D-Bus or resets a controller.
+and controller admission. At actual launch under the held lock, the holder
+delegates a bounded read-only controller sample to the frozen source-support
+preflight child, including D-Bus/sysfs identity and powered/idle checks. No
+controller is reset and no such live query occurs in offline preparation.
 
 ## Launch, cancellation and persistence
 
 Private holder/trial directories are 0700 and files 0600. Persist fresh exclusive
 intent, observed owned process identity, log and terminal result with file and
 parent-directory fsync. Retain complete actual command/environment privately.
-Anchor a bounded launch/whole-caller deadline before Popen, forward the first
+Anchor a 5400-second whole-caller deadline before Popen (including the inner
+600-second preservation/install/restore commands and acquisition bounds), forward the first
 SIGINT/SIGTERM to the exact owned caller leader, and defer repeats through owned
-cleanup. Cancellation before assignment is remembered and forwarded immediately
+cleanup. Allow up to1800 seconds after first cancellation for bounded inner
+restoration; exact-identity leader force termination afterward is a failed
+quarantined outcome, never clean completion. Cancellation before assignment is remembered and forwarded immediately
 after assignment; before spawn it refuses launch. Natural completion and all
 recorded clocks are checked after operations. Forced termination cannot qualify
 success. The parent retains the global lock through reap, current postflight,
@@ -50,17 +56,26 @@ known caller group/descendant identities and exact observed owned container
 IDs/names to be absent; retain private dispatch active-ID witnesses. Missing
 spawn/closure/ownership receipts, ambiguous flash/restore state, contradictory
 orchestration, forced cleanup or inspection failure cannot become normal success.
-The outer holder never flashes/restores/retries or kills a container. Original
+The outer holder never flashes/restores/retries or kills a container. The reviewed inner flash/readback/restore commands do not retain all of their
+own subprocess identities. Therefore a crash/missing or failed restoration
+receipt remains uncertain even if all named observed groups are absent. Original
 restore verification belongs to the inner reviewed caller; an inner crash with
 unknown UART ownership blocks any new restore and requires root recovery.
 
-The holder records an explicit quarantine state and retains the exclusive lock
-when safe closure cannot be established. The implementation must choose and test
-a concrete lock-retention mechanism, including cancellation during cleanup;
-merely writing `clean=false` and releasing the descriptor is insufficient.
+The holder starts a separate owned process inheriting the lock FD before the
+receiver caller. It records exact keeper PID/PGID/start identity and spawn/ready
+brackets durably. The keeper does no hardware or Docker operations; control-pipe
+EOF or parent death retains the flock, and SIGINT/SIGTERM do not release it.
+Only explicit normal-release bytes following verified closure make it exit.
+If the keeper dies while the caller might have owned UART, the still-locked
+parent starts a fresh recorded keeper before releasing its own descriptor; if
+replacement fails, the parent stays in quarantine with the FD held. Merely
+writing `clean=false` and releasing the descriptor is insufficient.
 Normal closure shuts down and reaps any owned lock-retention helper. Uncertain
 closure requires explicit root recovery against retained exact process identity,
-not blind retry or automatic release. Quarantine is safety retention, not a
+not blind retry or automatic release. The outer holder does not expose a generic
+recovery override. The qualified root recovery operator must verify exact keeper
+identity, actual known closure and UART restoration before releasing quarantine. Quarantine is safety retention, not a
 successful bounded experiment.
 
 ## Offline proof and later root gate
