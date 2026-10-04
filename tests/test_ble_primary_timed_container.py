@@ -63,7 +63,7 @@ class ContainerTests(unittest.TestCase):
             out=wrapper.resolve_source_image(**opts,docker=DOCKER,env={},deadline=time.monotonic()+2)
         return out,query
 
-    def run_main(self, *, natural=True, absent=(True,True), proc=None, late=None, argv=None):
+    def run_main(self, *, natural=True, absent=(True,True), proc=None, late=None, argv=None, ns_offset=0):
         clock=[100.0];output=io.StringIO();producer=proc or Producer()
         def now():return clock[0]
         def start(*args,**kwargs):
@@ -75,13 +75,21 @@ class ContainerTests(unittest.TestCase):
             return natural
         def resolve(*args,**kwargs):
             if late=='image':clock[0]+=45
+            if late=='cancel-image':signal.getsignal(signal.SIGTERM)(signal.SIGTERM,None)
             return IMAGE
-        with patch.dict(os.environ,self.env,clear=True),patch.object(wrapper,'runtime',return_value=(DOCKER,dict(self.env,DOCKER_HOST=wrapper.SOCKET,DOCKER_CONTEXT=''))),\
+        def runtime():
+            if late=='runtime':clock[0]+=45
+            if late=='cancel-runtime':signal.getsignal(signal.SIGTERM)(signal.SIGTERM,None)
+            return DOCKER,dict(self.env,DOCKER_HOST=wrapper.SOCKET,DOCKER_CONTEXT='')
+        def identity(pid):
+            if late=='identity':clock[0]+=45
+            return 123
+        with patch.dict(os.environ,self.env,clear=True),patch.object(wrapper,'runtime',side_effect=runtime),\
              patch.object(wrapper,'resolve_source_image',side_effect=resolve),patch.object(wrapper,'immutable_file',side_effect=fake_file),\
              patch.object(wrapper,'container_absent',side_effect=absent),patch.object(wrapper.subprocess,'Popen',side_effect=start) as spawn,\
-             patch.object(wrapper,'wait_natural',side_effect=finish),patch.object(wrapper,'process_start_ticks',return_value=123),\
+             patch.object(wrapper,'wait_natural',side_effect=finish),patch.object(wrapper,'process_start_ticks',side_effect=identity),\
              patch.object(wrapper,'cleanup_owned',return_value={'forced_cleanup_required':True,'owned_container_removed':True,'owned_group_closed':True}) as cleanup,\
-             patch.object(wrapper.time,'monotonic',now),patch.object(wrapper.time,'monotonic_ns',lambda:round(clock[0]*1e9)),\
+             patch.object(wrapper.time,'monotonic',now),patch.object(wrapper.time,'monotonic_ns',lambda:round(clock[0]*1e9)+ns_offset),\
              contextlib.redirect_stdout(output):
             code=wrapper.main(ARGS if argv is None else argv)
         return code,[json.loads(line)for line in output.getvalue().splitlines()],spawn,cleanup
@@ -181,12 +189,31 @@ class ContainerTests(unittest.TestCase):
         code,_,spawn,_=self.run_main(argv=ARGS+['--episode-deadline-monotonic-ns','100000000000'])
         self.assertEqual(code,2);spawn.assert_not_called()
 
+    def test_native_only_parent_option_refuses_before_any_wrapper_admission(self):
+        for cap in ('1','101000000000','200000000000'):
+            with patch.object(wrapper,'runtime')as runtime,patch.object(wrapper.subprocess,'Popen')as spawn,self.assertRaises(ValueError):
+                wrapper.main(ARGS+['--parent-deadline-monotonic-ns',cap])
+            runtime.assert_not_called();spawn.assert_not_called()
+
     def test_existing_name_refusal_never_cleans_or_spawns(self):
         code,_,spawn,cleanup=self.run_main(absent=(False,));self.assertEqual(code,2);spawn.assert_not_called();cleanup.assert_not_called()
 
     def test_slow_admission_never_spawns_or_cleans_existing_container(self):
         code,_,spawn,cleanup=self.run_main(late='image')
         self.assertEqual(code,2);spawn.assert_not_called();cleanup.assert_not_called()
+
+    def test_intermediate_clock_or_cancel_stops_new_normal_operations(self):
+        for phase in ('runtime','cancel-runtime','cancel-image'):
+            code,_,spawn,cleanup=self.run_main(late=phase)
+            self.assertEqual(code,2);spawn.assert_not_called();cleanup.assert_not_called()
+        code,rows,spawn,cleanup=self.run_main(late='identity')
+        self.assertEqual(code,2);spawn.assert_called_once();cleanup.assert_called_once()
+        self.assertTrue(rows[-1]['forced_cleanup_required'])
+
+    def test_started_deadline_ns_avoid_float_roundtrip(self):
+        code,rows,_,_=self.run_main(ns_offset=1)
+        self.assertEqual(code,0);self.assertEqual(rows[-1]['wrapper_started_monotonic_ns'],100000000001)
+        self.assertEqual(rows[-1]['wrapper_deadline_monotonic_ns'],145000000001)
 
     def test_late_spawn_or_completion_and_cancel_during_assignment_fail(self):
         for phase in ('spawn','finish','cancel-spawn'):

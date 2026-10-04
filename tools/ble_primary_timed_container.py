@@ -223,7 +223,6 @@ def cleanup_owned(name, proc, docker, env):
 
 def main(argv=None):
     began_ns = time.monotonic_ns()
-    began = began_ns / 1e9
     deadline_ns = began_ns + int(BOUND*1e9)
     argv = sys.argv[1:] if argv is None else list(argv)
     parser = argparse.ArgumentParser(add_help=False)
@@ -235,7 +234,9 @@ def main(argv=None):
         parent_deadline(args.episode_deadline_monotonic_ns)
         deadline_ns = min(deadline_ns, args.episode_deadline_monotonic_ns)
     deadline = deadline_ns / 1e9
-    validate_options(native)  # Before any Docker action.
+    native_options = validate_options(native)  # Before any Docker action.
+    require(native_options.parent_deadline_monotonic_ns is None,
+            'wrapper requires episode deadline; native-only parent option refused')
     require((args.owned_name is None) == (args.cidfile is None), 'owned name and CID required together')
     name = args.owned_name or 'esp-sdr-ble-primary-timed-source-' + uuid.uuid4().hex
     validate_name(name)
@@ -246,6 +247,9 @@ def main(argv=None):
         nonlocal cancelled
         cancelled = True
     previous = {s: signal.signal(s, cancel) for s in (signal.SIGINT, signal.SIGTERM)}
+    def normal_gate():
+        require(not cancelled and time.monotonic_ns() < deadline_ns,
+                'wrapper operation cancelled or late')
     proc = None
     docker = env = None
     image_id = None
@@ -255,20 +259,25 @@ def main(argv=None):
                'source_controller_cleanup_verified_by_wrapper': False,
                'owned_container_removed': False, 'owned_group_closed': False,
                'force_removal_required': False, 'forced_cleanup_required': False,
-               'wrapper_started_monotonic_ns': int(began * 1e9),
+               'wrapper_started_monotonic_ns': began_ns,
                'wrapper_deadline_monotonic_ns': deadline_ns}
     try:
+        normal_gate()
         docker, env = runtime()
+        normal_gate()
         archive = env.get('BLE_PRIMARY_TIMED_IMAGE')
         tag = env.get('BLE_PRIMARY_TIMED_IMAGE_TAG')
         executable = env.get('BLE_PRIMARY_TIMED_PYTHON')
         entrypoint = env.get('BLE_PRIMARY_TIMED_ENTRYPOINT')
         image_id = resolve_source_image(archive, tag, env.get('BLE_PRIMARY_TIMED_PRELOADED_IMAGE_ID'),
                                        executable, entrypoint, docker=docker, env=env, deadline=deadline)
+        normal_gate()
         require(container_absent(name, docker, env, deadline), 'owned name already exists')
+        normal_gate()
         # Last parser value is the exact inherited minimum, never an argv override.
         native = [*native, '--parent-deadline-monotonic-ns', str(deadline_ns)]
         command = source_command(name, image_id, executable, entrypoint, native, docker=docker, cidfile=args.cidfile)
+        normal_gate()
         remaining(deadline, 1)
         require(not cancelled, 'cancelled before source spawn')
         receipt['owned_spawn_before_monotonic_ns'] = time.monotonic_ns()
@@ -276,12 +285,16 @@ def main(argv=None):
                                 start_new_session=True)
         receipt.update(owned_pid=proc.pid, owned_pgid=proc.pid,
                        owned_spawn_after_monotonic_ns=time.monotonic_ns())
+        normal_gate()
         receipt['owned_start_ticks'] = process_start_ticks(proc.pid)
+        normal_gate()
         natural = wait_natural(proc, deadline, lambda: cancelled)
         require(natural and not cancelled, 'owned source did not close naturally')
         receipt['owned_group_closed'] = True
         receipt['owned_group_absent_monotonic_ns'] = time.monotonic_ns()
+        normal_gate()
         receipt['owned_container_removed'] = container_absent(name, docker, env, deadline)
+        normal_gate()
         require(receipt['owned_container_removed'], 'owned container remains after normal exit')
         if args.cidfile is not None:
             path = Path(args.cidfile)
@@ -291,6 +304,7 @@ def main(argv=None):
             raw = path.read_bytes()
             require(re.fullmatch(b'[0-9a-f]{64}\n?', raw) is not None, 'actual CID malformed')
             receipt['owned_container_id'] = raw.decode().strip()
+            normal_gate()
         remaining(deadline, 1)
         require(not cancelled, 'cancelled after source closure')
         code = proc.returncode

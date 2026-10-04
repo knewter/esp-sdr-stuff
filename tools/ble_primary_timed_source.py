@@ -80,6 +80,7 @@ class TimedSource(v1.Source):
         self.cancelled = False
         self.cleaning = False
         self.used = False
+        self.parameters_may_have_reached = False
         own_ns = time.monotonic_ns() + int(BOUND_SECONDS*1e9)
         if deadline is not None:
             own_ns = min(own_ns, int(deadline*1e9))
@@ -171,6 +172,8 @@ class TimedSource(v1.Source):
                     raise v1.SourceError('insufficient_enable_reserve')
                 self.enable_sent = True
                 self.enable_send_ns = time.monotonic_ns()
+            if step == 'set_parameters':
+                self.parameters_may_have_reached = True  # Includes a failed/short send.
             sent = self.sock.send(frame)
             self._clock()
             if sent != len(frame):
@@ -247,9 +250,13 @@ class TimedSource(v1.Source):
             self.cleaning = True
             # Independent bounded failure cleanup never extends qualification.
             self.cleanup_deadline = max(self.deadline, time.monotonic() + 2*COMMAND_SECONDS)
+            summary['parameters_may_have_reached_controller'] = self.parameters_may_have_reached
             for step, opcode, payload in (
                     ('cleanup_disable', 0x2039, enable_frame(False)),
                     ('cleanup_remove', 0x203c, b'\x01')):
+                if not self.parameters_may_have_reached:
+                    summary['cleanup'][step] = {'not_attempted': 'parameters_not_sent', 'success': False}
+                    continue
                 try:
                     result = self.command(step, opcode, payload)
                     summary['cleanup'][step] = {'status': result['status'], 'command_complete_received': True}
@@ -352,17 +359,29 @@ def main(argv=None):
             source.cancel()
     handlers = {s: signal.signal(s, cancel) for s in (signal.SIGINT, signal.SIGTERM)}
     code = 2
+    def setup_gate():
+        if interrupted or (source is not None and source.cancelled):
+            raise v1.SourceError('setup_cancelled')
+        if time.monotonic_ns() >= deadline_ns:
+            raise v1.SourceError('setup_episode_deadline')
     try:
-        if interrupted or time.monotonic_ns() >= deadline_ns:
-            return 2
+        setup_gate()
         sock = socket.socket(31, socket.SOCK_RAW, 1)
+        setup_gate()
         v1.bind_raw(sock)
+        setup_gate()
         source = TimedSource(sock, emit_stdout, deadline_ns=deadline_ns)
-        if interrupted:
-            source.cancel()
+        setup_gate()
         emit_stdout({'kind': 'source_socket_ready', 'hci_device': 0, 'hci_channel': 0})
+        setup_gate()
         summary = source.run_timed()
         code = 0 if summary['controller_timed_profile_verified'] else 2
+    except v1.SourceError as error:
+        emit_stdout({'kind': 'source_closed', 'source_profile': PROFILE,
+                     'status': 'setup_deadline_or_cancel', 'error_code': str(error),
+                     'episode_deadline_monotonic_ns': deadline_ns,
+                     'controller_timed_profile_verified': False,
+                     'independently_observed_air_emission_count': None})
     except OSError as error:
         emit_stdout({'kind': 'source_closed', 'source_profile': PROFILE,
                      'status': 'socket_or_bind_failed', 'error_errno': error.errno,

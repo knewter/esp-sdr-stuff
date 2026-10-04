@@ -61,6 +61,40 @@ class Socket:
 
 
 class TimedSourceTests(unittest.TestCase):
+    def test_resource_setup_postreturn_deadline_cancel_refuses_next_access(self):
+        original_source=timed.TimedSource;original_emit=timed.emit_stdout
+        for phase in ('socket','bind','constructor','ready'):
+            for fault in ('late','cancel'):
+                with self.subTest(phase=phase,fault=fault):
+                    clock=Clock();sock=Socket(clock);output=io.StringIO()
+                    def advance(at):
+                        if at!=phase:return
+                        if fault=='late':clock.now=145
+                        else:signal.getsignal(signal.SIGTERM)(signal.SIGTERM,None)
+                    def construct(*args):advance('socket');return sock
+                    def bind(*args):advance('bind')
+                    def source(*args,**kwargs):
+                        result=original_source(*args,**kwargs);advance('constructor');return result
+                    def emit(row):
+                        original_emit(row)
+                        if row['kind']=='source_socket_ready':advance('ready')
+                    with patch.object(timed.time,'monotonic',clock.monotonic),patch.object(timed.time,'monotonic_ns',clock.ns),\
+                         patch.object(timed.socket,'socket',side_effect=construct),patch.object(v1,'bind_raw',side_effect=bind)as binding,\
+                         patch.object(timed,'TimedSource',side_effect=source),patch.object(timed,'emit_stdout',side_effect=emit),contextlib.redirect_stdout(output):
+                        self.assertEqual(timed.main(['--profile',timed.PROFILE]),2)
+                    rows=[__import__('json').loads(v)for v in output.getvalue().splitlines()]
+                    self.assertEqual(binding.call_count,int(phase!='socket'));self.assertTrue(sock.closed)
+                    self.assertEqual(sock.sent,[])
+                    self.assertFalse([v for v in rows if v['kind']=='source_closed'][-1]['controller_timed_profile_verified'])
+                    self.assertEqual(sum(v['kind']=='source_socket_ready'for v in rows),int(phase=='ready'))
+
+    def test_expired_before_parameter_send_never_issues_cleanup_commands(self):
+        clock=Clock();sock=Socket(clock)
+        with patch.object(timed.time,'monotonic',clock.monotonic),patch.object(timed.time,'monotonic_ns',clock.ns):
+            result=timed.TimedSource(sock,lambda row:None,deadline_ns=100000000000).run_timed()
+        self.assertEqual(sock.sent,[]);self.assertFalse(result['parameters_may_have_reached_controller'])
+        self.assertFalse(result['controller_timed_profile_verified'])
+
     def test_parent_clock_and_enable_margin_include_commands_and_emission(self):
         for deadline_ns, delay, success in ((132000000000, 0, True),
                                            (131999999999, 0, False),
