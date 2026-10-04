@@ -1,5 +1,5 @@
 """Registry/lease/lifecycle integration with harmless actual OS resources."""
-import fcntl,hashlib,json,os,subprocess,sys,tempfile,types,unittest
+import contextlib,fcntl,hashlib,io,json,os,signal,subprocess,sys,tempfile,types,unittest
 from pathlib import Path
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
@@ -125,3 +125,55 @@ class Production(unittest.TestCase):
     with self.assertRaises(Exception):owner.run([sys.executable,'-c','import time;time.sleep(10)'],'owned-timeout',__import__('time').monotonic()+.15)
     self.assertTrue(owner.closed);self.assertEqual(len(list(workers.glob('*.log'))),1);self.assertTrue(__import__('forgix_usb_ram_capture').inherited_operator_lock(fd,lock))
    finally:os.close(fd)
+
+class MainBoundaries(unittest.TestCase):
+ def exercise(self,mode):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);(root/'.scratch').mkdir(mode=0o700);(root/'backups').mkdir(mode=0o700)
+   private=root/'backups/run';private.mkdir(mode=0o700)
+   profile={n:'1'*64 for n in ('uid_sha256','baseline_sha256','elf_sha256','manifest_sha256','bridge_source_sha256','bitstream_sha256','qualification_sha256','execution_sha256','environment_sha256','contract_sha256')};profile['nonce']='2'*32
+   args=types.SimpleNamespace(action='run',prior_session=None)
+   adapter=Model();adapter.profile.update(profile);clock=[0.0];actual_fsync=os.fsync;output=io.StringIO();actual_execute=c.execute;actual_finalize=c.finalize
+   if mode=='cleanup-cancel':
+    original_factory=adapter.return_factory
+    def cancelled_factory(until):
+     signal.raise_signal(signal.SIGTERM)
+     return original_factory(until)
+    adapter.return_factory=cancelled_factory
+   def fsync(fd):
+    if mode=='session-fsync' and os.readlink('/proc/self/fd/'+str(fd)).endswith('/session.json'):
+     raise OSError('peer actual initial final session FD fsync')
+    return actual_fsync(fd)
+   def printing(*args,**kwargs):
+    if mode=='late-stdout':clock[0]=600.0
+    if mode=='stdout-error':raise OSError('fixture terminal stdout')
+   with contextlib.ExitStack() as stack:
+    for module in (c,b,c.trial):stack.enter_context(patch.object(module,'ROOT',root))
+    stack.enter_context(patch.object(c,'parser',return_value=types.SimpleNamespace(parse_args=lambda:args)))
+    stack.enter_context(patch.object(c,'prepare',return_value=(profile,{}, {'inputs':{}},private)))
+    stack.enter_context(patch.object(b,'Backend',return_value=adapter))
+    stack.enter_context(patch.object(b,'frozen_inputs'))
+    stack.enter_context(patch.object(b,'qualified'))
+    stack.enter_context(patch.object(c.runtime,'check'))
+    stack.enter_context(patch.object(c.time,'monotonic',side_effect=lambda:clock[0]))
+    stack.enter_context(patch.object(c,'execute',side_effect=lambda *a,**k:actual_execute(*a,clock=lambda:clock[0],**k)))
+    stack.enter_context(patch.object(c,'finalize',side_effect=lambda *a,**k:actual_finalize(*a,clock=lambda:clock[0],**k)))
+    stack.enter_context(patch.object(os,'fsync',side_effect=fsync))
+    stack.enter_context(contextlib.redirect_stdout(output))
+    if mode in ('late-stdout','stdout-error'):stack.enter_context(patch('builtins.print',side_effect=printing))
+    rc=c.main()
+   saved=json.loads((private/'session.json').read_bytes())
+   observation={'mode':mode,'CLI':rc,'saved':saved['status'],'pending':(root/'.scratch/forgix-spi-finalization-pending.json').exists(),'lease':(root/b.LEASE).exists(),'elapsed':clock[0]}
+   print(json.dumps(observation,sort_keys=True))
+   return observation
+ def test_actual_main_session_fsync_failure_cannot_leave_completed(self):
+  o=self.exercise('session-fsync');self.assertEqual(o['CLI'],2);self.assertNotEqual(o['saved'],'clock_episode_completed')
+ def test_actual_main_terminal_stdout_at_deadline_cannot_qualify(self):
+  o=self.exercise('late-stdout');self.assertEqual(o['CLI'],2);self.assertNotEqual(o['saved'],'clock_episode_completed')
+ def test_actual_main_cleanup_cancellation_cannot_qualify(self):
+  o=self.exercise('cleanup-cancel');self.assertEqual(o['CLI'],2);self.assertNotEqual(o['saved'],'clock_episode_completed')
+
+ def test_normal_actual_main_still_completes(self):
+  o=self.exercise('normal');self.assertEqual(o['CLI'],0);self.assertEqual(o['saved'],'clock_episode_completed');self.assertFalse(o['pending']);self.assertFalse(o['lease'])
+ def test_terminal_stdout_failure_retains_blocker_and_failed_receipt(self):
+  o=self.exercise('stdout-error');self.assertEqual(o['CLI'],2);self.assertEqual(o['saved'],'failed');self.assertTrue(o['pending']);self.assertTrue(o['lease'])

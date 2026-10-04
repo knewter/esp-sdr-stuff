@@ -295,7 +295,7 @@ def execute_recovery(adapter,store,preflight,clock=time.monotonic,began=None):
     if error is not None and not isinstance(error,Exception):raise error
     return record
 
-def finalize(lease,store,record,began,lock,clock=time.monotonic):
+def finalize(lease,store,record,began,lock,clock=time.monotonic,defer_pending=False):
     """Durable pending marker spans last operator-FD close and terminal I/O.
 
     Only already-verified factory/full-flash/owned closure can release resources;
@@ -318,7 +318,7 @@ def finalize(lease,store,record,began,lock,clock=time.monotonic):
         record['root_lock_fd_close_returned_s']=clock();within()
         record.update(status=success if candidate else 'failed',finalization_status='acknowledged',host_elapsed_seconds=clock()-began)
         replace('acknowledged-session.json');within()
-        lease.clear_pending();within()
+        if not defer_pending:lease.clear_pending();within()
     except BaseException as primary:
         record.update(status='failed',finalization_status='failed',failure_kind=type(primary).__name__,finalization_failure_kind=type(primary).__name__,host_elapsed_seconds=clock()-began)
         if clock()>=began+600:record['deadline_exceeded']=True
@@ -330,6 +330,35 @@ def finalize(lease,store,record,began,lock,clock=time.monotonic):
         try:replace('failed-final-session.json')
         except BaseException as error:record['corrective_persistence_failure_kind']=type(error).__name__
         if not isinstance(primary,Exception):raise
+    return record
+
+def terminal_failure(lease,store,record,error,began,clock=time.monotonic):
+    """Never promote earlier bytes after a required terminal operation failed."""
+    record.update(status='failed',finalization_status='failed',failure_kind=type(error).__name__,
+                  terminal_failure_kind=type(error).__name__,host_elapsed_seconds=clock()-began)
+    if clock()>=began+600:record['deadline_exceeded']=True
+    for operation,name in ((lease.pending,'pending'),(lease.retain,'lease')):
+        try:operation()
+        except BaseException as failure:record[name+'_retention_failure_kind']=type(failure).__name__
+    try:
+        capture.save(store,'terminal-failed-session.json',record)
+        os.replace(store.path/'terminal-failed-session.json',store.path/'session.json');capture.sync_directory(store.path)
+    except BaseException as failure:record['corrective_persistence_failure_kind']=type(failure).__name__
+
+def terminal_output(lease,store,record,began,cancelled,clock=time.monotonic):
+    # The pending marker spans returned last-FD closure, stdout and final durable
+    # receipt. A live observer cannot infer acceptance from pending saved bytes.
+    try:
+        require(clock()<began+600 and not cancelled['requested'],'Terminal cancelled or expired')
+        print(json.dumps({k:record.get(k) for k in ('status','failure_kind','original_flash_and_factory_verified','owned_processes_closed')}),flush=True)
+        require(clock()<began+600 and not cancelled['requested'],'Terminal output cancelled or expired')
+        record['terminal_output_returned_s']=clock()
+        capture.save(store,'terminal-acknowledged-session.json',record)
+        os.replace(store.path/'terminal-acknowledged-session.json',store.path/'session.json');capture.sync_directory(store.path)
+        require(clock()<began+600 and not cancelled['requested'],'Terminal receipt cancelled or expired')
+        lease.clear_pending()
+        require(clock()<began+600 and not cancelled['requested'],'Terminal release cancelled or expired')
+    except BaseException as error:terminal_failure(lease,store,record,error,began,clock)
     return record
 
 def parser():
@@ -346,8 +375,9 @@ def parser():
     return cli
 
 def main():
-    os.umask(0o077);args=parser().parse_args();adapter=None;record={'status':'refused'}
+    os.umask(0o077);args=parser().parse_args();adapter=None;record={'status':'refused'};lease=store=None;began=None;cancelled={'requested':False}
     def cancel(signum,frame):
+        cancelled['requested']=True
         if adapter is not None and adapter.cleaning:
             print('Cancellation deferred during bounded factory/full-flash cleanup.',flush=True)
         else:raise Cancelled('Clock episode cancelled')
@@ -356,42 +386,51 @@ def main():
         profile,environment,frozen,private=prepare(args)
         if args.action=='preflight':
             record={'status':'preflight_passed','physical_execution_requested':False}
-            print('Qualified immutable preflight passed; no hardware opened.');return 0
-        prior=None
-        if args.action=='recover':
-            require(args.prior_session is not None,'Recovery requires original terminal receipt')
-            prior=recovery_admission(args.prior_session,profile,environment,frozen)
-        with operator_lock(profile if prior is not None else None) as lock:
-            backend.frozen_inputs(frozen);backend.qualified(profile);runtime.check(environment)
-            began=time.monotonic()
-            if prior is not None:recovery_admission(args.prior_session,profile,environment,frozen)
-            adapter=(backend.RecoveryBackend if prior is not None else backend.Backend)(profile,private,lock.fd,environment,frozen)
-            store=ReceiptStore(private)
-            if prior is None:lease=SessionLease(profile,private)
-            else:
-                # Atomically hand the unresolved lease to the fresh recovery
-                # receipt BEFORE access. Crash/unknown closure cannot reuse an
-                # older known-closed receipt even if marker persistence fails.
-                lease=SessionLease.rotate(profile,private)
-                adapter.lease_private=private
-            try:
-                record=(execute_recovery if prior is not None else execute)(adapter,store,{'kind':'identity-selected Forgix clock measurement episode',
+        else:
+            prior=None
+            if args.action=='recover':
+                require(args.prior_session is not None,'Recovery requires original terminal receipt')
+                prior=recovery_admission(args.prior_session,profile,environment,frozen)
+            with operator_lock(profile if prior is not None else None) as lock:
+                backend.frozen_inputs(frozen);backend.qualified(profile);runtime.check(environment)
+                began=time.monotonic()
+                if prior is not None:recovery_admission(args.prior_session,profile,environment,frozen)
+                adapter=(backend.RecoveryBackend if prior is not None else backend.Backend)(profile,private,lock.fd,environment,frozen)
+                store=ReceiptStore(private)
+                if prior is None:lease=SessionLease(profile,private)
+                else:
+                    # Atomically hand the unresolved lease to the fresh recovery
+                    # receipt BEFORE access. Crash/unknown closure cannot reuse an
+                    # older known-closed receipt even if marker persistence fails.
+                    lease=SessionLease.rotate(profile,private)
+                    adapter.lease_private=private
+                execution_error=None
+                try:
+                    record=(execute_recovery if prior is not None else execute)(adapter,store,{'kind':'identity-selected Forgix clock measurement episode',
                     'profile_private':profile,'environment_private':environment,'execution':frozen,
                     'physical_execution_requested':True,'recovery_only':prior is not None,
                     'prior_session_sha256':trial.sha(args.prior_session) if prior is not None else None},began=began)
-            finally:
-                # Cancellation may propagate only after the terminal receipt.
-                terminal=private/'session.json'
-                if terminal.exists():
-                    saved=json.loads(terminal.read_text())
-                    finalize(lease,store,saved,began,lock)
-                    record=saved
-        return 0 if record['status'] in ('clock_episode_completed','recovered_and_verified') else 2
+                except BaseException as error:
+                    execution_error=error;raise
+                finally:
+                    # Cancellation may propagate only after the terminal receipt.
+                    terminal=private/'session.json'
+                    if terminal.exists():
+                        saved=json.loads(terminal.read_text())
+                        if execution_error is not None or cancelled['requested']:
+                            saved.update(status='failed',failure_kind=type(execution_error).__name__ if execution_error is not None else 'Cancelled')
+                        finalize(lease,store,saved,began,lock,defer_pending=True)
+                        record=saved
     except BaseException as exc:
         record.update(status='refused' if adapter is None else 'failed',failure_kind=type(exc).__name__)
-        return 2
     finally:
+        record['cancellation_requested']=cancelled['requested']
+        if lease is not None and store is not None and began is not None:
+            terminal_output(lease,store,record,began,cancelled,clock=time.monotonic)
+        else:
+            try:print(json.dumps({k:record.get(k) for k in ('status','failure_kind','original_flash_and_factory_verified','owned_processes_closed')}),flush=True)
+            except BaseException as error:record.update(status='failed',failure_kind=type(error).__name__)
         for s,handler in handlers.items():signal.signal(s,handler)
-        print(json.dumps({k:record.get(k) for k in ('status','failure_kind','original_flash_and_factory_verified','owned_processes_closed')}))
+    return 0 if record['status'] in ('preflight_passed','clock_episode_completed','recovered_and_verified') else 2
 
 if __name__=='__main__':raise SystemExit(main())
