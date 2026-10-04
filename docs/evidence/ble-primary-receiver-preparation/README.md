@@ -110,3 +110,28 @@ saved for subsequent receipt audit. The new test variable uses TEST_HOME.
 Both OpenSpec validations and fresh read-only freeze/image inspection pass.
 Independent replacement review and fresh current-root execution freeze remain
 required; source/profile/search/settings/acceptance conditions are unchanged.
+
+## Independent corrected preflight
+
+**PASS offline at `120cf8a`**: the peer replayed all 161 author groups and seven
+independent groups, with no skips. [Independent checks](independent-review.json)
+bind exact source/test/Task/protocol/snapshot hashes and private terminal proofs.
+The 69 input and 11 runtime files match their recorded bytes and hashes; the 301-path
+metadata graph contains 1,218 complete reference edges. All 17 actual project
+imports are frozen. This verifies isolated preparation, not the current-root
+execution tuple or physical behavior.
+
+The preserved `f301ebe` counterexample returned receiver-ready 131 after deadline 130
+and incorrectly launched all three sources. The same independent host probe now
+returns failure/exit 2, launches no source, and reports verified restoration through
+the injected fixture. Neither probe touched hardware. Actual owned-process tests
+also reject natural qualification when a surviving descendant needs forced
+termination. Strict source/monitor fields, cancellation/intent failures, uncertain
+UART ownership and guarded whole-capture joins pass the peer probes.
+
+The independent replacement review is complete. **Root transfer, a fresh input/
+runtime/content/image freeze and independent operator-wrapper preflight remain
+required before hardware.** Full preservation, identity/exclusive FD, handle
+reservation, restoration and physical saved-result review remain operator gates.
+No receiver trial, primary air denominator, RF acceptance or original Trial B
+release follows from these tests. Earlier failure proofs remain immutable.

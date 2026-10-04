@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "result": "PASS_OFFLINE_RECEIVER_PREPARATION",
+  "author_revision": "120cf8a056b1034871b673cc7b3c2278739f1ddf",
+  "independent_receipt_sha256": "2d09b7608f950f8a1ae2230fe58ec0363e270b4f7e44339f130286cbdd7a0f7f",
+  "author_receipt_sha256": "41f14e146d1457427c5321683dbfcb51a37d070e2fedbe117fd4e8ee979032c6",
+  "protocol_sha256": "9f6aa4683bf818ca8a55058cd3ae2e0938520cd9776b0221a21dc5b904be5d55",
+  "snapshot_sha256": "e1871be051a7e20ec656cd5a143cd008f17369bd3848a31ce20357438e1638c0",
+  "source_test_task_sha256": {
+    "caller.py": "9c396916230f907fb1a5a8d63f7222471f68b3b4ebea7db6243285314f558a97",
+    "source_support.py": "f192514fab289ad025a3d67bc6392df35c0e22d390bdd308130651edb302a73c",
+    "radio_support.py": "b17ac652f533a0a94351ee1fd8365804656d49e51250afd1b41605265d116d71",
+    "dispatch.py": "b3dd7824ddf63c34710039facca9264ea699e44190efe143285006a5512389c7",
+    "account.py": "51683cc01c9f4822c6ae9d8dd9ce60ac60abf17ee22241ed7cf7384b56bea4e9",
+    "test_caller.py": "597dbde993a5f7360f10b658295c71f94313726953dfbcb4b21142fd984a8321",
+    "task.yml": "ccf1d55a42dd356f349f636832885fe07793399d8cc1e5d11fdc2563bfce34e1"
+  },
+  "author_groups": 161,
+  "independent_groups": 7,
+  "skips": 0,
+  "terminal_replay_exit_code": 0,
+  "bound_context": {
+    "input_files_bytes_sha_verified": 69,
+    "runtime_files_bytes_sha_verified": 11,
+    "metadata_closure_paths": 301,
+    "metadata_complete_reference_edges": 1218,
+    "actual_imported_project_files": 17,
+    "all_project_imports_frozen": true
+  },
+  "preserved_failed_revision": "f301ebeb0837304f410607baf2e9894c7c09f3e6",
+  "preserved_failed_receipt_sha256": "47f95c54992554e91d8514e936d8ad46fcbb522d246682447f9f1d3c880b27bd",
+  "original_host_fixture": {
+    "receiver_deadline_seconds": 130,
+    "delayed_ready_seconds": 131,
+    "parent_exit_code": 0,
+    "source_instances_launched": 3
+  },
+  "corrected_same_host_fixture": {
+    "parent_exit_code": 2,
+    "source_instances_launched": 0,
+    "restoration_fixture_status": "verified"
+  },
+  "source001_audit_sha256": "50aa1b8006c069b1eddc8cd57c4526225815a0ef591487f61c4ec8a820b45da4",
+  "private_probe_sha256": "517bcc486eee96651b0bba0960e717a2550c7c7a2475ec1a21f65399c08c0806",
+  "private_replay_log_sha256": "79f2162c9c66df9378c059b88de84cde29a288c34d776de8b7a47ee431843af7",
+  "hardware_access": false,
+  "Docker_queries_or_producers": false,
+  "root_edits": false,
+  "physical_episode_admitted": false,
+  "RF_accepted": false,
+  "legacy_Trial_B_released": false,
+  "root_transfer_and_operator_wrapper_review_required": true,
+  "scope": "Isolated 7159 Task context. Runtime file bytes and complete metadata reference graph checked; fresh root execution tuple, whole Nix contents, live image/identity/FD/handle/preservation preflight remain required. Fixture restoration is not physical evidence."
+}
