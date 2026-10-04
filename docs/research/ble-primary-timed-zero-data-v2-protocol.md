@@ -215,6 +215,15 @@ multiple owned clusters per snapshot remain unresolved. Retain all OFF/null/
 boundary observations, count actual guarded coverage per repetition, and
 independently review the entire saved lifecycle/restoration/source/waveform join.
 
+The unchanged `ble_extended_primary.py` reports its parser's existing
+`extended-primary-zero-data-v1` label. That label names the identical primary
+wire/header interpretation, not a v2 controller qualification. The NEW account
+must explicitly bind `source_profile: extended-primary-zero-data-timed-v2`
+separately from this retained decoder-output profile, documenting unchanged
+RF-field compatibility and checking exact parser/search hashes. Do not change
+the decoder global/profile, relabel its saved output, require its label to
+equal the timed source, or let this compatibility admit a v1 source receipt.
+
 No event-normalized rate, independently counted primary emission, sensitivity,
 miss rate, reliable logger or three reciprocal responses follows from scheduled
 25-second sources. A full CRC/address primary positive is the same narrow
