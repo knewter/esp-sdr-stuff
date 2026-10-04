@@ -378,3 +378,12 @@ mutation refusals and a real host-only inherited worker. A fresh read-only actua
 committed register map and current immutable environment proof precede independent
 review; no device, container producer, ARM/compiler/vendor build is needed.
 Tasks1.1 and2.1–2.3 remain unchecked until their physical evidence passes.
+
+The new register execution set includes the complete bridge build-source set
+(derived from the build module's FILES) alongside transitive host helpers, the
+runtime module, registry and protocols; its count is not an acceptance target.
+The existing artifact guard requires every recorded build source still current.
+Historical configuration003 includes older flake/Task bytes and cannot be promoted
+to a current artifact by this runtime proof. Retain that refusal; a fresh separately
+operated ARM build and independent artifact review precede future qualification.
+No artifact-source allowlist or firmware/build policy is relaxed here.
