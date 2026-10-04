@@ -143,12 +143,14 @@ class SerialDeadlineTransport:
     def read(self, size, deadline):
         while True:
             self.serial.timeout = self.allowance(deadline, .05)
+            self.allowance(deadline,.05)  # An open-port timeout setter may block.
             data = self.serial.read(size)
             if data:
                 return data  # Collector retains even bytes arriving too late.
 
     def write(self, data, deadline):
         self.serial.write_timeout = self.allowance(deadline, 1.)
+        self.allowance(deadline,1.)
         return self.serial.write(data)
 
     def close(self):

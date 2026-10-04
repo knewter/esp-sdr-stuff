@@ -279,6 +279,26 @@ class SerialAdapter(unittest.TestCase):
         self.assertEqual(adapter.read(4, 1), b'late')
         self.assertEqual(serial.timeout, .05)
 
+    def test_blocking_timeout_setter_cannot_start_io_after_deadline(self):
+        class Serial:
+            now=0
+            calls=[]
+            @property
+            def timeout(self):return .05
+            @timeout.setter
+            def timeout(self,value):self.now=1
+            @property
+            def write_timeout(self):return 1
+            @write_timeout.setter
+            def write_timeout(self,value):self.now=1
+            def read(self,n):self.calls.append('read');return b''
+            def write(self,data):self.calls.append('write');return len(data)
+        for operation,value in [('read',1),('write',b'x')]:
+            with self.subTest(operation=operation):
+                port=Serial();adapter=capture.SerialDeadlineTransport(port,lambda:port.now)
+                with self.assertRaises(TimeoutError):getattr(adapter,operation)(value,1)
+                self.assertEqual(port.calls,[])
+
 
 class BridgeIdentity(unittest.TestCase):
     def test_distinct_product_topology_and_tty_ancestry(self):
