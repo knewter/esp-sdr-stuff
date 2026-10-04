@@ -106,3 +106,22 @@ plus exact-name absence after normal closure. Caller records leader PID/PGID,
 An absent/invalid CID or forced cleanup fails this new condition; no historical
 IDs are invented. The dispatch/support files and their imported helpers are
 part of the frozen closure and independent host preflight.
+
+## Low-duty opportunity and null uncertainty
+
+The fixed first condition is intentionally retained: nominal1.02375 ms windows
+and historical ten-bit UART delivery around0.4--0.5 s yield only roughly15
+ON snapshots across three approximately2.416 s source episodes. Under a
+hypothetical independent uniformly random alignment, a144--192 us full primary
+inside a1.024 ms window and approximately24 ms event spacing suggests fewer
+than one expected full capture across those snapshots. This is an opportunity
+calculation, not a measured clock, packet schedule or promised success. Actual
+source duration/capture gaps/layout may differ; omitted primary transmissions
+reduce opportunity further. A null remains weak/inconclusive. Any later
+transport/capture improvement requires a separately prospective frozen condition;
+no outcome-tuned decoder search or replacement of this first condition.
+
+The private Docker --cidfile is complemented by a read-only exact-ID inspect
+while dispatch is active, retaining matching name/image/running witness and
+inspect brackets. Missing active identity witness fails even if later cleanup
+returns success. No metadata is reconstructed after container disappearance.
