@@ -6,7 +6,8 @@ not admit loading, devices, FPGA timing, measured transport, or recovery. The
 The register collector/lifecycle and their qualification registry are unchanged.
 
 The new caller-owned API binds the exact frozen stream contract at engine
-commit `4a6077bbd9c182e830034da1a1920bcb990dd85f`, protocol SHA256
+contract initially frozen at commit `4a6077bbd9c182e830034da1a1920bcb990dd85f`
+and its reviewed coherence correction `c4cae186`, protocol SHA256
 `54c62ab91d77a5d7a9b8cfc62c78528de825c6d7bde7cb512c35724c5a675897`.
 Its host parser accepts only 512-byte FSB1 DATA/CONFIG/START/END frames and the
 three declared period/target pairs. Full nonce and RP/image hashes bind each
@@ -25,7 +26,10 @@ verify whole-group closure; the collector reports serial closure separately.
 Injected host fixtures do not substitute for that qualification.
 
 The CONFIG ceiling is min(boot+30 s, intent+20 s); START is before boot+30 s.
-Acquisition/terminal ends by min(boot+120 s, START intent+67 s); arriving bytes
+Successful finalization remains strictly before START+65 s. A failed deadline
+path can use less than one second of STOP/snapshot grace and less than two
+seconds of terminal drain. Host collection therefore ends by
+min(boot+120 s, START intent+68 s); arriving bytes
 never extend a ceiling. Every operation checks both pre- and post-return clocks.
 The optional measured 100 ms host-reader pause occurs at START receipt+30 s,
 with actual start/end retained. It is separate from any build-declared RP drain
