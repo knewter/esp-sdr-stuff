@@ -1,0 +1,145 @@
+{
+  "schema": 1,
+  "kind": "Offline BLE primary-header/source preparation; no RF experiment",
+  "implementation_commit": "84421b58e4755780d359f2c6c0262c3067f0c63a",
+  "independent_aux_timing_correction_commit": "18ff4c22b2a971ec736958de5fc49022592a51fe",
+  "profile": "extended-primary-zero-data-v1",
+  "files_sha256": {
+    "tools/ble_extended_primary.py": "396c0cc46ad5b6500378318d7728a3a44b186e78ca66056fe19c86d8bf390b15",
+    "tools/ble_decode_iq.py": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+    "tools/ble_direct_hci_source.py": "9f6030318c004a9bb4c8e0c8657b4c44fedba118dc64aec94ad402a310e9c869",
+    "tools/ble_source_container.py": "677dff6d5ea684f95b3664086fb59d79bf67787d3acc0615c9770408f28d8951",
+    "tests/test_ble_extended_primary.py": "d96a6873d493d8e226265fb685716489d445f29b7b25ab11a733f68f81d948a0",
+    "tests/test_ble_primary_source.py": "0e6ca377fea2ca318fd227aa12af8d0e54d5bdffb006b0a1dc4152ac82eb81e2",
+    "docs/research/ble-extended-primary-zero-data-protocol.md": "ffc63514b16c40f635ae600919610c22bff2149928d584e40b22df1d5df9f638"
+  },
+  "physical_state": {
+    "hardware_accessed": false,
+    "docker_invoked": false,
+    "source_activated": false,
+    "waveforms_from_hardware_analyzed": 0,
+    "RF_reception_demonstrated_by_this_record": false
+  },
+  "tests": {
+    "scoped_passed": 89,
+    "primary_parser": 19,
+    "primary_source": 6,
+    "legacy_decoder": 16,
+    "existing_direct_source": 33,
+    "existing_source_container": 15,
+    "independent_original_replay_passed": 88,
+    "independent_corrected_replay_passed": 89,
+    "additional_independent_probes_passed": 6,
+    "locked_task_command": "nix develop .#ci --command task -t .scratch/ble-primary-task.yml test",
+    "fixture_kind": "Synthetic extended headers/modulation plus independently reflected CRC/register whitening verified against published legacy SIG sample",
+    "independent_review_receipt_sha256": "c21ca1eb3a2d8a1b47af853730836d440b8bdcebeb23e6e63dceaf76b5d97866",
+    "correction_peer_review": "Author independently read official specification and narrow reviewer-authored fix, replaying all89 tests"
+  },
+  "source_wire_profile_requested": {
+    "handle": 1,
+    "event_properties": 0,
+    "primary_channel_map": 1,
+    "primary_phy": 1,
+    "secondary_phy": 1,
+    "own_address_type": 0,
+    "advertising_sid": 0,
+    "interval_ms": 20,
+    "advertising_data_length": 0,
+    "duration_10ms_units": 500,
+    "maximum_extended_advertising_events": 100,
+    "complete_data_payload_hex": "01030100",
+    "enable_payload_hex": "010101f40164",
+    "physical_controller_acceptance_of_this_zero_data_profile": false
+  },
+  "parser_gates": {
+    "pdu_type": 7,
+    "channel": 37,
+    "phy_decoder": "LE1M",
+    "protected_crc_bits": 24,
+    "adv_mode": 0,
+    "strict_header_and_field_bounds": true,
+    "reserved_fields_rejected": true,
+    "ownership": "Explicit private public AdvA match; SID0 additionally checked if ADI exists",
+    "absent_AdvA_not_owned": true,
+    "ADI_only_not_owned": true,
+    "auxiliary_AD_not_primary_marker": true,
+    "foreign_addresses_and_payload_not_published": true,
+    "aux_nonzero_minimum_us": "80+8*PDU_length+300",
+    "aux_300us_units_minimum_offset_us": 245700,
+    "aux_zero_offset_valid30us_case_retained": true
+  },
+  "receiver": {
+    "legacy_source_unchanged": true,
+    "training": "Public advertising access address only",
+    "coarse_samples_per_symbol": 4,
+    "refinement_periods": 13,
+    "refinement_offsets": 17,
+    "refinement_biases": 37,
+    "refinement_candidate_clusters_maximum": 32,
+    "selection": "Access-address correlation without ownership outcome",
+    "payload_bit_repairs": false,
+    "module_global_monkeypatching": false,
+    "complete_nominal_packet_bounds_recorded": true,
+    "nominal_rate_hz": 16000000,
+    "no_aux_duration_us_without_or_with_power": [
+      144,
+      152
+    ],
+    "address_bearing_aux_header_duration_us_without_or_with_power": [
+      184,
+      192
+    ]
+  },
+  "counting": {
+    "count_unit": "Controller-reported completed extended advertising events",
+    "independently_observed_air_emission_count": null,
+    "map37_only_means": "At most one primary PDU per event",
+    "omissions_and_auxiliary_placement_remain_explicit": true,
+    "future_H_over_N": "Complete verified owned primary captures per controller-reported source events, only with explicit applicability/coverage assumptions",
+    "N_minus_H": "Not verified complete reception; not confirmed unsampled RF misses",
+    "source_count_and_RF_task_gates_closed": false,
+    "original_legacy255_and_TrialB_gates_unchanged": true
+  },
+  "limitations": [
+    "Zero host data does not force AUX omission or AdvA presence",
+    "With AUX, ownership verifies independently known address/header subset; DID/AuxPtr/power bytes are controller-selected",
+    "Current independent monitor omits OwnAddrType/SID/skip/filter/scanNotify/fragmentPreference; full source wire is tested offline, not all fields independently observed physically",
+    "Future physical waveform SHA/transportCRC/count/window/whole-phase/dedup and source/monitor/cleanup review remain required",
+    "No emitted RF count, reception rate, calibrated clock/power, sensitivity, continuous receive or accepted-ledger change"
+  ],
+  "primary_sources": [
+    {
+      "url": "https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-54/out/en/low-energy-controller/link-layer-specification.html",
+      "sections": [
+        "Table2.4 ADV_EXT_IND",
+        "2.3.4 common extended header",
+        "2.3.4.5 AuxPtr",
+        "4.1.2 T_MAFS"
+      ]
+    },
+    {
+      "url": "https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-62/out/en/low-energy-controller/link-layer-specification.html",
+      "sections": [
+        "4.4.2.1 primary/event omissions",
+        "4.4.2.2 advertising and extended-event structure"
+      ]
+    },
+    {
+      "url": "https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-62/out/en/host-controller-interface/host-controller-interface-functional-specification.html",
+      "sections": [
+        "7.7.65.18 advertising-set termination",
+        "7.8.56 bounded enabling"
+      ]
+    },
+    {
+      "url": "https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/sample-data.html",
+      "sections": [
+        "Vol6C4.2.1 published legacy crypto sample"
+      ]
+    }
+  ],
+  "acceptance": {
+    "OpenSpec_hardware_tasks_changed": false,
+    "accepted_ledger_changed": false
+  }
+}
