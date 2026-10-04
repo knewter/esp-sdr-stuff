@@ -36,5 +36,31 @@
   "independent_review_sha256": "073d2c1d7a4a91e743bc2e8bd25fe9f39afeea0b1ec438e846d3068ff966dd02",
   "retained_original_failure_log_sha256": "3ae18cb0c79aa16410e15a2cb00e8480a450a322986f7db4dd08cab7867203d4",
   "author_replay_log_sha256": "c947c373de74f20e16933d95f0023b497beda9921172ebced743196134a5c77b",
-  "independent_replay_log_sha256": "40db9661d3fcb47e2a3e948f5e4fa69cf55c37f030c9b92306e21ed6ac1c5f2f"
+  "independent_replay_log_sha256": "40db9661d3fcb47e2a3e948f5e4fa69cf55c37f030c9b92306e21ed6ac1c5f2f",
+  "fresh_root_comparison": {
+    "result": "PASS_SAVED_AND_CURRENT_ROOT_SOURCE_RUNTIME_BINDING",
+    "source_commit": "cfa5fa2bd724091a7a0374152f1bd47c04e1ec4c",
+    "root_freeze_sha256": "30b796f69b45247e2262aeeba61f97627803bc2870c9bba4370f36090f574cfa",
+    "root_freeze_log_sha256": "8809b831a2be4d7a113a9f15cdde448b70b2f47e8ef2c690bac1371b5f58d09e",
+    "root_focused_log_sha256": "8204e6246a452c95e331589127b495d4ce5b9489605317cd2953c0a6d6801fd9",
+    "prior_independent_factory_review_sha256": "073d2c1d7a4a91e743bc2e8bd25fe9f39afeea0b1ec438e846d3068ff966dd02",
+    "prior_independent_host_content_proof_sha256": "532b6d3b9e1450238e9f5bd1262ecb718b1314fcf6e81d03218a8d69b762216a",
+    "execution_sha256": "cb264105410a24640d4b731a15cc8d97fb2cbd1b5fb808bb248d4df0e71568e0",
+    "environment_sha256": "8b7d046b1e23d5e0b972198ae25c733d59011f4d85fde0a2a20138bea6c43f16",
+    "repository_inputs": 63,
+    "host_tools": 7,
+    "nix_paths": 268,
+    "reference_edges": 1097,
+    "current_root_and_committed_sources_match": true,
+    "seven_actual_tool_bytes_match": true,
+    "full_environment_matches_independently_content_verified_proof": true,
+    "shared_helper_exact_and_unchanged": true,
+    "root_task_additions_complete": true,
+    "hardware_access": false,
+    "container_actions": false,
+    "compiler_or_vendor_executed": false,
+    "physical_admission": false,
+    "limits": "Read-only saved/current source, executable bytes, archive bytes and metadata checks. Existing exact environment content-verification proof reused; no NAR verify or image inspect repeated. Empty registry remains; live daemon/kernel and ancestor Task invocation trust limits persist.",
+    "independent_review_sha256": "140736489dd16bf89b7dfcc1f0ce92aae2baaa8e6406b1dfb16d200bccf629a7"
+  }
 }

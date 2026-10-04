@@ -23,3 +23,10 @@ or ARM compiler ran. These checks establish offline preparation only; they do
 not admit a physical stream trial or establish RF reception, throughput or
 clock/pin timing. A fresh production freeze and physical qualification are
 still required.
+
+A separate read-only comparison binds the root’s fresh production freeze at
+`cfa5fa2` to the same 63 committed inputs, seven tool byte identities, 268 Nix
+paths and 1,097 reference edges. Its entire environment matches the previously
+independently content-verified proof. The root Task additions contain both new
+test commands. No NAR verification or image inspection was repeated during
+this comparison; physical admission remains false.
