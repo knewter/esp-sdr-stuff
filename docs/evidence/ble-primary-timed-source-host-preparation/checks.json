@@ -1,0 +1,35 @@
+{
+  "air_emission_count": null,
+  "author_ready_sha256": "0cc67d5f0b5edd5eea78750b06667e69692098031a53e8fdc08cc7aff5d65ebb",
+  "daemon_queried": false,
+  "default_ci_derivations_unchanged": true,
+  "failed_attempts_preserved": true,
+  "forgix_configuration004_admitted": false,
+  "hardware_opened": false,
+  "independent_implementation_review": "pending",
+  "kind": "ble-primary-timed-source-host-preparation",
+  "new_archive_built": false,
+  "nix_paths_content_verified": 260,
+  "offline_proof_sha256": "62c01ba4b842d61b233b293b12fa1d3c82ce84f955385ad3ddfc5d982a221e70",
+  "reference_edges": 1075,
+  "rf_verified": false,
+  "source_commit": "685200af5461c18afabfa92bae752afb21182301",
+  "source_only_qualified": false,
+  "source_sha256": {
+    "docs/research/ble-primary-timed-zero-data-v2-protocol.md": "90b7c9e5a31d3e004b9d39e79cd06a55bbad3370b24d10d16578af3b67787339",
+    "tests/test_ble_primary_timed_container.py": "3b44575ec6c568bcb8c825a1754f64f7d03bd3b370c3488ed030d1a44f46d03b",
+    "tests/test_ble_primary_timed_source.py": "aa7ac7ea6260731439db771b1d61736f3628cb1f66c2ea74a19e575c2d268535",
+    "tools/ble_primary_timed_container.py": "8873770bd0f1c1c35e9becf3097d8f90ab47b173a02a58d4fcac1f04522be14d",
+    "tools/ble_primary_timed_source.py": "064d4a86a009351bd12cf5fbbddc6d1f0280d2979b3907f5f5921f37395654cd"
+  },
+  "strict_openspec_pass": 10,
+  "tests": {
+    "new_timed": 50,
+    "unchanged_decoder": 19,
+    "unchanged_dumpcap": 26,
+    "unchanged_hci": 24,
+    "unchanged_v1_container": 15,
+    "unchanged_v1_native": 33
+  },
+  "v1_image_derivation_unchanged": true
+}
