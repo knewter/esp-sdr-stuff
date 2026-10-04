@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "kind": "offline receiver operator holder preparation",
+  "planning_commits": [
+    "8e88768",
+    "ba52ffd"
+  ],
+  "author_test_groups": 40,
+  "skips": 0,
+  "terminal_exit": 0,
+  "subject_hashes": {
+    "holder.py": "f42071de72b79dce0c49d23bb4af9d3a77cf58b00cddbb1b16ab8e02ebfc8961",
+    "test_holder.py": "7928d3214cc7b6fb2b1481c1df207e2b071eb23d8c4c665cc1d78c1a748d1dae",
+    "task.yml": "1dd5373a03781115d538cd6b0c87b52a5fa23e92d180ad4347803d9a6a660c33",
+    "ADMISSION.md": "f0ddb8ba4844013fddf68ee7bde92dde5828367635632c9122ecac53201e2056",
+    "ble-primary-receiver-operator-protocol.md": "fbaf1a9bc98a5d5f727a3f9a13158adecc0b33976b55c5d4b7d1d9b014d89c07"
+  },
+  "author_receipt_sha256": "97cd9dc672aa958492f00a0333a2b72fed0d7f7da0ea30b45f710af4b6def385",
+  "reviewed_inner_inputs_copied_unchanged": 15,
+  "independent_holder_review_pending": true,
+  "fresh_root_admission_required": true,
+  "real_queries_in_author_tests": false,
+  "device_container_vendor_actions": false,
+  "physical_admission": false,
+  "RF_accepted": false,
+  "air_emission_denominator": null,
+  "original_trial_B_accepted": false
+}
