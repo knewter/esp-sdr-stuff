@@ -38,6 +38,16 @@ Inventory is the first proof artifact. The benchmark command is selected only af
 
 ## Primary references
 
+## Prospective one-way clock bootstrap
+
+Prepare the [distinct one-way observer](docs/research/forgix-clock-observer-protocol.md)
+to remove the first-read SPI clock dependency. Reset-safe finite F2 output and
+RP input-only PIO measure a relative clock interval. Source tests are possible
+offline; root-owned new builds, four-pin/startup audits and preserved measurement
+lifecycle require independent review before loading. Fitted grade/revision,
+electrical/attachment/recovery gates remain. No original artifact or registry
+changes, absolute calibrated MHz claim or physical checkbox completion.
+
 [Source register](docs/research/source-index.md) contains pinned repository links and limitations.
 
 ## Implementation findings

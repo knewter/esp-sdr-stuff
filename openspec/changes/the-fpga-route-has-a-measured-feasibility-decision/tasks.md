@@ -11,6 +11,17 @@
 
 ## Proof procedure
 
+## 3. Clock-bootstrap preparation (distinct prospective boundary)
+
+- [ ] 3.1 Implement finite reset-safe observer HDL, RP input-only period capture and interval reducer; prove actual asynchronous HDL, PIO instruction and native-C failure behavior under locked Nix/Task and independent review.
+- [ ] 3.2 Integrate a new versioned RAM profile/USB protocol and root-owned FPGA/ARM builds; independently audit complete inputs, four pins, SRAM and startup/whole-code/recovery.
+- [ ] 3.3 After board/electrical and preserved measurement lifecycle admission, measure relative clock intervals on the selected original Forgix; retain failures and full factory/flash recovery.
+- [ ] 3.4 Separately qualify counter0x1000 readback and SPI timing from measured bounds; do not auto-promote a measurement into either existing registry.
+
+Proof: the [clock-observer protocol](docs/research/forgix-clock-observer-protocol.md)
+and focused private locked Task replay. No physical inventory/transport gate is
+weakened; tasks1.1 and2.1–2.3 and accepted requirements remain unchanged.
+
 Inventory is the first proof artifact. The benchmark command is selected only after its hardware interface exists; acceptance requires timestamped sequence/CRC counters and a measured sustained rate, not peak link marketing. RF integration is conditional on measured synthetic feasibility.
 
 Required outcome: An inventory plus sustained payload, loss/backlog and timing measurements. 80 MS/s × 20 bits requires 200 MB/s before framing; lower-rate or spectral output alternatives get separate budgets.
