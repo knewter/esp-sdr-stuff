@@ -36,10 +36,14 @@ def main():
         "--html-keep-end-tags", "--html-keep-default-attrvals", "--html-keep-whitespace",
         "--js-keep-var-names", "--json-keep-numbers", *map(str, pages))
     run(sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_site_output.py")
-    size = sum(p.stat().st_size for p in (ROOT / "site/dist").rglob("*") if p.is_file())
+    files = [p for p in dist.rglob("*") if p.is_file()]
+    size = sum(p.stat().st_size for p in files)
+    # The growing, byte-exact source archive is most of the publication. Bound
+    # generated UI separately so more retained evidence cannot hide page bloat.
+    page_size = sum(p.stat().st_size for p in files if not p.is_relative_to(dist / "source"))
     elapsed = time.monotonic() - started
-    if size > 16 * 1024 * 1024 or elapsed > 120:
-        raise RuntimeError(f"Site exceeds budget: {size} bytes, {elapsed:.2f} seconds")
-    print(f"Site verified: {size:,} bytes in {elapsed:.2f}s")
+    if size > 24 * 1024 * 1024 or page_size > 2 * 1024 * 1024 or elapsed > 120:
+        raise RuntimeError(f"Site exceeds budget: {size} total bytes, {page_size} page bytes, {elapsed:.2f} seconds")
+    print(f"Site verified: {size:,} bytes ({page_size:,} outside source archive) in {elapsed:.2f}s")
     return 0
 if __name__ == "__main__": raise SystemExit(main())

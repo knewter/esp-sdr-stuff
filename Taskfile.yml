@@ -356,3 +356,8 @@ tasks:
     desc: Inspect a saved bridge ELF and pinned SDK reset metadata without hardware
     cmds:
       - python3 tools/audit_forgix_spi_startup.py {{.CLI_ARGS}}
+
+  forgix:spi-bridge:collector:test:
+    desc: Test private register persistence and serial closure with injected/PTY transports; no hardware
+    cmds:
+      - python3 -m unittest discover -v -s tests -p test_forgix_spi_capture.py
