@@ -2,13 +2,15 @@
 #include <string.h>
 static unsigned admission(const observer_io *io,uint64_t until) {
  if(io->cancelled(io->ctx))return OBSERVER_CANCELLED;
- return io->now(io->ctx)>=until?OBSERVER_TIMEOUT:OBSERVER_OK;
+ uint64_t observed=io->now(io->ctx);
+ if(io->cancelled(io->ctx))return OBSERVER_CANCELLED;
+ return observed>=until?OBSERVER_TIMEOUT:OBSERVER_OK;
 }
 unsigned observer_capture(const observer_io *io,bool *attempted,uint64_t until,
                           observer_result *out) {
+ if(out){memset(out,0,sizeof(*out));out->status=OBSERVER_REFUSED;}
  if(!io||!attempted||!out||!io->now||!io->cancelled||!io->prepare_input||
     !io->start||!io->ready||!io->take||!io->service||!io->stop_input)return OBSERVER_REFUSED;
- memset(out,0,sizeof(*out));out->status=OBSERVER_REFUSED;
  if(*attempted)return out->status;
  *attempted=true;out->began_us=io->now(io->ctx);
  if(until<=out->began_us||until-out->began_us>CLOCK_OBSERVER_MAX_US){
@@ -43,6 +45,7 @@ finish:
  if(!out->cleanup_verified&&status==OBSERVER_OK)status=OBSERVER_IO;
  unsigned late=admission(io,until);if(!status&&late)status=late;
  out->ended_us=io->now(io->ctx);
+ if(!status&&io->cancelled(io->ctx))status=OBSERVER_CANCELLED;
  if(!status&&out->ended_us>=until)status=OBSERVER_TIMEOUT;
  out->status=status;return status;
 }

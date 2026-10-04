@@ -172,10 +172,12 @@ HARNESS=r'''
 #include <stdio.h>
 #include <stdlib.h>
 #include "observer.h"
-static int fault,prepares,starts,stops,services,takes;
+static int fault,prepares,starts,stops,services,takes,stop_clocks;
+static bool cancelled;
 static uint64_t tick;
-static uint64_t now(void*c){(void)c;return tick;}
-static bool cancel(void*c){(void)c;return fault==6&&takes==3;}
+static uint64_t now(void*c){(void)c;if(stops){stop_clocks++;
+if((fault==12&&stop_clocks==1)||(fault==13&&stop_clocks==2))cancelled=true;}return tick;}
+static bool cancel(void*c){(void)c;return cancelled||(fault==6&&takes==3);}
 static bool prepare(void*c,uint64_t u){(void)c;(void)u;prepares++;if(fault==2)tick=10000;return fault!=1;}
 static bool start(void*c,uint64_t u){(void)c;(void)u;starts++;if(fault==3)tick=10000;return true;}
 static bool ready(void*c){(void)c;return fault!=4;}
@@ -186,9 +188,10 @@ static bool stop(void*c){(void)c;stops++;if(fault==8)tick=10000;return fault!=7;
 int main(int argc,char**argv){fault=argc>1?atoi(argv[1]):0;bool attempted=false;observer_result out;
 observer_io io={0,now,cancel,prepare,start,ready,take,service,stop};
 unsigned status=observer_capture(&io,&attempted,fault==11?0:10000,&out);
-unsigned count=out.count;unsigned cleanup=out.cleanup_verified;uint32_t last=count?out.decrements[count-1]:0;
+if(fault==14){io.start=NULL;status=observer_capture(&io,&attempted,10000,&out);}
+unsigned reported=out.status;unsigned count=out.count;unsigned cleanup=out.cleanup_verified;uint32_t last=count?out.decrements[count-1]:0;
 observer_result second;unsigned again=observer_capture(&io,&attempted,10000,&second);
-printf("{\"status\":%u,\"count\":%u,\"cleanup\":%u,\"prepare\":%d,\"start\":%d,\"stop\":%d,\"again\":%u,\"last\":%u}\n",status,count,cleanup,prepares,starts,stops,again,last);
+printf("{\"status\":%u,\"reported\":%u,\"count\":%u,\"cleanup\":%u,\"prepare\":%d,\"start\":%d,\"stop\":%d,\"again\":%u,\"last\":%u}\n",status,reported,count,cleanup,prepares,starts,stops,again,last);
 return 0;}
 '''
 
@@ -222,6 +225,16 @@ class ActualC(unittest.TestCase):
             r=self.probe(fault);self.assertEqual((r['status'],r['count'],r['stop']),(status,count,1))
         self.assertEqual(self.probe(5)['last'],2400)
         self.assertEqual(self.probe(10)['last'],0xffffffff)
+
+    def test_cancellation_raised_by_final_clock_callbacks_never_qualifies(self):
+        for fault in (12,13):
+            r=self.probe(fault)
+            self.assertEqual((r['status'],r['reported'],r['count'],r['cleanup']),(4,4,16,1))
+
+    def test_missing_callback_clears_a_previously_successful_output(self):
+        r=self.probe(14)
+        self.assertEqual((r['status'],r['reported'],r['count'],r['cleanup']),(1,1,0,0))
+        self.assertEqual((r['prepare'],r['start'],r['stop']),(1,1,1))
 
     def test_prepare_and_cleanup_failures_or_late_cleanup_are_not_success(self):
         for fault,status in ((1,3),(7,3),(8,2)):
