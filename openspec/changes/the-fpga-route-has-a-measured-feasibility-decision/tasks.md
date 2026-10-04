@@ -279,3 +279,35 @@ Proof: focused tool-path/hash/closure/endpoint mutation and inherited-worker
 fixtures, existing complete lifecycle tests, and a read-only committed-source
 host receipt. No container, device, vendor or compiler execution is needed for
 this software proof. A new qualification is required for the enlarged tuple.
+
+## Register host dispatch binding (prospective)
+
+UNVERIFIED implementation prerequisite for the first register episode: reuse
+exactly the reviewed runtime primitives in `tools/forgix_synthetic_runtime.py`
+(the filename is historical) rather than create a second dispatch/closure policy.
+The register coordinator will select and activate the same seven Nix-store
+executables before artifact/Git/image work, require the reviewed local Docker
+endpoint and canonical complete reference graph, and bind the environment and
+execution digests into the register qualification tuple and receipt. Keep its
+empty registry and physical grade/clock/voltage/pin/loading gates.
+
+Recheck full tool/archive bytes before register preservation, each picotool
+operation, factory recovery and worker spawn/admission. Inherited register
+workers retain the reviewed bounded PATH and endpoint and check the frozen
+runtime at entry; transfer guards check dispatch selection without repeatedly
+hashing binaries for each reply fragment. A register-specific guarded picotool
+runner must be retained before possible storage failures. Preserve one operator,
+existing deadlines, leases, cleanup/refusal and no-retry behavior.
+
+Shared standalone USB policies, synthetic source/runtime implementation bytes,
+firmware, compiled artifacts and physical checkboxes remain unchanged. Since
+shared register backend source enters the synthetic execution map, that merged
+source tuple must be freshly frozen later; this does not qualify either route.
+Daemon/kernel/filesystem trust and selected-Task ancestor limits remain explicit.
+
+Proof: `nix develop --command task forgix:spi-bridge:runtime:test`, existing
+backend/coordinator/lifecycle and synthetic regressions, exact seven-tool/closure
+mutation refusals and a real host-only inherited worker. A fresh read-only actual
+committed register map and current immutable environment proof precede independent
+review; no device, container producer, ARM/compiler/vendor build is needed.
+Tasks1.1 and2.1–2.3 remain unchecked until their physical evidence passes.
