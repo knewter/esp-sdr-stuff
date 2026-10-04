@@ -136,3 +136,11 @@ and whole-path independent review are implementation prerequisites, not task
 2.1 acceptance. Physical grade/clock/pins, matching attachment and preservation
 remain gates. Several-rate sequence/CRC, backlog/loss and timing measurements
 are still required; no checkbox or accepted requirement changes.
+
+
+The [reviewed finite source](docs/evidence/forgix-synthetic-source/README.md)
+now passes 34 peer-replayed tests and five actual-HDL probes, including generated
+SPI integration. Root regenerates private RTL and runs source HDL in regular CI.
+Separate source region preserves the old bank/guard; source-record rates remain
+prospective, not measured stream throughput. Resource fit, RP/host stream,
+physical qualification and complete recovery remain gates. Task 2.1 stays open.

@@ -1,0 +1,42 @@
+{
+  "kind": "independently reviewed actual-HDL synthetic source preparation",
+  "status": "offline_source_only",
+  "reviewed_subject_commit": "69cfcb1c13f7fc5f4bde176fca1dd1c6eb7e1e55",
+  "subject_sha256": {
+    "firmware/forgix-synthetic-source/source.v": "ec067fbbe7ebcab49c4924afda7a8303ef581945924db2658b77ff807bdaf48c",
+    "tools/forgix_synthetic_gateware.py": "cf78d270c685c78fe8f13b9dd0d9df7382ae4b9ea2cc9bf0f5c0eb58632d82e0",
+    "tests/test_forgix_synthetic_source.py": "3b833d517a40181db987a3da3dff74f1f645ed9d034881169d8fe9c3b1cb6a70",
+    "firmware/forgix-synthetic-source/README.md": "35ee3b6b0d45a406fa3d2937b8ae4318e9d24d5d9b6db0bf3a9f59bafaa59e7a"
+  },
+  "peer_tests": 34,
+  "peer_actual_HDL_probe_count": 5,
+  "root_source_tests_in_CI": 11,
+  "private_review_sha256": "eaae4a4c7c873fb816abe87f6196ddf802a20fe37120d5c4319b8eb7e16093c9",
+  "root_generated_manifest_sha256": "443df71fd765490839ee4d3a96bd06be8f94258bb07b25d2794a1920f9a3286e",
+  "root_generated_artifacts_sha256": {
+    "forgix_synthetic_top.v": "fff285a9c166a65141df53c3d6aaadf200773c8aaaab2a7dabaf0c84f14872ee",
+    "source.v": "ec067fbbe7ebcab49c4924afda7a8303ef581945924db2658b77ff807bdaf48c",
+    "forgix_synthetic_top_mem.init": "af2478825e5511da53768165fe9f1bb6a833222bdada988fa9ac189c9dbc0d2f"
+  },
+  "source_payload_record_bytes": 16,
+  "fifo_records": 64,
+  "offered_record_bytes_s": [
+    256,
+    1024,
+    2048
+  ],
+  "nominal_system_hz": 32000000,
+  "source_region_base": 65536,
+  "old_counter_address": 4096,
+  "old_scratch_address": 4100,
+  "hardware_opened": false,
+  "vendor_executed": false,
+  "physical_stream_measured": false,
+  "loading_admitted": false,
+  "limits": [
+    "Scaled functional HDL timing is not physical throughput",
+    "Digital guard simulations do not prove voltage, high impedance, pad timing or actual oscillator frequency",
+    "Resource fit, timing closure, RP/host stream and whole recovery remain unverified",
+    "FPGA POP refusal is distinct from host or RP scheduling pauses"
+  ]
+}

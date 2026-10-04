@@ -196,7 +196,7 @@
       "source": "in-progress",
       "physical": "pending",
       "next": "Finish the separate finite FPGA FIFO/source, RP autonomous drain and host collector preparation. Matching attachment and physical board/pin qualification precede register trials and the several-rate stream benchmark.",
-      "rationale": "Independent backend findings prompted a durable session lease, one shared acceptance clock, recovery after failed initial preservation, exact manifest/qualification rechecks, and retirement of the legacy preservation CLI. Configuration003/register011 build with checked UID initialization after watchdog enable. No FPGA was programmed; the latest read-only survey finds no matching Forgix. Actual clock, grade, handoff, registers and several-rate transport remain unproved.",
+      "rationale": "Independent backend findings prompted a durable session lease, one shared acceptance clock, recovery after failed initial preservation, exact manifest/qualification rechecks, and retirement of the legacy preservation CLI. Configuration003/register011 build with checked UID initialization after watchdog enable. No FPGA was programmed; the latest read-only survey finds no matching Forgix. Actual clock, grade, handoff, registers and several-rate transport remain unproved. A separate FPGA finite FIFO/source passes 34 peer-replayed tests and five actual-HDL probes; resource fit and autonomous RP/host streaming remain unverified.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -229,7 +229,8 @@
         "docs/evidence/forgix-spi-config/README.md",
         "docs/evidence/forgix-spi-backend/README.md",
         "docs/evidence/forgix-spi-backend/checks.json",
-        "docs/evidence/forgix-spi-coordinator/README.md"
+        "docs/evidence/forgix-spi-coordinator/README.md",
+        "docs/evidence/forgix-synthetic-source/README.md"
       ],
       "reviewRevision": "609613e025dc1e11a6c875add9e9d6314a3b42bf"
     },
