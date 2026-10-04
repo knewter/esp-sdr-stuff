@@ -67,3 +67,13 @@ review; no voltage or inventory task becomes verified by this software.
 
 Original counter0x1000 readback remains a separately qualified cross-check.
 Existing registries stay empty. No physical task or accepted requirement closes.
+
+Independent-review correction plan (original4cd preserved): clock callbacks
+can themselves raise cancellation, so admission must test it before and after
+each clock observation, including the final result timestamp. A refused call
+with a writable output must clear previous success fields before validating
+callbacks. Actual compiled-C regressions will inject both final clock faults
+and a stale completed result with a missing callback. This changes no physical
+admission. The future generated clock report must bind this module's sys input
+directly to B4/Y2; its unregistered caller-supplied sys domain alone proves no
+board oscillator route.
