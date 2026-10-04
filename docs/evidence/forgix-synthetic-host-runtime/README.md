@@ -34,3 +34,10 @@ the backend's actual label through the actual query-worker admission and verifie
 bounded dispatch/recovery wiring without opening hardware. Preserve the old
 refusal. Fresh root freeze and independent correction review precede any claim
 of full route preparation; physical qualification remains mandatory.
+
+## Reviewed factory-return follow-up
+
+The separate label mismatch is now corrected with [independent actual-worker
+admission/recovery tests](../forgix-synthetic-factory-return/README.md). The
+historical runtime-only verdict and its failure remain unchanged. Fresh merged
+production freezing and physical qualification remain separate requirements.

@@ -205,8 +205,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Re-establish the identity-matching Forgix attachment and qualify physical grade, clock, voltage and SPI ownership/timing. Freshly freeze the merged execution/runtime tuple before admission, then refresh preservation and perform bounded configuration/register and finite-stream trials.",
-      "rationale": "No FPGA was programmed. Offline attempt004 passes independent complete input/XML/image review and modeled internal 32 MHz timing (+1.530 ns setup, +0.642 ns hold); 3,550/7,384 logic elements and 8/24 RAM blocks fit. Earlier compiler failures and negative setup results are retained. The actual RP synthetic-stream ELF uses 220,200 SRAM bytes and passes independent complete embedded-image/PIO/layout and selected linked-path review. The corrected caller-owned collector passes 32 author groups and three independent fault probes. The distinct identity-selected stream lifecycle, automatic recovery and explicit known-closed recovery now pass 35 author and 18 independent groups. Actual POSIX PTY tests exposed a bulk-read prefix gap and verify the synthetic-only correction retains returned bytes on error; unread and lower-level lost bytes remain unobserved. Both qualification registries remain empty; the reviewed isolated execution fixture does not admit the merged production tuple. The fresh read-only survey finds the ESP and RTL-SDR but no Forgix factory/ROM attachment or other RP-vendor device. Physical grade, actual clock, voltages, SPI timing and pin ownership still precede loading. Register readback, several-rate FPGA sequence/CRC throughput and RF integration remain unproved; no hardware task or accepted requirement changes.",
+      "next": "Re-establish the matching Forgix attachment and qualify physical grade, measured clock, voltage and SPI ownership/timing. Offline host runtime and factory-return corrections pass independent review; the merged 63-input/seven-tool/268-path tuple has a fresh read-only freeze. Obtain physical qualification, refresh preservation, then perform bounded register and finite-stream trials.",
+      "rationale": "No FPGA was programmed. Offline attempt004 passes independent complete input/XML/image review and modeled internal 32 MHz timing (+1.530 ns setup, +0.642 ns hold); 3,550/7,384 logic elements and 8/24 RAM blocks fit. Earlier compiler failures and negative setup results are retained. The actual RP synthetic-stream ELF uses 220,200 SRAM bytes and passes independent complete embedded-image/PIO/layout and selected linked-path review. The corrected caller-owned collector passes 32 author groups and three independent fault probes. The distinct identity-selected stream lifecycle, automatic recovery and explicit known-closed recovery now pass 35 author and 18 independent groups. Actual POSIX PTY tests exposed a bulk-read prefix gap and verify the synthetic-only correction retains returned bytes on error; unread and lower-level lost bytes remain unobserved. Both qualification registries remain empty; the reviewed isolated execution fixture does not admit the merged production tuple. The fresh read-only survey finds the ESP and RTL-SDR but no Forgix factory/ROM attachment or other RP-vendor device. Physical grade, actual clock, voltages, SPI timing and pin ownership still precede loading. Register readback, several-rate FPGA sequence/CRC throughput and RF integration remain unproved; no hardware task or accepted requirement changes. New independent runtime review verifies seven exact host executables and 268 Nix paths with 1,097 reference edges; it retains and corrects acceptance of a missing transitive node. A separate actual-worker regression corrects an invalid factory-return query label; 51 focused root groups and two independent correction groups pass. Root merged production freezes 63 inputs/seven tools/268 paths read-only. Docker/Nix daemons, kernel/udev/filesystem and launcher remain trusted; no hardware admission follows.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -248,9 +248,11 @@
         "docs/evidence/forgix-synthetic-scheduler/README.md",
         "docs/evidence/forgix-synthetic-stream-artifact/README.md",
         "docs/evidence/forgix-synthetic-host-collector/README.md",
-        "docs/evidence/forgix-synthetic-lifecycle/README.md"
+        "docs/evidence/forgix-synthetic-lifecycle/README.md",
+        "docs/evidence/forgix-synthetic-host-runtime/README.md",
+        "docs/evidence/forgix-synthetic-factory-return/README.md"
       ],
-      "reviewRevision": "bf25c0d"
+      "reviewRevision": "6613ccb"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
