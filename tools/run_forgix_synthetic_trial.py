@@ -102,6 +102,7 @@ def freeze():
     return frozen
 
 def prepare(args):
+    trial.reject_pending_finalization(ROOT)
     # No file flags or CLI switches can create an entry in this source registry.
     require(bool(backend.QUALIFIED),'No committed qualification admits a physical synthetic stream episode')
     tools=runtime.select();runtime.activate(tools)
@@ -137,6 +138,7 @@ def operator_lock(recovery_profile=None):
                 stat.S_IMODE(info.st_mode)==0o600,'Operator lock must be owned regular0600')
         fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
         capture.inherited_operator_lock(fd,path)
+        trial.reject_pending_finalization(ROOT)
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(),'Unknown resource closure blocks device access')
         if recovery_profile is None:
             require(not (ROOT/backend.LEASE).exists(),'Unresolved synthetic session lease blocks device access')
@@ -205,6 +207,7 @@ def execute(adapter,store,preflight,clock=time.monotonic,began=None):
     return record
 
 def recovery_admission(path,profile,environment,frozen):
+    trial.reject_pending_finalization(ROOT)
     path=trial.private_file(path,'backups')
     require(path.name=='session.json' and path.parent.parent==ROOT/'backups' and path.stat().st_size<=4*1024*1024,
             'Original direct private session receipt required')

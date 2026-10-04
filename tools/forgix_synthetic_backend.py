@@ -288,6 +288,7 @@ class RecoveryBackend(Backend):
     stream=enter_rom
 
 def select_stream(profile,bus,ready=False,sys_root=Path('/sys'),dev_root=Path('/dev')):
+    trial.reject_pending_finalization(ROOT)
     usb=(sys_root/'bus/usb/devices/3-3').resolve(strict=True)
     read=lambda n:(usb/n).read_text().strip()
     serial=read('serial').casefold()
@@ -302,6 +303,7 @@ def select_stream(profile,bus,ready=False,sys_root=Path('/sys'),dev_root=Path('/
             'uid_sha256':profile['uid_sha256'],'vid':'cafe','pid':'4013'}
 
 def serial_operation(request,path,select,opened,admission,clock_ns=time.monotonic_ns,pause=time.sleep):
+    trial.reject_pending_finalization(ROOT)
     p=request['profile']
     return collector.collect(path,binding(p),opened,admission,select,request['lockfd'],request['lockpath'],
         request['boot_host_ns'],clock_ns,pause,host_pause=p['host_pause'])
@@ -331,6 +333,7 @@ class SyntheticTransport(capture.SerialDeadlineTransport):
             raise
 
 def serial_worker(path):
+    trial.reject_pending_finalization(ROOT)
     path=trial.private_file(path,'backups');r=json.loads(path.read_bytes());p=r['profile']
     qualified(p);session_lease(p);frozen_inputs(r['frozen'])
     qualification_receipt(p,r['environment'],r['frozen'])
@@ -342,6 +345,7 @@ def serial_worker(path):
     inherited_operator_lock(r['lockfd'],r['lockpath'])
     require(Path(path).parent.parent==Path(p['session_private_dir']),'Worker path differs from lease')
     def admission():
+        trial.reject_pending_finalization(ROOT)
         qualified(p);session_lease(p);frozen_inputs(r['frozen'])
         qualification_receipt(p,r['environment'],r['frozen'])
         # No executable is dispatched here: retain selection checks without

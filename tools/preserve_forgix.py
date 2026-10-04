@@ -20,6 +20,7 @@ import time
 import uuid
 import zlib
 
+from forgix_usb_ram_capture import reject_pending_finalization
 
 REPO = Path(__file__).resolve().parents[1]
 FACTORY_PID = "0009"
@@ -88,6 +89,7 @@ class Inspector:
         return self.sys_root / "bus/usb/devices" / self.topology
 
     def target(self, pid, bus=None):
+        reject_pending_finalization(REPO)
         path = self.usb_path
         read = lambda name: (path / name).read_text().strip()
         if read("idVendor").lower() != "2e8a" or read("idProduct").lower() != pid:
@@ -245,6 +247,7 @@ class Picotool:
         self.hardware_process_closed = True
 
     def run(self, operation, target, backup=None):
+        reject_pending_finalization(REPO)
         if not self.hardware_process_closed:
             raise PreservationError("Owned USB container closure is unverified; further device access refused")
         if backup is not None:

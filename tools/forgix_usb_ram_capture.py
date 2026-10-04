@@ -20,6 +20,7 @@ import time
 import zlib
 
 REPO = Path(__file__).resolve().parents[1]
+PENDING_FINALIZATION = '.scratch/forgix-spi-finalization-pending.json'
 FRAME_BYTES, PAYLOAD_BYTES = 512, 460
 RATES = (65536, 262144, 786432)
 PRODUCT = "Forgix USB RAM diagnostic v1"
@@ -31,6 +32,12 @@ COUNTERS = ("generated", "enqueued", "discarded", "partial_write_calls", "queue_
 
 class CaptureError(RuntimeError):
     pass
+
+
+def reject_pending_finalization(root):
+    """Any pending-marker presence blocks all new Forgix access/recovery."""
+    if os.path.lexists(Path(root)/PENDING_FINALIZATION):
+        raise ValueError('Unresolved register finalization blocks device access')
 
 
 def start_command(rate, nonce):
@@ -211,6 +218,7 @@ class Validator:
 def inherited_operator_lock(fd, path):
     """Inspect Linux's inherited flock receipt without acquiring a second lock."""
     path = Path(path)
+    reject_pending_finalization(path.parent.parent)
     if path.is_symlink():
         raise CaptureError("Lifecycle lock path cannot be a symlink")
     path = path.resolve(strict=True)
@@ -226,6 +234,7 @@ def inherited_operator_lock(fd, path):
 
 
 def select_diagnostic(topology, port, sys_root=Path("/sys"), require_character=True):
+    reject_pending_finalization(REPO)
     if topology != "3-3":
         raise CaptureError("This reviewed trial is restricted to explicit USB topology 3-3")
     usb = (sys_root / "bus/usb/devices" / topology).resolve(strict=True)
@@ -423,6 +432,7 @@ def open_retaining_serial(port):
     announcement. Preserve the entire prefix instead; unexpected/stale bytes
     must fail the strict decoder, never disappear through a flush or retry.
     """
+    reject_pending_finalization(REPO)
     import serial
 
     class RetainingSerial(serial.Serial):
@@ -444,6 +454,7 @@ def main():
     p.add_argument("--rate", required=True, type=int, choices=RATES)
     p.add_argument("--output", required=True, type=Path)
     args = p.parse_args()
+    reject_pending_finalization(REPO)
     def cancel(signum, frame):
         raise KeyboardInterrupt()
     signal.signal(signal.SIGTERM, cancel)

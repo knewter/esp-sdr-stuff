@@ -21,6 +21,7 @@ import time
 import uuid
 
 import preserve_forgix as preserve
+from forgix_usb_ram_capture import reject_pending_finalization
 from demo_esp_sdr import Cancelled, OwnedHardwareClosureError, defer_spawn_cancellation, stop_process
 from forgix_usb_ram_artifact import inspect_elf
 
@@ -199,12 +200,14 @@ def mark_unclosed(resources):
 
 
 def recovery_admission(prior, binding):
+    reject_pending_finalization(ROOT)
     require(prior.get('binding') == binding, 'Recovery must use persisted original binding')
     require(prior.get('owned_hardware_processes_closed') is True, 'Prior owned closure must be verified before recovery; inspect exact retained resources first')
     require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(), 'Unverified owned resource marker blocks further device access')
 
 
 def owned_worker(command, log, lockfd, timeout):
+    reject_pending_finalization(ROOT)
     proc = None
     try:
         fd = os.open(log, os.O_CREAT|os.O_EXCL|os.O_WRONLY, 0o600)
@@ -224,6 +227,7 @@ def owned_worker(command, log, lockfd, timeout):
 
 
 def bounded_query(inspector, target, store, label, lockfd, deadline, runner):
+    reject_pending_finalization(ROOT)
     query_deadline = time.monotonic() + remaining(deadline, 15)
     check_inputs(runner.frozen)
     while True:
@@ -248,6 +252,7 @@ def bounded_query(inspector, target, store, label, lockfd, deadline, runner):
 
 
 def query_worker():
+    reject_pending_finalization(ROOT)
     cli = argparse.ArgumentParser(description='Internal bounded factory query; inherited lock required')
     cli.add_argument('--request', type=Path, required=True)
     a = cli.parse_args(sys.argv[2:])
@@ -285,6 +290,7 @@ class OwnedPicotool:
         return ram_load_args(target, path)
 
     def run(self, operation, target, backup=None):
+        reject_pending_finalization(ROOT)
         require(self.hardware_process_closed, 'Unverified owned closure blocks device access')
         check_inputs(self.frozen)
         if backup is not None:
@@ -369,6 +375,7 @@ def watched_factory(inspector, bus, until, runner=None):
 
 
 def fresh_tty(topology, vid, pid, product=None, sys_root=Path('/sys'), dev_root=Path('/dev'), wait_missing=False):
+    reject_pending_finalization(ROOT)
     usb = (sys_root/'bus/usb/devices'/topology).resolve(strict=True)
     require((usb/'idVendor').read_text().strip().lower() == vid and (usb/'idProduct').read_text().strip().lower() == pid, 'TTY selection requires expected selected USB mode')
     if product is not None:
@@ -412,6 +419,7 @@ def ready_diagnostic_tty(deadline):
 
 
 def full_preservation(inspector, tool, store, image, frozen, lockfd, deadline):
+    reject_pending_finalization(ROOT)
     runner = OwnedPicotool(tool, inspector, store, image, frozen, deadline)
     try:
         receipt, error = preserve.preserve(inspector, runner, store, FLASH_BYTES,
@@ -564,6 +572,7 @@ def main():
     code = 2
     try:
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(), 'Unverified owned resource marker blocks all device access')
+        reject_pending_finalization(ROOT)
         require(not (ROOT/'.scratch/forgix-spi-active.json').exists(), 'Unresolved register session lease blocks all device access')
         binding = original_binding(a.binding, a.baseline_a, a.baseline_b)
         artifact = artifact_check(a.artifact) if a.action == 'run' else None
@@ -584,6 +593,7 @@ def main():
             # Another operator can fail while our offline preflight runs. The
             # shared lock serializes this final admission with its marker write.
             require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(), 'Unverified owned resource marker blocks all device access')
+            reject_pending_finalization(ROOT)
             require(not (ROOT/'.scratch/forgix-spi-active.json').exists(), 'Unresolved register session lease blocks all device access')
             check_inputs(frozen)
             if a.action == 'recover':

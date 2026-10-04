@@ -103,6 +103,7 @@ def freeze():
     return frozen
 
 def prepare(args):
+    trial.reject_pending_finalization(ROOT)
     # No file flags or CLI switches can create an entry in this source registry.
     require(bool(backend.QUALIFIED),'No committed qualification admits a physical register episode')
     tools=runtime.select();runtime.activate(tools)
@@ -138,9 +139,9 @@ def operator_lock():
                 stat.S_IMODE(info.st_mode)==0o600,'Operator lock must be owned regular0600')
         fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
         capture.inherited_operator_lock(fd,path)
+        trial.reject_pending_finalization(ROOT)
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(),'Unknown resource closure blocks device access')
         require(not (ROOT/'.scratch/forgix-spi-active.json').exists(),'Unresolved register session lease blocks device access')
-        require(not (ROOT/'.scratch/forgix-spi-finalization-pending.json').exists(),'Unresolved register finalization blocks device access')
         yield fd
     finally:
         os.close(fd)

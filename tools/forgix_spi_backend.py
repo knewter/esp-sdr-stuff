@@ -301,6 +301,7 @@ class Backend:
 
 def bounded_factory_query(inspector,target,store,label,lockfd,deadline,runner,profile,environment,frozen):
     """Same shared15-second query policy with register runtime admission at entry."""
+    trial.reject_pending_finalization(ROOT)
     query_deadline=time.monotonic()+trial.remaining(deadline,15)
     runtime.check(environment);frozen_inputs(frozen);qualification_receipt(profile,environment,frozen)
     while True:
@@ -324,6 +325,7 @@ def bounded_factory_query(inspector,target,store,label,lockfd,deadline,runner,pr
     return json.loads((store.path/(label+'-query-result.json')).read_text())
 
 def factory_query_worker(path):
+    trial.reject_pending_finalization(ROOT)
     path=trial.private_file(path,'backups');request=json.loads(path.read_text())
     qualified(request['profile']);session_lease(request['profile']);frozen_inputs(request['frozen'])
     qualification_receipt(request['profile'],request['environment'],request['frozen'])
@@ -344,6 +346,7 @@ def serial_operation(request,store,select,open_transport,clock=time.monotonic):
     Neither this function nor its tests performs mode selection/RAM loading.
     The owning caller must contain blocked opens/close in a bounded process.
     """
+    trial.reject_pending_finalization(ROOT)
     profile=request['profile'];until=request['until'];action=request['action']
     require(action in ('configure','collect'),'Unknown serial action')
     require(clock()<until,'Serial stage deadline expired')
@@ -412,6 +415,7 @@ def ready_bridge(select,until,clock=time.monotonic,pause=time.sleep):
     raise TimeoutError('Selected bridge did not become ready before stage deadline')
 
 def serial_worker(path):
+    trial.reject_pending_finalization(ROOT)
     path=trial.private_file(path,'backups');request=json.loads(path.read_text());profile=request['profile']
     qualified(profile)
     session_lease(profile)

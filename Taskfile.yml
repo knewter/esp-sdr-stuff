@@ -494,6 +494,11 @@ tasks:
     cmds:
       - python3 tools/forgix_spi_backend.py {{.CLI_ARGS}}
 
+  forgix:pending-finalization:test:
+    desc: Verify shared pending-only admission refusal with harmless locks/processes
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_forgix_pending_finalization.py
+
   forgix:spi-bridge:runtime:test:
     desc: Verify immutable register dispatch and admitted factory workers (no hardware)
     cmds:
