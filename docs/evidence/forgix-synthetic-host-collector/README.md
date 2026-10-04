@@ -29,7 +29,7 @@ DATA codec; catching an error and submitting replacement bytes cannot regain
 lossless status. Invalid-frame and complete real-C replay regressions cover this
 correction without changing the wire contract or collector hardware boundary.
 
-Twenty-six focused test groups pass under locked Nix/Task: thirteen control/wire
+Twenty-seven focused test groups pass under locked Nix/Task: fourteen control/wire
 groups and thirteen host fault groups. Actual native C output at the corrected
 engine revision `c4cae186` verifies all three complete rates, tick32 wrap, RP
 pause, source loss, ambiguous POP and invalid final snapshot. Independent
@@ -39,6 +39,13 @@ partial/empty/late replies, attached read prefix, cancellation, disk failure,
 late/failed closure, identity/lock refusal, command ambiguity, retained CRC
 failure and offline receipt tampering. These are host simulations, not measured
 FPGA/RP/USB timing. The initial failing author checks are retained privately.
+
+A retained independent-clock fixture also demonstrates natural completion at
+59.99 RP seconds with exact FPGA target, record ticks and STOP. The original
+parser rejected it using an unsupported60-RP-second lower bound. Completion is
+now determined by exact source counters/ticks; the65-second upper, source
+tick/STOP exactness, terminal deadline and failure latch remain intact. Clock
+frequencies are not assumed equal or inferred calibrated from this simulation.
 
 Runtime project-module closure consists of
 `tools/forgix_synthetic_collect.py`, `tools/forgix_synthetic_stream.py`,

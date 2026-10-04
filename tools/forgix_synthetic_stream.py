@@ -222,7 +222,8 @@ class Validator:
                 require(not any(v[k] for k in ('drops','remaining','refused_pop','refused_command','pending_flags','queued_data','partial_records','stop_state')), 'Complete END unresolved loss/intent differs')
                 require(v['encoded_frames']==v['accepted_frames'] and v['source_stop']==self.anchor+self.binding.period*self.binding.target,
                         'Complete END frame/STOP counters differ')
-                require(v['finalized_us']>=self.start+60_000_000, 'Complete END too early')
+                # Natural completion is defined by exact FPGA ticks/counters,
+                # not an unsupported equality of RP and FPGA clock frequency.
                 require(bool(v['pause_start_us'])==self.binding.rp_pause, 'Complete END differs from build-declared RP pause')
             if self.next_record<self.binding.target:
                 self.gaps.append({'first':self.next_record,'last':self.binding.target-1,'count':self.binding.target-self.next_record,'classification':'not received; cause unresolved unless final snapshot reconciles'})

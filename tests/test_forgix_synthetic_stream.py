@@ -148,6 +148,19 @@ class ActualC(unittest.TestCase):
         r=self.complete(boot=(1<<32)//32-2000);v=self.replay(r)
         self.assertTrue(v.summary()['lossless']);self.assertGreater(v.strict.tick32_wraps,0)
 
+    def test_natural_FPGA_completion_before_60_RP_seconds_is_valid(self):
+        r=self.engine.Rig(self.lib)
+        # Independent source clock fixture: the FPGA tick counter advances
+        # slightly faster than the RP microsecond clock. Its finite completion
+        # still follows exactly960*2000000 ticks, via the source callback.
+        r.tick=lambda:(r.time*32*60000)//59990
+        r.ready()
+        for _ in range(60001):r.time+=1000;r.step()
+        r.finish();v=self.replay(r)
+        self.assertTrue(v.summary()['lossless'])
+        self.assertLess(v.end.values['finalized_us']-v.end.values['start_us'],60000000)
+        self.assertEqual(v.end.values['source_stop']-v.end.values['source_start'],B.period*B.target)
+
     def test_actual_C_RP_pause_is_bound_separately_from_host_pause(self):
         r=self.engine.Rig(self.lib,pause=True);r.ready()
         for _ in range(60001):r.time+=1000;r.step()
