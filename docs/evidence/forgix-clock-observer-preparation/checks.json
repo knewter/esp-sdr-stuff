@@ -104,5 +104,38 @@
       "bytes": 4099,
       "sha256": "7735c73c7b3cdc053a5ff27782d18f9661889a126c2644857356dc3e6f4be663"
     }
+  },
+  "fullProfilePreparation": {
+    "prospectivePlan": "ac2cade",
+    "wireContract": "c374ca7",
+    "engineSource": "6e57c68",
+    "enginePeerSHA256": "201b707ff0cfa3985790a714f488a118f33f93a244a2dfafd3453bf1e78d7573",
+    "initialSource": "c026cee15d7788c1cd6d88776f48e880261efcad",
+    "initialAuthorSHA256": "4c2bef274ef4fd563e0c2789603e9f9129e9ed2eb44d6f9f4f9b48eac8bfd69c",
+    "initialPeerFailureSHA256": "528c6e23eebbcc6d0692c0e9f20d275367ed7e280876be288afe9daf8daad9b8",
+    "retainedFindings": [
+      "Failed session fsync could be reread/promoted as completed",
+      "Terminal stdout at600seconds could qualify",
+      "Deferred recovery cancellation was not latched"
+    ],
+    "correctionPlan": "8448c6b",
+    "source": "05c1212c59b2684fa2238a79e2be7fa405b5aa3f",
+    "authorSHA256": "c1b91aff357a3e1ab16e1359aef511198f3b26926c0647c8817e0a41594d35b3",
+    "sourceFreezeSHA256": "63f5c38fdbff71bd374f455064fbe18cd41790cafa09d3d85c7583ff5f9dc619",
+    "peerSHA256": "74dd971935d99a6edf72c05beed08354f264e6c55196480b77489217595796db",
+    "authorGroups": 58,
+    "independentGroups": 8,
+    "exitCode": 0,
+    "skips": 0,
+    "executionFiles": 88,
+    "ARMBuildInputs": 32,
+    "actualRepositoryImports": 42,
+    "actualExternalModuleFiles": 176,
+    "selectedHostTools": 6,
+    "registryEntries": 0,
+    "actualFPGAOrARMBuild": false,
+    "operationalRuntimeAdmission": false,
+    "physicalAcceptance": false,
+    "calibratedAbsoluteMHz": false
   }
 }
