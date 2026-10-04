@@ -45,3 +45,17 @@ and SIGTERM are deferred during bounded recovery. Lease release requires saved
 factory/full-original/whole-closure proof; crash or incomplete recovery leaves
 an admission blocker. Independent physical-result review still precedes any
 OpenSpec checkbox or accepted-ledger change.
+
+## Explicit recovery follow-up (prospective)
+
+Add a `recover` action for a retained failed session whose saved aggregate
+closure is exactly true. It never reloads RAM or sends CONFIG/START. Require the
+original durable lease, original saved private profile/execution/environment,
+identical currently qualified tuple and full nonce, both original flash copies,
+and the shared lock/unknown-marker checks. A fresh private output records one
+bounded factory return and full original preservation under one 600-second
+acceptance clock. Release the original lease only after durable factory/readback
+and aggregate closure proof. Unknown/missing closure, missing/crashed receipt,
+changed inputs/qualification/UID or a foreign lease refuse before device access.
+A fresh qualification/review is required if executable inputs change. This
+recovery action does not accept the failed transport or authorize a new trial.
