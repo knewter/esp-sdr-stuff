@@ -138,8 +138,10 @@ def execute(adapter,store,preflight,clock=time.monotonic):
                 original_flash_and_factory_verified=False)
     capture.save(store,'preflight.json',record)
     try:
+        require(clock()<began+600,'Initial persistence exceeded session deadline')
         with store.open('lifecycle.jsonl') as journal:
             capture.durable(journal,b'');capture.sync_directory(store.path)
+            require(clock()<began+600,'Journal persistence exceeded session deadline')
             def event(value):
                 nonlocal pending
                 pending=json.loads(json.dumps(value))
@@ -147,7 +149,7 @@ def execute(adapter,store,preflight,clock=time.monotonic):
                 events.append(pending);pending=None
             engine=Lifecycle(adapter,event,clock)
             try:
-                summary=engine.run()
+                summary=engine.run(began=began)
             finally:
                 record['lifecycle_policy']=dict(engine.summary)
                 if summary is None:summary=dict(engine.summary)

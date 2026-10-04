@@ -155,10 +155,10 @@ class Lifecycle:
         require(type(receipt) is dict and receipt.get('bitstream_sha256') == self.profile['bitstream_sha256'],
                 'Configuration must bind the exact qualified image')
 
-    def run(self):
+    def run(self, began=None):
         require(not self.used, 'One lifecycle run per controller')
         self.used = True
-        began = self.clock()
+        began = self.clock() if began is None else began
         self.deadline = began+600
         # Reserve return140 + full preservation180 + final checks5 seconds.
         self.work_deadline = self.deadline-325
@@ -177,7 +177,8 @@ class Lifecycle:
             strategy = self.profile.get('configuration_strategy')
             require(strategy in ('qualified_retention','after_ram_startup'),
                     'Explicit qualified configuration strategy required')
-            self.preservation(self.stage('preserve-before', self.adapter.preserve_before, 180))
+            # Full preservation itself enters ROM and returns to factory.
+            self.preservation(self.stage('preserve-before', self.adapter.preserve_before, 180, mutates=True))
             if strategy == 'qualified_retention':
                 self.configure()
             self.stage('enter-rom', self.adapter.enter_rom, 30, mutates=True)

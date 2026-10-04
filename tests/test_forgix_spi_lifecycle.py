@@ -92,7 +92,7 @@ class Policy(unittest.TestCase):
         self.assertEqual(self.names(),['admit'])
         self.assertFalse(result['recovery_required'])
 
-    def test_bad_preservation_never_changes_mode_or_configures(self):
+    def test_bad_preservation_never_loads_or_configures_and_recovers_factory(self):
         for fields in [{'uid_sha256':'f'*64},{'flash_bytes':2097152.0},
                        {'read_sha256':['b'*64]},{'independent_device_verify':False},
                        {'factory_application_verified':False}]:
@@ -101,7 +101,8 @@ class Policy(unittest.TestCase):
                 engine=lifecycle.Lifecycle(adapter,lambda e:None,lambda:adapter.now)
                 result=engine.run()
                 self.assertEqual(result['status'],'failed')
-                self.assertEqual([n for n,_ in adapter.calls],['admit','before'])
+                self.assertEqual([n for n,_ in adapter.calls],['admit','before','return','after'])
+                self.assertTrue(result['original_flash_and_factory_verified'])
 
     def test_lost_rom_ack_still_returns_and_verifies_full_original(self):
         self.adapter.faults['rom'] = TimeoutError('ACK lost after possible mode change')
@@ -186,12 +187,12 @@ class Policy(unittest.TestCase):
 
     def test_intent_persistence_failure_prevents_first_mutation(self):
         def fail(event):
-            if event.get('stage')=='enter-rom' and event['phase']=='intent':raise OSError('disk failed')
+            if event.get('stage')=='preserve-before' and event['phase']=='intent':raise OSError('disk failed')
         self.engine.write_event=fail
         result=self.engine.run()
         self.assertEqual(result['status'],'failed')
         self.assertFalse(result['recovery_required'])
-        self.assertEqual(self.names(),['admit','before'])
+        self.assertEqual(self.names(),['admit'])
 
     def test_late_terminal_receipt_and_unpersisted_terminal_cannot_pass(self):
         def late(event):

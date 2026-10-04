@@ -384,53 +384,7 @@ def main(argv=None):
     parser.add_argument("--usb-container", action="store_true", help="Use the Nix-built USB container for host permission limitations")
     parser.add_argument("--container-image", default=os.environ.get("PICOTOOL_CONTAINER_IMAGE_ID"), help="Loaded immutable sha256 image ID, never a tag or archive path")
     args = parser.parse_args(argv)
-    if args.expected_flash_bytes <= 0:
-        parser.error("--expected-flash-bytes must be positive")
-    if args.usb_container and not args.container_image:
-        parser.error("--usb-container requires --container-image or PICOTOOL_CONTAINER_IMAGE_ID")
-    if not args.usb_container and args.container_image:
-        parser.error("--container-image requires --usb-container")
-    tool = shutil.which("picotool")
-    if tool is None:
-        parser.error("picotool is missing; enter the project's Nix shell")
-    tool = str(Path(tool).resolve())
-    public = None
-    if args.public_receipt:
-        public = args.public_receipt.resolve()
-        if not public.is_relative_to((REPO / "docs/evidence").resolve()) or public.suffix != ".json" or public.exists():
-            parser.error("--public-receipt must be a fresh JSON file below docs/evidence/")
-    inspector = Inspector(args.usb_topology, args.serial_port)
-    # Validate the entire route before acquiring the serial device or requesting any reset.
-    if args.usb_container:
-        docker_command(tool, args.container_image, USBTarget(args.usb_topology, 0, 0, FACTORY_PID, "/dev/null"),
-                       args.private_dir.resolve(), [], "validation", os.getuid())
-    store = PrivateStore(args.private_dir, REPO / "backups")
-    runner = Picotool(tool, inspector, store, args.container_image if args.usb_container else None)
-    provenance = {"picotool_executable_sha256": sha256(Path(tool).read_bytes()),
-                  "helper_sha256": sha256(Path(__file__).read_bytes()),
-                  "container_image": args.container_image if args.usb_container else None}
-    runner.provenance = provenance
-    store.json("tool-provenance.json", provenance)
-    try:
-        receipt, error = preserve(inspector, runner, store, args.expected_flash_bytes)
-    except BaseException as error:
-        # Includes initial identity failures and receipt I/O failures; do not infer reset state.
-        receipt = {"schema_version": 1, "status": "failed", "failure_type": type(error).__name__,
-                   "firmware_written": False, "fpga_programming_requested": False, "steps": runner.steps,
-                   "tool_provenance": provenance}
-        if not (store.path / "failure-private.json").exists():
-            store.json("failure-private.json", {"type": type(error).__name__, "message": str(error)})
-        if not (store.path / "receipt.json").exists():
-            store.json("receipt.json", receipt)
-    if public is not None:
-        public.parent.mkdir(parents=True, exist_ok=True)
-        fd = os.open(public, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
-        with os.fdopen(fd, "w") as stream:
-            json.dump(receipt, stream, indent=2)
-            stream.write("\n")
-    print(json.dumps({"status": receipt["status"], "backups": receipt.get("backups"),
-                      "returned_application_verified": "returned_application" in receipt}))
-    return 0 if receipt["status"] == "preserved_and_returned" else 1
+    parser.error('Legacy physical preservation entrypoint is retired. Use the exclusive, identity-bound forgix:usb-ram:recover task with the original private session and backups; preserve() remains available to its guarded backend.')
 
 
 if __name__ == "__main__":

@@ -118,6 +118,23 @@ class Episode(unittest.TestCase):
         with patch.object(capture,'save',delayed):r=self.run_episode()
         self.assertEqual(r['status'],'failed');self.assertTrue(r['deadline_exceeded'])
         self.assertEqual(json.loads((self.path/'session.json').read_text())['status'],'failed')
+    def test_initial_persistence_cannot_restart_hardware_budget(self):
+        save=capture.save
+        def delayed(store,name,record):
+            save(store,name,record)
+            if name=='preflight.json':self.adapter.now=600
+        with patch.object(capture,'save',delayed):r=self.run_episode()
+        self.assertEqual(r['status'],'failed');self.assertFalse(self.adapter.calls)
+    def test_storage_time_is_included_in_stage_and_recovery_deadline(self):
+        save=capture.save
+        def delayed(store,name,record):
+            save(store,name,record)
+            if name=='preflight.json':self.adapter.now=100
+        with patch.object(capture,'save',delayed):r=self.run_episode()
+        events=[json.loads(line) for line in (self.path/'lifecycle.jsonl').read_text().splitlines()]
+        self.assertEqual(events[0]['deadline'],130)
+        self.assertTrue(all(e.get('deadline',0)<=600 for e in events))
+        self.assertEqual(r['status'],'backend_episode_completed')
     def test_receipt_path_traversal_and_nonprivate_directory_refused(self):
         with self.assertRaisesRegex(ValueError,'basename'):self.store.open('../escape')
         self.path.chmod(0o755)
@@ -159,6 +176,11 @@ class DurableLease(unittest.TestCase):
                 self.assertTrue(lease.path.exists())
 
 class Recovery(unittest.TestCase):
+    def test_legacy_preservation_cli_refuses_before_device_inspection(self):
+        with patch.object(trial.preserve,'Inspector',side_effect=AssertionError('device reached')):
+            with self.assertRaises(SystemExit) as refused:
+                trial.preserve.main(['--usb-topology','3-3','--serial-port','unopened','--private-dir','unused'])
+        self.assertEqual(refused.exception.code,2)
     def test_recovery_owner_exists_after_enter_rom_store_failure(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);(root/'backups').mkdir();private=root/'backups/episode';private.mkdir(mode=0o700)
