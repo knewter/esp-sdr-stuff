@@ -154,6 +154,26 @@ tasks:
     cmds:
       - python3 tools/ble_source_container.py {{.CLI_ARGS}}
 
+  source:ble-primary-timed:
+    desc: Explicit timed-v2 native diagnostic (sole operator after independent qualification preparation)
+    cmds:
+      - python3 tools/ble_primary_timed_source.py {{.CLI_ARGS}}
+
+  source:ble-primary-timed:container:
+    desc: Run the explicitly preloaded timed-v2 archive; no image loading or fallback
+    cmds:
+      - python3 tools/ble_primary_timed_container.py {{.CLI_ARGS}}
+
+  source:ble-primary-timed:image:
+    desc: Root-only optional timed-v2 image build after independent code review
+    cmds:
+      - nix build .#ble-primary-timed-source-image --no-link
+
+  source:ble-primary-timed:test:
+    desc: Timed-v2 wire, timer, cancellation, image and owned-process fixtures; no Docker or hardware
+    cmds:
+      - python3 -B -m unittest discover -s tests -p 'test_ble_primary_timed*.py'
+
   decode:ble:
     desc: Decode retained ESP BLE snapshots with explicit settings
     cmds:

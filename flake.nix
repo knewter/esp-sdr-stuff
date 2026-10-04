@@ -141,6 +141,27 @@
         contents = [ pythonBase ];
         config.Cmd = [ "${pythonBase}/bin/python3" ];
       };
+      # Optional timed-v2 source: ordinary default/ci shells do not realize it.
+      blePrimaryTimedSource = pkgs.runCommand "esp-sdr-ble-primary-timed-source" {} ''
+        mkdir -p $out/lib/esp-sdr-ble-primary-timed-source
+        cp ${./tools/ble_primary_timed_source.py} $out/lib/esp-sdr-ble-primary-timed-source/ble_primary_timed_source.py
+        cp ${./tools/ble_direct_hci_source.py} $out/lib/esp-sdr-ble-primary-timed-source/ble_direct_hci_source.py
+        chmod 0444 $out/lib/esp-sdr-ble-primary-timed-source/*.py
+      '';
+      blePrimaryTimedEntrypoint = "${blePrimaryTimedSource}/lib/esp-sdr-ble-primary-timed-source/ble_primary_timed_source.py";
+      blePrimaryTimedImageTag = builtins.substring 0 16 (builtins.hashString "sha256" blePrimaryTimedSource.drvPath);
+      blePrimaryTimedImage = pkgs.dockerTools.buildLayeredImage {
+        name = "esp-sdr-ble-primary-timed-source";
+        tag = blePrimaryTimedImageTag;
+        contents = [ pythonBase blePrimaryTimedSource ];
+        config.Cmd = [ "${pythonBase}/bin/python3.13" blePrimaryTimedEntrypoint ];
+        config.Labels = {
+          "org.esp-sdr.source-profile" = "extended-primary-zero-data-timed-v2";
+          "org.esp-sdr.native-sha256" = builtins.hashFile "sha256" ./tools/ble_primary_timed_source.py;
+          "org.esp-sdr.v1-primitives-sha256" = builtins.hashFile "sha256" ./tools/ble_direct_hci_source.py;
+          "org.esp-sdr.entrypoint" = blePrimaryTimedEntrypoint;
+        };
+      };
       firmwarePkgs = import inputs.esp-dev.inputs.nixpkgs {
         inherit system;
         overlays = [ inputs.esp-dev.overlays.default ];
@@ -275,6 +296,8 @@
         picotool-usb-image = picotoolImage;
         ble-monitor-image = bleMonitorImage;
         ble-source-image = bleSourceImage;
+        ble-primary-timed-source = blePrimaryTimedSource;
+        ble-primary-timed-source-image = blePrimaryTimedImage;
         forgix-python = forgix.python;
         forgix-efinity-runtime = forgix.efinityRuntime;
         forgix-upstream-tests = forgix.testSource;
@@ -285,6 +308,21 @@
       checks.${system}.forgix-host-tools = forgix.hostCheck;
       checks.${system}.native-ble-crypto-check = nativeBleCryptoCheck;
       devShells.${system} = {
+        # Sole-root operator entrypoint after independent source/archive review.
+        # Entering this optional shell realizes the new archive; host tests use ci/default.
+        ble-primary-timed-source = pkgs.mkShell (shellVariables // {
+          packages = commonPackages ++ [
+            pythonFull pkgs.docker-client pkgs.wireshark-cli pkgs.bluez
+            pkgs.usbutils pkgs.util-linux
+          ];
+          BLE_PRIMARY_TIMED_IMAGE = "${blePrimaryTimedImage}";
+          BLE_PRIMARY_TIMED_IMAGE_TAG = "esp-sdr-ble-primary-timed-source:${blePrimaryTimedImageTag}";
+          BLE_PRIMARY_TIMED_PYTHON = "${pythonBase}/bin/python3.13";
+          BLE_PRIMARY_TIMED_ENTRYPOINT = blePrimaryTimedEntrypoint;
+          BLE_MONITOR_IMAGE = "${bleMonitorImage}";
+          BLE_MONITOR_IMAGE_TAG = "esp-sdr-ble-monitor:${bleMonitorImageTag}";
+          DUMPCAP = "${pkgs.wireshark-cli}/bin/dumpcap";
+        });
         forgix = forgix.shell;
         forgix-spi-bridge = pkgs.mkShell {
           packages = [ forgix.python pkgs.go-task pkgs.cmake pkgs.ninja pkgs.gcc-arm-embedded
