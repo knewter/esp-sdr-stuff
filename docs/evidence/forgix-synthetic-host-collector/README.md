@@ -29,7 +29,7 @@ DATA codec; catching an error and submitting replacement bytes cannot regain
 lossless status. Invalid-frame and complete real-C replay regressions cover this
 correction without changing the wire contract or collector hardware boundary.
 
-Twenty-seven focused test groups pass under locked Nix/Task: fourteen control/wire
+Thirty-two focused test groups pass under locked Nix/Task: nineteen control/wire
 groups and thirteen host fault groups. Actual native C output at the corrected
 engine revision `c4cae186` verifies all three complete rates, tick32 wrap, RP
 pause, source loss, ambiguous POP and invalid final snapshot. Independent
@@ -46,6 +46,13 @@ parser rejected it using an unsupported60-RP-second lower bound. Completion is
 now determined by exact source counters/ticks; the65-second upper, source
 tick/STOP exactness, terminal deadline and failure latch remain intact. Clock
 frequencies are not assumed equal or inferred calibrated from this simulation.
+
+The `4d2a785` freeze is also retained. A second narrow correction permanently
+latches START-intent ordering errors and rejects fresh final source snapshots
+that rewind known tick or cumulative source counters. Done snapshots require a
+STOP within their start/tick bounds; previously verified completion cannot lose
+its done state or change STOP. Recomputed-CRC failed-END fixtures cover these
+checks, including zero STOP when the actual source starts at tick zero.
 
 Runtime project-module closure consists of
 `tools/forgix_synthetic_collect.py`, `tools/forgix_synthetic_stream.py`,

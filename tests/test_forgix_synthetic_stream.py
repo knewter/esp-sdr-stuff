@@ -82,6 +82,72 @@ class HostWire(unittest.TestCase):
         with self.assertRaises(StreamError):v.accept(p,3)
         self.assertEqual(v.records,1)
 
+    def test_start_intent_error_is_permanent_before_CONFIG_and_after_START(self):
+        for v in (Validator(B),started()):
+            with self.assertRaises(StreamError) as first:v.mark_start()
+            for action in (lambda:v.accept(literal(2,**{'132':1}),2),v.mark_start):
+                with self.assertRaises(StreamError) as later:action()
+                self.assertIs(later.exception,first.exception)
+            self.assertFalse(v.summary()['lossless'])
+            self.assertEqual(v.summary()['strict_failure'],'StreamError')
+
+    def test_failed_END_cannot_rewind_fresh_snapshot_tick(self):
+        v=Validator(B);v.accept(literal(2,**{'132':1}),0);v.mark_start()
+        v.accept(literal(3,**{'132':7,'144':1000,'160':32000,'168':32001,
+                            '184':67,'188':1,'240':512}),1)
+        failed=literal(4,**{'20':2000,'128':2,'132':7,'136':1000,'144':1000,
+                           '152':2000,'160':32000,'168':32000,'176':32000,
+                           '184':69,'188':2,'240':1024})
+        with self.assertRaisesRegex(StreamError,'source_tick'):v.accept(failed,2)
+        with self.assertRaises(StreamError):v.accept(mutate(failed,168,32001,'Q'),3)
+        v=started();v.accept(mutate(failed,168,32001,'Q'),2)
+        self.assertEqual(v.end.values['status'],2)
+        self.assertFalse(v.summary()['lossless'])
+
+    def test_done_snapshot_requires_STOP_between_start_and_tick(self):
+        p=literal(4,**{'20':2000,'128':2,'132':7,'136':1000,'144':1000,
+                      '152':2000,'160':32000,'168':32001,'176':32000,
+                      '184':69,'188':2,'240':1024})
+        for stop in (0,31999,32002):
+            with self.subTest(stop=stop),self.assertRaises(StreamError):
+                started().accept(mutate(p,176,stop,'Q'),2)
+        # STOP=0 is meaningful when the source was actually started at tick0.
+        q=mutate(mutate(mutate(p,160,0,'Q'),168,0,'Q'),176,0,'Q')
+        self.assertEqual(Control.decode(q,B).values['source_stop'],0)
+
+    def test_fresh_source_snapshot_cumulative_fields_do_not_decrease(self):
+        # Exercise each field against a previously verified snapshot. The END
+        # remains internally conserved, so rejection is specifically temporal.
+        base={'20':2000,'128':2,'132':7,'136':1000,'144':1000,'152':2000,
+              '160':32000,'168':32001,'176':32000,'184':69,'188':2,'240':1024}
+        base.update({'192':3,'196':2,'200':1,'204':2,'212':2,'216':1,'220':1})
+        decreases={
+            'generated':{'192':2,'196':1,'204':1,'212':1},
+            'enqueued':{'196':1,'200':2,'204':1,'212':1},
+            'drops':{'196':3,'200':0,'204':3},
+            'popped':{'204':1,'208':1,'184':77},
+            'source_highwater':{'212':1},
+            'refused_pop':{'216':0},'refused_command':{'220':0},
+        }
+        for key,changes in decreases.items():
+            v=started()
+            # Independently decoded coherent prior snapshot tests comparison
+            # of nonzero counters without introducing a mid-run wire opcode.
+            prior=dict(base,**{'188':1})
+            v.controls[-1]=Control.decode(literal(4,**prior),B)
+            final=literal(4,**dict(base,**changes))
+            Control.decode(final,B)  # Internal conservation alone accepts it.
+            with self.subTest(key=key),self.assertRaisesRegex(StreamError,'snapshot decreased '+key):
+                v.accept(final,2)
+
+    def test_done_snapshot_STOP_is_immutable_after_verified_completion(self):
+        base={'20':2000,'128':2,'132':7,'136':1000,'144':1000,'152':2000,
+              '160':32000,'168':32001,'176':32000,'184':69,'188':2,'240':1024}
+        for changes in ({'176':32001},{'184':67}):
+            v=started();v.controls[-1]=Control.decode(literal(4,**dict(base,**{'188':1})),B)
+            with self.subTest(changes=changes),self.assertRaisesRegex(StreamError,'STOP changed'):
+                v.accept(literal(4,**dict(base,**changes)),2)
+
     def test_forward_gap_forensics_never_reset_strict_failure(self):
         v=started()
         for frame,seq in [(0,1),(2,2)]:

@@ -102,6 +102,8 @@ class Control:
             require(v['source_start']<=v['source_tick'] and
                     (not v['source_stop'] or v['source_start']<=v['source_stop']<=v['source_tick']), 'Snapshot tick bounds differ')
             s=v['source_state']
+            require(not s&4 or v['source_start']<=v['source_stop']<=v['source_tick'],
+                    'Done snapshot STOP tick bounds differ')
             require((not s&64 or (s&1 and s&6 in (2,4))) and (not s&6 or s&64)
                     and (not s&8 or (s&64 and v['remaining']>0))
                     and (not s&32 or s&4) and (not v['enqueued'] or v['source_highwater']>0),
@@ -121,7 +123,15 @@ class Validator:
         self.protocol_failure=None
 
     def mark_start(self):
-        require(self.state=='start_required', 'START intent ordering differs')
+        if self.protocol_failure is not None:
+            raise self.protocol_failure
+        try:
+            require(self.state=='start_required', 'START intent ordering differs')
+        except StreamError as exc:
+            self.protocol_failure=exc
+            if self.strict_failure is None:
+                self.strict_failure=type(exc).__name__
+            raise
         self.state='start'
 
     def accept(self, raw, host_ns):
@@ -202,6 +212,15 @@ class Validator:
             snapshot_keys=('source_start','source_tick','source_stop','source_state','snapshot_id','generated','enqueued','drops','popped','remaining','source_highwater','refused_pop','refused_command')
             if v['flags']&4:
                 require(v['snapshot_id']>prior['snapshot_id'], 'END reused an old coherent snapshot')
+                previous_valid=next((control.values for control in reversed(self.controls)
+                                     if control.values['flags']&4),None)
+                if previous_valid is not None:
+                    for key in ('source_tick','generated','enqueued','drops','popped',
+                                'source_highwater','refused_pop','refused_command'):
+                        require(v[key]>=previous_valid[key], 'Coherent source snapshot decreased '+key)
+                    if previous_valid['source_state']&4:
+                        require(v['source_state']&4 and v['source_stop']==previous_valid['source_stop'],
+                                'Completed source STOP changed')
             else:
                 require(all(v[k]==prior[k] for k in snapshot_keys), 'Invalid final snapshot changed historical fields')
             if self.start is not None:
