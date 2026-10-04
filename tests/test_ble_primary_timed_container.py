@@ -79,7 +79,7 @@ class ContainerTests(unittest.TestCase):
         with patch.dict(os.environ,self.env,clear=True),patch.object(wrapper,'runtime',return_value=(DOCKER,dict(self.env,DOCKER_HOST=wrapper.SOCKET,DOCKER_CONTEXT=''))),\
              patch.object(wrapper,'resolve_source_image',side_effect=resolve),patch.object(wrapper,'immutable_file',side_effect=fake_file),\
              patch.object(wrapper,'container_absent',side_effect=absent),patch.object(wrapper.subprocess,'Popen',side_effect=start) as spawn,\
-             patch.object(wrapper,'wait_natural',side_effect=finish),\
+             patch.object(wrapper,'wait_natural',side_effect=finish),patch.object(wrapper,'process_start_ticks',return_value=123),\
              patch.object(wrapper,'cleanup_owned',return_value={'forced_cleanup_required':True,'owned_container_removed':True,'owned_group_closed':True}) as cleanup,\
              patch.object(wrapper.time,'monotonic',now),patch.object(wrapper.time,'monotonic_ns',lambda:round(clock[0]*1e9)),\
              contextlib.redirect_stdout(output):
@@ -168,6 +168,9 @@ class ContainerTests(unittest.TestCase):
         self.assertTrue(rows[-1]['owned_group_closed']);self.assertTrue(rows[-1]['owned_container_removed'])
         self.assertFalse(rows[-1]['forced_cleanup_required']);self.assertTrue(spawn.call_args.kwargs['start_new_session'])
         self.assertEqual(spawn.call_args.kwargs['env']['DOCKER_HOST'],wrapper.SOCKET)
+        self.assertEqual(rows[-1]['owned_start_ticks'],123)
+        self.assertLessEqual(rows[-1]['owned_spawn_before_monotonic_ns'],rows[-1]['owned_spawn_after_monotonic_ns'])
+        self.assertLessEqual(rows[-1]['owned_spawn_after_monotonic_ns'],rows[-1]['owned_group_absent_monotonic_ns'])
 
     def test_exact_parent_minimum_forwarded_and_cannot_renew_clock(self):
         for cap,expected in ((132000000001,132000000001),(200000000000,145000000000)):
@@ -204,10 +207,40 @@ class ContainerTests(unittest.TestCase):
         self.run_main(late='cancel-spawn')
         self.assertEqual({s:signal.getsignal(s)for s in old},old)
 
+    def test_terminal_output_error_restores_handlers_and_lateness_corrects_failure(self):
+        old={s:signal.getsignal(s)for s in (signal.SIGINT,signal.SIGTERM)}
+        with patch('builtins.print',side_effect=OSError('output failed')):
+            with self.assertRaises(OSError):self.run_main()
+        self.assertEqual({s:signal.getsignal(s)for s in old},old)
+        original=wrapper.time.monotonic_ns
+        emitted=[]
+        def emit(value,**kwargs):
+            emitted.append(json.loads(value))
+            if len(emitted)==1:
+                # run_main binds the fake monotonic clocks; replace its ns
+                # reader after a successful candidate write to model return.
+                wrapper.time.monotonic_ns=lambda:145000000000
+        with patch('builtins.print',side_effect=emit):
+            code,_,_,_=self.run_main()
+        self.assertEqual(code,2);self.assertEqual(len(emitted),2)
+        self.assertEqual(emitted[-1]['wrapper_exit_code'],2)
+        self.assertEqual(emitted[-1]['failure_kind'],'terminal_output_deadline_or_cancel')
+        self.assertIs(wrapper.time.monotonic_ns,original)
+
     def test_actual_harmless_process_normal_closure(self):
         proc=subprocess.Popen([sys.executable,'-c','pass'],start_new_session=True)
         self.assertTrue(wrapper.wait_natural(proc,time.monotonic()+2,lambda:False));self.assertEqual(proc.returncode,0)
         self.assertFalse(wrapper.group_alive(proc))
+
+    def test_actual_owned_process_start_identity(self):
+        proc=subprocess.Popen([sys.executable,'-c','import time;time.sleep(2)'],start_new_session=True)
+        try:
+            ticks=wrapper.process_start_ticks(proc.pid)
+            self.assertGreater(ticks,0);self.assertEqual(ticks,wrapper.process_start_ticks(proc.pid))
+        finally:
+            try:os.killpg(proc.pid,signal.SIGTERM)
+            except ProcessLookupError:pass
+            proc.wait(timeout=2)
 
     def test_actual_leader_exit_live_descendant_refuses_and_natural_descendant_can_close(self):
         libc=ctypes.CDLL(None,use_errno=True);old=ctypes.c_int()

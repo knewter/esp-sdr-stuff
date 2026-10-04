@@ -280,6 +280,7 @@ class TimedSource(v1.Source):
             # Final summary is outside command/event clocks; cancellation here
             # still prevents the CLI's post-socket-close success decision.
             self.cleaning = True
+            written_qualified = summary['controller_timed_profile_verified']
             try:
                 self.emit(summary)
             except v1.SourceError as error:
@@ -287,6 +288,7 @@ class TimedSource(v1.Source):
                                status='terminal_output_deadline', error_code=str(error))
                 summary['monotonic_ns'] = time.monotonic_ns()
                 self._sink(dict(summary))  # Failed correction; never qualifies.
+                written_qualified = False
             finally:
                 self.cleaning = False
             if self.cancelled:
@@ -295,6 +297,9 @@ class TimedSource(v1.Source):
             if time.monotonic_ns() >= self.deadline_ns:
                 summary['controller_timed_profile_verified'] = False
                 summary['status'] = 'episode_deadline_exceeded'
+            if written_qualified and not summary['controller_timed_profile_verified']:
+                summary['monotonic_ns'] = time.monotonic_ns()
+                self._sink(dict(summary))  # Replace a cancelled/late candidate.
         return summary
 
 
@@ -338,6 +343,7 @@ def main(argv=None):
     emit_stdout(config)
     sock = None
     source = None
+    summary = None
     interrupted = False
     def cancel(*_):
         nonlocal interrupted
@@ -365,8 +371,27 @@ def main(argv=None):
     finally:
         try:
             if sock is not None:
-                sock.close()
-                emit_stdout({'kind': 'source_socket_closed'})
+                closed = False
+                closure_error = None
+                closure_failed = False
+                try:
+                    sock.close()
+                    closed = True
+                    emit_stdout({'kind': 'source_socket_closed'})
+                except OSError as error:
+                    code = 2
+                    closure_error = error.errno
+                    closure_failed = True
+                if summary is not None and summary['controller_timed_profile_verified'] and (
+                        not closed or closure_failed or interrupted or source.cancelled or
+                        time.monotonic_ns() >= deadline_ns):
+                    code = 2
+                    correction = dict(summary)
+                    correction.update(controller_timed_profile_verified=False,
+                        status='post_socket_closure_deadline_cancel_or_error',
+                        source_socket_closed=closed, error_errno=closure_error,
+                        monotonic_ns=time.monotonic_ns())
+                    emit_stdout(correction)
         finally:
             for sig, handler in handlers.items():
                 signal.signal(sig, handler)

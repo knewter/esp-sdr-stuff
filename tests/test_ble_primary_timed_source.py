@@ -284,19 +284,41 @@ class TimedSourceTests(unittest.TestCase):
         class CancelOnClose(Socket):
             def close(self):
                 super().close();signal.getsignal(signal.SIGTERM)(signal.SIGTERM,None)
-        sock=CancelOnClose(clock)
+        sock=CancelOnClose(clock);output=io.StringIO()
         with patch.object(timed.socket,'socket',return_value=sock),patch.object(v1,'bind_raw'),\
              patch.object(timed.time,'monotonic',clock.monotonic),patch.object(timed.time,'monotonic_ns',clock.ns),\
-             contextlib.redirect_stdout(io.StringIO()):self.assertEqual(timed.main(['--profile',timed.PROFILE]),2)
+             contextlib.redirect_stdout(output):self.assertEqual(timed.main(['--profile',timed.PROFILE]),2)
+        rows=[__import__('json').loads(v)for v in output.getvalue().splitlines()]
+        self.assertFalse([v for v in rows if v['kind']=='source_closed'][-1]['controller_timed_profile_verified'])
+
+    def test_post_summary_cancel_and_late_socket_close_correct_saved_terminal(self):
+        clock=Clock();sock=Socket(clock);records=[];source=None
+        def emit(row):
+            records.append(dict(row))
+            if row['kind']=='source_closed':source.cancel()
+        with patch.object(timed.time,'monotonic',clock.monotonic),patch.object(timed.time,'monotonic_ns',clock.ns):
+            source=timed.TimedSource(sock,emit);result=source.run_timed()
+        self.assertFalse(result['controller_timed_profile_verified']);self.assertFalse(records[-1]['controller_timed_profile_verified'])
+        class LateClose(Socket):
+            def close(self):super().close();clock.now+=25
+        clock=Clock();sock=LateClose(clock);output=io.StringIO()
+        with patch.object(timed.socket,'socket',return_value=sock),patch.object(v1,'bind_raw'),\
+             patch.object(timed.time,'monotonic',clock.monotonic),patch.object(timed.time,'monotonic_ns',clock.ns),\
+             contextlib.redirect_stdout(output):self.assertEqual(timed.main(['--profile',timed.PROFILE]),2)
+        rows=[__import__('json').loads(v)for v in output.getvalue().splitlines()]
+        self.assertTrue(sock.closed);self.assertFalse([v for v in rows if v['kind']=='source_closed'][-1]['controller_timed_profile_verified'])
 
     def test_output_or_close_error_still_restores_signal_handlers(self):
         clock=Clock();sock=Socket(clock);prior={s:signal.getsignal(s)for s in (signal.SIGINT,signal.SIGTERM)}
+        rows=[]
         def emit(record):
+            rows.append(dict(record))
             if record['kind']=='source_socket_closed':raise OSError('fixture output failed')
         with patch.object(timed.socket,'socket',return_value=sock),patch.object(v1,'bind_raw'),\
              patch.object(timed.time,'monotonic',clock.monotonic),patch.object(timed.time,'monotonic_ns',clock.ns),\
-             patch.object(timed,'emit_stdout',side_effect=emit),self.assertRaises(OSError):timed.main(['--profile',timed.PROFILE])
+             patch.object(timed,'emit_stdout',side_effect=emit):self.assertEqual(timed.main(['--profile',timed.PROFILE]),2)
         self.assertTrue(sock.closed);self.assertEqual({s:signal.getsignal(s)for s in prior},prior)
+        self.assertFalse([v for v in rows if v['kind']=='source_closed'][-1]['controller_timed_profile_verified'])
 
     def test_main_closes_socket_and_restores_handlers_on_normal_and_cancel(self):
         clock=Clock();sock=Socket(clock);prior={s:signal.getsignal(s)for s in (signal.SIGINT,signal.SIGTERM)}

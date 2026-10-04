@@ -160,6 +160,14 @@ def group_alive(proc):
         return False
 
 
+def process_start_ticks(pid):
+    require(type(pid) is int and pid > 0, 'owned process PID required')
+    raw = Path(f'/proc/{pid}/stat').read_text()
+    fields = raw[raw.rfind(')')+2:].split()
+    require(len(fields) > 19 and fields[19].isdigit(), 'owned process start identity required')
+    return int(fields[19])
+
+
 def wait_natural(proc, deadline, cancelled):
     """Leader exit is insufficient; reap it and wait for whole group absence."""
     while True:
@@ -206,6 +214,8 @@ def cleanup_owned(name, proc, docker, env):
                 if not group_alive(proc):
                     break
             receipt['owned_group_closed'] = proc.poll() is not None and not group_alive(proc)
+            if receipt['owned_group_closed']:
+                receipt['owned_group_absent_monotonic_ns'] = time.monotonic_ns()
         except OSError:
             receipt['process_closure_uncertain'] = True
     return receipt
@@ -261,12 +271,16 @@ def main(argv=None):
         command = source_command(name, image_id, executable, entrypoint, native, docker=docker, cidfile=args.cidfile)
         remaining(deadline, 1)
         require(not cancelled, 'cancelled before source spawn')
+        receipt['owned_spawn_before_monotonic_ns'] = time.monotonic_ns()
         proc = subprocess.Popen(command, env=env, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                 start_new_session=True)
-        receipt.update(owned_pid=proc.pid, owned_pgid=proc.pid)
+        receipt.update(owned_pid=proc.pid, owned_pgid=proc.pid,
+                       owned_spawn_after_monotonic_ns=time.monotonic_ns())
+        receipt['owned_start_ticks'] = process_start_ticks(proc.pid)
         natural = wait_natural(proc, deadline, lambda: cancelled)
         require(natural and not cancelled, 'owned source did not close naturally')
         receipt['owned_group_closed'] = True
+        receipt['owned_group_absent_monotonic_ns'] = time.monotonic_ns()
         receipt['owned_container_removed'] = container_absent(name, docker, env, deadline)
         require(receipt['owned_container_removed'], 'owned container remains after normal exit')
         if args.cidfile is not None:
