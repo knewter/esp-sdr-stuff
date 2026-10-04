@@ -103,6 +103,27 @@ The source never observes external high-Z or analogue pin timing.
 
 ## Offline checks and remaining artifacts
 
+The October 4 synthetic vendor run002 at `8887f3b` reported all four stages
+PASS but failed immutable-project qualification. Its requested T8F49/I2,
+32MHz analysis also missed setup by0.694ns (hold+0.641ns, analyzed maximum
+31.305MHz). The critical path ran from `stop_tick[31]` to `high_water[4]`'s
+clock enable through ten LUT levels: drain deadline calculation, POP approval,
+simultaneous FIFO push/pop and high-water update. The independent retained
+artifact review is bound by SHA256
+`3941bf2c019ca67cd123c9a4e3c0b970cf50620a10e4567665b1606e3f3ef5e8`.
+These failed results remain failed; no32MHz timing closure is claimed.
+
+The prospective optimization will latch the existing64-bit drain deadline
+when STOP or finite completion latches `stop_tick`, removing deadline addition
+from the per-cycle POP/high-water control cone. It will retain the exact edge,
+unsigned wrapping arithmetic,5-second drain comparison, snapshots, simultaneous
+POP/PUSH, refused controls and all record/count semantics. Tests will compare
+the actual revised RTL against the immutable original RTL cycle by cycle at
+STOP/completion, exact drain boundaries, high-word carries, wrap and reset.
+Existing finite-profile/FIFO/CRC and full-wrapper simulations remain required.
+Independent source review and a fresh actual vendor run must demonstrate any
+timing improvement; clock constraints and physical admission stay unchanged.
+
 Commit these sources before generation. Use the locked `.#forgix` shell plus an
 owned private Taskfile (no shared Taskfile/flake changes in this step). Simulations
 instantiate the **actual** Verilog with a cycle-scaled12800Hz parameter; production
