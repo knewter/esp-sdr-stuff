@@ -50,8 +50,9 @@ fsg_error fsg_record_create(uint32_t sequence, uint32_t tick32, const uint8_t no
 fsg_error fsg_record_encode(const fsg_record *record, const uint8_t nonce[16], uint8_t out[16]) {
     if (!record || !out) return FSG_ARGUMENT;
     if (!valid_nonce(nonce)) return FSG_NONCE;
-    fsg_error error=record_check(record,nonce); if (error) return error;
-    record_bytes(record,out); return FSG_OK;
+    fsg_record copy=*record;
+    fsg_error error=record_check(&copy,nonce); if (error) return error;
+    record_bytes(&copy,out); return FSG_OK;
 }
 fsg_error fsg_record_decode(const uint8_t *data, size_t length, const uint8_t nonce[16], fsg_record *out) {
     if (!data || !out) return FSG_ARGUMENT;

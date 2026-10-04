@@ -200,6 +200,30 @@ class Native(unittest.TestCase):
         self.assertEqual(out.raw, bytes([0xa5]) * 16)
         with self.assertRaises(py.CodecError): damaged.encode(NONCE)
 
+    def test_native_record_encoder_overlapping_input_output(self):
+        nonce = bytes.fromhex('67452301efcdab89df9b5713e0ac6824')
+        expected = bytes.fromhex('070000007856341201fbe4f9157f684a')
+        self.assertEqual(zlib.crc32(expected[:12]), int.from_bytes(expected[12:], 'little'))
+        record = py.SourceRecord.create(7, 0x12345678, nonce)
+        self.assertEqual(record.encode(nonce), expected)
+        # The input structure stays aligned; byte output may begin at any
+        # overlapping byte before, at, or after it, including the reported +4.
+        for offset in range(-15, 16):
+            with self.subTest(offset=offset):
+                arena = (C.c_uint8 * 96)(*([0xa5] * 96))
+                value = Record.from_buffer(arena, 32)
+                value.sequence, value.tick32 = record.sequence, record.tick32
+                value.pattern, value.crc32 = record.pattern, record.crc32
+                output = C.cast(C.byref(arena, 32 + offset), C.c_void_p)
+                self.assertEqual(self.lib.fsg_record_encode(C.byref(value), buffer(nonce), output), 0)
+                self.assertEqual(bytes(arena)[32+offset:48+offset], expected)
+                # Refusal must preserve the entire overlapping arena.
+                value.sequence, value.tick32 = record.sequence, record.tick32
+                value.pattern, value.crc32 = record.pattern, record.crc32 ^ 1
+                before = bytes(arena)
+                self.assertEqual(self.lib.fsg_record_encode(C.byref(value), buffer(nonce), output), py.Error.RECORD_CRC)
+                self.assertEqual(bytes(arena), before)
+
     def test_every_frame_bit_flip_refused_in_both_codecs(self):
         raw = self.encode(frame())
         for offset in range(512):
