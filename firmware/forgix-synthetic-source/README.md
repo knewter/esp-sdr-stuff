@@ -115,11 +115,15 @@ full-drop reconciliation, stable head, stale/wrong/empty POP, coherent snapshots
 one bounded pause, invalid/late START, no restart/config changes, invalid address
 and byte-mask refusal, early STOP/drain expiry, and simultaneous full POP/PUSH.
 The wrapper verifies original CSR addresses, new region and unchanged pins.
-Existing guard/register candidate regressions still need to pass unchanged.
+It also compiles and executes the full generated top over simulated SPI pads,
+including cold startup and both register regions. Held requests are exercised
+for exactly one POP acknowledgement. Existing guard/register candidate
+regressions still need to pass unchanged.
 
 `tools/forgix_synthetic_gateware.py --output .scratch/<fresh-directory>` emits
-private top/core RTL, memory initialization and a hash manifest. It refuses
-uncommitted sources, symlink/existing/outside paths. It invokes no vendor or
+private top/core RTL, memory initialization and a hash manifest. It binds all
+loaded project-module inputs and the locked board/LiteX revisions. It refuses
+uncommitted sources, an unrecognized toolchain, symlink/existing/outside paths. It invokes no vendor or
 programmer and claims no resource/timing fit. Future builds must bind committed
 core/wrapper/guard/old generator, emitted RTL/memory/CSR map, fixed32MHz constraints,
 exact target grade/interface and vendor stages/bitstream hash. Independently audit

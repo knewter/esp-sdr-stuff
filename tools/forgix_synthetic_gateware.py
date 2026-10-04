@@ -12,7 +12,8 @@ CORE = 'firmware/forgix-synthetic-source/source.v'
 BASE = 0x10000
 SYSTEM_HZ = 32000000
 INPUTS = (CORE, 'tools/forgix_synthetic_gateware.py', 'tools/forgix_fpga_candidate.py',
-          'tools/forgix_spi_guard.py', 'flake.nix', 'flake.lock', 'nix/forgix-toolchain.nix')
+          'tools/forgix_spi_guard.py', 'tools/efinity_bootstrap.py',
+          'tools/efinity_compile_smoke.py', 'flake.nix', 'flake.lock', 'nix/forgix-toolchain.nix')
 REGISTERS = {
     'abi': 0x00, 'system_hz_requested': 0x04, 'capacities': 0x08, 'control': 0x0c,
     'period_config': 0x10, 'target_config': 0x14,
@@ -77,6 +78,7 @@ def generate(output):
     from litex_boards.platforms import adiuvo_forgix as board
     import forgix_fpga_candidate as existing
     hashes = committed_inputs()
+    provenance = existing.provenance()
     output = Path(output)
     if not output.is_absolute():
         output = ROOT/output
@@ -114,6 +116,7 @@ def generate(output):
         'schema': 1, 'kind': 'RTL-only finite synthetic FPGA source preparation',
         'source_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
         'inputs_sha256': hashes, 'artifacts_sha256': artifacts,
+        'toolchain_revisions': {k: provenance[k] for k in existing.REVISIONS},
         'requested_system_hz': SYSTEM_HZ, 'registers': {k: BASE+v for k, v in REGISTERS.items()},
         'original_counter_address': 0x1000, 'original_scratch_address': 0x1004,
         'pins': pins, 'fifo_records': 64, 'record_bytes': 16,

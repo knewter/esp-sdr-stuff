@@ -331,6 +331,12 @@ endmodule
             with self.assertRaisesRegex(ValueError,'Commit'):generator.committed_inputs()
         with self.assertRaisesRegex(ValueError,'private|Private|Fresh'):
             generator.generate(Path('/tmp/unsupported-forgix-source-output'))
+        # Original candidate imports the two vendor helper modules even though
+        # this path never invokes their vendor actions. Bind their loaded bytes.
+        for module in tuple(sys.modules.values()):
+            path=getattr(module,'__file__',None)
+            if path and Path(path).resolve().is_relative_to(ROOT/'tools'):
+                self.assertIn(str(Path(path).resolve().relative_to(ROOT)),generator.INPUTS)
 
 
 if __name__ == '__main__':
