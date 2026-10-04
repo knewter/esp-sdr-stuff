@@ -7,7 +7,7 @@ derived format, with the same protected PDU hash. The other1,254 pairs contain
 no complete owned packet in either format; neither set produces foreign
 CRC-valid packets. This tests deterministic digital precision on the same saved
 samples. It measures no new RF capture or actual eight-bit receiver behavior.
-Independent peer replay is pending.
+Independent whole replay and lineage/packet review pass.
 
 | Saved dataset | Waveform pairs | Complete owned original / derived | Remaining pairs without complete owned packet |
 | --- | ---: | ---: | ---: |
@@ -67,3 +67,21 @@ response, independently emitted events, a hit/miss rate or the cause of separate
 physical nulls. Original TrialB and all physical RF/count gates remain open.
 Earlier failed and null experiments stay unchanged. No device, FPGA, vendor
 software or container was used for this offline replay.
+
+An isolated peer replay of all1,256 pairs exactly reproduces every author
+report field except elapsed runtime. Independent literal LE byte extraction
+checks every derived byte and all1,024 signed values; exact CSV membership,
+source phases, per-row receipts, sample counts, SHA/CRC and private modes pass.
+The peer separately re-slices all four owned packet instances and verifies
+register whitening, reflected CRC24, whole owned AD, protected PDU hashes and
+nominal complete windows. Each selected preamble retains one hard-decision
+error; complete-window claims do not assert a perfect preamble.
+
+Seven diagnostic and sixteen unchanged decoder groups pass again. Nine peer
+corruption/refusal probes cover altered raw bytes, CSV digest, CRC/count,
+production unpacking, runtime freeze, row order, original digest and a corrupted
+newly written derived file. Earlier audit attempts remain private: repeated
+negative-probe output paths were corrected to fresh paths so refusal proves
+the intended corruption, rather than a reused-directory check. No product
+failure was found in this review. The [checks](checks.json) bind the peer
+receipt, replay and independent audit source. Physical gates remain open.

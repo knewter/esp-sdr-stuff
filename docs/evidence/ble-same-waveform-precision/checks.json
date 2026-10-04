@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "kind": "completed offline same-waveform precision diagnostic; independent peer review pending",
+  "kind": "completed offline same-waveform precision diagnostic; independently replayed and reviewed",
   "source_commit": "792afb1bf255feffba4e5b16e85dd210f838e713",
   "plan_commit": "fbc9d61",
   "decoder_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
@@ -146,5 +146,95 @@
   "counted_emission_gate_closed": false,
   "Trial_B_prerequisite_released": false,
   "emission_denominator": null,
-  "limitations": "Deterministic upper-bit conversion of saved waveforms only; no actual eight-bit RF acquisition, physical sensitivity, air-event denominator, detection rate or acceptance gate."
+  "limitations": "Deterministic upper-bit conversion of saved waveforms only; no actual eight-bit RF acquisition, physical sensitivity, air-event denominator, detection rate or acceptance gate.",
+  "independent_review": {
+    "reviewed_commit": "008944e9e6a8837214c6985d361c0a69c95351c7",
+    "result": "PASS_OFFLINE_WHOLE_PAIRED_REPLAY_AND_INDEPENDENT_LINEAGE_PRECISION_PACKET_PROOFS",
+    "private_receipt_sha256": "67b1851681fc59db1ee82d929d7c882895bf3606d3e5d602f363f646f8a1eaca",
+    "private_replay_sha256": "95eb7998317a199da3ffbec1b51bac65badf302ed22f7c45d11b4624b6bbf434",
+    "private_audit_script_sha256": "398e841fd89ec4aeab92d868eef0ed2f283b4638bb0828841da184942739241e",
+    "whole_report_equal_except_runtime": true,
+    "pairs": 1256,
+    "original_bytes": 51433200,
+    "derived_bytes": 41146560,
+    "exhaustive_signed_values": 1024,
+    "focused_diagnostic_groups": 7,
+    "unchanged_decoder_groups": 16,
+    "corruption_refusal_groups": 9,
+    "candidate_status_counts": {
+      "historical246": {
+        "original10": {
+          "crc_failed": 2,
+          "valid_owned": 1,
+          "truncated_packet": 1,
+          "unsupported_or_invalid_header": 1
+        },
+        "derived8": {
+          "crc_failed": 2,
+          "valid_owned": 1,
+          "truncated_packet": 1,
+          "unsupported_or_invalid_header": 1
+        }
+      },
+      "matched_manual1010": {
+        "original10": {
+          "valid_owned": 1,
+          "truncated_header": 2,
+          "crc_failed": 18,
+          "unsupported_or_invalid_header": 3,
+          "truncated_packet": 2
+        },
+        "derived8": {
+          "valid_owned": 1,
+          "truncated_header": 2,
+          "crc_failed": 18,
+          "unsupported_or_invalid_header": 3,
+          "truncated_packet": 2
+        }
+      }
+    },
+    "known_packet_independent_proofs": [
+      {
+        "dataset": "historical246",
+        "index": 103,
+        "bits": 10,
+        "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+        "preamble_errors": 1,
+        "begin": 7464.0,
+        "end": 11560.0,
+        "crc_valid": true
+      },
+      {
+        "dataset": "historical246",
+        "index": 103,
+        "bits": 8,
+        "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+        "preamble_errors": 1,
+        "begin": 7465.0,
+        "end": 11561.0,
+        "crc_valid": true
+      },
+      {
+        "dataset": "matched_manual1010",
+        "index": 48,
+        "bits": 10,
+        "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+        "preamble_errors": 1,
+        "begin": 291.84000000000003,
+        "end": 4392.96,
+        "crc_valid": true
+      },
+      {
+        "dataset": "matched_manual1010",
+        "index": 48,
+        "bits": 8,
+        "pdu_sha256": "177ba70ae0be7ffff890d04b3214f18a46cfe85e47b485bf82dd5c534c53aa45",
+        "preamble_errors": 1,
+        "begin": 291.84000000000003,
+        "end": 4392.96,
+        "crc_valid": true
+      }
+    ],
+    "limitations": "Offline same-waveform digital precision only; no actual 8-bit acquisition, air-event denominator, sensitivity or RF acceptance gate."
+  }
 }
