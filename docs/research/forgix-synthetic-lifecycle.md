@@ -74,3 +74,30 @@ adapter remains unchanged. Real local PTY/EIO tests establish the distinction,
 deadline retention and serial closure. This covers bytes returned by the driver;
 unread kernel/device bytes and bytes lost below the syscall boundary remain
 unobserved. The owned worker still bounds potentially blocking kernel calls.
+
+## Synthetic host dispatch binding (prospective)
+
+UNVERIFIED implementation prerequisite: extend only the synthetic route's
+qualified environment with exact Nix-store executable paths and SHA256 bytes
+for Python, picotool, Git, Nix, nix-store, Docker CLI and the selected Task
+launcher. Verify the union of their recursive Nix closures with the retained
+SDK/compiler closure before admission. Bind closure metadata and dispatch
+selection to the qualified environment and committed transitive source map.
+Constrain this process and inherited workers to those immutable bin directories;
+recheck every selected executable before mutations and worker admission. Missing,
+non-store, changed or shadowed tools and incomplete closure receipts refuse.
+
+Task is a selected launcher dependency, not proof of the already-running
+ancestor's invocation. Explicitly select the local Docker Unix socket, refuse
+foreign host/context overrides and bind that selection. The running Docker
+daemon, Nix-store service, kernel, udev, filesystem and pre-Python launcher remain
+trusted host boundaries; neither executable hashes nor closure verification
+freeze their live state. Immutable archive/config/image ID checks remain required.
+No credential contents are read. Preservation, deadlines, leases and recovery
+are unchanged; old USB/register routes retain their policies. Empty registry
+and all physical qualification gates remain mandatory.
+
+Proof: focused tool-path/hash/closure/endpoint mutation and inherited-worker
+fixtures, existing complete lifecycle tests, and a read-only committed-source
+host receipt. No container, device, vendor or compiler execution is needed for
+this software proof. A new qualification is required for the enlarged tuple.
