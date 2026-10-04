@@ -36,3 +36,16 @@ encoder regressions. Author validation: 134 host-only checks with the locked CI
 shell and a private Taskfile; no device, capture or container operation.
 
 Primary source: [Bluetooth Core 5.4, Vol 4 Part E §7.8.53 and §7.8.54](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-54/out/en/host-controller-interface/host-controller-interface-functional-specification.html).
+
+The source-only zero-data readiness profile additionally requires the v1
+`0x2036` successful CommandComplete return's signed controller-selected transmit
+power. The sanitizer now requires exactly five return bytes (command credit,
+opcode, status and power) for success, accepting power −127 through20dBm.
+Malformed/truncated/overlong or reserved successful returns are discarded.
+A failed command permits the native source's four/five-byte envelope, retaining
+its earlier status-only shape and discarding undefined failure power. Other
+opcodes preserve their record shape. This observed controller-selected value is
+separate from requested127/no preference and is not calibrated radiated power.
+[Core6.2 Vol4E7.8.53](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-62/out/en/host-controller-interface/host-controller-interface-functional-specification.html)
+defines these v1 return parameters. Older receipts remain unchanged; only
+future frozen monitors contain the new successful-return field.

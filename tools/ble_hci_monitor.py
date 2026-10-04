@@ -159,7 +159,20 @@ def sanitized_packet(packet):
         if event == 0x0E and len(payload) >= 4:
             opcode = struct.unpack_from('<H', payload, 1)[0]
             if opcode in ADV_OPCODES:
-                return {'kind': 'advertising_command_complete', 'hci_opcode_hex': f'{opcode:04x}', 'status': payload[3]}
+                result = {'kind': 'advertising_command_complete', 'hci_opcode_hex': f'{opcode:04x}', 'status': payload[3]}
+                if opcode == 0x2036:
+                    # Core v1 return: Num_HCI_Command_Packets, opcode, status,
+                    # signed Selected_Tx_Power. A failed command may omit its
+                    # ignored power byte, matching the native source envelope.
+                    # Failed-command power is undefined and stays discarded.
+                    if len(payload) not in ((5,) if payload[3] == 0 else (4, 5)):
+                        return None
+                    if payload[3] == 0:
+                        power = struct.unpack_from('b', payload, 4)[0]
+                        if not -127 <= power <= 20:
+                            return None
+                        result['controller_selected_tx_power_dbm'] = power
+                return result
         if event == 0x3E and len(payload) == 6 and payload[0] == 0x12:
             return {'kind': 'controller_advertising_set_terminated', 'status': payload[1],
                     'advertising_handle': payload[2],
