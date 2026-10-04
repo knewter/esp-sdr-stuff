@@ -367,6 +367,91 @@ class ActualHDL(unittest.TestCase):
         ''')
 
 
+    def compare_scheduler_reference(self, script):
+        # Immutable actual pre-countdown HDL, independently of reconstruction.
+        reference = subprocess.check_output(
+            ['git', 'show', '9ebac506e54e8e86570c97d029376461cc4144f4:firmware/forgix-synthetic-source/source.v'],
+            cwd=ROOT)
+        self.assertEqual(hashlib.sha256(reference).hexdigest(),
+                         'd0d6cb975f12cde961457c21036a6a8acb9c077d5befbd45240c02c831d54626')
+        reference=reference.decode().replace('module forgix_synthetic_source #(',
+                                             'module source_reference #(',1)
+        fields=('tick,start_tick,stop_tick,drain_until,seen,attempted,accepted,running,done,'
+                'pause_attempted,pause_begin,pause_end,period_active,target_active,nonce_active,'
+                'generated_count,enqueued_count,dropped_count,popped_count,refused_pop,'
+                'refused_command,level,high_water,write_pointer,read_pointer,next_due,'
+                'head_wait,head,snapshot_id,snapshot_tick,snapshot_start,snapshot_stop,'
+                'snap_generated,snap_enqueued,snap_dropped,snap_popped,snap_refused_pop,'
+                'snap_refused_command,snap_state,snap_level,snap_high_water').split(',')
+        monitor='\n'.join(f'if(dut.{n}!==reference.{n})$fatal(1,"scheduler mismatch {n}");' for n in fields)
+        extra=r'''
+  wire ref_ack,ref_err;wire[31:0] ref_q;
+  source_reference #(.SYSTEM_HZ(HZ)) reference(clk,reset,cyc,stb,we,addr,data,sel,ref_ack,ref_err,ref_q);
+  integer fifo_index;
+  always @(posedge clk)begin #2;
+    if({ack,err,q}!=={ref_ack,ref_err,ref_q})$fatal(1,"scheduler bus mismatch");
+    if(dut.due!==reference.due)$fatal(1,"due edge mismatch");
+    MONITOR
+    for(fifo_index=0;fifo_index<64;fifo_index=fifo_index+1)
+      if(dut.fifo[fifo_index]!==reference.fifo[fifo_index])$fatal(1,"FIFO mismatch");
+  end
+'''.replace('MONITOR',monitor)
+        tb=COMMON.replace('  reg [31:0] st,s,t,p,c,g,e,d,o,l,h,id0,id1;',
+            extra+'  reg [31:0] st,s,t,p,c,g,e,d,o,l,h,id0,id1;').replace('SCRIPT',script)
+        with tempfile.TemporaryDirectory(prefix='forgix-scheduler-equivalence-') as directory:
+            folder=Path(directory);(folder/'reference.v').write_text(reference);(folder/'tb.v').write_text(tb)
+            subprocess.run([self.iverilog,'-g2012','-s','tb','-o',str(folder/'sim'),str(ROOT/generator.CORE),
+                            str(folder/'reference.v'),str(folder/'tb.v')],check=True,capture_output=True,timeout=30)
+            result=subprocess.run([self.vvp,str(folder/'sim')],check=True,capture_output=True,text=True,timeout=60)
+            self.assertIn('PASS',result.stdout)
+
+    def test_countdown_full_targets_match_actual_prechange_hdl_across_tick_rollover(self):
+        for period,count,delta in [(800,960,"64'h0"),(200,3840,"64'h00000000ffff0000"),
+                                   (100,7680,"64'hffffffffffff0000")]:
+            with self.subTest(period=period):
+                self.compare_scheduler_reference(f'''
+                    setup({period},{count});wr('h00c,1,0);
+                    @(negedge clk);dut.tick=dut.tick+{delta};reference.tick=dut.tick;
+                    dut.start_tick=dut.start_tick+{delta};reference.start_tick=dut.start_tick;
+                    begin : drain
+                      integer loops;
+                      for(loops=0;loops<1000000;loops=loops+1)begin
+                        rd('h028,st);
+                        if(st[3])begin take;end
+                        if(st[2] && dut.level==0)disable drain;
+                      end
+                      $fatal(1,"not finite");
+                    end
+                    snapshot;
+                    if(g!={count} || e!={count} || d!=0 || o!={count} || l!=0)$fatal(1,"full-target counters");
+                    if(dut.stop_tick-dut.start_tick!==64'd{period*count})$fatal(1,"finite STOP timestamp");
+                    wr('h00c,1,1);wr('h010,{period},1);repeat(10)@(posedge clk);
+                ''')
+
+    def test_countdown_due_adjacent_stop_and_full_fifo_pop_snapshot_match_reference(self):
+        for offset in (-1,0,1):
+            for command in ('stop','pop','snapshot'):
+                with self.subTest(offset=offset,command=command):
+                    addr,data={'stop':("'h00c",'2'),'pop':("'h040",'0'),'snapshot':("'h00c",'4')}[command]
+                    self.compare_scheduler_reference(f'''
+                        setup(100,7680);wr('h00c,1,0);wait(dut.level==64);
+                        @(negedge clk);
+                        while(dut.tick-dut.start_tick<dut.next_due-1)@(negedge clk);
+                        repeat({offset+1})@(negedge clk);
+                        addr={addr};data={data};we=1;cyc=1;stb=1;
+                        @(posedge clk);#1;if(!ack)$fatal(1,"edge ACK");
+                        @(negedge clk);cyc=0;stb=0;we=0;
+                        @(posedge clk);#1;
+                        if(dut.running)wr('h00c,2,0);
+                        snapshot;
+                        if(e!=o+l || g!=e+d)$fatal(1,"edge reconciliation");
+                        @(negedge clk);reset=1;repeat(2)@(posedge clk);
+                        @(negedge clk);reset=0;
+                        setup(800,960);wr('h00c,1,0);wait(dut.generated_count==1);
+                        wr('h00c,2,0);snapshot;
+                    ''')
+
+
 class Wrapper(unittest.TestCase):
     def test_production_soc_adds_no_pins_and_preserves_old_register_bank_guard(self):
         from litex.build.generic_platform import GenericPlatform
