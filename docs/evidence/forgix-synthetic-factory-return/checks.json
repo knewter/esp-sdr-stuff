@@ -1,0 +1,40 @@
+{
+  "result": "PASS_OFFLINE_FACTORY_RETURN_CORRECTION",
+  "source_commit": "cfa5fa2bd724091a7a0374152f1bd47c04e1ec4c",
+  "execution_sha256": "cb264105410a24640d4b731a15cc8d97fb2cbd1b5fb808bb248d4df0e71568e0",
+  "helper_sha256": "44fbe08b180cb350a8893a9e3a8a20bf94fc3a353064091a8d383e5d6c8e87f4",
+  "backend_sha256": "0624c9d706a6dcb6be901bbde4eab0dd82636db893fc347138ae2fbf0ada4003",
+  "test_sha256": "4240e1330c5067c915f1480c9f03278ef72ea767bf653fcca283b2cd885a3012",
+  "task_sha256": "a8a102c9b169ee6d3759e962d6f565a7ec66ec11bbc1f1b557216cd4dec13462",
+  "retained_original_backend_sha256": "3400831932569d6a591a7208738273a12abb1ce322f820ecaf063e8917e81c2e",
+  "original_both_loader_paths_rejected": true,
+  "independent_groups": 2,
+  "actual_recovery_both_loader_branches_checked": true,
+  "wrong_pid_and_topology_refuse_before_query": true,
+  "shared_helper_unchanged": true,
+  "mapped_helper_frozen": true,
+  "prior_runtime_unchanged": true,
+  "registry_empty": true,
+  "hardware_access": false,
+  "containers_started": false,
+  "vendor_or_compiler_executed": false,
+  "physical_qualification": false,
+  "kind": "Independent synthetic factory-return label correction review",
+  "source_plan": "9a719cba3ea920a72ee24173ac6a06eec20c9c5f",
+  "terminal_groups": {
+    "lifecycle": 35,
+    "runtime": 14,
+    "factory_return": 2,
+    "independent": 2
+  },
+  "limits": [
+    "Harmless device, inherited-lock, signal and storage boundaries injected; actual worker parsing and target/label admission exercised",
+    "Exact mapped helper and prior runtime implementation remain unchanged; root must freshly freeze its production tuple",
+    "Empty qualification registry; no physical route admission, FPGA qualification, RF reception, throughput or clock/pin claim",
+    "Live daemon/kernel trust and selected-Task ancestor limits from runtime review persist"
+  ],
+  "independent_review_sha256": "073d2c1d7a4a91e743bc2e8bd25fe9f39afeea0b1ec438e846d3068ff966dd02",
+  "retained_original_failure_log_sha256": "3ae18cb0c79aa16410e15a2cb00e8480a450a322986f7db4dd08cab7867203d4",
+  "author_replay_log_sha256": "c947c373de74f20e16933d95f0023b497beda9921172ebced743196134a5c77b",
+  "independent_replay_log_sha256": "40db9661d3fcb47e2a3e948f5e4fa69cf55c37f030c9b92306e21ed6ac1c5f2f"
+}
