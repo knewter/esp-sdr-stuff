@@ -1,0 +1,48 @@
+{
+  "kind": "Merged offline synthetic lifecycle production checkpoint",
+  "source_revision": "9d308d04eef08aee89e03fa89af6a6aa58b3ac41",
+  "result": "PASS_SOFTWARE_ONLY",
+  "check_pages": {
+    "returncode": 0,
+    "python_tests": 953,
+    "skips": 2,
+    "python_duration_seconds": 383.053,
+    "native_crypto": true,
+    "openspec_validation": true,
+    "site_build": true,
+    "browser": true,
+    "private_log_sha256": "bf38f0f04a0a99cc663c0557bf271dbb5b44cb4cd61c69014f1e0255375533ae"
+  },
+  "focused_synthetic_task": {
+    "revision": "b7efc7a",
+    "tests": 35,
+    "skips": 0,
+    "duration_seconds": 7.18,
+    "returncode": 0
+  },
+  "fresh_read_only_freeze": {
+    "execution_files": 62,
+    "execution_digest_excluding_registry": "b03b0288b9f9c344b740f6a8ed331589418749771257709dd4d0ef6bd247601b",
+    "environment_digest": "d83e7aee4444b8b42822409700a5b3801066eff0bbd8340e1983d0dfcaac4c21",
+    "private_receipt_sha256": "d8d74cfdf7476328e10b5d834b27313f82d687998cc05b7936fbea316f43e8a9",
+    "elf_sha256": "1f179d51e477f96185eea11d2062d8349cfe314e643e281c34381b7498e84665",
+    "manifest_sha256": "adfbabd810e28ea090733b36babff963cb76609d2bc95f490017f65284a19418",
+    "allocated_sram_bytes": 220200,
+    "closure_contents_verified": true,
+    "sdk_nar_verified": true,
+    "qualification_registry_entries": 0,
+    "hardware_opened": false,
+    "qualification_granted": false
+  },
+  "read_only_survey": {
+    "captured_utc": "2026-10-04T12:34:32.939040+00:00",
+    "serial_opened": false,
+    "esp_stable_link_verified": true,
+    "esp_original_backups_verified": true,
+    "rp_vendor_devices": 0,
+    "rtl_devices": 1,
+    "unknown_forgix_resource_marker": false
+  },
+  "physical_fpga_trial": false,
+  "accepted_requirement_changes": false
+}
