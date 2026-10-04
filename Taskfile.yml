@@ -347,6 +347,16 @@ tasks:
     cmds:
       - python3 -B -m unittest discover -s tests -p test_forgix_stream_engine.py
 
+  forgix:synthetic:stream:build:
+    desc: Build a private finite RAM-only RP stream artifact from an exact synthetic FPGA candidate (use .#forgix-spi-bridge); never load
+    cmds:
+      - python3 tools/build_forgix_synthetic_stream.py {{.CLI_ARGS}}
+
+  forgix:synthetic:stream:build:test:
+    desc: Test separate stream adapter, ELF and exact-image guards without ARM compilation or hardware
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_forgix_stream_build.py
+
   forgix:synthetic:source:rtl:
     desc: Generate committed private finite-source RTL (no vendor or hardware)
     cmds:
