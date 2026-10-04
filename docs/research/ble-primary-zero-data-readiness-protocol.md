@@ -51,6 +51,10 @@ Immediately before source spawn, after durable source-intent persistence and
 inherited-lock validation, require the monitor still alive and the current clock
 strictly below all outer-readiness, source-parent and supervisor deadlines.
 Until that final check passes, source-attempted remains false.
+Normal completion must observe the whole owned process group naturally absent
+within the remaining deadline. Leader exit alone is insufficient. Required
+signal cleanup is retained explicitly and fails qualification even if subsequent
+bounded cleanup verifies closure; shared cleanup helpers are unchanged.
 
 After profile readiness passes, a separately frozen future receiver protocol
 may request three repetitions at fixed ten-bit/16MS/s/16380 pairs,LO2401MHz,
