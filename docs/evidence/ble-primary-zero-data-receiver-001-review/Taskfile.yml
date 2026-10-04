@@ -1,0 +1,6 @@
+version: '3'
+tasks:
+  plot:
+    dir: ../../..
+    cmds:
+      - python tools/plot_primary_capture_opportunity.py --input docs/evidence/ble-primary-zero-data-receiver-001-review/checks.json --output docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg

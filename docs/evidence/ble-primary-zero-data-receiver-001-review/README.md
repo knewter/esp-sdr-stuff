@@ -50,3 +50,9 @@ those invocations without changing data, ownership guards or decoder bounds.
 [checks.json](checks.json) records the sanitized counts and immutable review
 hash. Earlier RF conditions/failures, original eight-bit Trial B, the independent
 air-count requirement and physical proposal acceptance gates remain unchanged.
+
+![Whole capture accounting: only 11 guarded ON captures](capture-opportunity.svg)
+
+This chart uses the independently reviewed aggregate counts in checks.json.
+Regenerate it with the local Taskfile using the locked Nix shell. Capture counts
+are not emitted-event counts, and the source-on brackets are host observations.
