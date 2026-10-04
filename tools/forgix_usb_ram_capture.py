@@ -36,8 +36,11 @@ class CaptureError(RuntimeError):
 
 def reject_pending_finalization(root):
     """Any pending-marker presence blocks all new Forgix access/recovery."""
-    if os.path.lexists(Path(root)/PENDING_FINALIZATION):
-        raise ValueError('Unresolved register finalization blocks device access')
+    try:(Path(root)/PENDING_FINALIZATION).lstat()
+    except FileNotFoundError:return
+    except OSError as error:
+        raise ValueError('Register finalization presence could not be verified') from error
+    raise ValueError('Unresolved register finalization blocks device access')
 
 
 def start_command(rate, nonce):

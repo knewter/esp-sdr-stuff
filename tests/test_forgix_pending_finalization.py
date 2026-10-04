@@ -41,6 +41,12 @@ class PendingFinalization(unittest.TestCase):
                 self.refuses(lambda:usb.reject_pending_finalization(self.root))
                 if kind=='directory':self.marker.rmdir();self.marker.touch()
         self.marker.unlink();usb.reject_pending_finalization(self.root)
+    def test_marker_inspection_error_is_not_treated_as_absence(self):
+        with patch.object(Path,'lstat',side_effect=PermissionError('fixture denied')):
+            self.refuses(lambda:usb.reject_pending_finalization(self.root))
+        with patch.object(Path,'lstat',side_effect=OSError('fixture storage error')):
+            self.refuses(lambda:usb.reject_pending_finalization(self.root))
+
     def test_actual_coordinator_locks_refuse_normal_and_matching_recovery_and_close_fds(self):
         for coordinator,args in ((register,()),(stream,()),(stream,({'fixture':'matching recovery'},))):
             with self.subTest(coordinator=coordinator.__name__,args=args):
