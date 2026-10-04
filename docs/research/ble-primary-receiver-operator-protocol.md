@@ -136,3 +136,9 @@ episode still fails. Unknown UART ownership continues to retain the existing
 keeper or parent FD independently of receipt storage errors. Test the actual
 result-file FD fsync hook, corrective storage failures and successful removal
 of the blocker with harmless processes and files. Keep inner15 unchanged.
+
+Git source selection is part of admission: reject the presence, even empty, of
+GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE, GIT_OBJECT_DIRECTORY,
+GIT_ALTERNATE_OBJECT_DIRECTORIES and GIT_CONFIG_COUNT. Matching a saved full
+environment does not make these overrides safe; Git -C alone does not remove
+them. Test actual harmless repository redirection and exact admission refusal.
