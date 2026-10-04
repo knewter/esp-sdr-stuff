@@ -22,7 +22,7 @@ class Rig:
         self.lib=lib;self.time=boot;self.cfg=0;self.prepared=0;self.safe=0;self.service=0
         self.pair=pair;self.nonce=bytes(range(1,17));self.build=bytes([3])*32;self.image=bytes([4])*32
         self.settings={};self.start=None;self.stop=None;self.generated=0;self.enqueued=0;self.popped=0;self.drops=0;self.fifo=[]
-        self.highwater=0;self.snap={};self.snapid=0;self.calls=[];self.output=bytearray();self.usb_limit=512;self.usb_delay=0
+        self.highwater=0;self.refused_pop=0;self.snap={};self.snapid=0;self.calls=[];self.output=bytearray();self.usb_limit=512;self.usb_delay=0
         self.fail=None;self.corrupt=None;self.pop_refuse=False;self.config_ok=True;self.config_delay=0
         self.callback_errors=[]
         self._callbacks=[NOW(lambda _:self.time),SERVICE(self._service),BOUND(self._config),BOUND(self._prepare),XFER(self._guard_xfer),USB(self._usb),SERVICE(self._safe)]
@@ -64,11 +64,12 @@ class Rig:
             elif off==0xc and v==4:
                 self.snapid+=1
                 self.snap={0x4c:self.snapid,0x50:self.tick()&0xffffffff,0x54:self.tick()>>32,0x58:self.state(),0x5c:self.generated,0x60:self.enqueued,
-                    0x64:self.drops,0x68:self.popped,0x6c:0,0x70:0,0x74:len(self.fifo),0x78:self.highwater,
+                    0x64:self.drops,0x68:self.popped,0x6c:self.refused_pop,0x70:0,0x74:len(self.fifo),0x78:self.highwater,
                     0x7c:(self.start or 0)&0xffffffff,0x80:(self.start or 0)>>32,0x84:(self.stop or 0)&0xffffffff,0x88:(self.stop or 0)>>32}
             elif off==0x40 and self.fifo and not self.pop_refuse:
                 assert v==struct.unpack_from('<I',self.fifo[0])[0]
                 self.fifo.pop(0);self.popped+=1
+            elif off==0x40:self.refused_pop+=1 # SPIBone ACK is indistinguishable from ERR.
             else:raise AssertionError(('unexpected write',off,v))
         else:
             if off in self.settings:v=self.settings[off]
