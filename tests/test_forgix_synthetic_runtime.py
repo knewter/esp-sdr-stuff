@@ -102,7 +102,7 @@ class Runtime(unittest.TestCase):
         env=self.image(closure);runtime.check(env)
         bad=copy.deepcopy(env);del bad['host_nix_recursive_closure'][str(leaf)]
         with self.assertRaisesRegex(ValueError,'Incomplete transitive'):runtime.check(bad)
-        malformed=[None,False,{},str(leaf),[str(leaf),str(leaf)],[str(leaf/'nested')],[True]]
+        malformed=[None,False,{},str(leaf),[str(leaf),str(leaf)],[str(self.files['git'])],[True]]
         for refs in malformed:
             bad=copy.deepcopy(env);bad['host_nix_recursive_closure'][str(self.root/'git')]['references']=refs
             with self.subTest(refs=refs),self.assertRaises(ValueError):runtime.check(bad)
