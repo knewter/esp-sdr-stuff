@@ -1,6 +1,6 @@
 {
   "kind": "synthetic vendor-route preparation and retained first runtime failure",
-  "status": "failed_before_generation",
+  "status": "runtime_fixed_second_build_failed_verification",
   "executed_commit": "0c4161b4b16f6f27c33994ff22b5f5a602349e42",
   "executed_inputs_sha256": {
     "firmware/forgix-synthetic-source/source.v": "ec067fbbe7ebcab49c4924afda7a8303ef581945924db2658b77ff807bdaf48c",
@@ -28,5 +28,28 @@
   "compiler_executed": false,
   "programming_admitted": false,
   "resource_fit_reviewed": false,
-  "timing_closure_reviewed": false
+  "timing_closure_reviewed": false,
+  "runtime_private_review_sha256": "8dc97cb1834470f5322a3cad4ad916d6d3d62a794db25b75ec6a189e8f350c0c",
+  "second_attempt": {
+    "executed_commit": "8887f3bec7baa89f29f303feddbf2bc70ad68e14",
+    "result_sha256": "c89af4cc0a0fdbc5edfd9da84880c14a630c91ff107269c623a2c2d1c20bc010",
+    "generated_manifest_sha256": "7b9d99e7f701be10988429ea776a59c1f0288a84613878fc47261d0335201292",
+    "duration_seconds": 50.128572015906684,
+    "vendor_stage_attestations": [
+      "map:PASS",
+      "interface:PASS",
+      "pnr:PASS",
+      "pgm:PASS"
+    ],
+    "post_verification": "failed_generated_project_XML_hash_changed",
+    "all_repository_inputs_unchanged": true,
+    "changed_generated_inputs": [
+      "forgix_synthetic_candidate.xml"
+    ],
+    "owned_process_group_closed": true,
+    "hardware_opened": false,
+    "internal_32MHz_setup_slack_ns": -0.694,
+    "setup_timing_pass": false,
+    "report_review": "independent_full_audit_pending"
+  }
 }
