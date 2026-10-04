@@ -29,3 +29,12 @@ counted radiated primary frames. This supplies no RF reception, AdvA/AUX ownersh
 legacy 255 denominator or TrialB release. Original physical RF tasks remain open.
 The [declared protocol](../../research/ble-primary-zero-data-readiness-protocol.md)
 and prior preparation failures are unchanged.
+
+## Timing visualization plan
+
+Generate a standard matplotlib SVG from the hash-bound private lifecycle and
+these committed checks, exposing relative host/HCI times only. Show monitor
+readiness, configuration, enable acknowledgement, termination and socket closure;
+label the 2.41618 s enable-to-termination span as controller activity, not measured
+RF airtime. Do not invent individual emission times or process/container closure
+brackets that were not retained. The plot will be source-only evidence.

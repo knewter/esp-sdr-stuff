@@ -111,3 +111,20 @@ completion. Exact source/runtime/import and owned-group checks are retained;
 old failures remain failed. Physical profile qualification still needs a fresh
 root binding/freeze and one separately operated source trial. No receiver,
 radiated-primary denominator, original Trial B or accepted requirement is admitted.
+
+## Independently reviewed source-only outcome
+
+The [saved zero-data source001 audit](docs/evidence/ble-primary-zero-data-source-001-review/README.md)
+passes the exact requested controller profile: 23 native / 11 monitor records,
+five ACK0 pairs, empty host advertising data and matching `0x43/count100`.
+Selected power 7 dBm is an uncalibrated controller response. Natural group
+completion and unchanged controller state are recorded operator/code attestations;
+child PGIDs/container IDs and exact closure brackets were not retained. The
+corrected root preparation passes 107 author plus five general and three
+actual-Git peer groups. Earlier failures remain retained.
+
+This qualifies the separate source profile for prospective receiver preparation,
+not radiated primary count, reception, original Trial B or tasks 1.1/1.2.
+A separately frozen and independently reviewed ten-bit/BW20/manual48 condition
+with three ON/OFF pairs is next. Preserve the low snapshot duty factor and
+unknown primary emissions as limits on any null result.
