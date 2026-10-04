@@ -256,3 +256,9 @@ setup, +0.642 ns hold). Physical grade/clock/SPI timing remain unqualified. The
 separate RP stream ARM build passes its initial layout guard at 220,200 SRAM
 bytes; actual artifact/startup and collector/lifecycle review remain gates.
 No hardware checkbox or accepted requirement changes.
+
+The [actual RP stream artifact](docs/evidence/forgix-synthetic-stream-artifact/README.md)
+now passes independent complete image/PIO/layout and selected linked-path review,
+six actual-ELF mutation groups and seven recognized startup-audit groups. SRAM
+allocation is 220,200 bytes. Complete admitted collector/lifecycle and physical
+grade/clock/pin/ownership/recovery gates remain; no task is accepted.
