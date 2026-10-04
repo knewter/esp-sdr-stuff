@@ -73,3 +73,15 @@ primary RF transmissions, including permitted event/PDU omission. Current
 monitor records omit some requested HCI fields; do not claim their independent
 physical verification. Original emitted-count, full waveform, three-response
 and Trial B prerequisites remain unchanged; no task is checked by these tests.
+
+## Fresh original eight-bit control
+
+The [October 4 control](docs/evidence/ble-bluez-control-003/README.md) completes
+three source ON/OFF pairs,1,260 independently verified snapshots, normal monitor
+cleanup and full original4MiBrestoration. Entire decoder replay retains zero
+CRC-valid packets; fixed prospective-band scalar replay supplies no reciprocal
+source attribution. Sparse windows and unknown air emissions make this a null
+control, not a detection-failure or missed-event rate. Original TrialB remains
+gated. The next separate bridge-profile ladder starts ten-bit/BW20/manual48
+and isolates precision, gain and bandwidth; earlier results remain unchanged.
+No original task checkbox or accepted requirement changes.

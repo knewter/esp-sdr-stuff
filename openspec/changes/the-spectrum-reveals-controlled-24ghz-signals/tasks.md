@@ -81,3 +81,15 @@ The [actual extended100 result](docs/evidence/ble-extended-count-limit-100-001/R
 reports `0x43/count100`, but its monitor deadline makes the complete episode
 failed. [Independent actual review](docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md)
 verifies truthful failure retention and cleanup. No original task above closes.
+
+## Fresh original eight-bit control
+
+The [October 4 control](docs/evidence/ble-bluez-control-003/README.md) completes
+three source ON/OFF pairs,1,260 independently verified snapshots, normal monitor
+cleanup and full original4MiBrestoration. Entire decoder replay retains zero
+CRC-valid packets; fixed prospective-band scalar replay supplies no reciprocal
+source attribution. Sparse windows and unknown air emissions make this a null
+control, not a detection-failure or missed-event rate. Original TrialB remains
+gated. The next separate bridge-profile ladder starts ten-bit/BW20/manual48
+and isolates precision, gain and bandwidth; earlier results remain unchanged.
+No original task checkbox or accepted requirement changes.

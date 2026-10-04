@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Prepare the required current eight-bit/BW12/hardware-gain RF positive control. Qualify an applicable emitted denominator before reception rates; Trial B remains gated.",
-      "rationale": "Matched ten-bit controls retain 1,994 valid snapshots and one fresh complete owned packet at manual48; full restorations pass. Three reciprocal RF responses, calibrated gain/filter limits and the required original eight-bit positive control remain unproved. Extended100 readiness001 now completes with controller count100 and cleanup, but supplies no applicable legacy RF denominator or new ESP capture. Earlier failed source episodes remain retained.",
-      "reviewRevision": "213aff2dede63bcc97993694fb78e11aeeea85bd",
+      "next": "Run the reviewed bridge-profile ladder beginning ten-bit/BW20/manual48. The new original eight-bit/BW12/hardware control remains null; original Trial B stays gated.",
+      "rationale": "Independent review verifies all 1,260 current eight-bit snapshots, three controlled source pairs, normal monitor cleanup and full 4 MiB restoration. Complete decoder replay finds zero CRC-valid packets; fixed-band scalar replay is nonreciprocal. Earlier ten-bit/manual reception remains separate evidence. New primary parsing passes 89 host checks, but controller event counts do not establish an air-emission denominator.",
+      "reviewRevision": "4673b65",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -107,7 +107,9 @@
         "docs/evidence/ble-extended-count-limit-100-independent-review/README.md",
         "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md",
         "docs/evidence/ble-monitor-readiness-independent-review/README.md",
-        "docs/evidence/ble-extended-count-limit-100-readiness-review/README.md"
+        "docs/evidence/ble-extended-count-limit-100-readiness-review/README.md",
+        "docs/evidence/ble-bluez-control-003/README.md",
+        "docs/evidence/ble-primary-preparation/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
@@ -119,9 +121,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Prepare the required current eight-bit/BW12/hardware-gain RF positive control. Qualify an applicable emitted denominator before reception rates; Trial B remains gated.",
-      "rationale": "Five historical complete owned packets and one fresh ten-bit/manual48 packet establish decoding. Extended100 readiness001 now passes actual controller count100 in both readers, normal monitor completion and full cleanup. Auxiliary-channel advertising supplies no legacy channel-37 air denominator. Earlier failed episodes, legacy count0/unknown and original RF gates remain retained; observation rates are open.",
-      "reviewRevision": "213aff2dede63bcc97993694fb78e11aeeea85bd",
+      "next": "Run the reviewed bridge-profile ladder beginning ten-bit/BW20/manual48. The new original eight-bit/BW12/hardware control remains null; original Trial B stays gated.",
+      "rationale": "Independent review verifies all 1,260 current eight-bit snapshots, three controlled source pairs, normal monitor cleanup and full 4 MiB restoration. Complete decoder replay finds zero CRC-valid packets; fixed-band scalar replay is nonreciprocal. Earlier ten-bit/manual reception remains separate evidence. New primary parsing passes 89 host checks, but controller event counts do not establish an air-emission denominator.",
+      "reviewRevision": "4673b65",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -173,7 +175,9 @@
         "docs/evidence/ble-extended-count-limit-100-independent-review/README.md",
         "docs/evidence/ble-extended-count-limit-100-independent-review/actual-001-review.md",
         "docs/evidence/ble-monitor-readiness-independent-review/README.md",
-        "docs/evidence/ble-extended-count-limit-100-readiness-review/README.md"
+        "docs/evidence/ble-extended-count-limit-100-readiness-review/README.md",
+        "docs/evidence/ble-bluez-control-003/README.md",
+        "docs/evidence/ble-primary-preparation/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
