@@ -77,3 +77,101 @@ and a stale completed result with a missing callback. This changes no physical
 admission. The future generated clock report must bind this module's sys input
 directly to B4/Y2; its unregistered caller-supplied sys domain alone proves no
 board oscillator route.
+
+
+## Task3.2 complete-profile implementation boundary (prospective)
+
+This section defines the independently achievable next software work. It is
+not a loading qualification or evidence of physical oscillator frequency.
+Reuse corrected observer_capture/observer_rp_io, checked uid.c, the original
+config.c/config.h/protocol CRC and direct TinyUSB descriptor/config primitives.
+Do not include the register dispatcher or stream engine. Keep old candidates,
+PID4012/4013 profiles, ELF policies and committed registries unchanged.
+
+The smallest profile is a new no_flash main/CMake target and distinct USB
+PID4014/product. Enable the2s watchdog before checked UID initialization, fail
+without USB identity or application GPIO on UID/USB error, and retain an
+absolute120s boot lifetime. Heap0/core1inactive/stack4096 remain mandatory.
+Accept one complete fixed128-byte OBSERVE request, with version/op/reserved
+checks, full nonzero128bit nonce, exact32-byte build and observer-image hashes
+and CRC32. Consume its intent before configuration or any application GPIO;
+partial requests and invalid/repeated commands cannot cause GPIO work or retry.
+The complete command must arrive before boot+30s. Configuration uses the exact
+image and existing min(now+20s,boot+30s) deadline; failure never starts sampling.
+After successful configuration, observer_capture uses min(now+2s,boot+120s),
+with both sides of clock/cancellation callbacks checked. The input boundary
+owns only GPIO3/PIO0 for sampling; CS1 gates the burst and SCK2 stays low.
+
+Return one fixed512-byte little-endian versioned CRC-protected result. Freeze
+exact offsets before code: echo full nonce/build/image, configuration status,
+observer status/count/all16 raw decrements, boot/configuration/capture/result
+encoding timestamps and checked cleanup status; all unused bytes are zero.
+No independent streaming, START retry, register read/write or frequency label
+is added. One pending output buffer advances monotonically through actual CDC
+accepted bytes, with no reset/resend/resynchronization. Bound USB drain to
+min(result encoding+2s,boot+120s), then normal watchdog reboot. Complete host
+reception/CRC is distinct from device enqueue; partial prefixes remain failed.
+Retained samples on cancellation/timeout are diagnostic only. Ratio reduction
+stays host-side exact rational and returns uncalibrated FPGA/PIO ratio bounds.
+
+A new Efinity generator must directly bind sys to B4/Y2 (no PLL), reset safely,
+map CS=G3/SCK=F3/F2 only gated observation output, and export the existing
+production1024-period/divide1024 geometry with exact passive-x1 T8F49 candidate
+assumptions. New image guard checks committed complete generated HDL/interface/
+project/SDC hashes, four physical pins/OE path, source model and all actual vendor
+stages plus fresh image. The current synthetic image guard specifically admits
+its source/profile/map and must not be weakened or reused with an observer flag.
+T8F49/I2/32MHz remain declared design assumptions, not fitted-part measurements.
+Root alone compiles FPGA/ARM after separate source review. Preserve any failed
+first artifacts. The generated exact-image C and build identity bind all source,
+image, SDK/TinyUSB/compiler/pioasm and configuration bytes before/after build.
+
+A separate ELF/startup policy must require the loadable observer marker and
+checked UID/config/PIO/main symbols, exact linked10-word input program and image
+hash/length/CRC, ordinary SRAM LOAD destinations/vector/metadata, no heap/core1/
+flash/OTP/UART/SPI peripheral writers, bounded reply/object sizes and4KiB stack.
+Use the separate256KiB configuration-image budget only in this new policy;
+old128KiB policies stay exact. Audit SDK resets/constructors and selected main,
+USB UID/configuration/input/cleanup/reboot call paths against exact linked code.
+No whole-boot or pad-state qualification follows merely from a layout guard.
+
+The private host collector uses the reviewed no-input-flush opener and
+bytewise POSIX prefix retention. Send one durable request intent/one bounded
+write only, preserve ambiguous write/read/late/cancelled prefixes, validate UID,
+nonce/build/image/status/count/CRC/timestamps and full16-sample ratio coherence.
+Do not auto-OPEN/retry/resync; checked closure precedes ROM recovery. A separate
+owned process must bound serial calls; blocking library calls are not bounded
+by Python check functions alone.
+
+The distinct lifecycle retains exact original UID/two2MiB baselines, full fresh
+pre/post preservation/verification/factory return and one600s acceptance clock
+through final receipts, last inherited-lock close and lease release. Reserve
+recovery time before loading. Initial preservation can mutate state. Reuse
+bounded OwnedPicotool/targeted bus-address load and shared worker ownership,
+marker refusals/global flock/durable cross-route lease, without broadening the
+old application whitelist. Unknown closure prohibits new access. Known-closed
+failed outcomes retain guarded recovery only; partial configuration/sampling
+must still recover original flash and factory. Volatile prior FPGA state is not
+restored by MCU flash verification.
+
+Keep a separate initially empty measurement registry. Admission binds original
+UID/baseline, complete execution/Nix/tool/image/ELF tuple, reviewed observer
+contract, board assumptions and preserved loading/recovery/pin ownership.
+It cannot borrow register/stream clock_verified qualification or seed physical
+acceptance from host tests. A bounded measurement may test a nominal clock
+assumption without declaring the original measured-clock/inventory gate passed.
+Actual reset-to-factory pin ordering and input ownership must be reviewed first:
+configuration resets FPGA before DATA output; observer cleanup inhibits CS
+before freeing input PIO; factory HELLO/STATUS alone does not call config_begin.
+Unexpected reset/stopped FPGA clock remains a hardware admission concern; no
+subsequent factory programming transaction or DATA drive is authorized.
+
+Host proof includes actual compiled-C UID/command/main/CDC partial/failure/
+watchdog tests, actual async/generated HDL and PIO instruction tests, build/image/
+ELF negative fixtures, real process/PTY inherited-lock/prefix/deadline/cancellation/
+lease-death/recovery/persistence fault tests and immutable independent review.
+New root-owned FPGA/ARM compilation and actual linked audits then precede any
+separately reviewed measurement episode. Fresh attachment, actual board mapping/
+electrical assumptions, undersampling/pad margins and factory recovery evidence
+remain external/physical dependencies. USB cannot verify rails or calibrate the
+RP reference; no external wire is needed for the documented internal route.

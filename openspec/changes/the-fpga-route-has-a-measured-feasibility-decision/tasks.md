@@ -395,3 +395,11 @@ entry is added.
 ## Reviewed merged register preparation
 
 The [current root checkpoint](docs/evidence/forgix-register-production-checkpoint/README.md) records 272 distinct affected host groups, both independent guard reviews, fresh actual ARM configuration005 with complete 19-source/image/startup review, and independently bound 36/65-input runtime snapshots covering seven tools and 268 content-verified Nix paths. Earlier failed admission and stale-artifact evidence remain retained. Both physical registries are empty and the latest survey has no matching Forgix. Grade, actual clock, voltage, SPI timing/loading, register readback and several-rate selected transport measurements remain open. No physical checkbox or accepted requirement changes.
+
+
+Task3.2 implementation scope is now explicit in the observer protocol: distinct
+main/USB command-result codec, observer-specific FPGA/image+ARM builder/audit,
+private collector and full preserved lifecycle with empty measurement registry.
+Proof requires actual-C/HDL/PIO/PTY/process fault tests and independent review,
+then root-owned fresh artifacts and linked audit. Original physical tasks and
+new measurement/build task checkboxes remain unchanged.
