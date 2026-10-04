@@ -180,3 +180,7 @@ Independent whole source/waveform/restoration review is required for any narrow
 positive or null report. This diagnostic cannot close original emission/hit-rate
 tasks, the three reciprocal-response requirement or original Trial B. Planning
 admits no implementation, container/package build, source or receiver action.
+
+## Reviewed timed-source implementation and archive
+
+The [current software and archive proof](docs/evidence/ble-primary-timed-source-host-preparation/README.md) completes tasks 4.1/4.2 after retained reporting, resource-access and deadline corrections. Source, image, whole runtime contents and refreshed Forgix production inputs pass independent review. Caller admission, actual source-only qualification and the new receiver/holder remain separate prerequisites; no physical acceptance gate or accepted requirement changes.

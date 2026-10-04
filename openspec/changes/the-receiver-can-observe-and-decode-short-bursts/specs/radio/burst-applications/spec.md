@@ -31,7 +31,7 @@ source qualification, acquisition-window coverage and observations distinct
 from counted v1 controller events, independently emitted RF events and the
 original acceptance gates.
 
-<!-- UNVERIFIED: Timed-v2 source, archive, caller and holder are planned only. The completed fixed receiver001 has11 guarded ON windows and no CRC-valid primary; see docs/evidence/ble-primary-zero-data-receiver-001-review/README.md. Prospective fields, ownership, clocks and proof gates are in docs/research/ble-primary-timed-zero-data-v2-protocol.md. -->
+<!-- UNVERIFIED: Timed-v2 source and built archive pass offline independent review in docs/evidence/ble-primary-timed-source-host-preparation/README.md; caller admission, physical source qualification and the new receiver/holder remain unverified. The completed fixed receiver001 has11 guarded ON windows and no CRC-valid primary; see docs/evidence/ble-primary-zero-data-receiver-001-review/README.md. Prospective fields, ownership, clocks and proof gates are in docs/research/ble-primary-timed-zero-data-v2-protocol.md. -->
 
 #### Scenario: A timed source condition is admitted
 - **WHEN** a longer timer-limited primary condition is proposed after the fixed diagnostic
