@@ -219,6 +219,11 @@ tasks:
     cmds:
       - python3 tools/plot_esp_snapshots.py {{.CLI_ARGS}}
 
+  plot:primary-source-timing:
+    desc: Plot reviewed relative host/HCI source timing (no hardware)
+    cmds:
+      - python3 tools/plot_primary_source_timing.py {{.CLI_ARGS}}
+
   fpga:budget:
     desc: Recompute the FPGA payload and buffer budgets
     cmds:
