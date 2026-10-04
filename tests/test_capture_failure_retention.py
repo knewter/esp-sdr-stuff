@@ -266,6 +266,27 @@ class ReceiverRetention(unittest.TestCase):
 
 
 class SpectrumRetention(unittest.TestCase):
+    def test_actual_command_partial_start_reply_closes_without_release_and_saves_header(self):
+        header=b'SPEC 256 16000000 PRIVATE-ADDRESS'
+        wire=Wire([],header=header)
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            args=SimpleNamespace(output=root/'public',private=root/'.scratch/raw',port='MOCK',baud=921600,
+                frequency=2401,bandwidth=12,gain='hardware',seconds=60,rate=16000000,bins=256)
+            with patch.object(spectrum,'open_board',return_value=wire),patch.object(spectrum,'synchronize'), \
+                 patch.object(spectrum,'queries',return_value={}),patch.object(spectrum,'settings',return_value={}), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                trial=spectrum.Trial(args);trial.run()
+            result=json.loads((args.output/'results.json').read_text())
+            self.assertTrue(wire.closed)
+            self.assertEqual(wire.requests,[b'SPEC 60000 1 1 0 6 256 1\n'])
+            self.assertEqual(result['rejected_frame']['kind'],'start_reply')
+            self.assertTrue(result['framing_uncertain'])
+            self.assertEqual(result['raw_persistence']['rejected_packet'],'verified')
+            self.assertEqual((args.private/'rejected-frame.bin').read_bytes(),header)
+            self.assertNotIn('PRIVATE-ADDRESS',json.dumps(result))
+            self.assertNotIn('PRIVATE-ADDRESS',json.dumps(trial.state))
+
     def test_every_short_frame_stage_keeps_all_consumed_bytes(self):
         for prefix,expected in [(b'SP',4),(b'SPC1'+bytes(15),288),(b'SPS1abc',40)]:
             wire=Wire([prefix,b'',b'late'])

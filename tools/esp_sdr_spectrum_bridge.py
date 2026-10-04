@@ -264,6 +264,24 @@ class Trial:
                 rejected = error.rejected_raw
                 record['rejected_frame'] = error.rejected_metadata
                 record['framing_uncertain'] = True
+            elif ('start_command_ns' in record and 'start_reply_received_ns' not in record
+                  and (isinstance(error, ReadPrefix) or getattr(error, 'reason', None) == 'reply_read_exception')):
+                # SPEC may already be streaming after a partial START reply.
+                # Retain the observed reply and close; RELEASE cannot be safely
+                # interpreted against that remaining response/stream tail.
+                rejected = getattr(error, 'partial', b'')
+                record['rejected_frame'] = {
+                    'kind': 'start_reply', 'complete_frame': False, 'bytes': len(rejected),
+                    'sha256': hashlib.sha256(rejected).hexdigest(), 'crc_ok': None,
+                    'expected_crc32': None, 'actual_crc32': None,
+                    'expected_frame_bytes': None, 'reply_limit_bytes': 8192,
+                    'command_start_ns': record['start_command_ns'],
+                    'failure_ns': getattr(error, 'failure_ns', None),
+                    'failure_kind': type(error).__name__,
+                    'read_failure_reason': getattr(error, 'reason', None),
+                    'underlying_read_error_kind': getattr(error, 'read_error_kind', None),
+                    'unreturned_read_bytes_unknown': getattr(error, 'unreturned_read_bytes_unknown', False)}
+                record['framing_uncertain'] = True
             self.update(status='Failed', error=record['error'], crc_failures=int('CRC' in record['error']))
         finally:
             acquisition_finished = time.monotonic() if t0 is not None else None
