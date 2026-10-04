@@ -34,3 +34,10 @@ remain. No device, daemon, vendor compiler or ARM build ran here.
 The final independent receipt is bound in checks. Future integration must bind
 the module sys clock directly to B4/Y2 and inspect the generated clock report;
 source-domain simulations alone do not measure the fitted oscillator.
+
+Root merges the corrected core as `7064cb1` and the separate finite command
+engine/wire as `e96d9fb`. The engine passes8 author and7 independent groups;
+root `nix develop .#ci --command task forgix:clock:test` passes all25 groups
+without skips. Software task3.1 closes. Task3.2 still requires complete builder,
+collector/lifecycle and fresh root FPGA/ARM artifact/startup review; current
+main/CMake tests are source and stub checks. Physical tasks remain unchecked.

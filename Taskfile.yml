@@ -25,6 +25,11 @@ tasks:
     cmds:
       - openspec validate --all --strict --no-interactive
 
+  forgix:clock:test:
+    desc: Check finite clock observer HDL, PIO, C and wire behavior without hardware
+    cmds:
+      - python3 -m unittest discover -s tests -p 'test_forgix_clock*.py'
+
   test:
     desc: Run host tests and RDS checks against the current built site
     cmds:

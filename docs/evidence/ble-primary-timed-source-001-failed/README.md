@@ -1,0 +1,11 @@
+# Timed source001 failed during monitor startup; ownership recovered
+
+The October4 root operation used the reviewed [timed-v2 profile](../../research/ble-primary-timed-zero-data-v2-protocol.md), exact loaded images and a136-input admission. Caller/runtime review passed82 author plus8 independent groups; the outer launcher passed18 author plus16 independent ownership/deadline cases. Its final wrapper received an additional static review.
+
+The monitor supervisor rejected an incomplete container-ID read (`invalid_owned_cid`) before source setup. No source intent, spawn, log or timer result exists. The monitor was interrupted and its producer reaped; the caller conservatively quarantined missing container-identity proof. The outer300-second clock ended with actual CLI2 and retained the safety lock. This failed preparation supplies no controller-profile or RF qualification; task4.3 stays unchecked.
+
+A later root daemon check found the exact owned monitor object in `created` state, not running, PID0, with zero start/finish timestamps. Its earlier helper absence query did not prove final closure. Empty/partial ID publication is a reproduced host startup hazard; the original transient bytes were not retained, so that exact read remains unknown.
+
+The separately reviewed recovery checked current code, process identities, container/image identities and unchanged idle controller/endpoint. It removed only the exact never-started object without force, stopped only the verified caller and harmless keeper through process handles, and acquired the same global lock. It removed only the recovered caller's pending marker; the failed qualification marker remains. A fresh post-terminal check confirmed absent owned groups/selected-image containers and unchanged baseline. Six independent host recovery groups and an independent saved-result audit pass. Nonchild process death is not a parent waitpid claim; the peer did not independently resurvey past live state.
+
+Original failure, private identities, environments and raw receipts remain unpublished. Recovery review SHA256: `117955b0aaa75f0797dbb4bb9a29e9fb6a7846e214025349ee11b43458a17c13`. Corrected startup handling needs new preparation and independent admission. This attempt was not retried; no receiver firmware, FPGA configuration, air denominator or accepted requirement changes follow.

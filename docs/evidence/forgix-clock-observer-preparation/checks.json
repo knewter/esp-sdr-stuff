@@ -10,6 +10,14 @@
     "strictOpenSpec": true
   },
   "correctionPlanningRevision": "a7276a4",
+  "engineIndependentReview": {
+    "authorGroups": 8,
+    "exitCode": 0,
+    "linkedARMProof": false,
+    "peerGroups": 7,
+    "receiptSHA256": "201b707ff0cfa3985790a714f488a118f33f93a244a2dfafd3453bf1e78d7573",
+    "sourceRevision": "6e57c687323af65152078c9bcdd9c1c976848e49"
+  },
   "historicalAuthorCheckpoint": {
     "authorReadinessSHA256": "c44073f9ef75bb7d92952795e59ee1646bd1595245f7f90db9df0407f900b5af",
     "checks": {
@@ -51,6 +59,17 @@
   },
   "planningRevision": "eaa253d",
   "result": "PASS_OFFLINE_UNREGISTERED_SOURCE_ONLY",
+  "rootScopedReplay": {
+    "command": "nix develop .#ci --command task forgix:clock:test",
+    "engineRootMapping": "e96d9fb",
+    "exitCode": 0,
+    "groups": 25,
+    "observerRootMapping": "7064cb1",
+    "physicalTaskCompleted": false,
+    "seconds": 14.994,
+    "skips": 0,
+    "softwareTask3_1Complete": true
+  },
   "sourceRevision": "77127ed39d58fb824b38fe4fe790ad1420731423",
   "subjects": {
     "docs/research/forgix-clock-observer-protocol.md": {
