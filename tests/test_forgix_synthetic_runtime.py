@@ -41,7 +41,7 @@ class Runtime(unittest.TestCase):
     def tearDown(self):
         for p in reversed(self.patches):p.stop()
         self.tmp.cleanup()
-    def closure(self,paths):return {p:{'narHash':'sha256-'+'A'*43+'='} for p in paths}
+    def closure(self,paths):return {p:{'narHash':'sha256-'+'A'*43+'=','references':[]} for p in paths}
     def image(self,closure=None):
         closure=closure or self.closure(runtime.roots(self.tools,self.archive))
         with patch('forgix_usb_ram_trial.image_check',return_value=self.base),patch.object(runtime.subprocess,'check_output',return_value=json.dumps(closure).encode()) as query,patch.object(runtime.subprocess,'run') as verify:
@@ -94,6 +94,23 @@ class Runtime(unittest.TestCase):
         incomplete=self.closure([str(self.root/'sdk')])
         with patch('forgix_usb_ram_trial.image_check',return_value=self.base),patch.object(runtime.subprocess,'check_output',return_value=json.dumps(incomplete).encode()),patch.object(runtime.subprocess,'run') as verify:
             with self.assertRaisesRegex(ValueError,'Incomplete'):runtime.image_check('fixture',self.tools)
+            verify.assert_not_called()
+    def test_omitted_transitive_leaf_and_reference_metadata_refuse(self):
+        leaf=self.root/'lib';leaf.mkdir()
+        closure=self.closure([*runtime.roots(self.tools,self.archive),str(leaf)])
+        closure[str(self.root/'git')]['references']=[str(leaf)]
+        env=self.image(closure);runtime.check(env)
+        bad=copy.deepcopy(env);del bad['host_nix_recursive_closure'][str(leaf)]
+        with self.assertRaisesRegex(ValueError,'Incomplete transitive'):runtime.check(bad)
+        malformed=[None,False,{},str(leaf),[str(leaf),str(leaf)],[str(leaf/'nested')],[True]]
+        for refs in malformed:
+            bad=copy.deepcopy(env);bad['host_nix_recursive_closure'][str(self.root/'git')]['references']=refs
+            with self.subTest(refs=refs),self.assertRaises(ValueError):runtime.check(bad)
+        bad=copy.deepcopy(env);del bad['host_nix_recursive_closure'][str(self.root/'git')]['references']
+        with self.assertRaisesRegex(ValueError,'metadata'):runtime.check(bad)
+        omitted=copy.deepcopy(closure);del omitted[str(leaf)]
+        with patch('forgix_usb_ram_trial.image_check',return_value=self.base),patch.object(runtime.subprocess,'check_output',return_value=json.dumps(omitted).encode()),patch.object(runtime.subprocess,'run') as verify:
+            with self.assertRaisesRegex(ValueError,'Incomplete transitive'):runtime.image_check('fixture',self.tools)
             verify.assert_not_called()
     def test_verify_failure_never_marks_receipt_verified(self):
         with patch('forgix_usb_ram_trial.image_check',return_value=self.base),patch.object(runtime.subprocess,'check_output',return_value=json.dumps(self.closure(runtime.roots(self.tools,self.archive))).encode()),patch.object(runtime.subprocess,'run',side_effect=subprocess.CalledProcessError(1,'verify')):

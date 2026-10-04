@@ -79,12 +79,21 @@ def paths(closure):
     else:
         require(type(closure) is list,'Nix closure metadata required');rows=closure
     require(0<len(rows)<=4096,'Bounded nonempty Nix closure required')
-    result=set()
+    result=set();references=set()
     for row in rows:
         require(type(row) is dict and type(row.get('path')) is str and type(row.get('narHash')) is str
                 and re.fullmatch(r'sha256-[A-Za-z0-9+/]{43}=',row['narHash']),'Nix path/NAR metadata required')
         p=store_root(row['path']);require(str(p)==row['path'] and str(p) not in result,'Invalid/duplicate store root')
         result.add(str(p))
+        refs=row.get('references')
+        require(type(refs) is list and len(refs)<=4096,'Complete reference metadata required')
+        checked=[]
+        for ref in refs:
+            require(type(ref) is str and str(store_root(ref))==ref,'Canonical referenced store root required')
+            checked.append(ref)
+        require(len(set(checked))==len(checked),'Duplicate store reference')
+        references.update(checked)
+    require(references<=result,'Incomplete transitive Nix reference graph')
     return result
 
 def roots(tools,archive):
