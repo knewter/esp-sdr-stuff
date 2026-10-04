@@ -229,7 +229,7 @@ class ActualEngine(unittest.TestCase):
                 r.finish();self.assertNotEqual(r.field(1),0)
                 self.assertNotEqual(struct.unpack_from('<I',r.frames()[-1],128)[0],0)
     def test_contradictory_live_state_is_rejected_before_head_or_pop(self):
-        for state in (72,74,79):
+        for state in (72,74,79,107):
             with self.subTest(state=state):
                 r=Rig(self.lib);r.ready();r.state=lambda:state
                 r.time+=70000;r.step();r.finish()

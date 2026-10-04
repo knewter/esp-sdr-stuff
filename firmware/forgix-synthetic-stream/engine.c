@@ -24,7 +24,7 @@ static bool rd(fs_engine *e,unsigned off,uint32_t *v,uint64_t until){return tran
 static bool wr(fs_engine *e,unsigned off,uint32_t v,uint64_t until){return transfer(e,true,off,&v,until);}
 static bool coherent_state(uint32_t s){
  return !(s&~127u)&&(!(s&64u)||((s&1u)&&((s&6u)==2u||(s&6u)==4u)))&&
-        (!(s&6u)||(s&64u))&&(!(s&8u)||(s&64u));
+        (!(s&6u)||(s&64u))&&(!(s&8u)||(s&64u))&&(!(s&32u)||(s&4u));
 }
 static bool snapshot(fs_engine *e,uint64_t until){
  uint32_t v[16];fs_snapshot s={0};e->flags&=~4u;
