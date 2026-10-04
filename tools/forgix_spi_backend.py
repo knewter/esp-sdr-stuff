@@ -29,6 +29,7 @@ from demo_esp_sdr import OwnedHardwareClosureError
 ROOT=Path(__file__).resolve().parents[1]
 EXECUTION_FILES=frozenset({
     '.gitignore','Taskfile.yml','flake.nix','flake.lock',trial.PROTOCOL,
+    'docs/research/forgix-spi-register-trial-protocol.md',
     *('tools/'+name+'.py' for name in (
         'run_forgix_spi_trial','forgix_spi_backend','forgix_spi_qualifications',
         'forgix_spi_lifecycle','forgix_spi_capture','forgix_spi_bridge',
