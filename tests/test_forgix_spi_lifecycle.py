@@ -275,6 +275,17 @@ class Workers(unittest.TestCase):
                 self.owner.run(['fixture'],'unheld',time.monotonic()+1)
             spawn.assert_not_called()
 
+    def test_late_worker_success_is_rejected_after_verified_closure(self):
+        now=[0.]
+        self.owner.clock=lambda:now[0]
+        def late(*args):
+            now[0]=10
+            return 0
+        with patch.object(lifecycle,'owned_worker',side_effect=late):
+            with self.assertRaises(lifecycle.LifecycleError):
+                self.owner.run(['fixture'],'late',10)
+        self.assertTrue(self.owner.closed)
+
     def test_real_exited_leader_does_not_leave_descriptor_owning_descendant(self):
         # A disposable subreaper owns/reaps only this fixture's orphaned child.
         # The held descriptor is a regular file; no serial/USB path is opened.
@@ -293,9 +304,14 @@ leader_code="import subprocess,sys,time;p=subprocess.Popen([sys.executable,'-c',
 held=root/'held';reaped=[];child_ids=[]
 def reap():
  until=time.monotonic()+10
- while not held.exists() and time.monotonic()<until:time.sleep(.01)
- assert held.exists()
- child=int(held.read_text());child_ids.append(child)
+ text=''
+ while time.monotonic()<until:
+  try:text=held.read_text()
+  except FileNotFoundError:pass
+  if text.isdigit():break
+  time.sleep(.01)
+ assert text.isdigit()
+ child=int(text);child_ids.append(child)
  while time.monotonic()<until:
   try:status=Path('/proc',str(child),'status').read_text()
   except FileNotFoundError:break
