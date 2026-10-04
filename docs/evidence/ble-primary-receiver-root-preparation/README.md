@@ -26,8 +26,9 @@ Relative to the isolated author snapshot, only the unrelated root Taskfile
 additions change an input hash; runtime, closure, receiver profile and images
 agree. The reviewer inspected saved proof and made no live device or daemon calls.
 
-This is static preparation. The outer operator holder still needs independent
-review, and merged input changes require a fresh explicitly reviewed snapshot.
+This is static preparation. The [initial outer operator review](../admission-review-failures-001/README.md)
+found defects requiring correction; merged input changes also require a fresh
+explicitly reviewed snapshot.
 At actual launch the holder must recheck current endpoint, controller, device,
 images and ownership under the lock. Original restoration and whole experiment
 closure require their own saved physical proof. Controller counts are not an
