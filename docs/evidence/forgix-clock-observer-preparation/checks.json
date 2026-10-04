@@ -1,23 +1,47 @@
 {
-  "authorReadinessSHA256": "c44073f9ef75bb7d92952795e59ee1646bd1595245f7f90db9df0407f900b5af",
+  "authorReadinessSHA256": "e7c72434303377092ed68ebe198dd6f57fb21f0346255eb0b0a5a83f9c3ce7bb",
   "checks": {
     "actualProductionHDLPeriods": 1024,
     "exactRationalInterval": true,
     "exitCode": 0,
-    "groups": 15,
-    "seconds": 9.812,
+    "groups": 17,
+    "seconds": 12.91,
     "skips": 0,
     "strictOpenSpec": true
+  },
+  "correctionPlanningRevision": "a7276a4",
+  "historicalAuthorCheckpoint": {
+    "authorReadinessSHA256": "c44073f9ef75bb7d92952795e59ee1646bd1595245f7f90db9df0407f900b5af",
+    "checks": {
+      "actualProductionHDLPeriods": 1024,
+      "exactRationalInterval": true,
+      "exitCode": 0,
+      "groups": 15,
+      "seconds": 9.812,
+      "skips": 0,
+      "strictOpenSpec": true
+    },
+    "logSHA256": "8af993678a8780366e3797697d065212ffee79668f14266789a11bcf95f28cbf",
+    "sourceRevision": "4cd895432988eba5618a6ea069b61acbaeae115f"
+  },
+  "historicalInitialIndependentFailureSHA256": "a7ddc06d492abf8ab6f18b518916066c1565b4cba4fe78eccbdca3f4cb69f3bf",
+  "independentReview": {
+    "additionalGroups": 7,
+    "authorGroups": 17,
+    "exitCode": 0,
+    "receiptSHA256": "6fa5ea89313078d30a4902ccb11211905d350bd226584b19112c9cbaa1d8eeb0",
+    "skips": 0
   },
   "kind": "Distinct one-way clock observer software preparation",
   "limits": [
     "Actual SDK adapter body uses explicit SDK/hardware stubs, not ARM linking or physical pad proof.",
     "Actual PIO assembler and instruction interpreter verify digital geometry; physical no-undersampling and pad margins remain unknown.",
     "Sixteen samples may skip periods or stop the1024-period burst early; no sustained transport claim.",
-    "Separate RAM/main/USB/build/lifecycle integration and independent review remain required.",
-    "Fitted grade/revision, electrical/clock/attachment and complete preserved recovery remain unqualified."
+    "Separate RAM/main/USB/build/lifecycle integration and independent linked/artifact review remain required.",
+    "Fitted grade/revision, electrical/clock/attachment and complete preserved recovery remain unqualified.",
+    "Future generated clock report must explicitly bind sys directly to B4/Y2; this unregistered module alone establishes no oscillator route."
   ],
-  "logSHA256": "8af993678a8780366e3797697d065212ffee79668f14266789a11bcf95f28cbf",
+  "logSHA256": "7f03c23ed96ec4022589b0a4d7b1bcf92b1ed9565cbaec8008ce27058eb4ee7a",
   "physical": {
     "FPGAOrARMBuild": false,
     "calibratedAbsoluteFrequency": false,
@@ -26,16 +50,16 @@
     "registryAdmission": false
   },
   "planningRevision": "eaa253d",
-  "result": "AUTHOR_HOST_PASS_INDEPENDENT_REVIEW_PENDING",
-  "sourceRevision": "4cd895432988eba5618a6ea069b61acbaeae115f",
+  "result": "PASS_OFFLINE_UNREGISTERED_SOURCE_ONLY",
+  "sourceRevision": "77127ed39d58fb824b38fe4fe790ad1420731423",
   "subjects": {
     "docs/research/forgix-clock-observer-protocol.md": {
-      "bytes": 4628,
-      "sha256": "94b9a727b488ed03a6bbc51075d99057e627a327ab39835d745eb0b3aeb4ba90"
+      "bytes": 5274,
+      "sha256": "8199e52197590b0c0a83de401ec882f84a8d1bfb3aa57d23b6d1450c8779a9ae"
     },
     "firmware/forgix-clock-observer/observer.c": {
-      "bytes": 2137,
-      "sha256": "9a1d4a7fb63256fb266148228fdb9a1a22fa9be9ea7255a1377f1618728da65b"
+      "bytes": 2292,
+      "sha256": "c736b39509f0f92194f5e56b7e5092df35db7469dc7b969c37ed974e15e8882d"
     },
     "firmware/forgix-clock-observer/observer.h": {
       "bytes": 996,
@@ -54,8 +78,8 @@
       "sha256": "f445b32191d81d17584b7671fb429227e2d34dd75f7d574ca4af96b381018d1f"
     },
     "tests/test_forgix_clock_observer.py": {
-      "bytes": 19152,
-      "sha256": "64c2a647ec1d620996b639f561f3efd1190f72d25cb47d186a46a3dcf105b9f7"
+      "bytes": 19932,
+      "sha256": "82ebfe6b6a1e3df273cab78d381e048c0c1f06cb859cf20cc1df31267a1b6be0"
     },
     "tools/forgix_clock_observer.py": {
       "bytes": 4099,
