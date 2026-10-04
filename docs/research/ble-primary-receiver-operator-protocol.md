@@ -118,3 +118,21 @@ Prove the correction with the same late-persistence/real-release/final-result
 and actual dead-keeper+mkdir-error process fixtures, plus late-cancel and wrong
 controller-type cases. Offline preparation still invokes no real endpoint,
 controller, UART or producer and requires a new independent immutable review.
+
+## Prospective final-receipt storage correction
+
+The ccada replacement fixed all six original peer findings, but the retained
+independent ef1f8e review reproduces a final result-file fsync exception after
+completed bytes have been flushed. Preserve that immutable failed version.
+No receiver has been admitted.
+
+Before writing the final result, durably create a pending-finalization blocker.
+A final write, file or directory fsync, or pending-blocker closure failure must
+produce a failed decision and attempt an atomic failed result replacement. If
+the corrective replacement also cannot persist, retain the pending blocker and
+best-effort private failure receipt; a completed-looking result with that
+blocker never qualifies. A known closed caller may release safely while the
+episode still fails. Unknown UART ownership continues to retain the existing
+keeper or parent FD independently of receipt storage errors. Test the actual
+result-file FD fsync hook, corrective storage failures and successful removal
+of the blocker with harmless processes and files. Keep inner15 unchanged.
