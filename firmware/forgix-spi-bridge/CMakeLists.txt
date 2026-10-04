@@ -23,7 +23,7 @@ target_compile_definitions(forgix_spi_bridge PRIVATE PICO_STACK_SIZE=4096 PICO_H
   PICO_STDIO_UART=0 PICO_STDIO_USB=0 PICO_USE_GPIO_COPROCESSOR=0)
 target_compile_options(forgix_spi_bridge PRIVATE -Wall -Wextra -Werror)
 target_link_options(forgix_spi_bridge PRIVATE "LINKER:--undefined=diagnostic_profile")
-target_link_libraries(forgix_spi_bridge pico_stdlib tinyusb_device hardware_watchdog hardware_clocks hardware_pio)
+target_link_libraries(forgix_spi_bridge pico_stdlib pico_unique_id tinyusb_device hardware_watchdog hardware_clocks hardware_pio)
 pico_enable_stdio_uart(forgix_spi_bridge 0)
 pico_enable_stdio_usb(forgix_spi_bridge 0)
 pico_set_binary_type(forgix_spi_bridge no_flash)

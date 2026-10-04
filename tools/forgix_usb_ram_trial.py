@@ -280,6 +280,10 @@ class OwnedPicotool:
         self.provenance = {'image_id': image, 'picotool_executable_sha256': sha(tool)}
         self.deadline = deadline if deadline is not None else time.monotonic()+600
 
+    def load_args(self, target, backup, path):
+        require(sha(backup) == ELF_SHA, 'RAM image changed before load')
+        return ram_load_args(target, path)
+
     def run(self, operation, target, backup=None):
         require(self.hardware_process_closed, 'Unverified owned closure blocks device access')
         check_inputs(self.frozen)
@@ -288,8 +292,7 @@ class OwnedPicotool:
             require(backup.parent == self.store.path and not backup.is_symlink() and stat.S_ISREG(backup.stat().st_mode) and stat.S_IMODE(backup.stat().st_mode) == 0o600, 'Operation file escaped private regular0600 store')
         path = Path('/private')/backup.name if backup is not None else None
         if operation == 'load':
-            require(sha(backup) == ELF_SHA, 'RAM image changed before load')
-            args = ram_load_args(target, path)
+            args = self.load_args(target, backup, path)
         else:
             args = preserve.picotool_args(operation, target, path)
         name = 'esp-sdr-forgix-'+uuid.uuid4().hex

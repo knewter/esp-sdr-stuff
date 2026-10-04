@@ -17,11 +17,11 @@ from forgix_spi_bridge import RegisterRun
 from forgix_usb_ram_capture import PrivateCapture, inherited_operator_lock
 
 
-def select_bridge(topology, port, sys_root=Path('/sys'), require_character=True):
+def select_bridge(topology, port, sys_root=Path('/sys'), require_character=True, uid_sha256=None):
     """Bind explicit tty/USB enumeration, not FPGA image or MCU unique identity.
 
-    The RAM firmware has no serial string. The caller's factory/ROM continuity
-    and exact-image receipt must independently bind the same physical socket.
+    Legacy bridge images have no serial string. The backend requires the newer
+    UID descriptor through uid_sha256; FPGA image binding is still separate.
     """
     if not re.fullmatch(r'[0-9]+-[0-9]+(?:\.[0-9]+)*', topology):
         raise ValueError('explicit physical USB topology required')
@@ -39,9 +39,16 @@ def select_bridge(topology, port, sys_root=Path('/sys'), require_character=True)
     nodes = [p for p in (tty,*tty.parents) if (p/'idVendor').exists()]
     if not nodes or nodes[0] != usb:
         raise ValueError('selected tty does not belong exactly to bridge USB node')
-    return {'port':str(port), 'usb_node':str(usb), 'topology':topology,
+    result={'port':str(port), 'usb_node':str(usb), 'topology':topology,
             'bus':read('busnum'), 'enumeration':read('devnum'),
             'vid':'cafe', 'pid':'4012', 'product':product}
+    if uid_sha256 is not None:
+        if not re.fullmatch('[0-9a-f]{64}',uid_sha256):raise ValueError('Original UID SHA256 required')
+        serial=read('serial').casefold()
+        if not re.fullmatch('[0-9a-f]{16}',serial) or hashlib.sha256(serial.encode()).hexdigest()!=uid_sha256:
+            raise ValueError('Bridge UID does not match preserved original device')
+        result['uid_sha256']=uid_sha256
+    return result
 
 
 def durable(stream, data):

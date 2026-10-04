@@ -376,3 +376,13 @@ tasks:
     desc: Test actual configuration C with fake SDK and injected host transport; no hardware
     cmds:
       - python3 -m unittest discover -v -s tests -p test_forgix_config.py
+
+  forgix:spi-bridge:backend:test:
+    desc: Test identity, exact RAM selection and serial/backend faults offline; no hardware
+    cmds:
+      - python3 -m unittest discover -v -s tests -p test_forgix_spi_backend.py
+
+  forgix:spi-bridge:backend:plan:
+    desc: Save backend preparation plan; empty qualification registry refuses hardware
+    cmds:
+      - python3 tools/forgix_spi_backend.py {{.CLI_ARGS}}
