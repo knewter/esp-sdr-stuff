@@ -115,6 +115,22 @@ explicitly. Existing v1 tasks and defaults remain unchanged. No dependency is
 installed outside the locked flake. Building/loading the new archive is a later
 sole-root operation after source review; this plan performs neither.
 
+### Prospective inherited episode deadline
+
+The new wrapper accepts optional `--episode-deadline-monotonic-ns`; the new
+native accepts optional `--parent-deadline-monotonic-ns`. Both are exact positive
+integer CLOCK_MONOTONIC deadlines, with no time namespace. Each uses the minimum
+of that immutable parent limit and its own45-second clock anchored before CLI
+validation, configuration, admission or socket creation. The wrapper forwards
+its actual minimum to the native. Neither may renew the limit. Before ENABLE
+the native requires at least32 seconds remaining:25 seconds requested duration,
+2-second enable ACK, two2-second cleanup ACKs and1-second terminal margin. The
+caller pre-spawn30-second floor is an additional admission check, not permission
+for a late ENABLE. Every normal send/receive/emission/closure return is charged
+to the original limit. Scoped emergency cleanup after a deadline uses a separate
+bounded failure clock and always disqualifies completion; it cannot extend the
+normal episode or authorize another ENABLE.
+
 ## Two separate physical gates
 
 First freeze and independently review host code/profile/closure proof, then the
