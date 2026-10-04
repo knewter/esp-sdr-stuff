@@ -1,6 +1,6 @@
 # Register qualification and finalization correction
 
-October 4, 2026: **corrected author checks pass; independent review pending**.
+October 4, 2026: **retained correction with a cross-route admission failure**.
 [Checks and exact hashes](checks.json) bind source `54bda122`, prospective
 correction plan `279437b`, and the unchanged failed `69e22dff` freeze.
 This supplements the [original source preparation](../forgix-register-host-runtime/README.md).
@@ -39,3 +39,5 @@ artifact remains correctly refused by the strict build-source guard; fresh
 root-owned ARM build and independent artifact review remain required. Loaded
 Docker identity is historical only. No daemon query, hardware access, container,
 ARM compiler, vendor build or physical/OpenSpec acceptance occurred.
+
+Subsequent independent review retained this version as failed (FAIL_SHARED_PENDING_CROSS_ROUTE). The [current merged checkpoint](../forgix-register-production-checkpoint/README.md) records the independently reviewed replacement, current ARM artifact and fresh runtime snapshots. The original private author and failed peer receipts remain unchanged.

@@ -50,7 +50,7 @@
   ],
   "fresh_root_ARM_build_and_independent_artifact_review_required": true,
   "loaded_Docker_image_identity": "historical root tuple only; no author current daemon inspection",
-  "independent_review": "pending",
+  "independent_review": "FAIL_ORIGINAL_BOARD_AND_FINALIZATION",
   "hardware_access": false,
   "containers_started": false,
   "vendor_or_ARM_compiler_executed": false,
@@ -60,5 +60,8 @@
   "private_review_ready_sha256": "a6f6ba22b1c425f39e2cbab2730f227ca015ef206ed6b074a4b76d97b515681d",
   "private_proof_sha256": "52117161f2697461c6c1a0e4c879ecf2813893bb29c987bfac56abed24cb5ac6",
   "private_final_tests_log_sha256": "49bfefcfffec07db01c022e83cca015b467ce82667a4f82ed9358ca4afb9e525",
-  "preserved_old_fixture_failure_sha256": "10034a6040e3062d06193f5d6e4a2d84aaf5151c4a2fb8c9166ccd6d2eb3f0d7"
+  "preserved_old_fixture_failure_sha256": "10034a6040e3062d06193f5d6e4a2d84aaf5151c4a2fb8c9166ccd6d2eb3f0d7",
+  "author_freeze_review_state": "pending at preparation",
+  "independent_failed_review_sha256": "96b09ffe2582ad92681ae5cf23bbf4656d5c1c2e1ce24fda04943646e0d0858a",
+  "superseded_by": "docs/evidence/forgix-register-production-checkpoint/README.md"
 }

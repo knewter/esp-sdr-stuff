@@ -100,14 +100,17 @@
   "vendor_or_ARM_compiler_executed": false,
   "physical_qualification": false,
   "openspec_physical_tasks_checked": false,
-  "independent_review": "pending",
+  "independent_review": "PASS_TWO_OFFLINE_PEERS",
   "strict_historical_artifact_refusal": "Bridge build source differs",
-  "fresh_root_ARM_build_and_independent_artifact_review_required": true,
+  "fresh_root_ARM_build_and_independent_artifact_review_required": false,
   "build_recipe_not_executed": true,
   "limits": "Host-only source/tool/archive/import/full Nix reference/content proof. No author Docker daemon inspection, devices, compiler or containers. Loaded image identity remains historical exact root tuple only. Real inherited child uses harmless fixture registry/continuity/2MiB baseline copies/device-query injection, not physical qualification. Strict historical configuration artifact refusal retained. Current root merge/fresh execution/runtime/loaded-image/identity freeze and fresh ARM build/artifact review required before any physical register trial. Live daemon/kernel/filesystem/pre-Python launcher/Task ancestor remain trusted boundaries.",
   "private_review_ready_sha256": "11175d038951c6613628dec411fbb88affe6d269ffe136f735a321c39e3661f2",
   "private_proof_sha256": "6d653ec79eea8fdd1d8a9c398d3992ea8fdc2bcd3fc236f3bc5d784f22b33bee",
   "private_test_log_sha256": "f5b863758f451aeac5532c3246a851aec50ea3428c235c95ea08ebb6ec3833f5",
   "private_unchanged_cross_route_log_sha256": "1a7e132a30a5cca5fe2763dead1abe83be221a9fa11ac452220e9c1db95cf743",
-  "private_policy_source_proof_sha256": "5bf82009b7cea846eb5b1d8a9a6dd19e43f8659a69c9955d12379b4703dfca9f"
+  "private_policy_source_proof_sha256": "5bf82009b7cea846eb5b1d8a9a6dd19e43f8659a69c9955d12379b4703dfca9f",
+  "author_freeze_review_state": "pending at preparation",
+  "current_root_checkpoint": "docs/evidence/forgix-register-production-checkpoint/README.md",
+  "physical_admission": false
 }

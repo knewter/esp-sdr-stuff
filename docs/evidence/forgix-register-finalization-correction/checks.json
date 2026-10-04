@@ -56,7 +56,7 @@
   "fresh_root_ARM_build_and_independent_artifact_review_required": true,
   "loaded_Docker_image_identity": "historical exact root tuple only; no author current daemon inspection",
   "build_recipe_not_executed": true,
-  "independent_review": "pending",
+  "independent_review": "FAIL_SHARED_PENDING_CROSS_ROUTE",
   "hardware_access": false,
   "containers_started": false,
   "vendor_or_ARM_compiler_executed": false,
@@ -65,5 +65,8 @@
   "limits": "Source/import/tool/archive/Nix closure content and harmless inherited-worker/finalization proof only. No current Docker daemon inspection. No board qualification/loading/continuity/throughput. Live filesystem/kernel/daemon/pre-Python launcher and Task ancestor trust limits persist. Corrective-journal failure remains explicitly uncertain with durable pending evidence and operator-blocking lease/marker; session.json alone never admits a retry. Current historical register artifact is refused; fresh merged root build/artifact review remain mandatory.",
   "private_review_ready_sha256": "664e7a3a23d0f95bbe810df43c0f186795fe2769bf7a518afcb0e2be7ab5e809",
   "private_actual_proof_sha256": "c02de653766ec51992cf23fbc4469174752d8e882c3cf7c26c36d32918acc3ca",
-  "private_final_tests_sha256": "559c6b1d95509b7618e9a1bb2dc7b04a245ccef6898d823923d3db47b7e2da11"
+  "private_final_tests_sha256": "559c6b1d95509b7618e9a1bb2dc7b04a245ccef6898d823923d3db47b7e2da11",
+  "author_freeze_review_state": "pending at preparation",
+  "independent_failed_review_sha256": "60300e84d14b1ac7b19e444b03ce875312ce34e8a07e265451b8bfedd7906420",
+  "superseded_by": "docs/evidence/forgix-register-production-checkpoint/README.md"
 }

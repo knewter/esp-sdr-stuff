@@ -1,6 +1,6 @@
 # Register host-runtime preparation
 
-October 4, 2026: **author source/runtime checks pass; independent review pending**.
+October 4, 2026: **retained failed initial preparation**.
 [Checks and hashes](checks.json) bind source `69e22dff`, its prospective
 OpenSpec/protocol planning commits, and retained private proof. No physical
 FPGA or register acceptance is claimed.
@@ -36,3 +36,5 @@ container, hardware access, ARM compiler or vendor build ran. Live daemons,
 kernel, filesystem and pre-Python launch remain trust boundaries; selecting
 Task does not prove its ancestor invocation. No OpenSpec hardware task changed.
 The original fixture failures and all final logs remain private and preserved.
+
+Subsequent independent review retained this version as failed (FAIL_ORIGINAL_BOARD_AND_FINALIZATION). The [current merged checkpoint](../forgix-register-production-checkpoint/README.md) records the independently reviewed replacement, current ARM artifact and fresh runtime snapshots. The original private author and failed peer receipts remain unchanged.
