@@ -111,18 +111,31 @@ class Control:
 class Validator:
     """Strict completeness is latched separately from forward-gap forensics."""
     def __init__(self, binding):
+        require(type(binding) is Binding, 'Exact stream binding required')
         self.binding=binding
         self.state='config';self.controls=[];self.strict=None;self.strict_failure=None
         self.last_stamp=-1;self.boot_epoch=None;self.start=None;self.anchor=None
         self.next_frame=0;self.next_record=0;self.frames=0;self.records=0
         self.gaps=[];self.frame_gaps=[];self.arrivals=[];self.end=None
         self.start_host_ns=None;self.end_host_ns=None;self.last_host_ns=-1
+        self.protocol_failure=None
 
     def mark_start(self):
         require(self.state=='start_required', 'START intent ordering differs')
         self.state='start'
 
     def accept(self, raw, host_ns):
+        if self.protocol_failure is not None:
+            raise self.protocol_failure
+        try:
+            return self._accept(raw,host_ns)
+        except ValueError as exc:
+            self.protocol_failure=exc
+            if self.strict_failure is None:
+                self.strict_failure=getattr(getattr(exc,'code',None),'name',type(exc).__name__)
+            raise
+
+    def _accept(self, raw, host_ns):
         require(type(host_ns) is int and host_ns>=0, 'Host monotonic timestamp required')
         require(host_ns>=self.last_host_ns, 'Host arrival clock reversed')
         require(type(raw) is bytes and len(raw)==512, 'Exact frame required')
@@ -223,7 +236,7 @@ class Validator:
 
     def summary(self):
         end=self.end.values if self.end else None
-        lossless=(self.state=='ended' and end['status']==0 and self.strict_failure is None
+        lossless=(self.protocol_failure is None and self.state=='ended' and end['status']==0 and self.strict_failure is None
                   and self.records==self.binding.target and not self.gaps and not self.frame_gaps
                   and self.frames==end['encoded_frames']==end['accepted_frames'])
         bins={};gaps=[]

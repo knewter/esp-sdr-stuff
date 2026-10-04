@@ -23,7 +23,13 @@ reach serial close. Failed persistence or closure cannot report success. A
 private read-only replay verifies the saved hash/count and command binding;
 it does not infer physical admission, recovery or whole-worker closure.
 
-Twenty-five focused test groups pass under locked Nix/Task: twelve control/wire
+The original `3c574d5` parser freeze is retained. A narrow follow-up latches any
+protocol rejection permanently, including invalid controls rejected before the
+DATA codec; catching an error and submitting replacement bytes cannot regain
+lossless status. Invalid-frame and complete real-C replay regressions cover this
+correction without changing the wire contract or collector hardware boundary.
+
+Twenty-six focused test groups pass under locked Nix/Task: thirteen control/wire
 groups and thirteen host fault groups. Actual native C output at the corrected
 engine revision `c4cae186` verifies all three complete rates, tick32 wrap, RP
 pause, source loss, ambiguous POP and invalid final snapshot. Independent

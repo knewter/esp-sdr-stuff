@@ -74,6 +74,10 @@ class HostWire(unittest.TestCase):
         damaged=bytearray(p);damaged[80]=1
         with self.assertRaises(CodecError):v.accept(bytes(damaged),2)
         self.assertEqual((v.frames,v.records,v.next_record),(0,0,0))
+        with self.assertRaises(CodecError):v.accept(p,2)
+        self.assertEqual((v.frames,v.records,v.next_record),(0,0,0))
+        self.assertFalse(v.summary()['lossless'])
+        v=started()
         v.accept(p,2)
         with self.assertRaises(StreamError):v.accept(p,3)
         self.assertEqual(v.records,1)
@@ -182,5 +186,13 @@ class ActualC(unittest.TestCase):
                     if p[5]==3:v.mark_start()
                     v.accept(p,1)
                 with self.assertRaises(StreamError):v.accept(mutate(frames[-1],off,value,fmt),1)
+
+    def test_bad_control_cannot_be_caught_and_repaired_to_complete(self):
+        r=self.complete();frames=r.frames();v=Validator(B)
+        q=bytearray(frames[0]);q[128]^=1
+        with self.assertRaises(StreamError):v.accept(bytes(q),0)
+        for p in frames:
+            with self.assertRaises(StreamError):v.accept(p,1)
+        self.assertFalse(v.summary()['lossless']);self.assertEqual(v.records,0)
 
 if __name__=='__main__':unittest.main()
