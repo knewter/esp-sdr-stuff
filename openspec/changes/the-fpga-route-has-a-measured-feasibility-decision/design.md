@@ -249,3 +249,10 @@ The [countdown scheduler](docs/evidence/forgix-synthetic-scheduler/README.md) no
 passes 16 author HDL groups and nine independent production-period edge fixtures
 against immutable pre-change HDL. Fresh routed timing at unchanged 32 MHz remains
 required; software behavior proof does not accept a physical task.
+
+[Actual attempt004](docs/evidence/forgix-synthetic-compiler/README.md) now passes
+independent exact-artifact review and modeled internal 32 MHz timing (+1.530 ns
+setup, +0.642 ns hold). Physical grade/clock/SPI timing remain unqualified. The
+separate RP stream ARM build passes its initial layout guard at 220,200 SRAM
+bytes; actual artifact/startup and collector/lifecycle review remain gates.
+No hardware checkbox or accepted requirement changes.

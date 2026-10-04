@@ -66,3 +66,20 @@ countdown, prove exact record ticks and concurrent control behavior against the
 current HDL, and retain the 32 MHz constraint for a fresh build. Compiler success
 alone does not admit a physical trial. Attempt002 remains a separate failed
 verification episode; neither failure is erased.
+
+## Fourth actual attempt closes modeled internal timing
+
+The separately reviewed countdown scheduler now completes fresh routing at the
+unchanged 32 MHz constraint. Independent artifact review verifies all four
+stages, committed/generated/XML/image bindings, 73 retained private files and
+the report: setup +1.530 ns, hold +0.642 ns, analyzed maximum 33.647 MHz.
+Resources fit the requested provisional T8F49/I2 model: 3,550/7,384 logic
+elements, 1,660/5,280 registers and 8/24 RAM blocks. Four assigned pads remain
+unchanged. The 520,140-byte hex image decodes to 173,380 bytes.
+
+This resolves the modeled internal timing failure for this exact image. Earlier
+attempts remain distinct retained failures. Physical oscillator frequency,
+FPGA grade/voltage, asynchronous SPI delays, pin release, configuration and
+recovery remain unqualified. No FPGA was programmed. The bounded runner's
+terminal closure attestation is retained; a live process-group absence check
+cannot be reconstructed because its receipt contains no process-group ID.

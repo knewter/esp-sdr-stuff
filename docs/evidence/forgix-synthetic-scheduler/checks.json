@@ -29,7 +29,9 @@
     "Simulation does not establish32MHz physical frequency, timing closure, resource fit, IO turnaround or recovery.",
     "Actual vendor recompilation and linked platform/collector audit remain separate gates."
   ],
-  "vendor_compile_repeated": false,
+  "vendor_compile_repeated": true,
   "hardware_opened": false,
-  "timing_closure_proved": false
+  "timing_closure_proved": false,
+  "fresh_vendor_result": "actual004_independently_verified_internal_model_setup_hold_closed",
+  "modeled_internal_setup_hold_closed": true
 }

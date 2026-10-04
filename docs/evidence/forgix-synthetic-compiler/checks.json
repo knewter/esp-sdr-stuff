@@ -1,6 +1,6 @@
 {
   "kind": "synthetic vendor-route preparation and retained first runtime failure",
-  "status": "third_build_artifacts_verified_internal_setup_failed",
+  "status": "fourth_build_artifacts_verified_modeled_internal_setup_hold_closed",
   "executed_commit": "0c4161b4b16f6f27c33994ff22b5f5a602349e42",
   "executed_inputs_sha256": {
     "firmware/forgix-synthetic-source/source.v": "ec067fbbe7ebcab49c4924afda7a8303ef581945924db2658b77ff807bdaf48c",
@@ -234,5 +234,115 @@
       "No loading, transport measurement, calibration or timing admission.",
       "Compile002 failed input-guard episode remains failed; this is a separate fresh episode."
     ]
+  },
+  "fourth_attempt": {
+    "executed_commit": "3d3d3bbd4739f12f6299b59f24e1958312d785db",
+    "source_sha256": "ddcafd56a79a92e926b8a62e46d31485741818001a58ba9edef98091629e7306",
+    "result_sha256": "776cfd78d088ab0a832e661b4da7a978be03644c60a48382ef3fa4387ca46e87",
+    "duration_seconds": 30.2808985899901,
+    "private_peer_review_sha256": "1daad50695a488acae15a694ebfba2f08f1df1ed289327d452ceb127d8067727",
+    "verdict": "PASS_saved_offline_FPGA004_artifact_scope",
+    "stages": [
+      "map",
+      "interface",
+      "pnr",
+      "pgm"
+    ],
+    "xml_policy": "efinity-2026.1.132-location-date-etree-v1",
+    "resources": {
+      "Logic Elements": {
+        "used": 3550,
+        "capacity": 7384
+      },
+      "LE: LUTs/Adders": {
+        "used": 2617,
+        "capacity": 7384
+      },
+      "LE: Registers": {
+        "used": 1660,
+        "capacity": 5280
+      },
+      "Memory Blocks": {
+        "used": 8,
+        "capacity": 24
+      },
+      "Multipliers": {
+        "used": 0,
+        "capacity": 8
+      }
+    },
+    "timing": {
+      "model": "I2",
+      "clock_constraint_hz": 32000000,
+      "setup_slack_ns": 1.53,
+      "hold_slack_ns": 0.642,
+      "max_analyzed_frequency_MHz": 33.647,
+      "reported_internal_setup_hold_closed": true,
+      "external_SPI_constraints_qualified": false,
+      "critical_begin": "soc_guardedspibone_core_address[11]",
+      "critical_end": "synthetic_source/due_left[19]"
+    },
+    "image": {
+      "file_bytes": 520140,
+      "sha256": "4970937cc85def1129f69f0381331affa9c125fce829d15633366c823ae10a11",
+      "decoded_bytes": 173380,
+      "decoded_sha256": "b2ecd1643510a107f6ee9eb74e3616e011fb8c6eb9663e15bb3e6babd4b25919",
+      "decoded_crc32": 2094097453
+    },
+    "pins": [
+      {
+        "Pin Number": "B4",
+        "Signal Name": "clk32",
+        "Direction": "Input",
+        "Bank": "1B",
+        "I/O Bank Voltage": "3.3 V"
+      },
+      {
+        "Pin Number": "F2",
+        "Signal Name": "spibone0_mosi0",
+        "Direction": "Bidirectional",
+        "Bank": "1A",
+        "I/O Bank Voltage": "3.3 V"
+      },
+      {
+        "Pin Number": "F3",
+        "Signal Name": "spibone_clk",
+        "Direction": "Input",
+        "Bank": "1A",
+        "I/O Bank Voltage": "3.3 V"
+      },
+      {
+        "Pin Number": "G3",
+        "Signal Name": "spibone_cs_n",
+        "Direction": "Input",
+        "Bank": "1A",
+        "I/O Bank Voltage": "3.3 V"
+      }
+    ],
+    "warnings": {
+      "count": 27,
+      "sha256": "ce70ec33e45411beae42180db360300323e6cd51d2774f3d5e34220253b2298e",
+      "classes": [
+        "unused original input is unbonded; six lowered directions map four named package pins",
+        "intentional bus/address widths and constant CTI/BTE/ERR review retained",
+        "function temporaries/unused internals optimized; identifier memory no-driver warning retained",
+        "no missing-interface/no-image outcome"
+      ]
+    },
+    "private_inventory_files": 73,
+    "private_inventory_bytes": 6105821,
+    "closure": {
+      "owned_group_closed_receipt": true,
+      "independent_live_group_absence_verified": false,
+      "reason": "No PGID/resource IDs retained in compiler receipt; original bounded runner source and terminal attestation reviewed separately."
+    },
+    "limits": [
+      "Positive internal modeled STA is not measured physical32MHz/grade/voltage or asynchronous SPI timing.",
+      "Only four assigned user pads; configuration/dedicated pins and compiler unused-pin defaults remain electrically relevant.",
+      "No bitstream functional/load/RP response/USB stream/preservation proof.",
+      "FPGA/source SRAM semantics were simulated separately, not measured by this compilation."
+    ],
+    "hardware_opened": false,
+    "programming_admitted": false
   }
 }

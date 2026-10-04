@@ -19,3 +19,7 @@ Full-target runs use a scaled simulation clock; production probes explicitly
 accelerate aligned checkpoints. Neither establishes physical frequency or
 routed timing. Fresh actual compilation, platform/collector review and physical
 qualification remain required. No FPGA was programmed or hardware task accepted.
+
+[Actual attempt004](../forgix-synthetic-compiler/README.md) now verifies modeled
+internal timing with +1.530 ns setup and +0.642 ns hold margin at unchanged
+32 MHz. Physical frequency, grade and SPI timing remain unqualified.
