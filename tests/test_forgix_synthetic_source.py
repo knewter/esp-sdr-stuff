@@ -239,6 +239,113 @@ class ActualHDL(unittest.TestCase):
             snapshot;if(l!=0 || o!=65)$fatal(1,"pointer wrap drain");
         ''')
 
+    def compare_original(self, script):
+        # Undo only this reviewed optimization, then require every byte to
+        # match the immutable original source. Execute both real HDL modules;
+        # do not replace source behavior with a software timing model.
+        current=(ROOT/generator.CORE).read_text()
+        original=current.replace('    reg [63:0] drain_until;\n','').replace(
+            'tick >= drain_until','tick >= stop_tick + DRAIN_CYCLES').replace(
+            '            drain_until <= 0;\n','').replace(
+            '                    drain_until <= tick + DRAIN_CYCLES;\n','').replace(
+            '                            2: if (running) begin\n'
+            '                                   running <= 0; done <= 1; stop_tick <= tick;\n'
+            '                                   drain_until <= tick + DRAIN_CYCLES;\n'
+            '                               end\n',
+            '                            2: if (running) begin running <= 0; done <= 1; stop_tick <= tick; end\n')
+        self.assertEqual(hashlib.sha256(original.encode()).hexdigest(),
+                         'ec067fbbe7ebcab49c4924afda7a8303ef581945924db2658b77ff807bdaf48c')
+        reference=original.replace('module forgix_synthetic_source #(',
+                                   'module source_reference #(',1)
+        fields=('tick,start_tick,stop_tick,seen,attempted,accepted,running,done,'
+                'pause_attempted,pause_begin,pause_end,generated_count,enqueued_count,'
+                'dropped_count,popped_count,refused_pop,refused_command,level,high_water,'
+                'next_due,head_wait,head,snapshot_id,snapshot_tick,snapshot_start,'
+                'snapshot_stop,snap_generated,snap_enqueued,snap_dropped,snap_popped,'
+                'snap_refused_pop,snap_refused_command,snap_state,snap_level,snap_high_water').split(',')
+        monitor='\n'.join(f'if(dut.{n}!==reference.{n})$fatal(1,"original mismatch {n}");' for n in fields)
+        extra='''
+  wire ref_ack,ref_err;wire[31:0] ref_q;
+  source_reference #(.SYSTEM_HZ(HZ)) reference(clk,reset,cyc,stb,we,addr,data,sel,ref_ack,ref_err,ref_q);
+  always @(posedge clk)begin #2;
+    if({ack,err,q}!=={ref_ack,ref_err,ref_q})$fatal(1,"original bus mismatch");
+    if(dut.drain_expired!==reference.drain_expired)$fatal(1,"drain edge mismatch");
+    MONITOR
+  end
+  reg[63:0] deadline,stopped;
+'''.replace('MONITOR',monitor)
+        tb=COMMON.replace('  reg [31:0] st,s,t,p,c,g,e,d,o,l,h,id0,id1;',extra+'  reg [31:0] st,s,t,p,c,g,e,d,o,l,h,id0,id1;').replace('SCRIPT',script)
+        with tempfile.TemporaryDirectory(prefix='forgix-source-equivalence-') as directory:
+            folder=Path(directory);(folder/'reference.v').write_text(reference);(folder/'tb.v').write_text(tb)
+            subprocess.run([self.iverilog,'-g2012','-s','tb','-o',str(folder/'sim'),str(ROOT/generator.CORE),
+                            str(folder/'reference.v'),str(folder/'tb.v')],check=True,capture_output=True,timeout=30)
+            result=subprocess.run([self.vvp,str(folder/'sim')],check=True,capture_output=True,text=True,timeout=30)
+            self.assertIn('PASS',result.stdout)
+
+    def test_stop_drain_exact_edges_carries_and_wrapping_match_original(self):
+        for stop in ('dut.tick', "64'h00000000fffff000", "64'hfffffffffffff000"):
+            for offset in (-1,0,1):
+                with self.subTest(stop=stop,offset=offset):
+                    self.compare_original(f'''
+                        setup(800,960);wr('h00c,1,0);wait(dut.generated_count>=3);
+                        @(negedge clk);dut.tick={stop};reference.tick=dut.tick;
+                        dut.start_tick=dut.tick;reference.start_tick=dut.tick;
+                        wr('h00c,2,0);stopped=dut.stop_tick;
+                        deadline=stopped+64'd64000;
+                        if(dut.drain_until!==deadline)$fatal(1,"STOP deadline");
+                        @(negedge clk);dut.tick=deadline{'-' if offset<0 else '+'}64'd{abs(offset)};reference.tick=dut.tick;
+                        addr='h040;data=0;we=1;cyc=1;stb=1;
+                        @(posedge clk);#1;if(!ack || err!==1'b{int(offset>=0)})$fatal(1,"boundary POP");
+                        if(dut.popped_count!={int(offset<0)})$fatal(1,"boundary consumption");
+                        @(negedge clk);cyc=0;stb=0;we=0;
+                        @(posedge clk);#1;snapshot;
+                        if(dut.snapshot_stop!==stopped || dut.snap_generated!=3)$fatal(1,"STOP snapshot");
+                        wr('h00c,2,1);wr('h00c,1,1);
+                    ''')
+
+    def test_natural_completion_concurrent_pop_or_stop_match_original(self):
+        # Deposit an accelerated, reconciled final-record checkpoint into both
+        # actual modules. Normal full-target record tests above remain separate.
+        for tick in ('dut.tick', "64'h00000000fffff000", "64'hfffffffffffff000"):
+            for command in ('none','pop','stop'):
+                with self.subTest(tick=tick,command=command):
+                    request={'none':'cyc=0;stb=0;we=0;',
+                             'pop':"addr='h040;data=0;we=1;cyc=1;stb=1;",
+                             'stop':"addr='h00c;data=2;we=1;cyc=1;stb=1;"}[command]
+                    self.compare_original(f'''
+                        setup(100,7680);wr('h00c,1,0);wait(dut.generated_count>=3);
+                        @(negedge clk);dut.tick={tick};reference.tick=dut.tick;stopped=dut.tick;
+                        dut.start_tick=dut.tick-100;reference.start_tick=dut.start_tick;
+                        dut.next_due=100;reference.next_due=100;
+                        dut.generated_count=7679;reference.generated_count=7679;
+                        dut.dropped_count=7679-dut.enqueued_count;reference.dropped_count=dut.dropped_count;
+                        {request}
+                        @(posedge clk);#1;
+                        if(!dut.done || dut.running || dut.generated_count!=7680)$fatal(1,"finite completion");
+                        if(dut.stop_tick!==stopped || dut.drain_until!==stopped+64'd64000)$fatal(1,"completion stamp");
+                        if(dut.popped_count!={int(command=='pop')})$fatal(1,"completion concurrent POP");
+                        @(negedge clk);cyc=0;stb=0;we=0;
+                        @(posedge clk);#1;snapshot;
+                        if(g!=7680 || e!=o+l)$fatal(1,"completion counters");
+                    ''')
+
+    def test_boundary_snapshot_is_pre_edge_and_reset_clears_deadline(self):
+        self.compare_original(r'''
+            setup(800,960);wr('h00c,1,0);wait(dut.generated_count>=3);wr('h00c,2,0);
+            stopped=dut.stop_tick;deadline=stopped+64'd64000;
+            @(negedge clk);dut.tick=deadline-1;reference.tick=dut.tick;
+            addr='h00c;data=4;we=1;cyc=1;stb=1;
+            @(posedge clk);#1;
+            if(!ack || err || dut.snap_state[5] || dut.snapshot_tick!==deadline-1 || !dut.drain_expired)
+                $fatal(1,"snapshot must retain pre-edge expiration state");
+            @(negedge clk);cyc=0;stb=0;we=0;reset=1;
+            repeat(3)@(posedge clk);@(negedge clk);reset=0;
+            rd('h028,st);snapshot;
+            if(st!=0 || dut.drain_until!=0 || dut.stop_tick!=0 || dut.drain_expired)$fatal(1,"reset deadline");
+            wr('h00c,2,1);setup(800,960);wr('h00c,1,0);wait(dut.generated_count>=1);
+            wr('h00c,2,0);if(dut.drain_expired)$fatal(1,"stale expired latch");
+        ''')
+
 
 class Wrapper(unittest.TestCase):
     def test_production_soc_adds_no_pins_and_preserves_old_register_bank_guard(self):

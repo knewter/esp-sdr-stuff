@@ -20,6 +20,7 @@ module forgix_synthetic_source #(
     localparam [63:0] PAUSE_CYCLES = SYSTEM_HZ / 10;
     reg seen;
     reg [63:0] tick, start_tick, stop_tick, pause_begin, pause_end;
+    reg [63:0] drain_until;
     reg [31:0] period_cfg, target_cfg, period_active, target_active;
     reg [127:0] nonce_cfg, nonce_active;
     reg attempted, accepted, running, done, pause_attempted;
@@ -40,7 +41,7 @@ module forgix_synthetic_source #(
     wire write_fire = fire && wb_we && aligned && wb_sel == 4'hf;
     wire head_valid = level != 0 && head_wait == 0;
     wire pause_active = pause_attempted && tick < pause_end;
-    wire drain_expired = done && tick >= stop_tick + DRAIN_CYCLES;
+    wire drain_expired = done && tick >= drain_until;
     wire pop_request = write_fire && wb_addr == 12'h040;
     wire pop_ok = pop_request && head_valid && !pause_active && !drain_expired && wb_data_in == head[31:0];
     wire due = running && tick - start_tick >= next_due;
@@ -126,6 +127,7 @@ module forgix_synthetic_source #(
         if (reset) begin
             seen <= 0; wb_ack <= 0; wb_err <= 0; tick <= 0;
             start_tick <= 0; stop_tick <= 0; pause_begin <= 0; pause_end <= 0;
+            drain_until <= 0;
             period_cfg <= 0; target_cfg <= 0; nonce_cfg <= 0;
             period_active <= 0; target_active <= 0; nonce_active <= 0;
             attempted <= 0; accepted <= 0; running <= 0; done <= 0; pause_attempted <= 0;
@@ -146,6 +148,7 @@ module forgix_synthetic_source #(
                 next_due <= next_due + period_active;
                 if (generated_count + 1 == target_active) begin
                     running <= 0; done <= 1; stop_tick <= tick;
+                    drain_until <= tick + DRAIN_CYCLES;
                 end
                 if (push) begin
                     fifo[write_pointer] <= {record_crc(record_body), record_body};
@@ -197,7 +200,10 @@ module forgix_synthetic_source #(
                                     end
                                 end
                             end
-                            2: if (running) begin running <= 0; done <= 1; stop_tick <= tick; end
+                            2: if (running) begin
+                                   running <= 0; done <= 1; stop_tick <= tick;
+                                   drain_until <= tick + DRAIN_CYCLES;
+                               end
                                else begin wb_err <= 1; refused_command <= refused_command + 1; end
                             4: begin
                                 snapshot_id <= snapshot_id + 1; snapshot_tick <= tick;
