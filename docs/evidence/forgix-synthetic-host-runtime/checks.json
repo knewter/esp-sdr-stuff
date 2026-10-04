@@ -1,0 +1,61 @@
+{
+  "kind": "Independent synthetic host-runtime and complete reference graph review",
+  "result": "PASS_OFFLINE_RUNTIME_BINDING_ONLY",
+  "source_commit": "f6fe60197087f9dfe6a8c7a53318867687acb71e",
+  "execution_sha256": "81d8f5e0ed535c08e5a315ffd1081a34eab7712350b19a2b724b440a5ca7be34",
+  "environment_sha256": "8b7d046b1e23d5e0b972198ae25c733d59011f4d85fde0a2a20138bea6c43f16",
+  "repository_inputs": 63,
+  "host_tools": 7,
+  "verified_nix_closure_paths": 268,
+  "reference_edges": 1097,
+  "referenced_nodes": 265,
+  "source_sha256": {
+    "tools/forgix_synthetic_runtime.py": "c7afaa1cb21839233f7efd005acaf1cd074e1da6c88b89700b258d671803c76e",
+    "tests/test_forgix_synthetic_runtime.py": "85b5453f22e2734b39cace005e5edd0f56ea3f61ff4c6b73a41a8fafc72de4e9",
+    "tools/forgix_synthetic_backend.py": "3400831932569d6a591a7208738273a12abb1ce322f820ecaf063e8917e81c2e",
+    "tools/run_forgix_synthetic_trial.py": "752dbcd5f3f0184e9aafec749cc7e038826114df1ebb4a52426290e8945259df"
+  },
+  "terminal_groups": {
+    "author_runtime": 14,
+    "existing_lifecycle": 35,
+    "independent_peer": 7
+  },
+  "checks": {
+    "actual_environment_all_bytes_match_author": true,
+    "fresh_all_closure_contents_verified": true,
+    "both_dict_and_list_graph_shapes_checked": true,
+    "all_referenced_nodes_with_remaining_incoming_edges_omitted_and_refused": true,
+    "actual_import_closure_covered": true,
+    "imported_external_nix_files": 148,
+    "exact_current_committed_input_map": true,
+    "real_host_only_worker_inherited_local_flock": true,
+    "multicall_invocation_alias_retained": true,
+    "endpoint_identity_and_tool_substitution_refusals": true,
+    "empty_qualification_registry": true
+  },
+  "limits": [
+    "Docker/Nix daemons, live kernel, udev and filesystem remain trusted",
+    "Selected Task executable is not proof of ancestor invocation",
+    "No USB/HCI/DBus hardware calls, serial handles, containers, ARM builds or vendor/compiler execution",
+    "Root must freshly freeze its changed committed source tuple and retain sole hardware operation ownership"
+  ],
+  "hardware_access": false,
+  "containers_started": false,
+  "compiler_or_vendor_executed": false,
+  "physical_admission": false,
+  "independent_review_sha256": "1256b92d3be0414f62ecb6fd394e9d553e92fb2c3a39ab1c1d36b2869989c53f",
+  "mapped_root_revision": "19f0ffc",
+  "whole_route_ready": false,
+  "retained_failure": "Original graph omitted a referenced libpsl node and passed; corrected canonical reference completeness rejects it in dictionary and list receipt shapes.",
+  "separate_unqualified_factory_return_defect": {
+    "caller": "tools/forgix_synthetic_backend.py:factory_return",
+    "label": "returned-after-stream",
+    "helper_allowed_labels": [
+      "initial",
+      "returned",
+      "returned-after-ram"
+    ],
+    "helper_sha256": "44fbe08b180cb350a8893a9e3a8a20bf94fc3a353064091a8d383e5d6c8e87f4",
+    "status": "Concrete static mismatch; unreachable while registry empty; requires correction and independent regression before claiming full synthetic route readiness"
+  }
+}
