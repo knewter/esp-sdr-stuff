@@ -309,6 +309,7 @@ class ActualHDL(unittest.TestCase):
         for tick in ('dut.tick', "64'h00000000fffff000", "64'hfffffffffffff000"):
             for command in ('none','pop','stop'):
                 with self.subTest(tick=tick,command=command):
+                    boundary={'none':-1,'pop':0,'stop':1}[command]
                     request={'none':'cyc=0;stb=0;we=0;',
                              'pop':"addr='h040;data=0;we=1;cyc=1;stb=1;",
                              'stop':"addr='h00c;data=2;we=1;cyc=1;stb=1;"}[command]
@@ -327,6 +328,15 @@ class ActualHDL(unittest.TestCase):
                         @(negedge clk);cyc=0;stb=0;we=0;
                         @(posedge clk);#1;snapshot;
                         if(g!=7680 || e!=o+l)$fatal(1,"completion counters");
+                        deadline=stopped+64'd64000;
+                        @(negedge clk);dut.tick=deadline{'-' if boundary<0 else '+'}64'd{abs(boundary)};
+                        reference.tick=dut.tick;
+                        addr='h040;data=dut.head[31:0];we=1;cyc=1;stb=1;
+                        @(posedge clk);#1;
+                        if(!ack || err!==1'b{int(boundary>=0)})$fatal(1,"completion drain boundary");
+                        if(dut.popped_count!={int(command=='pop')+int(boundary<0)})$fatal(1,"completion drain consumption");
+                        @(negedge clk);cyc=0;stb=0;we=0;
+                        @(posedge clk);#1;snapshot;
                     ''')
 
     def test_boundary_snapshot_is_pre_edge_and_reset_clears_deadline(self):
