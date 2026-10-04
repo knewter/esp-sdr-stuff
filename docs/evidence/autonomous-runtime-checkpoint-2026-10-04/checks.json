@@ -1,0 +1,67 @@
+{
+  "kind": "Merged runtime/source profile checkpoint",
+  "result": "PASS_LOCAL_PRODUCTION_CHECKS",
+  "source_revision": "800720a1d77530d634f43c9517d39533756fdb31",
+  "check_pages": {
+    "returncode": 0,
+    "python_tests": 974,
+    "skips": 2,
+    "python_duration_seconds": 384.043,
+    "native_crypto": true,
+    "openspec_validation": true,
+    "site_build": true,
+    "browser": true,
+    "private_log_sha256": "cebf19e7f7d028bc4d1fd638de282b7b0561299eb2ffd133854309baab3160e5"
+  },
+  "focused_synthetic_task": {
+    "revision": "cfa5fa2bd724091a7a0374152f1bd47c04e1ec4c",
+    "tests": 51,
+    "skips": 0,
+    "returncode": 0,
+    "private_log_sha256": "8204e6246a452c95e331589127b495d4ce5b9489605317cd2953c0a6d6801fd9"
+  },
+  "fresh_read_only_freeze": {
+    "revision": "cfa5fa2bd724091a7a0374152f1bd47c04e1ec4c",
+    "repository_inputs": 63,
+    "host_tools": 7,
+    "verified_nix_paths": 268,
+    "execution_digest_excluding_registry": "cb264105410a24640d4b731a15cc8d97fb2cbd1b5fb808bb248d4df0e71568e0",
+    "environment_digest": "8b7d046b1e23d5e0b972198ae25c733d59011f4d85fde0a2a20138bea6c43f16",
+    "private_receipt_sha256": "30b796f69b45247e2262aeeba61f97627803bc2870c9bba4370f36090f574cfa",
+    "allocated_sram_bytes": 220200,
+    "qualification_registry_entries": 0,
+    "physical_admission": false
+  },
+  "independent_reviews": {
+    "base_source_plot_board": "6b0d021746a1a7e0de767a65faf2e2211db611d22fa0862949eea5170f66612d",
+    "runtime": "1256b92d3be0414f62ecb6fd394e9d553e92fb2c3a39ab1c1d36b2869989c53f",
+    "factory_return": "073d2c1d7a4a91e743bc2e8bd25fe9f39afeea0b1ec438e846d3068ff966dd02",
+    "root_runtime_comparison": "140736489dd16bf89b7dfcc1f0ce92aae2baaa8e6406b1dfb16d200bccf629a7",
+    "combined_board": "82fb0f350a119e062502755ff10b09de86d4ecbcc79b954368d2d58565ce38d5",
+    "actual_saved_source_only": "50aa1b8006c069b1eddc8cd57c4526225815a0ef591487f61c4ec8a820b45da4"
+  },
+  "read_only_survey": {
+    "captured_utc": "2026-10-04T14:21:57.954630+00:00",
+    "serial_opened": false,
+    "operator_lock_held": true,
+    "esp_stable_link_present": true,
+    "esp_original_backups_verified": true,
+    "rtl_v4_usb_count": 1,
+    "forgix_factory_count": 0,
+    "rp_rom_count": 0,
+    "rp_vendor_any_pid_count": 0,
+    "unknown_forgix_marker": false
+  },
+  "source_only": {
+    "controller_completed_events": 100,
+    "native_records": 23,
+    "monitor_records": 11,
+    "enable_ack_to_termination_seconds": 2.416180382,
+    "air_count": null,
+    "ESP_reception_measured": false,
+    "RF_accepted": false
+  },
+  "physical_fpga_trial": false,
+  "accepted_requirement_changes": false,
+  "publication_verified_by_this_receipt": false
+}
