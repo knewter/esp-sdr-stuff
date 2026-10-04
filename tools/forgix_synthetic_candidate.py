@@ -29,17 +29,21 @@ NAME = 'forgix_synthetic_candidate'
 CORE_NAME = 'forgix_synthetic_source.v'
 INPUTS = (*g.INPUTS, 'tools/forgix_synthetic_candidate.py', 'Taskfile.yml')
 GENERATED = (NAME+'.v', CORE_NAME, NAME+'.sdc', 'iface.py', NAME+'_mem.init', NAME+'.xml', NAME+'.peri.xml', NAME+'_merged.sdc')
+PROJECT_XML = NAME+'.xml'
+PROJECT_BEFORE = 'project-before.xml'
+PROJECT_REWRITE = 'efinity-2026.1.132-location-date-etree-v1'
 PROFILE = dict(old.PROFILE, kind='forgix-offline-synthetic-candidate', schema=1,
                synthetic_abi=0x46534731, synthetic_base=0x10000,
                fifo_records=64, record_bytes=16, offered_record_bytes_s=[256,1024,2048],
                resource_fit_reviewed=False, timing_closure_reviewed=False)
 
 
-def regular(path, limit=1024**2, fresh=None):
+def regular(path, limit=1024**2, fresh=None, *, allow_empty=False):
     for ancestor in (path, *path.parents):
         b.require(not ancestor.is_symlink(), 'Generated path contains a symlink')
     mode=path.stat()
-    b.require(stat.S_ISREG(mode.st_mode) and mode.st_nlink==1 and 0<mode.st_size<=limit, 'Invalid generated file type or size')
+    b.require(stat.S_ISREG(mode.st_mode) and mode.st_nlink==1 and
+              (0 if allow_empty else 1)<=mode.st_size<=limit, 'Invalid generated file type or size')
     if fresh is not None:b.require(mode.st_mtime_ns>=fresh, 'Stale compiler output')
     return path
 
@@ -133,6 +137,61 @@ def generated_hashes(work):
     return result
 
 
+def project_rewrite(before, work):
+    """Reproduce only the pinned runner's exact location/date+serializer rewrite.
+
+    Compare resulting bytes, never a lossy normalized subtree. Comments, PIs,
+    DTDs and unexpected root metadata are absent from the pinned generator and
+    refused before preparing an allowance. Child text/attributes/order survive.
+    """
+    b.require(type(before) is bytes and 0<len(before)<=1024**2 and b'<!' not in before,
+              'Unexpected frozen project XML metadata')
+    without_declaration=re.sub(br'^<\?xml version="1\.0" \?>\n',b'',before,count=1)
+    b.require(b'<?' not in without_declaration, 'Unexpected frozen project XML instruction')
+    try:
+        parser=ET.XMLParser(target=ET.TreeBuilder(insert_comments=True,insert_pis=True))
+        root=ET.fromstring(before,parser=parser)
+    except (ET.ParseError,ValueError) as error:
+        raise b.Refusal('Malformed frozen project XML') from error
+    b.require(all(type(node.tag) is str for node in root.iter()), 'Unexpected frozen project XML instruction')
+    b.require(root.tag==smoke.NS+'project' and root.attrib.keys()=={'name','location','sw_version','last_change_date'} and
+              root.get('name')==NAME and root.get('location')==str(work) and root.get('sw_version')==smoke.VERSION,
+              'Frozen project metadata changed')
+    date=root.get('last_change_date')
+    b.require(re.fullmatch(r'Date : \d{4}-\d{2}-\d{2} \d{2}:\d{2}',date) is not None, 'Unexpected project generation date')
+    # The reviewed runner prunes these two informational root fields. It also
+    # sets the already-identical sw_version and calls tree.write(xmlfile).
+    del root.attrib['location'];del root.attrib['last_change_date']
+    ET.register_namespace('efx',smoke.NS[1:-1])
+    return ET.tostring(root,encoding='us-ascii',short_empty_elements=True)
+
+
+def project_contract(before, work):
+    rewritten=project_rewrite(before,work)
+    return {'schema':1,'policy':PROJECT_REWRITE,'before_file':PROJECT_BEFORE,
+            'before_sha256':hashlib.sha256(before).hexdigest(),
+            'rewritten_sha256':hashlib.sha256(rewritten).hexdigest()}
+
+
+def verify_generated(private, fixed, contract):
+    work=private/'work/gateware'
+    b.require(type(fixed) is dict and set(fixed)==set(GENERATED), 'Synthetic generated inventory changed')
+    before=regular(private/PROJECT_BEFORE).read_bytes()
+    expected=project_contract(before,work)
+    b.require(contract==expected and type(contract.get('schema')) is int and
+              fixed[PROJECT_XML]==expected['before_sha256'], 'Frozen project provenance changed')
+    current=generated_hashes(work)
+    b.require(all(current[name]==fixed[name] for name in GENERATED if name!=PROJECT_XML),
+              'Synthetic build inputs changed during compilation')
+    actual=regular(work/PROJECT_XML).read_bytes()
+    if actual==before:rewrite='unchanged'
+    elif actual==project_rewrite(before,work):rewrite=PROJECT_REWRITE
+    else:raise b.Refusal('Synthetic project changed beyond the exact vendor rewrite')
+    return {'policy':rewrite,'before_sha256':expected['before_sha256'],
+            'after_sha256':current[PROJECT_XML],
+            'all_other_generated_sha256':{name:current[name] for name in GENERATED if name!=PROJECT_XML}}
+
+
 def vendor_command(installation):
     return [str(installation/'bin/python3'),str(installation/'scripts/efx_run.py'),NAME+'.xml','--flow','compile','--timeout','300']
 
@@ -161,15 +220,20 @@ def worker(private):
     peripheral=regular(work/'outflow'/(NAME+'.pt.sdc'))
     (work/(NAME+'_merged.sdc')).write_bytes(peripheral.read_bytes()+b'\n#########################\n\n'+(work/(NAME+'.sdc')).read_bytes())
     fixed=generated_hashes(work)
+    b.copy_frozen(work/PROJECT_XML,private/PROJECT_BEFORE,1024**2)
+    contract=project_contract(regular(private/PROJECT_BEFORE).read_bytes(),work)
     b.save(private/'generated.json',{'pins':old.PINS,'source_sha256':frozen,'generated_sha256':fixed,
+        'project_xml_contract':contract,
         'registers':{k:g.BASE+v for k,v in g.REGISTERS.items()},'csr_sha256':b.sha(private/'csr.csv'),
         'guard':{'sha256':b.sha(Path(inspect.getfile(GuardedSPIBone))),'idle_cycles':32,'turnaround_cycles':64}})
     installation=Path(soc.platform.efinity_path)
     b.require(b.sha(installation/'scripts/efx_run.py')==smoke.RUNNER_SHA, 'Synthetic vendor runner changed')
     result=subprocess.run(vendor_command(installation),cwd=work,env=soc.platform.toolchain.env,stderr=subprocess.STDOUT,timeout=305)
     b.require(result.returncode==0, 'Synthetic vendor compiler failed')
-    b.require(frozen==source_hashes() and fixed==generated_hashes(work), 'Synthetic build inputs changed during compilation')
+    b.require(frozen==source_hashes(), 'Synthetic build inputs changed during compilation')
+    project_verified=verify_generated(private,fixed,contract)
     validate_project(work);validate_interface(work);validate_csr(private/'csr.csv')
+    b.save(private/'project-verification.json',project_verified)
 
 
 def verify_outputs(private,started,frozen):
@@ -183,10 +247,13 @@ def verify_outputs(private,started,frozen):
     b.require(re.findall(r'^Stage completed: (\S+)\s*$',stage_log.read_text(errors='replace'),re.M)==list(smoke.STAGES), 'Incomplete synthetic stage log')
     image=regular(work/'outflow'/(NAME+'.hex'),16*1024**2,started)
     generated=json.loads(regular(private/'generated.json',65536).read_text())
+    project_verified=verify_generated(private,generated.get('generated_sha256'),generated.get('project_xml_contract'))
+    b.require(json.loads(regular(private/'project-verification.json',65536).read_text())==project_verified,
+              'Synthetic worker project verification changed')
     expected_guard={'sha256':b.sha(b.ROOT/'tools/forgix_spi_guard.py'),'idle_cycles':32,'turnaround_cycles':64}
     b.require(generated.get('guard')==expected_guard and type(generated['guard']['idle_cycles']) is int and type(generated['guard']['turnaround_cycles']) is int, 'Synthetic guard binding changed')
     b.require(generated.get('pins')==old.PINS and generated.get('registers')=={k:g.BASE+v for k,v in g.REGISTERS.items()} and
-              generated.get('source_sha256')==frozen and generated.get('generated_sha256')==generated_hashes(work) and generated.get('csr_sha256')==b.sha(private/'csr.csv'), 'Synthetic generated provenance changed')
+              generated.get('source_sha256')==frozen and generated.get('csr_sha256')==b.sha(private/'csr.csv'), 'Synthetic generated provenance changed')
     reports={};total=0;entries=0;pending=[work/'outflow']
     while pending:
         with os.scandir(pending.pop()) as directory:
@@ -195,11 +262,11 @@ def verify_outputs(private,started,frozen):
                 path=Path(entry.path)
                 b.require(not entry.is_symlink(), 'Linked synthetic report directory')
                 if entry.is_dir(follow_symlinks=False):pending.append(path);continue
-                regular(path,smoke.MAX_LOG);total+=path.stat().st_size
+                regular(path,smoke.MAX_LOG,allow_empty=True);total+=path.stat().st_size
                 b.require(total<=512*1024**2, 'Synthetic report bytes exceeded')
                 reports[str(path.relative_to(work/'outflow'))]={'bytes':path.stat().st_size,'sha256':b.sha(path)}
     return {'stages':list(smoke.STAGES),'bitstream_sha256':b.sha(image),'bitstream_bytes':image.stat().st_size,
-            'generated':generated,'outflow_reports':reports}
+            'generated':generated,'project_xml_verification':project_verified,'outflow_reports':reports}
 
 
 def compile_candidate(store,requested):

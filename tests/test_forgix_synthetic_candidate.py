@@ -11,6 +11,7 @@ import sys
 import tempfile
 import time
 import unittest
+import xml.etree.ElementTree as ET
 from types import SimpleNamespace as S
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
@@ -23,7 +24,7 @@ class SyntheticCompiler(unittest.TestCase):
         self.private=self.root/'.scratch/build';self.work=self.private/'work/gateware'
         self.work.mkdir(parents=True);self.out=self.work/'outflow';self.out.mkdir()
         self.frozen={'fixture':'0'*64}
-        self.xml=f'''<project xmlns="http://www.efinixinc.com/enf_proj" name="{c.NAME}"><device_info><family name="Trion"/><device name="T8F49"/><timing_model name="I2"/></device_info><design_info><design_file name="{self.work/(c.NAME+'.v')}"/><design_file name="{self.work/c.CORE_NAME}"/></design_info><constraint_info><sdc_file name="{c.NAME}_merged.sdc"/></constraint_info><synthesis><param name="mode" value="speed"/></synthesis><bitstream_generation><param name="mode" value="passive"/><param name="width" value="1"/></bitstream_generation></project>'''
+        self.xml=f'''<project xmlns="http://www.efinixinc.com/enf_proj" name="{c.NAME}" location="{self.work}" sw_version="{c.smoke.VERSION}" last_change_date="Date : 2026-10-04 09:00"><device_info><family name="Trion"/><device name="T8F49"/><timing_model name="I2"/></device_info><design_info><top_module name="{c.NAME}"/><design_file name="{self.work/(c.NAME+'.v')}" version="default" library="default"/><design_file name="{self.work/c.CORE_NAME}" version="default" library="default"/></design_info><constraint_info><sdc_file name="{c.NAME}_merged.sdc"/></constraint_info><synthesis><param name="mode" value="speed"/></synthesis><place_and_route tool_name="efx_pnr"/><bitstream_generation><param name="mode" value="passive"/><param name="width" value="1"/></bitstream_generation><debugger/><security/></project>'''
         iface='\n'.join('design.create_'+mode+'_gpio('+repr(name)+')\ndesign.assign_pkg_pin('+repr(name)+','+repr(pin)+')' for name,(mode,pin) in c.old.GPIO.items())
         peri='<design_db xmlns="http://www.efinixinc.com/peri_design_db" name="'+c.NAME+'" device_def="T8F49"><gpio_info>'+''.join('<gpio name="'+name+'" mode="'+mode+'"/>' for name,(mode,pin) in c.old.GPIO.items())+'</gpio_info></design_db>'
         content={c.NAME+'.xml':self.xml,c.CORE_NAME:(c.b.ROOT/c.g.CORE).read_text(),
@@ -37,9 +38,14 @@ class SyntheticCompiler(unittest.TestCase):
         self.image=self.out/(c.NAME+'.hex');self.image.write_text('0123abcd\n')
         self.meta={'pins':c.old.PINS,'registers':{k:c.g.BASE+v for k,v in c.g.REGISTERS.items()},'source_sha256':self.frozen,
                    'generated_sha256':c.generated_hashes(self.work),'csr_sha256':c.b.sha(self.private/'csr.csv'),
+                   'project_xml_contract':c.project_contract(self.xml.encode(),self.work),
                    'guard':{'sha256':c.b.sha(c.b.ROOT/'tools/forgix_spi_guard.py'),'idle_cycles':32,'turnaround_cycles':64}}
+        c.b.copy_frozen(self.work/c.PROJECT_XML,self.private/c.PROJECT_BEFORE,1024**2)
+        self.project_verified=c.verify_generated(self.private,self.meta['generated_sha256'],self.meta['project_xml_contract'])
         self.save()
-    def save(self):(self.private/'generated.json').write_text(json.dumps(self.meta))
+    def save(self):
+        (self.private/'generated.json').write_text(json.dumps(self.meta))
+        (self.private/'project-verification.json').write_text(json.dumps(self.project_verified))
     def tearDown(self):self.temp.cleanup()
     def test_fixed_profile_two_sources_and_false_physical_flags(self):
         r=c.verify_outputs(self.private,0,self.frozen)
@@ -98,6 +104,8 @@ class SyntheticCompiler(unittest.TestCase):
             if command[:1]==['git']:return real_run(command,*args,**kwargs)
             self.assertEqual(command,c.vendor_command(installation));self.assertEqual(kwargs['timeout'],305)
             self.assertEqual(Path(kwargs['cwd']),work);calls.append('compile')
+            before=(work/c.PROJECT_XML).read_bytes()
+            (work/c.PROJECT_XML).write_bytes(self.vendor_rewrite(before))
             return subprocess.CompletedProcess(command,0)
         try:
             with patch.dict(os.environ,{'FORGIX_INSIDE_EFINITY':'1','LITEX_ENV_EFINITY':str(installation)}), \
@@ -112,7 +120,90 @@ class SyntheticCompiler(unittest.TestCase):
             self.assertIn('create_clock',clock);self.assertIn('31.25',clock);self.assertIn('clk32',clock)
             c.validate_project(work);c.validate_interface(work);c.validate_csr(private/'csr.csv')
             self.assertEqual((work/c.CORE_NAME).read_bytes(),(c.b.ROOT/c.g.CORE).read_bytes())
+            meta=json.loads((private/'generated.json').read_text())
+            verified=json.loads((private/'project-verification.json').read_text())
+            self.assertEqual(verified['policy'],c.PROJECT_REWRITE)
+            self.assertNotEqual(verified['before_sha256'],verified['after_sha256'])
+            self.assertEqual(verified,c.verify_generated(private,meta['generated_sha256'],meta['project_xml_contract']))
         finally:os.chdir(previous)
+    @staticmethod
+    def vendor_rewrite(before):
+        # Independent fixture of the reviewed runner's ordinary tree.write:
+        # remove only its two informational root fields; preserve the subtree.
+        root=ET.fromstring(before)
+        del root.attrib['location'];del root.attrib['last_change_date']
+        ET.register_namespace('efx','http://www.efinixinc.com/enf_proj')
+        return ET.tostring(root)
+    def rewritten(self):
+        path=self.work/c.PROJECT_XML;path.write_bytes(self.vendor_rewrite(self.xml.encode()))
+        self.project_verified=c.verify_generated(self.private,self.meta['generated_sha256'],self.meta['project_xml_contract'])
+        self.save();return path
+    def test_exact_vendor_rewrite_retains_original_and_actual_hashes(self):
+        self.rewritten();result=c.verify_outputs(self.private,0,self.frozen)
+        verified=result['project_xml_verification']
+        self.assertEqual(verified['policy'],c.PROJECT_REWRITE)
+        self.assertEqual(verified['before_sha256'],c.b.sha(self.private/c.PROJECT_BEFORE))
+        self.assertEqual(verified['after_sha256'],c.b.sha(self.work/c.PROJECT_XML))
+        self.assertNotEqual(verified['before_sha256'],verified['after_sha256'])
+        self.assertEqual(result['generated']['generated_sha256'],self.meta['generated_sha256'])
+    def test_semantic_xml_edits_combined_with_vendor_rewrite_refused(self):
+        path=self.rewritten();original=path.read_bytes();ns=c.smoke.NS
+        mutations=[(ns+'timing_model','name','C2'),(ns+'top_module','name','other'),
+                   (ns+'design_file','library','foreign'),(ns+'design_file','version','system_verilog'),
+                   (ns+'sdc_file','name','other.sdc'),(ns+'synthesis','tool_name','other'),
+                   (ns+'place_and_route','tool_name','other'),(ns+'param','value','changed')]
+        for tag,attribute,value in mutations:
+            root=ET.fromstring(original);root.find('.//'+tag).set(attribute,value);path.write_bytes(ET.tostring(root))
+            with self.assertRaises(c.b.Refusal):c.verify_outputs(self.private,0,self.frozen)
+        for section in ('debugger','security','ip_info'):
+            root=ET.fromstring(original);node=root.find(ns+section)
+            if node is None:node=ET.SubElement(root,ns+section)
+            ET.SubElement(node,ns+'param',name='unexpected',value='on');path.write_bytes(ET.tostring(root))
+            with self.assertRaises(c.b.Refusal):c.verify_outputs(self.private,0,self.frozen)
+        root=ET.fromstring(original);root.append(root.find(ns+'design_info'));path.write_bytes(ET.tostring(root))
+        with self.assertRaises(c.b.Refusal):c.verify_outputs(self.private,0,self.frozen)
+    def test_extra_xml_formatting_comment_instruction_and_version_refused(self):
+        path=self.rewritten();original=path.read_bytes()
+        for bad in (original+b'\n',original.replace(b'</efx:project>',b'<!--extra--></efx:project>'),
+                    original.replace(b'</efx:project>',b'<?extra retained?></efx:project>'),
+                    original.replace(c.smoke.VERSION.encode(),b'2026.1.133'),
+                    original.replace(b'efx:',b'other:').replace(b'xmlns:efx',b'xmlns:other')):
+            path.write_bytes(bad)
+            with self.assertRaises(c.b.Refusal):c.verify_outputs(self.private,0,self.frozen)
+    def test_frozen_metadata_location_version_date_or_hidden_nodes_refused(self):
+        for old,new in ((str(self.work),str(self.root/'foreign')), (c.smoke.VERSION,'2026.1.133'),
+                        ('Date : 2026-10-04 09:00','unknown'),(' sw_version=', ' last_run_tool="efx_map" sw_version='),
+                        ('</project>','<!--extra--></project>'),('</project>','<?instruction extra?></project>')):
+            with self.assertRaises(c.b.Refusal):c.project_contract(self.xml.replace(old,new).encode(),self.work)
+        for bad in (b'<!DOCTYPE project [<!ENTITY name "changed">]>'+self.xml.encode(),b'<broken',b''):
+            with self.assertRaises(c.b.Refusal):c.project_contract(bad,self.work)
+    def test_frozen_original_contract_and_worker_proof_tampering_refused(self):
+        original=(self.private/c.PROJECT_BEFORE).read_bytes()
+        (self.private/c.PROJECT_BEFORE).write_bytes(original+b'\n')
+        with self.assertRaises(c.b.Refusal):c.verify_outputs(self.private,0,self.frozen)
+        (self.private/c.PROJECT_BEFORE).write_bytes(original)
+        contract=dict(self.meta['project_xml_contract'])
+        for key,value in [('policy','unknown'),('before_file','foreign.xml'),('rewritten_sha256','0'*64),('schema',True)]:
+            self.meta['project_xml_contract']={**contract,key:value};self.save()
+            with self.assertRaises(c.b.Refusal):c.verify_outputs(self.private,0,self.frozen)
+        self.meta['project_xml_contract']=contract;self.save()
+        proof=self.private/'project-verification.json';proof.write_text('{}')
+        with self.assertRaises(c.b.Refusal):c.verify_outputs(self.private,0,self.frozen)
+    def test_other_generated_inputs_remain_exact_after_legitimate_rewrite(self):
+        self.rewritten()
+        for name in c.GENERATED:
+            if name==c.PROJECT_XML:continue
+            path=self.work/name;original=path.read_bytes();path.write_bytes(original+b'\n')
+            with self.assertRaises(c.b.Refusal):c.verify_generated(self.private,self.meta['generated_sha256'],self.meta['project_xml_contract'])
+            path.write_bytes(original)
+    def test_empty_auxiliary_reports_retained_but_critical_outputs_nonempty(self):
+        aux=self.out/(c.NAME+'.peri.cdo');aux.write_bytes(b'')
+        result=c.verify_outputs(self.private,0,self.frozen)
+        self.assertEqual(result['outflow_reports'][aux.name],{'bytes':0,'sha256':c.b.sha(aux)})
+        for path in (self.image,self.out/(c.NAME+'.log'),self.private/'console.log',self.work/c.PROJECT_XML,self.private/c.PROJECT_BEFORE):
+            before=path.read_bytes();path.write_bytes(b'')
+            with self.assertRaises(c.b.Refusal):c.verify_outputs(self.private,0,self.frozen)
+            path.write_bytes(before)
     def test_foreign_or_duplicate_source_or_project_profile_refused(self):
         path=self.work/(c.NAME+'.xml')
         for bad in (self.xml.replace(str(self.work/c.CORE_NAME),'/foreign/source.v'),self.xml.replace(c.CORE_NAME,c.NAME+'.v'),
