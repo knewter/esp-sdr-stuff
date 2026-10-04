@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "result": "FIXES_REQUIRED_ISOLATED_HOST_PREPARATIONS",
+  "hardware_access": false,
+  "physical_admission": false,
+  "hardware_checkboxes_changed": false,
+  "reviews": {
+    "register": {
+      "result": "FIXES_REQUIRED_REGISTER_QUALIFIED_ROUTE",
+      "private_review_sha256": "96b09ffe2582ad92681ae5cf23bbf4656d5c1c2e1ce24fda04943646e0d0858a",
+      "author_ready_sha256": "a6f6ba22b1c425f39e2cbab2730f227ca015ef206ed6b074a4b76d97b515681d",
+      "author_groups_replayed": 123,
+      "independent_reproduction_groups": 6,
+      "findings": [
+        {
+          "id": "qualification_board_binding",
+          "status": "REPRODUCED",
+          "observed": "Same committed qualification key and receipt admit changed profile UID and baseline even when receipt retains original values.",
+          "required": "Bind q.uid_sha256 and q.baseline_sha256 to exact profile original_binding; independently reject substitutions before any device stage."
+        },
+        {
+          "id": "final_lease_late_acceptance",
+          "status": "REPRODUCED",
+          "observed": "Actual main with temporary real lease, completed receipt at599s, and release returning at601s yields exit0 and saved completed session.",
+          "required": "One acceptance deadline covers required final lease release/fsync; late release persists authoritative failed session and CLI2."
+        },
+        {
+          "id": "final_lease_storage_truth",
+          "status": "REPRODUCED",
+          "observed": "Actual main with temporary real lease unlink+fsync followed injected OSError yieldsCLI2 but saved session remains completed.",
+          "required": "Required release failure attempts authoritative failed session persistence, retaining exact recovery/closure proof and storage failure honestly."
+        }
+      ],
+      "limits": [
+        "All source/tool/archive checks and harmless fixtures only; no device, daemon, containers, DBus, source producers, vendor or ARM compiler.",
+        "Empty production registry still refuses real access; findings are necessary corrections before future qualified-route admission.",
+        "Historical configuration003 strict source refusal remains correct; fresh root ARM build/linked review, fresh root execution/runtime map and physical qualification remain mandatory.",
+        "No physical OpenSpec task/checklist acceptance."
+      ],
+      "subject_commit": "69e22dffb823bee2030c471e2e6b54b06a9cce49"
+    },
+    "receiver_holder": {
+      "result": "FIXES_REQUIRED_OUTER_RECEIVER_HOLDER",
+      "private_review_sha256": "fcdb79eddd3319129e2fb1ea09e97d93c1d1ae13e9233127548581a309113442",
+      "author_ready_sha256": "97cd9dc672aa958492f00a0333a2b72fed0d7f7da0ea30b45f710af4b6def385",
+      "author_groups_replayed": 40,
+      "independent_reproduction_groups": 6,
+      "findings": [
+        {
+          "id": "whole_finalization_deadline",
+          "status": "REPRODUCED_IN_3_GROUPS",
+          "observed": "Completion persistence, actual keeper release, and final result persistence separately crossing5400s each returnCLI0 with completed savedresult.",
+          "required": "Post-operation strict clock checks through all required final writes/release; authoritative failed result andCLI2 if late, with storage failures never qualifying success."
+        },
+        {
+          "id": "premature_completed_receipt",
+          "status": "REPRODUCED",
+          "observed": "Completed normal-completion.json survives cancellation before mandatory leaseclosure; finalresult is failed and keeper retained.",
+          "required": "Intermediate receipt explicitly pending qualification/release; final completed result only after all required closure/timing/durability."
+        },
+        {
+          "id": "replacement_failure_loses_uncertain_lock",
+          "status": "REPRODUCED_ACTUAL_PROCESSES",
+          "observed": "Actual harmless keeper killed, caller group reaped, replacement mkdir injectedOSError outside protectivetry; outerprocess exits23, freshFD then obtains formerlyuncertain FLOCK.",
+          "required": "Entire uncertain-closure replacement/quarantine/persistence path cannot unwind or release parentFD without verified live keeper; failure fallback retains parent alive/FD."
+        },
+        {
+          "id": "typed_controller_sample",
+          "status": "REPRODUCED",
+          "observed": "powered1/active_instancesFalse/privatebinding1/USBbinding1 accepted by Python dictionary equality.",
+          "required": "Exact bool/int schema for current controller sample before qualification."
+        }
+      ],
+      "limits": [
+        "No device, controller, daemon, container producers, vendor or firmware build operations.",
+        "All actual process/lock probes operate exclusively on disposable private fixtures; they do not prove physical UART restoration.",
+        "Original author f420/97cd and all six defect observations preserved. Root static transfer3ea remains valid separately; holder itself is not admitted.",
+        "No RF/airdenominator/originalTrialB acceptance or hardware checkbox changes."
+      ],
+      "subject_sha256": "f42071de72b79dce0c49d23bb4af9d3a77cf58b00cddbb1b16ab8e02ebfc8961"
+    }
+  }
+}
