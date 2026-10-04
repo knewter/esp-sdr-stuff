@@ -9,6 +9,7 @@ SRAM_END=0x20082000
 BUDGET=128*1024
 PROFILE=b'FORGIX_USB_RAM_V1;no_flash;rp2350-arm;heap0;stack4096;max120s;sdk2.2.0;tinyusb86ad6e56\0'
 BRIDGE_PROFILE=b'FORGIX_SPI_RAM_V1;no_flash;rp2350-arm;heap0;stack4096;max120s;sdk2.2.0;tinyusb86ad6e56\0'
+CONFIG_PROFILE=b'FORGIX_SPI_CONFIG_RAM_V1;no_flash;rp2350-arm;heap0;stack4096;max120s;sdk2.2.0;tinyusb86ad6e56\0'
 
 
 def require(condition, reason):
@@ -16,7 +17,7 @@ def require(condition, reason):
 
 
 def inspect_elf(data, *, application='usb'):
-    require(application in ('usb','spi-bridge'), 'unknown application layout policy')
+    require(application in ('usb','spi-bridge','spi-config-bridge'), 'unknown application layout policy')
     require(52 <= len(data) <= 4*1024*1024, 'ELF byte bound')
     require(data[:7]==b'\x7fELF\x01\x01\x01', 'ELF32 little endian required')
     h=struct.unpack_from('<16sHHIIIIIHHHHHH',data)
@@ -38,7 +39,8 @@ def inspect_elf(data, *, application='usb'):
     require(loads,'no load segments')
     ranges=sorted((r['vaddr'],r['vaddr']+r['memsz']) for r in loads)
     require(all(a[1]<=b[0] for a,b in zip(ranges,ranges[1:])),'overlapping load segments')
-    require(sum(r['memsz'] for r in loads)<=BUDGET,'128 KiB allocation budget')
+    budget=256*1024 if application=='spi-config-bridge' else BUDGET
+    require(sum(r['memsz'] for r in loads)<=budget,str(budget//1024)+' KiB allocation budget')
     require(entry&1 and any(r['flags']&1 and r['vaddr']<=entry-1<r['vaddr']+r['filesz'] for r in loads),'Thumb entry in executable bytes')
     sections=[struct.unpack_from('<10I',data,shoff+i*shsize) for i in range(shnum)]
     def bytes_for(s):
@@ -88,10 +90,13 @@ def inspect_elf(data, *, application='usb'):
     # single block loop. This secure execution-mode label is not OTP/security setup.
     block=struct.pack('<7I',0xffffded3,0x10210142,0x00000203,vectors,0x000003ff,0,0xab123579)
     require(data[off:off+min(base['filesz'],4096)].count(block)==1,'RP2350 ARM RAM IMAGE_DEF')
-    profile=PROFILE if application=='usb' else BRIDGE_PROFILE
+    profile={'usb':PROFILE,'spi-bridge':BRIDGE_PROFILE,'spi-config-bridge':CONFIG_PROFILE}[application]
     require(any(profile in data[r['offset']:r['offset']+r['filesz']] for r in loads),'loadable distinct application profile')
-    if application=='spi-bridge':
+    if application in ('spi-bridge','spi-config-bridge'):
         require(all(n in symbols for n in ('bridge_spi_transaction','bridge_parse','bridge_wire_response')), 'required bridge implementation symbols')
+    if application=='spi-config-bridge':
+        require(all(n in symbols for n in ('bridge_configure','bridge_config_match','bridge_config_reply',
+          'bridge_fpga_image','bridge_fpga_image_bytes','bridge_fpga_sha256','bridge_fpga_crc32')), 'required configuration implementation symbols')
     require('main' in symbols and 'tud_task_ext' in symbols,'application/direct TinyUSB symbols')
     return {'target':'RP2350 ARM','application_policy':application,'binary_type':'no_flash','allocated_load_bytes':sum(r['memsz'] for r in loads),
             'load_segments':loads,'stack_bytes':4096,'core1_stack_bytes':0,'heap_section_bytes':0,

@@ -371,3 +371,8 @@ tasks:
     desc: Save an offline lifecycle plan privately; no physical backend or load admission
     cmds:
       - python3 tools/forgix_spi_lifecycle.py {{.CLI_ARGS}}
+
+  forgix:spi-bridge:config:test:
+    desc: Test actual configuration C with fake SDK and injected host transport; no hardware
+    cmds:
+      - python3 -m unittest discover -v -s tests -p test_forgix_config.py

@@ -24,7 +24,8 @@ def audit(folder):
  for name,digest in m['artifact_sha256'].items():
   if Path(name).name!=name or (folder/name).is_symlink() or sha(folder/name)!=digest:
    raise ValueError('exported artifact differs')
- layout=inspect_elf(elf,application='spi-bridge')
+ policy='spi-config-bridge' if m.get('fpga_configuration_writer') is True else 'spi-bridge'
+ layout=inspect_elf(elf,application=policy)
  if layout!=m['layout']:raise ValueError('layout differs')
  for name,digest in m['source_sha256'].items():
   recorded=subprocess.check_output(['git','show',m['source_commit']+':'+name],cwd=ROOT)

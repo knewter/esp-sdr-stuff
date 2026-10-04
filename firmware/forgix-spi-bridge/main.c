@@ -1,4 +1,4 @@
-/* Offline candidate: no flash/configuration writer; physical admission separate. */
+/* Offline candidate: no flash writer; physical admission separate. */
 #include "pico/stdlib.h"
 #include "hardware/clocks.h"
 #include "hardware/pio.h"
@@ -8,6 +8,10 @@
 #include "protocol.h"
 #include "build_identity.h"
 #include <string.h>
+#ifdef BRIDGE_EMBEDDED_CONFIG
+#include "config.h"
+static bool configuration_attempted,configuration_ready;
+#endif
 #define CS 1u
 #define SCK 2u
 #define DATA 3u
@@ -15,7 +19,11 @@
 #define CLOCK_ENABLE 19u
 #define MAX_LIFETIME_US UINT64_C(120000000)
 #define TRANSACTION_US UINT64_C(20000)
+#ifdef BRIDGE_EMBEDDED_CONFIG
+const char diagnostic_profile[] = "FORGIX_SPI_CONFIG_RAM_V1;no_flash;rp2350-arm;heap0;stack4096;max120s;sdk2.2.0;tinyusb86ad6e56";
+#else
 const char diagnostic_profile[] = "FORGIX_SPI_RAM_V1;no_flash;rp2350-arm;heap0;stack4096;max120s;sdk2.2.0;tinyusb86ad6e56";
+#endif
 static PIO const wire_pio=pio0;
 static unsigned sm,tx_offset,rx_offset;
 static bool pins_ready;
@@ -32,6 +40,9 @@ static void wire_end(void) {
 }
 static unsigned wire_prepare(uint64_t arm_until) {
  if(expired(arm_until))return BRIDGE_TIMEOUT;
+#ifdef BRIDGE_EMBEDDED_CONFIG
+ if(!configuration_ready)return BRIDGE_REFUSED;
+#endif
  if(clock_get_hz(clk_sys)!=150000000)return BRIDGE_CLOCK_MISMATCH;
  gpio_init(CS);gpio_put(CS,1);gpio_set_dir(CS,GPIO_OUT);
  gpio_init(SCK);gpio_put(SCK,0);gpio_set_dir(SCK,GPIO_OUT);
@@ -109,6 +120,19 @@ int main(void) {
   if(!finish&&!pending&&tud_cdc_available()){
    length+=tud_cdc_read(input+length,BRIDGE_REQUEST_BYTES-length);
    if(length==BRIDGE_REQUEST_BYTES){
+#ifdef BRIDGE_EMBEDDED_CONFIG
+    uint32_t config_nonce;
+    if(bridge_config_match(input,&config_nonce)){
+     length=0;
+     if(!bridge_config_admit(&configuration_attempted,session.attempted,time_us_64()-boot))continue;
+     uint64_t until=time_us_64()+UINT64_C(20000000);
+     if(boot+UINT64_C(30000000)<until)until=boot+UINT64_C(30000000);
+     unsigned config_status=bridge_configure(until);
+     configuration_ready=config_status==BRIDGE_OK;
+     bridge_config_reply(output,config_nonce,config_status,time_us_64(),BUILD_SOURCE_SHA256);
+     pending=BRIDGE_RESPONSE_BYTES;offset=0;continue;
+    }
+#endif
     bridge_request r;length=0;
     if(!bridge_parse(input,&r))continue; /* Damaged framing never causes GPIO work. */
     unsigned status=BRIDGE_REFUSED;uint32_t value=0;

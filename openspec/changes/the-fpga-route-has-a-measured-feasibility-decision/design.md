@@ -116,3 +116,33 @@ and an independently reviewed configuration/load/recovery path. Acceptance
 still requires physical register readback and later sequence/CRC, sustained
 payload, loss/backlog and timing measurements. Host preparation does not
 narrow those requirements or move unverified behavior into the accepted ledger.
+
+## Exact-image configuration after RAM startup
+
+An opt-in bridge build now embeds the complete decoded Efinity hex candidate
+in RAM and exposes a separate `FGSC` handshake before register ARM. Build-time
+hashes bind both the original hex and decoded bytes to the compiled identity;
+the request must match that image hash. One configuration attempt is allowed
+within the first 30 seconds, with a 20-second operation cap. The register-only
+variant keeps its existing protocol and has no configuration writer.
+
+The candidate follows the pinned factory's mode-3 MSB-first, oscillator/reset
+delays and 32 trailing zero bytes, using software clock edges with per-bit
+deadlines instead of an unbounded blocking SPI call. It requires CDONE low
+during reset and high after all bytes. CS goes high before the shared data pin
+is released. Actual clock frequency, pad timing, pin ownership, electrical
+behavior and the image's hardware identity still require qualification.
+
+The full decoded prefix is retained, matching the factory host parser. The
+image is capped at 192 KiB. A separate `spi-config-bridge` application profile
+has a 256 KiB ordinary-SRAM allocation guard and requires configuration/image
+symbols. The existing USB and register-only guards remain 128 KiB. All variants
+still require no flash writer, no heap, inactive core1 and a 4 KiB core0 stack.
+This explicit software budget does not admit loading an image onto hardware.
+
+The host handshake accepts caller-owned transport and persists intent and
+response prefixes; it supplies no device CLI. Its reply verifies matching
+nonce/image/source and a configuration indication, not measured configuration
+continuity. Physical backend, independent load/recovery review, fresh full
+preservation and acceptance measurements remain outstanding. Checkboxes and
+the accepted ledger remain unchanged.
