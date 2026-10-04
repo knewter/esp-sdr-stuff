@@ -75,3 +75,12 @@ pin timing, implement/review the identity-selected backend, refresh full
 preservation, then obtain actual configuration and register readback evidence.
 The [lifecycle preparation](../forgix-spi-lifecycle/README.md) remains a model;
 OpenSpec physical acceptance stays **1/5**, with no new checked task.
+
+## Later identity-enabled rebuild
+
+The [October 4 backend checkpoint](../forgix-spi-backend/README.md) rebuilds
+configuration002 and register-only010 with the USB unique-ID descriptor.
+They allocate 203,152 and 28,440 SRAM bytes. The earlier images and evidence
+above remain unchanged. The empty qualification registry keeps hardware loading
+disabled; physical qualification, independent review and production admission
+remain open.

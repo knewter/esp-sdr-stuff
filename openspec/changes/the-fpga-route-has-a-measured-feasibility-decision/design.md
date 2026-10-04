@@ -146,3 +146,22 @@ nonce/image/source and a configuration indication, not measured configuration
 continuity. Physical backend, independent load/recovery review, fresh full
 preservation and acceptance measurements remain outstanding. Checkboxes and
 the accepted ledger remain unchanged.
+
+## Identity-selected backend preparation
+
+The later [backend preparation](docs/evidence/forgix-spi-backend/README.md)
+implements an adapter for the existing helpers with admission still disabled.
+Every hardware method requires an admitted session and a committed qualification
+tuple; the registry is empty. It supplies only an offline plan CLI. USB
+container/process ownership stays at the root, while serial calls are contained
+in bounded inherited-lock workers. Aggregate closure covers both resources.
+Qualification registry and backend source are separate frozen inputs so an
+artifact tuple can bind the backend hash without a self-referential hash.
+
+The new bridge USB serial comes from the pinned SDK RP2350 ROM chip-info
+constructor. It executes before main and the watchdog; Release removes its
+return-code assertion. The host requires the normalized UID hash and unchanged
+enumeration before/after configuration and during collection. This selector
+behavior and own-operator fault fixtures are not physical UID continuity or
+configuration-transition proof. Independent whole-backend review and production
+coordinator admission remain required before any physical episode.

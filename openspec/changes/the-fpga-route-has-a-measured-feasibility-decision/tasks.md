@@ -93,3 +93,14 @@ candidate and passes the linked startup audit. Register-only bridge009 remains
 128 KiB profiles. No device was opened or programmed. Physical grade/clock,
 pin handoff, identity-selected backend and independent loading/recovery review
 remain gates. Task 1.1 and tasks 2.1–2.3 stay unchecked, at 1/5.
+
+The [identity-selected backend preparation](docs/evidence/forgix-spi-backend/README.md)
+now passes 20 own-operator fault checks. It binds preserved USB identity,
+configuration/source/ELF hashes, inherited-lock serial workers and separately
+owned USB containers. Rebuilt configuration002 and register-only010 advertise
+the SDK unique ID and allocate 203,152 and 28,440 SRAM bytes. Linked reset and
+pre-main UID constructor inspections pass within their stated scope. The empty
+qualification registry disables every hardware stage; no production coordinator
+or independent backend review exists. No device was opened or FPGA programmed.
+Physical UID continuity, grade/clock/pin timing, register readback and the
+several-rate transport measurements remain outstanding. No checkbox changes.

@@ -1,0 +1,88 @@
+{
+  "captured_utc": "2026-10-04T05:51:21.341883+00:00",
+  "source_commit": "d919b8048abf0a2af10eb0ef00994563b83ebf3c",
+  "kind": "own-operator offline backend preparation",
+  "hardware_opened": false,
+  "fpga_programmed": false,
+  "qualified_profiles": 0,
+  "loading_admitted": false,
+  "openspec_tasks_complete": 1,
+  "openspec_tasks_total": 5,
+  "tests": {
+    "backend": {
+      "run": 20,
+      "passed": 20,
+      "skipped": 0
+    },
+    "original_usb_trial": {
+      "run": 39,
+      "passed": 38,
+      "skipped": 1,
+      "skip_reason": "CI shell omits picotool; its real version check requires default Nix shell"
+    },
+    "collector": {
+      "run": 15,
+      "passed": 15,
+      "skipped": 0
+    },
+    "lifecycle": {
+      "run": 20,
+      "passed": 20,
+      "skipped": 0
+    },
+    "configuration": {
+      "run": 15,
+      "passed": 15,
+      "skipped": 0
+    }
+  },
+  "private_test_log_sha256": {
+    "backend_final": "abcf100d63b2709ae4be30787a483bc63c3d812f74401e5c8da8de41a6752ccb",
+    "regressions": "8c1a5ffe475ab33642d09e5c2356419951418bfe7500b800e61a2aa2fbb571eb"
+  },
+  "artifacts": [
+    {
+      "variant": "configuration",
+      "source_commit": "d919b8048abf0a2af10eb0ef00994563b83ebf3c",
+      "elf_sha256": "661bd1a14c300fdd2c1306f208e55338a6bfc77cbba69650408146e0e2680860",
+      "manifest_sha256": "0c7e23c5ed24e872ead50848882e82173a50219f555ccb58a37cc239f0b34292",
+      "allocated_sram_bytes": 203152,
+      "build_source_sha256": "bbbcedd858db9ac33bf8b6335c847dbff8593edcbc805a221de4b92480435538",
+      "startup_audit_sha256": "c6ebfa477cd4d8ee9b2fd8eee0703d0db01f6a2383e156076aab0b5f82303873",
+      "uid_sdk_source_sha256": "905bfaf3a527b1afa3d24a64eb89bb9443a0a73171f530e9eee6c6a0ecd8aad3",
+      "uid_constructor_is_only_init_array_entry": true,
+      "uid_constructor_queries_rom_chip_info_before_main": true,
+      "pre_main_watchdog_protection": false,
+      "release_constructor_checks_rom_return_code": false,
+      "hardware_opened": false,
+      "loading_admitted": false,
+      "backend_artifact_binding_passed": true,
+      "configuration": {
+        "candidate_source_commit": "60ba10c686db5c039a10c077ec4f0fa1e2465cb9",
+        "candidate_manifest_sha256": "09e88d3c7a7fac53b6e8f40b974ad1ea42cf84ff0e98883cf1937f7f2ecfb576",
+        "hex_sha256": "2c74a218e8bc654aafae74cff9ba4ae4cb7eb11b657ab6ab7a540044868140b1",
+        "decoded_sha256": "cfeea136b92c4d93d7f0ba5a1b5f3f50859e56bb0ad1ff4f8ae0a177d7ff4975",
+        "decoded_bytes": 173380,
+        "decoded_crc32": 2761582856,
+        "physical_qualification_proved": false
+      }
+    },
+    {
+      "variant": "register_only",
+      "source_commit": "d919b8048abf0a2af10eb0ef00994563b83ebf3c",
+      "elf_sha256": "f998f4c1079f783b790f6bf3296b055b147910dcaebd856ebb24f0a420d75462",
+      "manifest_sha256": "cf8414f9b416a9ca77c1cce5dd2c00cc7744e236db322b0637ce3c4d46bd0432",
+      "allocated_sram_bytes": 28440,
+      "build_source_sha256": "b853d57f350f7380df7f29da2ce2b9cf3e6f70fe3d5a8f73bb4dc713091a5f6e",
+      "startup_audit_sha256": "cffa45c127a6bb2451429ca514fbc4f15d8830e3d955d270cda139a976c2ee81",
+      "uid_sdk_source_sha256": "905bfaf3a527b1afa3d24a64eb89bb9443a0a73171f530e9eee6c6a0ecd8aad3",
+      "uid_constructor_is_only_init_array_entry": true,
+      "uid_constructor_queries_rom_chip_info_before_main": true,
+      "pre_main_watchdog_protection": false,
+      "release_constructor_checks_rom_return_code": false,
+      "hardware_opened": false,
+      "loading_admitted": false
+    }
+  ],
+  "limits": "Own-operator fixtures and saved-artifact inspection. No independent backend review, physical USB UID continuity, electrical clock/pin timing, FPGA register readback or sustained transport proof. ROM identity query return is unchecked in Release; startup is outside main watchdog. No production coordinator or hardware run CLI."
+}
