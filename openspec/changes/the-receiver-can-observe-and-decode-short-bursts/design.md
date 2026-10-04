@@ -128,3 +128,17 @@ not radiated primary count, reception, original Trial B or tasks 1.1/1.2.
 A separately frozen and independently reviewed ten-bit/BW20/manual48 condition
 with three ON/OFF pairs is next. Preserve the low snapshot duty factor and
 unknown primary emissions as limits on any null result.
+
+## Conditional three-repeat extended-primary receiver preparation
+
+The [prospective bounded receiver protocol](docs/research/ble-primary-receiver-three-repeat-protocol.md)
+fixes ten-bit/16MSPS/16380-pair LO2401/BW20/manual48 captures and three independently
+monitored zero-data source instances after independently reviewed source-only
+qualification. It preserves full flash/boot recovery, private failure prefixes,
+all repetitions and actual OFF/ON timing. Controller completed events remain
+distinct from radiated primary PDUs; complete CRC+present private AdvA and whole
+guarded acquisition brackets are required before source-associated RF claims.
+This is implementation preparation; no physical checkbox or accepted requirement
+changes, original TrialB/count/reciprocal-response gates and previous outcomes
+remain unchanged. Proof is frozen offline caller tests and independent preflight
+before a sole-root-operated receiver condition.
