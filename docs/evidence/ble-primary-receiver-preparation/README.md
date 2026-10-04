@@ -44,7 +44,7 @@ the exact Docker ID/name/image/running state while active and retains successful
 exact-name absence after normal completion. Its witness must match the spawned
 role/token and process bracket. Historical source-only IDs are not invented.
 
-**155 offline test groups pass**: 33 private caller/accounting/dispatch groups,
+**161 offline test groups pass**: 39 private caller/accounting/dispatch groups,
 19 primary parser, 20 prefix-retention, 24 HCI, 26 monitor/wrapper and33 native
 source groups, with no skips. Tests use actual saved source/monitor receipts,
 a saved ten-bit waveform with independent SHA/CRC/count checks, independent
@@ -91,3 +91,22 @@ The private Task also provides read-only `caller -- freeze`/`caller -- inspect`,
 then an explicitly guarded operator-only run, fixed decoder replay and strict
 accounting. Independent preflight and a fresh root execution freeze are required
 before any physical action. No hardware task is checked by this preparation.
+
+## Corrected readiness freeze
+
+The first frozen preparation (`f301ebe`) failed independent review: a31-second
+delay inside receiver-ready timestamp acquisition could return131 after its130
+deadline and still launch all three sources in the host fixture. No hardware
+ran. Exact original files, snapshot, failure receipt and probe output remain
+privately archived; that freeze remains failed.
+
+The replacement verifies observed and current clocks before/after timestamp and
+helper return, then explicitly checks caller admission against applicable
+receiver, monitor and supervisor limits before baseline/source action. Equality
+to a deadline is rejected. Exact-boundary, delayed-stamp, delayed-return and the
+original independent external-stamp probe now reject source launch and retain
+restoration. Receiver-ready observation and phase/source deadlines are also
+saved for subsequent receipt audit. The new test variable uses TEST_HOME.
+Both OpenSpec validations and fresh read-only freeze/image inspection pass.
+Independent replacement review and fresh current-root execution freeze remain
+required; source/profile/search/settings/acceptance conditions are unchanged.

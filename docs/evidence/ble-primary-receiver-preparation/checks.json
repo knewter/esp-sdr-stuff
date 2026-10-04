@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "result": "OFFLINE_PREPARATION_REVIEW_PENDING",
+  "result": "OFFLINE_CORRECTED_PREPARATION_REVIEW_PENDING",
   "profile": "extended-primary-zero-data-v1",
   "planning_commits": [
     "fb0cc3ddad9ec8249a6d6f18bfbb5eaa622827cc",
     "c185092d93f34e1eb9cb417843c9dccf6f5d3d13",
-    "c4829df85cbf81bd1afe2e762ff8abcb146be598"
+    "c4829df85cbf81bd1afe2e762ff8abcb146be598",
+    "fe870271b92cc50b961aecdf5b5489f7561aa166",
+    "011a6bcd2ea81c1edcda9c5dc418c9e64241791c"
   ],
   "private_subjects": {
     "caller.py": {
-      "bytes": 23250,
-      "sha256": "7cf46b8357d44e67cbc30282c1170666ff7ce2bbadc7a147eb8663e961dfc6d7"
+      "bytes": 24321,
+      "sha256": "9c396916230f907fb1a5a8d63f7222471f68b3b4ebea7db6243285314f558a97"
     },
     "source_support.py": {
-      "bytes": 28535,
-      "sha256": "d4764ff7e69d439cbbbe9f7f6ab829d984b71564ea9ca2fa53cccbe94ec0a441"
+      "bytes": 28936,
+      "sha256": "f192514fab289ad025a3d67bc6392df35c0e22d390bdd308130651edb302a73c"
     },
     "radio_support.py": {
       "bytes": 32400,
@@ -29,48 +31,48 @@
       "sha256": "51683cc01c9f4822c6ae9d8dd9ce60ac60abf17ee22241ed7cf7384b56bea4e9"
     },
     "test_caller.py": {
-      "bytes": 28105,
-      "sha256": "a930c7abf55e6c365cc0201604f49c608bdf81bb88169904347b2a08a91b29a8"
+      "bytes": 32077,
+      "sha256": "597dbde993a5f7360f10b658295c71f94313726953dfbcb4b21142fd984a8321"
     },
     "task.yml": {
       "bytes": 1161,
       "sha256": "ccf1d55a42dd356f349f636832885fe07793399d8cc1e5d11fdc2563bfce34e1"
     },
-    "frozen-inputs-001.json": {
-      "bytes": 291434,
-      "sha256": "c080439e58ffbcdb12378703b6b3fbb89164ff80ee8fefe3506671907b84b64c"
-    },
-    "author-005.log": {
-      "bytes": 27734,
-      "sha256": "18b2857e0cee00c1c7cdbf6fbb0c2822730e95f9c3c3750373b014d52d6f60b7"
-    },
-    "runtime-freeze-001.log": {
-      "bytes": 779,
-      "sha256": "c4cdd914dba5cd9ca3e91a3388f5e83bd4b23126373dfdb1f280cbd3e327801d"
-    },
-    "runtime-inspect-001.log": {
-      "bytes": 780,
-      "sha256": "9a9ee594ecb51eff56bc809c72743a10f50495fec745e3edb717a5e075c823d8"
-    },
     "qualification-review.json": {
       "bytes": 5908,
       "sha256": "50aa1b8006c069b1eddc8cd57c4526225815a0ef591487f61c4ec8a820b45da4"
+    },
+    "frozen-inputs-002.json": {
+      "bytes": 291434,
+      "sha256": "e1871be051a7e20ec656cd5a143cd008f17369bd3848a31ce20357438e1638c0"
+    },
+    "author-008.log": {
+      "bytes": 28739,
+      "sha256": "00d2aa36fdc02350bc877ee9471fbb085c3039d4e7ac57a36a05b00a7359032a"
+    },
+    "runtime-freeze-002.log": {
+      "bytes": 779,
+      "sha256": "040fa2d076e8e4d7de0970c6ff91ba49d4dfb200dcf3ac75b6e92e77191ed774"
+    },
+    "runtime-inspect-002.log": {
+      "bytes": 780,
+      "sha256": "d67d81d26b2a9ad4e37b1746b47d8f56557909f1d6b9d3b2460e477d5434376e"
     }
   },
   "prospective_protocol": {
-    "bytes": 8489,
-    "sha256": "8c4745045714e32afff680216c066b15ab72d9f178f0c9c58ac9ced178c040be"
+    "bytes": 9539,
+    "sha256": "9f6aa4683bf818ca8a55058cd3ae2e0938520cd9776b0221a21dc5b904be5d55"
   },
   "offline_tests": {
     "group_counts": [
-      33,
+      39,
       19,
       20,
       24,
       26,
       33
     ],
-    "total": 155,
+    "total": 161,
     "terminal_exit_code": 0,
     "skips": 0,
     "hardware_access": false,
@@ -153,12 +155,33 @@
     "original_acceptance_gates_changed": false
   },
   "retained_failed_author_attempts": [
-    "author-001.log"
+    "author-001.log",
+    "versions/f301ebe/peer-review-001.json",
+    "versions/f301ebe/peer-peer-probes-003.log",
+    "versions/f301ebe/peer-late-ready-observation.json"
   ],
   "limitations": [
     "Approximately15 ON snapshots and fewer than one expected full hit under hypothetical random timing; null inconclusive.",
     "Current profile permits primary omission and AUX/AdvA placement variation.",
     "Source001 historical closure remains attestation scoped; stronger ownership instrumentation applies prospectively.",
     "Preparation freeze binds isolated paths/Task; root transfer requires fresh current binding/runtime/input snapshot and review."
-  ]
+  ],
+  "prior_failed_preparation": {
+    "commit": "f301ebeb0837304f410607baf2e9894c7c09f3e6",
+    "independent_receipt_sha256": "47f95c54992554e91d8514e936d8ad46fcbb522d246682447f9f1d3c880b27bd",
+    "private_archive": "versions/f301ebe",
+    "archive_manifest": {
+      "bytes": 1460,
+      "sha256": "578dcd815651e3a80ae974ba7b1a434c1133b83550f1d72a3162030969638a01"
+    },
+    "failure": "Receiver-ready timestamp31 seconds late was accepted; host fixture completed and launched three sources. No hardware.",
+    "original_snapshot_sha256": "c080439e58ffbcdb12378703b6b3fbb89164ff80ee8fefe3506671907b84b64c",
+    "correction": "Strict before/after-stamp/return and caller admission deadlines; equality rejected; exact peer external stamp remains effective.",
+    "condition_or_acceptance_changes": false
+  },
+  "readiness_observation_retention": {
+    "receiver_observed_stamp": true,
+    "monitor_receiver_supervisor_deadlines": true,
+    "source_parent_deadline_per_intent": true
+  }
 }
