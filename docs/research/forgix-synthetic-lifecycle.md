@@ -65,3 +65,12 @@ output before access. The old saved terminal cannot admit another attempt after
 that transfer. A crash before the new terminal, or unknown closure recorded in
 it, blocks subsequent recovery even if unknown-marker persistence fails. The
 old failure is never rewritten or accepted; recovery produces its own receipt.
+
+The synthetic serial adapter accumulates individual POSIX pyserial `read(1)`
+returns, attaching every returned prefix to a timeout, interruption or read
+exception for private retention. Bulk `read(size)` can consume an internal
+partial buffer and lose it on a subsequent syscall error; the old register
+adapter remains unchanged. Real local PTY/EIO tests establish the distinction,
+deadline retention and serial closure. This covers bytes returned by the driver;
+unread kernel/device bytes and bytes lost below the syscall boundary remain
+unobserved. The owned worker still bounds potentially blocking kernel calls.

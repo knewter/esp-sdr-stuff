@@ -268,6 +268,30 @@ def serial_operation(request,path,select,opened,admission,clock_ns=time.monotoni
     return collector.collect(path,binding(p),opened,admission,select,request['lockfd'],request['lockpath'],
         request['boot_host_ns'],clock_ns,pause,host_pause=p['host_pause'])
 
+class SyntheticTransport(capture.SerialDeadlineTransport):
+    """Expose each consumed byte before POSIX pyserial can hide a failed prefix.
+
+    A read(1) cannot retain an earlier internal chunk when its next syscall
+    fails. Accumulate only here, where the collector can retain the prefix on
+    timeout, interruption or read failure. The owned worker bounds kernel calls.
+    """
+    def read(self,size,deadline):
+        require(type(size) is int and 1<=size<=512,'Bounded stream read required')
+        prefix=bytearray()
+        try:
+            while len(prefix)<size:
+                timeout=self.allowance(deadline,.05)
+                if self.serial.timeout!=timeout:self.serial.timeout=timeout
+                self.allowance(deadline,.05) # Configuration may itself block.
+                chunk=self.serial.read(1)
+                require(type(chunk) is bytes and len(chunk)<=1,'Single-byte read required')
+                if chunk:prefix.extend(chunk)
+                elif prefix:break
+            return bytes(prefix) # Retain even a final byte returned too late.
+        except BaseException as exc:
+            exc.consumed_prefix=bytes(prefix)
+            raise
+
 def serial_worker(path):
     path=trial.private_file(path,'backups');r=json.loads(path.read_bytes());p=r['profile']
     qualified(p);session_lease(p);frozen_inputs(r['frozen'])
@@ -300,7 +324,7 @@ def serial_worker(path):
     common.ready_bridge(lambda:select_stream(p,r['bus'],ready=True),cutoff)
     def opened(identity,until):
         admission();serial=open_retaining_serial(identity['port'])
-        try:return capture.SerialDeadlineTransport(serial)
+        try:return SyntheticTransport(serial)
         except BaseException:serial.close();raise
     try:
         result=serial_operation(r,path.parent/'capture',select,opened,admission)

@@ -1,9 +1,11 @@
 """Distinct stream integration: real private files/flocks/processes, injected USB only."""
 import copy
+import errno
 import fcntl
 import hashlib
 import json
 import os
+import pty
 from pathlib import Path
 import signal
 import subprocess
@@ -254,6 +256,82 @@ class ActualWireIntegration(unittest.TestCase):
             self.assertEqual((case.root/'failed/raw.bin').read_bytes(),error.consumed_prefix)
             saved=json.loads((case.root/'failed/result.json').read_bytes());self.assertEqual(saved['status'],'failed')
             self.assertEqual(saved['raw_bytes'],31);self.assertTrue(saved['transport_closed'])
+        finally:case.tearDown();Collection.tearDownClass()
+
+class PosixPrefix(unittest.TestCase):
+    """Actual pyserial POSIX reads on PTYs; only faulting os.read is injected."""
+    def exercise(self,factory,operation,payload=b'private-prefix-and-tail'):
+        import serial
+        import serial.serialposix as posix
+        master,slave=pty.openpty();handle=None
+        try:
+            with patch.object(serial.Serial,'_update_dtr_state',return_value=None):
+                handle=backend.open_retaining_serial(os.ttyname(slave))
+            os.write(master,payload)
+            native_read=os.read;observed=bytearray()
+            def fault(fd,size):
+                if fd!=handle.fd:return native_read(fd,size)
+                if len(observed)>=7:raise OSError(errno.EIO,'injected POSIX read')
+                raw=native_read(fd,min(size,7-len(observed)));observed.extend(raw);return raw
+            with patch.object(posix.os,'read',fault):return operation(factory(handle),observed)
+        finally:
+            if handle is not None:
+                handle.close();self.assertFalse(handle.is_open)
+            os.close(master);os.close(slave)
+    def test_real_posix_eio_baseline_loses_prefix_new_adapter_exposes_it(self):
+        import serial
+        for factory,expected in ((capture.SerialDeadlineTransport,b''),(backend.SyntheticTransport,b'private')):
+            def check(tx,observed):
+                with self.assertRaises(serial.SerialException) as failed:tx.read(512,time.monotonic()+1)
+                self.assertEqual(bytes(observed),b'private')
+                self.assertEqual(getattr(failed.exception,'consumed_prefix',b''),expected)
+                tx.close();self.assertFalse(tx.serial.is_open)
+            self.exercise(factory,check)
+    def test_real_posix_interrupt_retains_each_returned_byte(self):
+        import serial.serialposix as posix
+        def check(tx,observed):
+            previous=posix.os.read
+            def interrupted(fd,size):
+                if fd==tx.serial.fd and len(observed)>=7:raise KeyboardInterrupt()
+                return previous(fd,size)
+            with patch.object(posix.os,'read',interrupted),self.assertRaises(KeyboardInterrupt) as failed:
+                tx.read(512,time.monotonic()+1)
+            self.assertEqual(failed.exception.consumed_prefix,b'private')
+            self.assertEqual(bytes(observed),b'private')
+        self.exercise(backend.SyntheticTransport,check)
+    def test_real_posix_late_byte_is_retained_and_size_is_bounded(self):
+        import serial.serialposix as posix
+        def check(tx,observed):
+            clock=SimpleNamespace(now=0);tx.clock=lambda:clock.now;previous=posix.os.read
+            def late(fd,size):
+                raw=previous(fd,size)
+                if fd==tx.serial.fd:clock.now=2
+                return raw
+            with patch.object(posix.os,'read',late):self.assertEqual(tx.read(1,1),b'p')
+            with self.assertRaises(TimeoutError) as failed:tx.read(2,1)
+            self.assertEqual(failed.exception.consumed_prefix,b'')
+            clock.now=0
+            with patch.object(posix.os,'read',late),self.assertRaises(TimeoutError) as failed:tx.read(2,1)
+            self.assertEqual(failed.exception.consumed_prefix,b'r')
+            for size in (0,513,True,1.0):
+                with self.assertRaises(ValueError):tx.read(size,3)
+        self.exercise(backend.SyntheticTransport,check)
+    def test_real_posix_prefix_is_saved_by_collector_after_serial_closure(self):
+        from test_forgix_synthetic_collect import Collection
+        Collection.setUpClass();case=Collection();case.setUp()
+        try:
+            b=case.binding;p={'nonce':b.nonce.hex(),'period':b.period,'target':b.target,
+                'bridge_source_sha256':b.build.hex(),'bitstream_sha256':b.image.hex(),'rp_pause':False,'host_pause':True}
+            request={'profile':p,'lockfd':case.fd,'lockpath':str(case.lockpath),'boot_host_ns':1_000_000_000}
+            def check(tx,observed):
+                with self.assertRaises(OSError):backend.serial_operation(request,case.root/'posix',lambda:case.identity.copy(),
+                    lambda identity,until:tx,case.admission,case.clock.now,case.clock.pause)
+                self.assertFalse(tx.serial.is_open)
+                self.assertEqual((case.root/'posix/raw.bin').read_bytes(),b'private')
+                saved=json.loads((case.root/'posix/result.json').read_bytes())
+                self.assertEqual(saved['status'],'failed');self.assertTrue(saved['transport_closed'])
+                self.assertEqual(saved['raw_bytes'],7);self.assertEqual(bytes(observed),b'private')
+            self.exercise(lambda handle:backend.SyntheticTransport(handle,lambda:case.clock.now()/1e9),check)
         finally:case.tearDown();Collection.tearDownClass()
 
 class TerminalWrites(unittest.TestCase):
