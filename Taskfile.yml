@@ -357,6 +357,20 @@ tasks:
     cmds:
       - python3 tools/forgix_synthetic_candidate.py compile {{.CLI_ARGS}}
 
+  forgix:synthetic:candidate:runtime:
+    desc: Check committed synthetic inputs inside the actual Efinity FHS; no compilation or hardware (use .#forgix)
+    cmds:
+      - >-
+        python3 tools/efinity_bootstrap.py run -- @forgix-python -c
+        'import sys,json,os; sys.path.insert(0,"tools"); import forgix_synthetic_candidate as c;
+        c.b.require(os.environ.get("FORGIX_INSIDE_EFINITY")=="1","Actual FHS runtime required");
+        hashes=c.source_hashes(); print(json.dumps({"committed_input_count":len(hashes),"hardware_opened":False,"compiler_executed":False,"source_sha256":hashes}))'
+
+  forgix:synthetic:codec:test:
+    desc: Replay finite source and USB codecs against actual native C with UBSan; no hardware
+    cmds:
+      - python3 -m unittest discover -s tests -p 'test_forgix_synthetic_codec.py'
+
   forgix:fpga:guard:test:
     desc: Simulate guarded SPIBone under the explicit RP release contract; no hardware
     cmds:

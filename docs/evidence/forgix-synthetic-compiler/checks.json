@@ -1,0 +1,32 @@
+{
+  "kind": "synthetic vendor-route preparation and retained first runtime failure",
+  "status": "failed_before_generation",
+  "executed_commit": "0c4161b4b16f6f27c33994ff22b5f5a602349e42",
+  "executed_inputs_sha256": {
+    "firmware/forgix-synthetic-source/source.v": "ec067fbbe7ebcab49c4924afda7a8303ef581945924db2658b77ff807bdaf48c",
+    "tools/forgix_synthetic_gateware.py": "cf78d270c685c78fe8f13b9dd0d9df7382ae4b9ea2cc9bf0f5c0eb58632d82e0",
+    "tools/forgix_fpga_candidate.py": "6fb3bf73519b6009f1a1ec1138a47be522b2fb01f718233df4aa93f5ceca6f6a",
+    "tools/forgix_spi_guard.py": "1912f418ca88f1cc68487b39403f7c0dd58aab141aae079453359b1a1f67e3b1",
+    "tools/efinity_bootstrap.py": "8e01e643a8cd3bdc5028c9fd49d1e221fa97cc01b1fdf31918387a62374e9bcb",
+    "tools/efinity_compile_smoke.py": "97ffc5b37bb0a1ebb34898f22a76a173d6ebdf9f1dd4417a8306ce8615694ef3",
+    "flake.nix": "a797751877f059989ee28b77d781860a9ae8f4cf27d3852c1f3bfe0ae57903f7",
+    "flake.lock": "8e36636eed6ce15d544e2ac98ca030b07ea5a697be2e68824df9df599c264a9e",
+    "nix/forgix-toolchain.nix": "dabd346bcfcab4fcbde0a92fc3030896140cb49b6f3e89ed0b2bfd69609e18aa",
+    "tools/forgix_synthetic_candidate.py": "f0b85028b5763c8c0b748d909d5d6913e11032bbde2cab1c950e4d9af072ab3d",
+    "Taskfile.yml": "cce21fa96c5c69d0212ea6746597755ca36fd2832ba2d87de159d59d614333ab"
+  },
+  "private_failed_result_sha256": "b4416a81ee87d43f04c701abeb2db5a3683da54b1bf5e0c1e91f670e48405d8d",
+  "private_console_sha256": "3d295ab0d62ea3fb41412fe8f807298f281ef16d4ea0b85371206dc78bdb4bd9",
+  "duration_seconds": 0.6186643709661439,
+  "exit_code": 2,
+  "parent_owned_process_group_closed": true,
+  "private_outputs_hardened": true,
+  "source_review_sha256": "e2e9a5d055e6c34c1885da19dfa2d9feef612d20ccd988d0d43ec5bbaea7731f",
+  "source_author_groups": 13,
+  "source_independent_groups": 13,
+  "hardware_opened": false,
+  "compiler_executed": false,
+  "programming_admitted": false,
+  "resource_fit_reviewed": false,
+  "timing_closure_reviewed": false
+}

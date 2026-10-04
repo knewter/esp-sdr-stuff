@@ -120,3 +120,7 @@ repeated source-attributed nominal-band rise. HCI completions lie within the
 predeclared guards; DBus acknowledgements alone are not synchronous completion.
 The original BW12 condition is next after reviewed prefix retention. Original
 Trial B and count/detection gates remain open; no checkbox changes.
+
+## Reviewed implementation prerequisites
+
+The [failure-retention review](docs/evidence/capture-failure-retention/README.md) verifies private UART prefixes, uncertain START closure and unchanged successful CSV bytes. Caller integration passes independently. The earlier failed fragment remains unavailable. The final original BW12 trial requires a fresh runtime/device freeze and full preservation/restoration; this source preparation supplies no reception or air denominator.

@@ -1,0 +1,22 @@
+{
+  "kind": "reviewed private failed-UART-prefix retention",
+  "status": "offline_review_passed",
+  "private_review_sha256": "f8656f459a4b9702506fb8ec05f3eb8ef89b79906627dae61f611dec4d429252",
+  "caller_integration_review_sha256": "2b5486fd0d020022be85b262d868a361dd8b1e983e74711885e840f9e89b929a",
+  "focused_checks": 88,
+  "independent_checks": 7,
+  "actual_spectrum_START_probes": 4,
+  "caller_checks": 34,
+  "monitor_checks": 26,
+  "independent_integration_probes": 3,
+  "successful_capture_and_CSV_unchanged": true,
+  "source_sha256": {
+    "tools/esp_sdr_capture.py": "1368eb4a2130570f9e110844c7dff8b2d16b713be7f2a21b81ebf06d78be0d4b",
+    "tools/measure_owned_ble.py": "43603450b5f1f0e092809b55ee8110bf0808a23607e5c9fe3b12ef07117e9e3b",
+    "tools/esp_sdr_spectrum_bridge.py": "61b0d67122df6bce145d19fe054515dc2355b88113682bd0b15df8c1fc3c0998",
+    "tests/test_capture_failure_retention.py": "3db380939fbee45e77c0cac9c5b00f048eeedeac1e15b6f7a6d6a2aab5ce3478",
+    "tools/ESP_SDR_FAILURE_RETENTION.md": "c78f6e02561ce040d824b22d93e3d1a1f3b58210ff85ed74178cd9e89bb4261d"
+  },
+  "hardware_opened": false,
+  "old_failed_capture_fragment_recovered": false
+}

@@ -144,3 +144,7 @@ SPI integration. Root regenerates private RTL and runs source HDL in regular CI.
 Separate source region preserves the old bank/guard; source-record rates remain
 prospective, not measured stream throughput. Resource fit, RP/host stream,
 physical qualification and complete recovery remain gates. Task 2.1 stays open.
+
+## Reviewed implementation prerequisites
+
+The [finite codecs](docs/evidence/forgix-synthetic-codec/README.md) pass actual native-C/Python and independent fault replay after a retained overlapping-output correction. The [compiler route](docs/evidence/forgix-synthetic-compiler/README.md) retains its first actual FHS failure before generation: committed-input verification requires Git, now explicitly supplied by Nix. Runtime verification, actual vendor compilation/report review, RP stream, physical qualification and complete recovery remain gates. No transport task is accepted.

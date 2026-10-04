@@ -52,7 +52,7 @@ let
   efinityRuntime = pkgs.buildFHSEnv {
     name = "forgix-efinity";
     targetPkgs = p: [
-      python p.bash p.coreutils p.gnumake p.gcc p.stdenv.cc.cc.lib p.zlib
+      python p.git p.bash p.coreutils p.gnumake p.gcc p.stdenv.cc.cc.lib p.zlib
       p.libusb1 p.libusb-compat-0_1 p.ncurses5 p.libffi p.openssl p.sqlite p.dbus
       p.libx11 p.libxext p.libxrender p.libxtst
       p.libxi p.libxcb p.libxcb-cursor p.libxft
@@ -103,7 +103,7 @@ let
 in {
   inherit python litex boards mpremote testSource efinityRuntime hostCheck;
   shell = pkgs.mkShell {
-    packages = [ python pkgs.go-task pkgs.iverilog pkgs.verilator pkgs.yosys efinityRuntime ];
+    packages = [ python pkgs.git pkgs.go-task pkgs.iverilog pkgs.verilator pkgs.yosys efinityRuntime ];
     PYTHONNOUSERSITE = "1";
     PYTHONPATH = "";
     PIP_REQUIRE_VIRTUALENV = "true";

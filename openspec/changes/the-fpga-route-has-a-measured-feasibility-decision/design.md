@@ -211,3 +211,7 @@ pretending a fast divider is qualified. Actual image, SRAM, startup, UID,
 physical timing, frozen inputs and complete recovery review precede admission.
 No ESP wiring is needed for this synthetic boundary; RF integration retains
 its own conditional physical gates. Tasks 1.1 and 2.1–2.3 remain unchecked.
+
+## Reviewed implementation prerequisites
+
+The [finite codecs](docs/evidence/forgix-synthetic-codec/README.md) pass actual native-C/Python and independent fault replay after a retained overlapping-output correction. The [compiler route](docs/evidence/forgix-synthetic-compiler/README.md) retains its first actual FHS failure before generation: committed-input verification requires Git, now explicitly supplied by Nix. Runtime verification, actual vendor compilation/report review, RP stream, physical qualification and complete recovery remain gates. No transport task is accepted.

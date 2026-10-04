@@ -74,3 +74,7 @@ primary RF transmissions, including permitted event/PDU omission. Those historic
 monitor records omit some requested HCI fields; do not claim their independent
 physical verification. Original emitted-count, full waveform, three-response
 and Trial B prerequisites remain unchanged; no task is checked by these tests.
+
+## Reviewed implementation prerequisites
+
+The [failure-retention review](docs/evidence/capture-failure-retention/README.md) verifies private UART prefixes, uncertain START closure and unchanged successful CSV bytes. Caller integration passes independently. The earlier failed fragment remains unavailable. The final original BW12 trial requires a fresh runtime/device freeze and full preservation/restoration; this source preparation supplies no reception or air denominator.

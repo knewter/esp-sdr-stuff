@@ -1,0 +1,35 @@
+{
+  "kind": "independent-offline-finite-synthetic-codec-review",
+  "result": "PASS_OFFLINE_CODECS_ONLY",
+  "source_revision": "31275a3ea121a39d1c6988025e407a93d40b70d1",
+  "subjects_sha256": {
+    "firmware/forgix-synthetic-source/CODEC.md": "ed0706c3ed192e2a7a2fb784107eb48d337418fc48f210c33d7870adf553f758",
+    "firmware/forgix-synthetic-source/codec.c": "e875416516bfe05187b56065140c7af60d73e310af4bd4930d05632fdb8e6011",
+    "firmware/forgix-synthetic-source/codec.h": "17de584ec8b71160a36a2d755644a105c875f36853e5b08547053b52b23aa154",
+    "tools/forgix_synthetic_codec.py": "260524e248a8b4006547dbc47ed60d294878916c50b511461bb71595ef03d34b",
+    "tests/test_forgix_synthetic_codec.py": "744cac762048532cb8c83a90c5802d20e9b9a030177d96a593d1f22aacb13fcd"
+  },
+  "author_replay": {
+    "groups": 16,
+    "exit_status": 0,
+    "skips": 0
+  },
+  "independent_replay": {
+    "groups": 6,
+    "exit_status": 0,
+    "skips": 0,
+    "actual_c": "C11/O1/Wall/Wextra/Werror/PIC/shared/nonrecovering UBSan; locked Nix compiler path asserted"
+  },
+  "limits": [
+    "Pure codecs only: no FPGA-to-RP stream engine, host serial collector, device operation, vendor execution, load command or physical admission.",
+    "START tick is externally supplied; reconstructed ticks and offered profiles are expectations, not measured clock/rate evidence.",
+    "Pattern folds the nonce noncryptographically; full 128-bit frame nonce and exact independently bound FPGA source/image remain necessary.",
+    "A strict source gap fails delivery qualification; separate coherent counter reconciliation cannot relabel it zero-loss success.",
+    "Codec finish checks finite completeness only; device END, final counters, bounded closure, original preservation and restoration remain future lifecycle gates.",
+    "Caller owns and must persist C raw frames/prefixes; neither codec provides transport retry/resynchronization."
+  ],
+  "hardware_opened": false,
+  "vendor_executed": false,
+  "private_review_sha256": "c3aebe3eed46977ce43411172d11bc61d1316416cd6801ec51f3dd545718415c",
+  "retained_initial_failure_sha256": "be35eed8b8690202fcca917e2ed202de48e0502f4b53b9f46850216b67a986af"
+}
