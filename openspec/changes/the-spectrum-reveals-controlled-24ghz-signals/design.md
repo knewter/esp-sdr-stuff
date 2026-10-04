@@ -220,3 +220,14 @@ independent review are needed before using it in any new physical episode.
 ## Final original ladder outcome
 
 The [final original BW12 control](docs/evidence/ble-bluez-control-007/README.md) completes the prospective ladder: all 1,151 captures, whole decoder/scalar replay, source schedule, cleanup and full restoration pass independent audit. Zero CRC-valid packets and no repeated owned-source nominal-band rise supply no emitted-event denominator or detection/miss rate. Original Trial B remains withheld; neither radio acceptance gate is relaxed.
+
+## Conditional zero-data primary-source readiness
+
+The [separate prospective readiness protocol](docs/research/ble-primary-zero-data-readiness-protocol.md)
+qualifies one exact zero-data extended-source controller profile/count100 and
+complete monitoring/cleanup before any future receiver condition. It verifies
+all independently sanitized v1 HCI fields and retained ownership/deadline proof.
+Controller events remain distinct from emitted primary PDUs; previous failures,
+original legacyTrialB/count/RF gates and accepted specs stay unchanged. A future
+three-repeat ten-bit/BW20/manual48 receiver trial is conditional and separately
+frozen; this appendix admits no source action or receiver.

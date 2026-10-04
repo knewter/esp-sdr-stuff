@@ -141,3 +141,14 @@ no physical acceptance gate or accepted requirement. Earlier outcomes remain.
 - [x] 3.2 Independently verify changed owned outcomes and publish the bounded digital-precision result, retaining every row and all original radio gates. Proof: independent whole replay and protected packet/window checks.
 
 Both offline diagnostic tasks are grounded in [the complete paired record and independent review](docs/evidence/ble-same-waveform-precision/README.md): all1,256 original/derived rows, two unchanged owned packet pairs, exhaustive conversion and nine corruption probes pass. These two supporting tasks do not close original physical tasks1.1/1.2 or alter TrialB.
+
+## Conditional zero-data primary-source readiness
+
+The [separate prospective readiness protocol](docs/research/ble-primary-zero-data-readiness-protocol.md)
+qualifies one exact zero-data extended-source controller profile/count100 and
+complete monitoring/cleanup before any future receiver condition. It verifies
+all independently sanitized v1 HCI fields and retained ownership/deadline proof.
+Controller events remain distinct from emitted primary PDUs; previous failures,
+original legacyTrialB/count/RF gates and accepted specs stay unchanged. A future
+three-repeat ten-bit/BW20/manual48 receiver trial is conditional and separately
+frozen; this appendix admits no source action or receiver.

@@ -90,3 +90,14 @@ compares all246 historical and1010 matched-manual ten-bit waveforms with their
 exact upper-eight-bit transformations using unchanged blind decoder bounds.
 This diagnostic supplies no new RF capture or emitted denominator and changes
 no physical acceptance gate or accepted requirement. Earlier outcomes remain.
+
+## Conditional zero-data primary-source readiness
+
+The [separate prospective readiness protocol](docs/research/ble-primary-zero-data-readiness-protocol.md)
+qualifies one exact zero-data extended-source controller profile/count100 and
+complete monitoring/cleanup before any future receiver condition. It verifies
+all independently sanitized v1 HCI fields and retained ownership/deadline proof.
+Controller events remain distinct from emitted primary PDUs; previous failures,
+original legacyTrialB/count/RF gates and accepted specs stay unchanged. A future
+three-repeat ten-bit/BW20/manual48 receiver trial is conditional and separately
+frozen; this appendix admits no source action or receiver.
