@@ -76,3 +76,11 @@ lock/enumeration, and verifies transport closure. Fifteen own-operator tests
 pass using compiled-C replies, injected failures and a local PTY. No physical
 collector CLI or complete bounded load/recovery owner exists. No new hardware
 trial ran; configuration transition and physical gates remain open, at 1/5.
+
+The [offline lifecycle controller and bounded worker wrapper](docs/evidence/forgix-spi-lifecycle/README.md)
+now pass 20 own-operator checks. Injected receipts test preservation/mutation
+ordering, image/transition matching, failure retention and cleanup policy;
+real regular-file/process fixtures verify inherited-lock and whole-group
+closure. No physical backend, FPGA configuration writer or load/program CLI
+is implemented. Tasks 1.1 and 2.1–2.3 remain unchecked. These software checkpoints
+support task 2.1 without replacing its several-rate physical transport proof.

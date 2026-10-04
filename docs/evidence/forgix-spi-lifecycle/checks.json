@@ -1,0 +1,26 @@
+{
+  "checked_utc": "2026-10-04T02:01:51.249416+00:00",
+  "kind": "own-operator offline lifecycle and process-ownership checks",
+  "source_commit": "35ead8da2c8be47984acd78f9154f88b35dbf8ba",
+  "result": "passed",
+  "tests": 20,
+  "skips": 0,
+  "test_elapsed_s": 4.09,
+  "command": "nix develop .#ci --command task forgix:spi-bridge:lifecycle:test",
+  "source_sha256": {
+    "tools/forgix_spi_lifecycle.py": "dd61cf38b26a4a484123404f66878ba9e3c96e0b3395b7081c10d8567084fa93",
+    "tests/test_forgix_spi_lifecycle.py": "0efe0407ea9c2a66e4387259e5dc69f1844fc20ff8664c8993b1263fcce26d89",
+    "tools/forgix_usb_ram_trial.py": "be51612d57a26cc21f850a19b12f14a3db494e90913b7ecc20078d1a9a578723",
+    "tools/forgix_usb_ram_capture.py": "fe620fcef9373854abb688ef5ccecca5a120053791f426e308efa27e57eab2e7",
+    "tools/demo_esp_sdr.py": "ff9077132fed9550e861aa8b9e10c612a4ce5394d11f20962fdb048e59671966",
+    "Taskfile.yml": "e30717d73c1b27cdfac81efe89e15e824fe7e35a333fd88e66db801df1ea6712"
+  },
+  "private_log_sha256": "ac5958b8a500d0f9efc1bd0737e20cebb995e50f205a8bf8d9870aa5efae89b4",
+  "hardware_opened": false,
+  "fpga_programmed": false,
+  "ram_loaded": false,
+  "physical_execution_admitted": false,
+  "physical_backend_implemented": false,
+  "scope": "Injected lifecycle receipts/clock; real disposable process groups, inherited flock and regular-file descriptors. No physical FPGA configuration, timing, register readback or factory recovery measurement.",
+  "offline_plan_sha256": "d403ad10fa1462e0616517cc116caacb801cbd4cdc27318af9144f33f5108df0"
+}

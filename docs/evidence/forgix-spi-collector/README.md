@@ -53,9 +53,10 @@ expiry and actual descriptor closure.
 
 ## Remaining lifecycle boundary
 
-There is **no physical collector CLI or load/program task**. OS/USB operations
-still need a bounded owning worker, frozen inputs, failed-open closure and the
-full reviewed preservation/configuration/RAM-load/factory-recovery path. The
+There is **no physical collector CLI or load/program task**. The subsequent [lifecycle controller and worker wrapper](../forgix-spi-lifecycle/README.md)
+pass offline/process tests. A physical backend still needs frozen inputs,
+failed-open closure and the full reviewed preservation/configuration/RAM-load/
+factory-recovery path. The
 collector always reports `factory_return_verified=false` and
 `lifecycle_complete=false`; register verification and FINISH are insufficient.
 

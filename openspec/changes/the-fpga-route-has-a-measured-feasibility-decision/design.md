@@ -83,3 +83,36 @@ or original device flash; explicit recovery awaits a physical replug.
 The [lifecycle review](docs/evidence/forgix-usb-ram-lifecycle-review/README.md)
 and [actual version-check supplement](docs/evidence/forgix-usb-ram-version-review/README.md)
 establish offline preparation only. The original task gates remain open.
+
+## Current register-trial implementation boundary
+
+Later [MCU USB measurements](docs/evidence/forgix-usb-ram-recovery/README.md)
+retain verified recovery and a lossless 64 KiB/s condition; requested 256 KiB/s
+loses 431 records, matching device discards. These are MCU-to-host measurements,
+not a selected FPGA transport benchmark. They supersede the initial episode's
+replug requirement without closing tasks 1.1 or 2.1–2.3.
+
+The [compiled bridge and linked startup audit](docs/evidence/forgix-spi-bridge/README.md)
+show that SDK GPIO/pad/PIO resets precede main. The lifecycle must qualify
+retention of the exact guarded image through that transition, or configure
+that image after RAM startup. CDONE alone cannot identify the image. The
+current bridge has no configuration writer; the latter strategy still needs
+reviewed firmware/protocol implementation and physical qualification.
+
+The [private collector](docs/evidence/forgix-spi-collector/README.md) retains
+failed raw prefixes and checks serial closure. The
+[offline lifecycle controller](docs/evidence/forgix-spi-lifecycle/README.md)
+now enforces preservation-before-mutation, configuration/image matching,
+recovery after possibly consumed requests, and no further access after unknown
+worker closure. Its 600-second model reserves 325 seconds for cleanup and full
+verification. Actual process tests verify inherited-lock and whole-group
+cleanup using regular-file fixtures. Adapter receipt/clock tests are not
+physical preservation or FPGA proof.
+
+No physical backend or load/program CLI is admitted. Before a hardware trial,
+bind the measured board grade/clock/timing, reviewed FPGA and RAM artifacts,
+frozen Nix execution inputs, original USB identity, fresh full preservation
+and an independently reviewed configuration/load/recovery path. Acceptance
+still requires physical register readback and later sequence/CRC, sustained
+payload, loss/backlog and timing measurements. Host preparation does not
+narrow those requirements or move unverified behavior into the accepted ledger.

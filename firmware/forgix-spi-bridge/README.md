@@ -111,8 +111,9 @@ and retains partial exchanges in memory. The new private collector persists
 transfer intents and raw reply prefixes, checks the caller's lock/enumeration,
 and verifies serial closure. Fifteen own-operator C/PTY/fault checks pass; see
 [collector evidence](../../docs/evidence/forgix-spi-collector/README.md).
-Its caller still owns complete image binding, a bounded worker, load/recovery
-and full factory return. Ambiguous replies
+The [offline lifecycle controller and worker wrapper](../../docs/evidence/forgix-spi-lifecycle/README.md)
+now pass ordering/closure tests. Its physical caller still needs complete
+image binding, reviewed load/configuration/recovery and full factory return. Ambiguous replies
 stop further commands; valid pattern mismatch still attempts restoration.
 FINISH acknowledgment is not factory return. No physical trial CLI or complete
 load lifecycle is provided. The saved-ELF startup audit runs separately:

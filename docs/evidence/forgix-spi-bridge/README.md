@@ -92,8 +92,10 @@ summary. Five additional independent late-frame/parser/cleanup/cancellation
 probes pass. This injected-transport engine opens no port. The subsequent
 [private collector](../forgix-spi-collector/README.md) now implements prefix
 persistence, caller-supplied lock/enumeration checks and transport closure,
-with 15 own-operator C/PTY/fault tests. Its complete bounded load/recovery owner
-and full flash/factory verification remain unimplemented. FINISH acknowledgment
+with 15 own-operator C/PTY/fault tests. The subsequent
+[lifecycle controller and worker wrapper](../forgix-spi-lifecycle/README.md)
+pass offline/process checks. The physical backend and complete measured
+load/recovery path remain unimplemented. FINISH acknowledgment
 alone is not factory return.
 
 The [actual linked startup audit](startup-audit.json) recognizes the saved
