@@ -159,6 +159,16 @@ tasks:
     cmds:
       - python3 tools/ble_decode_iq.py {{.CLI_ARGS}}
 
+  ble:precision:test:
+    desc: Verify exact upper-bit conversion and unchanged blind decoding (no hardware)
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_ble_precision_compare.py
+
+  ble:precision:compare:
+    desc: Replay frozen saved waveforms at original and derived precision (no hardware)
+    cmds:
+      - python3 tools/ble_precision_compare.py {{.CLI_ARGS}}
+
   capture:failure:test:
     desc: Verify private UART failure-prefix retention and closure (no hardware)
     cmds:
