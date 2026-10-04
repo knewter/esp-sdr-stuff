@@ -152,6 +152,30 @@ class ExtendedPrimaryTests(unittest.TestCase):
             pdu=bytearray(WITH_AUX);pdu[3]=flag
             self.assertFalse(self.decode(bytes(pdu))['status'].startswith('valid'))
 
+    def test_crc_valid_aux_offset_timing_and_units_boundaries(self):
+        # Independent CRC/whitening is regenerated after every mutation:
+        # malformed timing is rejected semantically, not by CRC failure.
+        # LE1M packet184us+T_MAFS300us needs at least484us.
+        for units, offset, valid in [(30,1,False),(30,16,False),(30,17,True),
+                                     (300,20,False),(300,818,False),
+                                     (300,819,True),(30,8191,True),
+                                     (30,0,True),(300,0,False)]:
+            pdu=bytearray(WITH_AUX)
+            pdu[12]=5 | (0x80 if units==300 else 0)
+            pdu[13]=offset & 255;pdu[14]=offset >> 8
+            with self.subTest(units=units,offset=offset):
+                result=self.decode(bytes(pdu))
+                self.assertTrue(result['crc24_ok'])
+                self.assertEqual(result['status'], 'valid_owned_primary' if valid
+                                 else 'invalid_aux_pointer_timing')
+        # Duration is derived from this complete PDU, not a fixed184us:
+        # omit AdvA ->136us, so450us is permitted while420us is too short.
+        for offset, valid in [(14,False),(15,True)]:
+            pdu=bytes.fromhex('07070618230105')+bytes([offset,0])
+            result=self.decode(pdu)
+            self.assertEqual(result['status'], 'valid_other_primary_redacted' if valid
+                             else 'invalid_aux_pointer_timing')
+
     def test_private_reference_validation_mode_and_channel(self):
         for bad in [dict(REFERENCE,address_type=1),dict(REFERENCE,advertising_sid=1),
                     dict(REFERENCE,schema=True),dict(REFERENCE,adva_lsb_first_hex='00'*6),

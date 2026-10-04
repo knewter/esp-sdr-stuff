@@ -99,6 +99,17 @@ def decode_primary(bits, channel, reference):
         # This profile requested secondaryLE1M, encoded as0 in AuxPtr.
         if (aux[0] & 63) > 36 or (aux[2] >> 5) != 0:
             return {'status': 'invalid_aux_pointer_profile', 'crc24_ok': True}
+        # Core Vol6 PartB §2.3.4.5 / §4.1.2: a nonzero AuxOffset
+        # covers this LE1M packet plus T_MAFS=300us. Below245700us
+        # OffsetUnits must select30us. Zero is the permitted no-AUX
+        # special case with valid remaining fields; it is not proof of
+        # a radiated auxiliary packet.
+        offset = aux[1] | ((aux[2] & 31) << 8)
+        units = 300 if aux[0] & 0x80 else 30
+        offset_us = offset*units
+        if ((offset and offset_us < 80+8*length+300) or
+                (units == 300 and offset_us < 245700)):
+            return {'status': 'invalid_aux_pointer_timing', 'crc24_ok': True}
         cursor += 3
     # TxPower's numeric value is controller-selected and does not train the
     # receiver or establish ownership. Its byte is included in full CRC.
