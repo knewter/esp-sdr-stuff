@@ -1,12 +1,16 @@
 {
   "air_emission_count": null,
   "author_ready_sha256": "8585202b0acf4a97a3a425523e57f03b6e6f53bbed509459702cfe358a18705d",
+  "author_source_commit": "8329d759ce798070ea0d478cf4201c02e80aa9af",
   "daemon_queried": false,
   "default_ci_derivations_unchanged": true,
   "failed_attempts_preserved": true,
   "forgix_configuration004_admitted": false,
+  "forgix_usb_present": false,
   "hardware_opened": false,
-  "independent_implementation_review": "pending",
+  "independent_additional_groups": 12,
+  "independent_implementation_review": "PASS_OFFLINE_SOURCE_ONLY",
+  "independent_review_sha256": "808e54a39249bcb20ec3647ce426ec9ef78fd68098e52eff983b30d3fc5f1027",
   "kind": "ble-primary-timed-source-host-preparation",
   "new_archive_built": false,
   "nix_paths_content_verified": 260,
@@ -14,8 +18,11 @@
   "preserved_failed_peer_sha256": "fada2ce1afd94e4e3a6615e76180b4bb493313eaa8eeeff1dc218021e961f96b",
   "reference_edges": 1075,
   "rf_verified": false,
+  "root_focused_groups": 144,
+  "root_focused_proof_sha256": "21589769b678ceeb014a46785cdaa7d6c74d89cfc27b59c6c0b0b54d0b385d21",
+  "root_transfer_review_sha256": "10c5fdfd3a0cb0b7d80d77aba11d64532588a43f8680fb32fb3f1076d81828f5",
   "setup_refusal_no_hci_commands": true,
-  "source_commit": "8329d759ce798070ea0d478cf4201c02e80aa9af",
+  "source_commit": "6b24d4deed13739764efdef090b1e32c806754ee",
   "source_only_qualified": false,
   "source_sha256": {
     "docs/research/ble-primary-timed-zero-data-v2-protocol.md": "90b7c9e5a31d3e004b9d39e79cd06a55bbad3370b24d10d16578af3b67787339",
@@ -25,6 +32,8 @@
     "tools/ble_primary_timed_source.py": "d034f59f5a53382313e523ea80c381501a7baf1b7572d84bfc57473d3d400976"
   },
   "strict_openspec_pass": 10,
+  "task4_1_complete": true,
+  "task4_2_complete": false,
   "tests": {
     "new_timed": 55,
     "unchanged_decoder": 19,
@@ -33,6 +42,7 @@
     "unchanged_v1_container": 15,
     "unchanged_v1_native": 33
   },
+  "usb_survey_utc": "2026-10-04T20:12:48.022382Z",
   "v1_image_derivation_unchanged": true,
   "wrapper_native_deadline_alias_refused_before_query": true
 }

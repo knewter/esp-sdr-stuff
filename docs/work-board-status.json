@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Implement and independently review the separate timed source and qualification caller, then qualify one source-only episode before the longer fixed receiver condition. Original independently counted emissions, repeated RF responses and Trial B remain open.",
-      "rationale": "Earlier independent trials reproduced complete owned BLE decoding and preserved all null controls and failures. Same-waveform replay of 1,256 captures preserves both known packets after exact upper-eight-bit conversion. The corrected receiver holder passes 50 author and 11 peer groups; the current root transfer and launcher pass independent review. The fixed zero-data primary receiver trial now passes whole saved-evidence review: 365 intact ten-bit captures, three monitored count100 controller phases, normal known closure and full original 4 MiB restoration with reset boot. All waveforms replay with unchanged bounds: zero owned or foreign CRC-valid primary packets. Only 3/4/4 guarded ON captures were available; 347 OFF and seven boundary captures remain accounted for. This low-duty null is inconclusive. Controller-completed events supply no independently counted air denominator or reception rate. Original radio acceptance gates and Trial B remain open. The separately timed 25-second source plan passes independent architecture review. New host source and qualification code are being prepared; source-only qualification and a separately frozen 180-second receiver condition remain pending. Its 100/25 guarded-window coverage gates count acquisition opportunities, never emissions.",
-      "reviewRevision": "14b162a5b21dbf975ce227dfbc3a0b33b373a137",
+      "next": "Build and verify the reviewed timed-source archive; independently admit and qualify its source-only caller before one separately frozen 180-second receiver condition. Capture-window counts do not establish air emissions or original RF acceptance.",
+      "rationale": "Earlier independent trials reproduced complete owned BLE decoding and preserved all null controls and failures. Same-waveform replay of 1,256 captures preserves both known packets after exact upper-eight-bit conversion. The corrected receiver holder passes 50 author and 11 peer groups; the current root transfer and launcher pass independent review. The fixed zero-data primary receiver trial now passes whole saved-evidence review: 365 intact ten-bit captures, three monitored count100 controller phases, normal known closure and full original 4 MiB restoration with reset boot. All waveforms replay with unchanged bounds: zero owned or foreign CRC-valid primary packets. Only 3/4/4 guarded ON captures were available; 347 OFF and seven boundary captures remain accounted for. This low-duty null is inconclusive. Controller-completed events supply no independently counted air denominator or reception rate. Original radio acceptance gates and Trial B remain open. The separately timed 25-second source plan passes independent architecture review. New host source and qualification code are being prepared; source-only qualification and a separately frozen 180-second receiver condition remain pending. Its 100/25 guarded-window coverage gates count acquisition opportunities, never emissions. Timed-source software now passes independent replay (172 author plus 12 additional groups), exact root transfer and 144 root focused checks; only software task 4.1 closes. The archive, caller, source qualification and longer receiver remain pending.",
+      "reviewRevision": "03572b056d767205b5808b38d18772415d9c567c",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -122,7 +122,8 @@
         "docs/evidence/ble-primary-receiver-root-preparation/README.md",
         "docs/evidence/admission-review-failures-001/README.md",
         "docs/evidence/ble-primary-zero-data-receiver-001-review/README.md",
-        "docs/evidence/ble-primary-timed-plan-review/README.md"
+        "docs/evidence/ble-primary-timed-plan-review/README.md",
+        "docs/evidence/ble-primary-timed-source-host-preparation/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
@@ -134,9 +135,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Implement and independently review the separate timed source and qualification caller, then qualify one source-only episode before the longer fixed receiver condition. Original independently counted emissions, repeated RF responses and Trial B remain open.",
-      "rationale": "Earlier independent trials reproduced complete owned BLE decoding and preserved all null controls and failures. Same-waveform replay of 1,256 captures preserves both known packets after exact upper-eight-bit conversion. The corrected receiver holder passes 50 author and 11 peer groups; the current root transfer and launcher pass independent review. The fixed zero-data primary receiver trial now passes whole saved-evidence review: 365 intact ten-bit captures, three monitored count100 controller phases, normal known closure and full original 4 MiB restoration with reset boot. All waveforms replay with unchanged bounds: zero owned or foreign CRC-valid primary packets. Only 3/4/4 guarded ON captures were available; 347 OFF and seven boundary captures remain accounted for. This low-duty null is inconclusive. Controller-completed events supply no independently counted air denominator or reception rate. Original radio acceptance gates and Trial B remain open. The separately timed 25-second source plan passes independent architecture review. New host source and qualification code are being prepared; source-only qualification and a separately frozen 180-second receiver condition remain pending. Its 100/25 guarded-window coverage gates count acquisition opportunities, never emissions.",
-      "reviewRevision": "14b162a5b21dbf975ce227dfbc3a0b33b373a137",
+      "next": "Build and verify the reviewed timed-source archive; independently admit and qualify its source-only caller before one separately frozen 180-second receiver condition. Capture-window counts do not establish air emissions or original RF acceptance.",
+      "rationale": "Earlier independent trials reproduced complete owned BLE decoding and preserved all null controls and failures. Same-waveform replay of 1,256 captures preserves both known packets after exact upper-eight-bit conversion. The corrected receiver holder passes 50 author and 11 peer groups; the current root transfer and launcher pass independent review. The fixed zero-data primary receiver trial now passes whole saved-evidence review: 365 intact ten-bit captures, three monitored count100 controller phases, normal known closure and full original 4 MiB restoration with reset boot. All waveforms replay with unchanged bounds: zero owned or foreign CRC-valid primary packets. Only 3/4/4 guarded ON captures were available; 347 OFF and seven boundary captures remain accounted for. This low-duty null is inconclusive. Controller-completed events supply no independently counted air denominator or reception rate. Original radio acceptance gates and Trial B remain open. The separately timed 25-second source plan passes independent architecture review. New host source and qualification code are being prepared; source-only qualification and a separately frozen 180-second receiver condition remain pending. Its 100/25 guarded-window coverage gates count acquisition opportunities, never emissions. Timed-source software now passes independent replay (172 author plus 12 additional groups), exact root transfer and 144 root focused checks; only software task 4.1 closes. The archive, caller, source qualification and longer receiver remain pending.",
+      "reviewRevision": "03572b056d767205b5808b38d18772415d9c567c",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -203,7 +204,8 @@
         "docs/evidence/ble-primary-receiver-root-preparation/README.md",
         "docs/evidence/admission-review-failures-001/README.md",
         "docs/evidence/ble-primary-zero-data-receiver-001-review/README.md",
-        "docs/evidence/ble-primary-timed-plan-review/README.md"
+        "docs/evidence/ble-primary-timed-plan-review/README.md",
+        "docs/evidence/ble-primary-timed-source-host-preparation/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",

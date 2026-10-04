@@ -1,23 +1,28 @@
-# Timed-v2 source host preparation
+# Timed source preparation passes independent review
 
-Offline implementation `8329d759` follows the separately declared
-[protocol](../../research/ble-primary-timed-zero-data-v2-protocol.md).
-All172 focused tests and10 strict OpenSpec items passed. The new fixed25-second
-zero-data source retains UINT8 completed-count metadata without an air count.
-Native/wrapper deadlines inherit the original45-second episode limit; ENABLE
-requires32 seconds remaining. Slow/cancelled setup stops the next access; closure writes a failed terminal.
-Owned child start identity and natural whole-group absence are recorded.
+The separate [25-second protocol](../../research/ble-primary-timed-zero-data-v2-protocol.md)
+now has reviewed native and container implementations, mapped to root `6b24d4d`.
+Independent replay passes all 172 author groups plus 12 additional probe groups;
+current root passes 144 focused checks and all 10 strict OpenSpec items.
+This completes software task 4.1. Earlier reporting, resource-access and deadline
+failures remain retained privately.
 
-The exact v1 native/container/monitor/decoder bytes, v1 image derivation/output,
-and default/CI shell derivations match `12138abb`. Six selected executables and
-all260 recursive Nix paths/1075 reference edges passed actual content checks.
-The source-bearing v2 archive is optional and **unbuilt**. Actual archive bytes,
-loaded image, source-only qualification and receiver coverage remain unverified;
-this checkpoint admits no physical action and leaves tasks4.1/4.2 unchecked
-pending their independent/root proofs. The corrected wrapper rejects native-only
-parent deadlines before any Docker query; only its episode-deadline option is
-accepted. Historical685 review failures remain frozen.
+Slow or cancelled setup stops the next access and closes the descriptor. The
+wrapper rejects ambiguous native deadlines before Docker access. Both inherit
+the original 45-second limit; enabling requires 32 seconds remaining. Forced or
+late closure cannot qualify. Completed-count metadata supplies no air count.
 
-The unchanged strict Forgix guard rejects the saved configuration004 artifact
-against these changed flake/Task inputs. A later register trial requires a fresh
-root artifact. Historical results and failed attempts are preserved privately.
+All 15 transferred inputs and seven unchanged v1 files match their reviewed
+bytes. The v1 image and default/CI derivations remain unchanged. Six executable
+files and the complete 260-path, 1,075-reference graph are bound to the proof;
+author content verification and independent metadata checks have distinct scopes.
+
+The optional source archive is still **unbuilt** at this checkpoint. Archive
+verification, caller admission, source-only qualification and receiver coverage
+remain pending; task 4.2 and all physical tasks stay unchecked. Changed flake/Task
+inputs make historical Forgix configuration004 stale under its unchanged guard.
+A fresh root artifact and production freezes are required before later trials.
+
+The 20:12 UTC read-only USB survey finds the ESP and RTL-SDR, verifies preserved
+ESP backups, and finds no Forgix application, boot-ROM or RAM device. No serial
+port, controller or Docker daemon was opened for these checks.
