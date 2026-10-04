@@ -265,7 +265,9 @@ def capture(port, samples, rate, bits):
                'payload_complete': False, 'framing_uncertain': True}
     raw_header = b''
     try:
-        port.write((request + '\n').encode('ascii')); port.flush()
+        context['command_write_bytes_returned'] = port.write((request + '\n').encode('ascii'))
+        port.flush()
+        context['command_flush_returned'] = True
         context['stage'] = 'header'
         raw_header = raw_line(port)
         t1 = time.monotonic_ns()

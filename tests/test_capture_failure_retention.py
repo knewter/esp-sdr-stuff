@@ -153,7 +153,8 @@ class ReceiverRetention(unittest.TestCase):
         for file in private.iterdir():self.assertEqual(stat.S_IMODE(file.stat().st_mode), 0o600)
         self.assertEqual(wire.requests, [b'CAP16 16380 6\n'])
         self.assertEqual(wire.events, [b'late tail'])
-        self.assertEqual(list(csv.DictReader((self.root/'public/captures.csv').open())), [])
+        with (self.root/'public/captures.csv').open() as file:
+            self.assertEqual(list(csv.DictReader(file)), [])
 
     def test_empty_or_transport_failed_prefix_is_saved_with_precise_failure(self):
         for index,events in enumerate([[b''], [b'ab', OSError('PRIVATE-PORT')]]):
@@ -262,7 +263,7 @@ class SpectrumRetention(unittest.TestCase):
                 self.assertTrue(wire.closed)
                 return original(path,data)
             with patch.object(spectrum,'open_board',return_value=wire),patch.object(spectrum,'synchronize') as sync, \
-                 patch.object(spectrum,'queries',return_value={}),patch.object(spectrum,'settings'), \
+                 patch.object(spectrum,'queries',return_value={}),patch.object(spectrum,'settings',return_value={}), \
                  patch.object(spectrum,'command',return_value='SPEC 256 16000000 256 2401') as command, \
                  patch.object(spectrum,'persist_verified',checked),contextlib.redirect_stdout(io.StringIO()):
                 trial=spectrum.Trial(args);trial.run()

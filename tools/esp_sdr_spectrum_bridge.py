@@ -37,19 +37,19 @@ def spectrum_frame(port, bins):
     kind = 'unknown'
 
     def remember(error, size):
-            prefix = bytes(received) + getattr(error, 'partial', b'')
-            error.rejected_raw = prefix
-            error.rejected_metadata = {
-                'kind': kind, 'complete_frame': False, 'bytes': len(prefix),
-                'sha256': hashlib.sha256(prefix).hexdigest(), 'crc_ok': None,
-                'expected_crc32': None, 'actual_crc32': None,
-                'expected_frame_bytes': len(received) + size if size is not None else None,
-                'frame_read_start_ns': started, 'magic_received_ns': magic_received,
-                'failure_ns': getattr(error, 'failure_ns', None),
-                'failure_kind': type(error).__name__,
-                'read_failure_reason': getattr(error, 'reason', None),
-                'underlying_read_error_kind': getattr(error, 'read_error_kind', None),
-                'unreturned_read_bytes_unknown': getattr(error, 'unreturned_read_bytes_unknown', False)}
+        prefix = bytes(received) + getattr(error, 'partial', b'')
+        error.rejected_raw = prefix
+        error.rejected_metadata = {
+            'kind': kind, 'complete_frame': False, 'bytes': len(prefix),
+            'sha256': hashlib.sha256(prefix).hexdigest(), 'crc_ok': None,
+            'expected_crc32': None, 'actual_crc32': None,
+            'expected_frame_bytes': len(received) + size if size is not None else None,
+            'frame_read_start_ns': started, 'magic_received_ns': magic_received,
+            'failure_ns': getattr(error, 'failure_ns', None),
+            'failure_kind': type(error).__name__,
+            'read_failure_reason': getattr(error, 'reason', None),
+            'underlying_read_error_kind': getattr(error, 'read_error_kind', None),
+            'unreturned_read_bytes_unknown': getattr(error, 'unreturned_read_bytes_unknown', False)}
 
     def piece(size):
         try:
