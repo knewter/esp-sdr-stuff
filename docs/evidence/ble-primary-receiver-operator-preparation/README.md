@@ -1,6 +1,8 @@
 # Offline receiver outer-holder preparation
 
-October 4, 2026. Forty locked-Nix/Task host test groups passed with no skips.
+October 4, 2026. The corrected holder passes44 locked-Nix/Task host test groups with no skips.
+The first immutable holder passed40 author groups but failed six independent
+boundary/process probes; its complete failed version remains preserved.
 This prepares the separate root operator boundary described in the
 [prospective protocol](../../research/ble-primary-receiver-operator-protocol.md).
 The reviewed inner receiver caller/support/test/Task and all15 copied inputs
@@ -22,7 +24,12 @@ death/EOF, repeated cancellation, cancellation before or during Popen assignment
 first-signal cleanup clocks, late read-only results, unresponsive caller reap,
 lease death/replacement, durable storage failures, input/admission/environment
 mutations, process/container receipt binding, absent active witnesses and missing
-restore provenance. Earlier failed author tests remain private and preserved.
+restore provenance. Earlier failed author tests and the initial peer failure remain private and
+preserved. The replacement checks successful completion after fsync, real lease
+release/reap and final persistence, keeps intermediate qualification pending,
+strictly types controller fields and protects all replacement storage setup.
+The actual dead-keeper plus replacement-directory failure now leaves the parent
+alive with the flock held. Keeper death during result persistence is also covered.
 
 Normal closure relies on the reviewed inner flash/restoration attestation plus
 saved named-group and active-container evidence. Unsaved flash subprocess
