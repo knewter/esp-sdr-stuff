@@ -58,7 +58,7 @@ class Locks(unittest.TestCase):
             with self.subTest(fault=fault),tempfile.TemporaryDirectory() as tmp:
                 root=Path(tmp);(root/'.scratch').mkdir();path=root/'.scratch/esp-demo.lock'
                 if fault=='marker':(root/'.scratch/forgix-usb-ram-unclosed.json').write_text('{}')
-                elif fault=='permissions':path.touch(mode=0o644)
+                elif fault=='permissions':path.touch();path.chmod(0o644)
                 else:path.symlink_to(root/'elsewhere')
                 with patch.object(coordinator,'ROOT',root):
                     with self.assertRaises((ValueError,trial.preserve.PreservationError)):

@@ -80,7 +80,7 @@ class Candidate(unittest.TestCase):
         with self.assertRaises(b.Refusal):c.verify_outputs(self.private,time.time_ns()+1000000000)
         self.image.write_bytes(b'')
         with self.assertRaises(b.Refusal):c.verify_outputs(self.private,0)
-        self.image.unlink(); external=self.root/'original';external.write_bytes(b'0123');os.link(external,self.image)
+        self.image.unlink(); external=self.root/'original';external.write_bytes(b'0123');external.chmod(0o644);os.link(external,self.image)
         with self.assertRaises(b.Refusal):c.verify_outputs(self.private,0)
         self.assertFalse(c.smoke.harden_outputs(self.private));self.assertEqual(external.stat().st_mode&0o777,0o644)
     def test_outflow_symlink_and_added_edge_pin_rejected(self):
