@@ -8,6 +8,7 @@ import struct
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1]
@@ -53,8 +54,19 @@ def stream_elf():
 
 class StreamBuild(unittest.TestCase):
     def test_actual_tool_import_chain_and_project_are_frozen(self):
-        imported={Path(m.__file__).resolve().relative_to(ROOT).as_posix() for m in tuple(sys.modules.values())
-            if getattr(m,'__file__',None) and Path(m.__file__).resolve().is_relative_to(ROOT/'tools')}
+        # Whole unittest discovery imports unrelated tools into this process.
+        # Observe only the actual builder entrypoint in a fresh interpreter.
+        script='''import json,sys
+from pathlib import Path
+r=Path(sys.argv[1]);sys.path.insert(0,str(r/'tools'))
+import build_forgix_synthetic_stream
+print(json.dumps(sorted({Path(m.__file__).resolve().relative_to(r).as_posix()
+ for m in tuple(sys.modules.values()) if getattr(m,'__file__',None)
+ and Path(m.__file__).resolve().is_relative_to(r/'tools')})))
+'''
+        unrelated=types.ModuleType('_unrelated_discovery');unrelated.__file__=str(ROOT/'tools/flash_trial.py')
+        with patch.dict(sys.modules,{'_unrelated_discovery':unrelated}):
+            imported=set(json.loads(subprocess.check_output([sys.executable,'-c',script,str(ROOT)],text=True,timeout=20)))
         self.assertLessEqual(imported,set(build.FILES))
         self.assertLessEqual(set(build.PROJECT.values()),set(build.FILES))
         self.assertIn('firmware/forgix-synthetic-source/source.v',build.FILES)
