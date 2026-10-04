@@ -124,12 +124,7 @@
         "docs/evidence/ble-primary-zero-data-receiver-001-review/README.md"
       ],
       "cover": {
-        "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
-        "caption": "Fresh manual48 capture 48: independently verified complete owned BLE packet; uncalibrated amplitude",
-        "provenance": "Board capture"
-      },
-      "figure": {
-        "src": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
+        "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
         "caption": "Reviewed capture opportunity: 365 intact waveforms, only 11 wholly inside guarded ON intervals; null inconclusive",
         "provenance": "Board capture"
       }
@@ -209,12 +204,7 @@
         "docs/evidence/ble-primary-zero-data-receiver-001-review/README.md"
       ],
       "cover": {
-        "path": "docs/evidence/ble-matched-gain-001/manual-owned-envelope.svg",
-        "caption": "Fresh manual48 capture 48: independently verified complete owned BLE packet; uncalibrated amplitude",
-        "provenance": "Board capture"
-      },
-      "figure": {
-        "src": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
+        "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
         "caption": "Reviewed capture opportunity: 365 intact waveforms, only 11 wholly inside guarded ON intervals; null inconclusive",
         "provenance": "Board capture"
       }
