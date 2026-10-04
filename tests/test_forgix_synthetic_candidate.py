@@ -1,5 +1,7 @@
 """Offline synthetic compiler guards; no vendor or device operations."""
 import json
+import contextlib
+import io
 import importlib.util
 import os
 from pathlib import Path
@@ -76,6 +78,41 @@ class SyntheticCompiler(unittest.TestCase):
         soc=c.g.make_soc(Platform);soc.finalize()
         (self.private/'csr.csv').write_text(get_csr_csv(soc,soc.csr_regions,soc.constants,soc.bus.regions))
         c.validate_csr(self.private/'csr.csv')
+    @unittest.skipUnless(importlib.util.find_spec('litex'),'Run the actual worker in locked .#forgix')
+    def test_full_worker_retains_board_clock_finalization(self):
+        from litex.build.efinix import efinity as e, platform as ep
+        private=self.root/'.scratch/worker';private.mkdir()
+        installation=self.root/'software';(installation/'scripts').mkdir(parents=True)
+        (installation/'bin').mkdir();(installation/'bin/setup.sh').write_text('# never executed\n')
+        (installation/'scripts/sw_version.txt').write_text(c.smoke.VERSION)
+        runner=installation/'scripts/efx_run.py';runner.write_bytes(b'labelled mock runner')
+        work=private/'work/gateware';calls=[];previous=Path.cwd();real_run=subprocess.run
+        def interface(command,*args,**kwargs):
+            self.assertEqual(command,[str(installation/'bin/python3'),'iface.py'])
+            self.assertEqual(Path.cwd(),work);calls.append('interface')
+            (work/(c.NAME+'.peri.xml')).write_text((self.work/(c.NAME+'.peri.xml')).read_text())
+            (work/'outflow').mkdir(exist_ok=True)
+            (work/'outflow'/(c.NAME+'.pt.sdc')).write_text('# mocked peripheral constraints\n')
+            return 0
+        def compiler(command,*args,**kwargs):
+            if command[:1]==['git']:return real_run(command,*args,**kwargs)
+            self.assertEqual(command,c.vendor_command(installation));self.assertEqual(kwargs['timeout'],305)
+            self.assertEqual(Path(kwargs['cwd']),work);calls.append('compile')
+            return subprocess.CompletedProcess(command,0)
+        try:
+            with patch.dict(os.environ,{'FORGIX_INSIDE_EFINITY':'1','LITEX_ENV_EFINITY':str(installation)}), \
+                 patch.object(e,'load_efinity_env',return_value={}),patch.object(ep,'EfinixDbParser') as db, \
+                 patch.object(c.old,'provenance',return_value=c.old.REVISIONS),patch.object(c,'source_hashes',return_value=self.frozen), \
+                 patch.object(c.smoke,'RUNNER_SHA',c.b.sha(runner)),patch.object(e.tools,'subprocess_call_filtered',side_effect=interface), \
+                 patch.object(subprocess,'run',side_effect=compiler),contextlib.redirect_stdout(io.StringIO()):
+                db.return_value.get_block_instance_names.return_value=[]
+                c.worker(private)
+            self.assertEqual(calls,['interface','compile'])
+            clock=(work/(c.NAME+'.sdc')).read_text()
+            self.assertIn('create_clock',clock);self.assertIn('31.25',clock);self.assertIn('clk32',clock)
+            c.validate_project(work);c.validate_interface(work);c.validate_csr(private/'csr.csv')
+            self.assertEqual((work/c.CORE_NAME).read_bytes(),(c.b.ROOT/c.g.CORE).read_bytes())
+        finally:os.chdir(previous)
     def test_foreign_or_duplicate_source_or_project_profile_refused(self):
         path=self.work/(c.NAME+'.xml')
         for bad in (self.xml.replace(str(self.work/c.CORE_NAME),'/foreign/source.v'),self.xml.replace(c.CORE_NAME,c.NAME+'.v'),

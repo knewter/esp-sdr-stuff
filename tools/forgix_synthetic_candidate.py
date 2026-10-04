@@ -146,10 +146,10 @@ def worker(private):
     old.provenance();frozen=source_hashes()
     work=private/'work/gateware';b.private_dir(work)
     b.copy_frozen(b.ROOT/g.CORE,work/CORE_NAME,1024**2)
-    class Platform(EfinixPlatform):
+    class Platform(board.Platform):
         default_clk_freq=32000000;default_clk_period=31.25
         def __init__(self):
-            super().__init__('T8F49I2',board._io,board._connectors,iobank_info=board._bank_info,toolchain='efinity',spi_mode='passive',spi_width='1')
+            EfinixPlatform.__init__(self,'T8F49I2',board._io,board._connectors,iobank_info=board._bank_info,toolchain='efinity',spi_mode='passive',spi_width='1')
         def add_source(self,filename,language=None,library=None,copy=False):
             b.require(language in (None,'verilog') and library in (None,'work') and not copy, 'Unexpected synthetic source options')
             super().add_source(str(source_path(work,filename)),language='verilog',library='work')
