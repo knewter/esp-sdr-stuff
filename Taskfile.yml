@@ -357,6 +357,16 @@ tasks:
     cmds:
       - python3 -B -m unittest discover -s tests -p test_forgix_stream_build.py
 
+  forgix:synthetic:stream:startup:audit:
+    desc: Audit exact linked synthetic stream reset sequence privately (use .#forgix-spi-bridge); no loading
+    cmds:
+      - python3 tools/audit_forgix_synthetic_startup.py {{.CLI_ARGS}}
+
+  forgix:synthetic:stream:startup:test:
+    desc: Reject altered synthetic reset instructions, tables, exports and SDK metadata without hardware
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_startup.py
+
   forgix:synthetic:source:rtl:
     desc: Generate committed private finite-source RTL (no vendor or hardware)
     cmds:
