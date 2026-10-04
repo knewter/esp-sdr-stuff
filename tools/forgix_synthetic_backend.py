@@ -19,6 +19,7 @@ import forgix_spi_capture as capture
 import forgix_usb_ram_trial as trial
 import preserve_forgix as preserve
 import forgix_synthetic_collect as collector
+import forgix_synthetic_runtime as runtime
 from forgix_synthetic_stream import Binding, CONTRACT_SHA256
 from forgix_synthetic_codec import PROFILES
 from forgix_synthetic_qualifications import QUALIFIED
@@ -37,7 +38,8 @@ EXECUTION_FILES=frozenset(common.EXECUTION_FILES | set(FILES) | {REGISTRY,PROTOC
  'tools/run_forgix_synthetic_trial.py','tools/forgix_synthetic_collect.py',
  'tools/forgix_synthetic_stream.py','tools/forgix_synthetic_codec.py',
  'tools/audit_forgix_synthetic_startup.py','tools/build_forgix_usb_ram.py',
- 'tools/forgix_toolchain_check.py','tools/forgix_fpga_candidate.py'})
+ 'tools/forgix_toolchain_check.py','tools/forgix_fpga_candidate.py',
+ 'tools/forgix_synthetic_runtime.py'})
 require=common.require
 
 def digest(value):
@@ -136,7 +138,11 @@ def qualification_receipt(p,environment,frozen):
     return q
 
 class SyntheticPicotool(trial.OwnedPicotool):
-    def __init__(self,*args,profile,**kwargs):super().__init__(*args,**kwargs);self.profile=profile
+    def __init__(self,*args,profile,environment,**kwargs):
+        super().__init__(*args,**kwargs);self.profile=profile;self.environment=environment
+    def run(self,*args,**kwargs):
+        runtime.check(self.environment)
+        return super().run(*args,**kwargs)
     def load_args(self,target,backup,path):
         require(target.pid==preserve.BOOT_PID and Path(path)==Path('/private/ram-synthetic-stream.elf'),'Exact ROM/synthetic load required')
         require(trial.sha(backup)==self.profile['elf_sha256'],'Staged synthetic ELF differs')
@@ -152,6 +158,7 @@ class Backend(common.Backend):
         session_lease(self.profile,getattr(self,'lease_private',self.private));frozen_inputs(self.frozen)
         qualification_receipt(self.profile,self.environment,self.frozen)
         require(digest(self.environment)==self.profile['environment_sha256'],'Runtime tuple differs')
+        runtime.check(self.environment)
         for name in ('python_executable','picotool_executable'):
             require(trial.sha(self.environment[name])==self.environment[name+'_sha256'],'Frozen executable differs')
         sdk=Path('/nix/store/zzdqq5jiwbislr6v99spq09vmc9yiib1-pico-sdk-2.2.0-tinyusb-pinned')
@@ -162,6 +169,34 @@ class Backend(common.Backend):
         bound=trial.original_binding(self.profile['binding_path'],*self.profile['baseline_paths'])
         require(all(self.profile[k]==v for k,v in bound.items()),'Original binding differs')
         require(trial.sha(trial.private_file(self.profile['qualification_path'],'.scratch'))==self.profile['qualification_sha256'],'Qualification differs')
+    def preservation(self,name,until):
+        self.hardware_gate(until);self.inspector.deadline=until
+        store=preserve.PrivateStore(self.private/name,ROOT/'backups')
+        runner=SyntheticPicotool(self.environment['picotool_executable'],self.inspector,store,
+                    self.environment['image_id'],self.frozen,until,profile=self.profile,environment=self.environment)
+        self.owner.runners.append(runner) # Retain cleanup ownership even on storage failure.
+        def query(i,t,s,label):
+            runtime.check(self.environment)
+            return trial.bounded_query(i,t,s,label,self.lockfd,until,runner)
+        try:
+            receipt,error=preserve.preserve(self.inspector,runner,store,trial.FLASH_BYTES,query=query)
+        except BaseException as exc:
+            if not runner.hardware_process_closed:
+                self.owner.unknown=True
+                raise OwnedHardwareClosureError('Synthetic preservation closure unverified') from exc
+            raise
+        if not runner.hardware_process_closed:
+            self.owner.unknown=True
+            raise OwnedHardwareClosureError('Synthetic preservation closure unverified')
+        if error:raise error
+        copies=receipt['backups']
+        require(copies['sha256']==self.profile['baseline_sha256']==trial.BASELINE and
+                copies['bytes_per_read']==trial.FLASH_BYTES and copies['reads']==2 and copies['matching'] is True
+                and receipt['independent_device_verify'] is True and receipt['status']=='preserved_and_returned',
+                'Fresh original flash/factory proof differs')
+        require(self.clock()<until,'Preservation deadline expired')
+        return {'uid_sha256':self.profile['uid_sha256'],'flash_bytes':copies['bytes_per_read'],
+                'read_sha256':[copies['sha256']]*2,'independent_device_verify':True,'factory_application_verified':True}
     def hardware_gate(self,until):
         require(self.admitted,'Unadmitted synthetic backend');qualified(self.profile);self.check_inputs()
         require(self.clock()<until,'Synthetic stage deadline expired')
@@ -178,7 +213,7 @@ class Backend(common.Backend):
         self.hardware_gate(until);self.inspector.deadline=until
         store=preserve.PrivateStore(self.private/'load',ROOT/'backups')
         self.loader=SyntheticPicotool(self.environment['picotool_executable'],self.inspector,store,
-                    self.environment['image_id'],self.frozen,until,profile=self.profile)
+                    self.environment['image_id'],self.frozen,until,profile=self.profile,environment=self.environment)
         self.owner.runners.append(self.loader)
         store.create('ram-synthetic-stream.elf',Path(self.profile['elf']).read_bytes())
         self.loader.run('boot',self.inspector.target(preserve.FACTORY_PID,self.bus))
@@ -195,6 +230,7 @@ class Backend(common.Backend):
         request={'profile':self.profile,'environment':self.environment,'frozen':self.frozen,'lockfd':self.lockfd,
                  'lockpath':str(self.lockpath),'bus':self.bus,'until':until,'boot_host_ns':self.boot_host_ns}
         store=preserve.PrivateStore(self.private/'stream',ROOT/'backups');path=store.json('request.json',request)
+        runtime.check(self.environment)
         self.workers.run([self.environment['python_executable'],str(ROOT/'tools/forgix_synthetic_backend.py'),
                           '_serial-worker','--request',str(path)],'synthetic-stream',until)
         result=json.loads((store.path/'capture/result.json').read_bytes())
@@ -202,6 +238,7 @@ class Backend(common.Backend):
         # that call, without opening serial or issuing another command.
         request['action']='replay'
         replay_path=store.json('replay-request.json',request)
+        runtime.check(self.environment)
         self.workers.run([self.environment['python_executable'],str(ROOT/'tools/forgix_synthetic_backend.py'),
                           '_serial-worker','--request',str(replay_path)],'saved-replay',until)
         replay=json.loads((store.path/'replay.json').read_bytes())
@@ -215,10 +252,11 @@ class Backend(common.Backend):
         if self.loader is None:
             store=preserve.PrivateStore(self.private/'factory-return',ROOT/'backups')
             self.loader=SyntheticPicotool(self.environment['picotool_executable'],self.inspector,store,
-                         self.environment['image_id'],self.frozen,until,profile=self.profile)
+                         self.environment['image_id'],self.frozen,until,profile=self.profile,environment=self.environment)
             self.owner.runners.append(self.loader)
         self.loader.deadline=until
         factory=trial.watched_factory(self.inspector,self.bus,until,self.loader)
+        runtime.check(self.environment)
         trial.bounded_query(self.inspector,factory,self.loader.store,'returned-after-stream',self.lockfd,until,self.loader)
         return {'factory_application_verified':True}
     def configure(self,until):raise ValueError('Synthetic configuration belongs exclusively to stream worker')
@@ -300,11 +338,15 @@ def serial_worker(path):
             and trial.sha(sys.executable)==r['environment']['python_executable_sha256'],'Worker interpreter differs')
     require(r['lockpath']==str(ROOT/'.scratch/esp-demo.lock'),'Shared lock required')
     require(digest(r['environment'])==p['environment_sha256'],'Worker environment differs')
+    runtime.check(r['environment'])
     inherited_operator_lock(r['lockfd'],r['lockpath'])
     require(Path(path).parent.parent==Path(p['session_private_dir']),'Worker path differs from lease')
     def admission():
         qualified(p);session_lease(p);frozen_inputs(r['frozen'])
         qualification_receipt(p,r['environment'],r['frozen'])
+        # No executable is dispatched here: retain selection checks without
+        # hashing host binaries/archive repeatedly for every512-byte frame.
+        runtime.check(r['environment'],verify_bytes=False)
         require(time.monotonic()<r['until'],'Worker stage deadline expired')
         require(trial.sha(p['elf'])==p['elf_sha256'] and trial.sha(Path(p['elf']).parent/'manifest.json')==p['manifest_sha256']
                 and trial.sha(trial.private_file(p['qualification_path'],'.scratch'))==p['qualification_sha256'],'Worker artifact/qualification changed')

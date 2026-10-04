@@ -21,6 +21,7 @@ import sys
 import time
 
 import forgix_synthetic_backend as backend
+import forgix_synthetic_runtime as runtime
 import forgix_spi_capture as capture
 import forgix_usb_ram_trial as trial
 from forgix_synthetic_lifecycle import Lifecycle
@@ -103,6 +104,7 @@ def freeze():
 def prepare(args):
     # No file flags or CLI switches can create an entry in this source registry.
     require(bool(backend.QUALIFIED),'No committed qualification admits a physical synthetic stream episode')
+    tools=runtime.select();runtime.activate(tools)
     profile=backend.artifact(args.artifact)
     profile.update(period=args.period,target=backend.PROFILES[args.period],host_pause=True,nonce=os.urandom(16).hex())
     profile.update(trial.original_binding(args.binding,args.baseline_a,args.baseline_b))
@@ -112,7 +114,7 @@ def prepare(args):
                    backend_source_sha256=trial.sha(ROOT/'tools/forgix_synthetic_backend.py'),
                    coordinator_source_sha256=trial.sha(ROOT/'tools/run_forgix_synthetic_trial.py'))
     frozen=freeze()
-    environment=trial.image_check(shutil.which('picotool') or '',args.image_id)
+    environment=runtime.image_check(args.image_id,tools)
     profile.update(execution_sha256=backend.digest({n:h for n,h in frozen['inputs'].items() if n!=REGISTRY}),
                    environment_sha256=backend.digest(environment))
     backend.qualified(profile)
@@ -311,7 +313,7 @@ def main():
             require(args.prior_session is not None,'Recovery requires original terminal receipt')
             prior=recovery_admission(args.prior_session,profile,environment,frozen)
         with operator_lock(profile if prior is not None else None) as lockfd:
-            backend.frozen_inputs(frozen);backend.qualified(profile)
+            backend.frozen_inputs(frozen);backend.qualified(profile);runtime.check(environment)
             began=time.monotonic()
             if prior is not None:recovery_admission(args.prior_session,profile,environment,frozen)
             adapter=(backend.RecoveryBackend if prior is not None else backend.Backend)(profile,private,lockfd,environment,frozen)
