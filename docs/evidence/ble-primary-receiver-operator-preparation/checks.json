@@ -17,7 +17,7 @@
   },
   "author_receipt_sha256": "8ea81245af0c4f3c48284f5bf95717935d381248716a64b5506024990b0fc3df",
   "reviewed_inner_inputs_copied_unchanged": 15,
-  "independent_holder_review_pending": true,
+  "independent_holder_review_pending": false,
   "fresh_root_admission_required": true,
   "real_queries_in_author_tests": false,
   "device_container_vendor_actions": false,
@@ -39,5 +39,22 @@
     "3484cd9",
     "6aac69d",
     "0e39c75"
+  ],
+  "independent_holder_review": "PASS_OFFLINE_CORRECTED_OUTER_HOLDER",
+  "independent_peer_sha256": "ac4694e49624d2582306fed9acc37f02c105825f41952e637321ea5985f2d217",
+  "independent_groups": 11,
+  "independent_skips": 0,
+  "root_transfer_copies_exact": true,
+  "root_host_groups": 50,
+  "root_test_log_sha256": "1469177a76289c580ee84a5bb91f0f0026f33a69592c4decbae1215ae0f56b4f",
+  "root_transfer_context": "ef6433d0add18efd0f1eaf5cd8d70133aca4586b",
+  "root_runtime_admission_pending": true,
+  "observability_limits": [
+    "Caller/keeper and inner groups/CIDs use exact saved process identities and active container witnesses; inner successful UART installation/restoration remains an attestation, not independent full flash subprocess reconstruction.",
+    "Post-result keeper replacement is documented by replacement-lease identity/spawn/quarantine receipts; earlier result.quarantine identifies the formerly retained keeper, so manual recovery must use latest exact keeper records.",
+    "The first supplemental probe incorrectly expected result.quarantine to be rewritten after the post-result replacement; its failure is retained and final probe checks live replacement lease subreceipt plus actual flock.",
+    "Unknown ownership/failed keeper replacement intentionally keeps a live process and lock for qualified manual recovery; it is not a bounded successful episode.",
+    "Failed terminal receipt alone may contain completed-looking bytes if disk correction fails; final pending absence plus successful parent status and full receipts are necessary for qualification.",
+    "OS/filesystem, Nix/Docker daemons and pre-Python launcher remain trusted; no new current daemon/controller/device observations made by peer."
   ]
 }

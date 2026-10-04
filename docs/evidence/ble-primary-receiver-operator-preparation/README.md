@@ -1,6 +1,7 @@
 # Offline receiver outer-holder preparation
 
-October 4, 2026. The corrected holder passes50 locked-Nix/Task host test groups with no skips.
+October 4, 2026. The corrected holder passes 50 locked-Nix/Task host groups and
+11 independent groups with no skips. Exact root copies also pass all 50 groups.
 The first immutable holder passed40 author groups but failed six independent
 boundary/process probes; its complete failed version remains preserved.
 The second44-group replacement fixed those six findings but independent review
@@ -12,8 +13,8 @@ It also rejects six inherited Git source overrides even when admission matches.
 This prepares the separate root operator boundary described in the
 [prospective protocol](../../research/ble-primary-receiver-operator-protocol.md).
 The reviewed inner receiver caller/support/test/Task and all15 copied inputs
-remain unchanged. Independent outer-holder review and a matching fresh root
-preparation/transfer/admission are still required before physical execution.
+remain unchanged. Independent offline outer-holder review passes; a matching
+fresh root preparation/transfer/admission is still required before physical execution.
 
 The holder launches Python directly with the already-held global flock FD,
 binds the complete private environment and explicit local Docker endpoint,
@@ -46,3 +47,13 @@ establish physical cleanup, independently counted air emissions, RF reception,
 sensitivity or legacy Trial B. No physical checkbox or accepted ledger changed.
 
 Exact immutable subject hashes and the author receipt are in [checks.json](checks.json).
+The final peer replays the original six defects, actual result-file fsync faults,
+all six Git overrides, failed corrective/side/directory persistence and real
+keeper-death/replacement cases. Earlier failed subjects remain failed and retained.
+
+If failed-result correction cannot write, completed-looking historical bytes
+can remain; a durable pending marker prevents qualification. A successful parent
+return, absence of that marker and complete closure receipts are all required.
+Post-result keeper replacement has its own newer identity/subreceipt; manual
+recovery must inspect those latest exact records instead of an older result's
+quarantine identity. This limitation is explicit, not a physical recovery proof.
