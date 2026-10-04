@@ -1,0 +1,40 @@
+{
+  "kind": "actual C finite FPGA-to-RP stream engine preparation",
+  "status": "PASS_ACTUAL_C_CORE_ONLY",
+  "author_revision": "c4cae18602342bb360baa9884a5ae372850a8492",
+  "root_revision": "a3d62ee",
+  "source_sha256": {
+    "firmware/forgix-synthetic-stream/engine.c": "6dc304f164cdecfd19b977be9dccfc0ca5b62fbe7e90e01ad4f2de0530f573b5",
+    "firmware/forgix-synthetic-stream/engine.h": "488be071b9ffc1cdd1ede05e0a013804578faf61ee36689d2a7784942fdfac04",
+    "firmware/forgix-synthetic-stream/PROTOCOL.md": "54c62ab91d77a5d7a9b8cfc62c78528de825c6d7bde7cb512c35724c5a675897",
+    "firmware/forgix-synthetic-source/codec.c": "e875416516bfe05187b56065140c7af60d73e310af4bd4930d05632fdb8e6011",
+    "tests/test_forgix_stream_engine.py": "eecc1bbe6424a6344222bf6559fcb7769296464c5dff3d02ef55c14038764347",
+    "tests/fixtures/forgix_stream_engine.c": "d841fcf75e10e229b99992499d815de74bbf6f8a74ea7cc1d2cadd12b4388732"
+  },
+  "private_peer_review_sha256": "1605c0b728db53653eb4c0a12796864326f4b215f6fff78caf89e2bec7c7114a",
+  "tests": {
+    "author_groups": 18,
+    "author_exit": 0,
+    "independent_groups": 11,
+    "independent_exit": 0,
+    "native": "actual unchanged engine and codec, nonrecovering UBSan; test-only clock accessor"
+  },
+  "retained_failed_review_sha256": [
+    "1f7f3815eae3e9d7425722c7c1ce5ed2ea450b4b7799112ec411f9275439083e",
+    "12f9642fc360913b88b3e7294702a8879e517da670a351e305523d9b3db8592b",
+    "89829c8df0f84e04519832d53e8576d3f9e738ce1e394d24966e5d0a6954a98f"
+  ],
+  "verified_corrections": [
+    "unread final snapshot invalidity with last fields retained",
+    "immutable START, monotonic/coherent tick and natural STOP",
+    "final state/count/HEAD/highwater consistency",
+    "live attempted/accepted/running/done and expired=>done checks before ownership",
+    "fresh CONFIG/START/xfer refusal at adjacent deadlines",
+    "unbound failed command emits no fabricated control"
+  ],
+  "hardware_opened": false,
+  "FPGA_programmed": false,
+  "physical_transport_measured": false,
+  "ARM_artifact_verified": false,
+  "programming_admitted": false
+}

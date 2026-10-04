@@ -342,6 +342,11 @@ tasks:
     cmds:
       - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_source.py
 
+  forgix:synthetic:stream:engine:test:
+    desc: Replay actual native C stream ownership, source-state and deadline faults (no hardware)
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_forgix_stream_engine.py
+
   forgix:synthetic:source:rtl:
     desc: Generate committed private finite-source RTL (no vendor or hardware)
     cmds:

@@ -172,3 +172,8 @@ old/new HDL equality with full-target profiles, carry/wrap and accelerated
 reconciled edge states, then obtain independent review and a fresh vendor build
 at unchanged 32 MHz. Continue RP/host and complete load/recovery review in
 parallel. This closes no physical inventory or transport task.
+
+The [finite RP core](docs/evidence/forgix-synthetic-stream-core/README.md) now passes
+18 author and 11 independent actual-C/UBSan groups after three retained failed
+peer episodes. Platform/ARM artifact, collector, physical qualification and
+complete recovery remain prerequisites; no task acceptance follows.
