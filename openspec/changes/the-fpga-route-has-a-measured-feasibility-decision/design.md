@@ -387,3 +387,32 @@ Historical configuration003 includes older flake/Task bytes and cannot be promot
 to a current artifact by this runtime proof. Retain that refusal; a fresh separately
 operated ARM build and independent artifact review precede future qualification.
 No artifact-source allowlist or firmware/build policy is relaxed here.
+
+## Prospective register qualification and finalization correction
+
+Declared October 4, 2026 after independent source review of `69e22dff` and
+before correction code. Preserve that author freeze and the independent failed
+receipt (`96b09ffe2582ad92681ae5cf23bbf4656d5c1c2e1ce24fda04943646e0d0858a`).
+The empty committed registry still blocks physical execution.
+
+Bind the actual original board UID hash and preserved flash baseline hash in
+the register registry tuple and independently require both exact valid hashes
+in the physical qualification receipt. Every production/worker entry retains
+the whole source/runtime and original preservation checks.
+
+Use one 600-second acceptance clock through lifecycle, terminal persistence and
+lease release. Lifecycle completion is provisional until finalization. Persist
+a durable pending finalization record before release; only acknowledge normal
+completion after release and terminal save/fsync return within the same clock.
+Release, cancellation, storage and late-return failures preserve their primary
+error, correct the authoritative session to failed where possible, and retain
+or re-establish the conservative lease under the held global flock. A failed
+corrective journal cannot turn the durable pending record or retained lease into
+success. No CLI0 or physical acceptance follows such uncertainty.
+
+Replay the original independent host probes and add missing/malformed/mutated
+UID/baseline checks plus real temporary lease release, cancellation, deadline and
+terminal/corrective storage failures. Preserve all failed attempts. Issue a new
+immutable author freeze for independent review; fresh root configuration build
+and artifact review remain mandatory. Shared standalone USB helpers, firmware,
+FPGA candidates and qualification registries remain unchanged/unadmitted.
