@@ -247,12 +247,12 @@ class ActualHDL(unittest.TestCase):
         original=current.replace('    reg [63:0] drain_until;\n','').replace(
             'tick >= drain_until','tick >= stop_tick + DRAIN_CYCLES').replace(
             '            drain_until <= 0;\n','').replace(
-            '                    drain_until <= tick + DRAIN_CYCLES;\n','').replace(
             '                            2: if (running) begin\n'
             '                                   running <= 0; done <= 1; stop_tick <= tick;\n'
             '                                   drain_until <= tick + DRAIN_CYCLES;\n'
             '                               end\n',
-            '                            2: if (running) begin running <= 0; done <= 1; stop_tick <= tick; end\n')
+            '                            2: if (running) begin running <= 0; done <= 1; stop_tick <= tick; end\n').replace(
+            '                    drain_until <= tick + DRAIN_CYCLES;\n','')
         self.assertEqual(hashlib.sha256(original.encode()).hexdigest(),
                          'ec067fbbe7ebcab49c4924afda7a8303ef581945924db2658b77ff807bdaf48c')
         reference=original.replace('module forgix_synthetic_source #(',
