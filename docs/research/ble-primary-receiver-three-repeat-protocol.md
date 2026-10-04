@@ -125,3 +125,19 @@ The private Docker --cidfile is complemented by a read-only exact-ID inspect
 while dispatch is active, retaining matching name/image/running witness and
 inspect brackets. Missing active identity witness fails even if later cleanup
 returns success. No metadata is reconstructed after container disappearance.
+
+## Readiness timestamp correction (prospective)
+
+Independent review of the frozen first preparation reproduces a31-second delay
+inside receiver-ready timestamp acquisition: observed131 after deadline130 was
+incorrectly accepted and all three source instances launched in the host fixture.
+Preserve that failed freeze and peer proof. No hardware occurred. The replacement
+checks readiness clocks before/after marker and timestamp acquisition, the
+returned integer timestamp strictly before its deadline, and child liveness.
+Immediately after helper return, caller rechecks observed/current clocks and
+monitor/receiver liveness against the applicable minimum of receiver startup,
+monitor admission and acquisition-supervisor limits before baseline or source
+action. Equality to a deadline fails; delayed return cannot renew a deadline.
+Freeze and independently replay exact-boundary, delayed-stamp and delayed-return
+regressions before receiver admission. All source/profile/search/settings/count
+gates and the fixed first condition remain unchanged.
