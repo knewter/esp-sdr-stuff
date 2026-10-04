@@ -1,0 +1,22 @@
+{
+  "kind": "host validation and immutable prior publication checkpoint",
+  "tested_revision": "0be88235f2ec9a9218632524b91d8984b0ee589c",
+  "host_tests": 911,
+  "skipped": 2,
+  "exit_code": 0,
+  "full_log_sha256": "6115242fc27ea9aef78675121d700a1938b0e355b2ff68a305e95881705385ea",
+  "precision_focused_tests": 7,
+  "precision_tests_exit_code": 0,
+  "precision_runtime_revision": "b3715f0",
+  "prior_live_revision": "0711ca4d007805438c8a61cb1176078b02d672f4",
+  "prior_live_files_checked": 966,
+  "prior_live_bytes_checked": 19346955,
+  "prior_live_receipt_sha256": "95f869fae4e5f5a8f8ceab668474e5f2338f8527887c3c93fdc100f128e494a9",
+  "serial_opened_by_survey": false,
+  "esp_stable_identity_verified": true,
+  "original_esp_backups_verified": true,
+  "forgix_factory_devices": 0,
+  "forgix_rom_devices": 0,
+  "rtl_usb_devices": 1,
+  "hardware_acceptance_changed": false
+}
