@@ -244,6 +244,16 @@ class ActualHDL(unittest.TestCase):
         # match the immutable original source. Execute both real HDL modules;
         # do not replace source behavior with a software timing model.
         current=(ROOT/generator.CORE).read_text()
+        current=current.replace('    // Reload at START and each offered record. Zero is the exact due edge.\n'
+            '    // This avoids a 64-bit timestamp subtraction on the completion-enable path.\n'
+            '    reg [31:0] due_left;\n','').replace(
+            'running && due_left == 0','running && tick - start_tick >= next_due').replace(
+            '            due_left <= 0;\n','').replace(
+            '            if (running) begin\n'
+            '                if (due) due_left <= period_active - 1;\n'
+            '                else due_left <= due_left - 1;\n'
+            '            end\n','').replace(
+            '                                        due_left <= period_cfg - 1;\n','')
         original=current.replace('    reg [63:0] drain_until;\n','').replace(
             'tick >= drain_until','tick >= stop_tick + DRAIN_CYCLES').replace(
             '            drain_until <= 0;\n','').replace(
@@ -289,7 +299,7 @@ class ActualHDL(unittest.TestCase):
                     self.compare_original(f'''
                         setup(800,960);wr('h00c,1,0);wait(dut.generated_count>=3);
                         @(negedge clk);dut.tick={stop};reference.tick=dut.tick;
-                        dut.start_tick=dut.tick;reference.start_tick=dut.tick;
+                        dut.start_tick=dut.tick;reference.start_tick=dut.tick;dut.due_left=dut.next_due;
                         wr('h00c,2,0);stopped=dut.stop_tick;
                         deadline=stopped+64'd64000;
                         if(dut.drain_until!==deadline)$fatal(1,"STOP deadline");
@@ -317,7 +327,7 @@ class ActualHDL(unittest.TestCase):
                         setup(100,7680);wr('h00c,1,0);wait(dut.generated_count>=3);
                         @(negedge clk);dut.tick={tick};reference.tick=dut.tick;stopped=dut.tick;
                         dut.start_tick=dut.tick-100;reference.start_tick=dut.start_tick;
-                        dut.next_due=100;reference.next_due=100;
+                        dut.next_due=100;reference.next_due=100;dut.due_left=0;
                         dut.generated_count=7679;reference.generated_count=7679;
                         dut.dropped_count=7679-dut.enqueued_count;reference.dropped_count=dut.dropped_count;
                         {request}

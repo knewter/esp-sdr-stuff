@@ -174,3 +174,11 @@ Sources: [pinned LiteX SPIBone](https://github.com/enjoy-digital/litex/blob/8c01
 The guard's detailed prospective timing contract remains in
 [`forgix_spi_guard.py`](../../tools/forgix_spi_guard.py); digital simulation does
 not establish electrical safety or measured oscillator/pad timing.
+
+The due scheduler uses a 32-bit period countdown, loaded to period−1 on START
+and every offered record. At the pre-edge tick START+period the countdown is
+zero; the source offers its first record on exactly that edge and reloads.
+Full FIFO drops still advance scheduling and sequence. Absolute 64-bit source
+timestamps, STOP/drain timing and snapshots retain their existing meaning.
+Actual old/new HDL comparison and fresh routing are required before accepting
+this optimization; no physical timing claim follows from implementation.

@@ -25,6 +25,9 @@ module forgix_synthetic_source #(
     reg [127:0] nonce_cfg, nonce_active;
     reg attempted, accepted, running, done, pause_attempted;
     reg [31:0] next_due;
+    // Reload at START and each offered record. Zero is the exact due edge.
+    // This avoids a 64-bit timestamp subtraction on the completion-enable path.
+    reg [31:0] due_left;
     reg [31:0] generated_count, enqueued_count, dropped_count, popped_count;
     reg [31:0] refused_pop, refused_command;
     reg [6:0] level, high_water;
@@ -44,7 +47,7 @@ module forgix_synthetic_source #(
     wire drain_expired = done && tick >= drain_until;
     wire pop_request = write_fire && wb_addr == 12'h040;
     wire pop_ok = pop_request && head_valid && !pause_active && !drain_expired && wb_data_in == head[31:0];
-    wire due = running && tick - start_tick >= next_due;
+    wire due = running && due_left == 0;
     wire push = due && (level < DEPTH || pop_ok);
     wire config_ok = nonce_cfg != 0 &&
         ((period_cfg == RATE0 && target_cfg == 960) ||
@@ -131,6 +134,7 @@ module forgix_synthetic_source #(
             period_cfg <= 0; target_cfg <= 0; nonce_cfg <= 0;
             period_active <= 0; target_active <= 0; nonce_active <= 0;
             attempted <= 0; accepted <= 0; running <= 0; done <= 0; pause_attempted <= 0;
+            due_left <= 0;
             next_due <= 0; generated_count <= 0; enqueued_count <= 0;
             dropped_count <= 0; popped_count <= 0; refused_pop <= 0; refused_command <= 0;
             level <= 0; high_water <= 0; write_pointer <= 0; read_pointer <= 0; head_wait <= 0;
@@ -143,6 +147,10 @@ module forgix_synthetic_source #(
             wb_ack <= 0; wb_err <= 0;
             if (!wb_cyc || !wb_stb) seen <= 0;
             if (head_wait != 0) head_wait <= head_wait - 1;
+            if (running) begin
+                if (due) due_left <= period_active - 1;
+                else due_left <= due_left - 1;
+            end
             if (due) begin
                 generated_count <= generated_count + 1;
                 next_due <= next_due + period_active;
@@ -197,6 +205,7 @@ module forgix_synthetic_source #(
                                         accepted <= 1; running <= 1; start_tick <= tick;
                                         period_active <= period_cfg; target_active <= target_cfg;
                                         nonce_active <= nonce_cfg; next_due <= period_cfg;
+                                        due_left <= period_cfg - 1;
                                     end
                                 end
                             end
