@@ -1,0 +1,36 @@
+{
+  "reviewed_revision": "a16886f81b0af5572871f81b18f66f70e74db92d",
+  "verdict": "PASS_OFFLINE_CALLER_OWNED_COLLECTOR_ONLY",
+  "author_wire_groups": 19,
+  "author_collector_groups": 13,
+  "author_exit_code": 0,
+  "independent_regression_groups": 3,
+  "independent_exit_code": 0,
+  "private_replay_log_sha256": "b9675701d5ef37a64b462908257bb4b350e6193b9b3caee83f43438696539936",
+  "private_probes_sha256": "371265b6b8657b14c4b113441a0ded6a722449cedd48aa93a4e181dae0927e4e",
+  "prior_failed_review_sha256": "af25ffb9042ec8dc34b5a5d201a5b66018f6b3503079d4bfbeddbe616f9b5f75",
+  "verified_corrections": [
+    "Protocol and START ordering rejection permanently latched",
+    "Fresh failed source snapshot cannot rewind known tick or counters",
+    "Done STOP tick bounds and completed-source immutability checked",
+    "Successful completion uses exact FPGA source ticks without unsupported RP60-second lower bound"
+  ],
+  "scope": [
+    "Actual C wire output and owner-held regular-file/transport fixtures",
+    "Single CONFIG/START intent, consumed prefixes and errors retained",
+    "Caller supplies qualified admission, identity, bounded worker and complete load/recovery"
+  ],
+  "hardware_opened": false,
+  "physical_acceptance": false,
+  "limits": [
+    "No hardware CLI, qualified lifecycle adapter or complete admitted load/stream/recovery route",
+    "Tests do not establish physical device identity or delivered throughput"
+  ],
+  "source_sha256": {
+    "tools/forgix_synthetic_collect.py": "0e567f3eea766193e31d608a88135056190b0505d759e7dc2aae11ecedf74044",
+    "tools/forgix_synthetic_stream.py": "05d8168d90995bebc4cea80448d42f983c26f19f110e8db4af195a50cbe68dab",
+    "tests/test_forgix_synthetic_collect.py": "5c637bb2f9a7c0baa07f61c5040d6bb2a3bfdc4cab1149769dd69ab379f61e32",
+    "tests/test_forgix_synthetic_stream.py": "154af0d3193dd319460d44c3a71a0703f3a1f303177525dc1dbacb0990d8db8f"
+  },
+  "private_peer_review_sha256": "4f7d48bf2734fedf84b69a7a3e9bb20611e481147490f75437e5570f3edcbc26"
+}

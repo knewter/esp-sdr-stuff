@@ -83,3 +83,18 @@ reader pause; CDC API acceptance is not host delivery. The API stops at END and
 closes the transport; it does not probe for subsequent device bytes. Sustained
 physical throughput, signal timing and complete factory/flash recovery still
 require the named real experiment. The OpenSpec hardware tasks remain unchecked.
+
+## Independent replacement review
+
+The final replacement passes 32 author groups and three independent retained
+fault probes. [Checks](checks.json) bind the corrected source and failed prior
+review. Protocol/START-order rejection is permanent; fresh final snapshot ticks
+and counters cannot rewind. An actual-C independent-clock fixture verifies
+natural FPGA completion slightly before 60 RP seconds without inventing a
+cross-clock lower bound. Exact FPGA STOP/target, 65-second successful upper
+bound and all lifetime/terminal limits remain required.
+
+Repeat: `nix develop .#ci --command task forgix:synthetic:stream:collector:test`.
+This caller-owned collector has no hardware CLI. Complete identity-selected
+worker/lifecycle integration and physical qualification remain outstanding;
+private fixture success provides no loading or measured-throughput admission.

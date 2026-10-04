@@ -367,6 +367,12 @@ tasks:
     cmds:
       - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_startup.py
 
+  forgix:synthetic:stream:collector:test:
+    desc: Replay finite host controls, actual C frames and bounded private collection faults; no hardware
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_stream.py
+      - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_collect.py
+
   forgix:synthetic:source:rtl:
     desc: Generate committed private finite-source RTL (no vendor or hardware)
     cmds:

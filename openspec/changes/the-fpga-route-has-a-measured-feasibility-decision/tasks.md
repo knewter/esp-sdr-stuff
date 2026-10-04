@@ -195,3 +195,9 @@ now passes independent complete image/PIO/layout and selected linked-path review
 six actual-ELF mutation groups and seven recognized startup-audit groups. SRAM
 allocation is 220,200 bytes. Complete admitted collector/lifecycle and physical
 grade/clock/pin/ownership/recovery gates remain; no task is accepted.
+
+The [corrected host collector](docs/evidence/forgix-synthetic-host-collector/README.md)
+passes 32 author groups and three independent retained fault probes. Rejection
+is permanent, final source snapshots are monotonic, and observed FPGA completion
+is distinct from RP clock duration. Complete identity-selected worker/lifecycle
+integration and physical qualification remain; no hardware task is accepted.
