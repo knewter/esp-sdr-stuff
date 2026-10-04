@@ -137,5 +137,7 @@ exact upper-eight-bit transformations using unchanged blind decoder bounds.
 This diagnostic supplies no new RF capture or emitted denominator and changes
 no physical acceptance gate or accepted requirement. Earlier outcomes remain.
 
-- [ ] 3.1 Verify exhaustive signed upper-bit equivalence and independent packing; freeze every original/derived waveform and replay identical bounded decoder settings. Proof: locked offline tests, per-row lineage and paired outcomes.
-- [ ] 3.2 Independently verify changed owned outcomes and publish the bounded digital-precision result, retaining every row and all original radio gates. Proof: independent whole replay and protected packet/window checks.
+- [x] 3.1 Verify exhaustive signed upper-bit equivalence and independent packing; freeze every original/derived waveform and replay identical bounded decoder settings. Proof: locked offline tests, per-row lineage and paired outcomes.
+- [x] 3.2 Independently verify changed owned outcomes and publish the bounded digital-precision result, retaining every row and all original radio gates. Proof: independent whole replay and protected packet/window checks.
+
+Both offline diagnostic tasks are grounded in [the complete paired record and independent review](docs/evidence/ble-same-waveform-precision/README.md): all1,256 original/derived rows, two unchanged owned packet pairs, exhaustive conversion and nine corruption probes pass. These two supporting tasks do not close original physical tasks1.1/1.2 or alter TrialB.
