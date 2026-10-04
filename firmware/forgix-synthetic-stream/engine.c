@@ -14,6 +14,7 @@ static bool transfer(fs_engine *e,bool write,unsigned off,uint32_t *v,uint64_t u
  e->io.service(e->io.ctx);
  if(!before(e,until)){failed(e,FS_DEADLINE);return false;}
  uint64_t cap=clock_now(e)+20000;if(cap>until)cap=until;
+ if(!before(e,cap)){failed(e,FS_DEADLINE);return false;}
  bool ok=e->io.xfer(e->io.ctx,write,UINT32_C(0x10000)+off,v,cap);
  e->io.service(e->io.ctx);
  if(!ok||!before(e,cap)){e->trustworthy=false;failed(e,ok?FS_DEADLINE:FS_SPI);return false;}
@@ -31,7 +32,10 @@ static bool snapshot(fs_engine *e,uint64_t until){
  s.remaining=v[10];s.highwater=v[11];s.start=(uint64_t)v[12]|((uint64_t)v[13]<<32);s.stop=(uint64_t)v[14]|((uint64_t)v[15]<<32);
  if((s.state&~127u)||!s.id||s.id<=e->snapshot.id||s.generated>e->target||
     s.enqueued>s.generated||s.dropped!=s.generated-s.enqueued||s.popped>s.enqueued||
-    s.remaining!=s.enqueued-s.popped||s.remaining>64||s.highwater>64||s.highwater<s.remaining){failed(e,FS_SOURCE);return false;}
+    s.remaining!=s.enqueued-s.popped||s.remaining>64||s.highwater>64||s.highwater<s.remaining||
+    s.tick<e->snapshot.tick||((s.state&64u)&&s.tick<s.start)||
+    ((e->flags&2u)&&s.start!=e->snapshot.start)||
+    ((s.state&4u)&&(s.stop<s.start||s.stop>s.tick))){failed(e,FS_SOURCE);return false;}
  e->snapshot=s;e->flags|=4;return true;
 }
 static void queued(fs_engine *e){e->write_slot=(e->write_slot+1)&15;e->queued++;if(e->queued>e->highwater)e->highwater=e->queued;}
@@ -85,11 +89,13 @@ void fs_command(fs_engine *e,const uint8_t *p,size_t len){
   if(e->configured_attempt||e->phase!=FS_IDLE){failed(e,FS_COMMAND);return;}
   e->configured_attempt=true;memcpy(e->nonce,p+8,16);e->period=u32(p+24);e->target=u32(p+28);
   uint64_t cap=clock_now(e)+20*SECOND;if(cap>until)cap=until;
+  if(!before(e,cap)){failed(e,FS_DEADLINE);control(e,2);return;}
   if(!e->io.configure(e->io.ctx,cap)||!before(e,cap)){failed(e,FS_CONFIG);control(e,2);return;}
   e->flags|=1;e->phase=FS_CONFIGURED;control(e,2);return;
  }
  if(e->start_attempt||e->phase!=FS_CONFIGURED||memcmp(p+8,e->nonce,16)||u32(p+24)!=e->period||u32(p+28)!=e->target){failed(e,FS_COMMAND);return;}
  e->start_attempt=true;e->until=until;
+ if(!before(e,until)){failed(e,FS_DEADLINE);return;}
  if(!e->io.prepare(e->io.ctx,until)||!before(e,until)){failed(e,FS_SPI);return;}
  uint32_t v;static const unsigned off[5]={0,4,8,0x28,0x2c};static const uint32_t expected[5]={0x46534731,32000000,0x74010,0,0};
  for(unsigned i=0;i<5;i++){if(!rd(e,off[i],&v,until))return;if(v!=expected[i]){failed(e,FS_SOURCE);return;}}
@@ -130,7 +136,11 @@ static void acquire(fs_engine *e){
  if(e->batch.count==26)flush(e);
 }
 static void finalize(fs_engine *e){
+ if(!e->configured_attempt||!nonzero(e->nonce,16)||!profile(e->period,e->target)){
+  e->io.safe(e->io.ctx);e->phase=FS_DONE;return; /* No fabricated unbound control. */
+ }
  if(!e->final_us){
+  e->flags&=~4u; /* Retain last fields, but do not call an old START snapshot final. */
   uint64_t n=clock_now(e),cap=n+SECOND;if(cap>e->boot+120*SECOND)cap=e->boot+120*SECOND;
   if(e->source_start_intent&&e->trustworthy){
    uint32_t state;
@@ -142,7 +152,9 @@ static void finalize(fs_engine *e){
   e->io.safe(e->io.ctx);e->final_us=clock_now(e);e->terminal_until=e->final_us+2*SECOND;
   if(e->terminal_until>e->boot+120*SECOND)e->terminal_until=e->boot+120*SECOND;
   if(e->status==FS_OK&&e->snapshot.dropped)e->status=FS_LOSS;
-  if((e->status==FS_OK||e->status==FS_LOSS)&&(e->snapshot.generated!=e->target||e->snapshot.popped!=e->confirmed||e->snapshot.remaining||e->snapshot.refused_pop||e->snapshot.refused_command||!(e->flags&4u)))e->status=FS_SOURCE;
+  if((e->status==FS_OK||e->status==FS_LOSS)&&(e->snapshot.generated!=e->target||e->snapshot.popped!=e->confirmed||e->snapshot.remaining||e->snapshot.refused_pop||e->snapshot.refused_command||!(e->flags&4u)||
+     (e->snapshot.state&7u)!=5u||!(e->snapshot.state&64u)||
+     e->snapshot.stop!=e->snapshot.start+(uint64_t)e->target*e->period))e->status=FS_SOURCE;
   if(e->status==FS_OK&&e->confirmed!=e->target)e->status=FS_SOURCE;
  }
  if(!flush(e))return;

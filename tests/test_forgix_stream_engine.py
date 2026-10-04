@@ -23,7 +23,7 @@ class Rig:
         self.pair=pair;self.nonce=bytes(range(1,17));self.build=bytes([3])*32;self.image=bytes([4])*32
         self.settings={};self.start=None;self.stop=None;self.generated=0;self.enqueued=0;self.popped=0;self.drops=0;self.fifo=[]
         self.highwater=0;self.refused_pop=0;self.snap={};self.snapid=0;self.calls=[];self.output=bytearray();self.usb_limit=512;self.usb_delay=0
-        self.fail=None;self.corrupt=None;self.pop_refuse=False;self.config_ok=True;self.config_delay=0
+        self.fail=None;self.corrupt=None;self.pop_refuse=False;self.config_ok=True;self.config_delay=0;self.final_forge=None
         self.callback_errors=[]
         self._callbacks=[NOW(lambda _:self.time),SERVICE(self._service),BOUND(self._config),BOUND(self._prepare),XFER(self._guard_xfer),USB(self._usb),SERVICE(self._safe)]
         self.io=IO(None,*self._callbacks);self.engine=C.create_string_buffer(lib.engine_size())
@@ -66,6 +66,8 @@ class Rig:
                 self.snap={0x4c:self.snapid,0x50:self.tick()&0xffffffff,0x54:self.tick()>>32,0x58:self.state(),0x5c:self.generated,0x60:self.enqueued,
                     0x64:self.drops,0x68:self.popped,0x6c:self.refused_pop,0x70:0,0x74:len(self.fifo),0x78:self.highwater,
                     0x7c:(self.start or 0)&0xffffffff,0x80:(self.start or 0)>>32,0x84:(self.stop or 0)&0xffffffff,0x88:(self.stop or 0)>>32}
+                if self.snapid>1 and self.final_forge:
+                    key,value=self.final_forge;self.snap[key]=value
             elif off==0x40 and self.fifo and not self.pop_refuse:
                 assert v==struct.unpack_from('<I',self.fifo[0])[0]
                 self.fifo.pop(0);self.popped+=1
@@ -211,5 +213,32 @@ class ActualEngine(unittest.TestCase):
         self.assertEqual(r.field(1),1)
         self.assertEqual(sum(w and o==0xc and v==1 for w,o,v,_ in r.calls),1)
         for off in (0x10,0x14,0x18,0x1c,0x20,0x24):self.assertEqual(sum(w and o==off for w,o,_,_ in r.calls),1)
+    def test_old_snapshot_not_claimed_valid_after_failed_head_transfer(self):
+        r=Rig(self.lib);r.ready();r.fail=(False,0x34);r.time+=70000;r.step();r.finish()
+        end=r.frames()[-1];self.assertEqual(end[5],4)
+        self.assertEqual(struct.unpack_from('<I',end,132)[0]&4,0)
+        self.assertEqual(struct.unpack_from('<I',end,188)[0],1)
+        self.assertEqual(r.field(1),4)
+    def test_final_snapshot_semantics_cannot_forge_zero_loss_success(self):
+        for mutation in ('state','start','tick','stop'):
+            with self.subTest(mutation=mutation):
+                r=Rig(self.lib);r.ready()
+                r.final_forge={'state':(0x58,0),'start':(0x7c,(r.start+1)&0xffffffff),'tick':(0x50,0),'stop':(0x84,0)}[mutation]
+                for _ in range(60001):r.time+=1000;r.step()
+                r.finish();self.assertNotEqual(r.field(1),0)
+                self.assertNotEqual(struct.unpack_from('<I',r.frames()[-1],128)[0],0)
+    def test_fresh_configuration_cap_clock_cannot_launch_late_side_effect(self):
+        r=Rig(self.lib);calls=0
+        def sampled(_):
+            nonlocal calls
+            calls+=1
+            if calls>=3:r.time=30001000
+            return r.time
+        clock=NOW(sampled);r.io.now=clock
+        self.lib.fs_init(r.engine,r.io,r.build,r.image,False)
+        r.command();self.assertEqual(r.cfg,0);self.assertEqual(r.field(1),2)
+    def test_malformed_unbound_command_cannot_emit_fake_nonce_control(self):
+        r=Rig(self.lib);r.command(**{'32':9});r.step()
+        self.assertEqual(r.field(0),5);self.assertEqual(r.cfg,0);self.assertEqual(r.output,b'')
 
 if __name__=='__main__':unittest.main()

@@ -60,7 +60,9 @@ the successful CONFIG binding and consumes its attempt before any source write.
 Malformed/late/duplicate commands fail inertly before CONFIG, or terminate an
 existing session; they cannot create another configuration/START attempt.
 A partial command expires at the same absolute deadline; its prefix belongs in
-the private host log. No ordinary register or arbitrary address command exists.
+the private host log. An invalid request before any valid CONFIG binding ends
+inertly without emitting an unbound/zero-nonce control; the host retains its
+prefix and failed deadline. No ordinary register or arbitrary address command exists.
 
 START reads exact source ABI 46534731, nominal Hz 32000000 and caps 00074010;
 requires idle/empty source; writes period, target and four nonce words once and
