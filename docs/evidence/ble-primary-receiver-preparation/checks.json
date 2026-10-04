@@ -1,0 +1,164 @@
+{
+  "schema": 1,
+  "result": "OFFLINE_PREPARATION_REVIEW_PENDING",
+  "profile": "extended-primary-zero-data-v1",
+  "planning_commits": [
+    "fb0cc3ddad9ec8249a6d6f18bfbb5eaa622827cc",
+    "c185092d93f34e1eb9cb417843c9dccf6f5d3d13",
+    "c4829df85cbf81bd1afe2e762ff8abcb146be598"
+  ],
+  "private_subjects": {
+    "caller.py": {
+      "bytes": 23250,
+      "sha256": "7cf46b8357d44e67cbc30282c1170666ff7ce2bbadc7a147eb8663e961dfc6d7"
+    },
+    "source_support.py": {
+      "bytes": 28535,
+      "sha256": "d4764ff7e69d439cbbbe9f7f6ab829d984b71564ea9ca2fa53cccbe94ec0a441"
+    },
+    "radio_support.py": {
+      "bytes": 32400,
+      "sha256": "b17ac652f533a0a94351ee1fd8365804656d49e51250afd1b41605265d116d71"
+    },
+    "dispatch.py": {
+      "bytes": 5993,
+      "sha256": "b3dd7824ddf63c34710039facca9264ea699e44190efe143285006a5512389c7"
+    },
+    "account.py": {
+      "bytes": 7622,
+      "sha256": "51683cc01c9f4822c6ae9d8dd9ce60ac60abf17ee22241ed7cf7384b56bea4e9"
+    },
+    "test_caller.py": {
+      "bytes": 28105,
+      "sha256": "a930c7abf55e6c365cc0201604f49c608bdf81bb88169904347b2a08a91b29a8"
+    },
+    "task.yml": {
+      "bytes": 1161,
+      "sha256": "ccf1d55a42dd356f349f636832885fe07793399d8cc1e5d11fdc2563bfce34e1"
+    },
+    "frozen-inputs-001.json": {
+      "bytes": 291434,
+      "sha256": "c080439e58ffbcdb12378703b6b3fbb89164ff80ee8fefe3506671907b84b64c"
+    },
+    "author-005.log": {
+      "bytes": 27734,
+      "sha256": "18b2857e0cee00c1c7cdbf6fbb0c2822730e95f9c3c3750373b014d52d6f60b7"
+    },
+    "runtime-freeze-001.log": {
+      "bytes": 779,
+      "sha256": "c4cdd914dba5cd9ca3e91a3388f5e83bd4b23126373dfdb1f280cbd3e327801d"
+    },
+    "runtime-inspect-001.log": {
+      "bytes": 780,
+      "sha256": "9a9ee594ecb51eff56bc809c72743a10f50495fec745e3edb717a5e075c823d8"
+    },
+    "qualification-review.json": {
+      "bytes": 5908,
+      "sha256": "50aa1b8006c069b1eddc8cd57c4526225815a0ef591487f61c4ec8a820b45da4"
+    }
+  },
+  "prospective_protocol": {
+    "bytes": 8489,
+    "sha256": "8c4745045714e32afff680216c066b15ab72d9f178f0c9c58ac9ced178c040be"
+  },
+  "offline_tests": {
+    "group_counts": [
+      33,
+      19,
+      20,
+      24,
+      26,
+      33
+    ],
+    "total": 155,
+    "terminal_exit_code": 0,
+    "skips": 0,
+    "hardware_access": false,
+    "container_producers_started": false,
+    "vendor_or_firmware_builds_performed": false
+  },
+  "frozen_inputs": {
+    "files": 69,
+    "runtime_paths": 11,
+    "recursive_nix_closure_entries": 301,
+    "read_only_freeze_exit_code": 0,
+    "read_only_image_inspection_exit_code": 0,
+    "images": {
+      "source": {
+        "tag": "esp-sdr-ble-source:c7188d39eacc17b4",
+        "expected_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4"
+      },
+      "monitor": {
+        "tag": "esp-sdr-ble-monitor:2fa009db696e66d6",
+        "expected_image_id": "sha256:fbdfe3a117505cbdfa090f9d46f4ce9d8ef5b079b7e612b522062a7b23c2697c"
+      }
+    },
+    "root_fresh_current_runtime_freeze_required": true,
+    "isolated_base_commit": "7159eb71ee898713e84aa9615c94381e91fc9b8a"
+  },
+  "receiver": {
+    "bits": 10,
+    "rate": 16000000,
+    "samples": 16380,
+    "frequency_mhz": 2401,
+    "bandwidth_mhz": 20,
+    "gain": "48",
+    "seconds": 180
+  },
+  "source": {
+    "repetitions": 3,
+    "handle": 1,
+    "interval_ms": 20,
+    "maximum_controller_events_per_repetition": 100,
+    "duration_ms": 5000,
+    "host_data_bytes": 0,
+    "controller_events_not_air_denominator": true
+  },
+  "timing_seconds": {
+    "receiver": 180,
+    "monitor": 240,
+    "producer_readiness": 15,
+    "outer_monitor_ready": 75,
+    "receiver_startup": 30,
+    "source_parent_cap_each": 40,
+    "acquisition_supervisor": 420,
+    "planned_initial_off": 10,
+    "minimum_actual_initial_off": 5,
+    "planned_off_gaps": 2,
+    "minimum_actual_off_gaps": 1,
+    "required_final_continuous_off_strictly_greater_than": 10
+  },
+  "admission": {
+    "independent_receiver_preflight": "pending",
+    "receiver_trial_performed": false,
+    "source_prerequisite": "independent_saved_controller_profile_only",
+    "radiated_primary_count": null,
+    "RF_accepted": false,
+    "legacy_Trial_B_accepted": false
+  },
+  "ownership": {
+    "exact_pid_pgid_proc_start_identity": true,
+    "spawn_and_natural_closure_brackets": true,
+    "docker_cidfile_plus_active_running_witness": true,
+    "exact_name_id_image_command_binding": true,
+    "forced_group_or_container_cleanup_cannot_qualify": true
+  },
+  "accounting": {
+    "unchanged_blind_legacy_sha256": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+    "fixed_translation_hz": -1000000,
+    "whole_acquisition_bracket_guard_ms": 100,
+    "all_phase_owned_cluster_conflicts_unresolved": true,
+    "whole_raw_sha_crc_count_verified": true,
+    "air_hit_rate_produced": false,
+    "original_acceptance_gates_changed": false
+  },
+  "retained_failed_author_attempts": [
+    "author-001.log"
+  ],
+  "limitations": [
+    "Approximately15 ON snapshots and fewer than one expected full hit under hypothetical random timing; null inconclusive.",
+    "Current profile permits primary omission and AUX/AdvA placement variation.",
+    "Source001 historical closure remains attestation scoped; stronger ownership instrumentation applies prospectively.",
+    "Preparation freeze binds isolated paths/Task; root transfer requires fresh current binding/runtime/input snapshot and review."
+  ]
+}
