@@ -52,6 +52,13 @@ def stream_elf():
     return d
 
 class StreamBuild(unittest.TestCase):
+    def test_actual_tool_import_chain_and_project_are_frozen(self):
+        imported={Path(m.__file__).resolve().relative_to(ROOT).as_posix() for m in tuple(sys.modules.values())
+            if getattr(m,'__file__',None) and Path(m.__file__).resolve().is_relative_to(ROOT/'tools')}
+        self.assertLessEqual(imported,set(build.FILES))
+        self.assertLessEqual(set(build.PROJECT.values()),set(build.FILES))
+        self.assertIn('firmware/forgix-synthetic-source/source.v',build.FILES)
+        self.assertIn('nix/forgix-toolchain.nix',build.FILES)
     @classmethod
     def setUpClass(cls):
         cls.temp=tempfile.TemporaryDirectory();p=Path(cls.temp.name)/'packet.so'

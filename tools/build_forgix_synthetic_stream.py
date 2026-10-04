@@ -22,7 +22,7 @@ FILES=tuple(PROJECT.values())+(BRIDGE+'main.c',BRIDGE+'usb_descriptors.c',OWN+'P
  'tools/build_forgix_synthetic_stream.py','tools/forgix_synthetic_image.py','tools/forgix_usb_ram_artifact.py',
  'tools/build_forgix_usb_ram.py','tools/forgix_synthetic_candidate.py','tools/forgix_synthetic_gateware.py',
  'tools/forgix_spi_guard.py','tools/forgix_fpga_candidate.py','tools/efinity_bootstrap.py',
- 'tools/efinity_compile_smoke.py','flake.nix','flake.lock','Taskfile.yml')
+ 'tools/efinity_compile_smoke.py',SOURCE+'source.v','nix/forgix-toolchain.nix','flake.nix','flake.lock','Taskfile.yml')
 
 def descriptor(data):
     old=b'Forgix SPI RAM bridge v1';new=b'Forgix Synthetic RAM stream v1'
