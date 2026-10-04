@@ -349,3 +349,34 @@ terminal/corrective storage failures. Preserve all failed attempts. Issue a new
 immutable author freeze for independent review; fresh root configuration build
 and artifact review remain mandatory. Shared standalone USB helpers, firmware,
 FPGA candidates and qualification registries remain unchanged/unadmitted.
+
+## Prospective shared pending-finalization refusal
+
+Declared October 4, 2026 after independent review of `54bda122` and before this
+correction. Preserve author receipt `664e7a3a`, independent failed receipt
+`60300e84d14b1ac7b19e444b03ce875312ce34e8a07e265451b8bfedd7906420`
+and the exact cross-route probe. The probe performs real temporary lease
+release followed by failed active-lease recreation: only the durable register
+finalization marker remains, and the synthetic operator lock wrongly admits.
+
+Supersede the earlier shared-USB-unchanged restriction only for a common refusal
+guard for `.scratch/forgix-spi-finalization-pending.json`. Presence of this
+marker, including an unsafe/dangling symlink or malformed file, blocks Forgix
+admission, access, dispatch and recovery. No marker parsing or generic override
+can permit access. Use one shared predicate across root coordinators, standalone
+USB run/recover, inherited lock checks, contained worker entry, serial/USB
+identity selectors and preservation/picotool dispatch. Check before hardware
+queries or opens and again at existing access/admission boundaries; keep owned
+resource closure available. A matching synthetic recovery profile cannot bypass
+this register pending state. Marker clearing stays solely in the already
+reviewed register finalization path; this change adds no recovery/cleanup action.
+
+Do not alter operation whitelists, firmware/flash/FPGA payloads, lifecycle stage
+ordering, accepted historical USB/RF evidence, or physical qualification gates.
+Replay the exact original cross-route probe unchanged and add actual temporary
+lock/entry/refusal tests for each affected route, including marker appearance
+during preflight and recovery. Run relevant USB, register and synthetic suites,
+then freeze complete changed execution maps and current seven-tool/reference
+closure proof. Historical freezes remain distinct; root must refresh all merged
+production tuples before any physical action. No task acceptance or registry
+entry is added.
