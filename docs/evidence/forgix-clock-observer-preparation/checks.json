@@ -1,0 +1,65 @@
+{
+  "authorReadinessSHA256": "c44073f9ef75bb7d92952795e59ee1646bd1595245f7f90db9df0407f900b5af",
+  "checks": {
+    "actualProductionHDLPeriods": 1024,
+    "exactRationalInterval": true,
+    "exitCode": 0,
+    "groups": 15,
+    "seconds": 9.812,
+    "skips": 0,
+    "strictOpenSpec": true
+  },
+  "kind": "Distinct one-way clock observer software preparation",
+  "limits": [
+    "Actual SDK adapter body uses explicit SDK/hardware stubs, not ARM linking or physical pad proof.",
+    "Actual PIO assembler and instruction interpreter verify digital geometry; physical no-undersampling and pad margins remain unknown.",
+    "Sixteen samples may skip periods or stop the1024-period burst early; no sustained transport claim.",
+    "Separate RAM/main/USB/build/lifecycle integration and independent review remain required.",
+    "Fitted grade/revision, electrical/clock/attachment and complete preserved recovery remain unqualified."
+  ],
+  "logSHA256": "8af993678a8780366e3797697d065212ffee79668f14266789a11bcf95f28cbf",
+  "physical": {
+    "FPGAOrARMBuild": false,
+    "calibratedAbsoluteFrequency": false,
+    "hardwareOpened": false,
+    "inventoryOrTransportTaskAccepted": false,
+    "registryAdmission": false
+  },
+  "planningRevision": "eaa253d",
+  "result": "AUTHOR_HOST_PASS_INDEPENDENT_REVIEW_PENDING",
+  "sourceRevision": "4cd895432988eba5618a6ea069b61acbaeae115f",
+  "subjects": {
+    "docs/research/forgix-clock-observer-protocol.md": {
+      "bytes": 4628,
+      "sha256": "94b9a727b488ed03a6bbc51075d99057e627a327ab39835d745eb0b3aeb4ba90"
+    },
+    "firmware/forgix-clock-observer/observer.c": {
+      "bytes": 2137,
+      "sha256": "9a1d4a7fb63256fb266148228fdb9a1a22fa9be9ea7255a1377f1618728da65b"
+    },
+    "firmware/forgix-clock-observer/observer.h": {
+      "bytes": 996,
+      "sha256": "9c73574bdf065f2d62138b7d306777bd7a92ce2397ee71508c496b0f30863477"
+    },
+    "firmware/forgix-clock-observer/period.pio": {
+      "bytes": 388,
+      "sha256": "f5c2bc91ca33d3d6402b15f52168600881a4c297b8c80ec725a38fee9a16cf62"
+    },
+    "firmware/forgix-clock-observer/rp_input.c": {
+      "bytes": 3417,
+      "sha256": "0bf886e345016bb66dd91f746e3ba4d9b5ca5f652147a8537274d56795f01dee"
+    },
+    "firmware/forgix-clock-observer/rp_input.h": {
+      "bytes": 349,
+      "sha256": "f445b32191d81d17584b7671fb429227e2d34dd75f7d574ca4af96b381018d1f"
+    },
+    "tests/test_forgix_clock_observer.py": {
+      "bytes": 19152,
+      "sha256": "64c2a647ec1d620996b639f561f3efd1190f72d25cb47d186a46a3dcf105b9f7"
+    },
+    "tools/forgix_clock_observer.py": {
+      "bytes": 4099,
+      "sha256": "7735c73c7b3cdc053a5ff27782d18f9661889a126c2644857356dc3e6f4be663"
+    }
+  }
+}
