@@ -392,6 +392,8 @@ tasks:
     desc: Verify bounded run, shared leases and known-closed recovery (no hardware)
     cmds:
       - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_lifecycle.py
+      - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_runtime.py
+      - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_factory_return.py
 
   forgix:synthetic:trial:preflight:
     desc: Check committed synthetic qualification and exact private inputs (no device access)

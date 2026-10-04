@@ -257,7 +257,7 @@ class Backend(common.Backend):
         self.loader.deadline=until
         factory=trial.watched_factory(self.inspector,self.bus,until,self.loader)
         runtime.check(self.environment)
-        trial.bounded_query(self.inspector,factory,self.loader.store,'returned-after-stream',self.lockfd,until,self.loader)
+        trial.bounded_query(self.inspector,factory,self.loader.store,'returned-after-ram',self.lockfd,until,self.loader)
         return {'factory_application_verified':True}
     def configure(self,until):raise ValueError('Synthetic configuration belongs exclusively to stream worker')
     transition=configure
