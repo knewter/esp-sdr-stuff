@@ -1,0 +1,35 @@
+{
+  "kind": "actual HDL countdown scheduler equivalence",
+  "status": "PASS_for_offline_source_behavior_scope",
+  "author_revision": "1768e8207cdc5e0743d4a66032f4e9476e730cf2",
+  "reference_revision": "9ebac506e54e8e86570c97d029376461cc4144f4",
+  "source_sha256": {
+    "firmware/forgix-synthetic-source/source.v": "ddcafd56a79a92e926b8a62e46d31485741818001a58ba9edef98091629e7306",
+    "tests/test_forgix_synthetic_source.py": "4643918ae271936a180412683ad6dc890edc9d830137c142963e14f5586d6628",
+    "tools/forgix_synthetic_gateware.py": "cf78d270c685c78fe8f13b9dd0d9df7382ae4b9ea2cc9bf0f5c0eb58632d82e0",
+    "tools/forgix_spi_guard.py": "1912f418ca88f1cc68487b39403f7c0dd58aab141aae079453359b1a1f67e3b1"
+  },
+  "peer_review_sha256": "481d5b5739b20b1137b052b909c4e92de71274e50dd56705eab444827935de14",
+  "author_groups": 16,
+  "independent_production_period_fixtures": 9,
+  "author_exit_code": 0,
+  "independent_exit_code": 0,
+  "criteria": {
+    "first_last_due_period_minus_one_exact": true,
+    "all_three_complete_scaled_targets_differential": true,
+    "actual_production_period_constants_checked": true,
+    "low_and_full_tick_rollover_checked": true,
+    "due_adjacent_stop_pop_snapshot_checked": true,
+    "fifo_drops_concurrent_pop_and_reset_checked": true,
+    "crc_and_full_fifo_state_compared": true,
+    "original_git_bytes_preserved": true
+  },
+  "limitations": [
+    "Production-period probes use explicitly aligned accelerated checkpoints; full author equivalence runs use scaled SYSTEM_HZ.",
+    "Simulation does not establish32MHz physical frequency, timing closure, resource fit, IO turnaround or recovery.",
+    "Actual vendor recompilation and linked platform/collector audit remain separate gates."
+  ],
+  "vendor_compile_repeated": false,
+  "hardware_opened": false,
+  "timing_closure_proved": false
+}

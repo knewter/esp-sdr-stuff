@@ -244,3 +244,8 @@ The [finite RP core](docs/evidence/forgix-synthetic-stream-core/README.md) now p
 18 author and 11 independent actual-C/UBSan groups after three retained failed
 peer episodes. Platform/ARM artifact, collector, physical qualification and
 complete recovery remain prerequisites; no task acceptance follows.
+
+The [countdown scheduler](docs/evidence/forgix-synthetic-scheduler/README.md) now
+passes 16 author HDL groups and nine independent production-period edge fixtures
+against immutable pre-change HDL. Fresh routed timing at unchanged 32 MHz remains
+required; software behavior proof does not accept a physical task.
