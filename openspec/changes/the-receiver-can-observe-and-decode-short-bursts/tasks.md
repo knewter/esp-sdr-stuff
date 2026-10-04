@@ -69,7 +69,7 @@ Missing AdvA, ADI-only identification and auxiliary AD cannot establish ownershi
 Zero data does not force a particular primary layout or AUX omission.
 
 Controller-completed extended events remain distinct from independently counted
-primary RF transmissions, including permitted event/PDU omission. Current
+primary RF transmissions, including permitted event/PDU omission. Those historical
 monitor records omit some requested HCI fields; do not claim their independent
 physical verification. Original emitted-count, full waveform, three-response
 and Trial B prerequisites remain unchanged; no task is checked by these tests.
@@ -85,3 +85,20 @@ control, not a detection-failure or missed-event rate. Original TrialB remains
 gated. The next separate bridge-profile ladder starts ten-bit/BW20/manual48
 and isolates precision, gain and bandwidth; earlier results remain unchanged.
 No original task checkbox or accepted requirement changes.
+
+
+## Ten-bit ladder control and fuller metadata
+
+The [independently reviewed ten-bit/BW20/manual48 control](docs/evidence/ble-bluez-control-004/README.md)
+verifies all 1,010 snapshots and full original restoration. Whole decoder replay
+finds zero owned packets and three redacted CRC-valid packets from other sources;
+these do not establish owned-source reception. Fixed-band scalar controls show
+no repeated source-attributed rise. The next ladder condition is
+8-bit/BW20/manual48, followed by 8-bit/BW20/hardware. Source ground truth and
+original Trial B gates remain unmet; no physical checkbox changes.
+
+The [fuller HCI parser](docs/evidence/ble-hci-metadata-preparation/README.md)
+passes 134 focused checks and 23 independent probe groups. It retains additional
+redacted requested fields for future profile validation. Earlier trial records
+remain bound to their older helper; no omitted field, emitted PHY/power, air
+count or reception is inferred from this software preparation.

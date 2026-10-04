@@ -123,3 +123,16 @@ the current survey finds no matching Forgix, and grade/clock/pin timing remain
 unqualified. The nominal32MHz photo marking is separate from a measured clock.
 The existing wiring gives the RP only oscillator enable, not oscillator output.
 No hardware checkbox or accepted requirement changes.
+
+## Finite selected-transport preparation
+
+The [new finite synthetic protocol](docs/research/forgix-synthetic-transport-protocol.md)
+requires a separately versioned FPGA FIFO/source and autonomous RP/host path.
+The current 24-command register bridge cannot measure sustained streaming.
+Start with 256/1,024/2,048 B/s offered rates at the current conservative PIO
+preset; old 10/20/40 MHz wire suggestions exceed the existing guard and are
+superseded for this route. Source HDL, actual C/host codecs, SRAM/artifact audits
+and whole-path independent review are implementation prerequisites, not task
+2.1 acceptance. Physical grade/clock/pins, matching attachment and preservation
+remain gates. Several-rate sequence/CRC, backlog/loss and timing measurements
+are still required; no checkbox or accepted requirement changes.

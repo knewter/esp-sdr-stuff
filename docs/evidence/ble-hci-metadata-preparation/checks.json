@@ -1,0 +1,23 @@
+{
+  "kind": "host-only redacted HCI metadata preparation",
+  "status": "independently_reviewed",
+  "subject_commit": "c81795ec994e971378b691c2cb2515ac1e313f07",
+  "root_merge_commit": "89324cfb5daca9bf015830082fedd688f9e0612b",
+  "inputs_sha256": {
+    "tools/ble_hci_monitor.py": "37974acfdab9ac17dbdbb628569b65e34a490426fb9029b3c2028f0016705aa9",
+    "tests/test_ble_hci_extended_fields.py": "d6fd57eee4590569b1ed93d51bace018afa0d17916c89a351ce541da0aaf87b2",
+    "tools/BLE_HCI_METADATA.md": "d6d9e873762e171773a027bad8239878e1ed385f2d0226a3f0e12e0f8ed8d625"
+  },
+  "author_checks_replayed": 134,
+  "independent_probe_groups": 23,
+  "independent_fixture_cases": 5798,
+  "private_review_sha256": "19c6eb88d759ef5eb1de6ef4a9390dd3c595c5f1418fa85b90700e098e120fa7",
+  "hardware_executed": false,
+  "older_receipts_upgraded": false,
+  "RF_acceptance_gate_closed": false,
+  "limits": [
+    "Defined supported Core5.4 v1 field envelope; no universal controller-state validation",
+    "Metadata is requested control, not emitted PHY/power/PDU layout or air-event count",
+    "No address, payload or address hash is published"
+  ]
+}

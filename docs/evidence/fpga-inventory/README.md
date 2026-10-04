@@ -85,6 +85,16 @@ Physical inputs needed to proceed:
 
 Once Forgix is connected and identified, the upstream CPU-less SPIBone identifier/scratch test is the first control-plane milestone. It is not the throughput test. Add an FPGA PRBS/counter FIFO and RP binary bridge, then test 1/10/20/40 MHz candidate clocks at bounded rates for 60 seconds each, with sequence/CRC totals, FIFO high-water mark, overruns, host stalls and a deliberate 100 ms host pause. Gate RF integration on zero unexplained integrity errors and a measured payload margin. No script selecting a guessed serial device or installing a blind PCI driver was created.
 
+**October 4 planning correction:** Those wire-clock suggestions predate the
+guarded bridge. Its eight-FPGA-cycle SCK half-period requirement bounds SCK to
+at most 2 MHz at nominal 32 MHz system clock, before other timing limits. The
+existing 32 MHz PIO instruction preset yields approximately 0.97 MHz SCK.
+The [separate finite synthetic protocol](../../research/forgix-synthetic-transport-protocol.md)
+supersedes the faster suggestions for this route: several 256/1,024/2,048 B/s
+offered conditions at one qualified wire preset, with actual FIFO/CRC/counter
+measurements. No old clock suggestion was physically tested, and the
+register-only 24-command ABI is not a stream benchmark.
+
 ## Connected-board follow-up
 
 [Physical Forgix identification and MCU preservation](../forgix-preservation/README.md)

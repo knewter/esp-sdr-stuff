@@ -1,0 +1,950 @@
+{
+  "kind": "ten-bit manual-gain bridge-profile control",
+  "status": "completed_with_zero_owned_and_three_other_crc_valid_packets",
+  "receiver_settings": {
+    "bits": 10,
+    "frequency": 2401,
+    "bandwidth": 20,
+    "gain": "48"
+  },
+  "nominal_rate_hz": 16000000,
+  "samples_per_capture": 16380,
+  "captures": 1010,
+  "verified_payload_bytes": 41359500,
+  "ordered_payload_sha256_digest": "ab82a76dbd885ab9e4e6c9c5c0eeabbf467f8e6465c6d353dbcaafaaa09459ed",
+  "crc_valid_owned_packets": 0,
+  "crc_valid_other_packets_redacted": 3,
+  "actual_schedule": {
+    "initial_off_seconds": 20.357456578,
+    "actual_tail_after_source_group_closure_seconds": 39.275635121,
+    "source_episodes_completed": 3,
+    "captures": 1010,
+    "source_group_closed_monotonic_ns": 908674396684143,
+    "final_payload_received_monotonic_ns": 908713672319264,
+    "source_denominator": null,
+    "RF_acceptance_gate_closed": false
+  },
+  "restoration": {
+    "verified": true,
+    "full_readback_bytes": 4194304,
+    "full_readback_matches_baseline": true,
+    "full_readback_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+    "flash_write_verified": true
+  },
+  "closure": {
+    "owned_UART_groups_closed": true,
+    "owned_child_groups_closed": true,
+    "monitor_owned_container_removed": true,
+    "source_bus_disconnect_recorded": true
+  },
+  "independent_saved_result_review_sha256": "f9a5b4d51abd9b05258fc9ea1c15620a30d8a453eeac6a02e63a78e5f558b15a",
+  "independent_caller_review_sha256": "adbc6c6cf06cf113d70890f0b6739ca42b021283e9e63766d07007483fb2926d",
+  "scalar_method_review_sha256": "bcd02eee28251537a5f2b77982c7d7dc10eb60f2bb63412b1dd777e813e85271",
+  "caller_source_sha256": "b17ac652f533a0a94351ee1fd8365804656d49e51250afd1b41605265d116d71",
+  "scalar_source_sha256": "ccc9b3ccd92b7569b1fc782c23b7f7234b5e89627268aba25993683023ef1258",
+  "executed_hci_helper_sha256": "fcf8627daddc061612e8e160c5791e2ded0ab17b7a402dfb6061564e79b918e1",
+  "executed_hci_helper_commit": "87fe60e816f557b67a5e1a04ff035b2f70ed724c",
+  "historical_helper_binding": "A later HCI parser merge followed terminal restoration; retained trial binding remains the old committed host helper, independently verified.",
+  "scalar_method": {
+    "nominal_rate_hz": 16000000,
+    "samples": 16380,
+    "center": "subtract complex sample mean",
+    "window": "numpy.hanning(16380), symmetric endpoints",
+    "signal_band_hz": [
+      500000,
+      1500000
+    ],
+    "background_bands_hz": [
+      [
+        -2500000,
+        -1500000
+      ],
+      [
+        2500000,
+        3500000
+      ]
+    ],
+    "bin_selection": "strict open intervals; combined background bins equally weighted",
+    "ratio": "(mean signal squared FFT magnitude+1e-20)/(mean background squared FFT magnitude+1e-20)",
+    "two_sided_PSD": "squared FFT magnitude/(nominal Fs*sum(window squared)); code2/Hz",
+    "phase_guard_seconds": 1,
+    "bracket": "whole command_start_ns through payload_received_ns",
+    "time_block_seconds": 10,
+    "uncertainty": "descriptive quantiles/range and10s-block medians; no IID or calibrated confidence interval",
+    "plot": "all capture points and whole host brackets, commanded ON spans; no smoothing or outlier rejection"
+  },
+  "phase_summaries": {
+    "OFF0": {
+      "captures": 42,
+      "nominal_RF_seconds": 0.0429975,
+      "guarded_control_interval_seconds": 19.357456578,
+      "nominal_coverage_fraction": 0.0022212370631825265,
+      "metrics": {
+        "ac_code2": {
+          "n": 42,
+          "min": 67.78974196099655,
+          "q10": 70.02003118435628,
+          "q25": 76.02333682656715,
+          "median": 223.98323783173143,
+          "q75": 1230.7290154484979,
+          "q90": 30287.697284045273,
+          "max": 66483.23517948644
+        },
+        "endpoint_fraction": {
+          "n": 42,
+          "min": 0.0,
+          "q10": 0.0,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 4.578754578754579e-05,
+          "q90": 0.01033272283272283,
+          "max": 0.020512820512820513
+        },
+        "signal_band_code2": {
+          "n": 42,
+          "min": 1.5202239338589354,
+          "q10": 1.6410347873768691,
+          "q25": 1.957102045853432,
+          "median": 2.1287488228843108,
+          "q75": 12.074677460282562,
+          "q90": 68.78154356126008,
+          "max": 4867.329652461414
+        },
+        "signal_background_ratio": {
+          "n": 42,
+          "min": 0.002118574018998651,
+          "q10": 0.9026406153485398,
+          "q25": 0.9581053628240989,
+          "median": 1.0393367995322542,
+          "q75": 1.126865026414742,
+          "q90": 3.9437045921319442,
+          "max": 34.091849551326945
+        },
+        "signal_background_db": {
+          "n": 42,
+          "min": -26.739563579640997,
+          "q10": -0.444900605839392,
+          "q25": -0.1859060309497733,
+          "median": 0.16755916060573794,
+          "q75": 0.5186610009597971,
+          "q90": 5.930449078542346,
+          "max": 15.326505632161583
+        }
+      },
+      "ten_second_time_blocks": [
+        {
+          "block": 0,
+          "captures": 22,
+          "AC_median": 227.26257427198362,
+          "ratio_median": 1.045575482672807
+        },
+        {
+          "block": 1,
+          "captures": 20,
+          "AC_median": 181.36441217512646,
+          "ratio_median": 1.0366401919834727
+        }
+      ]
+    },
+    "ON0": {
+      "captures": 259,
+      "nominal_RF_seconds": 0.26515125,
+      "guarded_control_interval_seconds": 118.024886564,
+      "nominal_coverage_fraction": 0.002246570682838314,
+      "metrics": {
+        "ac_code2": {
+          "n": 259,
+          "min": 65.2327705248218,
+          "q10": 72.84965399225656,
+          "q25": 77.37772694558868,
+          "median": 226.00868936551169,
+          "q75": 30685.78506821729,
+          "q90": 127120.98039739866,
+          "max": 240043.7705289477
+        },
+        "endpoint_fraction": {
+          "n": 259,
+          "min": 0.0,
+          "q10": 0.0,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.010088522588522589,
+          "q90": 0.01484737484737485,
+          "max": 0.06498778998778999
+        },
+        "signal_band_code2": {
+          "n": 259,
+          "min": 1.2315920215304914,
+          "q10": 1.5087515611511642,
+          "q25": 1.6795710913394069,
+          "median": 2.013911926178366,
+          "q75": 20.274820470120048,
+          "q90": 1594.474582118364,
+          "max": 33462.639842287375
+        },
+        "signal_background_ratio": {
+          "n": 259,
+          "min": 0.0008272643276461311,
+          "q10": 0.20352227269371556,
+          "q25": 0.7778183415561397,
+          "median": 0.8983626048107402,
+          "q75": 1.0569730187153117,
+          "q90": 2.6796308276947487,
+          "max": 30.119051185027025
+        },
+        "signal_background_db": {
+          "n": 259,
+          "min": -30.823557024228457,
+          "q10": -6.914015664470257,
+          "q25": -1.0913026027892134,
+          "median": -0.46548334287064064,
+          "q75": 0.2406153364719454,
+          "q90": 4.276007030957952,
+          "max": 14.788412865327295
+        }
+      },
+      "ten_second_time_blocks": [
+        {
+          "block": 2,
+          "captures": 19,
+          "AC_median": 228.26301194464196,
+          "ratio_median": 0.9936979645874223
+        },
+        {
+          "block": 3,
+          "captures": 22,
+          "AC_median": 222.60865299637277,
+          "ratio_median": 0.9737680985854622
+        },
+        {
+          "block": 4,
+          "captures": 22,
+          "AC_median": 254.87069941268203,
+          "ratio_median": 0.9660210491961964
+        },
+        {
+          "block": 5,
+          "captures": 22,
+          "AC_median": 226.19822133740632,
+          "ratio_median": 0.9276705023367975
+        },
+        {
+          "block": 6,
+          "captures": 22,
+          "AC_median": 7030.853518026539,
+          "ratio_median": 0.9010910047838523
+        },
+        {
+          "block": 7,
+          "captures": 22,
+          "AC_median": 8586.134281515699,
+          "ratio_median": 0.9174857717853021
+        },
+        {
+          "block": 8,
+          "captures": 22,
+          "AC_median": 83.99747661052149,
+          "ratio_median": 0.8684677364595899
+        },
+        {
+          "block": 9,
+          "captures": 22,
+          "AC_median": 248.89583755614888,
+          "ratio_median": 0.8762493444816295
+        },
+        {
+          "block": 10,
+          "captures": 22,
+          "AC_median": 27824.1768876787,
+          "ratio_median": 0.8013162523625981
+        },
+        {
+          "block": 11,
+          "captures": 22,
+          "AC_median": 219.38940303811643,
+          "ratio_median": 0.9369045784695242
+        },
+        {
+          "block": 12,
+          "captures": 22,
+          "AC_median": 244.87271303042368,
+          "ratio_median": 0.8494518445368573
+        },
+        {
+          "block": 13,
+          "captures": 20,
+          "AC_median": 75.75146458649206,
+          "ratio_median": 0.8435774762417869
+        }
+      ]
+    },
+    "OFF1": {
+      "captures": 39,
+      "nominal_RF_seconds": 0.03992625,
+      "guarded_control_interval_seconds": 18.028652862,
+      "nominal_coverage_fraction": 0.002214599743287242,
+      "metrics": {
+        "ac_code2": {
+          "n": 39,
+          "min": 65.32190539924058,
+          "q10": 68.42961526832954,
+          "q25": 71.08333461173204,
+          "median": 213.65207836695933,
+          "q75": 16834.157229434182,
+          "q90": 80904.11798213616,
+          "max": 224651.0369434344
+        },
+        "endpoint_fraction": {
+          "n": 39,
+          "min": 0.0,
+          "q10": 0.0,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.005311355311355312,
+          "q90": 0.022765567765567776,
+          "max": 0.046886446886446886
+        },
+        "signal_band_code2": {
+          "n": 39,
+          "min": 1.3028678355271377,
+          "q10": 1.431825271743688,
+          "q25": 1.610076835963472,
+          "median": 1.8970629820284965,
+          "q75": 11.391971288996473,
+          "q90": 1503.4437432714446,
+          "max": 21217.97545192336
+        },
+        "signal_background_ratio": {
+          "n": 39,
+          "min": 0.0005467071646016257,
+          "q10": 0.18081051038575768,
+          "q25": 0.8155439186297788,
+          "median": 0.9149360458991322,
+          "q75": 1.0129947344427483,
+          "q90": 1.2992685202736924,
+          "max": 41.670548959009196
+        },
+        "signal_background_db": {
+          "n": 39,
+          "min": -32.62245234638601,
+          "q10": -7.45092868532509,
+          "q25": -0.8855751707333692,
+          "median": -0.3860926209072508,
+          "q75": 0.056059127794527076,
+          "q90": 0.9140453036685852,
+          "max": 16.19829221798725
+        }
+      },
+      "ten_second_time_blocks": [
+        {
+          "block": 14,
+          "captures": 19,
+          "AC_median": 220.9244181086855,
+          "ratio_median": 0.8703729375272069
+        },
+        {
+          "block": 15,
+          "captures": 20,
+          "AC_median": 142.874006667427,
+          "ratio_median": 0.9200611554245353
+        }
+      ]
+    },
+    "ON1": {
+      "captures": 258,
+      "nominal_RF_seconds": 0.2641275,
+      "guarded_control_interval_seconds": 118.033508379,
+      "nominal_coverage_fraction": 0.0022377331965080555,
+      "metrics": {
+        "ac_code2": {
+          "n": 258,
+          "min": 55.124516437300315,
+          "q10": 67.81686537268862,
+          "q25": 74.46777907108493,
+          "median": 217.05481389421865,
+          "q75": 29809.9738585381,
+          "q90": 101870.29798555873,
+          "max": 350518.0197082269
+        },
+        "endpoint_fraction": {
+          "n": 258,
+          "min": 0.0,
+          "q10": 0.0,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.006852869352869353,
+          "q90": 0.014700854700854702,
+          "max": 0.1471916971916972
+        },
+        "signal_band_code2": {
+          "n": 258,
+          "min": 1.2378825119041468,
+          "q10": 1.4272969024183053,
+          "q25": 1.6151456479297432,
+          "median": 1.873318545201296,
+          "q75": 46.240976434828866,
+          "q90": 1760.019602592151,
+          "max": 31059.743419594888
+        },
+        "signal_background_ratio": {
+          "n": 258,
+          "min": 0.0005780676196608403,
+          "q10": 0.1810975411469583,
+          "q25": 0.7967060747628655,
+          "median": 0.873523448180505,
+          "q75": 1.0338652180229428,
+          "q90": 2.8248730327397396,
+          "max": 547.3145491625435
+        },
+        "signal_background_db": {
+          "n": 258,
+          "min": -32.38021356859911,
+          "q10": -7.4209591307689555,
+          "q25": -0.9870206978972353,
+          "median": -0.5872543924579647,
+          "q75": 0.14463565558884597,
+          "q90": 4.509987698085536,
+          "max": 27.382369930667238
+        }
+      },
+      "ten_second_time_blocks": [
+        {
+          "block": 16,
+          "captures": 18,
+          "AC_median": 219.93442456776705,
+          "ratio_median": 0.8769379172271983
+        },
+        {
+          "block": 17,
+          "captures": 22,
+          "AC_median": 143.71680238937563,
+          "ratio_median": 0.9017506951355867
+        },
+        {
+          "block": 18,
+          "captures": 22,
+          "AC_median": 237.2718301023017,
+          "ratio_median": 0.8646367301202089
+        },
+        {
+          "block": 19,
+          "captures": 22,
+          "AC_median": 144.6184147632316,
+          "ratio_median": 0.8756525665642282
+        },
+        {
+          "block": 20,
+          "captures": 22,
+          "AC_median": 217.79433883864743,
+          "ratio_median": 0.8469631460604132
+        },
+        {
+          "block": 21,
+          "captures": 22,
+          "AC_median": 155.34067193642744,
+          "ratio_median": 0.8788704448927961
+        },
+        {
+          "block": 22,
+          "captures": 22,
+          "AC_median": 318.85776967131363,
+          "ratio_median": 0.841875692932543
+        },
+        {
+          "block": 23,
+          "captures": 22,
+          "AC_median": 213.25427908748418,
+          "ratio_median": 0.849432352607502
+        },
+        {
+          "block": 24,
+          "captures": 22,
+          "AC_median": 154.9364739806727,
+          "ratio_median": 0.9772070818176413
+        },
+        {
+          "block": 25,
+          "captures": 22,
+          "AC_median": 265.3960102051998,
+          "ratio_median": 0.8420837414007386
+        },
+        {
+          "block": 26,
+          "captures": 22,
+          "AC_median": 219.64857376360584,
+          "ratio_median": 0.8361455213695426
+        },
+        {
+          "block": 27,
+          "captures": 20,
+          "AC_median": 85.82299866494921,
+          "ratio_median": 0.8913793975239153
+        }
+      ]
+    },
+    "OFF2": {
+      "captures": 39,
+      "nominal_RF_seconds": 0.03992625,
+      "guarded_control_interval_seconds": 18.047353852,
+      "nominal_coverage_fraction": 0.002212304935528008,
+      "metrics": {
+        "ac_code2": {
+          "n": 39,
+          "min": 69.84005777765852,
+          "q10": 71.85674398928978,
+          "q25": 76.48709820450205,
+          "median": 214.43028586187924,
+          "q75": 20776.038686793807,
+          "q90": 53971.515997864655,
+          "max": 243344.73910163977
+        },
+        "endpoint_fraction": {
+          "n": 39,
+          "min": 0.0,
+          "q10": 0.0,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.003968253968253968,
+          "q90": 0.013559218559218562,
+          "max": 0.04542124542124542
+        },
+        "signal_band_code2": {
+          "n": 39,
+          "min": 1.1990887642251162,
+          "q10": 1.4045491967362396,
+          "q25": 1.6323052171088661,
+          "median": 2.542661692456347,
+          "q75": 10.99388113519142,
+          "q90": 300.9328690499682,
+          "max": 34760.57718467878
+        },
+        "signal_background_ratio": {
+          "n": 39,
+          "min": 0.0008029497310831031,
+          "q10": 0.1626979560357758,
+          "q25": 0.8194445658845234,
+          "median": 0.8925316192071798,
+          "q75": 1.0668274234791535,
+          "q90": 1.3303798883049214,
+          "max": 82.39349887805312
+        },
+        "signal_background_db": {
+          "n": 39,
+          "min": -30.9531164301097,
+          "q10": -8.67675383003438,
+          "q25": -0.8648121737279515,
+          "median": -0.49376389441025453,
+          "q75": 0.280876592803985,
+          "q90": 1.105459872413883,
+          "max": 19.158929457654086
+        }
+      },
+      "ten_second_time_blocks": [
+        {
+          "block": 28,
+          "captures": 18,
+          "AC_median": 217.28113692134752,
+          "ratio_median": 0.8768754142533359
+        },
+        {
+          "block": 29,
+          "captures": 21,
+          "AC_median": 104.46656264675495,
+          "ratio_median": 0.8925316192071798
+        }
+      ]
+    },
+    "ON2": {
+      "captures": 259,
+      "nominal_RF_seconds": 0.26515125,
+      "guarded_control_interval_seconds": 118.160235019,
+      "nominal_coverage_fraction": 0.0022439973139640767,
+      "metrics": {
+        "ac_code2": {
+          "n": 259,
+          "min": 55.104049363335086,
+          "q10": 71.84313199410816,
+          "q25": 73.84336324898138,
+          "median": 214.40835906530046,
+          "q75": 30816.23436676029,
+          "q90": 108127.6514562133,
+          "max": 247127.6306470822
+        },
+        "endpoint_fraction": {
+          "n": 259,
+          "min": 0.0,
+          "q10": 0.0,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.008943833943833943,
+          "q90": 0.014358974358974359,
+          "max": 0.07109279609279609
+        },
+        "signal_band_code2": {
+          "n": 259,
+          "min": 1.241452838344104,
+          "q10": 1.5350133307123628,
+          "q25": 1.6777985865883442,
+          "median": 3.0327863326413618,
+          "q75": 20.28938201972194,
+          "q90": 860.3186691213108,
+          "max": 36565.01508956226
+        },
+        "signal_background_ratio": {
+          "n": 259,
+          "min": 0.0014677168611576003,
+          "q10": 0.1689432536572942,
+          "q25": 0.7923735428450409,
+          "median": 0.8975924903095241,
+          "q75": 1.0482159896528003,
+          "q90": 2.1511215536586694,
+          "max": 2392.430282098593
+        },
+        "signal_background_db": {
+          "n": 259,
+          "min": -28.333577165567473,
+          "q10": -7.734914678290353,
+          "q25": -1.010844944887024,
+          "median": -0.4692078958922588,
+          "q75": 0.20450039930071118,
+          "q90": 3.32664719943943,
+          "max": 33.78839290841343
+        }
+      },
+      "ten_second_time_blocks": [
+        {
+          "block": 30,
+          "captures": 18,
+          "AC_median": 217.03755809632645,
+          "ratio_median": 0.8844881922660177
+        },
+        {
+          "block": 31,
+          "captures": 22,
+          "AC_median": 217.44155982905983,
+          "ratio_median": 0.8832834572630888
+        },
+        {
+          "block": 32,
+          "captures": 22,
+          "AC_median": 208.58599213803427,
+          "ratio_median": 0.8900113128536989
+        },
+        {
+          "block": 33,
+          "captures": 22,
+          "AC_median": 2960.447328851111,
+          "ratio_median": 0.942042195836751
+        },
+        {
+          "block": 34,
+          "captures": 22,
+          "AC_median": 328.46987685069644,
+          "ratio_median": 0.8935421418628863
+        },
+        {
+          "block": 35,
+          "captures": 22,
+          "AC_median": 94.35286184087924,
+          "ratio_median": 0.8746091236453006
+        },
+        {
+          "block": 36,
+          "captures": 22,
+          "AC_median": 210.18868988358,
+          "ratio_median": 0.8731113915301915
+        },
+        {
+          "block": 37,
+          "captures": 22,
+          "AC_median": 75.77740609546471,
+          "ratio_median": 0.8998461276531342
+        },
+        {
+          "block": 38,
+          "captures": 22,
+          "AC_median": 11689.287746853948,
+          "ratio_median": 0.8941454363333778
+        },
+        {
+          "block": 39,
+          "captures": 22,
+          "AC_median": 142.73268102386692,
+          "ratio_median": 0.9607674327105251
+        },
+        {
+          "block": 40,
+          "captures": 22,
+          "AC_median": 226.517813496536,
+          "ratio_median": 0.8813738970601728
+        },
+        {
+          "block": 41,
+          "captures": 21,
+          "AC_median": 212.72197174179774,
+          "ratio_median": 0.8815799894490768
+        }
+      ]
+    },
+    "OFF3": {
+      "captures": 84,
+      "nominal_RF_seconds": 0.085995,
+      "guarded_control_interval_seconds": 38.428453477,
+      "nominal_coverage_fraction": 0.0022377949727138847,
+      "metrics": {
+        "ac_code2": {
+          "n": 84,
+          "min": 61.63509765400791,
+          "q10": 68.98773103050118,
+          "q25": 70.75949255025263,
+          "median": 209.19505657939266,
+          "q75": 21089.88454125147,
+          "q90": 53104.59750165454,
+          "max": 228642.60226891172
+        },
+        "endpoint_fraction": {
+          "n": 84,
+          "min": 0.0,
+          "q10": 0.0,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.0035790598290598294,
+          "q90": 0.01245726495726496,
+          "max": 0.051892551892551896
+        },
+        "signal_band_code2": {
+          "n": 84,
+          "min": 1.3116589333342845,
+          "q10": 1.5471745229338296,
+          "q25": 1.6706658212517211,
+          "median": 1.87761021261317,
+          "q75": 11.242700266984885,
+          "q90": 259.2727083558878,
+          "max": 54153.57233013818
+        },
+        "signal_background_ratio": {
+          "n": 84,
+          "min": 0.010351268248692171,
+          "q10": 0.33439667823922836,
+          "q25": 0.8474884452284563,
+          "median": 0.9096481901581592,
+          "q75": 1.0479996101810065,
+          "q90": 1.57812208077766,
+          "max": 3768.542770142254
+        },
+        "signal_background_db": {
+          "n": 84,
+          "min": -19.850064367128212,
+          "q10": -4.759002284161312,
+          "q25": -0.7187035375402028,
+          "median": -0.4112833336274613,
+          "q75": 0.20361089755855744,
+          "q90": 1.9637117145752365,
+          "max": 35.76173448553375
+        }
+      },
+      "ten_second_time_blocks": [
+        {
+          "block": 42,
+          "captures": 18,
+          "AC_median": 103.88397287372105,
+          "ratio_median": 0.8835485522271833
+        },
+        {
+          "block": 43,
+          "captures": 22,
+          "AC_median": 140.49095497129377,
+          "ratio_median": 0.9203860409685145
+        },
+        {
+          "block": 44,
+          "captures": 22,
+          "AC_median": 214.15815244923306,
+          "ratio_median": 0.9784684329465929
+        },
+        {
+          "block": 45,
+          "captures": 22,
+          "AC_median": 214.8666773988798,
+          "ratio_median": 0.8873131504530207
+        }
+      ]
+    },
+    "TRANSITION": {
+      "captures": 30,
+      "nominal_RF_seconds": 0.0307125,
+      "guarded_control_interval_seconds": null,
+      "nominal_coverage_fraction": null,
+      "metrics": {
+        "ac_code2": {
+          "n": 30,
+          "min": 71.21526495651953,
+          "q10": 74.93543210547423,
+          "q25": 103.0070402050805,
+          "median": 1743.1356221180122,
+          "q75": 30554.5441951744,
+          "q90": 36300.544529634666,
+          "max": 150632.8765340971
+        },
+        "endpoint_fraction": {
+          "n": 30,
+          "min": 0.0,
+          "q10": 0.0,
+          "q25": 0.0,
+          "median": 0.0,
+          "q75": 0.010989010989010988,
+          "q90": 0.014563492063492063,
+          "max": 0.04447496947496948
+        },
+        "signal_band_code2": {
+          "n": 30,
+          "min": 1.3110544468701506,
+          "q10": 1.4222362132061341,
+          "q25": 1.7991121948248212,
+          "median": 10.04893675967146,
+          "q75": 14.533570545988383,
+          "q90": 266.0962388163284,
+          "max": 17242.842086544464
+        },
+        "signal_background_ratio": {
+          "n": 30,
+          "min": 0.0011886622003437096,
+          "q10": 0.07145071911271576,
+          "q25": 0.47628486207779813,
+          "median": 0.9074098328160611,
+          "q75": 1.04217471590173,
+          "q90": 2.85064245863987,
+          "max": 38.814039644889675
+        },
+        "signal_background_db": {
+          "n": 30,
+          "min": -29.24941547711279,
+          "q10": -11.493497488646337,
+          "q25": -3.4107861244776707,
+          "median": -0.42328644362051393,
+          "q75": 0.1793932513165441,
+          "q90": 4.341962981558538,
+          "max": 15.889888451153112
+        }
+      },
+      "ten_second_time_blocks": [
+        {
+          "block": 1,
+          "captures": 2,
+          "AC_median": 15417.683126042659,
+          "ratio_median": 0.46548907552762486
+        },
+        {
+          "block": 2,
+          "captures": 3,
+          "AC_median": 77.53363340295574,
+          "ratio_median": 1.0435922798852706
+        },
+        {
+          "block": 13,
+          "captures": 2,
+          "AC_median": 90548.76843321616,
+          "ratio_median": 5.782372486012814
+        },
+        {
+          "block": 14,
+          "captures": 3,
+          "AC_median": 30505.278027907854,
+          "ratio_median": 0.8729491528803434
+        },
+        {
+          "block": 15,
+          "captures": 1,
+          "AC_median": 32540.573970292695,
+          "ratio_median": 0.1731552282533382
+        },
+        {
+          "block": 16,
+          "captures": 4,
+          "AC_median": 413.4295535462706,
+          "ratio_median": 0.5543190380290992
+        },
+        {
+          "block": 27,
+          "captures": 2,
+          "AC_median": 9951.936144291707,
+          "ratio_median": 0.8791324298424753
+        },
+        {
+          "block": 28,
+          "captures": 3,
+          "AC_median": 105.33656646331553,
+          "ratio_median": 0.8850301767772163
+        },
+        {
+          "block": 29,
+          "captures": 1,
+          "AC_median": 30570.966250929912,
+          "ratio_median": 38.814039644889675
+        },
+        {
+          "block": 30,
+          "captures": 4,
+          "AC_median": 14307.419010515667,
+          "ratio_median": 0.9040848849583059
+        },
+        {
+          "block": 41,
+          "captures": 1,
+          "AC_median": 214.71508617078214,
+          "ratio_median": 0.9811768832584808
+        },
+        {
+          "block": 42,
+          "captures": 4,
+          "AC_median": 2613.2086602027402,
+          "ratio_median": 0.8534184198458554
+        }
+      ]
+    }
+  },
+  "receiver_interval_seconds": 460.128657513,
+  "nominal_RF_window_seconds": 1.0339875,
+  "other_redacted_packet_geometry": [
+    {
+      "capture_index": 712,
+      "guarded_phase": "ON2",
+      "pdu_type": 4,
+      "pdu_length": 16,
+      "packet_duration_us": 208,
+      "packet_complete": true,
+      "crc24_ok": true,
+      "owned_marker": false
+    },
+    {
+      "capture_index": 832,
+      "guarded_phase": "ON2",
+      "pdu_type": 6,
+      "pdu_length": 34,
+      "packet_duration_us": 352,
+      "packet_complete": true,
+      "crc24_ok": true,
+      "owned_marker": false
+    },
+    {
+      "capture_index": 884,
+      "guarded_phase": "ON2",
+      "pdu_type": 6,
+      "pdu_length": 34,
+      "packet_duration_us": 352,
+      "packet_complete": true,
+      "crc24_ok": true,
+      "owned_marker": false
+    }
+  ],
+  "source_emission_denominator": null,
+  "RF_acceptance_gate_closed": false,
+  "original_Trial_B_released": false,
+  "limits": [
+    "Sparse nominal sample windows and unknown air counts prevent a detection/miss rate or no-emission claim",
+    "Foreign CRC-valid candidates do not establish owned-source reception",
+    "Reset boot verified; no new electrical power cycle measured",
+    "Fixed-order/restart/interference confounds prevent a calibrated cross-profile gain or precision ranking",
+    "Old HCI receipts do not gain new metadata fields from a later parser merge"
+  ]
+}

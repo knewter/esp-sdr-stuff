@@ -184,3 +184,30 @@ the current survey finds no matching Forgix, and grade/clock/pin timing remain
 unqualified. The nominal32MHz photo marking is separate from a measured clock.
 The existing wiring gives the RP only oscillator enable, not oscillator output.
 No hardware checkbox or accepted requirement changes.
+
+## Selected synthetic stream implementation
+
+The [finite transport protocol](docs/research/forgix-synthetic-transport-protocol.md)
+reconciles task 2.1 with the actual guarded SPI path. The register-only bridge
+allows 24 one-word commands and cannot be repurposed as a sustained stream.
+A separately versioned FPGA source/FIFO, RP autonomous drain and framed USB
+collector are required. Preserve the old register ABI and its qualification
+scope. The proposed new source has a separate Wishbone region at 0x00010000;
+its generated exact map must match its declared ABI before a candidate build.
+
+Start with 16-byte sequence/tick/pattern/CRC records, a 64-record stable-head
+FIFO, matching-sequence POP with readback, coherent counters and finite
+256/1,024/2,048 B/s offered conditions for 60 seconds each. These are prospective
+rates, not delivered capacities. Distinguish host-reader, RP-drain and FPGA
+POP-refusal controls; none substitutes for another. Preserve overflow and
+unresolved transport outcomes rather than throttling the offered source.
+
+The existing nominal 32 MHz PIO instruction clock produces approximately
+0.97 MHz SCK. At nominal 32 MHz FPGA clock the current eight-cycle half-period
+guard bounds SCK to at most 2 MHz before other limits. Earlier 10/20/40 MHz
+suggestions are superseded for this route and remain unmeasured. Several offered
+rates at one qualified wire preset meet the transport question without
+pretending a fast divider is qualified. Actual image, SRAM, startup, UID,
+physical timing, frozen inputs and complete recovery review precede admission.
+No ESP wiring is needed for this synthetic boundary; RF integration retains
+its own conditional physical gates. Tasks 1.1 and 2.1–2.3 remain unchecked.

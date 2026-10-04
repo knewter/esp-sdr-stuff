@@ -70,7 +70,7 @@ Missing AdvA, ADI-only identification and auxiliary AD cannot establish ownershi
 Zero data does not force a particular primary layout or AUX omission.
 
 Controller-completed extended events remain distinct from independently counted
-primary RF transmissions, including permitted event/PDU omission. Current
+primary RF transmissions, including permitted event/PDU omission. Those historical
 monitor records omit some requested HCI fields; do not claim their independent
 physical verification. Original emitted-count, full waveform, three-response
 and Trial B prerequisites remain unchanged; no task is checked by these tests.
