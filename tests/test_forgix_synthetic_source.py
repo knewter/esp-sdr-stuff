@@ -256,7 +256,7 @@ class Wrapper(unittest.TestCase):
         self.assertEqual(soc.csr_regions['registers'].origin,0x1000)
         self.assertEqual(soc.bus.regions['synthetic_source'].origin,0x10000)
         self.assertEqual(soc.bus.regions['synthetic_source'].size,0x1000)
-        literal=re.search(r"\.SYSTEM_HZ\((\d+)'h([0-9a-f]+)\)",str(conversion))
+        literal=re.search(r"\.SYSTEM_HZ\((\d+)'h([0-9a-f]+)\)",str(conversion).replace(' ',''))
         self.assertIsNotNone(literal)
         self.assertEqual(int(literal[2],16),32000000)
         self.assertEqual(soc.registers.counter.size,32);self.assertEqual(soc.registers.scratch.size,32)
