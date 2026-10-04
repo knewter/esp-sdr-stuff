@@ -78,6 +78,13 @@ class ExactRead(unittest.TestCase):
         self.assertEqual(capture.exact(Wire([b'a', b'bc', b'd']), 4), b'abcd')
         self.assertEqual(capture.exact(Wire([]), 0), b'')
 
+    def test_nonconforming_overlong_read_keeps_every_delivered_byte_and_fails(self):
+        wire=Wire([])
+        with patch.object(wire,'read',return_value=b'12345'), self.assertRaises(capture.PartialReadError) as caught:
+            capture.exact(wire,4)
+        self.assertEqual(caught.exception.partial,b'12345')
+        self.assertEqual(caught.exception.reason,'overlong_read')
+
     def test_interruption_preserves_prefix_and_keyboard_interrupt_semantics(self):
         with self.assertRaises(KeyboardInterrupt) as caught:
             capture.exact(Wire([b'prefix', KeyboardInterrupt()]), 20)
@@ -182,6 +189,20 @@ class ReceiverRetention(unittest.TestCase):
         self.assertTrue(info['failed_capture']['full_read_crc_and_count_valid'])
         self.assertEqual((self.root/'.scratch/iq/failed-0000.payload-prefix.bin').read_bytes(),payload)
 
+    def test_complete_prior_capture_remains_only_success_and_failure_gets_next_index(self):
+        payload=b'\x7f\x80'*16380
+        wire=Wire([payload,b'partial',b''],header=f'DATA 16380 {zlib.crc32(payload):08x} 1030\n'.encode())
+        with self.assertRaises(capture.PartialReadError):self.run_receiver(wire)
+        info=self.receipt()
+        self.assertEqual(info['captures'],1)
+        self.assertEqual(info['terminal_capture_failures'],1)
+        with (self.root/'public/captures.csv').open() as file:rows=list(csv.DictReader(file))
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0]['crc_and_count_valid'],'True')
+        self.assertEqual((self.root/'.scratch/iq/iq-0000.bin').read_bytes(),payload)
+        self.assertEqual((self.root/'.scratch/iq/failed-0001.payload-prefix.bin').read_bytes(),b'partial')
+        self.assertEqual(wire.requests,[b'CAP16 16380 6\n']*2)
+
     def test_retention_and_publication_disk_failure_do_not_mask_original_read(self):
         wire=Wire([b'prefix',b''])
         original=Path.write_text
@@ -227,6 +248,21 @@ class ReceiverRetention(unittest.TestCase):
         with (self.root/'public/snapshots.csv').open() as file:row=list(csv.DictReader(file))[0]
         self.assertEqual(row['status'],'error')
         self.assertNotIn('crc_ok',row)
+
+    def test_snapshot_main_close_failure_cannot_mask_original_read_or_send_release(self):
+        wire=Wire([b'prefix',b''],samples=256)
+        argv=['capture','--output',str(self.root/'public'),'--private',str(self.root/'.scratch/iq'),
+              '--samples','256','--count','3','--bits','8','--rates','16000000']
+        with patch.object(sys,'argv',argv),patch.object(capture,'open_board',return_value=wire), \
+             patch.object(capture,'queries',return_value={'parsed_limits':{'rates':[16000000]}}), \
+             patch.object(capture,'settings'),patch.object(capture,'synchronize') as sync, \
+             patch.object(wire,'close',side_effect=OSError('close failed')), \
+             contextlib.redirect_stdout(io.StringIO()),self.assertRaises(capture.PartialReadError) as caught:
+            capture.main()
+        self.assertEqual(sync.call_count,1)
+        self.assertEqual(wire.requests,[b'CAP16 256 6\n'])
+        self.assertEqual(caught.exception.serial_close_error_kind,'OSError')
+        self.assertEqual((self.root/'.scratch/iq/failed-16000000-8-0000.payload-prefix.bin').read_bytes(),b'prefix')
 
 
 class SpectrumRetention(unittest.TestCase):

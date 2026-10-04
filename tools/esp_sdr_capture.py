@@ -466,7 +466,13 @@ def main():
         except Exception:
             pass
         if not getattr(failure, 'serial_close_returned', False):
-            port.close()
+            try:
+                port.close()
+            except Exception as cleanup:
+                if failure is None:
+                    raise
+                failure.serial_close_error_kind = type(cleanup).__name__
+                failure.add_note('Serial closure failed: ' + type(cleanup).__name__)
     raise SystemExit(0 if ok else 2)
 
 
