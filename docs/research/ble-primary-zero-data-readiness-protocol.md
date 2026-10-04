@@ -71,3 +71,20 @@ Grounding: [existing primary-profile protocol](ble-extended-primary-zero-data-pr
 [HCI Core6.2 Vol4E7.8.53–56 and7.7.65.18](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-62/out/en/host-controller-interface/host-controller-interface-functional-specification.html),
 and [LL Core6.2 Vol6B4.4.2.1/2 omission rules](https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-62/out/en/low-energy-controller/link-layer-specification.html).
 This is prospective control-profile proof, not RF reception or air-count proof.
+
+## Root workspace query correction (prospective)
+
+The root copied caller passes all104 focused groups, but its first actual root
+freeze fails a60-second Nix evaluation of the bare workspace path, before any
+source/monitor action. Preserve that failure. A read-only explicit `git+file://`
+query finishes in1.099seconds and selects the same package: its qfwk output
+links to the already reviewed3vd executable with identical SHA256. These are
+package-output and resolved-executable paths, not different Nix versions.
+
+Use the tracked Git source for locked-package resolution, verifying current
+flake.nix/flake.lock bytes against GitHEAD before and after the query. Retain
+both selected output and resolved executable in the new private proof. The
+large ignored workspace must not become a Nix source input. Freeze the corrected
+caller/tests/protocol anew and independently replay this narrow correction
+before physical admission. Source profile, timing limits, cleanup requirements,
+RF/count gates and all earlier failed receipts remain unchanged.
