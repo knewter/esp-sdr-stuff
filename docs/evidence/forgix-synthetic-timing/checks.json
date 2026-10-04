@@ -1,0 +1,25 @@
+{
+  "kind": "independently reviewed synthetic drain-deadline optimization",
+  "status": "behavior_review_passed_timing_unverified",
+  "author_revision": "7fbe89e8bba54594228b595757f8f157b15588d4",
+  "root_revision": "b214b80",
+  "source_sha256": "d0d6cb975f12cde961457c21036a6a8acb9c077d5befbd45240c02c831d54626",
+  "original_source_sha256": "ec067fbbe7ebcab49c4924afda7a8303ef581945924db2658b77ff807bdaf48c",
+  "private_review_sha256": "df80d3b5827a381f07eb703f219fd605e38f1d4f81fb8c57b7a6bcb09f27506c",
+  "author_regression_groups": 50,
+  "source_groups": 14,
+  "author_differential_scenarios": 19,
+  "independent_groups": 5,
+  "independent_actual_HDL_simulations": 22,
+  "hardware_opened": false,
+  "vendor_executed_by_review": false,
+  "timing_closure_verified": false,
+  "loading_admitted": false,
+  "preserved_contract": [
+    "same STOP and natural-completion edges",
+    "same exact five-second drain expiry",
+    "same source records and CRC",
+    "same FIFO and simultaneous POP/PUSH semantics",
+    "same snapshots and old register/guard ABI"
+  ]
+}
