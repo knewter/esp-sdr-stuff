@@ -128,3 +128,14 @@ The [failure-retention review](docs/evidence/capture-failure-retention/README.md
 ## Final original ladder outcome
 
 The [final original BW12 control](docs/evidence/ble-bluez-control-007/README.md) completes the prospective ladder: all 1,151 captures, whole decoder/scalar replay, source schedule, cleanup and full restoration pass independent audit. Zero CRC-valid packets and no repeated owned-source nominal-band rise supply no emitted-event denominator or detection/miss rate. Original Trial B remains withheld; neither radio acceptance gate is relaxed.
+
+## Separate offline precision diagnostic
+
+The [prospective same-waveform protocol](docs/research/ble-same-waveform-precision-protocol.md)
+compares all246 historical and1010 matched-manual ten-bit waveforms with their
+exact upper-eight-bit transformations using unchanged blind decoder bounds.
+This diagnostic supplies no new RF capture or emitted denominator and changes
+no physical acceptance gate or accepted requirement. Earlier outcomes remain.
+
+- [ ] 3.1 Verify exhaustive signed upper-bit equivalence and independent packing; freeze every original/derived waveform and replay identical bounded decoder settings. Proof: locked offline tests, per-row lineage and paired outcomes.
+- [ ] 3.2 Independently verify changed owned outcomes and publish the bounded digital-precision result, retaining every row and all original radio gates. Proof: independent whole replay and protected packet/window checks.
