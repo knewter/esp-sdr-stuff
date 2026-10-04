@@ -42,7 +42,7 @@ def committed_inputs():
 
 
 def make_soc(platform_class):
-    from migen import ClockSignal, ResetSignal, Instance, Cat, Constant
+    from migen import ClockSignal, ResetSignal, Signal, Instance, Cat, Constant
     from litex.gen import LiteXModule
     from litex.soc.interconnect import wishbone
     from litex.soc.integration.soc import SoCRegion
@@ -51,8 +51,13 @@ def make_soc(platform_class):
     class Source(LiteXModule):
         def __init__(self):
             self.bus = bus = wishbone.Interface(address_width=32, data_width=32, addressing='word')
+            # The old SoC reset defaults low. Reset-only raw Verilog registers
+            # must see a deterministic initial clock edge instead of relying
+            # on device-specific, unstated configuration initialization.
+            initial_reset = Signal(reset=1)
+            self.sync += initial_reset.eq(0)
             self.specials += Instance('forgix_synthetic_source', p_SYSTEM_HZ=SYSTEM_HZ,
-                i_clk=ClockSignal(), i_reset=ResetSignal(),
+                i_clk=ClockSignal(), i_reset=ResetSignal() | initial_reset,
                 i_wb_cyc=bus.cyc, i_wb_stb=bus.stb, i_wb_we=bus.we,
                 i_wb_addr=Cat(Constant(0, 2), bus.adr[:10]),
                 i_wb_data_in=bus.dat_w, i_wb_sel=bus.sel,

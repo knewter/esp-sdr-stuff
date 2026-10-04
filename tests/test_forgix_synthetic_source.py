@@ -7,6 +7,7 @@ Scaled SYSTEM_HZ shortens simulation; production wrapper pins32MHz.
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import struct
@@ -153,6 +154,21 @@ class ActualHDL(unittest.TestCase):
             snapshot;rd('h06c,p);if(p!=3 || o!=1)$fatal(1,"refusal count");
         ''')
 
+    def test_held_pop_request_is_acknowledged_once_and_reset_clears_state(self):
+        self.run_hdl(r'''
+            setup(100,7680);wr('h00c,1,0);wait(dut.generated_count>=3);
+            repeat(3)@(posedge clk);
+            @(negedge clk);addr='h040;data=0;we=1;cyc=1;stb=1;
+            @(posedge clk);#1;if(!ack || err)$fatal(1,"first held POP");
+            repeat(10)begin @(posedge clk);#1;
+              if(ack || dut.popped_count!=1 || dut.refused_pop!=0)$fatal(1,"held request repeated");
+            end
+            @(negedge clk);cyc=0;stb=0;we=0;reset=1;
+            repeat(3)@(posedge clk);@(negedge clk);reset=0;
+            rd('h028,st);rd('h034,s);snapshot;
+            if(st!=0 || s!=0 || g!=0 || e!=0 || o!=0 || l!=0)$fatal(1,"stale post-reset state");
+        ''')
+
     def test_snapshot_is_coherent_immutable_while_source_runs(self):
         self.run_hdl(r'''
             setup(100,7680);wr('h00c,1,0);wait(dut.generated_count>=7);snapshot;
@@ -240,8 +256,73 @@ class Wrapper(unittest.TestCase):
         self.assertEqual(soc.csr_regions['registers'].origin,0x1000)
         self.assertEqual(soc.bus.regions['synthetic_source'].origin,0x10000)
         self.assertEqual(soc.bus.regions['synthetic_source'].size,0x1000)
-        self.assertIn('.SYSTEM_HZ(32000000)',str(conversion).replace(' ',''))
+        literal=re.search(r"\.SYSTEM_HZ\((\d+)'h([0-9a-f]+)\)",str(conversion))
+        self.assertIsNotNone(literal)
+        self.assertEqual(int(literal[2],16),32000000)
         self.assertEqual(soc.registers.counter.size,32);self.assertEqual(soc.registers.scratch.size,32)
+        # Compile and execute the complete generated wrapper through its
+        # physical SPI pads. This catches reset, map translation, interconnect
+        # and module wiring errors that direct local-bus core tests cannot.
+        tb=r'''
+module tb;
+ reg clk=0,sck=0,cs=1,oe=1,out=0;wire io;
+ assign io=oe?out:1'bz;
+ source_fixture dut(.clk32(clk),.spibone_clk(sck),.spibone_cs_n(cs),.spibone_mosi(io));
+ always #5 clk=~clk;
+ reg[7:0] rx[0:7];integer i,j,k;reg[71:0] bits;
+ task transfer(input[7:0] cmd,input[31:0] address,input[31:0] value,output[31:0] result);
+ begin
+   cs=1;sck=0;oe=1;#1000;cs=0;#100;
+   bits={cmd,address,value};
+   for(i=71;i>=(cmd==0?0:32);i=i-1)begin
+     out=bits[i];#100;sck=1;#100;if(i!=(cmd==0?0:32))sck=0;
+   end
+   oe=0;#800;sck=0;#100;
+   for(j=0;j<8;j=j+1)begin
+     rx[j]=0;
+     for(k=7;k>=0;k=k-1)begin
+       sck=1;#100;rx[j][k]=io;sck=0;#100;
+     end
+   end
+   result=0;
+   begin : find
+     for(j=0;j<4;j=j+1)if(rx[j]===cmd)begin
+       result={rx[j+1],rx[j+2],rx[j+3],rx[j+4]};disable find;
+     end
+     $fatal(1,"SPI response absent");
+   end
+   cs=1;sck=0;#1000;oe=1;
+ end
+ endtask
+ reg[31:0] value,earlier;
+ initial begin
+   #1000;
+   transfer(1,'h10000,0,value);if(value!=='h46534731)$fatal(1,"new ABI/address route");
+   transfer(1,'h10028,0,value);if(value!==0)$fatal(1,"source cold-start reset");
+   transfer(1,'h1002c,0,value);if(value!==0)$fatal(1,"cold FIFO");
+   transfer(0,'h1004,'h1234abcd,value);
+   transfer(1,'h1004,0,value);if(value!=='h1234abcd)$fatal(1,"old scratch ABI changed");
+   transfer(1,'h1000,0,earlier);transfer(1,'h1000,0,value);
+   if(value<=earlier)$fatal(1,"old counter stopped");
+   transfer(0,'h10010,2000000,value);
+   transfer(1,'h10010,0,value);if(value!==2000000)$fatal(1,"new config address translation");
+   $display("PASS");$finish;
+ end
+ initial begin #1000000;$fatal(1,"integration timeout");end
+endmodule
+'''
+        with tempfile.TemporaryDirectory(prefix='forgix-wrapper-hdl-') as directory:
+            folder=Path(directory);previous=Path.cwd()
+            try:
+                os.chdir(folder);conversion.write('top.v')
+            finally:os.chdir(previous)
+            (folder/'tb.v').write_text(tb)
+            subprocess.run([shutil.which('iverilog'),'-g2012','-s','tb','-o',str(folder/'sim'),
+                str(folder/'top.v'),str(ROOT/generator.CORE),str(folder/'tb.v')],
+                check=True,capture_output=True,timeout=30)
+            result=subprocess.run([shutil.which('vvp'),str(folder/'sim')],cwd=folder,
+                check=True,capture_output=True,text=True,timeout=30)
+            self.assertIn('PASS',result.stdout)
 
     def test_generator_requires_committed_fresh_private_inputs(self):
         hashes=generator.committed_inputs()

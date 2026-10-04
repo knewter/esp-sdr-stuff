@@ -11,6 +11,9 @@ It requests the same four onboard pins and nominal32MHz system clock. Efinity
 resource fit, timing closure, clock/grade/pin qualification, matching SRAM-only
 RP image and recovery are prerequisites, not generator results. No ESP input,
 new interboard wires, PSRAM, DMA, continuous capture or RF integration is assumed.
+The separate region avoids reallocating the old AutoCSR bank or changing its
+addresses. The wrapper supplies an initialized one-cycle source reset, followed
+by the existing system reset; device-specific uninitialized state is not assumed.
 
 ## Finite source and record
 
@@ -88,10 +91,15 @@ Nonce/period/target readbacks are configuration requests, not physical proofs.
 
 Control8 accepts once while running and blocks POP for SYSTEM_HZ/10 cycles.
 It does not stop generation or readings and preserves actual begin/end ticks;
-this is a device drain-pause fixture, distinct from a host-reader pause which
-may be absorbed by OS USB buffers. It does not promise physical backpressure.
-The future bridge must record actual pause timing and reserve queue capacity
-before POP. The source never observes external high-Z or analogue pin timing.
+this is an FPGA POP-refusal fault fixture. It is separate from an RP firmware
+pause in drain scheduling and from a host-reader pause which may be absorbed by
+OS USB buffers. It is not a sustained-success case or physical backpressure
+proof. Future tests must label and measure these three controls separately.
+The future bridge must reserve queue capacity before POP and compare popped
+count readback to its prior count. A missing/ambiguous response must not trigger
+a blind POP retry: preserve the uncertain record and reconcile popped/head and
+coherent counters before continuing, or terminate with unresolved consumption.
+The source never observes external high-Z or analogue pin timing.
 
 ## Offline checks and remaining artifacts
 

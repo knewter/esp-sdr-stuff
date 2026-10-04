@@ -74,7 +74,7 @@ module forgix_synthetic_source #(
     reg [31:0] snap_generated, snap_enqueued, snap_dropped, snap_popped;
     reg [31:0] snap_refused_pop, snap_refused_command, snap_state;
     reg [6:0] snap_level, snap_high_water;
-    wire [31:0] live_state = {24'b0, accepted, drain_expired, pause_active,
+    wire [31:0] live_state = {25'b0, accepted, drain_expired, pause_active,
                              head_valid, done, running, attempted};
     // Bit7 remains reserved zero; only bits0..6 of live_state are defined.
 
