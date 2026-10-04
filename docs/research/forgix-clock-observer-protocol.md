@@ -175,3 +175,16 @@ separately reviewed measurement episode. Fresh attachment, actual board mapping/
 electrical assumptions, undersampling/pad margins and factory recovery evidence
 remain external/physical dependencies. USB cannot verify rails or calibrate the
 RP reference; no external wire is needed for the documented internal route.
+
+### Full-profile terminal correction (prospective)
+
+The first complete host profile is retained at `c026cee`. Independent actual
+coordinator fixtures found that a failed `session.json` fsync could be reread as
+successful by its outer finalizer, and terminal stdout could cross the inclusive
+600-second bound after a successful return decision. Preserve both failures.
+The correction must propagate the primary persistence failure into an atomic
+failed authoritative receipt; it must keep the shared pending marker across the
+last operator-FD close, terminal output and remaining durable acceptance steps.
+Output, storage, cancellation or deadline failure returns nonzero and cannot
+promote saved bytes to success. The empty registry, wire contract, original
+preservation, reset/pin qualification and all physical gates remain unchanged.
