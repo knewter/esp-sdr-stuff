@@ -1,8 +1,14 @@
 # Offline receiver outer-holder preparation
 
-October 4, 2026. The corrected holder passes44 locked-Nix/Task host test groups with no skips.
+October 4, 2026. The corrected holder passes50 locked-Nix/Task host test groups with no skips.
 The first immutable holder passed40 author groups but failed six independent
 boundary/process probes; its complete failed version remains preserved.
+The second44-group replacement fixed those six findings but independent review
+found a final result-file fsync exception could leave a completed-looking result.
+That complete failed version and probe remain preserved. The new replacement
+records a durable pending-finalization blocker, attempts atomic failed correction
+on persistence errors, and refuses qualification if correction storage also fails.
+It also rejects six inherited Git source overrides even when admission matches.
 This prepares the separate root operator boundary described in the
 [prospective protocol](../../research/ble-primary-receiver-operator-protocol.md).
 The reviewed inner receiver caller/support/test/Task and all15 copied inputs

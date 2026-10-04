@@ -5,17 +5,17 @@
     "8e88768",
     "ba52ffd"
   ],
-  "author_test_groups": 44,
+  "author_test_groups": 50,
   "skips": 0,
   "terminal_exit": 0,
   "subject_hashes": {
-    "holder.py": "ccada810056203f2effd51cdb120d3b5df146b3ce397d0faf27e7ce80181c02e",
-    "test_holder.py": "fc4f9280d55f7338f33570015e55b1f32ea240c6b467c1e678514497d2f5bb68",
+    "holder.py": "b272c028e59bc1f6389f5d2cf61c6cc945f569898e5143323140a69e6bb1b019",
+    "test_holder.py": "9bd2385899eb0973d75da3023c06221533bb95dd550855f91d67c48a0528b92e",
     "task.yml": "1dd5373a03781115d538cd6b0c87b52a5fa23e92d180ad4347803d9a6a660c33",
-    "ADMISSION.md": "cac41296ada4b4885f07cbd25c4afb26381941e6ab3e50d00ee473064e0e8732",
-    "ble-primary-receiver-operator-protocol.md": "fd6599636e2ced196072cd2e692d30d4c3accbd00205b3fc453d3cdfa44f235a"
+    "ADMISSION.md": "31359fa5a8c477c37af940ae713b4e0ff5f56c0c8f3f4948ed9850f9622a4a4a",
+    "ble-primary-receiver-operator-protocol.md": "6311ee215d989f48de0e2fdbbad72246b39770077976a5630d71e66bfb5ed272"
   },
-  "author_receipt_sha256": "2caf707029a500ed10da7aa949f249520fe0ce71fff0b55192187f2d81fd9761",
+  "author_receipt_sha256": "8ea81245af0c4f3c48284f5bf95717935d381248716a64b5506024990b0fc3df",
   "reviewed_inner_inputs_copied_unchanged": 15,
   "independent_holder_review_pending": true,
   "fresh_root_admission_required": true,
@@ -30,5 +30,14 @@
   "initial_failed_peer_sha256": "fcdb79eddd3319129e2fb1ea09e97d93c1d1ae13e9233127548581a309113442",
   "initial_failed_author_receipt_sha256": "97cd9dc672aa958492f00a0333a2b72fed0d7f7da0ea30b45f710af4b6def385",
   "correction_plan_commit": "3484cd9",
-  "failed_versions_preserved": true
+  "failed_versions_preserved": true,
+  "second_author_groups": 44,
+  "second_independent_review": "FAIL_FINAL_RESULT_FSYNC_EXCEPTION",
+  "second_failed_peer_sha256": "ef1f8e399c38b301f827369f3789550b7dbd139b2924ddb344cfe28004573cc9",
+  "second_failed_author_receipt_sha256": "2caf707029a500ed10da7aa949f249520fe0ce71fff0b55192187f2d81fd9761",
+  "correction_plan_commits": [
+    "3484cd9",
+    "6aac69d",
+    "0e39c75"
+  ]
 }
