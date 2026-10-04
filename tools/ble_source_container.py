@@ -11,7 +11,7 @@ import sys
 import time
 import uuid
 
-from ble_direct_hci_source import enable, validate_mode_diagnostic
+from ble_direct_hci_source import enable, validate_primary_zero_data
 
 SOURCE = Path(__file__).with_name('ble_direct_hci_source.py').resolve()
 
@@ -25,13 +25,14 @@ def validate_options(argv):
     cli.add_argument('--start-delay', type=float, default=1)
     cli.add_argument('--unlimited-events', action='store_true')
     cli.add_argument('--extended-mode-diagnostic', action='store_true')
+    cli.add_argument('--primary-zero-data-diagnostic', action='store_true')
     args = cli.parse_args(argv)
     if not 0 <= args.start_delay <= 60:
         cli.error('start delay must be 0..60s')
     try:
         enable(True, args.events, args.duration_ms, args.handle, args.unlimited_events)
-        validate_mode_diagnostic(args.interval_ms, args.events, args.duration_ms, args.handle,
-                                 args.unlimited_events, args.extended_mode_diagnostic)
+        validate_primary_zero_data(args.interval_ms, args.events, args.duration_ms, args.handle,
+                                   args.unlimited_events, args.extended_mode_diagnostic, args.primary_zero_data_diagnostic)
     except ValueError as error:
         cli.error(str(error))
     return args

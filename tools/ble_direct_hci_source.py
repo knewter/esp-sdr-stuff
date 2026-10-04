@@ -68,8 +68,19 @@ def parameters(interval_ms, handle=HANDLE, extended=False):
             +bytes([1, 0, 0])+bytes(6)+bytes([0, 0x7f, 1, 0, 1, 0, 0]))
 
 
-def advertising_data(handle=HANDLE):
-    return bytes([selected_handle(handle), 3, 1, len(OWNED_AD)])+OWNED_AD
+def validate_primary_zero_data(interval_ms, count, duration_ms, handle, unlimited_events, extended, zero_data):
+    if type(zero_data) is not bool:
+        raise ValueError('primary zero-data diagnostic must be boolean')
+    if zero_data and (extended is not True or type(count) is not int or count != 100):
+        raise ValueError('primary zero-data requires explicit extended diagnostic and events100')
+    validate_mode_diagnostic(interval_ms, count, duration_ms, handle, unlimited_events, extended)
+
+
+def advertising_data(handle=HANDLE, zero_data=False):
+    if type(zero_data) is not bool:
+        raise ValueError('zero_data must be boolean')
+    data = b'' if zero_data else OWNED_AD
+    return bytes([selected_handle(handle), 3, 1, len(data)])+data
 
 
 def duration_units(duration_ms):
@@ -169,10 +180,10 @@ class Source:
             self.accepted_steps.add(step)
             return result
 
-    def run(self, interval_ms=20, count=100, start_delay=1, duration_ms=0, handle=HANDLE, unlimited_events=False, extended=False):
+    def run(self, interval_ms=20, count=100, start_delay=1, duration_ms=0, handle=HANDLE, unlimited_events=False, extended=False, zero_data=False):
         # Reject invalid diagnostic fields before any controller command.
         handle = selected_handle(handle)
-        validate_mode_diagnostic(interval_ms, count, duration_ms, handle, unlimited_events, extended)
+        validate_primary_zero_data(interval_ms, count, duration_ms, handle, unlimited_events, extended, zero_data)
         param_frame = parameters(interval_ms, handle, extended)
         enable_frame = enable(True, count, duration_ms, handle, unlimited_events)
         self.handle = handle
@@ -185,13 +196,15 @@ class Source:
                    'termination_count_field_meaningful': not unlimited_events,
                    'handle_diagnostic_requested': handle != HANDLE,
                    'extended_mode_diagnostic_requested': extended,
-                   'event_properties': 0 if extended else 0x10}
+                   'event_properties': 0 if extended else 0x10,
+                   'primary_zero_data_diagnostic_requested': zero_data,
+                   'advertising_data_length': 0 if zero_data else len(OWNED_AD)}
         attempted = False
         verified = False
         try:
             attempted = True
             self.command('set_parameters', 0x2036, param_frame)
-            self.command('set_data', 0x2037, advertising_data(handle))
+            self.command('set_data', 0x2037, advertising_data(handle, zero_data))
             if self.terminations:
                 raise SourceError('termination_before_enable')
             self.emit({'kind': 'source_ready', 'advertising_handle': handle,
@@ -272,6 +285,8 @@ def main():
                      help='Diagnostic only: requires --events 0 and bounded --duration-ms; supplies no event denominator')
     cli.add_argument('--extended-mode-diagnostic', action='store_true',
                      help='Source-only mode probe: requires handle1/interval20/events100 or255/duration5000; auxiliary AD is not a channel37 marker')
+    cli.add_argument('--primary-zero-data-diagnostic', action='store_true',
+                     help='Separate primary-header probe: explicit extended/handle1/interval20/events100/duration5000; sends zero AD, does not assume primary AdvA or AUX omission')
     cli.add_argument('--start-delay', type=float, default=1)
     cli.add_argument('--handle', type=int, choices=[1, HANDLE], default=HANDLE,
                      help='Explicit diagnostic handle 1 or default239; reserve externally first')
@@ -283,8 +298,8 @@ def main():
     try:
         units = duration_units(args.duration_ms)
         enable(True, args.events, args.duration_ms, args.handle, args.unlimited_events)
-        validate_mode_diagnostic(args.interval_ms, args.events, args.duration_ms, args.handle,
-                                 args.unlimited_events, args.extended_mode_diagnostic)
+        validate_primary_zero_data(args.interval_ms, args.events, args.duration_ms, args.handle,
+                                   args.unlimited_events, args.extended_mode_diagnostic, args.primary_zero_data_diagnostic)
     except ValueError as error:
         cli.error(str(error))
     script_sha256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
@@ -293,7 +308,11 @@ def main():
                  'extended_mode_diagnostic_requested': args.extended_mode_diagnostic,
                  'primary_channel_map': 1, 'primary_phy': 1,
                  'secondary_phy': 1, 'interval_ms': args.interval_ms,
-                 'advertising_data_length': len(OWNED_AD), 'owned_manufacturer_ad_exact_match': True,
+                 'advertising_data_length': 0 if args.primary_zero_data_diagnostic else len(OWNED_AD),
+                 'owned_manufacturer_ad_exact_match': not args.primary_zero_data_diagnostic,
+                 'primary_zero_data_diagnostic_requested': args.primary_zero_data_diagnostic,
+                 'primary_header_ownership_observed': False,
+                 'source_profile': 'extended-primary-zero-data-v1' if args.primary_zero_data_diagnostic else 'unchanged-marker-ad',
                  'max_extended_advertising_events': args.events, 'duration_10ms_units': units,
                  'duration_diagnostic_requested': args.duration_ms != 0,
                  'unlimited_events_diagnostic_requested': args.unlimited_events,
@@ -307,7 +326,7 @@ def main():
         sock = socket.socket(31, socket.SOCK_RAW, 1)
         bind_raw(sock)
         emit_stdout({'kind': 'source_socket_ready', 'hci_device': 0, 'hci_channel': 0})
-        summary = Source(sock, emit_stdout).run(args.interval_ms, args.events, args.start_delay, args.duration_ms, args.handle, args.unlimited_events, args.extended_mode_diagnostic)
+        summary = Source(sock, emit_stdout).run(args.interval_ms, args.events, args.start_delay, args.duration_ms, args.handle, args.unlimited_events, args.extended_mode_diagnostic, args.primary_zero_data_diagnostic)
     except OSError as error:
         emit_stdout({'kind': 'source_closed', 'status': 'socket_or_bind_failed', 'error_errno': error.errno,
                      'independently_observed_air_emission_count': None, 'cleanup_attempted': False})
