@@ -159,6 +159,11 @@ tasks:
     cmds:
       - python3 tools/ble_decode_iq.py {{.CLI_ARGS}}
 
+  capture:failure:test:
+    desc: Verify private UART failure-prefix retention and closure (no hardware)
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_capture_failure_retention.py
+
   report:ble:
     desc: Join owned-source timing and retained BLE decode evidence
     cmds:
@@ -341,6 +346,16 @@ tasks:
     desc: Generate committed private finite-source RTL (no vendor or hardware)
     cmds:
       - python3 -B tools/forgix_synthetic_gateware.py {{.CLI_ARGS}}
+
+  forgix:synthetic:candidate:test:
+    desc: Check fixed offline synthetic compiler inputs and failure gates (no vendor)
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_forgix_synthetic_candidate.py
+
+  forgix:synthetic:candidate:compile:
+    desc: Compile a private provisional synthetic candidate; never load or program
+    cmds:
+      - python3 tools/forgix_synthetic_candidate.py compile {{.CLI_ARGS}}
 
   forgix:fpga:guard:test:
     desc: Simulate guarded SPIBone under the explicit RP release contract; no hardware
