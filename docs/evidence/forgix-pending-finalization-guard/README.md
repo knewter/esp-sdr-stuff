@@ -1,6 +1,6 @@
 # Pending register finalization blocks all Forgix routes
 
-October 4, 2026: **author host checks pass; independent review pending**.
+October 4, 2026: **author and independent host reviews pass**.
 [Checks and hashes](checks.json) bind source `6bfcc5d`, the prospective
 `dfaa101` plan, and the retained private proof. No physical acceptance is claimed.
 
@@ -42,3 +42,5 @@ checked and no board, Docker daemon, container, ARM compiler or vendor build was
 used by these author checks. Loaded-image identity remains historical evidence;
 current root endpoint/image/identity checks are separate. Live kernel,
 filesystem, daemon and pre-Python/Task ancestor trust limits remain explicit.
+
+The later [merged root checkpoint](../forgix-register-production-checkpoint/README.md) records both peer verdicts, root tests, the fresh actual ARM artifact and current execution/runtime snapshots. All physical gates remain open.
