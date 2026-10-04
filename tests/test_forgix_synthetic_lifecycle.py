@@ -300,3 +300,59 @@ class ReleaseFailure(unittest.TestCase):
                 coordinator.release_lease(SimpleNamespace(release=failed),store,r,0,lambda:1)
             saved=json.loads((p/'session.json').read_bytes());self.assertEqual(saved['status'],'failed')
             self.assertEqual(saved['lease_release_failure_kind'],'OSError')
+
+class ExplicitRecovery(unittest.TestCase):
+    def test_only_factory_and_full_original_readback_never_install_or_stream(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);(root/'backups').mkdir();p=root/'backups/recover';p.mkdir(mode=0o700)
+            with patch.object(coordinator,'ROOT',root):store=coordinator.ReceiptStore(p)
+            a=Adapter();r=coordinator.execute_recovery(a,store,{'physical_execution_requested':False},lambda:a.now)
+            self.assertEqual([n for n,_ in a.calls],['admit','return','after'])
+            self.assertEqual(r['status'],'recovered_and_verified')
+            self.assertTrue(r['original_flash_and_factory_verified'] and r['owned_processes_closed'])
+            self.assertEqual(r['ram_load_operations'],0);self.assertEqual(r['configuration_start_operations'],0)
+    def test_unknown_recovery_closure_or_late_write_never_accepts(self):
+        for fault in ('unknown','late'):
+            with tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp);(root/'backups').mkdir();p=root/'backups/recover';p.mkdir(mode=0o700)
+                with patch.object(coordinator,'ROOT',root):store=coordinator.ReceiptStore(p)
+                a=Adapter();save=capture.save
+                if fault=='unknown':
+                    def bad(until):a.owner.closed=False;raise OwnedHardwareClosureError('unknown')
+                    a.faults['return']=bad
+                def persist(s,n,r):
+                    save(s,n,r)
+                    if n=='session.json' and fault=='late':a.now=600
+                with patch.object(capture,'save',persist):r=coordinator.execute_recovery(a,store,{},lambda:a.now)
+                self.assertEqual(r['status'],'failed');self.assertEqual(json.loads((p/'session.json').read_bytes())['status'],'failed')
+                if fault=='unknown':self.assertNotIn('after',[n for n,_ in a.calls]);self.assertFalse(r['owned_processes_closed'])
+    def test_lease_rotation_blocks_old_receipt_and_crashed_recovery(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);(root/'.scratch').mkdir();(root/'backups').mkdir()
+            original=root/'backups/old';new=root/'backups/new';profile={'uid_sha256':'a'*64,'nonce':'a1'*16}
+            with patch.object(coordinator,'ROOT',root),patch.object(backend,'ROOT',root),patch.object(trial,'ROOT',root):
+                initial=coordinator.SessionLease(profile,original);old=profile.copy()
+                replacement=coordinator.SessionLease.rotate(profile,new)
+                self.assertEqual(backend.session_lease(profile,new),replacement.path)
+                with self.assertRaisesRegex(ValueError,'lease changed'):backend.session_lease(old,original)
+                with self.assertRaisesRegex(ValueError,'Unresolved synthetic'):
+                    with coordinator.operator_lock():self.fail('crashed recovery bypass')
+                with coordinator.operator_lock(profile):pass
+    def test_changed_lease_cannot_rotate_and_does_not_mutate_owner(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);(root/'.scratch').mkdir();p={'uid_sha256':'a'*64}
+            with patch.object(coordinator,'ROOT',root),patch.object(backend,'ROOT',root),patch.object(trial,'ROOT',root):
+                lease=coordinator.SessionLease(p,root/'backups/old');before=p.copy();lease.path.write_text('{}')
+                with self.assertRaisesRegex(ValueError,'lease changed'):coordinator.SessionLease.rotate(p,root/'backups/new')
+                self.assertEqual(p,before);self.assertEqual(lease.path.read_text(),'{}')
+    def test_unknown_or_missing_saved_closure_refuses_before_lease_or_device(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);p=root/'backups/old';p.mkdir(parents=True,mode=0o700);file=p/'session.json'
+            for closure in (False,None,1):
+                file.write_text(json.dumps({'owned_processes_closed':closure,'physical_execution_requested':True}));file.chmod(0o600)
+                with patch.object(coordinator,'ROOT',root),patch.object(trial,'ROOT',root),patch.object(backend,'session_lease',side_effect=AssertionError('lease reached')):
+                    with self.assertRaisesRegex(ValueError,'Known aggregate'):coordinator.recovery_admission(file,{}, {},{'inputs':{}})
+    def test_recovery_backend_cannot_load_configure_or_collect(self):
+        b=object.__new__(backend.RecoveryBackend)
+        for method in ('enter_rom','load_ram','stream','configure','collect','transition'):
+            with self.assertRaises(ValueError):getattr(b,method)(0)

@@ -47,6 +47,27 @@ class SessionLease:
         capture.sync_directory(self.path.parent)
         profile['session_lease_sha256']=hashlib.sha256(data).hexdigest()
         self.identity=(self.path.stat().st_dev,self.path.stat().st_ino)
+    @classmethod
+    def rotate(cls,profile,private):
+        old=backend.session_lease(profile)
+        info=old.stat();identity=(info.st_dev,info.st_ino)
+        updated=dict(profile,session_private_dir=str(private))
+        data=(json.dumps({'kind':'Forgix synthetic recovery session lease','private_dir':str(private),
+            'uid_sha256':profile['uid_sha256'],'run_binding_sha256':backend.lease_binding(profile),
+            'owner_pid':os.getpid(),'token':os.urandom(16).hex()},sort_keys=True)+'\n').encode()
+        temporary=old.parent/('forgix-lease-update-'+os.urandom(8).hex()+'.json')
+        try:
+            with os.fdopen(os.open(temporary,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600),'wb') as out:
+                capture.durable(out,data)
+            backend.session_lease(profile)
+            now=old.stat();require((now.st_dev,now.st_ino)==identity,'Lease changed during recovery rotation')
+            os.replace(temporary,old);capture.sync_directory(old.parent)
+        finally:
+            if temporary.exists():temporary.unlink()
+        profile.update(updated,session_lease_sha256=hashlib.sha256(data).hexdigest())
+        lease=object.__new__(cls);lease.profile=profile;lease.path=old
+        lease.identity=(old.stat().st_dev,old.stat().st_ino)
+        return lease
     def release(self,record):
         require(record.get('original_flash_and_factory_verified') is True and
                 record.get('owned_processes_closed') is True,'Incomplete recovery retains the session lease')
@@ -104,7 +125,7 @@ def prepare(args):
     return profile,environment,frozen,private
 
 @contextmanager
-def operator_lock():
+def operator_lock(recovery_profile=None):
     path=trial.no_symlinks(ROOT/'.scratch/esp-demo.lock')
     path.parent.mkdir(exist_ok=True,mode=0o700)
     fd=os.open(path,os.O_CREAT|os.O_RDWR|os.O_NOFOLLOW,0o600)
@@ -115,7 +136,9 @@ def operator_lock():
         fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
         capture.inherited_operator_lock(fd,path)
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(),'Unknown resource closure blocks device access')
-        require(not (ROOT/backend.LEASE).exists(),'Unresolved synthetic session lease blocks device access')
+        if recovery_profile is None:
+            require(not (ROOT/backend.LEASE).exists(),'Unresolved synthetic session lease blocks device access')
+        else:backend.session_lease(recovery_profile)
         yield fd
     finally:
         os.close(fd)
@@ -179,6 +202,65 @@ def execute(adapter,store,preflight,clock=time.monotonic,began=None):
     if failure is not None and not isinstance(failure,Exception):raise failure
     return record
 
+def recovery_admission(path,profile,environment,frozen):
+    path=trial.private_file(path,'backups')
+    require(path.name=='session.json' and path.parent.parent==ROOT/'backups' and path.stat().st_size<=4*1024*1024,
+            'Original direct private session receipt required')
+    prior=json.loads(path.read_bytes())
+    require(prior.get('owned_processes_closed') is True and prior.get('physical_execution_requested') is True,
+            'Known aggregate owned closure and actual original session required')
+    require(prior.get('status') in ('failed','synthetic_episode_completed'),'Unexpected original terminal status')
+    old=prior['profile_private']
+    require(old.get('session_private_dir')==str(path.parent),'Prior lease directory differs')
+    require(prior['execution']['inputs']==frozen['inputs'] and backend.digest(prior['environment_private'])==backend.digest(environment),
+            'Recovery must use identical frozen execution/runtime')
+    for name in ('elf','elf_sha256','manifest_sha256','bridge_source_sha256','bitstream_sha256','qualification_sha256',
+                 'execution_sha256','environment_sha256','uid_sha256','baseline_sha256','baseline_paths','binding_sha256',
+                 'configuration','artifact_exports','period','target','rp_pause','host_pause'):
+        require(type(old.get(name)) is type(profile[name]) and old[name]==profile[name],'Original recovery tuple differs: '+name)
+    profile.update({n:old[n] for n in ('nonce','session_private_dir','session_lease_sha256')})
+    backend.binding(profile);backend.session_lease(profile,path.parent)
+    return prior
+
+def execute_recovery(adapter,store,preflight,clock=time.monotonic,began=None):
+    began=clock() if began is None else began;deadline=began+600
+    record=dict(preflight,status='failed',flash_write_operations=0,ram_load_operations=0,
+                configuration_start_operations=0,original_flash_and_factory_verified=False,
+                owned_processes_closed=False,physical_measurement_acceptance='failed stream remains failed')
+    error=None;events=[]
+    try:
+        capture.save(store,'preflight.json',record)
+        require(clock()<deadline,'Recovery persistence exceeded deadline')
+        with store.open('recovery.jsonl') as journal:
+            def event(v):capture.durable(journal,(json.dumps(v,sort_keys=True)+'\n').encode());events.append(v)
+            adapter.cleaning=True
+            for name,fn,budget in [('admit-recovery',adapter.admit,30),('return-factory',adapter.return_factory,140),('preserve-after',adapter.preserve_after,180)]:
+                require(adapter.owner.closed is True,'Unknown closure blocks recovery');adapter.check_inputs()
+                until=min(deadline,clock()+budget);require(clock()<until,'Recovery stage deadline expired')
+                event({'stage':name,'phase':'intent','deadline':until});require(clock()<until,'Recovery intent crossed deadline')
+                r=fn(until)
+                require(adapter.owner.closed is True and clock()<until,'Recovery closure or deadline failed')
+                event({'stage':name,'phase':'returned','receipt':r});require(clock()<until,'Recovery receipt crossed deadline')
+                if name=='preserve-after':
+                    policy=Lifecycle(adapter,lambda v:None,clock);policy.profile=adapter.profile;policy.preservation(r)
+                    record['original_flash_and_factory_verified']=True
+        require([json.loads(line) for line in (store.path/'recovery.jsonl').read_bytes().splitlines()]==events,
+                'Recovery journal readback differs')
+        adapter.check_inputs();require(clock()<deadline,'Recovery final deadline expired')
+        record.update(status='recovered_and_verified',event_persistence_verified=True)
+    except BaseException as exc:error=exc;record['failure_kind']=type(exc).__name__
+    finally:
+        record['owned_processes_closed']=adapter.owner.closed is True
+        if not record['owned_processes_closed']:record.update(status='failed',manual_recovery_required=True)
+        record['host_elapsed_seconds']=clock()-began
+        if clock()>=deadline:record.update(status='failed',deadline_exceeded=True)
+        capture.save(store,'session.json',record)
+        if clock()>=deadline and record['status']=='recovered_and_verified':
+            record.update(status='failed',deadline_exceeded=True,host_elapsed_seconds=clock()-began)
+            capture.save(store,'recovery-late.json',record);os.replace(store.path/'recovery-late.json',store.path/'session.json');capture.sync_directory(store.path)
+    if error is not None and not isinstance(error,Exception):raise error
+    return record
+
 def release_lease(lease,store,record,began,clock=time.monotonic):
     error=None
     try:lease.release(record)
@@ -200,7 +282,8 @@ def release_lease(lease,store,record,began,clock=time.monotonic):
 
 def parser():
     cli=argparse.ArgumentParser(description=__doc__)
-    cli.add_argument('action',choices=('preflight','run'))
+    cli.add_argument('action',choices=('preflight','run','recover'))
+    cli.add_argument('--prior-session',type=Path)
     cli.add_argument('--period',type=int,choices=tuple(backend.PROFILES),default=2000000)
     cli.add_argument('--artifact',required=True,type=Path)
     cli.add_argument('--binding',required=True,type=Path)
@@ -223,16 +306,28 @@ def main():
         if args.action=='preflight':
             record={'status':'preflight_passed','physical_execution_requested':False}
             print('Qualified immutable preflight passed; no hardware opened.');return 0
-        with operator_lock() as lockfd:
+        prior=None
+        if args.action=='recover':
+            require(args.prior_session is not None,'Recovery requires original terminal receipt')
+            prior=recovery_admission(args.prior_session,profile,environment,frozen)
+        with operator_lock(profile if prior is not None else None) as lockfd:
             backend.frozen_inputs(frozen);backend.qualified(profile)
             began=time.monotonic()
-            adapter=backend.Backend(profile,private,lockfd,environment,frozen)
+            if prior is not None:recovery_admission(args.prior_session,profile,environment,frozen)
+            adapter=(backend.RecoveryBackend if prior is not None else backend.Backend)(profile,private,lockfd,environment,frozen)
             store=ReceiptStore(private)
-            lease=SessionLease(profile,private)
+            if prior is None:lease=SessionLease(profile,private)
+            else:
+                # Atomically hand the unresolved lease to the fresh recovery
+                # receipt BEFORE access. Crash/unknown closure cannot reuse an
+                # older known-closed receipt even if marker persistence fails.
+                lease=SessionLease.rotate(profile,private)
+                adapter.lease_private=private
             try:
-                record=execute(adapter,store,{'kind':'identity-selected Forgix synthetic stream episode',
+                record=(execute_recovery if prior is not None else execute)(adapter,store,{'kind':'identity-selected Forgix synthetic stream episode',
                     'profile_private':profile,'environment_private':environment,'execution':frozen,
-                    'physical_execution_requested':True},began=began)
+                    'physical_execution_requested':True,'recovery_only':prior is not None,
+                    'prior_session_sha256':trial.sha(args.prior_session) if prior is not None else None},began=began)
             finally:
                 # Cancellation may propagate only after the terminal receipt.
                 terminal=private/'session.json'
@@ -241,7 +336,7 @@ def main():
                     if saved.get('original_flash_and_factory_verified') is True and saved.get('owned_processes_closed') is True:
                         release_lease(lease,store,saved,began)
                         record=saved
-        return 0 if record['status']=='synthetic_episode_completed' else 2
+        return 0 if record['status'] in ('synthetic_episode_completed','recovered_and_verified') else 2
     except BaseException as exc:
         record.update(status='refused' if adapter is None else 'failed',failure_kind=type(exc).__name__)
         return 2

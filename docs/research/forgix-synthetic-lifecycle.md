@@ -59,3 +59,9 @@ and aggregate closure proof. Unknown/missing closure, missing/crashed receipt,
 changed inputs/qualification/UID or a foreign lease refuse before device access.
 A fresh qualification/review is required if executable inputs change. This
 recovery action does not accept the failed transport or authorize a new trial.
+
+Recovery atomically transfers the existing durable lease to the fresh recovery
+output before access. The old saved terminal cannot admit another attempt after
+that transfer. A crash before the new terminal, or unknown closure recorded in
+it, blocks subsequent recovery even if unknown-marker persistence fails. The
+old failure is never rewritten or accepted; recovery produces its own receipt.

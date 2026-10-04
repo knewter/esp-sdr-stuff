@@ -149,7 +149,7 @@ class Backend(common.Backend):
         require(self.owner.closed,'Unknown owned closure blocks access')
         inherited_operator_lock(self.lockfd,self.lockpath)
         require(not (ROOT/'.scratch/forgix-usb-ram-unclosed.json').exists(),'Shared unknown-closure marker blocks access')
-        session_lease(self.profile,self.private);frozen_inputs(self.frozen)
+        session_lease(self.profile,getattr(self,'lease_private',self.private));frozen_inputs(self.frozen)
         qualification_receipt(self.profile,self.environment,self.frozen)
         require(digest(self.environment)==self.profile['environment_sha256'],'Runtime tuple differs')
         for name in ('python_executable','picotool_executable'):
@@ -224,6 +224,30 @@ class Backend(common.Backend):
     def configure(self,until):raise ValueError('Synthetic configuration belongs exclusively to stream worker')
     transition=configure
     collect=configure
+
+class RecoveryBackend(Backend):
+    """Same qualified original tuple; no ROM entry/load or stream command."""
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.lease_private=Path(self.profile['session_private_dir'])
+    def admit(self,until):
+        require(not self.used,'One recovery');self.used=True
+        qualified(self.profile);self.check_inputs()
+        require(self.clock()<until,'Recovery admission expired')
+        # Select only the bound physical node, without opening a tty. A finite
+        # RAM application may still be active; return_factory waits for it.
+        usb=Path('/sys/bus/usb/devices/3-3').resolve(strict=True)
+        serial=(usb/'serial').read_text().strip().casefold()
+        require(re.fullmatch('[0-9a-f]{16}',serial) and hashlib.sha256(serial.encode()).hexdigest()==self.profile['uid_sha256'],
+                'Recovery original identity differs')
+        mode=((usb/'idVendor').read_text().strip().lower(),(usb/'idProduct').read_text().strip().lower())
+        require(mode in (('2e8a',preserve.FACTORY_PID),('2e8a',preserve.BOOT_PID),('cafe','4013')),'Unexpected recovery mode')
+        self.bus=int((usb/'busnum').read_text());require(self.clock()<until,'Recovery identity check late')
+        self.admitted=True
+        return dict(self.profile,qualification_verified=True)
+    def enter_rom(self,until):raise ValueError('Recovery cannot install or start')
+    load_ram=enter_rom
+    stream=enter_rom
 
 def select_stream(profile,bus,ready=False,sys_root=Path('/sys'),dev_root=Path('/dev')):
     usb=(sys_root/'bus/usb/devices/3-3').resolve(strict=True)
