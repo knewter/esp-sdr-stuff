@@ -96,7 +96,7 @@ class Gates(unittest.TestCase):
     def test_changed_preservation_and_backend_inputs_refuse(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);(root/'.scratch').mkdir();(root/'tools').mkdir()
-            paths={name:root/name for name in ('tool','python','elf','binding','qualification','tools/forgix_spi_backend.py','tools/run_forgix_spi_trial.py')}
+            paths={name:root/name for name in ('tool','python','elf','manifest.json','binding','qualification','tools/forgix_spi_backend.py','tools/run_forgix_spi_trial.py')}
             for p in paths.values():p.write_bytes(b'fixture')
             b=object.__new__(backend.Backend);b.owner=backend.AggregateOwner(SimpleNamespace(closed=True))
             b.private=root/'backups/session'
@@ -106,6 +106,7 @@ class Gates(unittest.TestCase):
             binding={'binding_path':str(paths['binding']),'binding_sha256':trial.sha(paths['binding']),
                      'baseline_paths':['fixture-a','fixture-b'],'baseline_sha256':'b'*64,'uid_sha256':'c'*64}
             b.profile=dict(binding,elf=str(paths['elf']),elf_sha256=trial.sha(paths['elf']),
+                           manifest_sha256=trial.sha(paths['manifest.json']),
                            backend_source_sha256=trial.sha(paths['tools/forgix_spi_backend.py']),
                            coordinator_source_sha256=trial.sha(paths['tools/run_forgix_spi_trial.py']),
                            qualification_path=str(paths['qualification']),qualification_sha256=trial.sha(paths['qualification']))
@@ -114,7 +115,7 @@ class Gates(unittest.TestCase):
                  patch.object(trial,'check_inputs'),patch.object(trial,'original_binding',return_value=binding), \
                  patch.object(trial,'private_file',return_value=paths['qualification']):
                 b.check_inputs()
-                for name in ('tool','python','elf','tools/forgix_spi_backend.py','tools/run_forgix_spi_trial.py','qualification'):
+                for name in ('tool','python','elf','manifest.json','tools/forgix_spi_backend.py','tools/run_forgix_spi_trial.py','qualification'):
                     paths[name].write_bytes(b'changed')
                     with self.assertRaises((ValueError,preserve.PreservationError)):b.check_inputs()
                     paths[name].write_bytes(b'fixture')

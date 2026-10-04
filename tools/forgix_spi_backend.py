@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Prepared identity-selected backend. Empty qualification registry blocks hardware.
 
-Only --plan is exposed. No run/load entry point is admitted. Backend methods
-and serial workers are available for offline tests/review; qualification and
-physical acceptance remain open. Raw identity/journals stay private.
+Only --plan is exposed here. The production coordinator separately checks the
+committed registry before any run/load; that registry is empty. Qualification
+and physical acceptance remain open. Raw identity/journals stay private.
 """
 import argparse
 import hashlib
@@ -110,7 +110,7 @@ class Backend:
 
     The caller holds the operator flock and supplies independently verified
     immutable environment/frozen inputs. Controller results remain model-only.
-    No production coordinator admits this object on hardware yet.
+    The production coordinator cannot admit this object while the registry is empty.
     """
     def __init__(self,profile,private,lockfd,environment,frozen,clock=time.monotonic):
         self.profile,self.private,self.lockfd=profile,trial.no_symlinks(private),lockfd
@@ -133,6 +133,7 @@ class Backend:
         for name in ('picotool_executable','python_executable'):
             require(trial.sha(self.environment[name])==self.environment[name+'_sha256'],'Frozen tool executable differs')
         require(trial.sha(self.profile['elf'])==self.profile['elf_sha256'],'Frozen ELF differs')
+        require(trial.sha(Path(self.profile['elf']).parent/'manifest.json')==self.profile['manifest_sha256'],'Frozen artifact manifest differs')
         binding=trial.original_binding(self.profile['binding_path'],*self.profile['baseline_paths'])
         require(all(self.profile[k]==v for k,v in binding.items()),'Original preservation binding differs')
         require(trial.sha(ROOT/'tools/forgix_spi_backend.py')==self.profile['backend_source_sha256'],'Backend source differs')
@@ -324,6 +325,7 @@ def serial_worker(path):
     current=artifact(Path(profile['elf']).parent)
     require(all(profile[k]==v for k,v in current.items()),'Worker artifact binding differs')
     bound_files={profile['elf']:profile['elf_sha256'],
+                 profile['qualification_path']:profile['qualification_sha256'],
                  str(Path(profile['elf']).parent/'manifest.json'):profile['manifest_sha256'],
                  str(ROOT/'tools/forgix_spi_backend.py'):profile['backend_source_sha256']}
     def selected(ready=False):
