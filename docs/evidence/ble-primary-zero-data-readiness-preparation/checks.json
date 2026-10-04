@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "kind": "offline_source_only_preparation",
+  "profile": "extended-primary-zero-data-v1",
+  "planning_commit": "ad1eee73f364836adbc9d2b92a9e725e398a7c11",
+  "parser_commit": "d3dc8f5b6280644fa9ac6bbd39b56095cf7974b3",
+  "subject_files": {
+    "caller.py": {
+      "bytes": 26976,
+      "sha256": "d5689e3a64dd253138c576fb23d5b8eb4eb63889982a6adef4bedf9daf6a6b98"
+    },
+    "test_caller.py": {
+      "bytes": 18490,
+      "sha256": "1a4f5bed762840227219005584f8343a319cc8e9e3faab7fec113077011dadaf"
+    },
+    "task.yml": {
+      "bytes": 968,
+      "sha256": "040ed20133b4460fca83cb98cd04d9a447fc55a8d3524db0a73640220bdd8c7b"
+    },
+    "frozen-inputs.json": {
+      "bytes": 229874,
+      "sha256": "a226b1ead627307eb8214ef727e2dfd2a13a9258d418105cb97b4c4043be6e32"
+    },
+    "author-007.log": {
+      "bytes": 17553,
+      "sha256": "a90d3f5e495404e685584702e8e88d6c5af670cb16a7066f5659715ce3439fd2"
+    },
+    "runtime-freeze-003.log": {
+      "bytes": 388,
+      "sha256": "fa3a9a2996b4aa95507084d85ba5e817d5b63cf78a7b7d0f41b90f702788188a"
+    },
+    "runtime-inspect.log": {
+      "bytes": 390,
+      "sha256": "97141963dbc459a6b89f45aafb9747d9583ee89ec1c9a5d8c6a00d4b91b574b2"
+    }
+  },
+  "tracked_subject_files": {
+    "docs/research/ble-primary-zero-data-readiness-protocol.md": {
+      "bytes": 4721,
+      "sha256": "58403fc410ba3e92d4b86bf1430352c318fe14f621c2384ed576b5abefaa3e22"
+    },
+    "tools/ble_hci_monitor.py": {
+      "bytes": 11553,
+      "sha256": "65bb1240db4c00aaba0e6195a957652b945b02f3c96ee91b7f72601ea43a8e5c"
+    },
+    "tests/test_ble_hci_selected_power.py": {
+      "bytes": 3382,
+      "sha256": "d43164ddc84a8cb262430fe99b7cce293803652de759b1375a488c6d9367146c"
+    },
+    "tools/BLE_HCI_METADATA.md": {
+      "bytes": 3560,
+      "sha256": "acf31dab7886dbe3596e8eea008f502ce76df948e980daed17872939c1e901c8"
+    }
+  },
+  "tests": {
+    "terminal_exit_code": 0,
+    "group_counts": [
+      17,
+      24,
+      26,
+      33
+    ],
+    "total": 100,
+    "skips": 0,
+    "hardware_access": false,
+    "container_producers_started": false
+  },
+  "freeze": {
+    "files": 18,
+    "runtime_paths": 8,
+    "recursive_nix_closure_entries": 253,
+    "locked_nix_store": "/nix/store/qfwk7cyvb885l2mc06ac3a7nmv19nigi-nix-2.34.8",
+    "read_only_image_inspection_exit_code": 0,
+    "images": {
+      "source": {
+        "tag": "esp-sdr-ble-source:c7188d39eacc17b4",
+        "expected_image_id": "sha256:699e00a1078acdd7468ba7629a4a670449626c8f5fe37086c29dc3cb42d134e4"
+      },
+      "monitor": {
+        "tag": "esp-sdr-ble-monitor:2fa009db696e66d6",
+        "expected_image_id": "sha256:fbdfe3a117505cbdfa090f9d46f4ce9d8ef5b079b7e612b522062a7b23c2697c"
+      }
+    },
+    "runtime_dependency_realization_exit_code": 0,
+    "physical_preflight_performed": false,
+    "root_fresh_freeze_and_current_binding_required": true
+  },
+  "requested_profile": {
+    "advertising_handle": 1,
+    "event_properties": 0,
+    "primary_channel_map": 1,
+    "primary_phy": 1,
+    "secondary_phy": 1,
+    "interval_ms": 20,
+    "max_events": 100,
+    "duration_10ms_units": 500,
+    "start_delay_seconds": 0,
+    "host_data_length": 0,
+    "requested_tx_power": 127,
+    "selected_tx_power_range_dbm": [
+      -127,
+      20
+    ]
+  },
+  "bounds_seconds": {
+    "monitor_launch_to_validated_ready": 75,
+    "producer_readiness": 15,
+    "monitor_capture": 30,
+    "monitor_grace": 5,
+    "monitor_active_bound": 50,
+    "source_parent_cap": 40,
+    "supervisor": 120
+  },
+  "admission": {
+    "independent_preflight_review": "pending",
+    "physical_source_trial_performed": false,
+    "controller_profile_qualified": false,
+    "controller_completed_events_observed": null,
+    "radiated_primary_count": null,
+    "RF_ownership_verified": false,
+    "receiver_implemented": false,
+    "legacy_Trial_B_accepted": false
+  },
+  "failed_attempts_preserved": [
+    "author-001.log",
+    "author-002.log",
+    "runtime-freeze.log",
+    "runtime-freeze-002.log"
+  ],
+  "limitations": [
+    "Native configuration is intent; independent v1 wire records are required.",
+    "Requested TX power 127 means no preference; observed selected power is not calibration.",
+    "Controller completed events do not independently count radiated primary PDUs.",
+    "Author freeze binds isolated absolute paths and private historical identity; root must verify current identity and freeze its actual runtime before any action."
+  ]
+}
