@@ -92,3 +92,17 @@ native/monitor/frame receipts and owned harmless process groups, exhaustive
 profile/refusal/deadline/closure/retention tests, exact frozen input/runtime proof
 and independent preflight review. No device, compiler or container producer is
 run in preparation. Actual source-only qualification remains prerequisite.
+
+## Private ownership instrumentation (prospective)
+
+The historical source-only receipts lacked exact spawned group/container IDs;
+retain their attestation scope. The new private dispatch wraps the reviewed
+container command builders and cleanup without altering native source bytes.
+It supplies one caller-owned UUID/name and adds only an exact fresh private
+Docker --cidfile path to the reviewed command. Retain command/name/image/actual
+daemon ID and before/after execution brackets in a separate private receipt,
+plus exact-name absence after normal closure. Caller records leader PID/PGID,
+/proc start identity and before/after spawn/natural group-absence/log closure.
+An absent/invalid CID or forced cleanup fails this new condition; no historical
+IDs are invented. The dispatch/support files and their imported helpers are
+part of the frozen closure and independent host preflight.
