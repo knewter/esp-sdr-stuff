@@ -252,6 +252,13 @@ def collect(store, source_hash, nonce, transport_factory, identity_check,
             manifest['host_deadline_exceeded'] = True
         manifest['host_elapsed_s'] = clock()-began
         save(store, 'manifest.json', manifest)
+        if clock() >= deadline and not manifest.get('host_deadline_exceeded'):
+            # Final receipt persistence is part of the cooperative bound too.
+            manifest.update(status='failed', host_deadline_exceeded=True,
+                            host_elapsed_s=clock()-began)
+            save(store, 'late-manifest.json', manifest)
+            os.replace(store.path/'late-manifest.json', store.path/'manifest.json')
+            sync_directory(store.path)
     if error is not None and not isinstance(error, Exception):
         raise error
     return manifest

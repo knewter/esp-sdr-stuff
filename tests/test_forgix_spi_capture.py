@@ -222,6 +222,19 @@ class Collector(unittest.TestCase):
                     self.assertTrue(result['host_deadline_exceeded'])
                 self.assertNotIn('private exception text', json.dumps(result))
 
+    def test_final_manifest_persistence_crossing_deadline_records_failure(self):
+        durable = capture.durable
+        def delayed(stream, data):
+            durable(stream, data)
+            target = Path(os.readlink('/proc/self/fd/'+str(stream.fileno())))
+            if target.name == 'manifest.json':
+                self.device.now = 30
+        with patch.object(capture, 'durable', delayed):
+            result = self.run_capture()
+        self.assertEqual(result['status'], 'failed')
+        self.assertTrue(result['host_deadline_exceeded'])
+        self.assertEqual(self.saved(), result)
+
     def test_malformed_source_or_nonce_opens_nothing(self):
         for source, nonce in [('A'*64, b'x'*16), ('a'*64, bytes(16))]:
             with self.assertRaises(ValueError):
