@@ -203,8 +203,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Complete and independently review identity-selected bounded worker/lifecycle integration. Matching Forgix attachment and physical clock/grade/SPI ownership qualification still precede loading.",
-      "rationale": "No FPGA was programmed. Offline attempt004 passes independent complete input/XML/image review and modeled internal 32 MHz timing (+1.530 ns setup, +0.642 ns hold); 3,550/7,384 logic elements and 8/24 RAM blocks fit. Earlier compiler failures and negative setup results are retained. The actual RP synthetic-stream ELF uses 220,200 SRAM bytes and passes independent complete embedded-image/PIO/layout and selected linked-path review, six ELF mutation groups and seven recognized startup-audit groups. The corrected caller-owned collector passes 32 author groups and three independent fault probes after retained rejection/clock-accounting corrections. Complete identity-selected bounded loading, collection and recovery integration is being reviewed. Existing register coordinator and USB preservation remain separately scoped evidence. Both qualification registries remain empty. The fresh read-only survey finds the ESP and RTL-SDR but no Forgix factory/ROM attachment. Physical grade, actual clock, SPI timing and pin ownership still precede loading. Register readback, several-rate FPGA sequence/CRC throughput and RF integration remain unproved; no hardware task or accepted requirement changes.",
+      "next": "Re-establish the identity-matching Forgix attachment and qualify physical grade, clock, voltage and SPI ownership/timing. Freshly freeze the merged execution/runtime tuple before admission, then refresh preservation and perform bounded configuration/register and finite-stream trials.",
+      "rationale": "No FPGA was programmed. Offline attempt004 passes independent complete input/XML/image review and modeled internal 32 MHz timing (+1.530 ns setup, +0.642 ns hold); 3,550/7,384 logic elements and 8/24 RAM blocks fit. Earlier compiler failures and negative setup results are retained. The actual RP synthetic-stream ELF uses 220,200 SRAM bytes and passes independent complete embedded-image/PIO/layout and selected linked-path review. The corrected caller-owned collector passes 32 author groups and three independent fault probes. The distinct identity-selected stream lifecycle, automatic recovery and explicit known-closed recovery now pass 35 author and 18 independent groups. Actual POSIX PTY tests exposed a bulk-read prefix gap and verify the synthetic-only correction retains returned bytes on error; unread and lower-level lost bytes remain unobserved. Both qualification registries remain empty; the reviewed isolated execution fixture does not admit the merged production tuple. The fresh read-only survey finds the ESP and RTL-SDR but no Forgix factory/ROM attachment or other RP-vendor device. Physical grade, actual clock, voltages, SPI timing and pin ownership still precede loading. Register readback, several-rate FPGA sequence/CRC throughput and RF integration remain unproved; no hardware task or accepted requirement changes.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -245,9 +245,10 @@
         "docs/evidence/forgix-synthetic-stream-core/README.md",
         "docs/evidence/forgix-synthetic-scheduler/README.md",
         "docs/evidence/forgix-synthetic-stream-artifact/README.md",
-        "docs/evidence/forgix-synthetic-host-collector/README.md"
+        "docs/evidence/forgix-synthetic-host-collector/README.md",
+        "docs/evidence/forgix-synthetic-lifecycle/README.md"
       ],
-      "reviewRevision": "609613e025dc1e11a6c875add9e9d6314a3b42bf"
+      "reviewRevision": "bf25c0d"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
