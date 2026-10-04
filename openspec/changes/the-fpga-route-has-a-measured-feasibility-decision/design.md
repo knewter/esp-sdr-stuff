@@ -165,3 +165,22 @@ enumeration before/after configuration and during collection. This selector
 behavior and own-operator fault fixtures are not physical UID continuity or
 configuration-transition proof. Independent whole-backend review and production
 coordinator admission remain required before any physical episode.
+
+## Production coordinator and checked UID follow-up
+
+The [coordinator checkpoint](docs/evidence/forgix-spi-coordinator/README.md)
+adds a production entrypoint behind the empty committed qualification registry,
+complete frozen execution inputs and a durable pre-access session lease. The
+qualification receipt covers executable inputs except the registry; the registry
+is separately frozen from committed bytes to avoid a circular hash dependency.
+One acceptance clock includes initial receipt writes. Failed initial preservation
+also requires recovery because preservation enters ROM. The legacy standalone
+physical preservation CLI is retired; its API remains inside guarded helpers.
+
+New RAM configuration003/register011 initialize UID after watchdog enable,
+check the ROM result and fail before USB on invalid identity. Actual builds
+and reset audits pass within their offline scope. No physical episode is admitted:
+the current survey finds no matching Forgix, and grade/clock/pin timing remain
+unqualified. The nominal32MHz photo marking is separate from a measured clock.
+The existing wiring gives the RP only oscillator enable, not oscillator output.
+No hardware checkbox or accepted requirement changes.

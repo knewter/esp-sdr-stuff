@@ -59,3 +59,18 @@ full restorations pass [independent replay](docs/evidence/ble-matched-gain-indep
 Hardware gain retains zero owned and one redacted foreign CRC packet. The source
 remains uncounted, three-response proof remains incomplete, and this profile
 does not replace Trial B's original eight-bit/BW12/hardware-gain prerequisite.
+
+## Extended primary-header preparation
+
+The [reviewed primary preparation](docs/evidence/ble-primary-preparation/README.md)
+adds a separate zero-data source profile and strict CRC-valid extended primary
+header parser. Eighty-nine scoped host checks pass after a peer-reviewed
+auxiliary-offset timing correction. This is preparation, not new reception.
+Missing AdvA, ADI-only identification and auxiliary AD cannot establish ownership.
+Zero data does not force a particular primary layout or AUX omission.
+
+Controller-completed extended events remain distinct from independently counted
+primary RF transmissions, including permitted event/PDU omission. Current
+monitor records omit some requested HCI fields; do not claim their independent
+physical verification. Original emitted-count, full waveform, three-response
+and Trial B prerequisites remain unchanged; no task is checked by these tests.

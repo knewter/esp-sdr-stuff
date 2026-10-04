@@ -1,0 +1,69 @@
+{
+  "kind": "offline production-coordinator and checked UID preparation",
+  "captured_utc": "2026-10-04T07:21:09.970168+00:00",
+  "hardware_opened": false,
+  "fpga_programmed": false,
+  "qualified_profiles": 0,
+  "loading_admitted": false,
+  "source_commits": {
+    "coordinator": "ab761c3",
+    "uid": "b1a05c6",
+    "shared_deadline_recovery": "fe39485",
+    "manifest_qualification_recheck": "7772782",
+    "prospective_protocol": "6bb1834",
+    "timeout_reconfiguration": "b4157f8",
+    "late_terminal_elapsed": "609613e"
+  },
+  "tests": {
+    "backend": 23,
+    "coordinator": 19,
+    "lifecycle": 20,
+    "preservation": 23,
+    "uid_actual_c": 4,
+    "assembled_pio": 9,
+    "collector": 16
+  },
+  "independent_review": {
+    "first_review_sha256": "8a3d08219bbe02fab0c96395ab91fc9e2157c39929aeba329d4dc77c57eef414",
+    "second_review": "offline source and actual artifact PASS",
+    "second_review_sha256": "39c50e37225fe07ff96633723953f25b79360ae358b4afc3eed3849c81a8fb3b",
+    "reviewed_execution_commit": "609613e025dc1e11a6c875add9e9d6314a3b42bf",
+    "exact_execution_inputs": 21
+  },
+  "images": {
+    "configuration003": {
+      "source_commit": "b1a05c622d665fe571b846d5965322de36288cd3",
+      "elf_sha256": "687478dd6f0d2439cd85a152e0e526b67f7ac22bb045cbb52f9ba0831cb9c5e7",
+      "manifest_sha256": "15b47e741ee4d5f0075e81dd44378562da9cb64847281393953a3fb36c3dec38",
+      "ordinary_sram_bytes": 203700,
+      "embedded_candidate_bytes": 173380,
+      "status": "built_layout_guard_passed",
+      "startup_audit_sha256": "72c690d29ccf859a54536c896f1676a0593ca54152e24b5a070fe69d6f43a5d4",
+      "hardware_opened": false,
+      "loading_admitted": false
+    },
+    "register011": {
+      "source_commit": "b1a05c622d665fe571b846d5965322de36288cd3",
+      "elf_sha256": "737bec92d2b56226132492dd579fdb7b60f16a0d43bbcb3881614be70247fb10",
+      "manifest_sha256": "9524ca65d569c446ebd4852cef88bbf00ec6c71d5d7d633007b51c45a3526bbc",
+      "ordinary_sram_bytes": 28868,
+      "embedded_candidate_bytes": 0,
+      "status": "built_layout_guard_passed",
+      "startup_audit_sha256": "5f4278a49b981bd43b9626e876db0efbd3541d87c5bba7642f539d6bd082ff56",
+      "hardware_opened": false,
+      "loading_admitted": false
+    }
+  },
+  "attachment": {
+    "captured_utc": "2026-10-04T07:11:08.710100+00:00",
+    "serial_opened": false,
+    "esp_stable_link_verified": true,
+    "esp_original_backups_verified": true,
+    "rtl_sdr_devices": 1,
+    "forgix_matching_preserved_identities": 0,
+    "forgix_factory_devices": 0,
+    "forgix_rom_devices": 0,
+    "unclosed_resource_marker": false
+  },
+  "acceptance": "OpenSpec FPGA remains 1/5; no physical configuration/register/transport proof"
+}
