@@ -197,3 +197,17 @@ before a sole-root-operated receiver condition.
 ## Fixed zero-data primary receiver outcome
 
 The [independent whole receiver review](docs/evidence/ble-primary-zero-data-receiver-001-review/README.md) verifies all 365 ten-bit waveforms, three monitored count100 controller phases and full original 4 MiB restoration with reset boot. The unchanged primary decoder finds zero owned or foreign CRC-valid primary packets. Guarded ON captures are 3/4/4; 347 OFF and seven boundary captures remain accounted for. Low snapshot duty makes this null inconclusive. The 300 controller events are not independently counted primary emissions; source attribution, detection/miss rates, three reciprocal RF responses and original Trial B remain unproved. No physical acceptance task or accepted requirement changes.
+
+## 3. Evaluate separately timed primary opportunity (UNVERIFIED)
+
+The [prospective timed-v2 protocol](docs/research/ble-primary-timed-zero-data-v2-protocol.md)
+adds a separate diagnostic after the completed fixed365null condition. It leaves
+original tasks1.1/1.2, Trial B, accepted requirements and all old receipts unchanged.
+No task below is completed by this planning checkpoint.
+
+- [ ] 3.1 Implement/test a separate fixed native timed-v2 source and container helper; preserve v1 source/guards/low-level/image behavior and exact2036 power/ACK parsing. Proof: locked Task exact-wire/timer/typed-count/cancellation/cleanup tests plus unchanged-v1 source and regression comparison, retained failed attempts.
+- [ ] 3.2 Add a separately tagged immutable Nix source-bearing v2 archive and explicit Task entrypoints. Proof: sole-root archived-source/runtime/entrypoint/config byte freeze and unchanged-v1 archive comparison; no mutable-tag fallback. Refresh affected production source tuples and any later strict register artifact after merge.
+- [ ] 3.3 Freeze independently reviewed v2 source-only caller/runtime/controller/endpoint/image admission and operate one bounded qualification. Physical proof: matching full native/independent monitor profile, five ACK0 pairs, one actual timer0x3c, typed agreeing UINT8 count metadata,24-to-less-than30-second observed enable interval, natural owned closure and unchanged postflight. No air denominator or retry.
+- [ ] 3.4 Adapt NEW private receiver support/dispatch/account/caller/holder and qualify the v2 receipt; leave old15 inputs/holder/receipts exact. Proof: locked Task slow preflight/freeze/fsync/spawn/closure/boundary/cancellation/quarantine tests, actual inherited harmless process/flock fixtures, whole transitive source/runtime/import/archive freeze and independent current root transfer review.
+- [ ] 3.5 Operate one separately frozen180-second ten-bit/BW20/manual48 condition with unchanged placement/decoder and three25-second ON episodes. Physical proof: inclusive45-second episode clocks, actual initial/OFF/tail bounds, complete raw integrity and failed-prefix retention, source3 closure before ready+165,100 guarded ON brackets total and25 per repetition, full original4MiB restoration/reset boot. Sparse coverage remains failed opportunity without retry.
+- [ ] 3.6 Independently replay every saved waveform and exact monitor/source/ownership/clock/restoration join, publishing sanitized counts and limitations. Proof: unchanged blind parser/decoder invocation over the complete capture manifest plus independent saved-only receipt; no rate/air-count/three-response/Trial-B claim without its original proof.

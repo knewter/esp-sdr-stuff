@@ -142,3 +142,41 @@ This is implementation preparation; no physical checkbox or accepted requirement
 changes, original TrialB/count/reciprocal-response gates and previous outcomes
 remain unchanged. Proof is frozen offline caller tests and independent preflight
 before a sole-root-operated receiver condition.
+
+## Separate timed-v2 opportunity extension
+
+The [prospective timed-v2 protocol](docs/research/ble-primary-timed-zero-data-v2-protocol.md)
+responds to the reviewed fixed365null condition's11 guarded ON windows without
+changing precision, receiver settings, placement or decoder search. Request
+handle1/map37/LE1M/20ms/emptyAD with Duration25000ms and MaxEvents0. Require a
+separately qualified actual0x3c timer termination and complete controller/monitor
+profile/cleanup; actual UINT8 completed-count metadata agrees across readers
+but cannot supply a denominator. Existing v1 duration/count/unlimited validators
+and counted-success gate explicitly reject these arguments and remain unchanged.
+
+A separate native runner/container helper and source-bearing tagged Nix archive
+own the new behavior, reusing unchanged v1 low-level primitives without modifying
+module globals. Old source/image derivations, monitor/parser, decoder and old15
+receiver/holder inputs retain their exact reviewed bytes. A NEW private caller/
+support/dispatch/account/holder owns the v2 qualification schema and scheduling;
+all actual transitive helpers, runtime/archive and loaded identities receive
+fresh independent freeze proof. New flake/Task inputs require refreshing other
+production tuples and any later strict19-source register artifact; no guard is
+weakened and no existing artifact is relabelled current.
+
+One unchanged continuous180-second receiver contains three25-second ON episodes.
+Each45-second episode clock begins before controller/freeze/intent/admission/
+spawn work and ends after natural owned closure and durable verification.
+Baseline10 + three inclusive45 + two OFF2 + final OFF10.1 totals159.1 seconds;
+source3 must close before ready+165 and the last intact payload must extend
+strictly beyond10 seconds after that closure. Existing monitor240/260/275 and
+whole acquisition420 ceilings remain. All helper timeouts fit the remaining
+minimum clock; preflight overhead cannot escape the episode budget.
+
+The measurable diagnostic coverage gate is100 whole guarded ON brackets total
+and25 per repetition. At historical delivery the requested75 enabled seconds
+could yield about150 windows before guards; this is an estimate, not RF proof.
+Independent whole source/waveform/restoration review is required for any narrow
+positive or null report. This diagnostic cannot close original emission/hit-rate
+tasks, the three reciprocal-response requirement or original Trial B. Planning
+admits no implementation, container/package build, source or receiver action.

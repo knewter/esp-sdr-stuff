@@ -23,3 +23,22 @@ The report SHALL label decoding demonstrated only when a complete capture yields
 #### Scenario: Evaluation result is inspected
 - **WHEN** a decoding capability is reported
 - **THEN** the waveform, decoder revision and payload comparison are available
+
+### Requirement: Longer primary diagnostics retain separate qualification and opportunity units
+
+The evaluation SHALL keep a separately timed zero-data primary diagnostic's
+source qualification, acquisition-window coverage and observations distinct
+from counted v1 controller events, independently emitted RF events and the
+original acceptance gates.
+
+<!-- UNVERIFIED: Timed-v2 source, archive, caller and holder are planned only. The completed fixed receiver001 has11 guarded ON windows and no CRC-valid primary; see docs/evidence/ble-primary-zero-data-receiver-001-review/README.md. Prospective fields, ownership, clocks and proof gates are in docs/research/ble-primary-timed-zero-data-v2-protocol.md. -->
+
+#### Scenario: A timed source condition is admitted
+- **WHEN** a longer timer-limited primary condition is proposed after the fixed diagnostic
+- **THEN** its exact finite profile, observed timer status and complete cleanup receive independent source-only qualification before receiver action
+- **AND** v1 source/image/guard and previous frozen private inputs remain unchanged
+
+#### Scenario: Longer diagnostic coverage is reported
+- **WHEN** the timed condition's saved source and receiver records are reviewed
+- **THEN** the report counts whole guarded ON acquisition windows per repetition and retains every OFF, boundary, sparse and failed outcome
+- **AND** a completed-count byte, requested duration or window threshold does not establish an air denominator, event rate, three reciprocal RF responses or original Trial B acceptance

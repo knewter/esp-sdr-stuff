@@ -35,3 +35,23 @@ At least 100 deliberately emitted repeat events with ground-truth counts and cap
 ## Evidence and sources
 
 Baseline: [research](docs/research/source-index.md). Sources: [primary-source register](docs/research/source-index.md).
+
+## Separate longer primary opportunity diagnostic
+
+The [fixed receiver001 review](docs/evidence/ble-primary-zero-data-receiver-001-review/README.md)
+retains365 snapshots but only11 whole guarded ON windows across about7.4 seconds
+of source enable time. Its null remains inconclusive. The separately prospective
+[timed-v2 protocol](docs/research/ble-primary-timed-zero-data-v2-protocol.md)
+plans three25-second zero-data extended source episodes at the unchanged
+ten-bit/BW20/manual48 receiver settings, placement and blind decoder bounds.
+This is a diagnostic opportunity extension: a coverage gate of at least100
+whole guarded ON windows altogether and25 per repetition counts acquisition
+windows, never emissions. Original decision gates above remain unchanged.
+
+Dependencies are a new explicitly selected native timer profile and immutable
+Nix source archive, independent host preflight, actual source-only timer-profile
+qualification, a separate receiver caller/holder freeze, complete preservation
+and root-only operation. Existing v1 source/image/guards/private inputs remain
+unchanged. No added RF equipment or FPGA wiring is needed for this diagnostic;
+calibrated RF/air-count conclusions remain outside its scope. Failure or sparse
+coverage retains the attempt and admits no automatic retry or acceptance task.
