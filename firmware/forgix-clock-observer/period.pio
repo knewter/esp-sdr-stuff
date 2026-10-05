@@ -1,6 +1,7 @@
 ; Input-only rising-to-rising period sampling. Integer divider1.
 ; PUSH is outside the measured interval; skipped complete periods are possible.
 .program forgix_clock_period
+.pio_version 1
 .wrap_target
     wait 0 pin 0
     wait 1 pin 0

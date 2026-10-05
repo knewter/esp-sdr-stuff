@@ -97,7 +97,7 @@ def inspect_elf(data):
     instructions=symbols['forgix_clock_period_program_instructions']
     expected=struct.pack('<10H',0x2020,0x20a0,0xa02b,0x00c5,0x0006,0x0043,0x00c8,0x0046,0xa0c1,0x8020)
     require(sizes['forgix_clock_period_program_instructions']==20 and loaded(instructions,20)==expected,'linked input-only PIO words differ')
-    require(sizes['forgix_clock_period_program']==8 and loaded(symbols['forgix_clock_period_program'],8)==struct.pack('<IBbBB',instructions,10,-1,0,0),'PIO metadata does not bind exact input-only program')
+    require(sizes['forgix_clock_period_program']==8 and loaded(symbols['forgix_clock_period_program'],8)==struct.pack('<IBbBB',instructions,10,-1,1,0),'PIO metadata does not bind exact input-only program')
     require(sizes['clock_layout']==28,'clock layout descriptor size')
     total,command,command_bytes,reply,reply_bytes,result,result_bytes=struct.unpack('<7I',loaded(symbols['clock_layout'],28))
     require(sizes['clock_engine']==total and 640<total<=2048 and command_bytes==128 and reply_bytes==512 and

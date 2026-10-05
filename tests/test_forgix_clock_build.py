@@ -1,5 +1,5 @@
 """Distinct project, artifact and builder refusals; no vendor/ARM execution."""
-import hashlib,json,os,struct,subprocess,sys,tempfile,unittest
+import hashlib,json,os,re,shutil,struct,subprocess,sys,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
@@ -24,7 +24,7 @@ def clock_elf():
  from forgix_usb_ram_artifact import PROFILE
  d[0x1300:0x1300+len(PROFILE)]=bytes(len(PROFILE));d[0x1300:0x1300+len(elf.PROFILE)]=elf.PROFILE
  struct.pack_into('<7I',d,0x1480,1200,128,128,256,512,768,96);struct.pack_into('<I',d,0x1510,4)
- struct.pack_into('<10H',d,0x1580,0x2020,0x20a0,0xa02b,0x00c5,0x0006,0x0043,0x00c8,0x0046,0xa0c1,0x8020);struct.pack_into('<IBbBB',d,0x15a0,0x20000580,10,-1,0,0)
+ struct.pack_into('<10H',d,0x1580,0x2020,0x20a0,0xa02b,0x00c5,0x0006,0x0043,0x00c8,0x0046,0xa0c1,0x8020);struct.pack_into('<IBbBB',d,0x15a0,0x20000580,10,-1,1,0)
  return d
 
 class Guard(unittest.TestCase):
@@ -43,6 +43,19 @@ class Guard(unittest.TestCase):
    elif change=='pio-pointer':struct.pack_into('<I',d,0x15a0,0x20000582)
    else:struct.pack_into('<I',d,0x1480+4*4,513)
    with self.subTest(change=change),self.assertRaises(ValueError):elf.inspect_elf(d)
+ def test_every_pio_metadata_bit_is_bound(self):
+  elf.inspect_elf(clock_elf())
+  for bit in range(64):
+   d=clock_elf();d[0x15a0+bit//8]^=1<<(bit%8)
+   with self.subTest(bit=bit),self.assertRaisesRegex(ValueError,'PIO metadata'):elf.inspect_elf(d)
+ def test_pinned_pioasm_declared_version_and_instruction_conservation(self):
+  assembler=shutil.which('pioasm');self.assertIsNotNone(assembler);self.assertTrue(str(Path(assembler).resolve()).startswith('/nix/store/'))
+  with tempfile.TemporaryDirectory() as t:
+   header=Path(t)/'period.h';subprocess.run([assembler,'-o','c-sdk','-v','1',str(ROOT/'firmware/forgix-clock-observer/period.pio'),str(header)],check=True,timeout=20)
+   text=header.read_text();self.assertIn('#define forgix_clock_period_pio_version 1',text)
+   self.assertIn('.length = 10',text);self.assertIn('.origin = -1',text);self.assertIn('.used_gpio_ranges = 0x0',text)
+   words=re.findall(r'^\s*(0x[0-9a-f]+),',text,re.M)
+   self.assertEqual([int(w,16) for w in words],[0x2020,0x20a0,0xa02b,0x00c5,0x0006,0x0043,0x00c8,0x0046,0xa0c1,0x8020])
  def test_descriptor_is_distinct_and_source_unchanged(self):
   original=(ROOT/build.BRIDGE/'usb_descriptors.c').read_bytes();converted=build.descriptor(original)
   self.assertIn(b'.idProduct=0x4014',converted);self.assertIn(b'Forgix Clock RAM observer v1',converted);self.assertIn(b'.iSerialNumber=3',converted)
