@@ -145,8 +145,14 @@ archive/reference/import and ownership proof for that new current tuple, followe
 by independent saved review. Provider availability or natural selection closure
 alone closes no5.4/5.5 task. No cache replaces a fresh content proof, no bootstrap
 alias replaces the selected provider, and no performance optimization is added.
-Dependency restoration, GC-root retention and the new follow-up are UNVERIFIED;
-details and source references are in
+Dependency restoration, registered retention and current readiness now pass
+the [actual cost004 review](docs/evidence/source004-actual-readonly-cost-004/README.md).
+The follow-up completes current content/terminal proof but loses five completed
+cost records, so recording tasks 5.2/5.3 reopen and 5.4/5.5 remain unchecked.
+A separately reviewed recording correction is the next prerequisite; no
+performance optimization or automatic measurement follows. Details are in
+[design](design.md#recording-correction-after-actual-cost004-unverified).
+Historical dependency scope and source references remain in
 [design](design.md#exact-provider-preparation-and-one-new-cost-follow-up-unverified).
 
 

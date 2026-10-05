@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Retain the exact selected Nix provider with the independently reviewed dependency Task, then qualify current source/runtime readiness before one separately declared full-cost follow-up.",
-      "rationale": "Source003 and receiver004 retain reviewed host preparation. Complete source004 read-only preparation now passes independent saved review: 49 jobs, 68 inputs, 305 whole Nix contents, 1,220 edges and both archives; external 105.670 seconds and own 104.516 seconds fit 165. Root separately observes 50 owned groups absent, flock available and pending absent. Verifier 75.134 seconds and concurrent content 30.320 seconds exceed the unchanged 13-second source frontwork allowance; no producer launched or actual source45 fit proven. Producer cancellation now passes offline correction review: 143 author and 24 independent host groups with no skips, 47 private subjects and 22 project inputs, both whole archives bound. The original failure and literal immediate-exit startup refusal remain retained; separate exit-handshake tests prove reaped-owner refusal before modeled reuse. Current root transfer, complete runtime/tuple proof and timing fit remain pending. Historical 31.198-second setup refusal, recovered source001 failure and fixed 365-waveform null with only 11 guarded ON captures remain. Actual source qualification, air count, reception rate, three reciprocal RF responses and original Trial B stay open. Instrumentation now passes225 host groups and24 independent controls;62 files transfer exactly. The first root cost measurement refuses a missing selected Nix provider after six closed selection jobs. Separate administrative recovery passes311 saved checks and actual Task0; the original measurement remains failed and original marker-inode authority remains unproven. Exact provider retention, full attribution and source timing fit remain pending. The dependency helper now passes29 author fixtures and4 independent controls; root rehashes all1770 peer subjects. Actual provider retention and new full measurement remain pending.",
-      "reviewRevision": "194dea8b0779e2eb6db3e26b4198d40e99a03d6c",
+      "next": "Correct the missing cost record and verify the fix, then resolve source startup timing and containment before a separately qualified radio episode.",
+      "rationale": "ESP capture, decoding examples and original-firmware restoration are accepted. Fresh read-only verification ended successfully in 68.287 seconds under its 165-second limit, with full current content verification, but exceeds the source startup allowance of 13 seconds. Independent review found five completed operations missing from the saved cost records; instrumentation tasks 5.2/5.3 are reopened and whole-cost tasks 5.4/5.5 remain unaccepted. Dependencies and whole current source readiness pass separately. Narrow exec controls and kernel-source preparation advance containment, while generic failure handling, running-kernel provenance and native/resource qualification remain open. Original failures and unknown closures stay retained. The earlier 365-waveform null has only 11 guarded ON captures and supplies no air denominator or reception rate. No producer or new RF episode started.",
+      "reviewRevision": "c740d46dd690fc3431382de2fe3ed4693041d8e9",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -128,7 +128,13 @@
         "docs/evidence/ble-primary-timed-startup-preparation-review/README.md",
         "docs/evidence/ble-primary-timed-source004-readonly-review/README.md",
         "docs/evidence/source004-provider-retention-preparation/README.md",
-        "docs/evidence/source004-provider-retention-preparation/checks.json"
+        "docs/evidence/source004-provider-retention-preparation/checks.json",
+        "docs/evidence/source004-actual-provider-retention/README.md",
+        "docs/evidence/source004-actual-provider-retention/checks.json",
+        "docs/evidence/source004-actual-readonly-cost-004/README.md",
+        "docs/evidence/source004-actual-readonly-cost-004/checks.json",
+        "docs/evidence/receiver-nonleader-exec-prerequisite-002/README.md",
+        "docs/evidence/receiver-kernel-gnu-source-preparation-003/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
@@ -140,9 +146,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Retain the exact selected Nix provider with the independently reviewed dependency Task, then qualify current source/runtime readiness before one separately declared full-cost follow-up.",
-      "rationale": "Source003 and receiver004 retain reviewed host preparation. Complete source004 read-only preparation now passes independent saved review: 49 jobs, 68 inputs, 305 whole Nix contents, 1,220 edges and both archives; external 105.670 seconds and own 104.516 seconds fit 165. Root separately observes 50 owned groups absent, flock available and pending absent. Verifier 75.134 seconds and concurrent content 30.320 seconds exceed the unchanged 13-second source frontwork allowance; no producer launched or actual source45 fit proven. Producer cancellation now passes offline correction review: 143 author and 24 independent host groups with no skips, 47 private subjects and 22 project inputs, both whole archives bound. The original failure and literal immediate-exit startup refusal remain retained; separate exit-handshake tests prove reaped-owner refusal before modeled reuse. Current root transfer, complete runtime/tuple proof and timing fit remain pending. Historical 31.198-second setup refusal, recovered source001 failure and fixed 365-waveform null with only 11 guarded ON captures remain. Actual source qualification, air count, reception rate, three reciprocal RF responses and original Trial B stay open. Instrumentation now passes225 host groups and24 independent controls;62 files transfer exactly. The first root cost measurement refuses a missing selected Nix provider after six closed selection jobs. Separate administrative recovery passes311 saved checks and actual Task0; the original measurement remains failed and original marker-inode authority remains unproven. Exact provider retention, full attribution and source timing fit remain pending. The dependency helper now passes29 author fixtures and4 independent controls; root rehashes all1770 peer subjects. Actual provider retention and new full measurement remain pending.",
-      "reviewRevision": "194dea8b0779e2eb6db3e26b4198d40e99a03d6c",
+      "next": "Correct the missing cost record and verify the fix, then resolve source startup timing and containment before a separately qualified radio episode.",
+      "rationale": "ESP capture, decoding examples and original-firmware restoration are accepted. Fresh read-only verification ended successfully in 68.287 seconds under its 165-second limit, with full current content verification, but exceeds the source startup allowance of 13 seconds. Independent review found five completed operations missing from the saved cost records; instrumentation tasks 5.2/5.3 are reopened and whole-cost tasks 5.4/5.5 remain unaccepted. Dependencies and whole current source readiness pass separately. Narrow exec controls and kernel-source preparation advance containment, while generic failure handling, running-kernel provenance and native/resource qualification remain open. Original failures and unknown closures stay retained. The earlier 365-waveform null has only 11 guarded ON captures and supplies no air denominator or reception rate. No producer or new RF episode started.",
+      "reviewRevision": "c740d46dd690fc3431382de2fe3ed4693041d8e9",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -215,7 +221,13 @@
         "docs/evidence/ble-primary-timed-startup-preparation-review/README.md",
         "docs/evidence/ble-primary-timed-source004-readonly-review/README.md",
         "docs/evidence/source004-provider-retention-preparation/README.md",
-        "docs/evidence/source004-provider-retention-preparation/checks.json"
+        "docs/evidence/source004-provider-retention-preparation/checks.json",
+        "docs/evidence/source004-actual-provider-retention/README.md",
+        "docs/evidence/source004-actual-provider-retention/checks.json",
+        "docs/evidence/source004-actual-readonly-cost-004/README.md",
+        "docs/evidence/source004-actual-readonly-cost-004/checks.json",
+        "docs/evidence/receiver-nonleader-exec-prerequisite-002/README.md",
+        "docs/evidence/receiver-kernel-gnu-source-preparation-003/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
@@ -227,8 +239,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Refresh the reviewed clock correction\u2019s current root runtime, whole-loading review and distinct documentary candidate; then identify and preserve the matching connected Forgix before one bounded clock diagnostic.",
-      "rationale": "Software tasks 3.1 and 3.2 are complete; every physical task remains open. Clock FPGA001 and ARM003 have independent offline artifact/startup review; ARM003 uses 206,132 SRAM bytes, with prior CRC and PIO-metadata failures retained. Fresh root clock preparation at b37bd398 binds 88 inputs, seven tools, 268 content-verified Nix paths and 1,097 edges, fresh image inspection and unchanged 32 ARM/nine FPGA sources; independent whole saved review passes software scope. Two actual owned file/flock probes with modeled lifecycle and hardware boundaries reproduce clock finalization faults. In-process main returns 2 and the probe Task exits 0; neither proves an external production exit or hardware operation. Historical six intended-design safety dispositions are preserved, but current whole-loading review and a distinct candidate are withheld. The committed correction requires the original lock through terminal effects, final kernel teardown and external exit/deadline/group/FD/marker/flock evidence. The byte-exact clock correction at f34d46f now passes independent whole software review: 94 clock/10 shared tests, six literal refusals, three controls and five new whole-entry failure cases. Root rehashes 1,635 review files and 88 execution inputs. External destruction of every authority is explicitly unqualified. Fresh runtime/candidate binding remains pending. Configuration006 and the register and synthetic runtime reviews, covering 36 and 65 inputs, remain separately valid software checkpoints. Registries stay empty; the last read-only survey found no matching Forgix. Fresh identity/preservation and actual clock/electrical/SPI/register/transport measurements remain gates; no further photo is needed for this software correction. Corrected clock runtime at83d6a23 passes fresh root Task0 in16.368 seconds and independent whole saved review. Current documentary candidate and physical admission remain open.",
+      "next": "Reconnect and identity-select the preserved Forgix, verify full preservation and current operator admission, then perform one bounded clock diagnostic. Register and several-rate transport qualification follow separately.",
+      "rationale": "Clock software tasks 5.1–5.3 pass after corrected finalization, fresh root runtime and independent current loading/recovery review. The whole execution binding and distinct private candidate are accepted for software preparation; registries and physical admission remain empty. The October 5, 16:35:24 UTC survey finds ESP and RTL-SDR but no matching Forgix. Prior MCU USB passes at 64 KiB/s and loses 431 records at requested 256 KiB/s; these results do not establish FPGA transport capacity. Actual clock intervals, electrical/SPI timing, register readback and several-rate FPGA transport measurements remain open. No new board loading, FPGA programming or RF integration ran.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -281,9 +293,12 @@
         "docs/evidence/forgix-clock-safety-case-preparation/README.md",
         "docs/evidence/forgix-synthetic-finalization-review/README.md",
         "docs/evidence/forgix-host-refresh-2026-10-05/README.md",
-        "docs/evidence/forgix-clock-finalization-followup/README.md"
+        "docs/evidence/forgix-clock-finalization-followup/README.md",
+        "docs/evidence/forgix-clock-current-documentary-review/README.md",
+        "docs/evidence/forgix-clock-current-documentary-review/checks.json",
+        "docs/evidence/hardware-presence-2026-10-05-1635/README.md"
       ],
-      "reviewRevision": "f34d46f"
+      "reviewRevision": "c740d46dd690fc3431382de2fe3ed4693041d8e9"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",

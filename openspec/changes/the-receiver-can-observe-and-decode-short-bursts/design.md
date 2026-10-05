@@ -335,6 +335,48 @@ instrumentation additions must be included rather than forcing either old
 count or dropping inputs. Repeat samples for variance require a separately
 declared bounded root experiment; no implicit retry is authorized by this plan.
 
+### Recording correction after actual cost004 (UNVERIFIED)
+
+The [actual read-only cost004 review](../../../docs/evidence/source004-actual-readonly-cost-004/README.md)
+accepts current content and natural terminal evidence, but disproves complete
+diagnostic conservation. Original phase export precedes two receipt reads and
+the completed snapshot wrapper, losing two hash, two receipt and one snapshot
+events. Historical fixture passes remain retained; tasks 5.2/5.3 reopen and
+5.4/5.5 remain unchecked. Task 5.6 closes only its separately reviewed recovery,
+provider and current-readiness prerequisites. No timing optimization is selected.
+
+Implement a distinct mandatory final cumulative original-owner record after the
+snapshot decorator returns, before snapshot returns to its caller. Keep the
+original manager-close prefix, every content/ownership/closure predicate and
+its order. Direct/query phases record their two receipt/hash pairs in the
+original phase and finalize after those reads. A bounded outstanding-operation
+witness requires zero unfinished measured operations; seal the recorder before
+final persistence. Later attempts to record on it permanently refuse qualification.
+Retrospective checks compare its sealed witness without reopening an expired
+phase. Missing finalization never falls back to a valid prefix or terminal recorder.
+
+Bind the typed final slot to the original phase index/deadline, prefix, ledger,
+source, worker/request/result set and complete ordered event extension. Keep
+the existing phase-plus-terminal-round history separate. Both Context and outer
+consumers require complete raw-file inventories and exact final/prefix/witness
+joins; omitted, extra, duplicate, late, changed or wrong-kind records refuse.
+Retain all original event IDs, count cumulative IDs once, and count distinct
+publication brackets separately. Final publication has its own returned
+durability witness, charged to the original clock and persisted by the parent
+and external terminal join. A payload does not measure its own later persistence.
+
+The initial private changes are limited to costs, snapshot and their protocol
+and Task recipe; retain the other 60 operational files and all existing test
+bytes. Preserve all 231 named current source groups with zero skips and add
+actual harmless normal/failure controls for complete finalization, missing and
+mutated tails, sealed-recorder misuse, persistence, cancellation, keeper/FD/pending,
+terminal rounds, deterministic content equality and external CLI joins. Whole
+independent source/import/tool/archive review precedes root transfer and a
+separately declared measurement. Original 13/45/30/32/165/300 clocks, cleanup,
+producer and every physical gate remain unchanged. The private prospective
+plan is pinned by SHA256
+`9b8c3d0746999420f0e7ec72671c3ae0872e02984734dfeb4928f05c1fb7b9f4`.
+
 ### Conditional alternatives after attribution
 
 - An owned bounded committed-blob batch could remove separate Git-job overhead.

@@ -91,9 +91,13 @@ prohibit restoration or further endpoint actions.
 
 <!-- UNVERIFIED: Root cost003 failed Task201/prepare2 after six natural selection
 closures and absent exact qfwk7cy provider; all43 files remain preserved.
-Recovery, exact dependency provisioning/GC-root retention and the separately
-declared complete read-only follow-up remain pending. This proposed delta changes
-neither accepted specs nor source/receiver/physical admission. -->
+Separately qualified administrative recovery, exact dependency retention and
+current readiness now pass; actual cost004 retains content/natural-terminal
+proof but fails cost completeness with five completed records missing. See
+docs/evidence/source004-actual-readonly-cost-004/README.md. Original failures and
+unproven historical marker creation-inode authority remain unchanged. Recording
+correction and whole measurement qualification stay pending. This proposed delta
+changes neither accepted specs nor source/receiver/physical admission. -->
 
 #### Scenario: Exact selected provider is absent before whole cost measurement
 - **WHEN** pure locked-flake selection returns a provider output that is absent or fails exact identity
