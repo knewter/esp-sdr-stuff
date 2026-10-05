@@ -9,7 +9,7 @@ import subprocess
 import sys
 import time
 from html.parser import HTMLParser
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 def run(*args): subprocess.run(args, cwd=ROOT, check=True)
 
@@ -20,10 +20,8 @@ def compact_page_urls(page, dist, prefix):
     and preformatted evidence must remain byte-for-byte presentation text.
     Keep the original quote style and every query, fragment and trailing slash.
     """
-    text = page.read_text()
-    offsets = [0]
-    for line in text.splitlines(keepends=True):
-        offsets.append(offsets[-1] + len(line))
+    text = page.read_bytes().decode("utf-8")
+    offsets = [0, *(match.end() for match in re.finditer("\n", text))]
     directory = prefix + "/" + page.parent.relative_to(dist).as_posix().removeprefix(".")
     changes = []
     attribute = re.compile(r'''([^\s/<>=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?''')
@@ -36,7 +34,9 @@ def compact_page_urls(page, dist, prefix):
             for match in attribute.finditer(token[attribute_start:]):
                 if match.group(1).lower() not in ("href", "src", "poster"):
                     continue
-                group = next(n for n in (2, 3, 4) if match.group(n) is not None)
+                group = next((n for n in (2, 3, 4) if match.group(n) is not None), None)
+                if group is None:
+                    continue
                 value = match.group(group)
                 if not value.startswith(prefix + "/") or value.startswith("//"):
                     continue
@@ -46,7 +46,9 @@ def compact_page_urls(page, dist, prefix):
                 relative = posixpath.relpath(url.path, start=directory)
                 if url.path.endswith("/"):
                     relative = "./" if relative == "." else relative + "/"
-                shorter = urlunsplit(("", "", relative, url.query, url.fragment))
+                if ":" in relative.split("/", 1)[0]:
+                    relative = "./" + relative
+                shorter = relative + value[len(url.path):]
                 if len(shorter) >= len(value) or re.search(r'''[\s"'`=<>]''', shorter):
                     continue
                 changes.append((start + attribute_start + match.start(group),
@@ -55,7 +57,7 @@ def compact_page_urls(page, dist, prefix):
     Tags().feed(text)
     for start, end, value in reversed(changes):
         text = text[:start] + value + text[end:]
-    page.write_text(text)
+    page.write_bytes(text.encode("utf-8"))
     return len(changes)
 
 def main():
