@@ -477,3 +477,14 @@ force-link dead code or relax the ELF policy. Prove optimized native linking
 with section GC, independently formed command/reply CRCs and corrupted-command
 refusal, then independently review before a fresh root-only ARM build. Neither
 host proof nor the earlier FPGA compile closes task3.2 or physical gates.
+
+### Prospective clock PIO metadata correction
+
+Root ARM002 retains the active CRC body but fails the strict PIO metadata guard:
+pinned SDK RP2350 header generation passes `pioasm -v 1`, producing program
+version1 while the guard expects0. Preserve failed001/002 and their source tuples.
+Declare version1 explicitly in the observer PIO source and require its exact
+pointer/length10/origin−1/version1/used-range0 bytes; keep all instruction and
+other ELF guards. Prove pinned assembly conservation, every metadata-bit refusal,
+and actual pinned SDK struct/initializer behavior in native C before independent
+review and a fresh root-only ARM build. No physical or registry gate closes.
