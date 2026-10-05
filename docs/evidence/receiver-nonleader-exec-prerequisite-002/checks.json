@@ -1,0 +1,82 @@
+{
+  "actual_author_Task_elapsed_ns": 3408570863,
+  "actual_author_Task_exit": 0,
+  "actual_cases": [
+    {
+      "actual_saved_events": 52,
+      "actual_terminal": 0,
+      "fresh_kernel_replay": false,
+      "name": "leader"
+    },
+    {
+      "actual_saved_events": 88,
+      "actual_terminal": 0,
+      "fresh_kernel_replay": false,
+      "name": "nonleader-any"
+    },
+    {
+      "actual_saved_events": 88,
+      "actual_terminal": 0,
+      "fresh_kernel_replay": false,
+      "name": "nonleader-parent-first"
+    },
+    {
+      "actual_saved_events": 89,
+      "actual_terminal": 0,
+      "fresh_kernel_replay": false,
+      "name": "nonleader-selected-child-first"
+    },
+    {
+      "actual_saved_events": 28,
+      "actual_terminal": 1,
+      "fresh_kernel_replay": false,
+      "name": "nonleader-before-exec-fault"
+    },
+    {
+      "actual_saved_events": 74,
+      "actual_terminal": 1,
+      "fresh_kernel_replay": false,
+      "name": "nonleader-after-reconcile-fault"
+    }
+  ],
+  "actual_role_maps": 22,
+  "archive_regular_members": 1617,
+  "author_archive_sha256": "79eb3089944b8e5cd3f45f78f54796f28ebf97264565920bbd438d3c7c50c558",
+  "author_readiness_sha256": "2e0b96cbc08c3b7957e0f2cb848af443a4b51593f1e54fe97f78cf73c2489d28",
+  "author_report_sha256": "8628ad5a8c0f364de4062f048e69253073fa48fb94b742c4d1f780caa5059ed7",
+  "current_project_files": 1160,
+  "independent_byte_audit": {
+    "Task_exit": 0,
+    "assertions": 15463,
+    "elapsed_ns": 11382694383,
+    "pure_saved_record_controls": 8
+  },
+  "independent_review_report_sha256": "c0af15cefe905a3a4fa54c16fa5efdd65450e4fba78d573c70cd3a63954c09b6",
+  "independent_saved_source_audit": {
+    "Task_exit": 0,
+    "assertions": 180,
+    "elapsed_ns": 553338027
+  },
+  "limits": {
+    "author_event_and_proc_observations": "Source joined saved instrumentation, not peer raw syscall replay",
+    "current_root_receiver_or_hardware_admission": false,
+    "fresh_peer_kernel_or_root_operations": false,
+    "full_task6_1_or6_2": false,
+    "generic_timeout_logging_resume_pending_publication": "UNQUALIFIED_SOURCE_GAP_RETAINED",
+    "native_arch_raw_event_field": "NOT_EXPORTED; source-bound assertion only",
+    "original001_tracee_closure": "UNKNOWN_NOT_RECOVERED",
+    "original161_tests": "CONSERVED_ONLY_NOT_REPLAYED",
+    "running_kernel_build_config_native_resource_profile": false,
+    "transient_wrapper_raw_bytes": "NOT_IN_PERSISTENT_CAPTURE; selected hash and embedded target are source-bound author observations"
+  },
+  "persistent_captured_files": 99,
+  "physical_evidence": false,
+  "prior_architecture_subjects": 186,
+  "prior_peer_subjects": 216,
+  "reviewer_failed_attempts_preserved": 3,
+  "saved_subjects": 1616,
+  "source_revision": "c740d46dd690fc3431382de2fe3ed4693041d8e9",
+  "status": "PASS_WHOLE_SAVED_NARROW_NEW002_EXEC_PREREQUISITE_ONLY",
+  "task6_1_complete": false,
+  "task6_2_complete": false
+}
