@@ -425,13 +425,21 @@ unknown-closure FD release; double persistence failure retains the exact held
 FD without hardware or renewed acceptance. Cancellation handling spans final
 effects. Independent replacement review passes 63 author + 8 peer groups, with 65 execution inputs and 32 actual imports; the [sanitized checkpoint](../../../docs/evidence/forgix-synthetic-finalization-review/README.md) retains both failures. The [fresh root configuration006 and register/synthetic runtime transfer](../../../docs/evidence/forgix-host-refresh-2026-10-05/README.md) now passes independent saved review. Every physical gate remains pending.
 
-## 5. Correct distinct clock finalization before admission (UNVERIFIED)
+## 5. Correct distinct clock finalization before admission (software reviewed)
 
-- [ ] 5.1 Correct clock pending establishment and terminal lock ordering under the unchanged original clock; preserve shared refusal or exact held-FD quarantine across unknown closure and terminal/corrective storage faults, keeping the original FD through terminal effects and staging final kernel-teardown release. Keep normal run/recovery controls, strict artifact policies and empty registries.
-- [ ] 5.2 Replay both exact saved counterexamples and add real temporary-file/flock, owner/inode/link substitution, cancellation/deadline, descriptor-ambiguity and actual kernel-exit normal/recovery/failure subprocess tests under locked Nix/Task. Independently join actual exit, original deadline, group/FD/marker absence and flock reacquisition; retain failures and review the complete changed finalization path and transitive source map.
-- [ ] 5.3 After independent host readiness, refresh actual root source/tool/archive/Nix/runtime proof and independently rebind a distinct private documentary candidate. Separate historical six-field design evidence from current whole-loading review; no registry or physical task acceptance follows.
+- [x] 5.1 Correct clock pending establishment and terminal lock ordering under the unchanged original clock; preserve shared refusal or exact held-FD quarantine across unknown closure and terminal/corrective storage faults, keeping the original FD through terminal effects and staging final kernel-teardown release. Keep normal run/recovery controls, strict artifact policies and empty registries.
+- [x] 5.2 Replay both exact saved counterexamples and add real temporary-file/flock, owner/inode/link substitution, cancellation/deadline, descriptor-ambiguity and actual kernel-exit normal/recovery/failure subprocess tests under locked Nix/Task. Independently join actual exit, original deadline, group/FD/marker absence and flock reacquisition; retain failures and review the complete changed finalization path and transitive source map.
+- [x] 5.3 After independent host readiness, refresh actual root source/tool/archive/Nix/runtime proof and independently rebind a distinct private documentary candidate. Separate historical six-field design evidence from current whole-loading review; no registry or physical task acceptance follows.
 
 Proof: `nix develop --command task forgix:clock:test`, exact immutable probe
 replay and independent whole review, followed by a separate root read-only runtime
 experiment. Physical tasks1.1,2.1–2.3,3.3/3.4 and accepted hardware requirements
 remain unchanged.
+
+The [current software/documentary checkpoint](../../../docs/evidence/forgix-clock-current-documentary-review/README.md)
+binds the complete corrected finalization review, actual root runtime005 at
+`c740d46`, independent current whole-loading review and a distinct private
+87-input candidate. Original failures, actual kernel joins and trusted-host
+authority limits remain explicit. This closes only software5.1–5.3; registries
+remain empty and operator/physical admission stays false. Historical ARM/FPGA
+provenance does not prove register artifact-currentness or any physical task.
