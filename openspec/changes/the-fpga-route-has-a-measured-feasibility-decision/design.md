@@ -488,3 +488,48 @@ pointer/length10/origin−1/version1/used-range0 bytes; keep all instruction and
 other ELF guards. Prove pinned assembly conservation, every metadata-bit refusal,
 and actual pinned SDK struct/initializer behavior in native C before independent
 review and a fresh root-only ARM build. No physical or registry gate closes.
+
+## Prospective synthetic finalization correction
+
+Declared October 5, 2026 before implementation. Preserve the reviewed historical
+synthetic lifecycle and both new temporary-file counterexamples against
+`2ab2e7e`: actual lease unlink followed by (a) late return or (b) directory-sync
+failure, then corrective receipt-storage failure. Both raise `OSError` and
+leave an in-memory failed result, yet saved `session.json` remains completed,
+the lease and pending blocker are absent, and the next temporary operator lock
+admits. This is a saved-terminal/admission inconsistency after fixture-declared
+known closure and original verification, not demonstrated false CLI0, unknown
+hardware ownership, physical access or transport acceptance. Exact private
+probe bytes and observations remain ignored; public proof is aggregate only.
+
+Add only synthetic-owned finalization to the existing lifecycle. Treat stream
+or explicit recovery completion as provisional. Before releasing the active
+lease, durably write owner-bound pending intent and establish
+`.scratch/forgix-spi-finalization-pending.json`, already used by the shared
+register guard. Keep this blocker through lease release, terminal save/fsync,
+output and their original-clock/cancellation checks; acknowledge normal
+completion only after those operations return inside the same 600 seconds.
+Clear only this session's exact owned blocker after successful finalization.
+Do not depend on a corrective write after storage fails to turn previously
+completed-looking bytes into truthful failed proof. Retain the pending blocker
+and conservative active lease where possible on failure; an old lifecycle
+receipt alone is never finalization or independent-result acceptance.
+
+The existing `reject_pending_finalization` lstat guard refuses presence,
+malformation, dangling symlinks and inspection uncertainty across register,
+synthetic, clock and USB run/recovery/admission, inherited worker/lock checks,
+identity/serial selectors and preservation/picotool dispatch. Reuse this
+already-reviewed shared refusal policy; no new marker whitelist, generic
+override or unrelated cleanup is needed. Synthetic finalization may remove
+only its own record after complete verification. An unresolved blocker requires
+the existing qualified known-closure operator investigation, never automatic
+retry, resynchronization or renewed hardware commands.
+
+Keep the 325-second recovery reservation, same 600-second original clock,
+factory/full-original verification, finite profiles, runtime/image/UID bindings,
+unknown-closure prohibition and empty registries. No watchdog, firmware,
+bitstream, physical gate or accepted requirement changes. Host proof must replay
+both exact failures with real temporary leases and add successful control,
+release/terminal storage, deadline and cancellation tests, including cross-route
+refusal and owner-substitution refusal. Fresh changed execution tuples and
+independent review precede any future registry admission or physical trial.
