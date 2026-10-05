@@ -465,3 +465,15 @@ binding, exact-image builder, dedicated ELF/startup policy, prefix-preserving
 collector and bounded preserved measurement lifecycle. This is prospective
 implementation scope; old registry/profile qualification is unchanged, and
 neither host tests nor nominal clock assumptions satisfy physical inventory.
+
+### Prospective clock CRC audit correction
+
+Actual root clock ARM001 at `5b35749` links but fails the unchanged required
+`fc_crc` symbol guard. Its Release/O3 map discards `.text.fc_crc`; disassembly
+retains the CRC polynomial in both command validation and reply encoding. Keep
+this failed ELF/manifest and all CRC checks. Make the active CRC function
+non-inline/non-clonable so both callers retain one auditable linked body; do not
+force-link dead code or relax the ELF policy. Prove optimized native linking
+with section GC, independently formed command/reply CRCs and corrupted-command
+refusal, then independently review before a fresh root-only ARM build. Neither
+host proof nor the earlier FPGA compile closes task3.2 or physical gates.
