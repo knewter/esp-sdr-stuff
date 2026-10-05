@@ -423,4 +423,4 @@ tasks stay unchanged. Replacement author proof passes 63 distinct host groups
 and all three unchanged peer controls/counterexamples. Shared refusal precedes
 unknown-closure FD release; double persistence failure retains the exact held
 FD without hardware or renewed acceptance. Cancellation handling spans final
-effects. Independent replacement review passes 63 author + 8 peer groups, with 65 execution inputs and 32 actual imports; the [sanitized checkpoint](../../../docs/evidence/forgix-synthetic-finalization-review/README.md) retains both failures. Fresh root runtime transfer and every physical gate remain pending.
+effects. Independent replacement review passes 63 author + 8 peer groups, with 65 execution inputs and 32 actual imports; the [sanitized checkpoint](../../../docs/evidence/forgix-synthetic-finalization-review/README.md) retains both failures. The [fresh root configuration006 and register/synthetic runtime transfer](../../../docs/evidence/forgix-host-refresh-2026-10-05/README.md) now passes independent saved review. Every physical gate remains pending.
