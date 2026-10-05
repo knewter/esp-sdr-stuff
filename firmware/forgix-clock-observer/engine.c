@@ -6,6 +6,8 @@
 static uint32_t get32(const uint8_t *p){return (uint32_t)p[0]|((uint32_t)p[1]<<8)|((uint32_t)p[2]<<16)|((uint32_t)p[3]<<24);}
 static void put32(uint8_t *p,uint32_t v){for(unsigned n=0;n<4;n++)p[n]=(uint8_t)(v>>(8*n));}
 static void put64(uint8_t *p,uint64_t v){for(unsigned n=0;n<8;n++)p[n]=(uint8_t)(v>>(8*n));}
+/* Keep both active CRC callers bound to one auditable body under Release/GC. */
+__attribute__((noinline,noclone))
 uint32_t fc_crc(const uint8_t *p,unsigned n){uint32_t c=UINT32_MAX;while(n--){c^=*p++;for(unsigned b=0;b<8;b++)c=(c>>1)^(UINT32_C(0xedb88320)&(0-(c&1)));}return ~c;}
 static uint64_t minimum(uint64_t a,uint64_t b){return a<b?a:b;}
 static unsigned gate(fc_engine *e,uint64_t until){

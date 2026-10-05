@@ -1,5 +1,6 @@
 """Actual finite C engine and strict wire fault tests; no ARM/device build."""
 import os
+import re
 from pathlib import Path
 import shutil
 import struct
@@ -94,3 +95,37 @@ class Engine(unittest.TestCase):
         text=(C/'main.c').read_text();self.assertLess(text.index('watchdog_enable(2000'),text.index('bridge_uid_init('));self.assertLess(text.index('bridge_uid_init('),text.index('tud_init('))
         self.assertNotIn('gpio_',text);self.assertNotIn('pico_unique_id',(C/'CMakeLists.txt').read_text())
         self.assertIn('pico_set_binary_type(forgix_clock_observer no_flash)',(C/'CMakeLists.txt').read_text())
+
+
+class OptimizedCRC(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.temp=tempfile.TemporaryDirectory();folder=Path(cls.temp.name)
+        # No test-side C call may keep fc_crc alive: the wire command is formed
+        # independently, and only the actual engine consumes/emits its CRCs.
+        command=wire.command(b'\x11'*16,b'\x22'*32,b'\x33'*32)
+        old='uint32_t crc=fc_crc(cmd,124);for(unsigned i=0;i<4;i++)cmd[124+i]=(uint8_t)(crc>>(8*i));'
+        literal='memcpy(cmd,(const uint8_t[]){'+','.join(str(v) for v in command)+'},128);'
+        assert HARNESS.count(old)==1
+        text=HARNESS.replace(old,literal).replace("if(scenario==1)cmd[0]='X';", "if(scenario==1)cmd[0]='X';\n if(scenario==9)cmd[124]^=1;")
+        text=text.replace('if(scenario==1||scenario==2){','if(scenario==1||scenario==2||scenario==9){')
+        (folder/'test.c').write_text(text);cls.binary=folder/'test'
+        cc=shutil.which('cc');assert cc and str(Path(cc).resolve()).startswith('/nix/store/')
+        subprocess.run([cc,'-std=c11','-O3','-ffunction-sections','-fdata-sections','-Wl,--gc-sections','-Wall','-Wextra','-Werror','-I',str(C),str(folder/'test.c'),str(C/'engine.c'),str(C/'observer.c'),'-o',str(cls.binary)],check=True,timeout=30)
+    @classmethod
+    def tearDownClass(cls):cls.temp.cleanup()
+    def test_active_crc_body_and_two_optimized_call_sites(self):
+        symbols=subprocess.check_output(['nm','-S','--defined-only',str(self.binary)],text=True,timeout=5)
+        matched=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) T fc_crc$',symbols,re.M)
+        self.assertEqual(len(matched),1);self.assertGreater(int(matched[0][1],16),0)
+        assembly=subprocess.check_output(['objdump','-d',str(self.binary)],text=True,timeout=5)
+        calls=re.findall(r'\bcall\s+[0-9a-f]+\s+<fc_crc>',assembly)
+        self.assertGreaterEqual(len(calls),2)
+        feed=subprocess.check_output(['objdump','-d','--disassemble=fc_feed',str(self.binary)],text=True,timeout=5)
+        self.assertRegex(feed,r'\bcall\s+[0-9a-f]+\s+<fc_crc>')
+    def test_optimized_crc_roundtrip_and_corrupt_command_refusal(self):
+        raw=subprocess.check_output([str(self.binary),'0'],timeout=5)
+        self.assertEqual(struct.unpack_from('<I',raw,508)[0],zlib.crc32(raw[:508]))
+        parsed=wire.result(raw,b'\x11'*16,b'\x22'*32,b'\x33'*32)
+        self.assertEqual(parsed['decrements'],[2400]*16)
+        self.assertEqual(subprocess.check_output([str(self.binary),'9'],timeout=5),b'')
