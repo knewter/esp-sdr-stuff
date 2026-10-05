@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "kind": "sanitized_timed_startup_preparation_review",
+  "scope": "Independent offline host preparation only; historical root and actual source evidence remain separate.",
+  "source003": {
+    "prospective_revision": "9dfdf0c63ed00004d93cb6325c3f52f6451f9027",
+    "base_revision": "ee495d132beea854d0a85d17de6f35c5f4fa8211",
+    "readiness_sha256": "628b993760ea88d236cd13761cd97e5f7ba54032ddcd7522ef63cc8161a64afd",
+    "independent_review_sha256": "6cbebb0ad3855e87df16a491cad7f9d37639257e43cfe1911a0ffcda32ea4d77",
+    "result": "PASS_OFFLINE_SOURCE_CALLER_PREPARATION_ONLY",
+    "author_groups": 99,
+    "independent_groups": 3,
+    "returncode": 0,
+    "skips": 0,
+    "support_sha256": "bb27c3fdebfa4294ecbd5d72fe72db57c30fd699d0f709e061ec1d7d7dbf8681",
+    "prior_reviewed_CID_helper_sha256": "727e92e1ab0a7de6e22544342e935d1acb024950d431a573ef206b4e47ebf01c",
+    "prior_CID_author_readiness_sha256": "0642196eab79857ba0e133219758f305f318e3a796b2f333ceccbe1a2a10838d",
+    "prior_root_readonly_freeze_sha256": "3f435cbcc01ad3667270d23f4181b90eb91fb8b522afc224afeddf8008db923a",
+    "historical_root_freeze_is_current_admission": false
+  },
+  "receiver004": {
+    "prospective_revision": "6a76f2d8374826a40e6fc5ca973f176c4010d2d6",
+    "readiness_sha256": "c79cb4ff23579f62903fad133d01e30797d2bcf7403225aa24bb839e62d34ee9",
+    "independent_review_sha256": "3ba732fa6201d7651fe12ab9cd1a8d56241724c17ab43d5fc535030386a3866f",
+    "result": "PASS_OFFLINE_RECEIVER_AND_HOLDER_PREPARATION_ONLY",
+    "receiver_author_groups": 101,
+    "holder_author_groups": 60,
+    "independent_groups": 12,
+    "returncode": 0,
+    "skips": 0,
+    "active_support_sha256": "80da053cdefc7f54389a3caf27aaf22c890fe0371b34715bedbd8ae2f86aaee1",
+    "holder_sha256": "aad05a032470110446784f75b82bc368ecd42ffd54834e2ca8ebda9c35518a39",
+    "prior_receiver002_failed_peer_sha256": "dd6d1f04b30e063d8faf3934ebe46069b1beca73eab6dbf4d6aba890b672250f",
+    "prior_receiver003_failed_peer_sha256": "8b230f1a562529fbbb1652d2e272fb8a7d44cba44c51accfe1fc5d4bcc7f84d9",
+    "prior_receiver003_readiness_sha256": "e53b707c7cec8138923aaacb35a2c12d549103d746469d761b69c2da492fc1c2",
+    "historical_qualification_helper_unchanged": true
+  },
+  "observed_host_behaviors": [
+    "Original clock checked inside deferred cancellation immediately before actual Popen.",
+    "Exact-deadline and late context entry refuse without launching; original effective counterexample now closes without a child.",
+    "Valid harmless child retains real process identity and is closed/reaped.",
+    "Source cancellation test signals only its fresh isolated process during actual deferred spawn, then confirms exact child ownership and cleanup.",
+    "Receiver original CID/readiness, deadline, cancellation, inherited-lock and holder closure regressions still pass."
+  ],
+  "preserved_history": [
+    "Source002, CID author ancestry, historical read-only benchmark and failed actual source001 remain unchanged.",
+    "Receiver002/003 immutable bundles and failed peer receipts remain unchanged.",
+    "Original v1 qualification replay and actual-source provenance remain separate from new active helper preparation."
+  ],
+  "physical_or_operational_claims": {
+    "root_transfer_verified": false,
+    "current_operational_full_freeze": false,
+    "current_endpoint_controller_image_admission": false,
+    "actual_timed_source_qualified": false,
+    "timed_receiver_trial": false,
+    "air_denominator": null,
+    "RF_accepted": false,
+    "physical_tasks_changed": false
+  }
+}
