@@ -19,8 +19,9 @@ two complete 2 MiB **fixture** baseline copies and an injected device boundary.
 Synthetic ARM001 remains bound under its unchanged historical-build policy.
 
 No FPGA was programmed; registries stay empty. The runtime record retains a
-historical Docker image identity, with no fresh daemon inspection. The last
-read-only survey found no Forgix. Matching attachment, fresh preservation and
+historical Docker image identity, with no fresh daemon inspection. A new read-only USB survey at13:11:12 UTC still finds no matching Forgix;
+the ESP stable link, preserved backup bytes and one RTL-SDR remain present.
+It holds the operator lock and opens no serial/USB device. Matching attachment, fresh preservation and
 current operator admission still precede the clock diagnostic; electrical
 timing, register readback and several-rate FPGA transport remain unmeasured.
 Internal tests need no ESP wiring. Private artifacts and identities stay unpublished.

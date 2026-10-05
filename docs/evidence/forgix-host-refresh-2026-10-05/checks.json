@@ -43,7 +43,7 @@
     "historical_synthetic001_profile_unchanged": true,
     "fresh_Docker_loaded_image_query": false
   },
-  "latest_readonly_USB_survey_UTC": "2026-10-05T06:39:08.422299Z",
+  "latest_readonly_USB_survey_UTC": "2026-10-05T13:11:12.380802+00:00",
   "Forgix_devices_found": 0,
   "qualification_registry_entries": 0,
   "FPGA_programmed": false,
@@ -55,5 +55,10 @@
     "Loaded Docker identity and endpoint remain historical; current archive bytes and config identity were rehashed.",
     "Host worker uses two full 2 MiB fixture baselines and an injected device boundary.",
     "Existing clock documentary review remains accepted under intended-design assumptions; actual clock, electrical timing, register and FPGA transport proof remain pending."
-  ]
+  ],
+  "previous_readonly_USB_survey_UTC": "2026-10-05T06:39:08.422299Z",
+  "latest_readonly_USB_survey_sha256": "ee4fe0c9f0c1a06743326b805a859eed68a912c4fc3e9fe901f5b1435f05d260",
+  "latest_survey_scope": "Sysfs USB identities, stable ESP by-id link and preserved backup bytes under exclusive operator lock; no serial/USB device handles or service query",
+  "latest_survey_ESP_present_and_backups_verified": true,
+  "latest_survey_RTL_USB_count": 1
 }
