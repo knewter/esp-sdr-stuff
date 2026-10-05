@@ -73,5 +73,52 @@
     "transfer_correction": "Copied19 independently reviewed historical fixtures and set54 operational copies to required0600; reviewed code and guards unchanged.",
     "transfer_manifest_sha256": "b646605519369ba87b7f296e595e90e9167b45d9452467d4d0d509ecf5858335",
     "runtime_and_physical_admission": false
+  },
+  "fresh_readonly_prepare_and_refused_timing": {
+    "root_revision": "5c5ddfcb688aeecbe27924b4189f449ff17d75a3",
+    "recipe_readiness_sha256": "a02e75aa618db6050810653b2f99dcc07b94e634a3720444f134c0dc2d04471f",
+    "recipe_independent_review_sha256": "6124041e9e3239efd89de611550ec177fdfb5bad451164872a2822d2c57a9c56",
+    "saved_refusal_independent_review_sha256": "aa5b9efb6bbd706fe50fa666e934517db8eaa86319364a573fc38ce169a76567",
+    "prepared_freeze_sha256": "4f05680fdeb99cdb30e62b5bb65054997faeda506a4d8007899e39188d81e94e",
+    "prepare_result_sha256": "0a0cc874c0d5cd7dfaaf5d7705058c9f42cfa4b46b39d623d53bcacac7b4f381",
+    "measure_result_sha256": "06cfbeeb362f88d393c5bfb00da088dd5b7b4ee5c3b7c19c65535061e40cc89f",
+    "import_requested_roots_before_after": [
+      11,
+      12
+    ],
+    "current_inputs": 42,
+    "runtime_objects": 12,
+    "requested_roots": 12,
+    "content_verified_Nix_paths": 303,
+    "reference_edges": 1220,
+    "prepare_seconds": 53.79595528298523,
+    "measure_terminal_returncode": 2,
+    "known_frontwork_seconds": 31.198032484040596,
+    "full_freeze_verify_seconds": 30.805507075041533,
+    "whole_frontwork_and_postflight_seconds": 31.524934677989222,
+    "source_limit_seconds": 45,
+    "caller_floor_seconds": 30,
+    "native_floor_seconds": 32,
+    "maximum_native_frontwork_seconds": 13,
+    "source_or_monitor_spawned": false,
+    "operational_admission": false,
+    "complete_fit": false,
+    "private_before_after_identity_equal": true
+  },
+  "separate_original_snapshot_profile": {
+    "root_revision": "5c5ddfcb688aeecbe27924b4189f449ff17d75a3",
+    "readiness_sha256": "8289d1b68ccf00a61a3fce863e057a41f51b3717289ee63dc0cdf2b67cb3a2b5",
+    "independent_review_sha256": "94357614047690181e03290ec8a835a940d0b4129cd037cade36432d357a5e49",
+    "result_sha256": "7b780ba19e9124a64650cf743fa5bec5ed6389bb25b6614e38c2c1c52a912f1b",
+    "terminal_returncode": 0,
+    "author_root_groups": 6,
+    "independent_groups": 4,
+    "verification_seconds": 37.11546484695282,
+    "nix_eval_seconds": 14.289357628091238,
+    "full_Nix_contents_seconds": 13.596695036045276,
+    "archive_proof_seconds": 6.2330913440091535,
+    "nested_timings_not_additive": true,
+    "original_verification_and_equality_pass": true,
+    "operational_fit": false
   }
 }

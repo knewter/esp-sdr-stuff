@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Transfer the reviewed source003 and receiver004 into fresh whole root admission; qualify the actual timed source before the separately frozen receiver condition.",
-      "rationale": "Complete owned BLE packets have decoded independently. The fixed extended-primary trial retained 365 intact waveforms and zero CRC-valid primary packets; only 11 whole guarded ON captures make that null inconclusive. Actual timed source001 failed before source commands and was recovered under reviewed exact-identity checks. Source003 passes 99 author and 3 independent groups; receiver004 passes 101 receiver and 60 holder groups plus 12 independent groups. These host reviews supply neither current root admission nor actual timed-source qualification. Air count, detection rate, three reciprocal responses and original Trial B acceptance remain open.",
-      "reviewRevision": "e4ae1a1083118938fe9d71773ccaec46284a2bf6",
+      "next": "Reduce full fresh verification cost and prove unchanged source timing, then qualify one actual timed source before the separate receiver condition.",
+      "rationale": "Source003 and receiver004 pass independent host review and root replays. A fresh parent-imported snapshot passes 42 inputs, 12 roots and 303 full Nix contents; partial read-only setup then refuses at 31.198 seconds, exceeding the 13-second native frontwork allowance. Independent saved review confirms no source or monitor launched. Separate profiling identifies Nix evaluation and full content verification as major costs. Retain the recovered source001 failure and fixed 365-waveform null with only 11 guarded ON captures. Actual source qualification, air count, detection rate, three reciprocal RF responses and original Trial B remain open.",
+      "reviewRevision": "5c5ddfcb688aeecbe27924b4189f449ff17d75a3",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -137,9 +137,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Transfer the reviewed source003 and receiver004 into fresh whole root admission; qualify the actual timed source before the separately frozen receiver condition.",
-      "rationale": "Complete owned BLE packets have decoded independently. The fixed extended-primary trial retained 365 intact waveforms and zero CRC-valid primary packets; only 11 whole guarded ON captures make that null inconclusive. Actual timed source001 failed before source commands and was recovered under reviewed exact-identity checks. Source003 passes 99 author and 3 independent groups; receiver004 passes 101 receiver and 60 holder groups plus 12 independent groups. These host reviews supply neither current root admission nor actual timed-source qualification. Air count, detection rate, three reciprocal responses and original Trial B acceptance remain open.",
-      "reviewRevision": "e4ae1a1083118938fe9d71773ccaec46284a2bf6",
+      "next": "Reduce full fresh verification cost and prove unchanged source timing, then qualify one actual timed source before the separate receiver condition.",
+      "rationale": "Source003 and receiver004 pass independent host review and root replays. A fresh parent-imported snapshot passes 42 inputs, 12 roots and 303 full Nix contents; partial read-only setup then refuses at 31.198 seconds, exceeding the 13-second native frontwork allowance. Independent saved review confirms no source or monitor launched. Separate profiling identifies Nix evaluation and full content verification as major costs. Retain the recovered source001 failure and fixed 365-waveform null with only 11 guarded ON captures. Actual source qualification, air count, detection rate, three reciprocal RF responses and original Trial B remain open.",
+      "reviewRevision": "5c5ddfcb688aeecbe27924b4189f449ff17d75a3",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -222,7 +222,7 @@
       "source": "in-progress",
       "physical": "pending",
       "next": "Qualify matching Forgix attachment, board/electrical/reset assumptions and preserved loading/recovery for one relative clock measurement. Refresh register/synthetic tuples before their separate hardware trials.",
-      "rationale": "Software tasks 3.1 and 3.2 are complete; physical tasks remain open. Actual clock FPGA compile001 and fresh ARM003 pass complete independent offline artifact, startup/callback and loading/recovery ownership review. ARM003 uses 206,132 SRAM bytes. The current runtime proof binds 88 inputs and seven tools and verifies 268 Nix paths and 1,097 reference edges. The combined review covers all nine requirement rows, 39 independent host groups and 352 callback/queue mutation refusals under explicit SDK/ROM/kernel trust. ARM001 CRC-symbol and ARM002 PIO-metadata failures remain retained. No FPGA was programmed or clock measured; registries remain empty. The 2026-10-05T01:06:50Z read-only survey found ESP32 and RTL-SDR but no Forgix. Fitted grade, voltage, actual clock, pad/reset handoff, physical loading/recovery, SPI/register and several-rate transport gates remain unqualified.",
+      "rationale": "Software tasks 3.1 and 3.2 are complete; physical tasks remain open. Actual clock FPGA compile001 and fresh ARM003 pass complete independent offline artifact, startup/callback and loading/recovery ownership review. ARM003 uses 206,132 SRAM bytes. The current runtime proof binds 88 inputs and seven tools and verifies 268 Nix paths and 1,097 reference edges. The combined review covers all nine requirement rows, 39 independent host groups and 352 callback/queue mutation refusals under explicit SDK/ROM/kernel trust. ARM001 CRC-symbol and ARM002 PIO-metadata failures remain retained. No FPGA was programmed or clock measured; registries remain empty. The 2026-10-05T02:43:02Z read-only survey found ESP32 and RTL-SDR but no Forgix. Fitted grade, voltage, actual clock, pad/reset handoff, physical loading/recovery, SPI/register and several-rate transport gates remain unqualified.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],

@@ -82,5 +82,15 @@
     "remaining_selected_available_code_gaps": 0,
     "physical_measurement_row": "OPEN_PHYSICAL",
     "trust_boundaries": "Pinned SDK/libc, ROM implementations, concurrency, kernel and filesystem; static stack allocation is not a physical watermark."
+  },
+  "later_readonly_usb_survey018": {
+    "captured_utc": "2026-10-05T02:43:02.836597+00:00",
+    "receipt_sha256": "c61fb282793e5426379794a90d088b865ed1558d8073631461ec162ab56ae995",
+    "operator_lock_held": true,
+    "serial_opened": false,
+    "esp_stable_link_and_backups_verified": true,
+    "rtl_v4_usb_count": 1,
+    "any_RP_or_TinyUSB_device_count": 0,
+    "physical_admission": false
   }
 }
