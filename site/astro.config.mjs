@@ -6,13 +6,19 @@ export default defineConfig({
   build: { format: "directory" },
   devToolbar: { enabled: false },
   compressHTML: true,
-  vite: { build: {
-    assetsInlineLimit: 0,
-    // The hash still identifies exact JS bytes; long compiler entry names
-    // need not be repeated in every static page's script URL.
-    rollupOptions: { output: {
-      entryFileNames: "_astro/[hash].js",
-      chunkFileNames: "_astro/[hash].js",
-    } },
-  } },
+  vite: { build: { assetsInlineLimit: 0 } },
+  integrations: [{
+    name: "compact-client-script-names",
+    hooks: {
+      "astro:build:setup": ({ target, updateConfig }) => {
+        if (target !== "client") return;
+        // Keep exact content hashes without repeating compiler entry names.
+        // Server chunk paths retain Astro's normal build and cleanup rules.
+        updateConfig({ build: { rollupOptions: { output: {
+          entryFileNames: "_astro/[hash].js",
+          chunkFileNames: "_astro/[hash].js",
+        } } } });
+      },
+    },
+  }],
 });
