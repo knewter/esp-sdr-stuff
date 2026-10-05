@@ -182,8 +182,12 @@
     "exitCode": 0,
     "skips": 0,
     "unchangedInstructionWords": 10,
-    "independentReviewPending": true,
+    "independentReviewPending": false,
     "freshRootARMBuildRequired": true,
-    "physicalAdmission": false
+    "physicalAdmission": false,
+    "peerReceiptSHA256": "7ea54efa26771ef58fc06a2e15aa68effd2578dc637d46132f7b627ec935cd82",
+    "peerGroups": 3,
+    "actualELFMetadataBitRefusals": 64,
+    "actualELFInstructionBitRefusals": 160
   }
 }

@@ -69,3 +69,5 @@ relaxing that guard;60 host groups pass. Independent source review and a fresh
 root ARM build/linked audit remain required. No loading or physical gate closes.
 
 ARM002 linked the active CRC helper but failed the exact PIO metadata guard: pinned SDK generation declares version1; the guard expected0. Both failed builds remain retained. Prospective9969e26 and source6b0e463 explicitly declare version1 and bind its exact eight-byte metadata without changing the ten input-only instructions. All62 host groups,64 metadata-bit refusals and one native test of the actual pinned SDK struct/generated initializer passed. Independent review and a fresh root ARM build remain required; no loading or physical qualification follows.
+
+Independent PIO review `7ea54efa26771ef58fc06a2e15aa68effd2578dc637d46132f7b627ec935cd82` reproduced62 host groups, the SDK native test and three peer groups. The saved failed002 ELF passes the corrected layout check; all64 metadata and160 instruction bit changes refuse. This preserves both failed build outcomes and still requires a fresh source-bound root ARM build.
