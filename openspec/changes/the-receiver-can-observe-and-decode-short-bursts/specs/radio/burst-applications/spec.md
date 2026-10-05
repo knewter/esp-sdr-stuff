@@ -42,3 +42,11 @@ original acceptance gates.
 - **WHEN** the timed condition's saved source and receiver records are reviewed
 - **THEN** the report counts whole guarded ON acquisition windows per repetition and retains every OFF, boundary, sparse and failed outcome
 - **AND** a completed-count byte, requested duration or window threshold does not establish an air denominator, event rate, three reciprocal RF responses or original Trial B acceptance
+
+#### Scenario: Verification cost requires new preparation
+- **WHEN** source003 full verification refuses the existing timed-source admission budget
+- **THEN** a separately reviewed source004 and outer gate SHALL retain every fresh local byte/import/reference/NAR/archive predicate and complete worker ownership within unchanged source45/caller30/native32/whole165/outer300 bounds
+- **AND** hermetic pinned selection and exact locked public input retrieval occur only before monitor; no selector, fetch or build occurs inside45
+- **AND** neither architecture review nor a parallel allocation estimate admits a source or closes any physical acceptance gate
+
+<!-- UNVERIFIED: source004 is prospective only; actual source003 cost/refusal is retained in docs/evidence/ble-primary-timed-startup-preparation-review/README.md. The independently reviewed design prerequisite and private provenance pins are in this change's design.md. Actual current tuple, complete timing, source and receiver qualification remain pending. -->

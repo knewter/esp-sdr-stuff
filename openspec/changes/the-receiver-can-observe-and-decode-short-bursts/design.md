@@ -184,3 +184,44 @@ admits no implementation, container/package build, source or receiver action.
 ## Reviewed timed-source implementation and archive
 
 The [current software and archive proof](docs/evidence/ble-primary-timed-source-host-preparation/README.md) completes tasks 4.1/4.2 after retained reporting, resource-access and deadline corrections. Source, image, whole runtime contents and refreshed Forgix production inputs pass independent review. Caller admission, actual source-only qualification and the new receiver/holder remain separate prerequisites; no physical acceptance gate or accepted requirement changes.
+
+## Source004 bounded verification prerequisite
+
+NEW private source004 preserves source003 and its outer launcher. Its controlled
+child configuration/environment excludes ambient Nix configuration/plugins
+before the pinned bootstrap starts; the parent environment remains separately
+frozen. One pure locked-current-revision selection before monitor may retrieve
+only exact locked public source inputs within165/300 seconds, without registry,
+lock update, arbitrary provider or output build. Root must prove the actual
+CLI configuration, selected provider and current source/runtime equivalence.
+Pure evaluation alone did not prove the earlier draft's no-fetch promise:
+a cache-write error can enter Nix's remote accessor. Preserve that rejected
+draft; bounded authorized retrieval before monitor explicitly replaces its
+new promise, not an original RF/content/deadline requirement.
+
+After readiness there is no selector/eval/fetch/realise/build. Every current
+byte, alias, revision, environment/import, complete local reference graph and
+NAR content, and both entire archive proofs remain fresh under45 seconds.
+Up to four disjoint whole-path NAR workers and two whole-archive workers retain
+exact union, job/input identity and full result equality. Each group has its
+own owner; a bounded manager never shares one mutable sequential worker owner.
+Durable pending and a live independent inherited-lock keeper precede the FIRST
+worker. NEW inner and outer gates require the complete verifier ledger, natural
+whole-group absence, closed FDs, bounded results/logs and timely durable terminal
+data. Partial spawn, missing results, forced/unknown closure, cancellation and
+storage failure cannot release qualification or become success.
+
+Caller30/native32/source45/whole165/outer300 remain unchanged, including all
+frontwork, close and persistence checks. Removing14.289 seconds of selection
+alone leaves22.826 seconds, still too slow. Sharding estimates prove no speedup;
+host load/shared storage remain limits. Harmless process/flock, graph/archive,
+config/alias and terminal-failure tests plus independent review must precede
+root-only current full verification/frontwork timing. No skipping, cached
+content PASS, deadline renewal, automatic retry or physical acceptance follows.
+
+Private design003 SHA256 `65ac83686848b49896ca1f6d169d81162027f4106a9383c3d436c748be1b9976`
+and controlling scope `43e9ed62566eb313a197ce8e7b09a75fe0c0da408482d21cea9e1bfd7dace239`
+are independently reviewed by receipt
+`eda93ed36c0e31d8c2bc7526cb54b219bfc6d0ddfbd3d5b0a7e4c5060f61f6db`.
+This pins prospective architecture only; actual004 implementation, CLI/current
+tuple, timing fit, controller qualification and receiver operation remain open.

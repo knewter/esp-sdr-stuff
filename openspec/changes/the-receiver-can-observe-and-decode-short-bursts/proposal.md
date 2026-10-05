@@ -55,3 +55,17 @@ and root-only operation. Existing v1 source/image/guards/private inputs remain
 unchanged. No added RF equipment or FPGA wiring is needed for this diagnostic;
 calibrated RF/air-count conclusions remain outside its scope. Failure or sparse
 coverage retains the attempt and admits no automatic retry or acceptance task.
+
+## Bounded source004 preparation prerequisite
+
+[Actual source003 cost evidence](docs/evidence/ble-primary-timed-startup-preparation-review/README.md)
+retains a31.198-second frontwork refusal and37.115-second full verification,
+not operational fit. A NEW source004 bundle and outer gate will perform
+hermetic pinned selection before monitor under the existing165/300-second
+clocks, then every fresh local input, runtime, NAR and archive check inside45.
+Exact locked public input retrieval is allowed only during selection; this is
+not a globally network-denied host. Bounded parallel verification must retain
+complete ownership and whole-proof equality. See [design](design.md#source004-bounded-verification-prerequisite).
+Implementation, actual current-provider/timing proof and independent review
+precede task4.3 operation; all source003 failures, hardware gates and wire
+profiles remain unchanged. No source attempt follows automatically.
