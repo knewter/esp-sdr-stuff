@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "kind": "independent_saved_readonly_content_and_partial_cost_review",
+  "result": "FAIL_MEASUREMENT_COMPLETENESS_FIVE_POST_EXPORT_OPERATIONS_MISSING",
+  "source_commit": "c740d46dd690fc3431382de2fe3ed4693041d8e9",
+  "actual_outer_tool_exit": 0,
+  "actual_inner_Task_exit": 0,
+  "inner_Task_seconds": 68.286601716,
+  "external_post_tool_original300_join_seconds": 141.367754859,
+  "original_limits_seconds": {
+    "premonitor_preparation": 165,
+    "external_observer": 300,
+    "source": 45,
+    "frontwork_maximum": 13,
+    "caller_floor": 30,
+    "native_remaining_floor": 32
+  },
+  "whole_saved_scope": {
+    "root_subjects": 468,
+    "tuple_inputs": 89,
+    "private_inputs": 64,
+    "project_inputs": 24,
+    "binding_inputs": 1,
+    "runtime_subjects": 12,
+    "NAR_paths": 305,
+    "reference_edges": 1220,
+    "requested_roots": 14,
+    "natural_jobs": 51,
+    "source_archive_layers": 24,
+    "monitor_archive_layers": 73,
+    "source_archive_bytes": 90629082,
+    "monitor_archive_bytes": 97056092
+  },
+  "measured_brackets": {
+    "NAR_CLI_parallel_wall_union_seconds": 16.525822079,
+    "individual_NAR_CLI_wall_seconds": [
+      16.525822079,
+      2.073259949,
+      3.583100805,
+      3.481625474
+    ],
+    "parent_process_census": {
+      "count": 690,
+      "wall_interval_sum_seconds": 54.836721103,
+      "wall_union_seconds": 54.836721103,
+      "CPU_bracket_sum_seconds": 53.315346054,
+      "scope": "Parent process measured brackets; category CPU excludes child/daemon CPU. Nested categories are not additive."
+    },
+    "parent_file_fsync": {
+      "count": 324,
+      "wall_interval_sum_seconds": 5.67342334,
+      "wall_union_seconds": 5.67342334,
+      "CPU_bracket_sum_seconds": 0.057920127,
+      "scope": "Parent process measured brackets; category CPU excludes child/daemon CPU. Nested categories are not additive."
+    },
+    "parent_directory_fsync": {
+      "count": 325,
+      "wall_interval_sum_seconds": 2.730890627,
+      "wall_union_seconds": 2.730890627,
+      "CPU_bracket_sum_seconds": 0.011293328,
+      "scope": "Parent process measured brackets; category CPU excludes child/daemon CPU. Nested categories are not additive."
+    },
+    "archive_worker_bodies": {
+      "archive-source": {
+        "body_wall_seconds": 3.072644229,
+        "body_CPU_seconds": 3.003054309,
+        "payload_to_group_seconds": 14.140212658
+      },
+      "archive-monitor": {
+        "body_wall_seconds": 2.85818464,
+        "body_CPU_seconds": 2.773821518,
+        "payload_to_group_seconds": 14.314261091
+      }
+    }
+  },
+  "missing_effects": {
+    "after_original_phase_export": [
+      "sha256",
+      "receipt_hash",
+      "sha256",
+      "receipt_hash",
+      "snapshot"
+    ],
+    "actual_exported_phase_operations": 2051,
+    "source_derived_expected_after_scope_operations": 2056,
+    "source_derived_count_is_not_reconstructed_actual_proof": true,
+    "whole_cost_completeness": false
+  },
+  "task_status": {
+    "5.1": "unchanged checked: baseline source freeze",
+    "5.2": "reopened: actual hash/snapshot conservation disproved",
+    "5.3": "reopened: missing-record qualification refusal disproved",
+    "5.4": "unchecked: actual content/terminal pass, measurement completeness fail",
+    "5.5": "unchecked: partial measured costs and fit refusal only",
+    "5.6": "checked: full separate dependency and administrative recovery prerequisites"
+  },
+  "dependency_scope": {
+    "actual_provider_subjects": 293,
+    "independent_provider_subjects": 22,
+    "current_readiness_subjects": 5250,
+    "retained_failed003_subjects": 43,
+    "independent_administrative_recovery_subjects": 73,
+    "original_marker_creation_inode_authority": "UNPROVEN",
+    "qualified_distinct_current_marker_administrative_reset": true,
+    "forced_reset_is_not_natural_experiment_closure": true,
+    "root_inline_postflight_is_saved_observation_not_reconstructed_method": true
+  },
+  "attribution_limits": [
+    "Nested parent categories and parallel workers are not additive.",
+    "Parent CPU excludes Nix child and daemon CPU. NAR subprocess streams are discarded by the exact source; wrapper request/result/diagnostic streams are retained.",
+    "Payload completion is distinct from OS exit and later parent group-absence observation.",
+    "The complete outer Nix setup log was not retained; external tool exit and post-tool timestamp are root observations.",
+    "This is one observed sample, not a universal performance bound or causal storage benchmark.",
+    "Historical fixture passes and first peer120 Task/resource closure UNKNOWN remain retained; this sample cannot recover them."
+  ],
+  "recommendation": "Refuse timed-source admission. Correct full diagnostic finalization conservation under a separately reviewed plan; no performance optimization, source trial or automatic new measurement adopted.",
+  "physical_admission": false,
+  "producer_started": false,
+  "source45_started": false,
+  "automatic_retry": false,
+  "provenance": {
+    "root_actual_readiness_sha256": "6d7a9fbf8c6db981ffaf535215acba05c92a93852e4f39cbff91c843c576edb8",
+    "root_actual_manifest_sha256": "666203bb7ef45afd1dab931cb53343a87c24a244d23495b82464672577c61170",
+    "root_actual_archive_sha256": "d8880d2ab89787a5f467fa2c71f7d3a0f8c933cbf22874f68477ec45afa4eab0",
+    "independent_readiness_sha256": "288b4f994208fea2ea12c357020edd23267f9ab5ab67ec7aa8c16d795cd7f2d3",
+    "independent_report_sha256": "306e39c9bb8ee6e86b4428d22adfade553d63bc0043da901d55b83301d6279e5",
+    "independent_whole_archive_sha256": "28f293bbfe7286c3170da691327bd07fa5f4ea1048e7addbb10ab487c6dfa530",
+    "five_event_pure_counterexample_sha256": "6334a92fba30239ab65a00842aebc178740a1695f0bbf0ed8d3c4c3f1f722514",
+    "dependency_full_join_sha256": "14e75211be33bba1c6d24d01f559377f80d7b6dd9d5320c6534a9a08693fc2b6",
+    "root_narrow_acceptance_sha256": "1cc985e6641716591ea235003c3bebdfd133d21a39f7e0bd1bb998642f7e359f"
+  },
+  "validation": {
+    "whole_saved_assertions": 62900,
+    "dependency_join_checks": 83,
+    "independent_whole_Task_exit": 0,
+    "independent_whole_Task_seconds": 27.851776647,
+    "pure_counterexample_and_dependency_Task_exit": 0,
+    "all_review_tool_handles_terminal": true,
+    "reviewer_failed_harnesses_retained": true
+  },
+  "root_acceptance_scope": "Saved content/natural terminals and FIVE-event measurement failure; dependency5.6 only. Root rehashed all38peer/39archive and468actual/469archive members."
+}
