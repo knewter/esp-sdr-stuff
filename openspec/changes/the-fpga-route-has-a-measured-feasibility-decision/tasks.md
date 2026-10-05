@@ -408,7 +408,7 @@ new measurement/build task checkboxes remain unchanged.
 
 - [x] 4.1 Stage synthetic run and explicit recovery finalization under the original 600-second clock, establish the existing owner-bound shared pending blocker before active-lease release, and keep failed terminal outcomes unqualified when corrective storage fails. Preserve all prior physical gates and unknown-closure/recovery policy.
 - [x] 4.2 Replay both preserved actual temporary-lease counterexamples; test normal finalization, cancellation, exact deadline boundaries, terminal/storage faults, owned-marker substitution and register/synthetic/clock/USB cross-route refusal under locked Nix/Task. No device or daemon operation.
-- [ ] 4.3 Freeze the changed committed execution map and issue independent whole-finalization host review before fresh root runtime transfer. This software checkpoint adds no registry entry or physical task acceptance.
+- [x] 4.3 Freeze the changed committed execution map and issue independent whole-finalization host review before fresh root runtime transfer. This software checkpoint adds no registry entry or physical task acceptance.
 
 Proof: focused synthetic lifecycle/finalization and existing shared refusal suites,
 with exact saved probe/source/log hashes. The aggregate October 5 counterexamples
@@ -423,4 +423,4 @@ tasks stay unchanged. Replacement author proof passes 63 distinct host groups
 and all three unchanged peer controls/counterexamples. Shared refusal precedes
 unknown-closure FD release; double persistence failure retains the exact held
 FD without hardware or renewed acceptance. Cancellation handling spans final
-effects. Independent replacement review and fresh root transfer remain pending.
+effects. Independent replacement review passes 63 author + 8 peer groups, with 65 execution inputs and 32 actual imports; the [sanitized checkpoint](../../../docs/evidence/forgix-synthetic-finalization-review/README.md) retains both failures. Fresh root runtime transfer and every physical gate remain pending.
