@@ -3,7 +3,7 @@
 From `5c5ddfcb`; no admission or physical gate changes.
 The [observer protocol](forgix-clock-observer-protocol.md) remains authoritative.
 [Reviewed artifacts](../evidence/forgix-clock-root-build-003/README.md) support
-software task3.2, not electrical qualification.
+software task 3.2, not electrical qualification.
 
 The guard requires six independently justified literal-true fields:
 
@@ -16,22 +16,22 @@ The guard requires six independently justified literal-true fields:
 | `whole_loading_recovery_reviewed` | Fresh preservation, exact tuple, known closure/recovery |
 | `startup_uid_reviewed` | Original UID; selected startup/reset limits |
 
-Nominal32MHz may support a bounded diagnostic assumption grounded in primary
+Nominal 32 MHz may support a bounded diagnostic assumption grounded in primary
 design; it cannot justify unsafe pins or voltage. Compilation measures neither
 clock nor rails. MCU restoration does not restore unknown volatile FPGA state.
 
-Root transfer needs UID/two2MiB originals, FPGA001/ARM003/all exports, whole/runtime
-peer receipts, current88-input/tool/archive/Nix proof and six evidence rows.
+Root transfer needs UID/two 2 MiB originals, FPGA001/ARM003/all exports, whole/runtime
+peer receipts, current 88-input/tool/archive/Nix proof and six evidence rows.
 Private rows bind claim/status, evidence path+hash/class, assumptions, unresolved
 items and reviewer. Independent review must bind the exact safety/registry tuple.
 [Preparation](../evidence/forgix-clock-safety-case-preparation/README.md) pins the
 full checklist; schema checks grant no access.
 
 Separate transitions: safety→observer; observed counts plus physical envelope→
-register qualification; measured SPI→60s synthetic CRC/rate/pause/backlog trials;
-verified spare pins/link→ESP transport. Observer16 samples can abort1024 periods;
-nominal PIO150MHz is not calibration.
+register qualification; measured SPI→60 s synthetic CRC/rate/pause/backlog trials;
+verified spare pins/link→ESP transport. Observer 16 samples can abort 1024 periods;
+nominal PIO 150 MHz is not calibration.
 
-Survey018 at2026-10-05T02:43:02.836597Z found no Forgix. Reconnect preserved data-USB.
+Survey018 at 2026-10-05T02:43:02.836597Z found no Forgix. Reconnect preserved data-USB.
 Resolve assembly/electrical/reset evidence before loading. Internal observer/
 register/synthetic needs no ESP wires. Hardware tasks stay open.
