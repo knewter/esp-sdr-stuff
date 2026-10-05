@@ -1,11 +1,22 @@
 ---
+import path from "node:path";
 import Base from "../../layouts/Base.astro";
 import ProjectCheckpoint from "../../components/ProjectCheckpoint.astro";
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import work from "../../data/work.json";
-import { specs, url } from "../../lib/specs";
+import { specs, url as siteUrl } from "../../lib/specs";
 import { rawEvidenceUrl } from "../../lib/evidence-markdown";
 import { workMarkdownLinks } from "../../lib/work-markdown";
+
+// Related records and cloned modal content resolve in this work-page document.
+const localUrl = (absolute: string) => {
+  const [, pathname, suffix = ""] = /^([^?#]+)([?#].*)?$/.exec(absolute)!;
+  let relative = path.posix.relative(siteUrl("work/"), pathname);
+  if (pathname.endsWith("/")) relative = relative ? `${relative}/` : "./";
+  else if (!relative) relative = `../${path.posix.basename(pathname)}`;
+  return `${relative}${suffix}`;
+};
+const url = (value: string) => localUrl(siteUrl(value));
 
 const names: Record<string, { title: string; hint: string }> = {
   planned: { title: "Planned", hint: "A committed proposal. Work and proof have not started in this snapshot." },
@@ -26,14 +37,14 @@ const physicalLabel: Record<string, string> = {
   pending: "Device proof: pending",
   verified: "Device proof: verified for cited scope",
 };
-const github = (path: string) => rawEvidenceUrl(work.sourceRevision, path);
+const github = (path: string) => localUrl(rawEvidenceUrl(work.sourceRevision, path));
 const evidenceLink = (path: string) => {
   const local = specs.evidence.find((file) => file.path === path);
-  return local ? url(`evidence/${local.slug}/`) : rawEvidenceUrl(work.sourceRevision, path);
+  return local ? url(`evidence/${local.slug}/`) : localUrl(rawEvidenceUrl(work.sourceRevision, path));
 };
 const mediaSource = (path: string) => {
   const file = specs.evidence.find((entry) => entry.path === path);
-  return file?.asset ? url(file.asset) : rawEvidenceUrl(work.sourceRevision, path);
+  return file?.asset ? url(file.asset) : localUrl(rawEvidenceUrl(work.sourceRevision, path));
 };
 const artifactName = (path: string) => path.split("/").slice(-2).join(" / ");
 const DetailTemplate = "template";
@@ -52,7 +63,7 @@ const items = await Promise.all(work.items.map(async (item) => ({
     const processor = await createMarkdownProcessor({
       syntaxHighlight: false,
       remarkRehype: { allowDangerousHtml: false },
-      rehypePlugins: [workMarkdownLinks(doc.path, specs.evidence, documents, work.trackedPaths, import.meta.env.BASE_URL, work.sourceRevision, url("work/"))],
+      rehypePlugins: [workMarkdownLinks(doc.path, specs.evidence, documents, work.trackedPaths, import.meta.env.BASE_URL, work.sourceRevision, siteUrl("work/"))],
     });
     return { ...doc, html: (await processor.render(doc.markdown)).code };
   })),
