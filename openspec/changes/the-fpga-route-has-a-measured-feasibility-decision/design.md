@@ -533,3 +533,27 @@ both exact failures with real temporary leases and add successful control,
 release/terminal storage, deadline and cancellation tests, including cross-route
 refusal and owner-substitution refusal. Fresh changed execution tuples and
 independent review precede any future registry admission or physical trial.
+
+### Independent finalization correction follow-up
+
+Preserve `d3b2428`, author readiness `38a43931` and independent failed receipt
+`711b2203`: 56 author groups pass, but an actual pending-file open failure with
+unknown closure leaves shared USB admission available, and restoring a prior
+ignored SIGINT handler after stdout permits cancellation during final directory
+sync to return CLI0. Neither finding authorizes hardware or recovery.
+
+Establish verified shared refusal before closing the held operator FD when
+closure is unknown. The already durable exact owned active lease may supply an
+exclusive same-directory link to the existing pending filename if separate
+file creation fails; this is no new marker or content whitelist. Preserve owner
+bytes/inodes and refuse foreign replacement. If no shared refusal can be
+established, unknown closure cannot justify releasing the held FD or another
+hardware/recovery action. Keep the cancellation latch installed through every
+remaining terminal persistence, marker closure and original-clock check;
+restore prior handlers only after those required effects. Known-closed normal
+and failed-transport controls retain their existing distinct outcomes.
+
+Replay both unchanged independent probes and add marker creation/link/storage
+and final cancellation boundaries. The 600-second acceptance clock and
+325-second recovery reservation do not renew; no firmware, runtime selection,
+registry, physical requirement or qualification changes.

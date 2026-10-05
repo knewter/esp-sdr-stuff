@@ -337,12 +337,16 @@ class PosixPrefix(unittest.TestCase):
 class TerminalWrites(unittest.TestCase):
     def test_late_lease_release_rewrites_authoritative_saved_session(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root=Path(tmp);(root/'backups').mkdir();p=root/'backups/run';p.mkdir(mode=0o700)
+            root=Path(tmp);(root/'.scratch').mkdir(mode=0o700);(root/'backups').mkdir();p=root/'backups/run';p.mkdir(mode=0o700)
             with patch.object(coordinator,'ROOT',root):store=coordinator.ReceiptStore(p)
             r={'status':'synthetic_episode_completed','original_flash_and_factory_verified':True,'owned_processes_closed':True}
             capture.save(store,'session.json',r);clock=SimpleNamespace(value=1)
-            def delayed(record):clock.value=600
-            coordinator.release_lease(SimpleNamespace(release=delayed),store,r,0,lambda:clock.value)
+            with patch.object(coordinator,'ROOT',root),patch.object(backend,'ROOT',root),patch.object(trial,'ROOT',root):
+                lease=coordinator.SessionLease({'uid_sha256':'a'*64},p);release=lease.release
+                def delayed(record):release(record);clock.value=600
+                with patch.object(lease,'release',side_effect=delayed),self.assertRaises(TimeoutError):
+                    coordinator.release_lease(lease,store,r,0,lambda:clock.value)
+                self.assertTrue(lease.pending_path.exists())
             saved=json.loads((p/'session.json').read_bytes());self.assertEqual(saved['status'],'failed')
             self.assertEqual(saved['host_elapsed_seconds'],600);self.assertTrue(saved['deadline_exceeded'])
     def test_partial_lease_and_storage_failure_block_both_routes(self):
@@ -369,13 +373,16 @@ class LeaseBinding(unittest.TestCase):
 class ReleaseFailure(unittest.TestCase):
     def test_failed_release_durability_cannot_leave_successful_terminal(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root=Path(tmp);(root/'backups').mkdir();p=root/'backups/run';p.mkdir(mode=0o700)
+            root=Path(tmp);(root/'.scratch').mkdir(mode=0o700);(root/'backups').mkdir();p=root/'backups/run';p.mkdir(mode=0o700)
             with patch.object(coordinator,'ROOT',root):store=coordinator.ReceiptStore(p)
             r={'status':'synthetic_episode_completed','original_flash_and_factory_verified':True,'owned_processes_closed':True}
             capture.save(store,'session.json',r)
             def failed(record):raise OSError('release fsync')
-            with self.assertRaisesRegex(OSError,'release fsync'):
-                coordinator.release_lease(SimpleNamespace(release=failed),store,r,0,lambda:1)
+            with patch.object(coordinator,'ROOT',root),patch.object(backend,'ROOT',root),patch.object(trial,'ROOT',root):
+                lease=coordinator.SessionLease({'uid_sha256':'a'*64},p)
+                with patch.object(lease,'release',side_effect=failed),self.assertRaisesRegex(OSError,'release fsync'):
+                    coordinator.release_lease(lease,store,r,0,lambda:1)
+                self.assertTrue(lease.pending_path.exists())
             saved=json.loads((p/'session.json').read_bytes());self.assertEqual(saved['status'],'failed')
             self.assertEqual(saved['lease_release_failure_kind'],'OSError')
 
@@ -386,7 +393,8 @@ class ExplicitRecovery(unittest.TestCase):
             with patch.object(coordinator,'ROOT',root):store=coordinator.ReceiptStore(p)
             a=Adapter();r=coordinator.execute_recovery(a,store,{'physical_execution_requested':False},lambda:a.now)
             self.assertEqual([n for n,_ in a.calls],['admit','return','after'])
-            self.assertEqual(r['status'],'recovered_and_verified')
+            self.assertEqual(r['status'],'recovery_observed')
+            self.assertEqual(r['finalization_status'],'pending')
             self.assertTrue(r['original_flash_and_factory_verified'] and r['owned_processes_closed'])
             self.assertEqual(r['ram_load_operations'],0);self.assertEqual(r['configuration_start_operations'],0)
     def test_unknown_recovery_closure_or_late_write_never_accepts(self):

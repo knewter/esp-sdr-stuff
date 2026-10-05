@@ -46,6 +46,52 @@ factory/full-original/whole-closure proof; crash or incomplete recovery leaves
 an admission blocker. Independent physical-result review still precedes any
 OpenSpec checkbox or accepted-ledger change.
 
+## Staged synthetic finalization
+
+The preserved temporary-file probes at `2ab2e7e` found late active-lease
+release and post-unlink directory-sync failure followed by corrective storage
+failure. Neither probe ran hardware or returned CLI0; both left an older
+completed-looking session and no admission blocker. The correction stages
+lifecycle facts as `synthetic_episode_observed` or `recovery_observed` and
+durably creates the existing shared pending marker before lease release.
+Marker cleanup requires the exact owned bytes, inode, private mode and single
+link. Foreign or uncertain markers are never removed. All existing Forgix
+admission, worker, preservation and recovery guards already refuse its presence.
+
+The original operator FD close, lease release, terminal save/fsync, stdout,
+post-output save/fsync and owned marker closure remain inside the original
+600-second clock. Cancellation stays latched during bounded recovery; it cannot
+qualify finalization. Failed finalization attempts retain the pending blocker
+and active lease where possible, preserve the primary error and never promote
+a staged record when corrective journaling fails. Unknown resource closure
+still prohibits recovery. A failed transport with verified original restoration
+and owned closure may close normally while its transport result remains failed.
+
+Normal saved status is `pending_external_cli_exit`, with
+`invocation_qualification=false`, `external_cli_exit_required=true` and a
+separate `finalization_candidate_status`. Saved facts include the returned
+operator-close, lease-release and terminal-output clocks. The process cannot
+certify its future exit: independent result review must join matching saved
+facts with an actually observed CLI0 within 600 seconds and explicit
+postterminal shared-marker and active-lease absence. Saved status or stdout
+alone never admits an episode. Recovery keeps its distinct candidate outcome;
+it does not accept the earlier failed transport. Registries and physical
+qualification requirements are unchanged.
+
+Independent review `711b2203` preserves the first 56-group author PASS but
+finds two additional boundaries: unknown closure plus failed shared-marker
+creation, and cancellation ignored after stdout restored a prior SIGINT handler.
+The follow-up establishes exact shared refusal while the original flock is
+still held. Failed separate marker creation may use an exclusive link from the
+already durable exact owned lease, with owned-inode/link validation. If neither
+route establishes refusal for unknown closure, the owning process retains that
+exact FD in quarantine. Acceptance is failed; there is no renewed timer, new
+keeper service, hardware action, recovery or success. Cancellation stays latched
+and does not release this quarantine; a qualified operator must establish known
+closure before terminating its exact owner. Normal and known-closed failed
+transport cleanup remain bounded. Prior signal handlers are restored only after
+required terminal persistence and marker closure have returned.
+
 ## Explicit recovery follow-up (prospective)
 
 Add a `recover` action for a retained failed session whose saved aggregate
