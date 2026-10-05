@@ -1,37 +1,37 @@
-# Prospective clock safety case
+# Reviewed clock safety case
 
-From `5c5ddfcb`; no admission or physical gate changes.
-The [observer protocol](forgix-clock-observer-protocol.md) remains authoritative.
-[Reviewed artifacts](../evidence/forgix-clock-root-build-003/README.md) support
-software task 3.2, not electrical qualification.
+The independent [documentary review](../evidence/forgix-clock-safety-case-preparation/README.md)
+justifies all six review fields for one finite diagnostic on the preserved
+USB-only intended board design. This private candidate grants no production
+admission or physical acceptance. The [observer protocol](forgix-clock-observer-protocol.md)
+and [actual artifact review](../evidence/forgix-clock-root-build-003/README.md) remain binding.
 
-The guard requires six independently justified literal-true fields:
-
-| Exact field | Decision still needed |
+| Review field | Independent basis |
 | --- | --- |
-| `fpga_identity_assumptions_reviewed` | Matching assembly; grade/oscillator envelope |
-| `pin_mapping_reviewed` | Actual B4/Y2 and G3/F3/F2 mapping |
-| `electrical_safety_reviewed` | Compatible rails/banks; contention, pad/alias envelope |
-| `reset_pin_ownership_reviewed` | Factory/watchdog/stopped-clock F2 ownership |
-| `whole_loading_recovery_reviewed` | Fresh preservation, exact tuple, known closure/recovery |
-| `startup_uid_reviewed` | Original UID; selected startup/reset limits |
+| `fpga_identity_assumptions_reviewed` | Preserved provenance; intended F49 C2/I2 speed 2 and nominal 32 MHz assumptions |
+| `pin_mapping_reviewed` | Pinned PCB joins Y2/B4 and RP1/2/3 to G3/F3/F2 |
+| `electrical_safety_reviewed` | Intended shared 3.3 V IO/core 1.1 V; bounded onboard drive/input ownership |
+| `reset_pin_ownership_reviewed` | RP input/null reset state, raw OE inhibit with stopped clock, factory START forbidden |
+| `whole_loading_recovery_reviewed` | Exact ARM003/image; complete owned RAM-load/factory-return path and quarantine |
+| `startup_uid_reviewed` | Original private UID/baseline and selected linked UID/watchdog/startup ordering |
 
-Nominal 32 MHz may support a bounded diagnostic assumption grounded in primary
-design; it cannot justify unsafe pins or voltage. Compilation measures neither
-clock nor rails. MCU restoration does not restore unknown volatile FPGA state.
+Assumptions: ordinary populated USB-powered board, common 0–85°C grade range
+with normal room operation, no external pin driver, altered supply, overclock or
+low-power/debug intervention. RN2 has 10 kΩ DONE pull-up and CS/CRESET pull-downs;
+R6 pulls oscillator enable down through 1 MΩ. Passive pull-downs do not guarantee
+reset logic levels. Safety relies on controlled DATA ownership and active reset
+before output, not an assumed passive reset. Factory identity checks use only
+HELLO/STATUS; MCU flash restoration does not restore unknown FPGA state.
 
-Root transfer needs UID/two 2 MiB originals, FPGA001/ARM003/all exports, whole/runtime
-peer receipts, current 88-input/tool/archive/Nix proof and six evidence rows.
-Private rows bind claim/status, evidence path+hash/class, assumptions, unresolved
-items and reviewer. Independent review must bind the exact safety/registry tuple.
-[Preparation](../evidence/forgix-clock-safety-case-preparation/README.md) pins the
-full checklist; schema checks grant no access.
+No more photos or calibrated rail/clock measurements are needed to finish this
+documentary case. Actual grade, rails, pad/no-alias timing and frequency remain
+unmeasured; nominal 32 MHz/150 MHz and the digital interval are not calibration.
+The 16-sample observer can abort its 1024-period burst. No register, synthetic or
+ESP transport qualification follows automatically.
 
-Separate transitions: safety→observer; observed counts plus physical envelope→
-register qualification; measured SPI→60 s synthetic CRC/rate/pause/backlog trials;
-verified spare pins/link→ESP transport. Observer 16 samples can abort 1024 periods;
-nominal PIO 150 MHz is not calibration.
-
-Survey018 at 2026-10-05T02:43:02.836597Z found no Forgix. Reconnect preserved data-USB.
-Resolve assembly/electrical/reset evidence before loading. Internal observer/
-register/synthetic needs no ESP wires. Hardware tasks stay open.
+Survey018 found no Forgix. Reconnect the preserved data-USB board; a matching
+identity, exclusive operator, fresh complete preservation and reviewed current
+execution/tool/import/NAR/archive/environment/artifact tuple must precede any
+separate registry admission and first diagnostic. The historical runtime proof
+is retained, not newly reverified here. Registries remain empty and physical
+hardware tasks remain open. Internal observer/register tests need no ESP wires.

@@ -221,8 +221,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Qualify matching Forgix attachment, board/electrical/reset assumptions and preserved loading/recovery for one relative clock measurement. Refresh register/synthetic tuples before their separate hardware trials.",
-      "rationale": "Software tasks 3.1 and 3.2 are complete; physical tasks remain open. Actual clock FPGA compile001 and fresh ARM003 pass complete independent offline artifact, startup/callback and loading/recovery ownership review. ARM003 uses 206,132 SRAM bytes. The current runtime proof binds 88 inputs and seven tools and verifies 268 Nix paths and 1,097 reference edges. The combined review covers all nine requirement rows, 39 independent host groups and 352 callback/queue mutation refusals under explicit SDK/ROM/kernel trust. ARM001 CRC-symbol and ARM002 PIO-metadata failures remain retained. No FPGA was programmed or clock measured; registries remain empty. The 2026-10-05T02:43:02Z read-only survey found ESP32 and RTL-SDR but no Forgix. Fitted grade, voltage, actual clock, pad/reset handoff, physical loading/recovery, SPI/register and several-rate transport gates remain unqualified.",
+      "next": "Reconnect the preserved Forgix; verify matching identity, fresh complete preservation and current runtime/tuple under exclusive operator ownership before one bounded clock diagnostic. Refresh register/synthetic tuples before their separate trials.",
+      "rationale": "Software tasks 3.1 and 3.2 are complete; physical tasks remain open. Actual clock FPGA compile001 and fresh ARM003 pass complete independent offline artifact, startup/callback and loading/recovery ownership review. ARM003 uses 206,132 SRAM bytes. The retained runtime proof binds 88 inputs and seven tools and verifies 268 Nix paths and 1,097 reference edges. The combined review covers all nine requirement rows, 39 independent host groups and 352 callback/queue mutation refusals under explicit SDK/ROM/kernel trust. ARM001 CRC-symbol and ARM002 PIO-metadata failures remain retained. No FPGA was programmed or clock measured; registries remain empty. The 2026-10-05T02:43:02Z read-only survey found ESP32 and RTL-SDR but no Forgix. All six documentary safety fields now pass independent review under explicit intended-design assumptions; 31 subjects, 88 inputs, seven tool hashes, 8 author + 5 independent groups and eight PCB/net checks are bound. No additional photo or calibrated measurement is needed for this case. The private candidate grants no admission; fresh identity/preservation/current runtime and actual clock/electrical timing, SPI/register and several-rate transport gates remain open.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -271,7 +271,8 @@
         "docs/evidence/forgix-pending-finalization-guard/README.md",
         "docs/evidence/forgix-register-production-checkpoint/README.md",
         "docs/evidence/forgix-clock-observer-preparation/README.md",
-        "docs/evidence/forgix-clock-root-build-003/README.md"
+        "docs/evidence/forgix-clock-root-build-003/README.md",
+        "docs/evidence/forgix-clock-safety-case-preparation/README.md"
       ],
       "reviewRevision": "56e9dec"
     },
