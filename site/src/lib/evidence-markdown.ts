@@ -13,15 +13,27 @@ export function rawEvidenceUrl(revision: string, filePath: string): string {
   return url(`source/${revision}/${encodedPath(filePath)}`);
 }
 
+/** Serialize an internal URL relative to the document that renders it. */
+export function relativeEvidenceUrl(value: string, pagePath: string): string {
+  const [, pathname, suffix = ""] = /^([^?#]+)([?#].*)?$/.exec(value)!;
+  const directory = pagePath.endsWith("/") ? pagePath : path.posix.dirname(pagePath);
+  let relative = path.posix.relative(directory, pathname);
+  if (pathname.endsWith("/")) relative = relative ? `${relative}/` : "./";
+  else if (!relative) relative = `../${path.posix.basename(pathname)}`;
+  return `${relative}${suffix}`;
+}
+
 /** Repoint repository-relative Markdown links after Astro has parsed them. */
 export function evidenceMarkdownLinks(
   sourcePath: string,
   files: EvidenceFile[],
   base: string,
   revision: string,
+  pagePath?: string,
 ) {
   const pages = new Map(files.map((file) => [file.path, file]));
   const siteBase = base.endsWith("/") ? base : `${base}/`;
+  const localUrl = (value: string) => pagePath === undefined ? value : relativeEvidenceUrl(value, pagePath);
   return () => (tree: Node) => {
     function visit(node: Node): void {
       if (node.type === "element" && (node.tagName === "a" || node.tagName === "img")) {
@@ -37,11 +49,12 @@ export function evidenceMarkdownLinks(
             const target = path.posix.normalize(repositoryRootPath ? relative : path.posix.join(path.posix.dirname(sourcePath), relative));
             if (target !== ".." && !target.startsWith("../")) {
               const page = pages.get(target);
-              node.properties![key] = page && (node.tagName === "a" || page.kind !== "image")
+              const targetUrl = page && (node.tagName === "a" || page.kind !== "image")
                 ? `${siteBase}evidence/${page.slug}/${match[2] ?? ""}`
                 : page?.asset
                   ? `${siteBase}${page.asset}${match[2] ?? ""}`
                   : `${rawEvidenceUrl(revision, target)}${match[2] ?? ""}`;
+              node.properties![key] = localUrl(targetUrl);
             }
           }
         }

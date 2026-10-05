@@ -2,7 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import { specs, url, kib, resolveBase } from "../../lib/specs";
-import { evidenceMarkdownLinks, rawEvidenceUrl } from "../../lib/evidence-markdown";
+import { evidenceMarkdownLinks, rawEvidenceUrl, relativeEvidenceUrl } from "../../lib/evidence-markdown";
 
 export function getStaticPaths() {
   return specs.evidence.map((file) => ({
@@ -12,25 +12,27 @@ export function getStaticPaths() {
 }
 
 const { file } = Astro.props;
+const pagePath = url(`evidence/${file.slug}/`);
+const localUrl = (value: string) => relativeEvidenceUrl(value, pagePath);
 const markdown = file.kind === "text" && file.text !== undefined && file.path.toLowerCase().endsWith(".md")
   ? (await (await createMarkdownProcessor({
       syntaxHighlight: false,
       remarkRehype: { allowDangerousHtml: false },
-      rehypePlugins: [evidenceMarkdownLinks(file.path, specs.evidence, import.meta.env.BASE_URL, specs.sourceRevision)],
+      rehypePlugins: [evidenceMarkdownLinks(file.path, specs.evidence, import.meta.env.BASE_URL, specs.sourceRevision, pagePath)],
     })).render(file.text ?? "")).code
   : null;
 ---
 
 <Base title={`${file.name} — evidence`}>
   <nav class="crumbs">
-    <a href={url("")}>&larr; all capabilities</a>
+    <a href={localUrl(url(""))}>&larr; all capabilities</a>
     <span class="mono dim">{file.path}</span>
   </nav>
 
   <header class="cap-head">
     <p class="eyebrow">evidence &middot; {kib(file.bytes)}</p>
     <h1>{file.name}</h1>
-    {file.kind === "text" && <p class="ev-source"><a href={rawEvidenceUrl(specs.sourceRevision, file.path)}>Open raw source</a></p>}
+    {file.kind === "text" && <p class="ev-source"><a href={localUrl(rawEvidenceUrl(specs.sourceRevision, file.path))}>Open raw source</a></p>}
   </header>
 
   {
