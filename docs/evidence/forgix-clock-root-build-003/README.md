@@ -32,7 +32,8 @@ execution inputs, seven selected tools, 268 content-verified Nix paths and
 1,097 reference edges. It also rechecks the local loaded picotool image against
 its Nix archive. It starts no container and accesses no board. Runtime and
 whole-artifact independent review remain pending in this checkpoint; hashes
-and scoped terminal results are in [checks](checks.json). Private manifests,+execution inventories and environment receipts remain unpublished.
+and scoped terminal results are in [checks](checks.json). Private manifests,
+execution inventories and environment receipts remain unpublished.
 
 The 2026-10-05 01:06:50 UTC survey finds the preserved ESP32 and RTL-SDR,
 but no matching Forgix in factory, ROM or RAM mode. No serial port was opened.
