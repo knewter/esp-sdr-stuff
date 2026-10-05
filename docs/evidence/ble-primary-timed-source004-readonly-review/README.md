@@ -9,3 +9,9 @@ The separate producer cancellation correction now passes **offline source review
 The original cancellation failure remains preserved. Its literal immediate-exit replay ends with the startup guard refusing a dead leader (exit201 and a retained fixture warning), so it is **not a passing reused-group proof**. Separate exit-handshake tests establish reaping before modeled reuse and signal refusal. Fresh root transfer, complete current runtime/tuple proof and original timing fit still precede actual source qualification or the separately frozen receiver condition. This host correction does not upgrade the historical read-only timings. No air count, reception rate, reciprocal RF response or original Trial B acceptance follows.
 
 [Aggregate facts and exact receipt hashes](checks.json); [retained startup and timing history](../ble-primary-timed-startup-preparation-review/README.md).
+
+## Measurement preparation and retained failure
+
+The new instrumentation bundle passes225 author and225 independent host groups without skips, plus24 independent controls. Whole review preserves62 private files,22 project inputs,all228 warm imports and earlier failures. Root verifies all3,473 peer files and copies the62-file bundle byte-exact. These host fixtures model content providers; they do not measure actual NAR costs.
+
+The first root read-only measurement at `948af8c` refuses after6.276 seconds: its exact selected Nix provider is absent locally. All six started selection jobs exit0 and close naturally. Task exits201 and the inner preparation exits2; no full NAR/archive measurement, controller query, source or receiver runs. Keeper quarantine remains pending qualified administrative recovery. Cost attribution and original source timing fit remain unproved; no automatic retry follows.

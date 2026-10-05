@@ -72,3 +72,7 @@ pending. No physical task, registry entry or accepted capability changes.
 After those software gates, physical work still needs the matching connected
 Forgix, fresh preservation, exclusive ownership and separately qualified clock,
 electrical, SPI and recovery bounds. Internal FPGA tests need no ESP wiring.
+
+## Corrected runtime checkpoint
+
+Fresh root preparation at `83d6a23` passes actual Task exit0 in 16.368 seconds. Independent whole saved review joins all88 inputs,42 project imports,seven tools,268 content-verified Nix paths,1,097 edges and unchanged ARM003/FPGA001 artifacts. Registration-time metadata changes are retained as a distinct environment; matching content does not imply identical runtime receipts. This remains software preparation. Current candidate binding, device preservation and physical admission remain open.

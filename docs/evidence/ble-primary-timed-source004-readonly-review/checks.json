@@ -49,5 +49,23 @@
     "source45_timing_fit": false,
     "physical_RF_admission": false,
     "profile_and_original_clocks_unchanged": true
+  },
+  "measurement003": {
+    "authorReadinessSha256": "8423c5904453e2e3fc216d23d3a3e22838039ddbe2aeb50f379df51983e34aba",
+    "independentReviewSha256": "bc977be15cd18bc09e8c2e7bf88bafc3a7a0ef569167c2913441e0f08f9e659f",
+    "hostGroups": 225,
+    "independentControls": 24,
+    "privateFiles": 62,
+    "projectInputs": 22,
+    "warmImports": 228,
+    "rootTransferSha256": "d4c111c02c16377f5a1eb79acb311c3790c507c8966a56f0eedad95792e2bd1a",
+    "rootFailedMeasurementSha256": "978b4151064e9891e1df60b24a5d72af058b2040367648a015fc2a0c2db5e3ba",
+    "rootTaskExit": 201,
+    "innerExit": 2,
+    "closedSelectionJobs": 6,
+    "providerMissing": true,
+    "fullCostMeasurement": false,
+    "quarantineRecoveryPending": true,
+    "physicalAdmission": false
   }
 }

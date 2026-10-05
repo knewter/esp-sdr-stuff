@@ -23,7 +23,7 @@ const markdown = file.kind === "text" && file.text !== undefined && file.path.to
   : null;
 ---
 
-<Base title={`${file.name} — evidence`}>
+<Base title={`${file.name} — evidence`} description="SDR experiment evidence.">
   <nav class="crumbs">
     <a href={localUrl(url(""))}>&larr; all capabilities</a>
     <span class="mono dim">{file.path}</span>
