@@ -65,7 +65,23 @@
     "closedSelectionJobs": 6,
     "providerMissing": true,
     "fullCostMeasurement": false,
-    "quarantineRecoveryPending": true,
-    "physicalAdmission": false
+    "quarantineRecoveryPending": false,
+    "physicalAdmission": false,
+    "distinctAdministrativeRecovery": {
+      "result": "PASS_SAVED_ACTUAL_ADMIN_RECOVERY004_EFFECTS_ONLY",
+      "sourceRevision": "3dc0eaf3ac08d53dd94b0cdb83a467eae5e9ac28",
+      "rootActualTaskExit": 0,
+      "rootSeconds": 0.602998444,
+      "independentReviewSha256": "7861aeff26c7940172fe6407e9cf6f993469b187298b598156b0c95551105b3b",
+      "savedChecks": 311,
+      "originalMarkerCreationInode": "UNPROVEN",
+      "forcedKeeperClosure": true,
+      "rootPostflightObservationOnly": true,
+      "originalPostflightMethodSaved": false,
+      "measurementRemainsFailed": true,
+      "providerProvisioned": false,
+      "newMeasurementStarted": false,
+      "physicalAdmission": false
+    }
   }
 }
