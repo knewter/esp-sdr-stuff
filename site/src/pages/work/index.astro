@@ -52,7 +52,7 @@ const items = await Promise.all(work.items.map(async (item) => ({
     const processor = await createMarkdownProcessor({
       syntaxHighlight: false,
       remarkRehype: { allowDangerousHtml: false },
-      rehypePlugins: [workMarkdownLinks(doc.path, specs.evidence, documents, work.trackedPaths, import.meta.env.BASE_URL, work.sourceRevision)],
+      rehypePlugins: [workMarkdownLinks(doc.path, specs.evidence, documents, work.trackedPaths, import.meta.env.BASE_URL, work.sourceRevision, url("work/"))],
     });
     return { ...doc, html: (await processor.render(doc.markdown)).code };
   })),

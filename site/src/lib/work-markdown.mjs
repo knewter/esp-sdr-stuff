@@ -21,12 +21,24 @@ export function workMarkdownLinks(
   knownPaths,
   base,
   revision,
+  pagePath,
 ) {
   const evidenceByPath = new Map(evidence.map((file) => [file.path, file]));
   const docByPath = new Map(documents.map((doc) => [doc.path, doc]));
   const known = new Set(knownPaths);
   const siteBase = base.endsWith("/") ? base : `${base}/`;
   const github = `${siteBase}source/${revision}/`;
+  const pageDirectory = pagePath === undefined ? undefined
+    : pagePath.endsWith("/") ? pagePath : path.posix.dirname(pagePath);
+  // Templates are cloned into the work-page modal, so their URLs resolve there.
+  const localUrl = (value) => {
+    if (pageDirectory === undefined) return value;
+    const [, pathname, suffix = ""] = /^([^?#]+)([?#].*)?$/.exec(value);
+    let relative = path.posix.relative(pageDirectory, pathname);
+    if (pathname.endsWith("/")) relative = relative ? `${relative}/` : "./";
+    else if (!relative) relative = `../${path.posix.basename(pathname)}`;
+    return `${relative}${suffix}`;
+  };
   return () => (tree) => {
     const visit = (node) => {
       if (node.type === "element" && (node.tagName === "a" || node.tagName === "img")) {
@@ -60,13 +72,13 @@ export function workMarkdownLinks(
                 if (!localEvidence || localEvidence.kind !== "image" || !localEvidence.asset) {
                   throw new Error(`work Markdown image has no published asset: ${sourcePath} -> ${value}`);
                 }
-                node.properties[key] = `${siteBase}${localEvidence.asset}${suffix}`;
+                node.properties[key] = localUrl(`${siteBase}${localEvidence.asset}${suffix}`);
               } else if (localEvidence) {
-                node.properties[key] = `${siteBase}evidence/${localEvidence.slug}/${suffix}`;
+                node.properties[key] = localUrl(`${siteBase}evidence/${localEvidence.slug}/${suffix}`);
               } else if (localDoc) {
-                node.properties[key] = `${siteBase}work/?work=${encodeURIComponent(localDoc.workId)}&doc=${localDoc.section}`;
+                node.properties[key] = localUrl(`${siteBase}work/?work=${encodeURIComponent(localDoc.workId)}&doc=${localDoc.section}`);
               } else {
-                node.properties[key] = `${github}${target.split("/").map(encodeURIComponent).join("/")}${suffix}`;
+                node.properties[key] = localUrl(`${github}${target.split("/").map(encodeURIComponent).join("/")}${suffix}`);
               }
             }
           }
