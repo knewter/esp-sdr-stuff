@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "kind": "root-owned actual clock FPGA and ARM preparation",
+  "FPGA": {
+    "source_commit": "5b357497a0904ddac23c66b951df8499f6842abc",
+    "actual_terminal_exit_code": 0,
+    "manifest_sha256": "d84288014c47086950f3d50642e38599ba1d82ce1a505f31753757b53f1f1dc6",
+    "hex_sha256": "e5788835aa40e0636539cdf0491b78a98dcf85ba2e283cf13960f7c16d1dc11a",
+    "hex_bytes": 520140,
+    "decoded_bytes": 173380,
+    "assumed_target": "T8F49/I2",
+    "physical_timing_verified": false,
+    "independent_saved_report_sha256": "c44d69113139bd22b73cfe17297dd47105845ff7e7d4a5c38aab36e02baa8678",
+    "all_nine_input_bytes_unchanged_for_ARM003": true
+  },
+  "ARM003": {
+    "result": "PASS_FRESH_ROOT_ARM_LAYOUT_GUARD",
+    "native_session_id": 35792,
+    "actual_exit_code": 0,
+    "source_commit": "9e73a34dd14167c6101e4a9db212d42907334e2f",
+    "manifest_sha256": "02100c7691836e15d5828992b70ea57629733594449026e5712f67997c12e6ab",
+    "elf_sha256": "07a2c748d59d53d25fd40bc12c1ef56731fd5c810d5f1a853b51ec26ace47533",
+    "elf_bytes": 844644,
+    "ordinary_SRAM_bytes": 206132,
+    "build_log_sha256": "3258eb9e988995358d9560fd3e406a3114115b5914e0b981b95561e6cabbdbe9",
+    "hardware_opened": false,
+    "loading_admitted": false,
+    "failed_ARM001_and002_preserved": true
+  },
+  "startup": {
+    "native_session_id": 2049,
+    "actual_exit_code": 0,
+    "result": "recognized_reset_transition_requires_qualification",
+    "startup_audit_sha256": "8cc2fd368c5bf48425f32dc930a4bad8cd697139dc461c2307354a69a07cdef6",
+    "whole_boot_path_qualified": false,
+    "hardware_opened": false,
+    "loading_admitted": false
+  },
+  "runtime": {
+    "source_commit": "9e73a34dd14167c6101e4a9db212d42907334e2f",
+    "actual_terminal_exit_code": 0,
+    "receipt_sha256": "d271028911c659fa34d114204fd6b3b06ee9f5f84c7bdd9c25fe79a0996432c6",
+    "repository_inputs": 88,
+    "actual_project_imports": 42,
+    "external_import_files": 177,
+    "host_tools": 7,
+    "content_verified_Nix_paths": 268,
+    "reference_edges": 1097,
+    "fresh_local_image_inspection": true,
+    "containers_started": false,
+    "hardware_opened": false,
+    "independent_review": "pending"
+  },
+  "source_correction_independent_review_sha256": "7ea54efa26771ef58fc06a2e15aa68effd2578dc637d46132f7b627ec935cd82",
+  "complete_linked_artifact_review": "pending",
+  "failed_ARM001_and_ARM002_preserved": true,
+  "USB_survey": {
+    "captured_utc": "2026-10-05T01:06:50.160157+00:00",
+    "ESP32_present": true,
+    "RTL_SDR_present": true,
+    "Forgix_matches": 0,
+    "serial_opened": false,
+    "receipt_sha256": "55746a2d30b146c2b13adfa8908429556ce9a4dff7b38d2bdbfa7f0ae4562800"
+  },
+  "hardware_admitted": false,
+  "FPGA_programmed": false,
+  "physical_clock_measured": false,
+  "task3_2_complete": false
+}
