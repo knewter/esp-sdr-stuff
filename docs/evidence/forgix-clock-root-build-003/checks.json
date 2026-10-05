@@ -55,7 +55,7 @@
     "all_88_source_bytes_current_at_review": true
   },
   "source_correction_independent_review_sha256": "7ea54efa26771ef58fc06a2e15aa68effd2578dc637d46132f7b627ec935cd82",
-  "complete_linked_artifact_review": "pending",
+  "complete_linked_artifact_review": "PASS_TASK3_2_OFFLINE_SOFTWARE_SCOPE_ONLY",
   "failed_ARM001_and_ARM002_preserved": true,
   "USB_survey": {
     "captured_utc": "2026-10-05T01:06:50.160157+00:00",
@@ -68,5 +68,19 @@
   "hardware_admitted": false,
   "FPGA_programmed": false,
   "physical_clock_measured": false,
-  "task3_2_complete": false
+  "task3_2_complete": true,
+  "complete_linked_artifact_review_sha256": "900dc66ed2106d46c2ea77a5af4037a0ebd000ff973f1ec184630d419c4966d0",
+  "complete_review_scope": {
+    "requirement_rows": 9,
+    "current_execution_inputs": 88,
+    "independent_host_groups": 39,
+    "callback_queue_bit_mutation_refusals": 352,
+    "earlier_independent_load_query_recovery_groups": 3,
+    "available_selected_indirect_owner_classes": 26,
+    "linked_preinit_entries": 14,
+    "ordinary_init_array_empty": true,
+    "remaining_selected_available_code_gaps": 0,
+    "physical_measurement_row": "OPEN_PHYSICAL",
+    "trust_boundaries": "Pinned SDK/libc, ROM implementations, concurrency, kernel and filesystem; static stack allocation is not a physical watermark."
+  }
 }

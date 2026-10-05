@@ -14,7 +14,7 @@
 ## 3. Clock-bootstrap preparation (distinct prospective boundary)
 
 - [x] 3.1 Implement finite reset-safe observer HDL, RP input-only period capture and interval reducer; prove actual asynchronous HDL, PIO instruction and native-C failure behavior under locked Nix/Task and independent review. Proof: [17 author and7 independent groups, plus root replay](docs/evidence/forgix-clock-observer-preparation/README.md).
-- [ ] 3.2 Integrate a new versioned RAM profile/USB protocol and root-owned FPGA/ARM builds; independently audit complete inputs, four pins, SRAM and startup/whole-code/recovery.
+- [x] 3.2 Integrate a new versioned RAM profile/USB protocol and root-owned FPGA/ARM builds; independently audit complete inputs, four pins, SRAM and startup/whole-code/recovery. Proof: [actual builds and complete offline independent review](docs/evidence/forgix-clock-root-build-003/README.md). Physical loading/measurement remains task3.3.
 - [ ] 3.3 After board/electrical and preserved measurement lifecycle admission, measure relative clock intervals on the selected original Forgix; retain failures and full factory/flash recovery.
 - [ ] 3.4 Separately qualify counter0x1000 readback and SPI timing from measured bounds; do not auto-promote a measurement into either existing registry.
 

@@ -25,21 +25,26 @@ the separately rebuilt ARM003 passed its original build route.
 The saved startup audit returns `recognized_reset_transition_requires_qualification`.
 It checks recognized linked reset/table paths; it does not qualify the whole
 boot path, factory pin ordering or stopped-clock electrical behavior.
-Independent complete linked-code and recovery review remains a separate gate.
+The complete independent review now passes the available software scope:
+startup and fixed application/SDK/TinyUSB callback paths, exact image/PIO,
+loading/recovery ownership, and current source/runtime bindings. It retains
+explicit pinned SDK/libc, ROM, kernel and concurrency trust boundaries.
 
 A fresh read-only runtime receipt at the same revision binds 88 committed
 execution inputs, seven selected tools, 268 content-verified Nix paths and
 1,097 reference edges. It also rechecks the local loaded picotool image against
 its Nix archive. It starts no container and accesses no board. Independent
 runtime review now passes: all 88 source bytes remain exact, full Nix contents
-were reverified, and actual imports are covered. Complete linked-code and
-recovery review remains pending; hashes
+were reverified, and actual imports are covered. The combined review covers
+all nine named requirement rows, with 39 independent host groups and 352
+callback/queue mutation refusals. Its physical-measurement row remains open;
+hashes
 and scoped terminal results are in [checks](checks.json). Private manifests,
 execution inventories and environment receipts remain unpublished.
 
 The 2026-10-05 01:06:50 UTC survey finds the preserved ESP32 and RTL-SDR,
 but no matching Forgix in factory, ROM or RAM mode. No serial port was opened.
-Measurement admission and all registries remain empty. Task3.2 and physical
-tasks stay unchecked: actual board mapping/electrical assumptions, complete
-review, preserved loading/recovery and relative clock measurement still precede
+Measurement admission and all registries remain empty. Software task3.2 is
+complete; physical tasks stay unchecked. Actual board mapping/electrical
+assumptions, preserved loading/recovery and relative clock measurement precede
 register/SPI qualification and several-rate FPGA transport measurements.
