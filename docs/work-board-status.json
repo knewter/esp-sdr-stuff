@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Correct and independently review monitor startup identity handling after failed source001; qualify a newly admitted timed source before the separately frozen receiver condition.",
-      "rationale": "Complete owned BLE packets have decoded independently; the fixed extended-primary trial retained365 intact waveforms and found zero CRC-valid primary packets. Only11 whole guarded ON captures made that null inconclusive. Timed-v2 source/image software passes independent review, but actual source001 failed during monitor identity startup before any source command. The late-created never-started monitor object and quarantined caller/keeper were recovered under reviewed exact-identity checks, with unchanged controller state. The failure remains retained. Corrected startup preparation is in progress; no timed source qualification or new receiver condition is admitted. Capture windows and controller metadata supply no air denominator, detection rate, three reciprocal responses or original Trial B acceptance.",
-      "reviewRevision": "cfccea35df31c64d73f3a472279a4a09660e7296",
+      "next": "Transfer the reviewed source003 and receiver004 into fresh whole root admission; qualify the actual timed source before the separately frozen receiver condition.",
+      "rationale": "Complete owned BLE packets have decoded independently. The fixed extended-primary trial retained 365 intact waveforms and zero CRC-valid primary packets; only 11 whole guarded ON captures make that null inconclusive. Actual timed source001 failed before source commands and was recovered under reviewed exact-identity checks. Source003 passes 99 author and 3 independent groups; receiver004 passes 101 receiver and 60 holder groups plus 12 independent groups. These host reviews supply neither current root admission nor actual timed-source qualification. Air count, detection rate, three reciprocal responses and original Trial B acceptance remain open.",
+      "reviewRevision": "e4ae1a1083118938fe9d71773ccaec46284a2bf6",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -124,7 +124,8 @@
         "docs/evidence/ble-primary-zero-data-receiver-001-review/README.md",
         "docs/evidence/ble-primary-timed-plan-review/README.md",
         "docs/evidence/ble-primary-timed-source-host-preparation/README.md",
-        "docs/evidence/ble-primary-timed-source-001-failed/README.md"
+        "docs/evidence/ble-primary-timed-source-001-failed/README.md",
+        "docs/evidence/ble-primary-timed-startup-preparation-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
@@ -136,9 +137,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Correct and independently review monitor startup identity handling after failed source001; qualify a newly admitted timed source before the separately frozen receiver condition.",
-      "rationale": "Complete owned BLE packets have decoded independently; the fixed extended-primary trial retained365 intact waveforms and found zero CRC-valid primary packets. Only11 whole guarded ON captures made that null inconclusive. Timed-v2 source/image software passes independent review, but actual source001 failed during monitor identity startup before any source command. The late-created never-started monitor object and quarantined caller/keeper were recovered under reviewed exact-identity checks, with unchanged controller state. The failure remains retained. Corrected startup preparation is in progress; no timed source qualification or new receiver condition is admitted. Capture windows and controller metadata supply no air denominator, detection rate, three reciprocal responses or original Trial B acceptance.",
-      "reviewRevision": "cfccea35df31c64d73f3a472279a4a09660e7296",
+      "next": "Transfer the reviewed source003 and receiver004 into fresh whole root admission; qualify the actual timed source before the separately frozen receiver condition.",
+      "rationale": "Complete owned BLE packets have decoded independently. The fixed extended-primary trial retained 365 intact waveforms and zero CRC-valid primary packets; only 11 whole guarded ON captures make that null inconclusive. Actual timed source001 failed before source commands and was recovered under reviewed exact-identity checks. Source003 passes 99 author and 3 independent groups; receiver004 passes 101 receiver and 60 holder groups plus 12 independent groups. These host reviews supply neither current root admission nor actual timed-source qualification. Air count, detection rate, three reciprocal responses and original Trial B acceptance remain open.",
+      "reviewRevision": "e4ae1a1083118938fe9d71773ccaec46284a2bf6",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -207,7 +208,8 @@
         "docs/evidence/ble-primary-zero-data-receiver-001-review/README.md",
         "docs/evidence/ble-primary-timed-plan-review/README.md",
         "docs/evidence/ble-primary-timed-source-host-preparation/README.md",
-        "docs/evidence/ble-primary-timed-source-001-failed/README.md"
+        "docs/evidence/ble-primary-timed-source-001-failed/README.md",
+        "docs/evidence/ble-primary-timed-startup-preparation-review/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
@@ -219,8 +221,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Complete distinct clock-observer builder, collector and preserved lifecycle review, then build/audit new root FPGA/ARM artifacts. Matching Forgix attachment and physical/electrical admission remain required; refresh current register/synthetic tuples before hardware.",
-      "rationale": "No FPGA has been programmed. The new finite one-way clock observer passes17 author and7 peer groups; root25-group replay also covers its independently reviewed command engine/wire. Software task3.1 closes. Complete clock-profile builds, startup/pin audits and preserved measurement lifecycle remain unfinished. Prior register ARM005 uses203,700 SRAM bytes and passed artifact review; modeled synthetic internal32MHz timing passed. Those artifacts/runtime maps need current bindings after the additive Task entrypoint. Registries remain empty. The latest USB survey found ESP32 and RTL-SDR but no Forgix. Physical grade, revision, voltage, measured clock, SPI handoff, register readback and several-rate FPGA transport remain unqualified; no physical task closes.",
+      "next": "Complete independent whole ARM003 and runtime review, then qualify matching Forgix attachment, startup/electrical assumptions and preserved loading/recovery before relative clock measurement; refresh register/synthetic tuples before hardware.",
+      "rationale": "Software task3.1 closes; task3.2 and physical tasks remain open. The full clock profile passes 58 host groups and independent review; CRC and strict PIO corrections pass 60 and 62 host groups respectively. Actual clock FPGA compile001 passes within its nominal timing model. Fresh ARM003 passes build guards, uses 206,132 SRAM bytes and retains the active CRC and exact input-only PIO program. Recognized linked-reset paths and a fresh runtime proof covering 88 inputs, 7 tools, 268 paths and 1,097 edges pass their offline checks; complete independent ARM and runtime review remain pending. ARM001 CRC-symbol and ARM002 PIO-metadata failures remain retained. No FPGA was programmed or clock measured, registries remain empty, and the 2026-10-05T01:06:50Z read-only survey found ESP32 and RTL-SDR but no Forgix. Physical mapping, grade, voltage, clock, SPI/register and several-rate transport gates remain unqualified.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -268,9 +270,10 @@
         "docs/evidence/admission-review-failures-001/README.md",
         "docs/evidence/forgix-pending-finalization-guard/README.md",
         "docs/evidence/forgix-register-production-checkpoint/README.md",
-        "docs/evidence/forgix-clock-observer-preparation/README.md"
+        "docs/evidence/forgix-clock-observer-preparation/README.md",
+        "docs/evidence/forgix-clock-root-build-003/README.md"
       ],
-      "reviewRevision": "7064cb1"
+      "reviewRevision": "e4ae1a1083118938fe9d71773ccaec46284a2bf6"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
