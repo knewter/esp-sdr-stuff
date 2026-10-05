@@ -18,6 +18,13 @@ pin both exact readiness receipts, both independent receipts and the corrected
 helpers. The private fixtures, logs, identities and module inventories stay
 outside Git and the site.
 
+Root replay now passes all 99 source, 101 receiver and 60 holder host groups.
+The first receiver/holder root replays remain failed: the initial transfer
+omitted their reviewed historical fixtures and kept operational files in
+at-rest modes. Copying the 19 pinned fixtures and setting the required private
+operational modes fixes the transfer without changing code or guards. Fresh
+logs and result hashes are retained; these results remain host evidence.
+
 The receiver003 late-entry failure, earlier receiver002 failures and their
 immutable bundles remain retained. Source002, reviewed CID-helper ancestry and
 the historical read-only benchmark remain unchanged. The

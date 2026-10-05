@@ -56,5 +56,22 @@
     "air_denominator": null,
     "RF_accepted": false,
     "physical_tasks_changed": false
+  },
+  "root_host_replay": {
+    "source_groups": 99,
+    "receiver_groups": 101,
+    "holder_groups": 60,
+    "actual_terminal_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "source_result_sha256": "408573e196b94e8b94a0d74d1e41459b814d4efc3c86185198e38fccf4b33985",
+    "receiver_result_sha256": "2b6b607b33178ca827dd64e87ae7c35b64b52f6086a22aaf632c3dce86bfad10",
+    "holder_result_sha256": "4aba3143f78aaa67cee9e4bc6622bf2f128fdb9b8bd4eba0d5bbe3201eebd917",
+    "first_receiver_and_holder_transfer_failures_preserved": true,
+    "transfer_correction": "Copied19 independently reviewed historical fixtures and set54 operational copies to required0600; reviewed code and guards unchanged.",
+    "transfer_manifest_sha256": "b646605519369ba87b7f296e595e90e9167b45d9452467d4d0d509ecf5858335",
+    "runtime_and_physical_admission": false
   }
 }
