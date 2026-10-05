@@ -27,5 +27,27 @@
   "source_timing_fit_proven": false,
   "physical_admission": false,
   "source_qualified": false,
-  "air_count": null
+  "air_count": null,
+  "cancellation_correction_offline_review": {
+    "result": "PASS_OFFLINE_SOURCE004_COMPLETE_PREPARATION_AND_PRODUCER_CANCELLATION_ONLY",
+    "independent_review_sha256": "5a130351abbba631f51db4a3d7a246cdf16f1fe9e69160fbd5bd9a57afe86773",
+    "author_readiness_sha256": "8b77a93bf267a808711ae74754b33a883f05f28f63d24e5a1277a2998e5def58",
+    "author_groups": 143,
+    "independent_groups": 24,
+    "skips": 0,
+    "author_terminal_exit": 0,
+    "independent_terminal_exit": 0,
+    "private_subjects": 47,
+    "project_inputs": 22,
+    "whole_archives": 2,
+    "original_failure_retained": true,
+    "literal_immediate_exit_replay_terminal_exit": 201,
+    "literal_immediate_exit_replay_is_passing_group": false,
+    "literal_immediate_exit_limit": "Startup required-live gate refuses already dead leader; fixture error and ResourceWarning are retained. Separate exit-handshake tests prove reaped-owner refusal before modeled reuse.",
+    "root_complete_runtime_proof": false,
+    "operational_admission": false,
+    "source45_timing_fit": false,
+    "physical_RF_admission": false,
+    "profile_and_original_clocks_unchanged": true
+  }
 }
