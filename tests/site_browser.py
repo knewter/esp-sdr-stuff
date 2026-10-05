@@ -26,7 +26,9 @@ def check_work_evidence_menus(page):
         assert expected
         assert int(menu.locator('summary span').inner_text()) == len(expected)
         assert menu.locator('nav a').count() == 1
-        assert menu.locator('nav a').inner_text() == 'Open proposal and evidence'
+        # Closed native details hide this fallback; verify its DOM text before
+        # opening, then check every rendered proof link below.
+        assert menu.locator('nav a').text_content() == 'Open proposal and evidence'
         assert menu.locator('nav a').get_attribute('href') == page.locator(f'[data-work-id="{item}"]').get_attribute('href')
         summary = menu.locator('summary')
         summary.focus()
