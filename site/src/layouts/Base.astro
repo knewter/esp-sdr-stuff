@@ -1,9 +1,17 @@
 ---
+import path from "node:path";
 import "../styles/global.css";
 import "../styles/sdr.css";
 import { specs, url } from "../lib/specs";
 interface Props { title: string; description?: string; source?: "specs" | "hand" | "work" }
 const { title, description = "ESP32 SDR experiments and measurements.", source = "hand" } = Astro.props;
+// Relative serialization avoids repeating the Pages prefix on every page.
+// Active-navigation comparison below still uses the original absolute path.
+const localUrl = (value: string) => {
+  const absolute = url(value);
+  const relative = path.posix.relative(Astro.url.pathname, absolute);
+  return absolute.endsWith("/") ? `${relative || "."}/` : relative;
+};
 const links = [["", "Overview"], ["work/", "Experiments"], ["compare/", "RTL-SDR comparison"], ["fpga/", "FPGA routes"], ["evidence/", "Evidence"], ["sources/", "Sources"]];
 ---
 <!doctype html>
@@ -11,14 +19,14 @@ const links = [["", "Overview"], ["work/", "Experiments"], ["compare/", "RTL-SDR
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>{title} · ESP32 SDR Lab</title><meta name="description" content={description} />
-  <link rel="icon" href={url("favicon.svg")} type="image/svg+xml" />
-  <script is:inline src={url("theme-init.js")}></script>
+  <link rel="icon" href={localUrl("favicon.svg")} type="image/svg+xml" />
+  <script is:inline src={localUrl("theme-init.js")}></script>
 </head>
 <body>
   <a href="#content">Skip to content</a>
-  <header class="site-header"><a class="brand" href={url("")} aria-label="ESP32 SDR Lab home"><span aria-hidden="true">∿</span><span>ESP32 <b>SDR LAB</b></span></a><nav aria-label="Main navigation">{links.map(([path,label]) => <a href={url(path)} aria-current={Astro.url.pathname === url(path) ? "page" : undefined}>{label}</a>)}</nav><button id="theme-toggle" type="button" aria-label="Switch between light and dark">◐</button></header>
+  <header class="site-header"><a class="brand" href={localUrl("")} aria-label="ESP32 SDR Lab home"><span aria-hidden="true">∿</span><span>ESP32 <b>SDR LAB</b></span></a><nav aria-label="Main navigation">{links.map(([path,label]) => <a href={localUrl(path)} aria-current={Astro.url.pathname === url(path) ? "page" : undefined}>{label}</a>)}</nav><button id="theme-toggle" type="button" aria-label="Switch between light and dark">◐</button></header>
   <div id="content"><slot /></div>
-  <footer class="lab-footer"><p>Snapshot {specs.generated} · <a href={url("revision.json")}><code>{specs.sourceRevision.slice(0,12)}</code></a></p><div><p><a href={url("ledger/")}>Accepted ledger</a> · <a href="https://github.com/knewter/esp-sdr-stuff">GitHub</a> · <a href="https://openspec.dev">OpenSpec</a></p>{source !== "hand" && <p class="dim">{source === "work" ? "Committed task status; hardware proof is separate." : "Accepted requirements rendered from the repository."}</p>}</div></footer>
+  <footer class="lab-footer"><p>Snapshot {specs.generated} · <a href={localUrl("revision.json")}><code>{specs.sourceRevision.slice(0,12)}</code></a></p><div><p><a href={localUrl("ledger/")}>Accepted ledger</a> · <a href="https://github.com/knewter/esp-sdr-stuff">GitHub</a> · <a href="https://openspec.dev">OpenSpec</a></p>{source !== "hand" && <p class="dim">{source === "work" ? "Committed task status; hardware proof is separate." : "Accepted requirements rendered from the repository."}</p>}</div></footer>
   <script>document.querySelector("#theme-toggle")?.addEventListener("click",()=>{const root=document.documentElement;root.dataset.theme=root.dataset.theme === "dark" ? "light" : "dark";try{localStorage.setItem("sdr-theme",root.dataset.theme)}catch{}});</script>
 </body>
 </html>
