@@ -60,3 +60,10 @@ builds, linked application/startup and generated pin/timing audits, exact runtim
 qualification and preserved physical recovery remain pending. The observer
 source proof above is historical; no inventory, calibration or hardware gate
 closes through this full-profile preparation.
+
+Actual root ARM001 (`5b35749`) links but fails the required `fc_crc` symbol
+guard. Release optimization retains both CRC checks in the callers and discards
+the standalone body. The failed ELF/manifest remain retained. Planned correction
+`bbf56ca` and source `d1c66d6` keep the active body non-inline/non-clonable without
+relaxing that guard;60 host groups pass. Independent source review and a fresh
+root ARM build/linked audit remain required. No loading or physical gate closes.

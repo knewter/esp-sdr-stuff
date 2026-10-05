@@ -137,5 +137,30 @@
     "operationalRuntimeAdmission": false,
     "physicalAcceptance": false,
     "calibratedAbsoluteMHz": false
+  },
+  "actualARM001Failure": {
+    "CRCChecksPresentInSavedCallers": true,
+    "ELFBytes": 846264,
+    "ELFSHA256": "73be3430407e4e0ef305516667dbb967189c6e9e3e62ffbe26437e030b9b423b",
+    "loadingAdmitted": false,
+    "manifestSHA256": "0a9f9e508333b1fb2ad74fbf2423dd4f8349f919f7e5519cda1a2470e2d8cbbd",
+    "missingRequiredSymbols": [
+      "fc_crc"
+    ],
+    "sourceRevision": "5b357497a0904ddac23c66b951df8499f6842abc",
+    "status": "failed_required_symbol_guard"
+  },
+  "activeCRCLinkagePreparation": {
+    "authorReceiptSHA256": "91fc69f367ea7b4500a63f72895a5395c6ef2a7e098c281702b9335096435eca",
+    "exitCode": 0,
+    "freshARMBuildRequired": true,
+    "groups": 60,
+    "independentReviewPending": true,
+    "newOptimizedLinkGroups": 2,
+    "physicalAdmission": false,
+    "planningRevision": "bbf56ca",
+    "skips": 0,
+    "sourceRevision": "d1c66d68dbbdd675b7c5b65a96ac0e1df5468b9d",
+    "strictOpenSpec": true
   }
 }
