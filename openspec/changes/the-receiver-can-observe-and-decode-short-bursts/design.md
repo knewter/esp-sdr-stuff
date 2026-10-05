@@ -407,12 +407,12 @@ ownership policy to make the fixture pass.
 
 ### One declared cleanup clock, separate restoration scope
 
-At the first failed-child cleanup or aggregate caller/holder process teardown,
+At the first failed-child cleanup or aggregate source/monitor/UART worker teardown,
 set the shared cleanup deadline once to the minimum of the original caller
 deadline, that entry plus30 seconds, and holder first-cancellation plus1800
 seconds when present. Pass that exact absolute deadline to all children; charge
 identity/membership, TERM/KILL, reap, log flush/fsync/close, receipt and descriptor
-effects before and after. Later children, new membership and repeated signals
+effects for those workers and their members before and after. Later children, new membership and repeated signals
 cannot renew it. Normal completion of sequential source episodes remains under
 its original source45 and role bounds and does not start this aggregate clock.
 An expired/failed teardown cannot count as natural completion and must retain
@@ -425,6 +425,16 @@ The new30-second process-cleanup scope does not shorten or renew full physical
 restoration/holder finalization: those remain under the original5400/1800
 ceilings after positively verified process/controller closure. Unknown UART,
 process or container ownership blocks restoration and endpoint actions.
+
+The30-second target set excludes the lifecycle caller/holder coordinators and
+the keeper that retain the operator during restoration. Those processes, their
+own descriptors/receipts and their actual terminal join remain under the original
+5400/first-cancel1800 scope. No new30-second clock starts after restoration and
+no coordinator is forcibly killed under this shorter worker deadline during
+unresolved UART restoration. Holder forwarding and coordinator cleanup still
+require original member/pidfd authority under their original absolute bounds.
+Ordinarily reaped exit0 members with complete retained history may establish
+natural closure; a reaped leader with lost/ambiguous complete membership cannot.
 
 ### Complete caller and holder handoff
 

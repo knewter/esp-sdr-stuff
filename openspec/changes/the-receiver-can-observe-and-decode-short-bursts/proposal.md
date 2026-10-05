@@ -102,13 +102,15 @@ helper. Five cases use six harmless owned sessions; signals and numeric reuse
 are modeled, and all sessions exit naturally. This proves an unsafe cleanup
 decision boundary, not a foreign kill or hardware incident. Independent receipt
 SHA256 `b992ff26c9ecb0ee9446c31a43819fa1042c65a3800a56e19af6cad36dc0c4e9`
-and original probe SHA256
+and original probe report SHA256
 `b9f788a806a2bc5cbac1b0afc99b9b7a18aa2f0c28cf346f133310c2c8a3b6fd`
 remain private and immutable.
+The unchanged executable probe is pinned separately by SHA256
+`5b793b546268498e68ef34bda00be0f4d288068951d9f69434c188a72b24211d`.
 
 Refine task4.4 with a NEW private receiver/caller/support/holder chain. Every
 source, monitor and UART child retains original spawn/member/pidfd authority;
-one shared absolute30-second failed-process/aggregate teardown budget cannot
+one shared absolute30-second source/monitor/UART worker teardown budget cannot
 renew per child. Full preservation/restoration and holder finalization keep
 their existing5400/first-cancel1800 ceilings. Unknown ownership retains the
 existing pending/keeper/quarantine refusal. The measurable software gate is

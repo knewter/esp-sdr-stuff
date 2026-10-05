@@ -64,21 +64,26 @@ original acceptance gates.
 The NEW private timed receiver/caller/holder chain SHALL retain original spawn
 and complete member identity with individual pidfds independently of mutable
 receipts. It SHALL NOT signal an unqualified numeric PID/PGID or infer complete
-closure from one leader. All failed-child/aggregate process cleanup SHALL share
+closure from one leader. All failed-child/aggregate source/monitor/UART worker
+and member cleanup SHALL share
 one absolute deadline set once at first cleanup to the minimum of original
 caller deadline, entry plus30 seconds and holder first-cancel plus1800 seconds
 when present. Every cleanup persistence/descriptor effect SHALL remain charged;
 per-child work or repeated cancellation SHALL NOT renew it. Full restoration
 and holder finalization SHALL retain original5400/first-cancel1800 ceilings.
+Lifecycle caller/holder coordinators, keeper and their terminal join SHALL remain
+under those original ceilings; no renewed30-second clock or forced coordinator
+kill during unresolved restoration SHALL follow the shorter worker cleanup.
 Unknown ownership SHALL retain existing pending/keeper/quarantine refusal and
 prohibit restoration or further endpoint actions.
 
 <!-- UNVERIFIED: Five unchanged saved-source probes in independent receipt b992ff26c9ecb0ee9446c31a43819fa1042c65a3800a56e19af6cad36dc0c4e9 reproduce unqualified legacy stop decisions in six harmless owned sessions, with signals/reuse modeled. Correction, whole holder review and new root handoff remain pending. No foreign kill or physical operation was observed; see this change's design.md for the prospective scope. -->
 
 #### Scenario: Child ownership cannot be established
-- **WHEN** original identity, retained member/pidfd authority or complete membership is missing, changed, reaped or ambiguous during any source/monitor/UART or holder cleanup
+- **WHEN** original identity, retained member/pidfd authority or complete membership is missing, changed or ambiguous, including reaped-leader ambiguity, during any source/monitor/UART or holder cleanup
 - **THEN** no unsafe numeric signal or descriptor retry occurs, natural closure remains unqualified and existing refusal blocks restoration and endpoint access
 
 #### Scenario: Teardown completes normally
 - **WHEN** actual exit0, all owned-member absence, durable logs, exact descriptor closure and complete caller/holder terminal handoff finish within the original bounds
 - **THEN** independently observed CLI and saved whole-chain proof may qualify only host preparation; actual source4.3 and fresh full root runtime/admission proof still precede receiver action
+- **AND** ordinary natural exit0 reaping with complete retained member authority is distinct from ambiguous leader-only absence
