@@ -106,3 +106,56 @@ neither accepted specs nor source/receiver/physical admission. -->
 - **THEN** the sole operator MAY declare at most one NEW read-only whole-cost follow-up under the unchanged165/300 clocks with distinct command/tuple/output/terminal/failure receipts
 - **AND** every original fresh reference/NAR/archive/import/content, worker/keeper/FD/cost/terminal predicate SHALL remain required; cached provisioning outputs SHALL NOT replace fresh proof
 - **AND** failed/partial/late/unknown-ownership results SHALL remain failures without another automatic follow-up, and all source4.3, receiver and physical gates SHALL remain unchanged
+
+
+<!-- UNVERIFIED: Architecture004 replaces the rejected prospective002 design only
+after independent planning review. Exact supported-kernel primitive/resource
+compatibility, full new-chain implementation and all physical gates remain open.
+Historical161 assertions and the literal failing ownership probe are unchanged.
+This proposed delta does not alter openspec/specs/. -->
+
+#### Scenario: Exact filter and every holder root precede workload
+- **WHEN** the NEW timed chain spawns any caller, keeper, replacement keeper, Git, endpoint, controller, postflight or cleanup root
+- **THEN** original partial-spawn PID/pidfd authority SHALL be retained before fallible effects, and a stopped pre-install bootstrap plus sole-tracer immutable exact filter entry/success join SHALL precede READY and role/deadline-bound GO
+- **AND** the unprivileged protocol SHALL NOT rely on CAP_SYS_ADMIN GET_FILTER, undeclared stacked filters, JSON-only proof or Popen preexec/convenience wait behavior
+- **AND** one holder event pump SHALL own all tracer waits; real-parent terminal joins SHALL remain distinct from stops, ECHILD, body markers and EXIT notifications
+
+#### Scenario: A supported workload could create an untraced kernel user worker
+- **WHEN** a kernel/ABI/syscall/device/ioctl or inherited/received FD resource permits user-worker creation outside ordinary ptrace birth events
+- **THEN** a complete pinned supported-kernel creation-path and FD-provenance contract SHALL either exclude that path before effect or provide original complete authority before work
+- **AND** io_uring APIs, inherited/transferred/mapped rings and SQPOLL resources plus vhost-triggering resources SHALL be excluded; clone flags or setup-only denial SHALL NOT qualify complete coverage
+- **AND** required normal runtime, controller and UART operation SHALL have positive proof under the finite typed profile; unknown paths SHALL NOT turn an always-refusing placeholder into readiness
+
+#### Scenario: Nonleader exec transfers the logical process lineage
+- **WHEN** de_thread retires a former TID or exchanges kernel PID identity during traced exec
+- **THEN** append-only task birth and logical process histories SHALL join the actual former-TID exec event and stopped survivor to typed retirement/transfer, retaining immutable role and original deadline
+- **AND** old signal bindings SHALL be retired and current survivor pidfd authority SHALL be reconciled before action; an impossible ordinary former-TID death SHALL NOT be demanded
+- **AND** actual surviving-process terminal and complete task-history conservation SHALL remain required
+
+#### Scenario: Real tracer or lease actor is lost
+- **WHEN** holder/tracer death automatically detaches/resumes tasks, or caller/channel/keeper/storage authority is lost
+- **THEN** surviving caller and existing keeper SHALL retain the declared loss/refusal behavior, with no new endpoint/restoration/release decision from incomplete authority and no reconstructed membership
+- **AND** actual detach/resume SHALL NOT be described as a frozen tree; conditional no-tracer errors for installed covered RET_TRACE calls SHALL NOT establish complete closure, existing keeper EOF/release policy SHALL remain unchanged, and unresolved restoration SHALL NOT be forcibly killed under worker30 or EXITKILL
+- **AND** destruction of every trusted lease actor SHALL be an explicit host limit and SHALL NOT create a lock-retention or completed-CLI claim
+
+#### Scenario: Whole-chain completion is proposed
+- **WHEN** the new caller/holder chain proposes restoration or release
+- **THEN** actual parent/child birth events, stopped newborns, task-bound role transactions, exec transfers, resources, real-parent waits and charged FD/log effects SHALL reconcile in a sealed no-live-worker-birth-source frontier
+- **AND** actual coordinator stops and event/request joins SHALL seal the worker GO epoch before closure; later finalization helpers SHALL register in a separate frontier, and undeclared late workers SHALL remain stopped and fail the handoff
+- **AND** child-first ordering, CLONE_PARENT, reparenting, late births, duplicates or missing events SHALL NOT disappear through an empty table, WNOHANG0 or leader reap
+- **AND** original container/OFF/ACK/absence predicates, restore helper closure, keeper/root FD/marker effects and actual holder/external CLI terminal SHALL join under unchanged clocks before host qualification
+
+<!-- UNVERIFIED: Native internal kernel transaction and narrow self-signal
+contracts are prospective004 clarifications after peer034 failure. Exact patched
+selected runtime, supported kernel, functionality and timing remain unproved. -->
+
+#### Scenario: An immutable native runtime creates an internal member
+- **WHEN** an admitted unchanged Git/Docker/Go/CGO/native root creates a thread or predeclared internal helper without application role IPC
+- **THEN** the sole holder SHALL join exact original root/calling TID/TGID/pidfd/profile/ABI/flags and kernel entry/birth/child-stop/exec/resource transactions before resume, retaining original role and absolute deadline
+- **AND** new logical roles/endpoints/restoration SHALL still require authenticated application IPC; unknown native ancestry or missing kernel transactions SHALL remain stopped/failed rather than blanket-admitted or permanently refusing required positives
+
+#### Scenario: A native runtime issues a self-signal
+- **WHEN** a native signal call is captured at kernel entry before effect
+- **THEN** finite source/signal semantics, current original issuing group, exact retained live target pidfd/member authority and a sealed birth/exec frontier through actual return SHALL establish any narrowly allowed self operation
+- **AND** own-group tgkill, positive own-TGID kill or exact issuing-TID tkill SHALL NOT permit a foreign/unknown/reused target, peer-TID tkill, numeric group kill, role transition or broader external cleanup
+- **AND** the original no unsafe numeric signal requirement and external individual-pidfd cleanup policy SHALL remain, with genuine native positive/error/refusal controls and original clocks required before readiness

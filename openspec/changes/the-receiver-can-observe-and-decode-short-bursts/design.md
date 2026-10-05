@@ -605,3 +605,490 @@ pinned2.34.8 provisioning receipts; they do not establish that provisioning or
 recovery has happened. Exact saved failures and proposed four-artifact/Task
 syntax proof remain private for independent review; publish only sanitized
 committed failure/recovery/provision/follow-up evidence after root acceptance.
+
+
+## Whole-chain authority architecture004 (UNVERIFIED; proposed only)
+
+This is a proposed refinement of the preceding ownership prerequisite, not
+implementation or demonstrated host compatibility. Architecture002 failed whole
+independent review, and003 required peer034 native-operation clarification;
+preserve its119-file author bundle,133-file peer failure,003166 and034183 files,
+literal five-case probe,161 passing historical assertions and every old snapshot.
+The only owner is the existing holder. The launch/bootstrap/filter/resource
+architecture expands tasks6.1/6.2 and requires independent prospective review
+before code. Required behavior stays functional: declared normal source,
+monitor, UART, controller-query, restore and release paths must be demonstrable;
+a permanently refusing implementation cannot satisfy this plan.
+
+### Trusted boundary and original clocks
+
+The holder's exact pinned interpreter/import graph is a trusted single-thread,
+no-internal-user-worker coordinator. It cannot trace itself. The existing external
+Task/CLI observer binds its original process identity and actual terminal result;
+the holder's own terminal is not proven by its saved marker. No second tracer or
+guardian is introduced. Other admitted host tasks are traced before work; the
+Docker daemon and native container process retain their separate original trusted
+daemon/container proof, rather than being misrepresented as Docker-CLI descendants.
+Host kernel, filesystem responsiveness, the private file namespace and absence
+of arbitrary external same-uid memory modification remain trusted boundaries.
+This is complete authority over the declared admitted workload, not a security
+claim about arbitrary hostile host actors or a general sandbox.
+
+Root-provided read-only metadata reports unprivileged uid1000, no effective
+capabilities, Yama1, initially no seccomp filter, and kernel7.1.9-1-MANJARO. It
+demonstrates neither SEIZE/filter installation/PIDFD_THREAD functionality nor
+the complete kernel task-creation boundary. Supplementary tagged Linux6.12
+source explains known holes but cannot qualify this host's kernel. All required
+primitive semantics and workload compatibility need NEW harmless own-session
+fixtures after plan review, with no global security change or privilege grant.
+
+All added bootstrap, trace stops, resource/role admission, pumping, persistence,
+real-parent waits and terminal effects are charged before and after to the
+original applicable absolute role deadline. None creates a renewed allowance.
+At the first failed-child cleanup or aggregate worker teardown, set once and
+pass unchanged to all source/monitor/UART workers and their members:
+min(original caller deadline, that first entry+30 seconds, holder first
+cancellation+1800 seconds when present). Normal sequential source completion
+does not start this clock. Original source45/native32 reserve, receiver
+readiness30/acquisition180, monitor readiness15/capture240/whole260,
+acquisition420, caller/holder5400 and holder first-cancel1800 remain. Prior
+source qualification300 and producer165 are distinct. Caller, holder, keeper,
+restoration and their terminal effects remain under original5400/1800 ceilings;
+no short worker clock forces coordinator death during unresolved UART restoration.
+
+### F1: Two barriers and exact unprivileged filter installation
+
+Each root first execs a frozen, audited, single-thread bootstrap with a fresh VM,
+an explicit safe inherited-FD list and no workload, child or kernel-user-worker
+creation before INSTALL_WAIT. The holder directly retains the returned original
+PID before any fallible metadata/log/identity effect, obtains its original
+process pidfd under deferred cancellation, and SEIZEs with birth/exec/exit and
+seccomp options before allowing filter installation. INTERRUPT and an actual
+matching kernel stop establish bootstrap ownership. The bootstrap's blocking
+INSTALL_WAIT is bounded by the root's original deadline; a failed constructor,
+pidfd/identity write or cancellation retains partial-spawn authority and unknown
+closure, rather than losing the child. There is no preexec_fn stop hidden inside
+a Popen constructor's blocking exec-error pipe.
+
+From that stop, the sole holder temporarily uses syscall entry/exit tracing for
+the declared install prefix. It corroborates the native ABI and sole thread/
+private unshared MM, verifies the exact no_new_privs request and actual0 return,
+then captures the bounded sock_fprog length and every BPF instruction from the
+actual seccomp(SECCOMP_SET_MODE_FILTER, flags=0, pointer) entry. The frozen
+bootstrap has no writable/shared external mapping or concurrent writer to those
+argument bytes between capture and kernel copy. Validate immutable argument
+identity, ABI and exact expected BPF digest, then join the matching native syscall
+success0 return. A sole thread and no preexisting undeclared filter stack are
+required; NO_NEW_PRIVS, mode and filter-count observations are corroboration,
+not substitutes for the entry/return/immutable-byte join. No privileged
+PTRACE_SECCOMP_GET_FILTER or CAP_SYS_ADMIN operation is required or claimed.
+
+Only afterward can READY be accepted. Workload GO is a second barrier after
+exact role/command/FD/original-deadline admission. Filter stacking, removal,
+undeclared exec ABI, ptrace by a tracee or an install mismatch faults the lineage
+before unsafe execution; no JSON-only hash or higher-precedence hidden filter
+can qualify. Inherited architecture-checked rules prevent CLONE_UNTRACED and
+uncovered birth forms. clone3 ENOSYS fallback is an explicit compatibility
+candidate requiring pinned-runtime positive proof. A forbidden operation uses
+a selective trace/error/skip contract recording permanent failure while allowing
+the admitted coordinator's existing finally/refusal path; no forced SIGSYS or
+EXITKILL is substituted for unresolved physical restoration. Exact rule bytes,
+ABI numbers, action precedence and fallback behavior remain to be implemented
+and verified in the NEW private bundle.
+
+### F2/F4: Every root and one wait owner
+
+Direct holder roots include initial/repeated Git HEAD/status admission helpers
+(original15-second helper bound), all Docker endpoint/image/ID/name/postflight
+helpers (original10), controller preflight helper (original30, including its
+existing8-second DBus query), initial keeper (existing5-second readiness),
+replacement keeper, caller, cancellation/error cleanup helpers and final
+endpoint/admission helpers. Enumerate every actual spawn branch, including
+partial/error branches; no helper may work before original pidfd/role/deadline
+capture and the two barriers. Before the first such admission helper, load the
+saved actual-source4.3 qualification gate locally, verify the reviewed bootstrap/
+tool launch binding, retain the existing original lock FD, and establish the
+same-policy keeper. Moving keeper coverage earlier changes ordering, not its
+EOF/RELEASE policy or original whole clock. Missing qualification performs no
+runtime/archive query or device action. Unknown early-helper closure cannot use
+the old no-caller shortcut to release. If initial keeper bootstrap itself fails,
+the live holder retains its original FD and existing quarantine; no endpoint or
+workload follows. A replacement uses only still-retained original FD authority.
+
+All holder-spawned roots use a NEW private managed direct fork/exec handle, never
+an ordinary Popen object or check_output/run/context/communicate convenience.
+The immediate returned PID is retained in a cancellation-deferred ownership
+record; fork failure has no child, while every later failure retains a child
+record. The holder's same single thread pumps __WALL wait events, including
+non-SIGCHLD births, while servicing bounded nonblocking pipe I/O, cancellation,
+role IPC and deadlines. The handle reads only a cached actual terminal state;
+its destructor does not wait/poll or enter subprocess._active. No second thread,
+Popen.poll/wait, context exit, _active cleanup or unrelated waitpid consumes
+holder-owned stops. SIGCHLD disposition and all actual wait consumers are bound
+in the source/runtime map. Stops and PTRACE_EVENT_EXIT are not exit codes;
+ECHILD and WNOHANG0 never establish successful closure.
+
+Inside traced caller/helpers, unchanged historical Popen helpers may retain
+their real-parent terminal waits only through reviewed adapters: the holder
+owns tracer notifications, then the real parent receives and joins the actual
+terminal notification. This distinction covers every inherited helper, source,
+monitor, acquisition, restore/boot, dispatch and native wrapper path. No saved
+returncode manufactured from a tracing stop qualifies. Application cleanup
+and external forwarding require fresh original individual pidfd authority;
+missing or ambiguous authority refuses unsafe signaling and retains quarantine.
+Immutable native internal member/self-signal operations instead use the explicit
+kernel-mediated contract below, preserving the original no unsafe numeric signal
+wording. No application IPC is fabricated for a native binary and no numeric
+group cleanup exception is introduced. Positive and negative paths need proof.
+
+Keeper is a separately admitted no-fork root under the same tracing owner, with
+EXITKILL absent and its exact existing lock/control FD and EOF/RELEASE semantics.
+It is not a worker30 target. Normal release needs its actual0 terminal, original
+FD acknowledgment and the original holder marker/terminal chain within5400/1800.
+Caller is likewise a coordinator, not a worker. Native/container processes are
+not silently pulled into host ancestry: exact CID/name/image, both ID/name
+absence, disable/remove ACK0 and socket OFF remain separately required, and
+forced container cleanup cannot count as natural timed qualification.
+
+
+
+### Native internal members and signals: kernel-mediated transactions
+
+This clarifies peer034's material NATIVE_MEMBER_SIGNAL_TRANSACTION_PROTOCOL gap.
+Immutable Git/Docker/Go/CGO/native binaries cannot emit new application messages.
+They stay unchanged. No unsafe numeric signal remains the original requirement;
+it is not replaced with the stronger, incompatible rule that every native
+self-signal must use a new application IPC or a pidfd syscall in the binary.
+The sole holder distinguishes four explicit transaction classes: direct managed
+holder roots, application logical-role spawns/transitions, native internal threads,
+and finitely predeclared native internal helper processes. All share the complete
+original birth/resource/exec/terminal ledger and original clock accounting.
+
+Before root GO, freeze a native operation profile for each exact admitted root:
+original process/TGID/task lineage and pidfds, ELF wrapper and executable hashes,
+all loaded source/library/patch/build/ABI provenance, root argv/environment and
+relevant Git/helper/plugin configuration, finite permitted creation flags,
+signal/exec/resource semantics and original role/deadline. The selected Docker
+ELF wrapper and native executable were only read as static bytes: native SHA256
+`d0f9bb5d7eb5ac3c10b358b75bd194a1135f4add37689dcf85d93801c2fe052b`
+contains Go1.26.7, CGO_ENABLED=1, linux/amd64/v1 build info. Locked nixpkgs source
+selects Docker29.8, Go1.26.7 and Git2.55. Tagged matching primary code and pinned
+package/patch files identify operation classes; they do not establish exact
+patched runtime profile completeness or current-host compatibility. Include Go
+raw clone and CGO/glibc pthread paths; proving only one of them is incomplete.
+
+The inherited exact filter routes every covered ordinary birth, native signal,
+exec and resource-changing syscall to a canonical holder kernel-entry transaction
+before effect. The canonical entry joins actual kernel-reported calling TID,
+retained original task pidfd/lineage and current TGID, exact syscall ABI/number,
+register arguments, frozen native code/profile mapping and admission epoch.
+Seccomp and syscall-entry notifications for the same call join one sequence;
+they cannot create duplicate admission. Mutable userspace declarations, PPID or
+PGID membership scans are not the source of authority. The supported kernel's
+event order, flags, namespace mapping and syscall-entry/return mechanics must be
+proved later; this proposal asserts no actual primitive result.
+
+For an internal thread, the holder matches one finite profile row, including
+CLONE_THREAD/shared-MM/files/sighand/exit-signal/TLS/tid flags and bounded pointer
+arguments, while excluding UNTRACED/namespace/uncovered ABI forms. It creates a
+pending native-birth record from that actual original creator before permitting
+the syscall. Actual parent birth event/GETEVENTMSG, returned child TID and the
+newborn's actual stopped event must all reconcile, in either parent-first or
+child-first order, to the original root and calling TID/TGID. Acquire original
+thread pidfd authority before resume and retain every child record even if
+metadata/cancellation/partial spawn fails. The thread inherits exactly its
+existing root role, resources, GO epoch and absolute deadline; it does not start
+a source episode or receive another per-thread time budget. Kernel birth history,
+not a thread's lack of application IPC, permits this internal member. A missing,
+duplicate, incompatible, late or ambiguous kernel transaction keeps the child
+stopped/failed and preserves refusal. No blanket native-descendant permission.
+
+Native internal process helpers require a separate finite predeclared row bound
+to the original root invocation and source/config branch. Their actual creation
+entry and stopped child are owned before any body; a source-audited bounded
+pre-exec prefix may perform only its declared setup operations under the inherited
+filter. Before the helper image can run, join actual exec-entry argv/environment/
+FD resources and exec event/stopped image to the exact declared command/code
+hashes. Wrapper-to-real-program exec is likewise explicitly bound. A new image,
+hook, plugin, daemonized member or namespace/resource path is not inferred from
+native ancestry: it must match that row or fail before unsafe work. An internal
+helper retains the same logical role and original absolute bounds; creating a
+new source/monitor/UART role, endpoint or restoration transition still requires
+the mandatory authenticated application transaction. Neither internal thread nor
+process admission can reopen a sealed worker GO epoch. The existing kernel-user-
+worker/io_uring/vhost boundary remains fully required.
+
+Native self-signal requests are captured at actual kernel entry, not invented
+application messages. A finite profile matches signal number, target form,
+native semantics, original issuing task/root and exact retained target process/
+thread pidfd. Unknown, stale or contradictory numeric identity is not signaled.
+For the narrowly allowed self-group contract, actual tgid must equal the issuing
+task's retained currently live original logical thread group in the unchanged
+PID namespace. The target must be its original live registered member, with
+fresh stopped identity/pidfd reconciliation. Stop other same-group birth/exec/
+exit-capable actors and drain outstanding events before permitting the effect;
+hold that sealed target/group frontier through the actual syscall return. The
+issuing original task stays live in the syscall, so its own TGID cannot be reused
+by another process during the effect. No new same-group task can replace a target
+TID while this frontier is held. An exec transfer first retires old bindings and
+requires fresh current-group reconciliation; cached pre-exec TIDs do not qualify.
+
+Only these numeric forms may be considered safe after that complete join:
+tgkill with positive TGID equal to the issuing live original group and target
+equal to a retained original member; positive kill of that same original TGID
+with the original process pidfd and conserved member frontier; or tkill only
+the exact currently issuing original TID. tgkill's kernel TGID check also rejects
+a target TID recycled into another group; it is not permission to skip original
+target authority or same-group birth sealing. Plain tkill of a peer TID, negative/
+zero group kill, foreign TGID, unknown/reused numeric target or unbound signal
+semantics never receives this exception. A known completed target is not a live
+target: the holder suppresses the effect and returns the separately audited
+no-target error only where the exact source profile permits that natural race;
+unknown/mutated identity remains failed, without a numeric signal. Mark a
+skipped/holder-denied syscall and its emulated error as such, distinct from an
+actual kernel syscall-return event; never fabricate an actual kernel success.
+Preserve native success/error, original signal-delivery stop/siginfo/reinjection
+through exact retained tracee authority, and actual terminal distinctions.
+
+This narrow kernel-native self-operation contract does not broaden external
+cleanup. Caller/holder forwarding, other-role termination and native requests
+to another process still require the original individual target pidfd and
+original ownership/deadline/cleanup policy. Native external numeric calls are
+stopped before effect and either handled by an independently reviewed exact
+pidfd-based adapter with matched native permission/payload/siginfo semantics, or refused without unsafe
+action; absence of application IPC cannot silently authorize them. No numeric
+PGID stop or leader-only cleanup is introduced. Natural positive paths must work;
+ambiguous forced cleanup stays failed with the existing keeper/pending policy.
+
+The sole pump conserves native entry/birth/child-stop/profile/exec/signal/return/
+delivery/terminal events in the same worker and later helper frontiers. Native
+transactions consume original role/worker/coordinator budgets before and after;
+no new clock or renewed cleanup allowance. Later6.2 proof must genuinely run the
+exact unchanged selected native tools in harmless no-endpoint positive fixtures,
+record the native classes they actually exercise, and separately cover forbidden
+flags, native child-before-parent order, missing/duplicate entry, unknown helper,
+same/foreign-group numeric reuse models, dying target, exec transfer, native
+self-signal/no-target semantics and original external cleanup refusal. Merely
+executing --version without exercising a required class is not that class's
+proof. Preserve all161 historical assertions, literal failing probe, full sources/
+imports/profiles/maps/archives and actual external CLI0/failure. No native binary,
+kernel primitive, endpoint, daemon, producer or device was executed by this
+planning author; compatibility, complete kernel profile and timing remain
+UNVERIFIED. A permanently refusing implementation is not readiness.
+
+### F3: Supported kernel/ABI/FD-resource contract
+
+Tracing fork/clone alone is incomplete: kernel6.12 io-wq and vhost source show
+user workers created through kernel paths without ordinary ptrace birth events.
+Qualification must bind the actual supported kernel release/build/config and
+corresponding source, enumerating every reachable copy_process/kernel_clone/
+create_io_thread/vhost_task/user_worker call site and its ABI, syscall, device,
+ioctl and inherited-resource trigger. This finite coverage map is a mandatory
+before-GO input, not a vague assumption that a birth filter is a sandbox. Unknown
+kernel variants or uncovered reachable paths fail qualification; the declared
+normal workload must still have demonstrated positive compatibility.
+
+The declared resource profile excludes all io_uring_setup/enter/register calls,
+ring file descriptors, ring mappings, inherited/transferred rings and SQPOLL
+resources; setup denial alone does not close inherited/SQPOLL worker creation.
+Fresh bootstrap exec removes inherited VM mappings. Its exact inherited FDs are
+only typed original lock/control/role/log pipes and admitted stdio; no ring,
+vhost, arbitrary driver, namespace or delegated task-launch resource is allowed.
+The trusted holder creates no such resource and imports no implicit worker pool.
+Tracee FD creation, open/dup/transfer and receiving paths are included in the
+finite ABI admission map. No SCM_RIGHTS, pidfd_getfd, inherited external socket
+or equivalent unreviewed resource injection is admitted. Existing dbus-next
+explicitly keeps negotiate_unix_fd=False; pinned reader code then uses stream
+read rather than ancillary recvmsg. Changing this option would need a new plan.
+
+vhost reachability is excluded through the resource provenance and typed
+open/ioctl policy, not merely CLONE_UNTRACED. Before resource-changing calls,
+the holder joins their actual calling task, FD provenance, immutable decoded
+arguments and finite allowed operation. Pointer-bearing arguments require an
+actual stopped barrier for every sharing-MM/FD-table writer through syscall
+completion; a racy pathname/JSON snapshot cannot qualify. Fresh FD results are
+joined at actual return and may not be used before registration. Deny unknown
+FD classes and vhost worker-triggering request paths before effect. UART/stdio
+retain the exact required pinned pyserial/termios ioctl paths, bound to the
+identity-selected UART/stdio FD class; numeric request collisions on other
+devices cannot inherit that permission. Required ordinary socket, regular-file,
+pipe, thread and runtime operations are admitted by an explicit finite profile
+and later real positive fixtures, not by a blanket ioctl or device whitelist.
+
+Architecture checks cover supported syscall ABIs and multiplexed operations;
+uncovered compat/x32 or worker-producing resource APIs cannot bypass the gate.
+The supported-kernel callsite/resource audit must account for all remaining
+trace=0/user_worker cases, and either show them unreachable under the pinned
+profile or give original authority before they can run. No privileged kernel
+hook, cgroup mutation, global seccomp policy or actual daemon/device probe is
+authorized here. Tag6.12/master evidence identifies holes only; compatibility
+and complete coverage on kernel7.1.9 remain UNVERIFIED.
+
+### F5: Exec lineage without fictitious old-thread death
+
+The ledger separates append-only task-birth records from logical process
+lineages. Process pidfds refer to kernel PID/process identity; they are not
+immutable physical-task handles across nonleader exec de_thread. A traced
+nonleader exec may lose its former TID and retire other thread identities
+without an ordinary wait terminal for that former TID. PTRACE_EVENT_EXEC's
+former TID, stopped survivor, pre-exec task/TGID records and retained original
+role/deadline establish a typed EXEC_TRANSFER_RETIRED transition. Preserve old
+records and retired signal bindings; do not rewrite them or require an
+impossible old-TID death. Acquire/reconcile the survivor's current process and,
+where supported, PIDFD_THREAD authority while it remains stopped, before
+resuming or signaling. Ordinary leader exec, rapid thread-group exits and
+nonleader exec races receive distinct controls. Any ambiguous transfer fails
+the lineage and keeps refusal; no numeric PID reconstruction is allowed.
+
+Each task birth must reconcile to actual observed terminal or a proved typed
+exec-retirement/transfer. The surviving logical process still requires actual
+terminal and complete thread-history conservation. PIDFD_THREAD readiness and
+pidfd/wait semantics on this host are not asserted by documentation or modeled
+records; actual own-session controls must establish them before readiness.
+
+### F6: Real tracer loss and surviving actors
+
+Without EXITKILL, real holder/tracer death normally detaches and may resume
+existing tracees. Architecture004 routes covered native calls through RET_TRACE;
+where the exact filter is already installed, the kernel's documented no-tracer
+error prevents those covered calls from taking their ordinary effect. This is
+conditional on the installed filter and supported kernel, not an actual host
+result. Already-born tasks, in-flight operations and unqualified coverage remain
+conservatively unknown; no dead tracer can join their history or closure. The
+design makes no dead-tracer membership or frozen-tree claim. Later proof must
+separately exercise actual detach/continued execution, already-in-flight births,
+and the exact no-tracer return of every covered birth/signal class. The admitted caller retains a
+dedicated holder-liveness channel/original holder identity, whose writer is
+not inherited by helpers, and checks it before and after every role transaction,
+new endpoint/device action, restoration decision and release request. Channel
+EOF, lost holder authority, malformed role reply or storage fault invalidates
+completion, stops new actions and preserves the existing private/shared pending
+and quarantine state; no fresh scan or replayed receipt reconstructs a ledger.
+Already in-flight restoration may finish its existing OS helper; forced
+coordinator kill is prohibited and no completed/qualified release follows
+without original known closure. This is not a promise to undo an external
+operation that had already begun before unexpected holder death.
+
+The existing keeper remains the surviving lock actor: loss/malformed control
+uses the unchanged indefinite-hold behavior, ignoring its existing SIGINT/TERM
+signals. Holder-only death closes its sole control writer and invokes that
+policy. Keeper-only death with a living holder faults completion; the existing
+replacement path may retain the lease only from still-held original FD
+authority, never by reacquiring a consumed number or changing release policy.
+Caller-only death is a failed lineage handled by live holder with original
+authority; all restoration/endpoint decisions still require complete known
+source/monitor/UART/container closure. Combined channel/storage/caller/keeper
+faults never authorize release or claim complete process absence. If all trusted
+lease-holding actors/FDs are destroyed by host failure, the design cannot retain
+a nonexistent lock or recreate exact authority; the external actual CLI and
+required complete proof still refuse qualification. State that trusted-host
+destruction limit explicitly, without inventing a guardian or new keeper policy.
+Holder death after an otherwise proven release likewise cannot fabricate an
+actual terminal0; saved completed-looking bytes alone remain unqualified.
+
+### F7: Authoritative birth, role and terminal barrier
+
+Root states are PREPARED, FORK_CAPTURED, BOOTSTRAP_STOPPED, INSTALL_PROVED, READY,
+GO, ACTIVE and typed terminal/failure. Any post-fork exception retains ownership.
+Newborn kernel stop and parent birth event may arrive in either order. Keep
+unclassified stopped tasks and incomplete parent/child events in a pending
+registry, never resume/drop them, and join GETEVENTMSG, original birth identity,
+pidfd, actual spawning TID/TGID, admitted parent lineage and role before GO.
+CLONE_PARENT, reparenting, setsid, non-SIGCHLD clone and vfork do not obtain role
+authority from mutable PPID or process-group scans. Exact event history supplies
+lineage; /proc is corroboration rather than a census proof.
+
+Caller/helper application-role IPC uses an authenticated private channel and one outstanding
+transaction per actual spawning task, naming immutable command hash, role,
+child budget, nonce and original absolute deadline. Only the declared actor
+holds that writer; it is not passed to unrelated children. Kernel syscall/birth
+event and stopped newborn must join that actual TID/TGID and pending request,
+not a nonce alone. This IPC rule applies to application logical-role transitions;
+native internal births/signals use their exact kernel/profile transactions above,
+not an impossible message from immutable binaries. Missing application-role IPC
+or missing native kernel/profile transactions both fail their respective class.
+Duplicate/spoofed/delayed transactions, cross-thread requests and undeclared
+births permanently fail the lineage while preserving
+stopped authority and existing refusal. No late register/resume may repair a
+formerly unowned workload interval. Existing nested helpers get explicit
+adapter transactions without modifying historical source bytes.
+
+Closure is a sealed conservation frontier. Before evaluating worker closure,
+the holder obtains actual stops for every live coordinator/root capable of
+requesting or creating another worker and drains the kernel events generated
+before those stops. At that barrier it seals the source/monitor/UART GO epoch,
+joins every outstanding request/birth/child-stop transaction and forbids future
+worker GO. Coordinators may then resume only in the explicit finalization epoch,
+whose permitted restore/postflight helper births still stop and register before
+workload and are conserved in a separate helper frontier. An ordinary late fork
+cannot run an undeclared worker: it remains stopped and permanently fails the
+handoff. Repeat actual coordinator stops and event/request joins for the final
+helper frontier before release. Stops are not terminal; live coordinators and
+keeper keep their original bounds and authority until their own later joins.
+Every originally registered worker birth and transferred exec lineage must have
+an actual terminal or justified typed retirement; there can be no live worker-capable birth source, unclassified
+stopped child, outstanding parent/child event, role/bootstrap/GO transaction,
+unjoined real-parent wait, pending resource transition or unfinished charged
+log/fsync/receipt/FD effect. The live coordinators and keeper are explicit
+exclusions with separately sealed spawning frontiers and their own later
+terminal joins; they are not absent workers. The single pump correlates all
+original histories and actual terminal observations. WNOHANG0, ECHILD, leader
+reap, empty mutable tables, body markers and PTRACE_EVENT_EXIT cannot establish
+this barrier. Late birth/exec/role events or lost history keep the frontier
+failed and prevent endpoint/restoration/release.
+
+After proven worker and exact container closure, original restoration may run
+through admitted, traced helper roots under original coordinator bounds. Seal
+all helper frontiers and actual terminals before keeper RELEASE; then join
+keeper actual0, original parent-FD acknowledgment, root-FD effects, private and
+shared markers, actual holder terminal and external CLI status. Restore/boot
+helpers and final admission/endpoint helpers are accounted for too. Actual
+natural exit0 with complete history differs from forced cleanup. No new30-second
+clock starts after restore. Cancellation/late/storage/FD faults are permanent
+qualification failures even if a later body emits successful-looking bytes.
+
+### Evidence and planning/implementation boundary
+
+Use the NEW bundle's pinned declared Python/Task/OpenSpec tools only. First prove
+bootstrap/filter exact-byte entry/return, every direct root and partial spawn,
+all wait consumers, resource-injection/io_uring/vhost refusal with required
+positive runtime/UART-modeled/controller-fixture paths, child-first/parent-first
+events, role spoof/duplicates, CLONE_PARENT/non-SIGCHLD/vfork, nonleader exec,
+late descendants, original pidfd reuse controls, live and dead tracer failures,
+keeper/channel/storage/cancellation faults, durable FD/log effects and actual
+external CLI0/failure. Genuine OS tests are harmless own-session fixtures after
+review; modeled cases are labeled. No actual source/controller/daemon/store/
+compiler/device operation belongs to these author tests. All161 unchanged
+historical assertions and literal five-case failing probe stay byte-exact.
+
+Freeze complete NEW sources, transitive imports, supported-kernel/ABI/resource
+profile, exact filters, old/new maps, pinned commands, actual Task terminal logs,
+raw failures and full archives. Independent whole review precedes root6.3
+byte-only transfer. Missing actualsource4.3 still blocks operational freeze;
+no dummy qualification, prior FPGA result or historical helper baseline supplies
+it. Only a later sole-root fresh complete runtime/admission proof permits one
+separately frozen physical condition; no RF requirement, checkbox or registry
+is promoted by this proposal.
+
+Primary references: [ptrace](https://man7.org/linux/man-pages/man2/ptrace.2.html),
+[seccomp](https://man7.org/linux/man-pages/man2/seccomp.2.html),
+[filter ABI/precedence](https://docs.kernel.org/userspace-api/seccomp_filter.html),
+[pidfd](https://man7.org/linux/man-pages/man2/pidfd_open.2.html),
+[clone](https://man7.org/linux/man-pages/man2/clone.2.html),
+[io-wq](https://github.com/torvalds/linux/blob/v6.12/io_uring/io-wq.c),
+[vhost](https://github.com/torvalds/linux/blob/v6.12/kernel/vhost_task.c),
+[de_thread](https://github.com/torvalds/linux/blob/v6.12/fs/exec.c), and
+[ptrace teardown](https://github.com/torvalds/linux/blob/v6.12/kernel/ptrace.c).
+These support hazards and proposed constraints, not actual host qualification.
+Pinned CPython/dbus-next/pyserial source observations, prior full failures and
+exact downloaded reference bytes remain in the private prospective003 handoff.
+
+Native clarification primary sources: [tgkill/kernel target matching](https://github.com/torvalds/linux/blob/v6.12/kernel/signal.c),
+[Go1.26.7 Linux runtime](https://github.com/golang/go/blob/go1.26.7/src/runtime/os_linux.go),
+[Go CGO pthread startup](https://github.com/golang/go/blob/go1.26.7/src/runtime/cgo/gcc_linux_amd64.c),
+[selected Docker29.8 main](https://github.com/docker/cli/blob/v29.8.0/cmd/docker/docker.go),
+[Git2.55 preload threads](https://github.com/git/git/blob/v2.55.0/preload-index.c), and
+[glibc2.42 pthread target precautions](https://github.com/bminor/glibc/blob/glibc-2.42/nptl/pthread_kill.c).
+These tagged sources and static selected-tool metadata support operation classes
+and the proposed boundary; they do not prove actual complete patched profile,
+current-host syscall semantics, functionality or timing.

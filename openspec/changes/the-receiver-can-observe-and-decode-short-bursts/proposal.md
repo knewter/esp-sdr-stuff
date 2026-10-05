@@ -148,3 +148,50 @@ alias replaces the selected provider, and no performance optimization is added.
 Dependency restoration, GC-root retention and the new follow-up are UNVERIFIED;
 details and source references are in
 [design](design.md#exact-provider-preparation-and-one-new-cost-follow-up-unverified).
+
+
+## Whole-chain ownership architecture004 (UNVERIFIED; proposed only)
+
+The failed independent architecture002 review identifies seven incomplete host
+boundaries: unprivileged exact-filter installation, holder helper roots,
+kernel-created user workers, wait ownership, nonleader exec, tracer death and
+authoritative completion. Preserve its full failure and both prior proposed
+patches. Replace that prospective architecture with the following whole-chain
+design in a NEW private bundle after another independent planning review.
+
+The existing holder remains the sole tracer and trusted single-thread launch
+coordinator. It must own every direct helper and keeper root before workload,
+not just caller descendants. A new managed fork/exec handle and event pump replace
+holder-side Popen wait/convenience paths. Before GO, the holder observes the exact
+bounded immutable filter at its unprivileged installation syscall and success
+return, and binds a finite supported-kernel/ABI/FD-resource contract covering
+io_uring/vhost user-worker creation as well as ordinary births. An append-only
+kernel birth/exec/terminal ledger, typed role transactions, and surviving-caller
+channel-loss refusal determine closure; polling gaps never establish absence.
+
+These are host preparation dependencies, with no changed radio capability,
+firmware, native source, old input, wire profile, equipment or keeper release
+policy. Cgroup containment remains unselected because same-uid ancestor migration
+is not prevented by the surveyed delegation. No guardian, service, namespace,
+global policy change, EXITKILL on restoration coordinators, observed-only scan or
+permanently refusing substitute is proposed. Supported primitive compatibility,
+the complete kernel/resource boundary and original timing behavior are UNVERIFIED.
+The measurable gate is functional positive and negative harmless host-fixture
+proof of the full new chain, all161 original receiver/holder assertions unchanged,
+complete immutable byte/import/tool/archive maps and independent whole review.
+Strict OpenSpec parsing alone proves only planning syntax.
+
+Original source4.3 qualification is still missing and blocks operational receiver
+freeze before runtime/archive queries or devices. Worker30, source45/native32,
+all readiness/acquisition budgets and coordinator5400/first-cancel1800 remain
+unchanged. Root transfer6.3 and physical4.4–4.6 remain separate unchecked gates.
+Detailed state, root/API, kernel-resource and failure contracts are in
+[design](design.md#whole-chain-authority-architecture004-unverified-proposed-only).
+
+Native operation clarification: unchanged Git/Docker/Go/CGO internals use exact
+sole-holder kernel-entry/birth/child-stop/pidfd/profile transactions, with inherited
+original roles and deadlines. Application IPC stays mandatory for logical role/
+endpoint/restoration transitions. A narrowly proved own-live-TGID self-signal
+contract preserves no unsafe numeric signal without broadening external cleanup.
+Peer034's183-file review and the complete003166 archive remain immutable; native
+functionality and exact supported-host semantics are still UNVERIFIED.

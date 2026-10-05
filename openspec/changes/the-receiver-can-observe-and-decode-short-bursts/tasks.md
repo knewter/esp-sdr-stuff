@@ -277,3 +277,66 @@ Narrow proof: the new ignored bundle's explicit pinned Task host-fixture recipe
 and independent whole caller/holder replay, followed by a sole-root byte-only
 transfer/refusal experiment. No physical checkbox, registry or accepted RF
 requirement is changed by this group.
+
+
+## Architecture004 prerequisites within6.1–6.3 (UNVERIFIED; proposed only)
+
+The [whole-chain prospective design](design.md#whole-chain-authority-architecture004-unverified-proposed-only)
+replaces rejected architecture002 after independent prospective review. It adds
+no checkbox or completed task. Before implementing6.1, freeze the reviewed
+supported-kernel/ABI/resource/FD contract, exact unprivileged filter-install
+protocol, every-root role/API/wait matrix, task/exec lineage state machine,
+surviving-caller/keeper loss contract and terminal conservation barrier. Preserve
+both prior proposals, the complete133-file failed review and all119 author files.
+Primitive compatibility and original timing remain UNVERIFIED until genuine
+harmless fixtures establish them; root read-only metadata is not that proof.
+
+For6.1, implement only a NEW private managed holder-root fork/exec handle and
+single __WALL event pump, two bootstrap/GO barriers with exact filter entry/
+success proof, all direct and inherited helper role transactions, typed FD/
+kernel-user-worker admission, append-only nonleader-exec retirement, and real
+tracer/lease-loss refusal. Account initial Git/admission, all endpoint/controller,
+keeper/replacement, caller, final/error/restore helpers and partial spawns before
+workload. Preserve original keeper policy, trusted daemon/container separation,
+all historical helper/native/firmware bytes, shared worker30 and original
+restoration/terminal bounds. No observed-only authority or permanent refusal
+can satisfy the required functional positive paths.
+
+For6.2, retain all161 original assertions and the original five-case failing
+probe byte-exact. Add separately named positive and negative controls for exact
+unprivileged installation and filter mutation/stacking, every root and API wait
+consumer, all resource creation/FD injection paths (including io_uring inherited
+ring/SQPOLL and vhost hazards), syscall ABI/fallback compatibility, child-first
+birth events and task-bound role spoof/duplicate/missing transactions,
+CLONE_PARENT/non-SIGCHLD/vfork, nonleader exec de_thread, actual tracer death with
+continued execution/in-flight birth and covered no-tracer syscall errors,
+caller/keeper/channel/storage loss, partial spawn,
+original identity/PIDFD_THREAD semantics, late members, consumed FD numbers,
+unchanged clocks, cancellation, natural/forced closure and actual external
+CLI0/failure. Tests distinguish modeling from genuine own-session OS results;
+no real device/service/store/compiler/controller operation is included.
+
+For6.3, transfer only after independent whole NEW source/import/kernel-profile/
+filter/command/actual-log/archive review. Root copies and rehashes distinct paths,
+retaining all old failures. Missing actualsource4.3 blocks operational freeze
+before runtime/archive queries or devices; no dummy profile/admission substitutes.
+Current full runtime/physical receiver4.4–4.6 remain separate unchecked gates.
+
+Narrow prospective proof: the NEW ignored bundle's pinned private Task recipe
+runs Git apply --check and strict OpenSpec validation in a copied planning tree,
+with exact base/proposed byte maps and captured actual CLI results. These checks
+prove syntax/applicability only. Implementation proof later uses explicit pinned
+Task harmless whole-chain fixtures, complete immutable manifests/archives and
+independent full replay; no successful planning check is a hardware claim.
+
+For6.1/6.2, explicitly implement/test native internal kernel-entry/birth/
+child-stop/profile/pidfd transactions separately from application logical-role
+IPC. Freeze exact selected Git/Docker/Go/CGO/library source and finite ABI/flags/
+exec/resource/signal profiles, original root/TID/TGID and deadlines. Narrow native
+own-live-TGID self-signals need exact original target authority and sealed births/
+exec through actual return; external cleanup retains original individual pidfd
+rules and no unsafe numeric signal. Genuine no-endpoint selected-native positive
+controls must exercise each required class alongside forbidden/unknown/reuse/
+exec/cancellation/native-error controls. Immutable native bytes, all old tests,
+F1–F7, current checked5.1–5.3/open5.4–5.5 and all physical gates remain unchanged.
+No missing native IPC, blanket ancestry or permanent refusal substitutes.
