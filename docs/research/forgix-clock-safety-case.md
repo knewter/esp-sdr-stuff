@@ -35,3 +35,9 @@ execution/tool/import/NAR/archive/environment/artifact tuple must precede any
 separate registry admission and first diagnostic. The historical runtime proof
 is retained, not newly reverified here. Registries remain empty and physical
 hardware tasks remain open. Internal observer/register tests need no ESP wires.
+
+Primary sources: the [pinned Adiuvo KiCad/BOM design](https://api.bitbucket.org/2.0/repositories/adiuvo-engineering/forgix_public/src/c1d83e3e6ad10fa1c5a927731b1e4f54e771bf0f/Kicad_Project/RP2350_FPGA_eensy-main.zip),
+[Efinix T8 v5.5 datasheet](https://www.efinixinc.com/docs/trion8-ds-v5.5.pdf)
+(IO/reset and passive configuration tables), [F49 C2/I2 ordering table](https://www.efinixinc.com/shop/t8.php),
+and [RP2350 datasheet](https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf)
+(reset §§9.3/9.7 and RP2350-E9; reviewed snapshot hash in the [checks](../evidence/forgix-clock-safety-case-preparation/checks.json)).
