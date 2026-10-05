@@ -49,7 +49,10 @@
     "fresh_local_image_inspection": true,
     "containers_started": false,
     "hardware_opened": false,
-    "independent_review": "pending"
+    "independent_review": "PASS_OFFLINE_SOURCE_ARTIFACT_RUNTIME_ONLY",
+    "independent_review_sha256": "dfbbadb32bad03527db2dad0a63902cad523c6e7a8640fe2719bf29cede53517",
+    "independent_graph_schema_source_refusal_groups": 4,
+    "all_88_source_bytes_current_at_review": true
   },
   "source_correction_independent_review_sha256": "7ea54efa26771ef58fc06a2e15aa68effd2578dc637d46132f7b627ec935cd82",
   "complete_linked_artifact_review": "pending",
