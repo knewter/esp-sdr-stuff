@@ -1,0 +1,52 @@
+# Clock runtime passes; finalization correction remains open
+
+On October 5, the root operator refreshed the clock observer's read-only runtime
+at `b37bd3989cdb35a7e06740c81f1264b720d3fe48`. All **88 execution inputs,
+seven tools, 268 content-verified Nix paths and 1,097 reference edges** were
+bound, with fresh local image inspection and whole archive checks. The operation
+took 17.727 seconds internally and 18.458 seconds in its external Task observer;
+both observed Task and parent exited0. Independent saved-only review verified
+the whole tuple, 42 project imports, 177 root external imports, complete artifact
+exports and unchanged 32 ARM/nine FPGA source inputs. Its four refusal controls
+passed. This is runtime preparation, not a physical clock measurement or source
+timing proof. New planning and correction code require a fresh execution binding.
+
+The first attempt refused before runtime selection completed because its Nix
+shell omitted a required tool. Its observed Task exit201, source, log and exact
+Taskfile remain retained. The default declared shell supplies the complete
+tool set; no dependency guard was relaxed and no firmware rebuild was needed.
+
+Independent finalization review also reproduced two failures using **actual
+owned temporary files and flocks**, with lifecycle, runtime and hardware
+boundaries explicitly modeled:
+
+1. Unknown modeled resource closure plus failed shared-marker creation leaves
+   the active lease but releases the original lock. A fresh owned lock and the
+   shared pending/inherited-lock guards pass. This does not prove every device
+   route admits: the USB trial's separate active-lease guard may still refuse.
+2. Marker unlink followed by failed directory sync and corrective marker,
+   lease and journal writes leaves an older completed-looking session with no
+   shared blocker.
+
+Both in-process production `main()` calls returned2. The enclosing probe Task
+exited0 because it asserted those failures. These were not externally observed
+production CLI exits, false CLI0 results, real unclosed hardware or device access.
+Exact failed evidence remains immutable; [sanitized checks](checks.json) bind it.
+
+The historical six-field intended-design case and built artifacts remain intact.
+**Current whole-loading review and a distinct safety candidate remain withheld.**
+No registry entry, FPGA programming, register readback or clock/transport task
+is accepted by this follow-up. Another photo is not needed for this software fix.
+
+The [existing FPGA plan](../../../openspec/changes/the-fpga-route-has-a-measured-feasibility-decision/design.md#prospective-clock-finalization-correction)
+now requires owner-bound shared refusal or the exact held lock through terminal
+faults. Normal results stay provisional through output, persistence, marker
+closure and cancellation checks under the original clock. The final operator
+FD stays held until kernel process teardown. New subprocess evidence must join
+actual exit0, the original deadline, owned-group/FD and marker absence, and lock
+reacquisition; a callable returning0 cannot prove that release. Implementation,
+independent whole review and fresh root runtime/candidate binding remain pending.
+
+After those software gates, physical work still needs the matching connected
+Forgix, fresh preservation, exclusive ownership and separately qualified clock,
+electrical, SPI and recovery bounds. Internal FPGA tests need no ESP wiring.

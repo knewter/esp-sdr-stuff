@@ -223,8 +223,8 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Reconnect the preserved Forgix; verify matching identity, fresh complete preservation and current runtime/tuple under exclusive operator ownership before one bounded clock diagnostic. Register readback and finite-stream trials retain separate physical gates.",
-      "rationale": "Software tasks 3.1 and 3.2 are complete; physical tasks remain open. Actual clock FPGA compile001 and fresh ARM003 pass complete independent offline artifact, startup/callback and loading/recovery ownership review. ARM003 uses 206,132 SRAM bytes. The retained runtime proof binds 88 inputs and seven tools and verifies 268 Nix paths and 1,097 reference edges. The combined review covers all nine requirement rows, 39 independent host groups and 352 callback/queue mutation refusals under explicit SDK/ROM/kernel trust. ARM001 CRC-symbol and ARM002 PIO-metadata failures remain retained. No FPGA was programmed or clock measured; registries remain empty. The 2026-10-05T06:39:08Z read-only survey found ESP32 and RTL-SDR but no Forgix. All six documentary safety fields now pass independent review under explicit intended-design assumptions; 31 subjects, 88 inputs, seven tool hashes, 8 author + 5 independent groups and eight PCB/net checks are bound. No additional photo or calibrated measurement is needed for this case. The private candidate grants no admission; fresh identity/preservation/current runtime and actual clock/electrical timing, SPI/register and several-rate transport gates remain open. Synthetic finalization now passes 63 author + 8 independent host groups, binding 65 inputs and 32 actual imports. Shared refusal or the original locked FD protects unknown closure; cancellation spans terminal persistence. Fresh root register/synthetic snapshots now pass independent saved review at c4aedd1: 36/65 inputs, seven tools and 268 freshly content-verified Nix paths with 1,097 edges. Actual configuration006 passes independent artifact review with all 19 build sources current. Historical synthetic ARM001 remains bound under its unchanged policy. No fresh Docker identity inspection or physical admission is claimed.",
+      "next": "Correct and independently review clock finalization, refresh the root runtime and distinct documentary candidate, then reconnect the preserved Forgix for identity/preservation and one bounded clock diagnostic. Register and finite-stream measurements retain separate physical gates.",
+      "rationale": "Software tasks 3.1 and 3.2 are complete; every physical task remains open. Clock FPGA001 and ARM003 have independent offline artifact/startup review; ARM003 uses 206,132 SRAM bytes, with prior CRC and PIO-metadata failures retained. Fresh root clock preparation at b37bd398 binds 88 inputs, seven tools, 268 content-verified Nix paths and 1,097 edges, fresh image inspection and unchanged 32 ARM/nine FPGA sources; independent whole saved review passes software scope. Two actual owned file/flock probes with modeled lifecycle and hardware boundaries reproduce clock finalization faults. In-process main returns 2 and the probe Task exits 0; neither proves an external production exit or hardware operation. Historical six intended-design safety dispositions are preserved, but current whole-loading review and a distinct candidate are withheld. The committed correction requires the original lock through terminal effects, final kernel teardown and external exit/deadline/group/FD/marker/flock evidence. Implementation and fresh binding remain pending. Configuration006 and the register and synthetic runtime reviews, covering 36 and 65 inputs, remain separately valid software checkpoints. Registries stay empty; the last read-only survey found no matching Forgix. Fresh identity/preservation and actual clock/electrical/SPI/register/transport measurements remain gates; no further photo is needed for this software correction.",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -276,9 +276,10 @@
         "docs/evidence/forgix-clock-root-build-003/README.md",
         "docs/evidence/forgix-clock-safety-case-preparation/README.md",
         "docs/evidence/forgix-synthetic-finalization-review/README.md",
-        "docs/evidence/forgix-host-refresh-2026-10-05/README.md"
+        "docs/evidence/forgix-host-refresh-2026-10-05/README.md",
+        "docs/evidence/forgix-clock-finalization-followup/README.md"
       ],
-      "reviewRevision": "c4aedd1a5a72f2b02f5b4835fca579638775e205"
+      "reviewRevision": "4c2f89f54ab708a643263993e3e100a10fc1a42a"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",

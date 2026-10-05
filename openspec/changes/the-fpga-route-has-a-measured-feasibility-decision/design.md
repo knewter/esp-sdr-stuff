@@ -564,11 +564,11 @@ Declared October 5, 2026 before implementation. Independent receipt SHA256
 `4f05f9bb34832eb1c22ded000ea33d54798d6f353ba4843c185a8acc06a751f2`
 at `b37bd3989cdb35a7e06740c81f1264b720d3fe48` preserves two actual
 temporary-file/flock probes with explicit modeled lifecycle/runtime boundaries.
-Unknown modeled closure plus marker-open failure returns CLI2 and retains the
+Unknown modeled closure plus marker-open failure returns2 from in-process main() and retains the
 active lease but releases the flock: fresh shared pending/inherited-lock guards
 pass. This does not prove whole USB admission; its active-lease guard may refuse.
 Marker unlink followed by failed directory sync and corrective marker/lease/
-journal writes returns CLI2 with older completed session bytes and no blocker.
+journal writes returns2 from in-process main() with older completed session bytes and no blocker.
 Neither probe demonstrates false CLI0 or hardware access. Preserve exact probes,
 failure, historical candidate and artifacts. Fresh root runtime preparation is
 source/image/Nix evidence only; whole-loading candidate rebind remains withheld.

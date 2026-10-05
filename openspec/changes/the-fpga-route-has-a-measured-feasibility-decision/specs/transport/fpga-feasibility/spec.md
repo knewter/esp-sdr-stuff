@@ -50,7 +50,7 @@ The final original operator FD SHALL remain held through fallible terminal
 effects and be released by final kernel process teardown; independent actual
 process-exit and ownership evidence SHALL complete the staged release proof.
 
-<!-- UNVERIFIED: Two actual temporary-file/flock probes at b37bd398 reproduce shared-refusal gaps and stale saved completion with CLI2. Correction, independent review and fresh candidate remain pending; no hardware operation occurred. -->
+<!-- UNVERIFIED: Two actual temporary-file/flock probes at b37bd398 reproduce shared-refusal gaps and stale saved completion with in-process main return2. Correction, independent review and fresh candidate remain pending; no hardware operation occurred. -->
 
 #### Scenario: Shared refusal cannot be persisted
 - **WHEN** closure is uncertain or terminal marker cleanup fails and both marker creation and exact owned-lease fallback fail
