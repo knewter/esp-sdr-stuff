@@ -189,6 +189,16 @@ tasks:
     cmds:
       - nix build .#ble-primary-timed-source-image --no-link
 
+  source004:provider:retain:
+    desc: Retain only the exact locked Nix provider outside measurement (sole operator; explicit revision/root/output/seconds)
+    cmds:
+      - python3 -I -B tools/source004_provider_retain.py {{.CLI_ARGS}}
+
+  source004:provider:test:
+    desc: Test provider provisioning protocol with owned fixtures; no Nix/store/daemon operation
+    cmds:
+      - python3 -B -m unittest discover -s tests -p test_source004_provider_retain.py
+
   source:ble-primary-timed:test:
     desc: Timed-v2 wire, timer, cancellation, image and owned-process fixtures; no Docker or hardware
     cmds:
