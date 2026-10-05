@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "result": "PASS_SOFTWARE_PREPARATION_ONLY",
+  "authorRevision": "f83c9d6b4ce747f05a0086c72ae71fb9e6c212d0",
+  "authorHandoffSha256": "83b41044019e61d47cacba76778bfd2913042c5b775cdbc2b365f958adf2280c",
+  "independentReviewSha256": "7e518b6c65222c58f5fd905a13ebb89e5c78ccd04c21fd791401b8aef69d0e4e",
+  "independentReportSha256": "a83c7ebbda177199486deabed04c19dbc99653933e3349d322fb970019996c05",
+  "rootRehashedPeerSubjects": 1770,
+  "authorFixtures": 29,
+  "independentControls": 4,
+  "skips": 0,
+  "authorTaskExit": 0,
+  "independentTaskExit": 0,
+  "oldBadOutcomeAssertionsRejected": 3,
+  "unchangedLiteralOldProbeExit": 1,
+  "dependencyProvisioned": false,
+  "newCostMeasurementStarted": false,
+  "physicalAdmission": false,
+  "daemonCancellationProven": false,
+  "hardwareTasksChanged": false
+}
