@@ -241,3 +241,19 @@ retained failures.5.4 is a separately recorded sole-root read-only experiment;
 5.5 is saved-only whole event/ledger analysis and independent review. No cheaper
 fixture or older Forgix proof substitutes for5.4. Software completion cannot
 check4.3's physical qualification,4.4–4.6 or1.1/1.2.
+
+## 6. Correct timed receiver ownership before admission (UNVERIFIED)
+
+This software prerequisite refines4.4 with a NEW private receiver/caller/support/
+holder bundle. All prior bytes and physical tasks remain unchanged; exact scope
+and the shared30-second cleanup clock are declared in
+[design](design.md#timed-receiver-owned-cleanup-prerequisite-unverified).
+
+- [ ] 6.1 Implement original spawn/member/pidfd authority and one shared absolute failure/aggregate cleanup deadline for every source/monitor/UART role and holder forwarding; preserve original restoration/terminal ceilings, CID/name/image predicates, legacy/v1/native/old15 inputs and existing quarantine. Proof: complete changed-map/source comparison, no unsafe numeric signal, no per-child/cancellation renewal or uncertain FD-number retry, and explicit whole caller/holder terminal policy.
+- [ ] 6.2 Replay all original receiver004 tests and the unchanged five-case probe, adding separately frozen real own-session/descendant and external subprocess normal/recovery/failure controls for missing/mutated/partial identity, reap, escaped/late members, modeled numeric reuse, FD ambiguity, clocks/cancellation, every role and keeper/pending/terminal effects. Proof: pinned private Task actual exits and complete immutable source/log/import/archive maps, retained failures and independent whole-chain review; no actual hardware/service/store/compiler operation.
+- [ ] 6.3 Transfer and rehash the independently reviewed complete new host bundle at distinct root paths with a source-bound readiness receipt, retaining all old snapshots. Proof: byte-exact author/peer/root map join and missing-source-qualification operational-freeze refusal before runtime/archive queries or access. This host handoff cannot close4.4 or substitute for actual4.3 qualification, later current full runtime/admission proof or physical4.5/4.6.
+
+Narrow proof: the new ignored bundle's explicit pinned Task host-fixture recipe
+and independent whole caller/holder replay, followed by a sole-root byte-only
+transfer/refusal experiment. No physical checkbox, registry or accepted RF
+requirement is changed by this group.

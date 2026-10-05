@@ -376,3 +376,94 @@ a verifier below13 alone is insufficient. Root current complete proof and
 independent saved whole review precede a separately frozen actual source-only
 qualification. Neither measurement completeness nor reduced latency closes
 task4.3's physical part, task4.4, any receiver task or accepted RF requirement.
+
+## Timed receiver owned cleanup prerequisite (UNVERIFIED)
+
+This refines4.4 in a distinct NEW ignored bundle. Preserve receiver001–004,
+their failures, exact old15 inputs, frozen v1/native source, firmware/settings,
+main helpers, full4MiB backups and source qualification provenance. The active
+caller subclass inherits receiver004 `Child.fail_close`; the independent probe
+executes that exact boundary, with signal operations captured rather than
+performed. Original base source SHA256
+`80da053cdefc7f54389a3caf27aaf22c890fe0371b34715bedbd8ae2f86aaee1`
+and caller SHA256
+`a30f2e4f822764d37d8e2c3d02bc4e4d96c083ce868402b866911584c9243584`
+stay unchanged. The probe does not execute Child.start or attest an actual
+numeric PID reuse. Independent minimum requirements are pinned by SHA256
+`d07ffc6904fc34411874396a71e0ebd38576bc293d0b252d2586cefa4fc68ca8`.
+
+### Original authority and complete member closure
+
+Retain original spawn PID/PGID/SID/start ticks/boot identity and individual
+pidfds privately, separately from mutable public receipts. Preserve authority
+after partial spawn, deferred-entry cancellation and failed identity/log writes.
+Qualify every intended member freshly before an individual pidfd signal; a
+leader does not establish group ownership. No numeric PID/PGID signal follows
+missing/mutated identity, a reaped leader or uncertain membership. Retain member
+history so disappeared leaders, escaped/late/unseen descendants and modeled
+numeric reuse cannot become leader-only absence proof. Ambiguous members receive
+no signal and closure remains unknown; do not invent a new guardian or broaden
+ownership policy to make the fixture pass.
+
+### One declared cleanup clock, separate restoration scope
+
+At the first failed-child cleanup or aggregate caller/holder process teardown,
+set the shared cleanup deadline once to the minimum of the original caller
+deadline, that entry plus30 seconds, and holder first-cancellation plus1800
+seconds when present. Pass that exact absolute deadline to all children; charge
+identity/membership, TERM/KILL, reap, log flush/fsync/close, receipt and descriptor
+effects before and after. Later children, new membership and repeated signals
+cannot renew it. Normal completion of sequential source episodes remains under
+its original source45 and role bounds and does not start this aggregate clock.
+An expired/failed teardown cannot count as natural completion and must retain
+unknown-owner quarantine rather than release the operator or access an endpoint.
+
+Preserve source45/native32 reserve, receiver readiness30/acquisition180,
+monitor readiness15/capture240/whole260, acquisition420, receiver caller5400 and
+holder5400/first-cancel1800. Prior source qualification whole300 is distinct.
+The new30-second process-cleanup scope does not shorten or renew full physical
+restoration/holder finalization: those remain under the original5400/1800
+ceilings after positively verified process/controller closure. Unknown UART,
+process or container ownership blocks restoration and endpoint actions.
+
+### Complete caller and holder handoff
+
+Apply authority to all source, monitor and UART roles and holder forwarding/
+forced cleanup, including failure before identity persistence. Preserve exact
+CID/name/image matching and both ID/name absence checks. Source disable/remove
+ACK0 and socket OFF may prove a bounded cleanup fact, not timed qualification,
+air count or natural process success. Natural completion requires actual exit0,
+complete owned-member absence, durable logs and closed descriptors within the
+original bounds; forced cleanup remains failed. Clear disposable FD references
+before uncertain close, never retry a consumed number, and retain conservative
+failure authority without closing a replacement file.
+
+Review holder admission/spawn/cancellation, caller finally/restoration decisions,
+keeper release, original parent-FD acknowledgment, private/shared marker closure,
+terminal persistence and cancellation-handler/latch effects as one chain. Saved
+completed-looking bytes cannot qualify a late/failed terminal effect. Keep the
+existing keeper/pending/quarantine refusal and require actual external CLI exit
+plus the complete ownership handoff; no new keeper release policy is authorized
+by this plan. Operating-system/filesystem responsiveness remains a trusted host
+boundary, not something a cooperative deadline or fixture establishes.
+
+### Proof and promotion
+
+Retain the literal five-case failing probe unchanged. Add separately frozen
+corrected controls and real own-session/descendant, actual reap, escaped/late
+member, mocked numeric reuse/signal, partial-spawn, identity mutation, FD reuse/
+ambiguous close, deadline/cancellation, every-role, pending/keeper and actual
+subprocess normal/recovery/failure cases. Replay every original receiver004 test
+and unchanged historical helper; complete source/import/runtime/archive maps
+cover the whole new caller/holder path. Author tests use pinned Nix-declared
+tools and private Task commands, with no actual service, store, compiler,
+controller or device operation. Freeze source, commands, logs and actual exits
+for independent whole-chain review before root transfer.
+
+Root copies and rehashes the new whole private bundle separately, preserving
+every prior receipt. Missing actual source4.3 qualification still refuses the
+operational receiver freeze before archive/runtime queries or device access;
+no dummy qualification may replace it. Host handoff alone closes no4.4/4.5
+physical dependency. Fresh actual source/runtime/archive/import proof, the
+historical921600 artifact/settings, full preservation and sole-root admission
+still precede one separately frozen condition; no automatic retry or new RF gate.

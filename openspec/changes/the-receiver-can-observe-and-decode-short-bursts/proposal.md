@@ -7,6 +7,7 @@ Seeing activity is useful but does not establish packet decoding or reliable eve
 - Evaluate channel occupancy and repeated-burst detection on an owned controlled source.
 - Try offline demodulation of complete short bursts that fit captured windows.
 - Report hit rate, decode rate and missed windows separately from spectrum visibility.
+- Correct the new timed receiver's complete child/holder ownership and cleanup path before admission; retain all historical receiver bundles and physical gates.
 
 ## Capabilities
 
@@ -91,3 +92,27 @@ independently reviewed cost record with reconciled operation counts and clock
 scopes, followed by sole-root fresh complete current-tuple timing with room for
 all frontwork and native32. A faster partial or compatible proof cannot satisfy
 it. Controller qualification and receiver action remain separate unchecked gates.
+
+## Timed receiver ownership prerequisite (UNVERIFIED)
+
+An independent saved-source probe reproduces missing qualification in the active
+receiver004 cleanup boundary: missing or changed recorded process identity and
+a genuinely reaped leader still reach a captured numeric process-group stop
+helper. Five cases use six harmless owned sessions; signals and numeric reuse
+are modeled, and all sessions exit naturally. This proves an unsafe cleanup
+decision boundary, not a foreign kill or hardware incident. Independent receipt
+SHA256 `b992ff26c9ecb0ee9446c31a43819fa1042c65a3800a56e19af6cad36dc0c4e9`
+and original probe SHA256
+`b9f788a806a2bc5cbac1b0afc99b9b7a18aa2f0c28cf346f133310c2c8a3b6fd`
+remain private and immutable.
+
+Refine task4.4 with a NEW private receiver/caller/support/holder chain. Every
+source, monitor and UART child retains original spawn/member/pidfd authority;
+one shared absolute30-second failed-process/aggregate teardown budget cannot
+renew per child. Full preservation/restoration and holder finalization keep
+their existing5400/first-cancel1800 ceilings. Unknown ownership retains the
+existing pending/keeper/quarantine refusal. The measurable software gate is
+complete host replay, independent whole-chain review and a byte-exact new root
+handoff; actual source4.3 qualification and current full runtime/admission proof
+still precede receiver4.5. No firmware, legacy helper, v1 source, old15 inputs,
+equipment or accepted RF requirement changes.
