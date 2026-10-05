@@ -477,3 +477,131 @@ no dummy qualification may replace it. Host handoff alone closes no4.4/4.5
 physical dependency. Fresh actual source/runtime/archive/import proof, the
 historical921600 artifact/settings, full preservation and sole-root admission
 still precede one separately frozen condition; no automatic retry or new RF gate.
+
+
+## Exact provider preparation and one NEW cost follow-up (UNVERIFIED)
+
+This small planning refinement preserves tasks5.1–5.5, including checked host
+preparation5.1–5.3 and open measurement/attribution5.4/5.5 at3dc0eaf.
+The host owns dependency preparation and cost measurement; no firmware, RF,
+transport, FPGA or native producer behavior changes. Root cost003 at revision
+948af8c3129d338c96afbe623a7f421dc3091e93 ended Task201/prepare2 after6.276427457
+seconds externally observed. Six selection jobs returned actual0 and naturally
+closed: Git revision/clean, committed flake.nix/flake.lock, bootstrap effective
+config and pure provider selection. Selection returned the exact qfwk7cy provider
+output below, but its filesystem-presence predicate refused before the seventh
+provider-config job. Full NAR/archive verification/cost measurement did not start.
+This failed prefix is not a complete event/clock reconciliation or a speedup.
+
+Preserve all43 manifest-named output bytes, selection requests/results/costs,
+ownership/FD ledgers, failed/pending markers and original actual Task log; retain
+all four root start/terminal/transfer/failure receipts and every previous cost
+failure. The failure-manifest SHA256 is
+`1f572b584f5bb3f34b2ad53a9d96c0b510ee88c3411903c297dd4c58c91eac16`;
+actual external terminal receipt SHA256 is
+`978b4151064e9891e1df60b24a5d72af058b2040367648a015fc2a0c2db5e3ba`.
+The missing selected provider was
+`/nix/store/qfwk7cyvb885l2mc06ac3a7nmv19nigi-nix-2.34.8`, derived from the locked
+flake input's `legacyPackages.x86_64-linux.nix`. The preserved bootstrap
+`/nix/store/3vd56d4l3ih231ci008zyvrjjs199zz5-nix-2.34.8/bin/nix` with SHA256
+`05c4fbc073d68c5d09f5254eebb3fd92594a5f1c10bd9e01a50c6136a76caee4`
+is distinct. Equal version strings, arbitrary system Nix, copied binaries or a
+symlink alias cannot satisfy exact selected-output identity. No GC deletion
+cause is inferred from the saved absence alone.
+
+### Recovery is separate from dependency preparation
+
+The failed attempt's keeper/quarantine recovery is owned by the independent
+reviewer and sole operator. This planning author does not query live processes,
+clear pending markers, release a lock or reconstruct a member ledger. Before
+new operation admission, require the independently reviewed qualified recovery
+receipt joining original process/member/pidfd authority, actual closure, original
+FD/keeper handoff and terminal effects under the existing recovery policy. Saved
+selection closure does not establish keeper/whole-attempt recovery. Retain its
+failure and qualified-recovery records separately; do not relabel the failed
+measurement as successful or change existing keeper release policy. Unknown
+authority continues refusal. No dependency or follow-up Task may implicitly
+perform recovery, controller queries, restoration or a producer action.
+
+### Exact provisioning outside every measurement clock
+
+Implement a small reviewed Task entrypoint, proposed name
+`source004:provider:retain`, bound to the current committed flake.nix/flake.lock,
+exact explicit Git revision and pinned bootstrap. Its pure expression selects
+only `f.inputs.nixpkgs.legacyPackages.x86_64-linux.nix` from
+`builtins.getFlake` at that immutable local Git revision. Use explicit no-update/
+no-write-lock flags and no registry/ambient package/channel/override fallback.
+Capture the full argv/expression/config, locked inputs, source/output/derivation
+identity, actual terminal, retrieval/build logs and executable hashes. Provision
+only that exact derivation/output through the locked flake; any permitted exact
+public substitution or build is a declared dependency operation outside the
+read-only measurement. It is not source optimization or measurement work.
+
+Use a persistent private ignored out-link, for example
+`.vendor/source004-nix-roots/<locked-tuple-digest>/provider`, with Nix's registered
+indirect GC-root mechanism. The reviewed Task must verify root registration,
+exact output target and retained runtime closure, not just create an arbitrary
+symlink. Retain it through measurement and independent review; exclude it from
+scratch/worktree/Task cleanup and do not overwrite a root for another tuple.
+Record source/input roots needed for the frozen selected tuple separately where
+required. A scoped provisioning recipe may use `nix build --expr <frozen exact
+expression> --out-link <persistent path>` with an explicitly reviewed provisioning
+policy; actual support and successful root registration need receipts. Nothing
+is globally installed or changed in host Nix configuration. No provider guard
+is relaxed and no realization is inserted into selection/verification.
+
+The measurement's existing controlled configuration still forbids output
+realization/build and preserves its explicit store URI, plugins/registries/
+builders/substituters policy, selected-provider checks and all original content
+predicates. Provisioning has separate declared settings and artifacts; its
+outputs cannot serve as cached NAR/reference/archive/content-validation results.
+A retained provider is available input, not fresh proof or admission. Future
+missing/changed root/provider/config refuses instead of fetching/building inside
+the timed measurement or silently choosing bootstrap3vd.
+
+### Independent provisioning review and current-tuple rebind
+
+After qualified recovery, dependency provisioning and its saved review, freeze
+a NEW complete source/current-map binding at the actual committed revision.
+Preserve all original62 private/22 project transfer subjects and their historical
+tests/failures; add any Task/provision helper/import/flake/source changes to the
+whole union explicitly, with no dropped roots or old artifact mutation. Compare
+producer/native/v1/receiver/firmware bytes and original clocks/ownership/content
+fields unchanged. A Task/helper addition changes a project tuple and requires
+the corresponding reviewed complete archive/import/tool/map rebinding; it is
+not permission to reuse948 as current. If the selected provider changes because
+of a separately reviewed locked-input change, retain qfwk7cy failure and review
+the new exact tuple rather than claiming qfwk7cy was restored. This plan authorizes
+no lock/input change; the expected provider remains exact qfwk7cy under the same
+locked derivation. Require independent source-bound readiness and whole current
+byte/map comparison before a sole-root new declaration.
+
+### At most one separately declared root read-only follow-up
+
+Only after the above reviews may the sole root operator declare one NEW bounded
+whole cost follow-up with new output/start/terminal/failure paths and an exact
+command/tuple/readiness receipt. It is not a resume of cost003, an automatic retry
+or a child task of provisioning. The inner165 and outer300 clocks remain original
+absolute scopes for that new experiment, with no pause/reset/per-worker renewal.
+Run the reviewed root:prepare read-only entrypoint, retaining fresh local content,
+all references/NARs/imports/tools and both full archives, complete worker/keeper/
+FD/terminal ledgers, reconciled cost events and actual external CLI. Keep original
+complete baseline305/1220/14 proof or its honest expanded whole closure, not a
+partial compatible subset. All setup that belongs to the measurement remains
+charged; only the separately declared dependency provisioning occurs outside it.
+
+No monitor/source/controller/daemon-image/device query or producer is started;
+no source45/native32 floor,13-second frontwork gate, caller30 or physical
+qualification rule changes. A complete result can support saved cost analysis
+and a fit/refusal recommendation in5.5. It cannot by itself qualify source4.3,
+admit a receiver, promote6.x ownership architecture, close4.4–4.6 or original
+TrialB/count/reciprocal-response gates. A failed, partial, late or ownership-unknown
+follow-up remains failed with its full prefix; no second automatic follow-up.
+
+Official Nix references describe [build/out-link behavior](https://nix.dev/manual/nix/2.34/command-ref/new-cli/nix3-build)
+and [GC-root semantics](https://nix.dev/manual/nix/2.34/package-management/garbage-collector-roots).
+Those2.34-series docs presently display2.34.9 and are supplementary to actual
+pinned2.34.8 provisioning receipts; they do not establish that provisioning or
+recovery has happened. Exact saved failures and proposed four-artifact/Task
+syntax proof remain private for independent review; publish only sanitized
+committed failure/recovery/provision/follow-up evidence after root acceptance.

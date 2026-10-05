@@ -118,3 +118,33 @@ complete host replay, independent whole-chain review and a byte-exact new root
 handoff; actual source4.3 qualification and current full runtime/admission proof
 still precede receiver4.5. No firmware, legacy helper, v1 source, old15 inputs,
 equipment or accepted RF requirement changes.
+
+
+## Exact provider provisioning before a separate cost follow-up (UNVERIFIED)
+
+The sole-root read-only source004-cost003 attempt at revision948af8c retained
+actual Task201/prepare2 failure after six naturally closed selection jobs. Pure
+locked-flake selection returned pkgs.nix provider
+`/nix/store/qfwk7cyvb885l2mc06ac3a7nmv19nigi-nix-2.34.8`; that provider was absent.
+The preserved bootstrap is a distinct store output, despite the same version.
+No seventh provider-config job, full NAR/archive measurement, monitor, source,
+controller or device action followed. The43 saved outputs and actual failure
+remain evidence of refusal, not complete cost, source45 fit or qualification.
+
+Add one dependency-preparation software task5.6 without changing5.1–5.5 intent.
+After independently qualified existing keeper/quarantine recovery, use a reviewed
+locked-flake Task recipe to realize and persistently GC-root the exact selected
+provider outside the timed measurement. Independently review provisioning and
+fresh complete source/current-map bindings, then declare at most one NEW root
+read-only whole-cost follow-up under unchanged165/300 clocks and distinct paths.
+Provisioning cannot launch that follow-up, restore hardware or retry the failed
+output. All producer/source/receiver/physical gates remain unchanged.
+
+The measurable decision gate is complete actual terminal, costs, provider/NAR/
+archive/reference/import and ownership proof for that new current tuple, followed
+by independent saved review. Provider availability or natural selection closure
+alone closes no5.4/5.5 task. No cache replaces a fresh content proof, no bootstrap
+alias replaces the selected provider, and no performance optimization is added.
+Dependency restoration, GC-root retention and the new follow-up are UNVERIFIED;
+details and source references are in
+[design](design.md#exact-provider-preparation-and-one-new-cost-follow-up-unverified).

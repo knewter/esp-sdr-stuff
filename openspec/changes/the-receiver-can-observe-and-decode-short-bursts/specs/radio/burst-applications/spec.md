@@ -87,3 +87,22 @@ prohibit restoration or further endpoint actions.
 - **WHEN** actual exit0, all owned-member absence, durable logs, exact descriptor closure and complete caller/holder terminal handoff finish within the original bounds
 - **THEN** independently observed CLI and saved whole-chain proof may qualify only host preparation; actual source4.3 and fresh full root runtime/admission proof still precede receiver action
 - **AND** ordinary natural exit0 reaping with complete retained member authority is distinct from ambiguous leader-only absence
+
+
+<!-- UNVERIFIED: Root cost003 failed Task201/prepare2 after six natural selection
+closures and absent exact qfwk7cy provider; all43 files remain preserved.
+Recovery, exact dependency provisioning/GC-root retention and the separately
+declared complete read-only follow-up remain pending. This proposed delta changes
+neither accepted specs nor source/receiver/physical admission. -->
+
+#### Scenario: Exact selected provider is absent before whole cost measurement
+- **WHEN** pure locked-flake selection returns a provider output that is absent or fails exact identity
+- **THEN** the whole attempt SHALL retain its failed prefix, actual terminal, pending/keeper and complete named saved artifacts without substituting bootstrap or an equal-version binary
+- **AND** independently qualified recovery SHALL precede new operation admission; provider provisioning SHALL use a separately reviewed locked-flake Task and registered persistent ignored GC root outside measurement, with no guard or original clock change
+- **AND** provisioning SHALL NOT imply fresh content proof, keeper release, producer action or an automatic measurement retry
+
+#### Scenario: A new read-only cost follow-up is declared
+- **WHEN** qualified recovery, exact provider provisioning/retention review and complete current source/map/archive readiness have all passed independently
+- **THEN** the sole operator MAY declare at most one NEW read-only whole-cost follow-up under the unchanged165/300 clocks with distinct command/tuple/output/terminal/failure receipts
+- **AND** every original fresh reference/NAR/archive/import/content, worker/keeper/FD/cost/terminal predicate SHALL remain required; cached provisioning outputs SHALL NOT replace fresh proof
+- **AND** failed/partial/late/unknown-ownership results SHALL remain failures without another automatic follow-up, and all source4.3, receiver and physical gates SHALL remain unchanged

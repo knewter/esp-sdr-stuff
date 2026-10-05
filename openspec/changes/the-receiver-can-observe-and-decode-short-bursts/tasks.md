@@ -242,6 +242,26 @@ retained failures.5.4 is a separately recorded sole-root read-only experiment;
 fixture or older Forgix proof substitutes for5.4. Software completion cannot
 check4.3's physical qualification,4.4–4.6 or1.1/1.2.
 
+### Exact provider preparation before one NEW cost follow-up (task5.6) (UNVERIFIED)
+
+Tasks5.1–5.5 retain their original intent and checkbox state. This software
+dependency task addresses the retained root cost003 missing-selected-provider
+failure; it is not a source optimization, measurement success or physical gate.
+See [design](design.md#exact-provider-preparation-and-one-new-cost-follow-up-unverified).
+
+- [ ] 5.6 Preserve all43 failed cost003 outputs/start/terminal/transfer receipts and independently qualified keeper/quarantine recovery; implement/review a small locked-flake Task to realize and persistently GC-root only the exact selected Nix provider outside measurement. Proof: complete retained failure and recovery join, exact immutable Git/lock/provider/derivation/root/closure/executable/config/actual Task receipts, independent provisioning review and complete NEW current source/import/tool/archive/map readiness; no bootstrap alias, global dependency install, guard relaxation or implicit recovery/measurement/producer action.
+
+Narrow proof: pinned `source004:provider:retain` (proposed name) performs only the
+declared exact dependency provisioning/retention, with independently reviewed
+saved recovery and provisioning receipts. It does not call root:prepare.
+After5.6 and new whole current-tuple readiness, separately declare at most one
+NEW sole-root read-only root:prepare whole-cost experiment under original165/300
+with distinct start/output/actual terminal/failure paths and complete fresh
+cost/content/ownership proof for5.4/5.5. All prior failures remain retained; hardware tasks
+remain unchanged and unchecked; failure admits no automatic further follow-up.
+Planning proof is only pinned Task patch-applicability and strict OpenSpec in a
+copied tree; actual provisioning/recovery/measurement proof is still pending.
+
 ## 6. Correct timed receiver ownership before admission (UNVERIFIED)
 
 This software prerequisite refines4.4 with a NEW private receiver/caller/support/
