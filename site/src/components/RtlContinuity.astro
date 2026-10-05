@@ -18,6 +18,6 @@ const runs = capture.runs;
   </svg>
   <figcaption>Loss counts are lower bounds. A zero integer-per-million summary can conceal a small reported gap. <a href={evidenceUrl("docs/evidence/rtl-continuity/README.md")}>Read logs and limitations ↗</a></figcaption>
 </figure>
-<style>
-  .measured-chart{margin:0;border:1px solid var(--rule);border-radius:10px;padding:20px;background:var(--surface)}.chart-head{display:flex;justify-content:space-between;gap:12px;font:9px var(--mono);color:var(--muted)}.chart-head span:last-child{color:var(--accent)}svg{display:block;width:100%;height:auto;margin:20px 0 10px;font:11px var(--mono)}figcaption{font-size:11px;color:var(--muted);line-height:1.8}figcaption a{color:var(--accent)}
+<style is:global>
+  .measured-chart{margin:0;border:1px solid var(--rule);border-radius:10px;padding:20px;background:var(--surface)}.measured-chart .chart-head{display:flex;justify-content:space-between;gap:12px;font:9px var(--mono);color:var(--muted)}.measured-chart .chart-head span:last-child{color:var(--accent)}.measured-chart svg{display:block;width:100%;height:auto;margin:20px 0 10px;font:11px var(--mono)}.measured-chart figcaption{font-size:11px;color:var(--muted);line-height:1.8}.measured-chart figcaption a{color:var(--accent)}
 </style>

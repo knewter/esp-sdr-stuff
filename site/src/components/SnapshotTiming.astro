@@ -11,4 +11,4 @@ const attempts=summary.runs.reduce((sum,run)=>sum+run.attempts,0);
   {!compact && <div class="table-scroll measurement-table"><table class="lab-table"><thead><tr><th>Nominal rate</th><th>Output</th><th>Valid / attempted</th><th>Median command-to-payload</th><th>Nominal time coverage</th></tr></thead><tbody>{summary.runs.map(run=><tr><th scope="row">{run.rate_hz/1e6} MS/s</th><td>{run.bits}-bit I/Q</td><td>{run.success}/{run.attempts}</td><td>{run.median_round_trip_ms.toFixed(3)} ms</td><td>{(run.nominal_coverage_fraction*100).toFixed(4)}%</td></tr>)}</tbody></table></div>}
   <figcaption>Timing is measured on the host. Coverage divides successful nominal listening windows by whole-series wall time, including analysis gaps; it is not measured event hit probability, calibrated ADC clock, or continuous recording. No known signal is established by CRC success.</figcaption>
 </figure>
-<style>.snapshot-results{margin:0}.snapshot-results figcaption{margin-top:16px;font-size:11px;line-height:1.8;color:var(--muted)}</style>
+<style is:global>.snapshot-results{margin:0}.snapshot-results figcaption{margin-top:16px;font-size:11px;line-height:1.8;color:var(--muted)}</style>
