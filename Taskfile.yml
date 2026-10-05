@@ -30,6 +30,21 @@ tasks:
     cmds:
       - python3 -m unittest discover -s tests -p 'test_forgix_clock*.py'
 
+  forgix:clock:fpga-build:
+    desc: Compile a fresh offline clock observer in the locked Forgix shell
+    cmds:
+      - python3 tools/forgix_clock_candidate.py compile {{.CLI_ARGS}}
+
+  forgix:clock:build:
+    desc: Build the distinct clock RAM profile in the locked SPI bridge shell
+    cmds:
+      - python3 tools/build_forgix_clock_observer.py {{.CLI_ARGS}}
+
+  forgix:clock:startup-audit:
+    desc: Audit saved clock RAM artifacts without opening hardware
+    cmds:
+      - python3 tools/audit_forgix_clock_startup.py {{.CLI_ARGS}}
+
   test:
     desc: Run host tests and RDS checks against the current built site
     cmds:
