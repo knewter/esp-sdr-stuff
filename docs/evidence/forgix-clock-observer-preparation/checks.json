@@ -162,5 +162,28 @@
     "skips": 0,
     "sourceRevision": "d1c66d68dbbdd675b7c5b65a96ac0e1df5468b9d",
     "strictOpenSpec": true
+  },
+  "actualARM002Failure": {
+    "ELFSHA256": "ff0bf9d4911a9ed7b9fb14550ff2cacda3ce86388c6fb70fa35f2d31f036a4c8",
+    "ELFBytes": 844644,
+    "manifestSHA256": "4f5e95422689f1aa4c84a787650bbc601d5c775a49c1032adffee96f4d388d3f",
+    "status": "failed_strict_PIO_version_guard",
+    "actualMetadataHex": "686000200aff0100",
+    "requiredCRCNowPresent": true,
+    "loadingAdmitted": false
+  },
+  "declaredPIOVersionPreparation": {
+    "plan": "9969e26",
+    "source": "6b0e463",
+    "authorReceiptSHA256": "0ee2993cee28d005ddc37f23853e862fed699c1668ec78f15ea9814080497235",
+    "groups": 62,
+    "actualSDKNativeStructGroups": 1,
+    "metadataBitMutationRefusals": 64,
+    "exitCode": 0,
+    "skips": 0,
+    "unchangedInstructionWords": 10,
+    "independentReviewPending": true,
+    "freshRootARMBuildRequired": true,
+    "physicalAdmission": false
   }
 }
