@@ -12,6 +12,7 @@ import fcntl
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import signal
@@ -33,69 +34,133 @@ REGISTRY=backend.REGISTRY
 def require(value,message):
     if not value:raise ValueError(message)
 
+def owned_file(path,data,identity,links,label):
+    """Check a privately retained inode after all fallible read/close effects.
+
+    The global operator and trusted filesystem remain the original boundaries;
+    byte equality alone never creates ownership of an existing pathname.
+    """
+    def valid(info):
+        require((info.st_dev,info.st_ino)==identity,label+' inode differs')
+        require(stat.S_ISREG(info.st_mode) and stat.S_IMODE(info.st_mode)==0o600
+                and info.st_uid==os.getuid() and info.st_nlink in links
+                and info.st_size==len(data),label+' owner differs')
+    initial=path.lstat();valid(initial)
+    def unchanged(info):
+        valid(info)
+        require((info.st_mtime_ns,info.st_ctime_ns)==(initial.st_mtime_ns,initial.st_ctime_ns),
+                label+' changed during validation')
+    with os.fdopen(os.open(path,os.O_RDONLY|os.O_NOFOLLOW),'rb') as stream:
+        unchanged(os.fstat(stream.fileno()))
+        require(stream.read(len(data)+1)==data,label+' bytes differ')
+        unchanged(os.fstat(stream.fileno()))
+    info=path.lstat();unchanged(info)
+    return info
+
 class SessionLease:
-    """Created before access; kept unless final factory/flash/closure proof passes."""
+    """Created before access; exact authority never comes from matching bytes."""
     def __init__(self,profile,private):
         self.path=trial.no_symlinks(ROOT/backend.LEASE)
         self.pending_path=trial.no_symlinks(ROOT/'.scratch/forgix-spi-finalization-pending.json')
-        self.profile=profile
-        profile['session_private_dir']=str(private)
-        data=(json.dumps({'kind':'Forgix clock measurement session lease','private_dir':str(private),
-                         'uid_sha256':profile['uid_sha256'],'run_binding_sha256':backend.lease_binding(profile),'owner_pid':os.getpid(),
-                         'token':os.urandom(16).hex()},sort_keys=True)+'\n').encode()
-        self.data=data
-        # O_EXCL retains even a partial failed write as an admission blocker.
+        self.profile=profile;profile['session_private_dir']=str(private)
+        self.data=(json.dumps({'kind':'Forgix clock measurement session lease','private_dir':str(private),
+            'uid_sha256':profile['uid_sha256'],'run_binding_sha256':backend.lease_binding(profile),
+            'owner_pid':os.getpid(),'token':os.urandom(16).hex()},sort_keys=True)+'\n').encode()
         with os.fdopen(os.open(self.path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600),'wb') as stream:
-            capture.durable(stream,data)
+            info=os.fstat(stream.fileno());self.identity=(info.st_dev,info.st_ino)
+            capture.durable(stream,self.data)
         capture.sync_directory(self.path.parent)
-        profile['session_lease_sha256']=hashlib.sha256(data).hexdigest()
-        self.identity=(self.path.stat().st_dev,self.path.stat().st_ino)
+        owned_file(self.path,self.data,self.identity,(1,),'Clock active lease')
+        profile['session_lease_sha256']=hashlib.sha256(self.data).hexdigest()
     @classmethod
     def rotate(cls,profile,private):
-        old=backend.session_lease(profile)
-        info=old.stat();identity=(info.st_dev,info.st_ino)
+        old=backend.session_lease(profile);info=old.lstat();identity=(info.st_dev,info.st_ino)
+        original=old.read_bytes()
+        require(hashlib.sha256(original).hexdigest()==profile['session_lease_sha256'],'Recovery lease bytes differ')
+        owned_file(old,original,identity,(1,),'Clock recovery lease')
         updated=dict(profile,session_private_dir=str(private))
         data=(json.dumps({'kind':'Forgix clock recovery session lease','private_dir':str(private),
             'uid_sha256':profile['uid_sha256'],'run_binding_sha256':backend.lease_binding(profile),
             'owner_pid':os.getpid(),'token':os.urandom(16).hex()},sort_keys=True)+'\n').encode()
-        temporary=old.parent/('forgix-lease-update-'+os.urandom(8).hex()+'.json')
+        temporary=old.parent/('forgix-lease-update-'+os.urandom(8).hex()+'.json');created=None
         try:
-            with os.fdopen(os.open(temporary,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600),'wb') as out:
-                capture.durable(out,data)
+            with os.fdopen(os.open(temporary,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600),'wb') as stream:
+                info=os.fstat(stream.fileno());created=(info.st_dev,info.st_ino)
+                capture.durable(stream,data)
+            owned_file(temporary,data,created,(1,),'Clock recovery temporary lease')
             backend.session_lease(profile)
-            now=old.stat();require((now.st_dev,now.st_ino)==identity,'Lease changed during recovery rotation')
+            owned_file(old,original,identity,(1,),'Clock recovery lease')
+            # No fallible validation effect intervenes before replacing the
+            # exact old lease; creation identity follows the new inode.
             os.replace(temporary,old);capture.sync_directory(old.parent)
+            owned_file(old,data,created,(1,),'Clock rotated lease')
         finally:
-            if temporary.exists():temporary.unlink()
+            if temporary.exists() and created is not None:
+                # Failed rotation cannot unlink an unrelated temporary inode.
+                owned_file(temporary,data,created,(1,),'Clock recovery temporary lease')
+                temporary.unlink();capture.sync_directory(temporary.parent)
         profile.update(updated,session_lease_sha256=hashlib.sha256(data).hexdigest())
-        lease=object.__new__(cls);lease.profile=profile;lease.path=old
-        lease.identity=(old.stat().st_dev,old.stat().st_ino)
+        lease=object.__new__(cls);lease.profile=profile;lease.path=old;lease.identity=created
         lease.data=data;lease.pending_path=trial.no_symlinks(ROOT/'.scratch/forgix-spi-finalization-pending.json')
         return lease
+    def check_pending(self):
+        require(hasattr(self,'pending_identity'),'Clock pending marker has no retained creation authority')
+        path=self.pending_path
+        info=owned_file(path,self.data,self.pending_identity,(1,2),'Clock pending marker')
+        if info.st_nlink==2:
+            require(getattr(self,'pending_linked_identity',None)==self.pending_identity==self.identity,
+                    'Clock pending link authority differs')
+            owned_file(self.path,self.data,self.identity,(2,),'Clock linked active lease')
+            # Reading/closing the second link is fallible too.
+            info=owned_file(path,self.data,self.pending_identity,(2,),'Clock pending marker')
+        return info
+    def check_active(self):
+        info=owned_file(self.path,self.data,self.identity,(1,2),'Clock active lease')
+        if info.st_nlink==2:
+            self.check_pending()
+            info=owned_file(self.path,self.data,self.identity,(2,),'Clock linked active lease')
+        return info
     def release(self,record):
         require(record.get('original_flash_and_factory_verified') is True and
                 record.get('owned_processes_closed') is True,'Incomplete recovery retains the session lease')
-        backend.session_lease(self.profile)
-        info=self.path.stat()
-        require((info.st_dev,info.st_ino)==self.identity,'Session lease inode changed')
+        backend.session_lease(self.profile);self.check_active()
         self.path.unlink();capture.sync_directory(self.path.parent)
     def pending(self):
-        try:self.pending_path.lstat()
-        except FileNotFoundError:pass
-        else:
-            require(not self.pending_path.is_symlink() and self.pending_path.read_bytes()==self.data,'Finalization marker owner differs');return
-        with os.fdopen(os.open(self.pending_path,os.O_CREAT|os.O_EXCL|os.O_WRONLY|os.O_NOFOLLOW,0o600),'wb') as out:capture.durable(out,self.data)
-        capture.sync_directory(self.pending_path.parent)
+        """Persist, then requalify this exact created/linked shared refusal."""
+        path=self.pending_path
+        try:path.lstat()
+        except FileNotFoundError:
+            try:fd=os.open(path,os.O_CREAT|os.O_EXCL|os.O_WRONLY|os.O_NOFOLLOW,0o600)
+            except OSError:
+                backend.session_lease(self.profile)
+                require(self.path.parent==path.parent,'Clock pending link directory differs')
+                owned_file(self.path,self.data,self.identity,(1,),'Clock pending link source')
+                os.link(self.path,path,follow_symlinks=False)
+                self.pending_linked_identity=self.identity;self.pending_identity=self.identity
+            else:
+                with os.fdopen(fd,'wb') as stream:
+                    info=os.fstat(stream.fileno());self.pending_identity=(info.st_dev,info.st_ino)
+                    capture.durable(stream,self.data)
+        # An existing same-byte file without original inode authority refuses.
+        self.check_pending()
+        capture.sync_directory(path.parent)
+        self.check_pending() # The last sync may have changed the path.
     def clear_pending(self):
-        require(self.pending_path.read_bytes()==self.data,'Finalization marker owner differs')
-        self.pending_path.unlink();capture.sync_directory(self.pending_path.parent)
+        self.pending()
+        # No directory sync or other fallible effect follows this fresh check
+        # before unlinking only our exact marker.
+        self.check_pending();self.pending_path.unlink()
+        del self.pending_identity
+        if hasattr(self,'pending_linked_identity'):del self.pending_linked_identity
+        capture.sync_directory(self.pending_path.parent)
     def retain(self):
-        try:self.path.lstat()
-        except FileNotFoundError:pass
-        else:
-            require(not self.path.is_symlink() and self.path.read_bytes()==self.data,'Lease owner differs');return
-        with os.fdopen(os.open(self.path,os.O_CREAT|os.O_EXCL|os.O_WRONLY|os.O_NOFOLLOW,0o600),'wb') as out:capture.durable(out,self.data)
-        capture.sync_directory(self.path.parent)
+        try:
+            backend.session_lease(self.profile);self.check_active()
+        except FileNotFoundError:
+            with os.fdopen(os.open(self.path,os.O_CREAT|os.O_EXCL|os.O_WRONLY|os.O_NOFOLLOW,0o600),'wb') as stream:
+                info=os.fstat(stream.fileno());self.identity=(info.st_dev,info.st_ino)
+                capture.durable(stream,self.data)
+        capture.sync_directory(self.path.parent);self.check_active()
 
 class ReceiptStore:
     """Attach durable receipt operations to the backend-created private directory."""
@@ -147,10 +212,27 @@ def prepare(args):
     return profile,environment,frozen,private
 
 class LockHandle:
-    def __init__(self,fd):self.fd=fd;self.closed=False
+    def __init__(self,fd):
+        self.fd=fd;self.closed=False;self.kernel_release=False
+        info=os.fstat(fd);self.identity=(info.st_dev,info.st_ino)
+        self.flock_line=self._flock_line()
+    def _flock_line(self):
+        lines=[line for line in Path(f'/proc/self/fdinfo/{self.fd}').read_text().splitlines()
+               if re.match(r'^lock:\s+\S+\s+FLOCK\s+ADVISORY\s+WRITE\s+',line)]
+        require(len(lines)==1,'Original operator FD lacks exact exclusive flock')
+        return lines[0]
+    def check(self):
+        require(not self.closed,'Original operator FD was closed')
+        info=os.fstat(self.fd)
+        require((info.st_dev,info.st_ino)==self.identity and self._flock_line()==self.flock_line,
+                'Original operator FD identity or flock differs')
+    def stage_kernel_release(self):
+        self.check();self.kernel_release=True
     def close(self):
-        if not self.closed:
-            os.close(self.fd);self.closed=True
+        # Only pre-finalization owners use explicit close. Never retry or act on
+        # a numeric descriptor after a possibly consumed close.
+        if not self.closed and not self.kernel_release:
+            self.check();self.closed=True;os.close(self.fd)
 
 @contextmanager
 def operator_lock(recovery_profile=None):
@@ -295,71 +377,98 @@ def execute_recovery(adapter,store,preflight,clock=time.monotonic,began=None):
     if error is not None and not isinstance(error,Exception):raise error
     return record
 
-def finalize(lease,store,record,began,lock,clock=time.monotonic,defer_pending=False):
-    """Durable pending marker spans last operator-FD close and terminal I/O.
+def replace_session(store,name,record):
+    capture.save(store,name,record)
+    os.replace(store.path/name,store.path/'session.json');capture.sync_directory(store.path)
 
-    Only already-verified factory/full-flash/owned closure can release resources;
-    result acceptance includes the returned last-FD close and marker fsync.
+def terminal_failure(lease,store,record,error,began,clock=time.monotonic):
+    """Failed storage cannot qualify earlier staged normal facts."""
+    record.update(status='failed',finalization_status='failed',invocation_qualification=False,
+                  terminal_failure_kind=type(error).__name__,
+                  shared_refusal_retained=False)
+    record.setdefault('failure_kind',type(error).__name__)
+    try:
+        elapsed=clock()-began;record['host_elapsed_seconds']=elapsed
+        if elapsed>=600:record['deadline_exceeded']=True
+    except BaseException as failure:record['terminal_clock_failure_kind']=type(failure).__name__
+    retained=False
+    try:lease.pending();retained=True
+    except BaseException as failure:record['pending_retention_failure_kind']=type(failure).__name__
+    try:lease.retain();record['lease_release_status']='retained'
+    except BaseException as failure:record['lease_retention_failure_kind']=type(failure).__name__
+    try:replace_session(store,'terminal-failed-session.json',record)
+    except BaseException as failure:record['corrective_persistence_failure_kind']=type(failure).__name__
+    try:
+        lease.check_pending();record['shared_refusal_retained']=retained
+    except BaseException as failure:
+        record['shared_refusal_retained']=False;record['pending_revalidation_failure_kind']=type(failure).__name__
+
+def finalize(lease,store,record,began,lock,clock=time.monotonic,defer_pending=False):
+    """Stage normal facts while retaining the original FD for kernel teardown.
+
+    This callable cannot attest to its future process exit. The pending marker
+    stays through every fallible terminal effect; only terminal_output clears it.
+    The legacy defer_pending argument never permits an early release.
     """
     candidate=record.get('status') in ('clock_episode_observed','recovered_and_verified')
     success='recovered_and_verified' if record.get('recovery_only') else 'clock_episode_completed'
-    record.update(status='pending_finalization' if candidate else 'failed',finalization_status='pending')
-    def within():require(clock()<began+600,'Whole clock acceptance deadline expired')
-    def replace(name):
-        capture.save(store,name,record);os.replace(store.path/name,store.path/'session.json');capture.sync_directory(store.path)
+    record.update(status='pending_finalization' if candidate else 'failed',finalization_status='pending',
+                  finalization_candidate_status=success if candidate else None,
+                  invocation_qualification=False,external_cli_exit_required=True,
+                  operator_lock_release='staged final kernel process teardown')
+    def within():lock.check();require(clock()<began+600,'Whole clock acceptance deadline expired')
+    lock.stage_kernel_release()
     try:
-        capture.save(store,'finalization-intent.json',record);lease.pending();within()
+        # Establish refusal before receipt I/O, not after its possible failure.
+        lease.pending();record['shared_refusal_retained']=True;within()
+        capture.save(store,'finalization-intent.json',record);within()
         if record.get('original_flash_and_factory_verified') is True and record.get('owned_processes_closed') is True:
             lease.release(record);record['lease_release_status']='released'
         else:
-            candidate=False;record['lease_release_status']='retained'
-        within();replace('final-session-pending.json');within()
-        record['root_lock_fd_close_requested_s']=clock();lock.close()
-        record['root_lock_fd_close_returned_s']=clock();within()
-        record.update(status=success if candidate else 'failed',finalization_status='acknowledged',host_elapsed_seconds=clock()-began)
-        replace('acknowledged-session.json');within()
-        if not defer_pending:lease.clear_pending();within()
+            candidate=False;record['finalization_candidate_status']=None;record['lease_release_status']='retained'
+        within();replace_session(store,'final-session-pending.json',record);within()
     except BaseException as primary:
-        record.update(status='failed',finalization_status='failed',failure_kind=type(primary).__name__,finalization_failure_kind=type(primary).__name__,host_elapsed_seconds=clock()-began)
-        if clock()>=began+600:record['deadline_exceeded']=True
-        # Retain a cross-route blocker before any corrective receipt writes.
-        try:lease.pending()
-        except BaseException as error:record['pending_retention_failure_kind']=type(error).__name__
-        try:lease.retain();record['lease_release_status']='retained'
-        except BaseException as error:record['lease_retention_failure_kind']=type(error).__name__
-        try:replace('failed-final-session.json')
-        except BaseException as error:record['corrective_persistence_failure_kind']=type(error).__name__
+        terminal_failure(lease,store,record,primary,began,clock)
         if not isinstance(primary,Exception):raise
     return record
 
-def terminal_failure(lease,store,record,error,began,clock=time.monotonic):
-    """Never promote earlier bytes after a required terminal operation failed."""
-    record.update(status='failed',finalization_status='failed',failure_kind=type(error).__name__,
-                  terminal_failure_kind=type(error).__name__,host_elapsed_seconds=clock()-began)
-    if clock()>=began+600:record['deadline_exceeded']=True
-    for operation,name in ((lease.pending,'pending'),(lease.retain,'lease')):
-        try:operation()
-        except BaseException as failure:record[name+'_retention_failure_kind']=type(failure).__name__
-    try:
-        capture.save(store,'terminal-failed-session.json',record)
-        os.replace(store.path/'terminal-failed-session.json',store.path/'session.json');capture.sync_directory(store.path)
-    except BaseException as failure:record['corrective_persistence_failure_kind']=type(failure).__name__
-
-def terminal_output(lease,store,record,began,cancelled,clock=time.monotonic):
-    # The pending marker spans returned last-FD closure, stdout and final durable
-    # receipt. A live observer cannot infer acceptance from pending saved bytes.
-    try:
+def terminal_output(lease,store,record,began,cancelled,clock=time.monotonic,lock=None):
+    """All user-space effects precede the final original-FD kernel release."""
+    def within():
+        require(lock is not None,'Original held clock operator required')
+        lock.check()
         require(clock()<began+600 and not cancelled['requested'],'Terminal cancelled or expired')
+    try:
+        within()
         print(json.dumps({k:record.get(k) for k in ('status','failure_kind','original_flash_and_factory_verified','owned_processes_closed')}),flush=True)
-        require(clock()<began+600 and not cancelled['requested'],'Terminal output cancelled or expired')
-        record['terminal_output_returned_s']=clock()
-        capture.save(store,'terminal-acknowledged-session.json',record)
-        os.replace(store.path/'terminal-acknowledged-session.json',store.path/'session.json');capture.sync_directory(store.path)
-        require(clock()<began+600 and not cancelled['requested'],'Terminal receipt cancelled or expired')
-        lease.clear_pending()
-        require(clock()<began+600 and not cancelled['requested'],'Terminal release cancelled or expired')
+        within();record['terminal_output_returned_s']=clock()
+        if record.get('finalization_candidate_status') and record.get('status')=='pending_finalization':
+            record.update(status=record['finalization_candidate_status'],finalization_status='staged_kernel_exit')
+        replace_session(store,'terminal-staged-session.json',record);within()
+        if record.get('status') in ('clock_episode_completed','recovered_and_verified'):
+            lease.clear_pending();within()
     except BaseException as error:terminal_failure(lease,store,record,error,began,clock)
     return record
+
+def quarantine(lock,lease,store,record,began,clock=time.monotonic):
+    """No new keeper or clock: the exact existing owner refuses handoff."""
+    verified=False
+    try:lock.check();verified=True
+    except BaseException as error:
+        # Inspection failure must not unwind this owner. Do not claim that
+        # uncertain/consumed descriptor authority is an exact held flock.
+        record['quarantine_operator_check_failure_kind']=type(error).__name__
+    record.update(status='failed',finalization_status='quarantined_held_operator' if verified else 'quarantined_unverified_operator',
+                  invocation_qualification=False,operator_lock_retained=verified,
+                  quarantine_owner_pid=os.getpid(),quarantine_operator_fd=lock.fd,
+                  quarantine_operator_identity={'device':lock.identity[0],'inode':lock.identity[1]})
+    try:replace_session(store,'clock-quarantine.json',record)
+    except BaseException:pass
+    try:print(json.dumps({'status':'failed','operator_lock_retained':verified,'quarantine':True}),flush=True)
+    except BaseException:pass
+    while True:
+        try:time.sleep(1)
+        except BaseException:pass # Only explicit operator investigation may end it.
 
 def parser():
     cli=argparse.ArgumentParser(description=__doc__)
@@ -374,10 +483,12 @@ def parser():
     cli.add_argument('--image-id',default=os.environ.get('PICOTOOL_CONTAINER_IMAGE_ID'))
     return cli
 
-def main():
-    os.umask(0o077);args=parser().parse_args();adapter=None;record={'status':'refused'};lease=store=None;began=None;cancelled={'requested':False}
+def main(*,kernel_exit=False):
+    os.umask(0o077);args=parser().parse_args();adapter=None;record={'status':'refused'}
+    lease=store=None;began=None;cancelled={'requested':False,'terminal':False}
     def cancel(signum,frame):
         cancelled['requested']=True
+        if cancelled['terminal']:return
         if adapter is not None and adapter.cleaning:
             print('Cancellation deferred during bounded factory/full-flash cleanup.',flush=True)
         else:raise Cancelled('Clock episode cancelled')
@@ -395,42 +506,92 @@ def main():
                 backend.frozen_inputs(frozen);backend.qualified(profile);runtime.check(environment)
                 began=time.monotonic()
                 if prior is not None:recovery_admission(args.prior_session,profile,environment,frozen)
-                adapter=(backend.RecoveryBackend if prior is not None else backend.Backend)(profile,private,lock.fd,environment,frozen)
-                store=ReceiptStore(private)
-                if prior is None:lease=SessionLease(profile,private)
-                else:
-                    # Atomically hand the unresolved lease to the fresh recovery
-                    # receipt BEFORE access. Crash/unknown closure cannot reuse an
-                    # older known-closed receipt even if marker persistence fails.
-                    lease=SessionLease.rotate(profile,private)
-                    adapter.lease_private=private
-                execution_error=None
+                # From the first fallible pre-access construction onward, the
+                # original FD stays here through failure settlement and exit.
+                lock.stage_kernel_release()
                 try:
-                    record=(execute_recovery if prior is not None else execute)(adapter,store,{'kind':'identity-selected Forgix clock measurement episode',
-                    'profile_private':profile,'environment_private':environment,'execution':frozen,
-                    'physical_execution_requested':True,'recovery_only':prior is not None,
-                    'prior_session_sha256':trial.sha(args.prior_session) if prior is not None else None},began=began)
+                    adapter=(backend.RecoveryBackend if prior is not None else backend.Backend)(profile,private,lock.fd,environment,frozen)
+                    store=ReceiptStore(private)
+                    if prior is None:
+                        # Retain creation authority even if initial durability
+                        # fails after the exclusive file creation.
+                        lease=object.__new__(SessionLease)
+                        SessionLease.__init__(lease,profile,private)
+                    else:
+                        lease=SessionLease.rotate(profile,private)
+                        adapter.lease_private=private
+                    execution_error=None
+                    try:
+                        produced=(execute_recovery if prior is not None else execute)(adapter,store,{
+                            'kind':'identity-selected Forgix clock measurement episode',
+                            'profile_private':profile,'environment_private':environment,'execution':frozen,
+                            'physical_execution_requested':True,'recovery_only':prior is not None,
+                            'prior_session_sha256':trial.sha(args.prior_session) if prior is not None else None},began=began)
+                        require(type(produced) is dict,'Clock execution returned an invalid record')
+                        record=produced
+                    except BaseException as error:
+                        execution_error=error;record.update(status='failed',failure_kind=type(error).__name__)
+                    cancelled['terminal']=True
+                    terminal=trial.no_symlinks(private/'session.json')
+                    require(terminal.is_file() and terminal.stat().st_size<=4*1024*1024,
+                            'Bounded saved clock session required')
+                    saved=json.loads(terminal.read_bytes())
+                    require(type(saved) is dict,'Saved clock session must be a record')
+                    require(saved.get('status') in ('failed','clock_episode_observed','recovered_and_verified')
+                            and type(saved.get('owned_processes_closed')) is bool
+                            and type(saved.get('original_flash_and_factory_verified')) is bool
+                            and saved.get('physical_execution_requested') is True
+                            and type(saved.get('recovery_only')) is bool
+                            and all(type(saved.get(name)) is dict for name in
+                                    ('profile_private','environment_private','execution')),
+                            'Saved clock session schema differs')
+                    if execution_error is None:
+                        require(saved==record,'Saved clock session differs from live execution facts')
+                    # Parsed storage never replaces the live failure state.
+                    if execution_error is not None or cancelled['requested']:
+                        record.update(status='failed',failure_kind=type(execution_error).__name__ if execution_error is not None else 'Cancelled')
+                    finalize(lease,store,record,began,lock,defer_pending=True)
+                    record['cancellation_requested']=cancelled['requested']
+                    terminal_output(lease,store,record,began,cancelled,clock=time.monotonic,lock=lock)
+                    lock.check()
+                    if record['status'] in ('clock_episode_completed','recovered_and_verified'):
+                        trial.reject_pending_finalization(ROOT)
+                        require(not lease.path.exists(),'Clock active lease remains before final exit')
+                    else:
+                        # Never trust a flag from earlier fallible receipt I/O.
+                        lease.check_pending()
+                        require(record.get('shared_refusal_retained') is True,'Exact durable shared refusal required')
+                    require(time.monotonic()<began+600 and not cancelled['requested'],
+                            'Final kernel exit cancelled or expired')
                 except BaseException as error:
-                    execution_error=error;raise
-                finally:
-                    # Cancellation may propagate only after the terminal receipt.
-                    terminal=private/'session.json'
-                    if terminal.exists():
-                        saved=json.loads(terminal.read_text())
-                        if execution_error is not None or cancelled['requested']:
-                            saved.update(status='failed',failure_kind=type(execution_error).__name__ if execution_error is not None else 'Cancelled')
-                        finalize(lease,store,saved,began,lock,defer_pending=True)
-                        record=saved
+                    cancelled['terminal']=True
+                    try:terminal_failure(lease,store,record,error,began)
+                    except BaseException as secondary:
+                        # A secondary handler fault cannot turn unknown closure
+                        # into an ordinary unguarded exception exit.
+                        record.update(status='failed',shared_refusal_retained=False,
+                                      failure_settlement_kind=type(secondary).__name__)
+                        record.setdefault('failure_kind',type(error).__name__)
+                    if not record.get('shared_refusal_retained'):
+                        quarantine(lock,lease,store,record,began)
+                    # Revalidate after all failure persistence effects. Any
+                    # further exception stays with the same original owner.
+                    try:lease.check_pending()
+                    except BaseException:
+                        record['shared_refusal_retained']=False
+                        quarantine(lock,lease,store,record,began)
+                # No handler restoration, receipt or explicit last-FD close
+                # follows the terminal ownership/deadline/cancellation checks.
+                if kernel_exit:os._exit(0 if record['status'] in ('clock_episode_completed','recovered_and_verified') else 2)
+                return 2 # A callable return does not observe kernel teardown.
     except BaseException as exc:
         record.update(status='refused' if adapter is None else 'failed',failure_kind=type(exc).__name__)
     finally:
-        record['cancellation_requested']=cancelled['requested']
-        if lease is not None and store is not None and began is not None:
-            terminal_output(lease,store,record,began,cancelled,clock=time.monotonic)
-        else:
+        if not cancelled['terminal']:
+            record['cancellation_requested']=cancelled['requested']
             try:print(json.dumps({k:record.get(k) for k in ('status','failure_kind','original_flash_and_factory_verified','owned_processes_closed')}),flush=True)
             except BaseException as error:record.update(status='failed',failure_kind=type(error).__name__)
-        for s,handler in handlers.items():signal.signal(s,handler)
-    return 0 if record['status'] in ('preflight_passed','clock_episode_completed','recovered_and_verified') else 2
+            for signum,handler in handlers.items():signal.signal(signum,handler)
+    return 0 if record['status']=='preflight_passed' else 2
 
-if __name__=='__main__':raise SystemExit(main())
+if __name__=='__main__':raise SystemExit(main(kernel_exit=True))

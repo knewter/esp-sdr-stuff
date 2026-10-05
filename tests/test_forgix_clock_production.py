@@ -94,29 +94,35 @@ class Production(unittest.TestCase):
      with c.operator_lock():self.fail('lease must block')
   finally:temp.cleanup()
  def finalize_fixture(self,mode):
-  temp,root,private,p=self.fixture();clock=[0.0]
+  temp,root,private,p=self.fixture();clock=[0.0];fd=None
   try:
    with patch.object(c,'ROOT',root),patch.object(b,'ROOT',root),patch.object(c.trial,'ROOT',root):
     store=c.ReceiptStore(private);lease=c.SessionLease(p,private);fd=os.open(root/'.scratch/esp-demo.lock',os.O_RDWR|os.O_CREAT,0o600);fcntl.flock(fd,fcntl.LOCK_EX);lock=c.LockHandle(fd)
     record={'status':'clock_episode_observed','original_flash_and_factory_verified':True,'owned_processes_closed':True}
-    c.capture.save(store,'session.json',record);originalclose=lock.close;originalsync=c.capture.sync_directory;realfsync=os.fsync
-    def close():originalclose();clock[0]=601 if mode=='late-fd' else clock[0]
+    c.capture.save(store,'session.json',record);originalsync=c.capture.sync_directory;realfsync=os.fsync
     def sync(path):
      if mode=='release-error' and Path(path)==root/'.scratch' and not lease.path.exists():raise OSError('fixture release fsync')
      return originalsync(path)
-    def fsync(fd):
-     if mode=='result-error' and os.readlink('/proc/self/fd/'+str(fd)).endswith('/acknowledged-session.json'):raise OSError('fixture terminal fsync')
-     return realfsync(fd)
-    with patch.object(lock,'close',side_effect=close),patch.object(c.capture,'sync_directory',side_effect=sync),patch.object(os,'fsync',side_effect=fsync):r=c.finalize(lease,store,record,0,lock,lambda:clock[0])
-    saved=json.loads((private/'session.json').read_bytes());self.assertEqual(saved['status'],r['status'])
-    if mode=='normal':self.assertEqual(saved['status'],'clock_episode_completed');self.assertTrue(lock.closed);self.assertFalse(lease.path.exists());self.assertFalse(lease.pending_path.exists())
+    def fsync(number):
+     if mode=='result-error' and os.readlink('/proc/self/fd/'+str(number)).endswith('/terminal-staged-session.json'):raise OSError('fixture terminal fsync')
+     return realfsync(number)
+    def printing(*a,**kw):
+     if mode=='late-output':clock[0]=600.0
+    with patch.object(c.capture,'sync_directory',side_effect=sync),patch.object(os,'fsync',side_effect=fsync),patch('builtins.print',side_effect=printing):
+     c.finalize(lease,store,record,0,lock,lambda:clock[0])
+     c.terminal_output(lease,store,record,0,{'requested':False},lambda:clock[0],lock=lock)
+    saved=json.loads((private/'session.json').read_bytes());self.assertEqual(saved['status'],record['status'])
+    self.assertFalse(lock.closed);self.assertTrue(lock.kernel_release);lock.check()
+    if mode=='normal':
+     self.assertEqual(saved['status'],'clock_episode_completed');self.assertEqual(saved['finalization_status'],'staged_kernel_exit');self.assertFalse(saved['invocation_qualification']);self.assertFalse(lease.path.exists());self.assertFalse(lease.pending_path.exists())
     else:self.assertEqual(saved['status'],'failed');self.assertTrue(lease.pending_path.exists());self.assertTrue(lease.path.exists())
-    lock.close()
-  finally:temp.cleanup()
- def test_whole_deadline_includes_actual_last_fd_close(self):self.finalize_fixture('late-fd')
+  finally:
+   if fd is not None:os.close(fd) # Explicit fixture teardown after held-FD assertions.
+   temp.cleanup()
+ def test_whole_deadline_includes_terminal_output(self):self.finalize_fixture('late-output')
  def test_actual_lease_release_fsync_failure_blocks_and_saves_failed(self):self.finalize_fixture('release-error')
  def test_terminal_file_fsync_failure_blocks_and_saves_failed(self):self.finalize_fixture('result-error')
- def test_successful_finalization_closes_fd_and_clears_owned_markers(self):self.finalize_fixture('normal')
+ def test_successful_finalization_stages_kernel_release_and_clears_owned_markers(self):self.finalize_fixture('normal')
  def test_actual_worker_timeout_reaps_group_and_retains_lock(self):
   with tempfile.TemporaryDirectory() as t:
    path=Path(t);workers=path/'workers';workers.mkdir(mode=0o700);lock=path/'lock';fd=os.open(lock,os.O_RDWR|os.O_CREAT,0o600);fcntl.flock(fd,fcntl.LOCK_EX)
@@ -128,51 +134,23 @@ class Production(unittest.TestCase):
 
 class MainBoundaries(unittest.TestCase):
  def exercise(self,mode):
+  # The prior in-process callable observations did not prove actual CLI exit.
+  # Keep the same fault controls but independently join a real child process.
   with tempfile.TemporaryDirectory() as tmp:
-   root=Path(tmp);(root/'.scratch').mkdir(mode=0o700);(root/'backups').mkdir(mode=0o700)
-   private=root/'backups/run';private.mkdir(mode=0o700)
-   profile={n:'1'*64 for n in ('uid_sha256','baseline_sha256','elf_sha256','manifest_sha256','bridge_source_sha256','bitstream_sha256','qualification_sha256','execution_sha256','environment_sha256','contract_sha256')};profile['nonce']='2'*32
-   args=types.SimpleNamespace(action='run',prior_session=None)
-   adapter=Model();adapter.profile.update(profile);clock=[0.0];actual_fsync=os.fsync;output=io.StringIO();actual_execute=c.execute;actual_finalize=c.finalize
-   if mode=='cleanup-cancel':
-    original_factory=adapter.return_factory
-    def cancelled_factory(until):
-     signal.raise_signal(signal.SIGTERM)
-     return original_factory(until)
-    adapter.return_factory=cancelled_factory
-   def fsync(fd):
-    if mode=='session-fsync' and os.readlink('/proc/self/fd/'+str(fd)).endswith('/session.json'):
-     raise OSError('peer actual initial final session FD fsync')
-    return actual_fsync(fd)
-   def printing(*args,**kwargs):
-    if mode=='late-stdout':clock[0]=600.0
-    if mode=='stdout-error':raise OSError('fixture terminal stdout')
-   with contextlib.ExitStack() as stack:
-    for module in (c,b,c.trial):stack.enter_context(patch.object(module,'ROOT',root))
-    stack.enter_context(patch.object(c,'parser',return_value=types.SimpleNamespace(parse_args=lambda:args)))
-    stack.enter_context(patch.object(c,'prepare',return_value=(profile,{}, {'inputs':{}},private)))
-    stack.enter_context(patch.object(b,'Backend',return_value=adapter))
-    stack.enter_context(patch.object(b,'frozen_inputs'))
-    stack.enter_context(patch.object(b,'qualified'))
-    stack.enter_context(patch.object(c.runtime,'check'))
-    stack.enter_context(patch.object(c.time,'monotonic',side_effect=lambda:clock[0]))
-    stack.enter_context(patch.object(c,'execute',side_effect=lambda *a,**k:actual_execute(*a,clock=lambda:clock[0],**k)))
-    stack.enter_context(patch.object(c,'finalize',side_effect=lambda *a,**k:actual_finalize(*a,clock=lambda:clock[0],**k)))
-    stack.enter_context(patch.object(os,'fsync',side_effect=fsync))
-    stack.enter_context(contextlib.redirect_stdout(output))
-    if mode in ('late-stdout','stdout-error'):stack.enter_context(patch('builtins.print',side_effect=printing))
-    rc=c.main()
-   saved=json.loads((private/'session.json').read_bytes())
-   observation={'mode':mode,'CLI':rc,'saved':saved['status'],'pending':(root/'.scratch/forgix-spi-finalization-pending.json').exists(),'lease':(root/b.LEASE).exists(),'elapsed':clock[0]}
-   print(json.dumps(observation,sort_keys=True))
-   return observation
+   root=Path(tmp);began=__import__('time').monotonic()
+   proc=subprocess.run([sys.executable,str(ROOT/'tests/test_forgix_clock_finalization.py'),'--fixture',str(root),mode],capture_output=True,text=True,timeout=15,start_new_session=True)
+   self.assertLess(__import__('time').monotonic()-began,600)
+   saved=json.loads((root/'backups/run/session.json').read_bytes())
+   fd=os.open(root/'.scratch/esp-demo.lock',os.O_RDWR)
+   try:fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
+   finally:os.close(fd)
+   return {'mode':mode,'CLI':proc.returncode,'saved':saved['status'],'pending':(root/'.scratch/forgix-spi-finalization-pending.json').exists(),'lease':(root/b.LEASE).exists()}
  def test_actual_main_session_fsync_failure_cannot_leave_completed(self):
   o=self.exercise('session-fsync');self.assertEqual(o['CLI'],2);self.assertNotEqual(o['saved'],'clock_episode_completed')
  def test_actual_main_terminal_stdout_at_deadline_cannot_qualify(self):
   o=self.exercise('late-stdout');self.assertEqual(o['CLI'],2);self.assertNotEqual(o['saved'],'clock_episode_completed')
  def test_actual_main_cleanup_cancellation_cannot_qualify(self):
   o=self.exercise('cleanup-cancel');self.assertEqual(o['CLI'],2);self.assertNotEqual(o['saved'],'clock_episode_completed')
-
  def test_normal_actual_main_still_completes(self):
   o=self.exercise('normal');self.assertEqual(o['CLI'],0);self.assertEqual(o['saved'],'clock_episode_completed');self.assertFalse(o['pending']);self.assertFalse(o['lease'])
  def test_terminal_stdout_failure_retains_blocker_and_failed_receipt(self):
