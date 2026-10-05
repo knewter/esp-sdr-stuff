@@ -69,3 +69,25 @@ complete ownership and whole-proof equality. See [design](design.md#source004-bo
 Implementation, actual current-provider/timing proof and independent review
 precede task4.3 operation; all source003 failures, hardware gates and wire
 profiles remain unchanged. No source attempt follows automatically.
+
+## Source004 verification cost evaluation (UNVERIFIED)
+
+The [accepted historical read-only preparation](docs/evidence/ble-primary-timed-source004-readonly-review/README.md)
+completes whole proof but does not fit source admission. Saved-ledger research
+measures75.134333 seconds for the verifier and30.320421 seconds for its concurrent
+content span. Both exceed the13 seconds available before the unchanged native32
+floor on source45, even before other source frontwork. Their causes remain
+unmeasured. Add bounded cost records in a NEW immutable evaluation bundle first;
+select a later optimization only from complete measured attribution and a
+separately reviewed plan. Git batching, shared fresh process censuses and reduced
+redundant archive/tool reads are hypotheses, not speedup or admission claims.
+
+This refines the existing `radio/burst-applications` preparation dependency;
+it adds no radio capability, equipment, wire change or accepted requirement.
+The host owns measurement; the original ESP32 remains the receiver. Preserve
+the reviewed corrected source004003 ownership baseline and every original
+fresh-content, cleanup and clock gate. The measurable software gate is an
+independently reviewed cost record with reconciled operation counts and clock
+scopes, followed by sole-root fresh complete current-tuple timing with room for
+all frontwork and native32. A faster partial or compatible proof cannot satisfy
+it. Controller qualification and receiver action remain separate unchecked gates.

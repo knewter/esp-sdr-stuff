@@ -218,3 +218,26 @@ The [actual timed source001 failure and reviewed recovery](docs/evidence/ble-pri
 admits no source/monitor attempt. The [source004 prerequisite](design.md#source004-bounded-verification-prerequisite)
 preserves every old receipt and all original physical requirements. Its planning
 review is not implementation, actual timing fit or source-only qualification.
+
+## 5. Attribute source004 verification cost before optimization (UNVERIFIED)
+
+This supporting software group is a prerequisite of4.3, not an additional
+receiver condition. Its scope is [bounded instrumentation and conditional
+alternatives](design.md#source004-cost-attribution-before-optimization-unverified).
+All tasks remain open. Implement only after this scoped plan is committed and
+reviewed by root; batching, census reuse, archive-read changes and rescheduling
+need a later attribution-based plan revision before implementation.
+
+- [ ] 5.1 Freeze a NEW instrumentation-only private bundle from the exact47-file corrected003 baseline and143 author/24 peer no-skip receipt, preserving every original predicate, clock, producer/worker ownership and cleanup boundary. Proof: complete source/byte-map comparison, retained old receipt SHA, explicit changed-file list and no actual Nix/store/daemon/controller/compiler/device operation.
+- [ ] 5.2 Add bounded private operation brackets/counts for worker CLI, parse/hash/tool checks, process census, each existing fsync, durable outputs/ledgers and seal/terminal validation; record individual worker body completion inside its payload separately from parent receipt/group absence/terminal observation. Bind dynamic diagnostics to a NEW per-phase ledger/sidecar rather than deterministic fresh-content tuple equality fields. Proof: fixture event/request/result conservation, differing-timing/equal-content comparison, overlap-aware aggregation, exact graph/shard/archive/tool identities, bounded private numeric/hash fields and charged original deadline checks; no change to admission behavior or extra per-event fsync.
+- [ ] 5.3 Verify logging overflow/missing/duplicate/partial/changed/late events, persistence faults and cancellation retain failures and original pending/keeper quarantine. Proof: replay all143 corrected003 author groups with zero skips and targeted inherited-flock/owned-descendant/injected-clock/descriptor-reuse tests; independently review the expanded immutable source map, event schema and complete saved results.
+- [ ] 5.4 After independent host readiness, have the sole root operator freeze and execute one declared bounded read-only whole current-tuple measurement, capturing actual CLI terminal, full reference/NAR union, all imports/tools and both whole archives. Proof: retain complete305/1220/14 baseline or actual expanded closure with no dropped roots/inputs,47 baseline private files plus all additions/binding,22 project bytes and every actual import, whole ownership/FD/terminal ledgers, original13/45/30/32/165/300 clock scope and immutable event/raw-evidence hashes; independent saved whole review. No source or receiver action and no automatic retry.
+- [ ] 5.5 Publish sanitized measured costs, attribution limits and a fit/refusal recommendation; select at most the smallest justified optimization for a separately reviewed plan revision. Proof: replay the complete captured event stream against raw ledger brackets/counts, separate measured wall/CPU/static counts/inference, and show all frontwork plus native32 fit within source45 with credible margin or explicitly retain failure; root current full proof remains distinct from physical source qualification.
+
+Narrow proof experiment:5.1–5.3 use the NEW immutable bundle's explicit pinned
+Task host-fixture recipe and independent saved replay, with named143 baseline
+groups, all new groups, zero skips, exact source-map/command/result hashes and
+retained failures.5.4 is a separately recorded sole-root read-only experiment;
+5.5 is saved-only whole event/ledger analysis and independent review. No cheaper
+fixture or older Forgix proof substitutes for5.4. Software completion cannot
+check4.3's physical qualification,4.4–4.6 or1.1/1.2.

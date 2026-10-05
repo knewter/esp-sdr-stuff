@@ -225,3 +225,154 @@ are independently reviewed by receipt
 `eda93ed36c0e31d8c2bc7526cb54b219bfc6d0ddfbd3d5b0a7e4c5060f61f6db`.
 This pins prospective architecture only; actual004 implementation, CLI/current
 tuple, timing fit, controller qualification and receiver operation remain open.
+
+## Source004 cost attribution before optimization (UNVERIFIED)
+
+This host-only prerequisite refines task4.3; it changes no controller wire,
+original ESP32 receiver settings, native runner, RF or FPGA behavior. No S3/C5
+capability is inferred. Historical whole preparation and prospective timed
+admission have different scopes: source45 was not run in the accepted read-only
+sample linked in the proposal.
+
+### Baselines and measured limits
+
+Saved-only timing report SHA256
+`d25cc545a6abe87ad85828c97ae1b2e2db045591715a09d4793d9331ee256a12`
+binds19 subject files and the analysis script at historical revision
+`2ab2e7e82b5394b95b4968e191a7d665d1203de9`. Its75.134332621-second
+first-verifier-intent to phase-descriptor-return interval partitions exactly:
+
+| Saved ledger interval | Seconds |
+| --- | ---: |
+| Before six content-worker intents | 31.930573154 |
+| First content intent to last saved content output | 30.320420938 |
+| Last content output to final Git intent | 0.112357234 |
+| Final Git intent to saved output | 0.829050940 |
+| Final output to phase descriptor return | 11.941930355 |
+
+The35 sequential Git intent-to-saved intervals total25.632887186 seconds;
+their actual Popen call brackets total0.082496289. Neither number measures Git
+CPU alone. Six workers' group-absence times are assigned after the pool drains,
+so they cannot rank individual worker costs. The descriptor-close call itself
+took0.000273236 seconds; the11.941930355-second remainder includes ledger,
+seal and validation. Another15.744415622 seconds elapses from phase descriptor
+return to root FD-close request, including later persistence and terminal
+revalidation. These brackets do not isolate fsync, hashing, parser or kernel I/O.
+
+Static code counts, not elapsed measurements, show256 durable/output writes
+and at least512 file/directory fsync calls in the42-job phase; six workers repeat
+274401536 executable-hash bytes. Each archive has three same-phase compressed
+reads. `Manager.check` checks deadlines and retained keeper identity; it does
+not enumerate all `/proc`. Whole process scans occur in group qualification,
+member checks and per-job seal/terminal validation. Their costs need measurement.
+The observed30.320421-second content span already exceeds13; removing sequential
+Git and sealing costs alone cannot prove fit. Forgix's different268-path proof
+and13.244-second sample cannot substitute for this305-path source tuple.
+
+Corrected source004003 is the implementation baseline, not a timed admission:
+author revision `ffdaf7649680ef25346bd1fcd46df661d5990735`, immutable47-file
+bundle,143 author and24 independent groups with zero skips, independent receipt
+SHA256 `5a130351abbba631f51db4a3d7a246cdf16f1fe9e69160fbd5bd9a57afe86773`.
+This privately retained saved review covers complete preparation and producer
+cancellation. It does not supply actual current-root equivalence or source45
+timing. Preserve its fresh pidfd/member qualification before each individual
+signal, common clipped cleanup budget, reaping, descriptor uncertainty and
+keeper/pending quarantine. Existing manager-worker cleanup receives no broader
+claim by citing producer tests. Retain002/003 bundles and failed evidence exact;
+instrumentation creates a separately identified bundle with its entire expanded
+source map, never a relabelled old receipt.
+
+### First implementation scope: bounded measurement only
+
+Add a private bounded event stream with monotonic request/return brackets,
+operation identifiers, bytes/counts and successful/failed outcome. Measure
+worker CLI and parser/hash boundaries, executable checks, process census,
+each existing fsync call and ledger/output persistence and final validation.
+Record individual body-completion timestamps inside each worker payload, before
+serialization, separately from parent result receipt, group absence and terminal
+observation; a payload timestamp is not an operating-system process-exit time.
+Reconcile exact job/result counts and
+graph/shard/archive request hashes; overlapping durations are not additive.
+Retain raw ledgers and event bytes in the immutable proof, and emit only
+sanitized aggregates publicly. Record wall and CPU where available with their
+scope, without claiming they isolate shared-storage or scheduling causes.
+Use opaque operation identifiers and bounded numeric/hash fields rather than
+raw environment, command arguments, controller bindings or device identities.
+Bind dynamic timings to a NEW per-phase ledger or sidecar receipt and its exact
+source/request/result hashes. Keep them outside deterministic frozen tuple
+fields compared by fresh snapshot equality: matching content does not imply
+equal durations, and timing variability must not create false content refusal.
+Missing or invalid diagnostic proof still denies measurement completeness;
+measurement success never supplies content or operational PASS by itself.
+
+No event may suppress or move a predicate or deadline check. Instrumentation
+and its persistence remain charged to the original clocks. Bound event/output
+sizes before spawning; missing, duplicate, overflowed, partial, changed or late
+records retain failure and deny measurement completeness/admission. Measure
+existing durability operations without adding a separate fsync per event. Use the
+existing durable pending/keeper and owned terminal path; logging faults must
+not leak children, close an uncertain reused FD or release qualification.
+Harmless saved/host fixtures first verify event conservation and cancellation
+under injected clocks and storage faults. Preserve143 baseline groups, actual
+inherited local flock and owned descendant fixtures, plus independent review.
+No actual store, daemon, compiler, controller or device operation belongs to
+this author implementation phase.
+
+Then the sole root operator freezes the actual current source/runtime tuple
+and performs one bounded read-only complete verification.
+Use the existing read-only preparation's165/300 scope and explicitly report
+that no source45 clock or monitor was started. A completed read-only measurement
+may retain costs exceeding13/45 and must report timed-admission refusal; it
+cannot renew, start late or replace a future actual source45 clock. All costs
+remain charged to their original invoked phase and durable terminal scope.
+Preserve all14 roots,
+305 NARs and1220 edges of the baseline (with any actual expanded closure fully
+enumerated),22 project inputs, every actual import, the whole private bundle
+and binding, every selected tool identity, and both entire archives. Four disjoint
+NAR shards and two archive workers keep exact union and at most six workers.
+The original historical map has45 private files; corrected003 has47. Future
+instrumentation additions must be included rather than forcing either old
+count or dropping inputs. Repeat samples for variance require a separately
+declared bounded root experiment; no implicit retry is authorized by this plan.
+
+### Conditional alternatives after attribution
+
+- An owned bounded committed-blob batch could remove separate Git-job overhead.
+  It must return every revision/path/length/hash/body record, preserve initial
+  and final HEAD/clean/flake checks and fresh local rechecks for all project and
+  imported bytes, and refuse omitted, duplicate, reordered or partial records.
+  Reuse of immutable blobs is limited to that one fresh snapshot. Its protocol
+  inventory and ownership need a separate reviewed update before implementation.
+- One fresh process census indexed across all owned groups could remove repeated
+  scans within one observation. Keep retained PID/start-time/PGID/SID/pidfd and
+  member history, unknown-descendant refusal after leader exit, fresh complete
+  seal/terminal scans and fresh identity qualification immediately before any
+  signal. No cached-empty, leader-only or time-throttled ownership substitute.
+- Same-boundary canonical executable hash reuse could remove duplicate role
+  reads while retaining invocation-alias checks and all pre/post byte gates.
+  A compressed-byte hashing reader could combine a whole archive hash with its
+  complete parser pass only if EOF/trailer/trailing bytes, config, layer diffIDs,
+  source/native/v1 bytes, labels, overlays, links and unsafe/duplicate paths
+  receive equivalent checks. Differential malformed-archive proof is required.
+- Different scheduling of the same four balanced NAR shards and two full archive
+  workers is a later hypothesis. Retain maximum concurrency and conservation;
+  measured shared-storage contention, not shard sizes alone, selects it.
+
+These alternatives are deferred decisions, not the first implementation scope.
+After measurement choose the smallest justified change and revise this plan
+before code. A measured negative feasibility result is valid; no compatible
+partial proof, cached content PASS, manifest-only parse, smaller closure or
+raised clock follows.
+
+### Fit and promotion gate
+
+Source45 includes every post-ready controller/freeze/image/intent/wrapper/native
+parameter and data-ACK step, natural close and durable result. Native ENABLE
+requires32 seconds remaining, leaving at most13 for all preceding frontwork;
+caller30 is a separate, weaker pre-spawn floor. Preserve13/45/30/32/165/300,
+monitor startup75/active80, all clipping and original failure retention. Full
+fresh read-only timing must show credible margin for the remaining frontwork;
+a verifier below13 alone is insufficient. Root current complete proof and
+independent saved whole review precede a separately frozen actual source-only
+qualification. Neither measurement completeness nor reduced latency closes
+task4.3's physical part, task4.4, any receiver task or accepted RF requirement.

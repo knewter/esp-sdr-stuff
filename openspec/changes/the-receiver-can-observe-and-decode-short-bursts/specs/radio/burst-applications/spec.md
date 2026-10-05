@@ -50,3 +50,11 @@ original acceptance gates.
 - **AND** neither architecture review nor a parallel allocation estimate admits a source or closes any physical acceptance gate
 
 <!-- UNVERIFIED: source004 is prospective only; actual source003 cost/refusal is retained in docs/evidence/ble-primary-timed-startup-preparation-review/README.md. The independently reviewed design prerequisite and private provenance pins are in this change's design.md. Actual current tuple, complete timing, source and receiver qualification remain pending. -->
+
+#### Scenario: Complete verification exceeds the source budget
+- **WHEN** a saved complete read-only preparation is too slow for timed admission
+- **THEN** a separately identified bounded measurement evaluation SHALL retain every original fresh proof, ownership and deadline predicate and distinguish measured operation brackets from inferred costs
+- **AND** complete current-tuple timing and independent review precede any separately planned optimization or source qualification
+- **AND** a partial compatible proof, reduced input set, cached content result or clock extension cannot establish fit
+
+<!-- UNVERIFIED: The accepted historical source004 read-only proof in docs/evidence/ble-primary-timed-source004-readonly-review/README.md is not source45 timing. Saved-ledger decomposition and the corrected003 cancellation-only baseline are pinned separately in design.md. Instrumentation, actual current-tuple costs and fit remain prospective; all physical tasks and original air/count/reception gates remain open. -->
