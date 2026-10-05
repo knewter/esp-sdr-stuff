@@ -21,7 +21,9 @@ or owner death without a durable marker; known closure cannot be inferred.
 
 The 600-second acceptance clock and 325-second recovery reserve remain.
 Software task 4.3 closes for this frozen host review; **fresh root runtime
-transfer and all physical gates remain pending**, with empty registries.
+transfer was pending at this review**, with empty registries. The separate
+[fresh root artifact/runtime checkpoint](../forgix-host-refresh-2026-10-05/README.md)
+now passes saved review; all physical gates remain pending.
 The 06:39:08 UTC read-only survey finds ESP32 and RTL-SDR, with no Forgix and
 no serial opened. Reconnect the preserved Forgix for fresh operator gates.
 

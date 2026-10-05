@@ -42,3 +42,7 @@ Several-rate sequence/CRC, loss/backlog and signal-timing measurements still
 precede a useful FPGA-route decision. No ESP wiring is needed for the first
 internal register or synthetic test. The raw private artifacts and device
 identities remain outside Git and the public site.
+
+The separate [October 5 host refresh](../forgix-host-refresh-2026-10-05/README.md)
+binds configuration006 and current runtime snapshots. This October 4 record
+remains historical evidence.
