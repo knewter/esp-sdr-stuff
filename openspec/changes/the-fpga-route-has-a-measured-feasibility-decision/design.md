@@ -557,3 +557,58 @@ Replay both unchanged independent probes and add marker creation/link/storage
 and final cancellation boundaries. The 600-second acceptance clock and
 325-second recovery reservation do not renew; no firmware, runtime selection,
 registry, physical requirement or qualification changes.
+
+## Prospective clock finalization correction
+
+Declared October 5, 2026 before implementation. Independent receipt SHA256
+`4f05f9bb34832eb1c22ded000ea33d54798d6f353ba4843c185a8acc06a751f2`
+at `b37bd3989cdb35a7e06740c81f1264b720d3fe48` preserves two actual
+temporary-file/flock probes with explicit modeled lifecycle/runtime boundaries.
+Unknown modeled closure plus marker-open failure returns CLI2 and retains the
+active lease but releases the flock: fresh shared pending/inherited-lock guards
+pass. This does not prove whole USB admission; its active-lease guard may refuse.
+Marker unlink followed by failed directory sync and corrective marker/lease/
+journal writes returns CLI2 with older completed session bytes and no blocker.
+Neither probe demonstrates false CLI0 or hardware access. Preserve exact probes,
+failure, historical candidate and artifacts. Fresh root runtime preparation is
+source/image/Nix evidence only; whole-loading candidate rebind remains withheld.
+
+The clock coordinator owns this correction. Use the existing shared marker and
+refusal predicate. Establish exact owner-bound shared refusal before unknown
+closure can release the held operator FD. When marker open fails, an exclusive
+same-directory hard link from the already-durable active lease is permitted only
+after exact bytes/inode/owner/mode/link-count checks; never replace another owner.
+If neither form works, retain the exact held FD in conservative quarantine.
+No new marker whitelist, hardware action, automatic recovery or renewed clock.
+
+Keep the actual operator lock through required terminal output/persistence,
+marker closure and original cancellation/deadline checks. Normal lifecycle
+results remain provisional. Failed finalization cannot qualify older saved
+facts when corrective journaling fails. If marker unlink/sync fails and durable
+refusal cannot be restored, retain the already-held FD instead of admitting a
+fresh shared operator. Known closure and unknown closure remain distinct; normal
+run/recovery/full-original factory verification controls must still pass.
+Keep cancellation latched through every terminal effect and preserve original
+600/325-second acceptance/recovery bounds. The original final operator FD stays
+held through every fallible user-space terminal effect, other owned descriptor
+closure, marker-clear/fsync and final deadline/cancellation check. Transfer its
+last release to kernel process teardown on the explicit final CLI exit path;
+do not invoke an explicit last-FD close after removing the durable marker.
+This removes that potentially consumed/reused numeric-descriptor boundary.
+Failure before final exit restores shared refusal or retains the exact held FD.
+Saved facts stage that release; they do not attest to an exit that has not
+happened. Independent actual subprocess evidence must join exit0, original
+deadline, whole owned-group/FD absence, marker absence and flock reacquisition.
+Stdout, a callable returning0 or a fixture-declared closure cannot supply this
+join. No post-qualification user-space effects or handler restoration may
+silently outlive the cancellation/deadline latch. Unknown or failed terminal
+ownership remains refused under the same existing clock; no guardian is added.
+
+Replay both saved probes unchanged and add normal run/recovery, marker creation/
+hard-link/storage faults, owner/inode/link substitution, actual held-flock
+quarantine, late/cancelled terminal effects, descriptor ambiguity and actual
+kernel-teardown normal/recovery/failed-exit subprocess controls.
+Independent whole-source/finalization review precedes root fresh runtime and a
+distinct documentary candidate. Historical intended-design electrical/build
+evidence remains separately scoped. Firmware, HDL/bitstreams, strict artifact
+guards, empty registries and every physical checkbox are unchanged.

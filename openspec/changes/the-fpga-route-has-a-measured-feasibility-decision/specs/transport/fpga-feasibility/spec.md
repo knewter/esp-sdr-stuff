@@ -37,3 +37,25 @@ The synthetic coordinator SHALL keep lifecycle completion provisional through le
 #### Scenario: Finalization finishes normally
 - **WHEN** complete original-flash/factory verification and owned closure precede successful lease release, terminal persistence and output within the same clock
 - **THEN** only the matching owned blocker may be closed, and actual CLI success, saved proof and blocker absence still require independent physical-result review
+
+### Requirement: Clock finalization preserves shared refusal
+
+The clock coordinator SHALL keep completion provisional through required terminal
+effects under its original clock. It SHALL retain exact owner-bound shared refusal
+or its already-held operator FD when uncertain closure or terminal storage failure
+prevents a trustworthy handoff. A failed correction SHALL NOT qualify older saved
+normal facts. Cancellation SHALL remain latched through the last required effect;
+uncertain FD closure SHALL NOT permit acting on a potentially reused descriptor.
+The final original operator FD SHALL remain held through fallible terminal
+effects and be released by final kernel process teardown; independent actual
+process-exit and ownership evidence SHALL complete the staged release proof.
+
+<!-- UNVERIFIED: Two actual temporary-file/flock probes at b37bd398 reproduce shared-refusal gaps and stale saved completion with CLI2. Correction, independent review and fresh candidate remain pending; no hardware operation occurred. -->
+
+#### Scenario: Shared refusal cannot be persisted
+- **WHEN** closure is uncertain or terminal marker cleanup fails and both marker creation and exact owned-lease fallback fail
+- **THEN** the exact held operator lock remains quarantined and no later shared operator or recovery is admitted automatically
+
+#### Scenario: Clock terminal effects finish
+- **WHEN** original-flash/factory verification, owned closure and required output/storage/cancellation/deadline effects pass
+- **THEN** only exact owned markers may be cleared, the original FD remains held until final kernel teardown, and physical acceptance still requires independent session proof joined with actual CLI0, original deadline, owned-group/FD absence, marker absence and flock reacquisition

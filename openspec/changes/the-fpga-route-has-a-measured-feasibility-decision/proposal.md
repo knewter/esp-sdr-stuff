@@ -8,6 +8,7 @@ The user already has FPGA boards, but faster USB alone does not remove the origi
 - Compare original-ESP32 SPI/I2S/buffering/FFT routes with the S3 eSpDR reference design.
 - Measure a bounded synthetic transport first, then decide whether to use this chip, an S3 front end, or another receiver.
 - Correct synthetic terminal finalization before a physical trial: retain the existing shared pending blocker across lease release and fallible terminal effects, so a failed corrective write cannot qualify an old completed-looking receipt.
+- Correct distinct clock finalization before refreshing its loading/recovery qualification: retain shared refusal or the exact held operator lock across uncertain closure and failed terminal persistence.
 
 ## Capabilities
 
