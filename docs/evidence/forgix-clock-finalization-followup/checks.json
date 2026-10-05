@@ -30,5 +30,26 @@
     "root_review": "339fd983b9f1c9a6a40a825a129b5a911758da12256d2e824c599dcebc2112f4",
     "independent_runtime_review": "ef733d7a247f66a451a5957983ca0cb37d27f61658a9ff05d22dc15dbeab106b",
     "retained_finalization_failure": "4f05f9bb34832eb1c22ded000ea33d54798d6f353ba4843c185a8acc06a751f2"
+  },
+  "softwareCorrection002": {
+    "scope": "Independently reviewed software only; fresh root runtime/candidate and physical proof pending",
+    "authorRevision": "84e7b0c41cdff32e74c87d056885981cba4d2141",
+    "mergedRevision": "f34d46f",
+    "authorReadinessSha256": "b60a1309f10999d86eeb589ff192f28783fca27d4cb8676813e4e2751ac409d5",
+    "independentReadinessSha256": "e2e4498ea3d0d568edaf1d5b15c0fe32ce7d6c10dff11d0520416f3876cacd87",
+    "independentReviewSha256": "5a83b20752bd5854326c5ca69c525be3f531f955d8e6ca7832dcf9e2601f40d9",
+    "rootReviewJoinSha256": "e5fa5d50dfaae9eb28d97345fc53014bf0136241e7f30084b269aee9e92b5770",
+    "executionInputs": 88,
+    "imports": 42,
+    "independentDescriptorSites": 55,
+    "clockHostTests": 94,
+    "sharedHostTests": 10,
+    "literalRefusals": 6,
+    "separateControls": 3,
+    "newWholeEntryControls": 5,
+    "rootRehashedReviewFiles": 1635,
+    "externalAllAuthorityDestructionQualified": false,
+    "physicalAdmission": false,
+    "registryChanged": false
   }
 }

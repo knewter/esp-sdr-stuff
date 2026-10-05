@@ -1,4 +1,4 @@
-# Clock runtime passes; finalization correction remains open
+# Clock finalization software reviewed; fresh runtime pending
 
 On October 5, the root operator refreshed the clock observer's read-only runtime
 at `b37bd3989cdb35a7e06740c81f1264b720d3fe48`. All **88 execution inputs,
@@ -44,8 +44,30 @@ faults. Normal results stay provisional through output, persistence, marker
 closure and cancellation checks under the original clock. The final operator
 FD stays held until kernel process teardown. New subprocess evidence must join
 actual exit0, the original deadline, owned-group/FD and marker absence, and lock
-reacquisition; a callable returning0 cannot prove that release. Implementation,
-independent whole review and fresh root runtime/candidate binding remain pending.
+reacquisition; a callable returning0 cannot prove that release.
+
+## Independently reviewed software correction
+
+Correction source `84e7b0c` is merged byte-exact at `f34d46f`. The original
+operator descriptor stays held through all fallible terminal effects and is
+released by final kernel teardown. Marker authority requires its retained
+creation inode; matching foreign bytes cannot establish ownership. Malformed
+saved JSON cannot replace the live failure record. Failed settlement retains
+shared refusal or the original held operator.
+
+Independent review rehashes 758 author files, 88 execution inputs and 42 imports,
+then checks all 55 descriptor/signal sites. Its 94 clock and 10 shared host tests,
+six unchanged failure-probe refusals, three separate controls and five new
+whole-entry failure cases pass. Root independently rehashes all 1,635 frozen
+review files and joins the three exact merged source/test bytes. Native host
+fixtures and modeled hardware boundaries establish software behavior only.
+Earlier failures remain retained.
+
+Arbitrary external destruction of the original descriptor together with total
+shared-storage failure remains **unsupported and unqualified**; the observer
+does not claim a held lock or successful invocation in that case. Fresh root
+runtime, whole-loading review and a distinct documentary candidate remain
+pending. No physical task, registry entry or accepted capability changes.
 
 After those software gates, physical work still needs the matching connected
 Forgix, fresh preservation, exclusive ownership and separately qualified clock,
