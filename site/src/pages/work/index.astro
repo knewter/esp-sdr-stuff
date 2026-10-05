@@ -97,10 +97,10 @@ const items = await Promise.all(work.items.map(async (item) => ({
               <figcaption><span>{item.media[0].kind === "video" ? "▶ Video" : "Image"} · {item.media[0].provenance}</span><span>{item.media.length} media</span></figcaption>
             </figure>}
             <div class="card-top"><span class="card-kind">{item.archived ? "Archived change" : "Draft proposal"}</span><span class="card-count">{item.done}/{item.total} tasks</span></div>
-            {item.evidence.length > 0 && <details class="card-evidence">
+            {item.evidence.length > 0 && <details class="card-evidence" data-work-evidence={item.id}>
               <summary>Evidence <span>{item.evidence.length}</span></summary>
               <nav aria-label={`Evidence for ${item.title}`}>
-                {item.evidence.map((path) => <a href={evidenceLink(path)}>{artifactName(path)}</a>)}
+                <a href={`${url("work/")}?work=${encodeURIComponent(item.id)}`}>Open proposal and evidence</a>
               </nav>
             </details>}
             <a class="card-primary" data-work-id={item.id} href={`${url("work/")}?work=${encodeURIComponent(item.id)}`} aria-haspopup="dialog"><h3>{item.title}</h3></a>
@@ -152,7 +152,7 @@ const items = await Promise.all(work.items.map(async (item) => ({
         </figure>)}
       </section>}
       <header class="detail-summary"><p class="detail-kind">{item.archived ? "Archived change" : "Draft proposal"} · {names[item.lane].title}</p><h2>{item.title}</h2><p class="detail-revision">Snapshot {work.sourceRevision.slice(0, 12)} · {work.generated}</p><div class="detail-states"><span>{item.done}/{item.total} tasks</span><span>{sourceLabel[item.source]}</span><span>{physicalLabel[item.physical]}</span></div><p class="detail-gate"><strong>{item.archived ? "Closed record" : "Next gate"}</strong>{item.next}</p></header>
-      {(item.dependencies.length > 0 || item.acceptedSpecs.length > 0 || item.evidence.length > 0 || item.rationale) && <aside class="detail-related"><strong>Related records</strong>{item.dependencies.map((id) => <a href={`${url("work/")}?work=${encodeURIComponent(id)}`}>Depends on: {byId[id]?.title ?? id}</a>)}{item.acceptedSpecs.map((path) => <a href={accepted(path)}>Accepted spec: {path.split("/").slice(2, 4).join(" / ")}</a>)}{item.evidence.map((path) => <a href={evidenceLink(path)}>{artifactName(path)}</a>)}{item.rationale && <p>Status basis: {item.rationale} <a href={url("revision.json")}>Reviewed {item.reviewRevision?.slice(0, 12)} ↗</a></p>}</aside>}
+      {(item.dependencies.length > 0 || item.acceptedSpecs.length > 0 || item.evidence.length > 0 || item.rationale) && <aside class="detail-related"><strong>Related records</strong>{item.dependencies.map((id) => <a href={`${url("work/")}?work=${encodeURIComponent(id)}`}>Depends on: {byId[id]?.title ?? id}</a>)}{item.acceptedSpecs.map((path) => <a href={accepted(path)}>Accepted spec: {path.split("/").slice(2, 4).join(" / ")}</a>)}{item.evidence.length > 0 && <span class="detail-evidence">{item.evidence.map((path) => <a href={evidenceLink(path)}>{artifactName(path)}</a>)}</span>}{item.rationale && <p>Status basis: {item.rationale} <a href={url("revision.json")}>Reviewed {item.reviewRevision?.slice(0, 12)} ↗</a></p>}</aside>}
       <nav class="detail-toc" aria-label={`Documents for ${item.title}`}><strong>In this change</strong>{item.rendered.map((doc, index) => <button type="button" data-work-section={index}>{doc.label}</button>)}</nav>
       <div class="detail-documents">{item.rendered.map((doc, index) => <section class="detail-document" data-section={index}><div class="detail-document-heading"><h3>{doc.label}</h3><span>{doc.path}</span></div><article class="work-markdown" set:html={doc.html} /></section>)}</div>
       <footer class="detail-sources"><strong>Source files at this revision</strong>{item.rendered.map((doc) => <a href={github(doc.path)}>{doc.label} ↗</a>)}</footer>
@@ -161,6 +161,9 @@ const items = await Promise.all(work.items.map(async (item) => ({
 </Base>
 
 <script>
+  import { installWorkEvidenceMenus } from "../../lib/work-evidence-menus.mjs";
+
+  installWorkEvidenceMenus(document);
   const dialog = document.querySelector<HTMLDialogElement>("#work-detail-dialog");
   const content = document.querySelector<HTMLElement>("#work-detail-content");
   const closeButton = document.querySelector<HTMLButtonElement>("#work-detail-close");
@@ -595,6 +598,7 @@ const items = await Promise.all(work.items.map(async (item) => ({
   .detail-related strong { flex-basis:100%; color:var(--ink-2); text-transform:uppercase; letter-spacing:.05em; }
   .detail-related p { flex-basis:100%; margin:.15rem 0 0; color:var(--ink-2); }
   .detail-related a { color:var(--accent); }
+  .detail-evidence { display:contents; }
   .detail-toc { display:flex; align-items:center; flex-wrap:wrap; gap:.4rem; margin:1.2rem 0 2.2rem; font-size:.7rem; }
   .detail-toc strong { margin-right:.4rem; color:var(--muted); }
   .detail-toc button { min-height:36px; padding:.35rem .55rem; border:1px solid var(--rule); border-radius:4px; background:var(--surface-2); color:var(--ink); font:inherit; cursor:pointer; }
