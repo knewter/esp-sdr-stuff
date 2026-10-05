@@ -24,9 +24,13 @@ def compact_page_urls(page, dist, prefix):
     offsets = [0, *(match.end() for match in re.finditer("\n", text))]
     directory = prefix + "/" + page.parent.relative_to(dist).as_posix().removeprefix(".")
     changes = []
+    has_base = False
     attribute = re.compile(r'''([^\s/<>=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?''')
     class Tags(HTMLParser):
         def handle_starttag(self, tag, attrs):
+            nonlocal has_base
+            if tag == "base" and any(name == "href" for name, _ in attrs):
+                has_base = True
             token = self.get_starttag_text()
             line, column = self.getpos()
             start = offsets[line - 1] + column
@@ -55,6 +59,8 @@ def compact_page_urls(page, dist, prefix):
                                 start + attribute_start + match.end(group), shorter))
         handle_startendtag = handle_starttag
     Tags().feed(text)
+    if has_base:
+        return 0
     for start, end, value in reversed(changes):
         text = text[:start] + value + text[end:]
     page.write_bytes(text.encode("utf-8"))
