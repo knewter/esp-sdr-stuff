@@ -20,6 +20,18 @@ UART 921600 and the version is `550fade-cyd-waterfall`.
 - **Host tests:** `tests/test_cyd_waterfall_logic.py` compiles the logic file
   and runs 9 tests, all passing.
 
-**Not yet shown on hardware.** The board has not run this build. The panel
-type (ILI9341 or ST7789), its orientation and the touch calibration are
-unverified until the first install.
+## Install and host check (2026-10-06)
+
+The build was written to the CYD at 460800 baud, and every region was
+hash-verified. The CYD's original image stays preserved in `backups/cyd/`.
+- **Boot:** the display code printed `#CYD panel ILI9341 id 18 02 06 00`.
+  Those ID bytes match neither the usual ILI9341 reply nor the ST7789's
+  `85 85 52`, so the panel type is still unconfirmed.
+- **Host protocol:** the capture tool's queries returned the same `INFO`
+  (`ESP32SDR 6 burst 16380`) and `LIMITS?` as the receiver image. A 20-window,
+  16 MS/s capture at LO 2401 MHz completed 19 windows; one was lost to a UART
+  fault and recovered, as in the session 004 and 005 captures under host load
+  ([host-capture-results.json](host-capture-results.json)).
+
+**Screen and touch are not yet shown.** They need a photo or video from the
+board (tasks 2.1–2.3).

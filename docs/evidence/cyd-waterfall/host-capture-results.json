@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "started_utc": "2026-10-06T22:42:43Z",
+  "firmware_source_revision_asserted_from_install_record": "550fade-cyd-waterfall",
+  "firmware_source_base_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "firmware_revision_is_not_returned_by_INFO": true,
+  "settings": {
+    "frequency": 2401,
+    "bandwidth": 12,
+    "gain": "hardware"
+  },
+  "protocol_queries": {
+    "INFO": "ESP32SDR 6 burst 16380",
+    "CAPS": "CAPS SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8",
+    "LIMITS?": "LIMITS {\"gain\":[0,72,1],\"bandwidth\":[12,67,1,0],\"rates\":[80000000,40000000,16000000],\"bits\":[8,10]}",
+    "RANGE?": "RANGE 100 6000 1",
+    "TRANSPORT?": "TRANSPORT UART 921600",
+    "SPECINFO?": "SPECINFO {\"continuous\":false,\"transports\":[\"USB\",\"UART\"],\"profiles\":[[80000000,0,256,1,1,0],[80000000,0,512,1,1,0],[80000000,0,1024,1,1,0],[80000000,0,2048,1,1,0],[40000000,1,256,1,1,0],[40000000,1,512,1,1,0],[40000000,1,1024,1,1,0],[40000000,1,2048,1,1,0],[16000000,6,256,1,1,0],[16000000,6,512,1,1,0],[16000000,6,1024,1,1,0],[16000000,6,2048,1,1,0]]}",
+    "GAIN?": "GAIN HARDWARE -1 0 72 0",
+    "BAUD?": "BAUD 921600",
+    "parsed_limits": {
+      "gain": [
+        0,
+        72,
+        1
+      ],
+      "bandwidth": [
+        12,
+        67,
+        1,
+        0
+      ],
+      "rates": [
+        80000000,
+        40000000,
+        16000000
+      ],
+      "bits": [
+        8,
+        10
+      ]
+    }
+  },
+  "runs": [
+    {
+      "bits": 8,
+      "rate_hz": 16000000,
+      "attempts": 20,
+      "success": 19,
+      "failures": 1,
+      "requested_attempts": 20,
+      "wall_ms": 17308.405005,
+      "nominal_sampled_ms": 19.451249999999998,
+      "nominal_coverage_fraction": 0.0011238037239353353
+    }
+  ],
+  "completed": true,
+  "timing_note": "Host monotonic command and receive timestamps; no synchronized hardware capture-start timestamp. Nominal RF windows use advertised sample rates, not calibrated clocks.",
+  "series_start_monotonic_ns": 1133863260926506,
+  "fault_recovery": {
+    "allowed": 5,
+    "recovered": 1
+  },
+  "ended_utc": "2026-10-06T22:43:00Z"
+}

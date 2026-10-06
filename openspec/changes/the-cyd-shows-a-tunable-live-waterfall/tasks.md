@@ -8,4 +8,4 @@
 - [ ] 2.1 Install on the CYD (original image preserved) and confirm the waterfall updates with the frequency shown. Proof: a photo or video recorded in `docs/evidence/`.
 - [ ] 2.2 Retune by touch and observe the displayed frequency change. Proof: a photo or video plus the serial status lines.
 - [ ] 2.3 With the counted source on ch37, observe bursts near the board's measured ch37 carrier, absent with the source off. Proof: photos with source logs.
-- [ ] 2.4 Confirm the host protocol queries and a 20-window capture still work on the display build. Proof: a capture results.json.
+- [x] 2.4 Confirm the host protocol queries and a 20-window capture still work on the display build. Proof: [host check](docs/evidence/cyd-waterfall/README.md#install-and-host-check-2026-10-06): INFO and LIMITS? unchanged, and 19 of 20 windows captured (1 UART fault recovered).
