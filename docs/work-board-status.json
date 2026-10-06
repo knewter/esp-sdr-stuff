@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Record three source-on/source-off pairs on BLE channels 37/38/39 with the counted owned source and the ESP wideband FFT, then sweep filter and gain on that fixed source.",
-      "rationale": "The owned counted BLE source and a live ESP wideband FFT view now work on this host; the board's ~0.8 MHz carrier offset is measured. Source-on/off pairs, filter/gain sweeps and extended-tuning checks have not run yet. No calibrated RF reference is available, so results stay relative.",
-      "reviewRevision": "8b2ed9c",
+      "next": "Task 1.2 only: three short on/off pairs per BLE channel 37/38/39, each capture under about 400 windows, located by decoded owned packets across a shift grid.",
+      "rationale": "Two pre-declared sessions: the filter/gain sweep is complete (AGC keeps clipping low; manual gain 48 and above clips), VHF extended tuning was rejected against the RTL-confirmed 101.1 MHz station, and usable settings are published. Channel location is confirmed only for ch37 (carrier +1.73 MHz from decoded packets). Burst-gated spectra could not isolate the sparse source, and long captures hit short UART reads on the loaded host. The ESP was restored and verified after each session.",
+      "reviewRevision": "2f6b2fe",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -134,7 +134,9 @@
         "docs/evidence/source004-actual-readonly-cost-004/README.md",
         "docs/evidence/source004-actual-readonly-cost-004/checks.json",
         "docs/evidence/receiver-nonleader-exec-prerequisite-002/README.md",
-        "docs/evidence/receiver-kernel-gnu-source-preparation-003/README.md"
+        "docs/evidence/receiver-kernel-gnu-source-preparation-003/README.md",
+        "docs/evidence/spectrum-controlled-001/README.md",
+        "docs/evidence/spectrum-controlled-002/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",

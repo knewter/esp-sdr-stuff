@@ -1,0 +1,197 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "protocol": "docs/research/spectrum-controlled-002-protocol.md (2f6b2fe)",
+  "preservation_and_restoration": {
+    "pre_read_equals_baseline": true,
+    "post_restore_read_equals_baseline": true
+  },
+  "C_extended_tuning": {
+    "fm100": {
+      "lo_mhz": 100,
+      "gain": "hardware",
+      "windows": 60,
+      "strongest_offset_mhz": 4.3125,
+      "strongest_absolute_mhz": 104.3125,
+      "strongest_over_median_db": 6.756132526694856,
+      "top_peaks": [
+        {
+          "offset_mhz": 4.3125,
+          "over_median_db": 6.756132526694856
+        },
+        {
+          "offset_mhz": -1.78125,
+          "over_median_db": 6.742602484023692
+        },
+        {
+          "offset_mhz": 5.28125,
+          "over_median_db": 6.607435906296878
+        },
+        {
+          "offset_mhz": -3.6875,
+          "over_median_db": 5.4372326440087235
+        },
+        {
+          "offset_mhz": -5.65625,
+          "over_median_db": 5.092728311954559
+        }
+      ]
+    },
+    "fm102": {
+      "lo_mhz": 102,
+      "gain": "hardware",
+      "windows": 60,
+      "strongest_offset_mhz": -0.0625,
+      "strongest_absolute_mhz": 101.9375,
+      "strongest_over_median_db": 9.563705796221583,
+      "top_peaks": [
+        {
+          "offset_mhz": -0.0625,
+          "over_median_db": 9.563705796221583
+        },
+        {
+          "offset_mhz": 0.078125,
+          "over_median_db": 7.283513079924312
+        },
+        {
+          "offset_mhz": 5.796875,
+          "over_median_db": 7.122069085920636
+        },
+        {
+          "offset_mhz": 5.984375,
+          "over_median_db": 6.006862294954701
+        },
+        {
+          "offset_mhz": -0.203125,
+          "over_median_db": 5.442093077784541
+        }
+      ]
+    },
+    "fm106": {
+      "lo_mhz": 106,
+      "gain": "hardware",
+      "windows": 60,
+      "strongest_offset_mhz": -0.078125,
+      "strongest_absolute_mhz": 105.921875,
+      "strongest_over_median_db": 11.131709929027807,
+      "top_peaks": [
+        {
+          "offset_mhz": -0.078125,
+          "over_median_db": 11.131709929027807
+        },
+        {
+          "offset_mhz": -0.25,
+          "over_median_db": 8.190143643918624
+        },
+        {
+          "offset_mhz": 5.140625,
+          "over_median_db": 7.947485166942386
+        },
+        {
+          "offset_mhz": 4.796875,
+          "over_median_db": 7.039758573228802
+        },
+        {
+          "offset_mhz": 3.828125,
+          "over_median_db": 6.2037270423505575
+        }
+      ]
+    },
+    "fm100g48": {
+      "lo_mhz": 100,
+      "gain": "48",
+      "windows": 60,
+      "strongest_offset_mhz": -6.359375,
+      "strongest_absolute_mhz": 93.640625,
+      "strongest_over_median_db": 22.80698038354108,
+      "top_peaks": [
+        {
+          "offset_mhz": -6.359375,
+          "over_median_db": 22.80698038354108
+        },
+        {
+          "offset_mhz": 4.6875,
+          "over_median_db": 18.812074931556147
+        },
+        {
+          "offset_mhz": -6.0625,
+          "over_median_db": 18.266290425742774
+        },
+        {
+          "offset_mhz": 4.46875,
+          "over_median_db": 16.71148899789234
+        },
+        {
+          "offset_mhz": 0.640625,
+          "over_median_db": 16.49160930829275
+        }
+      ]
+    },
+    "rtl_reference": {
+      "center_mhz": 101.4,
+      "strongest_mhz": 101.0994140625,
+      "strongest_over_median_db": 33.46659294195302,
+      "at_101_1_over_median_db": 32.994883351881036
+    }
+  },
+  "C_verdict": "rejected: no peak at the expected offset at LO 100 or 102 MHz; RTL-SDR confirms the station at 101.10 MHz (+33 dB)",
+  "B_gain72": {
+    "settings": {
+      "frequency": 2401,
+      "bandwidth": 20,
+      "gain": "72"
+    },
+    "windows": 100,
+    "ac_power_mean": 3578.9029150299816,
+    "ac_power_p99": 27594.103447652444,
+    "endpoint_fraction_mean": 0.020277472527472525,
+    "endpoint_fraction_max": 0.2351037851037851,
+    "gated_peak_offset_mhz": 6.859375,
+    "gated_peak_over_floor_db": 10.899356180780785,
+    "gated_width_10db_mhz": 15.953125,
+    "owned_decodes": null
+  },
+  "A_ch37_decoded_location": {
+    "nominal_mhz": 2402,
+    "lo_mhz": 2401,
+    "source_cycles": 54,
+    "controller_counted_events": 13770,
+    "pairs": [
+      {
+        "pair": 1,
+        "owned_on": 4,
+        "owned_off": 0,
+        "median_carrier_mhz": 2403.7329339279263,
+        "offset_from_nominal_khz": 1732.9339279262967
+      },
+      {
+        "pair": 2,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null,
+        "offset_from_nominal_khz": null
+      },
+      {
+        "pair": 3,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null,
+        "offset_from_nominal_khz": null
+      }
+    ],
+    "owned_off_total": 0,
+    "median_carrier_mhz": 2403.7329339279263,
+    "offset_from_nominal_khz": 1732.9339279262967,
+    "carrier_spread_khz": [
+      1656.54253339153,
+      1800.9408151960997
+    ],
+    "confirmed": false
+  },
+  "A_fault": "ch37 capture faulted after 457 windows (short UART payload 30068/32760; retained privately); ch38/ch39 not run",
+  "verdicts": {
+    "task_1_2": "not confirmed (ch37 owned packets only in pair 1 before the fault; ch38/39 not run)",
+    "task_2_1": "all 9 conditions now recorded (sessions 001+002)",
+    "task_2_2": "tested; VHF extended point rejected"
+  }
+}

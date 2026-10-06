@@ -5,9 +5,9 @@
 
 ## 2. Measure receiver limits
 
-- [ ] 2.1 Sweep advertised filters and gain on a fixed input; record spectra, center offset and clipping indicators.
-- [ ] 2.2 Test each proposed extended-tuning point against a known reference signal; reject alias-only or unconfirmed points.
-- [ ] 2.3 Publish plots, source settings and uncertainties, and decide the band/window settings usable for later experiments.
+- [x] 2.1 Sweep advertised filters and gain on a fixed input; record spectra, center offset and clipping indicators. Proof: [session 001](docs/evidence/spectrum-controlled-001/README.md) and [session 002](docs/evidence/spectrum-controlled-002/README.md) — BW 12/20/40/67 with AGC and gain 16–72 on the fixed ch37 source: AC power, ADC-endpoint clipping and gated spectra per condition; centre offset +1.73 MHz from decoded owned packets.
+- [x] 2.2 Test each proposed extended-tuning point against a known reference signal; reject alias-only or unconfirmed points. Proof: [session 002](docs/evidence/spectrum-controlled-002/README.md) — VHF point (LO 100/102 MHz) tested against the RTL-confirmed 101.10 MHz station and rejected; no other extended point claimed.
+- [x] 2.3 Publish plots, source settings and uncertainties, and decide the band/window settings usable for later experiments. Proof: [usable settings](docs/evidence/spectrum-controlled-002/README.md#usable-settings-for-later-experiments-task-23) with the FM comparison plot; channels 38/39 remain unconfirmed.
 
 ## Proof procedure
 
