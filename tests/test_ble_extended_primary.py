@@ -259,3 +259,26 @@ class ExtendedPrimaryTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+class AcceptChselTests(unittest.TestCase):
+    """Observed wire: this host's controller sets header bit5 on ADV_EXT_IND."""
+
+    def decode(self, pdu, **options):
+        return primary.decode_primary(wire(pdu), 37, REFERENCE, **options)
+
+    def test_bit5_rejected_by_default_and_accepted_only_when_requested(self):
+        pdu = bytearray(WITH_AUX); pdu[0] |= 0x20
+        self.assertEqual(self.decode(bytes(pdu))['status'], 'invalid_primary_profile')
+        self.assertEqual(self.decode(bytes(pdu), accept_chsel=True)['status'], 'valid_owned_primary')
+
+    def test_other_reserved_header_bits_still_rejected(self):
+        for bit in (0x10, 0x80):
+            pdu = bytearray(WITH_AUX); pdu[0] |= bit
+            with self.subTest(bit=bit):
+                self.assertFalse(self.decode(bytes(pdu), accept_chsel=True)['status'].startswith('valid'))
+
+    def test_translated_iq_with_bit5_decodes_through_receiver(self):
+        pdu = bytearray(WITH_AUX); pdu[0] |= 0x20
+        frames = primary.decode_primary_iq(modulate(bytes(pdu)), REFERENCE, accept_chsel=True)
+        self.assertTrue(any(f['status'] == 'valid_owned_primary' for f in frames))

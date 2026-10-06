@@ -49,7 +49,7 @@ def load_reference(path):
     return reference
 
 
-def decode_primary(bits, channel, reference):
+def decode_primary(bits, channel, reference, accept_chsel=False):
     address = validate_reference(reference)
     if channel != 37:
         raise ValueError('profile requires primary channel37 whitening')
@@ -68,7 +68,9 @@ def decode_primary(bits, channel, reference):
     packet = legacy.bytes_of(decoded[:end])
     body = packet[2:]
     # RFU bit4/ChSel bit5 are zero. RxAdd is RFU for this undirected profile.
-    if header[0] & 0xb0 or body[0] >> 6 != 0:
+    # accept_chsel: some controllers (observed: this host's Intel adapter) set
+    # header bit5 (the ChSel position) on ADV_EXT_IND; v1 rejects it as RFU.
+    if header[0] & (0x90 if accept_chsel else 0xb0) or body[0] >> 6 != 0:
         return {'status': 'invalid_primary_profile', 'crc24_ok': True}
     extended_length = body[0] & 63
     if extended_length == 0 or length != extended_length+1:
@@ -130,7 +132,7 @@ def decode_primary(bits, channel, reference):
             'ownership_basis': 'private_public_AdvA_plus_CRC_protected_primary_header' if owned else None}
 
 
-def make_receiver(reference):
+def make_receiver(reference, accept_chsel=False):
     validate_reference(reference)
     # The pinned code objects share a private global dictionary; no monkey
     # patch of the imported legacy module, no edit to prior pinned decoder.
@@ -139,16 +141,16 @@ def make_receiver(reference):
         raise ValueError('legacy receiver source does not match pinned revision')
     reference = reference.copy()
     scope = vars(legacy).copy()
-    scope['decode_packet'] = lambda bits, channel, marker_ad=None: decode_primary(bits, channel, reference)
+    scope['decode_packet'] = lambda bits, channel, marker_ad=None: decode_primary(bits, channel, reference, accept_chsel)
     scope['refine_packet'] = FunctionType(legacy.refine_packet.__code__, scope,
                                          'refine_packet', legacy.refine_packet.__defaults__)
     return FunctionType(legacy.decode_iq.__code__, scope, 'decode_iq', legacy.decode_iq.__defaults__)
 
 
-def decode_primary_iq(iq, reference, rate=16000000, frequency_translation_hz=-1000000):
+def decode_primary_iq(iq, reference, rate=16000000, frequency_translation_hz=-1000000, accept_chsel=False):
     if not math.isfinite(frequency_translation_hz) or abs(frequency_translation_hz) >= rate/2:
         raise ValueError('finite frequency translation inside Nyquist interval required')
-    receiver = make_receiver(reference)
+    receiver = make_receiver(reference, accept_chsel)
     frames = receiver(iq, rate, 37, b'', frequency_translation_hz, True)
     down = rate//4000000
     for frame in frames:
@@ -178,6 +180,8 @@ def main(argv=None):
     cli.add_argument('--bits', type=int, choices=[8, 10], default=8)
     cli.add_argument('--samples', type=int, choices=[16380], default=16380)
     cli.add_argument('--frequency-translation-hz', type=float, default=-1000000)
+    cli.add_argument('--accept-chsel', action='store_true',
+                     help='Accept header bit5 (ChSel position) on ADV_EXT_IND; default v1 rejects it as RFU')
     args = cli.parse_args(argv)
     if args.output.exists():
         cli.error('choose a fresh output file')
@@ -192,6 +196,7 @@ def main(argv=None):
               'nominal_rate_hz': args.rate, 'bits_per_component': args.bits,
               'samples_per_capture': args.samples,
               'frequency_translation_hz': args.frequency_translation_hz,
+              'accept_chsel_header_bit': args.accept_chsel,
               'blind_receiver_refinement': legacy.REFINEMENT,
               'private_owned_reference_used': True, 'captures': [],
               'independently_observed_air_emission_count': None,
@@ -199,7 +204,7 @@ def main(argv=None):
     for index, path in enumerate(files):
         payload = path.read_bytes()
         frames = decode_primary_iq(unpack(payload, args.samples, args.bits), reference,
-                                   args.rate, args.frequency_translation_hz)
+                                   args.rate, args.frequency_translation_hz, args.accept_chsel)
         owned = [f for f in frames if f['status'] == 'valid_owned_primary']
         result['captures'].append({'capture_index': index, 'capture_filename': path.name,
                                    'payload_sha256': hashlib.sha256(payload).hexdigest(), 'frames': frames,

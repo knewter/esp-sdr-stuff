@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ESP-SDR Live Console</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%23ffb000%27/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0b0d10;--panel:#12161b;--panel2:#171c22;--line:#232a33;--ink:#e6e9ee;--dim:#8a95a3;
+  --accent:#ffb000;--good:#3ddc97;--bad:#ff5d5d;--blue:#5ab0ff;--violet:#b48cff;
+  --mono:ui-monospace,"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{display:flex;align-items:center;gap:16px;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+header h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.02em}
+header h1 span{color:var(--accent)}
+.pill{font:12px var(--mono);padding:3px 9px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--dim);max-width:520px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill.live{color:var(--good);border-color:#1f5a43}.pill.err{color:var(--bad);border-color:#6a2a2a}
+main{padding:16px 20px;display:grid;gap:18px;max-width:1500px;margin:0 auto}
+section{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sechead{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.sechead h2{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);font-weight:600}
+.sechead h2 b{color:var(--ink)}
+.spacer{flex:1}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.seg button{border:0;border-right:1px solid var(--line);background:transparent;color:var(--dim);padding:6px 11px;font:12px var(--mono);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button.on{background:#2a2410;color:var(--accent)}
+button.act{border:1px solid #5a4510;background:#2a2410;color:var(--accent);border-radius:7px;padding:6px 12px;font:12px var(--mono);cursor:pointer}
+button.act:disabled{opacity:.45;cursor:default}
+input[type=number]{width:84px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:5px 7px;font:13px var(--mono)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px}
+.wfwrap{position:relative;border-right:1px solid var(--line)}
+canvas.wf{display:block;width:100%;height:360px;image-rendering:pixelated;background:#000}
+.axis{position:relative;height:22px;border-top:1px solid var(--line);font:11px var(--mono);color:var(--dim)}
+.axis span{position:absolute;transform:translateX(-50%);top:4px;white-space:nowrap}
+.wfbox{position:relative}.overlay{position:absolute;inset:0;pointer-events:none}
+.mark{position:absolute;top:0;bottom:0;border-left:1px dashed;opacity:.8}
+.mark i{position:absolute;top:4px;left:4px;font:10px var(--mono);font-style:normal;padding:1px 4px;border-radius:3px;background:#000a}
+.band{position:absolute;top:0;height:6px;opacity:.55}
+.side{padding:12px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.label{font:11px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat{background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:7px 9px}
+.stat b{display:block;font:600 19px var(--mono)}
+.stat small{color:var(--dim);font-size:11px}
+canvas.mini{width:100%;height:120px;display:block;background:#000;border:1px solid var(--line);border-radius:6px;image-rendering:pixelated}
+canvas.env{width:100%;height:46px;display:block;background:#000;border:1px solid var(--line);border-radius:6px}
+.log{font:12px var(--mono);max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#0a0c0f}
+.log div{padding:4px 8px;border-bottom:1px solid #161b21;display:flex;gap:8px;align-items:baseline}
+.log .t{color:var(--dim)}
+.chip{padding:0 5px;border-radius:3px;font-size:11px}
+.chip.ok{background:#123826;color:var(--good)}.chip.own{background:#3a2c08;color:var(--accent)}.chip.fail{background:#2a1515;color:#ff8b8b}
+.log .empty,.empty{display:block;color:var(--dim);padding:10px;font-size:12px}
+.rds{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:12px}
+.ps{font:700 34px/1.1 var(--mono);letter-spacing:.12em;color:var(--accent);text-shadow:0 0 18px #ffb00033;min-height:38px}
+.rt{font:13px var(--mono);color:var(--ink);margin-top:8px;min-height:36px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font:12px var(--mono);margin-top:10px}
+.kv dt{color:var(--dim)}.kv dd{margin:0}
+.bler{height:6px;background:#222;border-radius:3px;overflow:hidden;margin-top:6px}.bler i{display:block;height:100%;background:var(--good);width:0}
+.note{font-size:12px;color:var(--dim);padding:10px 14px;border-top:1px solid var(--line)}
+.prog{height:4px;background:#222;border-radius:2px;overflow:hidden;width:140px}.prog i{display:block;height:100%;background:var(--accent);width:0}
+.hidden{display:none!important}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.wfwrap{border-right:0;border-bottom:1px solid var(--line)}canvas.wf{height:260px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>ESP-SDR <span>live console</span></h1>
+  <span class="pill" id="espPill">ESP32 · connecting</span>
+  <span class="pill" id="rtlPill">RTL-SDR · connecting</span>
+  <span class="spacer"></span>
+  <span class="pill" id="linkPill">stream · connecting</span>
+</header>
+<main>
+
+<section id="espSection">
+  <div class="sechead">
+    <h2><b>ESP32</b> · 2.4 GHz</h2>
+    <div class="seg" id="espMode">
+      <button data-mode="spectrum">Wideband FFT · 80 MHz</button>
+      <button data-mode="decode">BLE snapshot decode</button>
+    </div>
+    <div class="seg" id="espCenter">
+      <button data-c="2442">2402–2482</button><button data-c="2437">Wi-Fi 6</button><button data-c="2412">Wi-Fi 1</button><button data-c="2462">Wi-Fi 11</button>
+    </div>
+    <div class="seg hidden" id="espChan">
+      <button data-ch="37">ch37 · 2402</button><button data-ch="38">ch38 · 2426</button><button data-ch="39">ch39 · 2480</button>
+    </div>
+    <span class="spacer"></span>
+    <button class="act" id="srcBtn" title="Owned, controller-counted extended advertising from this PC's Bluetooth adapter">▶ Advertise 10 cycles</button>
+    <div class="prog" title="controller-counted cycles"><i id="srcProg"></i></div>
+    <span class="pill" id="srcPill">source idle</span>
+  </div>
+  <div class="grid">
+    <div class="wfwrap">
+      <div class="wfbox"><canvas class="wf" id="espWf" width="512" height="360"></canvas>
+      <div class="overlay" id="espOverlay"></div></div>
+      <div class="axis" id="espAxis"></div>
+    </div>
+    <div class="side">
+      <div class="stats">
+        <div class="stat"><b id="sSnap">–</b><small>snapshots decoded</small></div>
+        <div class="stat"><b id="sAA">–</b><small>access-address hits</small></div>
+        <div class="stat"><b id="sCRC">–</b><small>CRC-valid packets</small></div>
+        <div class="stat"><b id="sOwn">–</b><small>owned packets</small></div>
+      </div>
+      <div id="snapBlock">
+        <div class="label">Latest 1.02 ms window · time ↓ / frequency →</div>
+        <canvas class="mini" id="espSpec" width="256" height="63"></canvas>
+        <div class="label" style="margin-top:8px">Envelope · burst ratio <span id="burst">–</span></div>
+        <canvas class="env" id="espEnv" width="256" height="46"></canvas>
+      </div>
+      <div>
+        <div class="label">Decoder log</div>
+        <div class="log" id="pktLog"><div class="empty">Switch to <b>BLE snapshot decode</b> to run the bounded LE1M decoder on every window.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="note">Wideband mode streams on-device FFT frames (uncalibrated power codes, gaps between snapshots). Decode mode stacks each window's 63 time slices in the waterfall (black line = gap until the next window). It pulls 16 MS/s, 8-bit IQ windows of 1.02 ms each, at about 2.5 per second, then runs the legacy and extended-primary LE1M decoders. This board's carrier sits about 0.8 MHz above nominal, so ch37 shows near 2402.8 MHz. A packet only counts once its CRC passes. Addresses never leave the server; packets appear as per-run salted hashes.</div>
+</section>
+
+<section id="rtlSection">
+  <div class="sechead">
+    <h2><b>RTL-SDR</b> · FM broadcast</h2>
+    <button class="act" id="down">−0.2</button>
+    <input type="number" id="fmIn" step="0.1" min="87.5" max="108" value="101.1">
+    <button class="act" id="up">+0.2</button>
+    <button class="act" id="tune">Tune</button>
+    <span class="spacer"></span>
+    <button class="act" id="audioBtn">🔈 Audio off</button>
+  </div>
+  <div class="grid">
+    <div class="wfwrap">
+      <div class="wfbox"><canvas class="wf" id="rtlWf" width="1024" height="360"></canvas>
+      <div class="overlay" id="rtlOverlay"></div></div>
+      <div class="axis" id="rtlAxis"></div>
+    </div>
+    <div class="side">
+      <div class="rds">
+        <div class="label">RDS · <span id="rdsStation">–</span> MHz</div>
+        <div class="ps" id="ps">········</div>
+        <div class="rt" id="rt">waiting for radiotext…</div>
+        <dl class="kv">
+          <dt>PI</dt><dd id="pi">–</dd>
+          <dt>Call</dt><dd id="call">–</dd>
+          <dt>PTY</dt><dd id="pty">–</dd>
+          <dt>Groups</dt><dd id="groups">0</dd>
+          <dt>Clock</dt><dd id="clock">–</dd>
+          <dt>BLER</dt><dd id="blerTxt">–</dd>
+        </dl>
+        <div class="bler"><i id="blerBar"></i></div>
+      </div>
+      <div>
+        <div class="label">RDS group types seen</div>
+        <div class="log" id="grpLog" style="max-height:150px"><div class="empty">no groups yet</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="note">The RTL is tuned 300 kHz off the station so its DC spike stays off the carrier. The pipeline runs a channel filter, decimates to 240 kHz, FM-demodulates, and feeds the MPX to <code>redsea</code>, which does RDS sync and checkword decoding. Audio goes through a 15 kHz low-pass, 48 kHz, and 75 µs de-emphasis.</div>
+</section>
+</main>
+
+<script>
+// Inferno-like colour map, 256 entries.
+const LUT=(()=>{const s=[[0,0,4],[40,11,84],[101,21,110],[159,42,99],[212,72,66],[245,125,21],[250,193,39],[252,255,164]];const o=new Uint8ClampedArray(256*3);for(let i=0;i<256;i++){const x=i/255*(s.length-1),k=Math.min(s.length-2,Math.floor(x)),f=x-k;for(let c=0;c<3;c++)o[i*3+c]=s[k][c]+(s[k+1][c]-s[k][c])*f}return o})();
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const $=id=>document.getElementById(id);
+
+function waterfall(canvas){
+  const ctx=canvas.getContext('2d');
+  return {push(row){
+    if(canvas.width!==row.length){canvas.width=row.length;ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height)}
+    ctx.drawImage(canvas,0,0,canvas.width,canvas.height-1,0,1,canvas.width,canvas.height-1);
+    const img=ctx.createImageData(row.length,1);
+    for(let i=0;i<row.length;i++){const v=row[i];img.data[i*4]=LUT[v*3];img.data[i*4+1]=LUT[v*3+1];img.data[i*4+2]=LUT[v*3+2];img.data[i*4+3]=255}
+    ctx.putImageData(img,0,0)}};
+}
+// Auto-ranging for raw ESP power codes so weak signals stay visible.
+function autorange(row,state){
+  let lo=255,hi=0;for(const v of row){if(v<lo)lo=v;if(v>hi)hi=v}
+  state.lo=state.lo==null?lo:state.lo*.97+lo*.03;state.hi=state.hi==null?hi:state.hi*.97+hi*.03;
+  const span=Math.max(8,state.hi-state.lo),out=new Uint8Array(row.length);
+  for(let i=0;i<row.length;i++)out[i]=Math.max(0,Math.min(255,(row[i]-state.lo)/span*255));return out;
+}
+function axis(el,overlay,center,span,marks,bands){
+  el.innerHTML='';overlay.innerHTML='';
+  const lo=center-span/2,step=span>40?10:span>10?2:0.2;
+  for(let f=Math.ceil(lo/step)*step;f<=center+span/2+1e-9;f+=step){
+    const s=document.createElement('span');s.style.left=((f-lo)/span*100)+'%';s.textContent=(+f.toFixed(1))+'';el.appendChild(s)}
+  for(const [f,label,color] of marks){if(f<lo||f>lo+span)continue;
+    const m=document.createElement('div');m.className='mark';m.style.left=((f-lo)/span*100)+'%';m.style.borderColor=color;
+    m.innerHTML=`<i style="color:${color}">${label}</i>`;overlay.appendChild(m)}
+  for(const [a,b,color] of bands||[]){const l=Math.max(a,lo),r=Math.min(b,lo+span);if(r<=l)continue;
+    const d=document.createElement('div');d.className='band';d.style.left=((l-lo)/span*100)+'%';d.style.width=((r-l)/span*100)+'%';d.style.background=color;overlay.appendChild(d)}
+}
+const BLE=[[2402,'BLE 37','#ffb000'],[2426,'BLE 38','#ffb000'],[2480,'BLE 39','#ffb000']];
+const WIFI=[[2401,2423,'#5ab0ff'],[2426,2448,'#5ab0ff'],[2451,2473,'#5ab0ff']];
+const espWf=waterfall($('espWf')),rtlWf=waterfall($('rtlWf'));
+const espRange={},rtlRange={};let espAxisKey='';let rtlAxisKey='';
+
+function post(path,body){return fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})}
+document.querySelectorAll('#espMode button').forEach(b=>b.onclick=()=>post('/esp',{mode:b.dataset.mode}));
+document.querySelectorAll('#espCenter button').forEach(b=>b.onclick=()=>post('/esp',{center_mhz:+b.dataset.c}));
+document.querySelectorAll('#espChan button').forEach(b=>b.onclick=()=>post('/esp',{channel:+b.dataset.ch}));
+const tune=()=>post('/rtl',{station_mhz:+$('fmIn').value});
+$('tune').onclick=tune;$('up').onclick=()=>{$('fmIn').value=(+$('fmIn').value+.2).toFixed(1);tune()};$('down').onclick=()=>{$('fmIn').value=(+$('fmIn').value-.2).toFixed(1);tune()};
+$('fmIn').onkeydown=e=>{if(e.key==='Enter')tune()};
+let srcRunning=false;
+$('srcBtn').onclick=()=>post('/source',srcRunning?{action:'stop'}:{cycles:10});
+
+// Audio: schedule 48 kHz PCM chunks back to back.
+let actx=null,nextT=0,audioOn=false;
+$('audioBtn').onclick=async()=>{audioOn=!audioOn;if(audioOn&&!actx){actx=new AudioContext({sampleRate:48000})}
+  if(actx)audioOn?actx.resume():actx.suspend();$('audioBtn').textContent=audioOn?'🔊 Audio on':'🔈 Audio off';post('/rtl',{audio:audioOn})};
+function playPcm(s){if(!audioOn||!actx)return;const u=b64(s),n=u.length/2,dv=new DataView(u.buffer),buf=actx.createBuffer(1,n,48000),ch=buf.getChannelData(0);
+  for(let i=0;i<n;i++)ch[i]=dv.getInt16(i*2,true)/32768;const src=actx.createBufferSource();src.buffer=buf;src.connect(actx.destination);
+  nextT=Math.max(nextT,actx.currentTime+.12);if(nextT>actx.currentTime+1)nextT=actx.currentTime+.12;src.start(nextT);nextT+=buf.duration}
+
+const PDU={0:'ADV_IND',1:'ADV_DIRECT_IND',2:'ADV_NONCONN_IND',3:'SCAN_REQ',4:'SCAN_RSP',5:'CONNECT_IND',6:'ADV_SCAN_IND',7:'ADV_EXT_IND'};
+const PTY=['None','News','Information','Sports','Talk','Rock','Classic Rock','Adult Hits','Soft Rock','Top 40','Country','Oldies','Soft','Nostalgia','Jazz','Classical','R&B','Soft R&B','Language','Religious Music','Religious Talk','Personality','Public','College','Spanish Talk','Spanish Music','Hip Hop','','','Weather','Emergency Test','Emergency'];
+function logPkt(entries,t){
+  const log=$('pktLog');if(log.querySelector('.empty'))log.innerHTML='';
+  const now=new Date(t*1000).toLocaleTimeString();
+  for(const p of entries){const d=document.createElement('div');
+    const chip=p.owned?'<span class="chip own">OWNED</span>':p.crc_ok?'<span class="chip ok">CRC ✓</span>':`<span class="chip fail">${p.status.replace(/_/g,' ')}</span>`;
+    const name=p.pdu_type!=null?PDU[p.pdu_type]||('type '+p.pdu_type):'AA match';
+    d.innerHTML=`<span class="t">${now}</span>${chip}<span>${name}${p.length?' · '+p.length+' B':''}</span><span class="t">${p.carrier_khz!=null?(p.carrier_khz>0?'+':'')+p.carrier_khz+' kHz':''}${p.aa_errors!=null?' · AA err '+p.aa_errors:''}${p.pdu_hash?' · #'+p.pdu_hash:''}</span>`;
+    log.prepend(d)}
+  while(log.children.length>200)log.lastChild.remove();
+}
+function drawMini(s,rows,bins){const c=$('espSpec');c.width=bins;c.height=rows;const ctx=c.getContext('2d'),img=ctx.createImageData(bins,rows),u=b64(s);
+  for(let i=0;i<u.length;i++){const v=u[i];img.data[i*4]=LUT[v*3];img.data[i*4+1]=LUT[v*3+1];img.data[i*4+2]=LUT[v*3+2];img.data[i*4+3]=255}ctx.putImageData(img,0,0)}
+function drawEnv(e){const c=$('espEnv'),ctx=c.getContext('2d');c.width=e.length;ctx.clearRect(0,0,c.width,c.height);const m=Math.max(...e,1);
+  ctx.strokeStyle='#ffb000';ctx.beginPath();e.forEach((v,i)=>{const y=c.height-2-(v/m)*(c.height-4);i?ctx.lineTo(i,y):ctx.moveTo(i,y)});ctx.stroke()}
+function pill(el,text,cls){el.textContent=text;el.className='pill '+(cls||'')}
+
+const es=new EventSource('/events');
+es.onopen=()=>pill($('linkPill'),'stream · live','live');
+es.onerror=()=>pill($('linkPill'),'stream · reconnecting','err');
+es.onmessage=ev=>{const m=JSON.parse(ev.data);switch(m.kind){
+  case 'features':if(!m.esp)$('espSection').classList.add('hidden');if(!m.rtl)$('rtlSection').classList.add('hidden');if(!m.source){$('srcBtn').disabled=true;$('srcBtn').title='Run inside nix develop to enable the owned source'}break;
+  case 'esp_status':pill($('espPill'),'ESP32 · '+m.text,m.error?'err':'live');break;
+  case 'esp_config':
+    document.querySelectorAll('#espMode button').forEach(b=>b.classList.toggle('on',b.dataset.mode===m.mode));
+    document.querySelectorAll('#espCenter button').forEach(b=>b.classList.toggle('on',+b.dataset.c===m.center_mhz));
+    document.querySelectorAll('#espChan button').forEach(b=>b.classList.toggle('on',+b.dataset.ch===m.channel));
+    $('espCenter').classList.toggle('hidden',m.mode!=='spectrum');$('espChan').classList.toggle('hidden',m.mode!=='decode');
+    $('snapBlock').style.opacity=m.mode==='decode'?1:.35;break;
+  case 'esp_row':{const row=b64(m.row);const key=m.center_mhz+'/'+m.span_mhz;
+    if(key!==espAxisKey){espAxisKey=key;axis($('espAxis'),$('espOverlay'),m.span_mhz>20?m.center_mhz:m.center_mhz,m.span_mhz,BLE,WIFI);for(const k in espRange)delete espRange[k]}
+    espWf.push(m.scale==='code'?autorange(row,espRange):row);break}
+  case 'esp_snapshot':drawMini(m.spectrogram,m.rows,m.bins);drawEnv(m.envelope);$('burst').textContent=m.burst_ratio+'×';
+    $('sSnap').textContent=m.stats.snapshots;$('sAA').textContent=m.stats.aa_candidates;$('sCRC').textContent=m.stats.crc_valid;$('sOwn').textContent=m.stats.owned;
+    break;
+  case 'esp_packets':logPkt(m.packets,m.t);break;
+  case 'esp_rows':{const u=b64(m.rows),key=m.center_mhz+'/'+m.span_mhz;
+    if(key!==espAxisKey){espAxisKey=key;axis($('espAxis'),$('espOverlay'),m.center_mhz,m.span_mhz,BLE,WIFI)}
+    for(let r=0;r<u.length/m.bins;r++)espWf.push(u.subarray(r*m.bins,(r+1)*m.bins));espWf.push(new Uint8Array(m.bins));break}
+  case 'source':srcRunning=m.state!=='idle';$('srcBtn').textContent=srcRunning?'■ Stop source':'▶ Advertise 10 cycles';
+    $('srcProg').style.width=((m.cycle||0)/m.cycles*100)+'%';
+    pill($('srcPill'),m.state==='idle'?`source idle · last run ${m.counted||0} counted events`:`advertising · ${m.counted} controller-counted events`,srcRunning?'live':'');break;
+  case 'rtl_status':pill($('rtlPill'),'RTL · '+m.text,m.error?'err':'live');
+    if(m.station_mhz){$('fmIn').value=m.station_mhz.toFixed(1);const key=m.center_mhz;if(key!==rtlAxisKey){rtlAxisKey=key;axis($('rtlAxis'),$('rtlOverlay'),m.center_mhz,m.span_mhz,[[m.station_mhz,'tuned','#ffb000'],[m.center_mhz,'DC','#555']])}}break;
+  case 'rtl_row':rtlWf.push(autorange(b64(m.row),rtlRange));break;
+  case 'audio':playPcm(m.pcm);break;
+  case 'rds':
+    if(m.reset){$('ps').textContent='········';$('rt').textContent='waiting for radiotext…';['pi','call','pty','clock','blerTxt'].forEach(i=>$(i).textContent='–');$('groups').textContent=0;$('grpLog').innerHTML='<div class="empty">no groups yet</div>';$('rdsStation').textContent=m.station_mhz.toFixed(1);break}
+    if(m.ps||m.partial_ps)$('ps').textContent=m.ps||m.partial_ps;
+    if(m.radiotext||m.partial_radiotext)$('rt').textContent=m.radiotext||m.partial_radiotext;
+    if(m.pi)$('pi').textContent=m.pi;if(m.callsign)$('call').textContent=m.callsign;
+    if(m.prog_type)$('pty').textContent=m.prog_type;if(m.clock_time)$('clock').textContent=m.clock_time;
+    $('groups').textContent=m.groups;
+    if(m.bler!=null){$('blerTxt').textContent=m.bler+'%';$('blerBar').style.width=(100-m.bler)+'%'}
+    if(m.group){const g=$('grpLog');if(g.querySelector('.empty'))g.innerHTML='';let row=g.querySelector(`[data-g="${m.group}"]`);
+      if(!row){row=document.createElement('div');row.dataset.g=m.group;row.dataset.n=0;g.appendChild(row)}
+      row.dataset.n=+row.dataset.n+1;row.innerHTML=`<span class="chip ok">${m.group}</span><span>${row.dataset.n} groups</span>`}
+    break;
+}};
+</script>
+</body>
+</html>

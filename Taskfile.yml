@@ -149,6 +149,10 @@ tasks:
     cmds:
       - python3 tools/demo_esp_sdr.py run {{.CLI_ARGS}}
 
+  live:console:
+    desc: Live localhost ESP32 2.4 GHz waterfall/BLE decode + RTL-SDR FM/RDS console (exclusive operator; ESP must run the receiver image)
+    cmds:
+      - python3 tools/live_console.py {{.CLI_ARGS}}
   demo:esp:restore:
     desc: Restore and independently verify the preserved ESP image
     cmds:

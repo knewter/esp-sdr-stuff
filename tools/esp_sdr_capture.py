@@ -95,16 +95,35 @@ def line(port):
     return raw_line(port).decode('ascii', errors='strict').strip()
 
 
-def write_private(path, data):
-    """Keep a fresh private file; retain any disk-error prefix, never overwrite."""
+def write_private(path, data, fsync=True):
+    """Keep a fresh private file; retain any disk-error prefix, never overwrite.
+
+    fsync=False defers durability to fsync_private() at series end; the
+    exclusive create and read-back comparison still run per file."""
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
     with os.fdopen(fd, 'wb') as stream:
         if stream.write(data) != len(data):
             raise OSError('private write was incomplete')
         stream.flush()
-        os.fsync(stream.fileno())
+        if fsync:
+            os.fsync(stream.fileno())
     if path.read_bytes() != data:
         raise OSError('private saved bytes differ from consumed bytes')
+
+
+def fsync_private(directory):
+    """Flush every deferred private payload and the directory entry itself."""
+    for path in sorted(directory.glob('iq-*.bin')):
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+    fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
 
 
 def attach_capture_failure(error, context, payload=b'', raw_header=b''):
@@ -337,7 +356,7 @@ def numerical_stats(payload, samples, bits):
             'unique_i_codes': int(len(np.unique(iq.real))), 'unique_q_codes': int(len(np.unique(iq.imag)))}
 
 
-def run_snapshots(port, output, private, count, samples, bits_list, rates, config, artifact_revision):
+def run_snapshots(port, output, private, count, samples, bits_list, rates, config, artifact_revision, batch_fsync=False):
     output.mkdir(parents=True, exist_ok=False)
     private.mkdir(parents=True, exist_ok=False, mode=0o700)
     provenance = {'schema': 1, 'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
@@ -352,6 +371,8 @@ def run_snapshots(port, output, private, count, samples, bits_list, rates, confi
     settings(port, **config)
     previous = None
     series_start = time.monotonic_ns()
+    # Absolute host CLOCK_MONOTONIC anchor for same-machine source-log joins.
+    provenance['series_start_monotonic_ns'] = series_start
     rows = []
     terminal_failure = None
     try:
@@ -367,7 +388,7 @@ def run_snapshots(port, output, private, count, samples, bits_list, rates, confi
                         row.update(measured)
                         row['status'] = 'ok' if measured['crc_ok'] and measured['sample_count_ok'] else 'integrity_failure'
                         row['private_payload_sha256'] = hashlib.sha256(payload).hexdigest()
-                        write_private(private / f'iq-{rate}-{bits}-{attempt:04d}.bin', payload)
+                        write_private(private / f'iq-{rate}-{bits}-{attempt:04d}.bin', payload, fsync=not batch_fsync)
                         if row['status'] == 'ok':
                             row.update(numerical_stats(payload, row['returned_samples'], bits))
                         if previous is not None:
@@ -407,6 +428,9 @@ def run_snapshots(port, output, private, count, samples, bits_list, rates, confi
                             print(f'rate={rate} bits={bits} attempt={attempt + 1}/{count} status={row["status"]}', flush=True)
         provenance['completed'] = True
     finally:
+        if batch_fsync:
+            provenance['private_payload_fsync'] = 'deferred_to_series_end'
+            fsync_private(private)
         try:
             publish_snapshots(output, provenance, rows, bits_list, rates, count)
         except Exception as publication:
@@ -448,6 +472,8 @@ def main():
     parser.add_argument('--frequency', type=int, default=2412)
     parser.add_argument('--bandwidth', type=int, default=20)
     parser.add_argument('--gain', default='hardware')
+    parser.add_argument('--batch-fsync', action='store_true',
+                        help='Defer per-payload fsync to one pass at series end (slow disks); read-back checks still run per file')
     parser.add_argument('--firmware-revision', default=SOURCE_REVISION)
     args = parser.parse_args()
     if not 1 <= args.count <= 10000 or not 256 <= args.samples <= 16380:
@@ -463,7 +489,8 @@ def main():
     try:
         synchronize(port)
         ok = run_snapshots(port, args.output, private, args.count, args.samples, args.bits, args.rates,
-                           {'frequency': args.frequency, 'bandwidth': args.bandwidth, 'gain': args.gain}, args.firmware_revision)
+                           {'frequency': args.frequency, 'bandwidth': args.bandwidth, 'gain': args.gain}, args.firmware_revision,
+                           args.batch_fsync)
     except BaseException as error:
         failure = error
         raise
