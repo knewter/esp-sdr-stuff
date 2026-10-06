@@ -8,7 +8,7 @@ A measured go/no-go decision for a useful FPGA transport or processing role, not
 
 The evaluation SHALL inventory the available FPGA and its electrical and host interfaces before selecting a capture transport.
 
-<!-- UNVERIFIED: The proposed experiment has not run on the physical hardware. -->
+*Grounding: [FPGA route decision inventory](docs/evidence/fpga-feasibility-decision/README.md) records the Forgix board, MCU, T8F49 speed grade 2, measured 32 MHz FPGA clock ([clock](docs/evidence/forgix-clock-episode-001/README.md), [register](docs/evidence/forgix-register-episode-001/README.md)), USB full-speed link, RP-side PSRAM, functionally verified SPIBone wiring and documented 3.3 V I/O; voltages are documentary, not metered.*
 
 #### Scenario: Evaluation result is inspected
 - **WHEN** the transport architecture is selected
@@ -18,7 +18,7 @@ The evaluation SHALL inventory the available FPGA and its electrical and host in
 
 The report SHALL distinguish sustained payload, framing overhead, backlog and data loss and make an evidence-based route decision.
 
-<!-- UNVERIFIED: The proposed experiment has not run on the physical hardware. -->
+*Grounding: [synthetic transport episodes](docs/evidence/forgix-synthetic-episode-001/README.md) report frames, records, CRC/sequence validation, FPGA FIFO drops, RP queue backlog and reconciliation at three offered rates (lossless at 256 and 1,024 B/s; 153/7,680 FIFO drops at 2,048 B/s during host stalls), and the [route decision](docs/evidence/fpga-feasibility-decision/README.md) keeps the Forgix off the ESP sample path on that measured basis.*
 
 #### Scenario: Evaluation result is inspected
 - **WHEN** a faster or continuous path is claimed

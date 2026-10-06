@@ -1,13 +1,13 @@
 ## 1. Select a compatible architecture
 
-- [ ] 1.1 Record actual FPGA boards, memories, host links, logic voltages and clock options; verify against their primary manuals. Inventory Forgix revision/USB 1.1/SPI wiring separately from the PCIe candidate identification and bring-up status.
+- [x] 1.1 Record actual FPGA boards, memories, host links, logic voltages and clock options; verify against their primary manuals. Inventory Forgix revision/USB 1.1/SPI wiring separately from the PCIe candidate identification and bring-up status. Proof: [decision inventory](docs/evidence/fpga-feasibility-decision/README.md) — RP2354 A4, T8F49 speed grade 2 (Efinix), measured 32 MHz oscillator, USB full speed, RP-side PSRAM, verified SPIBone wiring, documentary 3.3 V I/O; PCIe candidate unbound and separate.
 - [x] 1.2 Read the original chip capture/peripheral paths and identify a bounded route; produce throughput and buffer budgets for raw, decimated and spectrum output.
 
 ## 2. Benchmark before RF integration
 
 - [x] 2.1 Run a synthetic sequence through the selected host transport at several rates; retain counters, CRC, sustained throughput, stall/backlog and signal-timing evidence. Proof: [synthetic episodes 001–004, independently accepted](docs/evidence/forgix-synthetic-episode-001/README.md) — lossless 960/960 at 256 B/s and 3,840/3,840 at 1,024 B/s; at 2,048 B/s 153/7,680 FPGA FIFO drops during host USB stalls, zero RP-to-host loss; failed episode 001 (host admission throttling) retained.
-- [ ] 2.2 If synthetic capacity and SRAM access pass, try a bounded RF integration and measure continuity; otherwise record the failing limit.
-- [ ] 2.3 Publish a decision: original-chip improvement, separate S3 front end, or no useful FPGA route, with evidence supporting the choice.
+- [x] 2.2 If synthetic capacity and SRAM access pass, try a bounded RF integration and measure continuity; otherwise record the failing limit. Proof: [failing limit recorded](docs/evidence/fpga-feasibility-decision/README.md#rf-integration-task-22-failing-limit-recorded) — no ESP–Forgix wiring, and measured KB/s capacity is 3–5 orders below the 32–200 MB/s sample streams.
+- [x] 2.3 Publish a decision: original-chip improvement, separate S3 front end, or no useful FPGA route, with evidence supporting the choice. Proof: [route decision](docs/evidence/fpga-feasibility-decision/README.md) — no useful Forgix route on the ESP sample path; original-chip improvement next, S3 front end for continuous wideband.
 
 ## Proof procedure
 
