@@ -1,3 +1,9 @@
+> **Superseded history (2026-10-06):** the timed-v2, source004 cost-attribution,
+> provider-provisioning and whole-chain ownership sections below are retained as
+> the record of a dropped approach. The change closed on the
+> [counted-source hit-rate runs](docs/evidence/ble-receiver-hitrate-002/README.md);
+> see the Scope revision in the proposal.
+
 ## Context
 
 See [proposal](proposal.md) for the problem and scope. The hardware identity is recorded separately from untested reception and transport behavior.

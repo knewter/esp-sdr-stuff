@@ -2,6 +2,16 @@
 
 Seeing activity is useful but does not establish packet decoding or reliable event detection. We need an honest application shortlist based on finite capture windows.
 
+## Scope revision (2026-10-06)
+
+The decision gate is met by the [pre-declared counted-source run 002](docs/evidence/ble-receiver-hitrate-002/README.md):
+ground-truth counts, hits, truncations, misses and uncertainty against
+48,450 controller-counted events. Decoding with verified payloads was already
+accepted. The later timed-v2 primary-source, source004 cost-attribution and
+whole-chain ownership sections below are superseded history: their tasks are
+listed under "Dropped scope" in tasks.md, and their two prospective
+requirements were removed from this change's spec.
+
 ## What Changes
 
 - Evaluate channel occupancy and repeated-burst detection on an owned controlled source.
