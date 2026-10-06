@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "protocol": "docs/research/spectrum-controlled-005-protocol.md (59c6122, endpoint wording d65ca47)",
+  "receiver": "Cheap Yellow Display, ESP32-D0WD-V3 rev v3.1, 550fade-uart921600, CH340 at 921600",
+  "captures": {
+    "a-ch37-p1": {
+      "ok": 384,
+      "recovered_faults": 6
+    },
+    "a-ch37-p2": {
+      "ok": 380,
+      "recovered_faults": 10
+    },
+    "a-ch37-p3": {
+      "ok": 381,
+      "recovered_faults": 9
+    },
+    "a-ch38-p1": {
+      "ok": 384,
+      "recovered_faults": 6
+    },
+    "a-ch38-p2": {
+      "ok": 381,
+      "recovered_faults": 9
+    },
+    "a-ch38-p3": {
+      "ok": 382,
+      "recovered_faults": 8
+    },
+    "s-ch39-lo2471": {
+      "ok": 198,
+      "recovered_faults": 2
+    },
+    "s-ch39-lo2479": {
+      "ok": 194,
+      "recovered_faults": 6
+    },
+    "s-ch39-lo2487": {
+      "ok": 198,
+      "recovered_faults": 2
+    }
+  },
+  "ch39_search": {
+    "channel": 39,
+    "search_grid_khz": [
+      -7400,
+      -6600,
+      -5800,
+      -5000,
+      -4200,
+      -3400,
+      -2600,
+      -1800,
+      -1000,
+      -200,
+      600,
+      1400,
+      2200,
+      3000,
+      3800,
+      4600,
+      5400,
+      6200,
+      7000
+    ],
+    "captures": [
+      {
+        "lo_mhz": 2471,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2479,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2487,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      }
+    ],
+    "selected": null
+  },
+  "channels": {
+    "ch37": {
+      "lo_mhz": 2401,
+      "grid_khz": [
+        -200,
+        -600,
+        -1000,
+        -1400,
+        -1800,
+        -2200,
+        -2600,
+        -3000,
+        -3400,
+        -3800,
+        -4200
+      ],
+      "pairs": {
+        "p1": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": 2404.322230014458,
+          "offset_from_nominal_khz": 2322.2300144580004,
+          "carrier_spread_khz": [
+            2307.841771747462,
+            2331.0098361230303
+          ],
+          "owned_on": 7
+        },
+        "p2": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": 2404.2878605810233,
+          "offset_from_nominal_khz": 2287.860581023324,
+          "carrier_spread_khz": [
+            2283.1073259840196,
+            2304.053462666161
+          ],
+          "owned_on": 5
+        },
+        "p3": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": 2404.255296043586,
+          "offset_from_nominal_khz": 2255.296043585986,
+          "carrier_spread_khz": [
+            2244.967355435165,
+            2273.0665048666197
+          ],
+          "owned_on": 8
+        }
+      },
+      "confirmed": true
+    },
+    "ch38": {
+      "lo_mhz": 2425,
+      "grid_khz": [
+        3400,
+        3800,
+        4200,
+        4600,
+        5000,
+        5400,
+        5800,
+        6200,
+        6600,
+        7000,
+        7400
+      ],
+      "pairs": {
+        "p1": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": 2419.0919605844983,
+          "offset_from_nominal_khz": -6908.039415501662,
+          "carrier_spread_khz": [
+            -6920.307678845802,
+            -6901.908212330909
+          ],
+          "owned_on": 6
+        },
+        "p2": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": 2419.0925648480447,
+          "offset_from_nominal_khz": -6907.435151955269,
+          "carrier_spread_khz": [
+            -6918.920241384058,
+            -6885.702795305406
+          ],
+          "owned_on": 11
+        },
+        "p3": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": 2419.120535542689,
+          "offset_from_nominal_khz": -6879.46445731086,
+          "carrier_spread_khz": [
+            -6891.0973748797915,
+            -6875.739612657526
+          ],
+          "owned_on": 8
+        }
+      },
+      "confirmed": true
+    }
+  },
+  "task_1_2_satisfied": false,
+  "verdict": "ch37 confirmed (7/5/8 owned ON, 0 OFF, +2.26 to +2.32 MHz); ch38 confirmed (6/11/8 owned ON, 0 OFF, -6.88 to -6.91 MHz); ch39 search found no owned packets at LO 2471/2479/2487, so its pairs were not run; task 1.2 not satisfied"
+}
