@@ -47,7 +47,12 @@ effects under its original clock. It SHALL retain exact owner-bound shared refus
 or its already-held operator FD when uncertain closure or terminal storage failure
 prevents a trustworthy handoff. A failed correction SHALL NOT qualify older saved
 normal facts. Cancellation SHALL remain latched through the last required effect;
-u*Grounding: clock episode 005 finished normally (CLI exit 0, original flash/factory verified, owned markers cleared) and passed independent result review; failed episodes 001–004 left the shared pending blocker, which refused later Forgix access and recovery until resolved ([clock episodes](docs/evidence/forgix-clock-episode-001/README.md)). Uncertain-closure and terminal-storage quarantine of the held operator FD are proven by the offline clock tests only, not by a physical fault.*emporary-file/flock counterexamples are retained; corrected software, actual host exit/ownership controls, fresh runtime and current documentary candidate now pass the review recorded in docs/evidence/forgix-clock-current-documentary-review/README.md. This supplies no registry entry or physical admission. -->
+uncertain FD closure SHALL NOT permit acting on a potentially reused descriptor.
+The final original operator FD SHALL remain held through fallible terminal
+effects and be released by final kernel process teardown; independent actual
+process-exit and ownership evidence SHALL complete the staged release proof.
+
+*Grounding: clock episode 005 finished normally (CLI exit 0, original flash/factory verified, owned markers cleared) and passed independent result review; failed episodes 001–004 left the shared pending blocker, which refused later Forgix access and recovery until resolved ([clock episodes](docs/evidence/forgix-clock-episode-001/README.md)). Uncertain-closure and terminal-storage quarantine of the held operator FD are proven by the offline clock tests only, not by a physical fault.*
 
 #### Scenario: Shared refusal cannot be persisted
 - **WHEN** closure is uncertain or terminal marker cleanup fails and both marker creation and exact owned-lease fallback fail
