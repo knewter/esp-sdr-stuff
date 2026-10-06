@@ -1,0 +1,282 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "protocol": "docs/research/spectrum-controlled-001-protocol.md (commits 1ebd0d4, 8b2fb79, 47b2307)",
+  "preservation_and_restoration": {
+    "pre_read_equals_baseline": true,
+    "post_restore_read_equals_baseline": true
+  },
+  "A_source_on_off_pairs": {
+    "ch37": {
+      "source_cycles": 30,
+      "controller_counted_events": 7650,
+      "merged_on_spans": 3,
+      "expected_offset_mhz": 1.8,
+      "pairs": [
+        {
+          "pair": 1,
+          "on_windows": 171,
+          "off_windows": 97,
+          "excess_peak_offset_mhz": -6.578125,
+          "excess_peak_db": 13.693849403203277,
+          "background_off_power_db": 88.79628722830553,
+          "owned_decodes_on": 0,
+          "owned_decodes_off": 0,
+          "confirmed": false
+        },
+        {
+          "pair": 2,
+          "on_windows": 169,
+          "off_windows": 134,
+          "excess_peak_offset_mhz": 2.03125,
+          "excess_peak_db": 11.616567549878827,
+          "background_off_power_db": 87.8558296065602,
+          "owned_decodes_on": 0,
+          "owned_decodes_off": 0,
+          "confirmed": true
+        },
+        {
+          "pair": 3,
+          "on_windows": 153,
+          "off_windows": 132,
+          "excess_peak_offset_mhz": 6.921875,
+          "excess_peak_db": 11.523213188548997,
+          "background_off_power_db": 88.04521736329534,
+          "owned_decodes_on": 0,
+          "owned_decodes_off": 0,
+          "confirmed": false
+        }
+      ],
+      "channel_confirmed": false
+    },
+    "ch38": {
+      "source_cycles": 30,
+      "controller_counted_events": 7650,
+      "merged_on_spans": 3,
+      "expected_offset_mhz": 1.8,
+      "pairs": [
+        {
+          "pair": 1,
+          "on_windows": 167,
+          "off_windows": 87,
+          "excess_peak_offset_mhz": -4.75,
+          "excess_peak_db": 12.008943288403938,
+          "background_off_power_db": 87.71219822504762,
+          "owned_decodes_on": 0,
+          "owned_decodes_off": 0,
+          "confirmed": false
+        },
+        {
+          "pair": 2,
+          "on_windows": 172,
+          "off_windows": 139,
+          "excess_peak_offset_mhz": -2.8125,
+          "excess_peak_db": 12.630147234416992,
+          "background_off_power_db": 87.78426836400959,
+          "owned_decodes_on": 0,
+          "owned_decodes_off": 0,
+          "confirmed": false
+        },
+        {
+          "pair": 3,
+          "on_windows": 167,
+          "off_windows": 125,
+          "excess_peak_offset_mhz": -5.859375,
+          "excess_peak_db": 12.082975683032357,
+          "background_off_power_db": 88.19698432288284,
+          "owned_decodes_on": 0,
+          "owned_decodes_off": 0,
+          "confirmed": false
+        }
+      ],
+      "channel_confirmed": false
+    },
+    "ch39": {
+      "source_cycles": 30,
+      "controller_counted_events": 7650,
+      "merged_on_spans": 3,
+      "expected_offset_mhz": 1.8,
+      "pairs": [
+        {
+          "pair": 1,
+          "on_windows": 171,
+          "off_windows": 113,
+          "excess_peak_offset_mhz": -7.921875,
+          "excess_peak_db": 8.42863922360429,
+          "background_off_power_db": 88.37871871477037,
+          "owned_decodes_on": 0,
+          "owned_decodes_off": 0,
+          "confirmed": false
+        },
+        {
+          "pair": 2,
+          "on_windows": 171,
+          "off_windows": 126,
+          "excess_peak_offset_mhz": -0.703125,
+          "excess_peak_db": 7.711849689076554,
+          "background_off_power_db": 87.47194495401186,
+          "owned_decodes_on": 0,
+          "owned_decodes_off": 0,
+          "confirmed": false
+        },
+        {
+          "pair": 3,
+          "on_windows": 151,
+          "off_windows": 125,
+          "excess_peak_offset_mhz": -6.078125,
+          "excess_peak_db": 8.191374532542632,
+          "background_off_power_db": 87.81069996392866,
+          "owned_decodes_on": 0,
+          "owned_decodes_off": 0,
+          "confirmed": false
+        }
+      ],
+      "channel_confirmed": false
+    }
+  },
+  "B_filter_gain_sweep": {
+    "bw12": {
+      "settings": {
+        "frequency": 2401,
+        "bandwidth": 12,
+        "gain": "hardware"
+      },
+      "windows": 100,
+      "ac_power_mean": 467.78902783927515,
+      "ac_power_p99": 2187.506359286059,
+      "endpoint_fraction_mean": 0.0005973748473748473,
+      "endpoint_fraction_max": 0.007997557997557997,
+      "gated_peak_offset_mhz": 4.4375,
+      "gated_peak_over_floor_db": 13.05715416589699,
+      "gated_width_10db_mhz": 11.4375,
+      "owned_decodes": 1
+    },
+    "bw20": {
+      "settings": {
+        "frequency": 2401,
+        "bandwidth": 20,
+        "gain": "hardware"
+      },
+      "windows": 100,
+      "ac_power_mean": 703.1767941288329,
+      "ac_power_p99": 2056.028295106343,
+      "endpoint_fraction_mean": 0.0010564713064713067,
+      "endpoint_fraction_max": 0.013431013431013432,
+      "gated_peak_offset_mhz": 5.375,
+      "gated_peak_over_floor_db": 15.045324222780451,
+      "gated_width_10db_mhz": 14.171875,
+      "owned_decodes": 1
+    },
+    "bw40": {
+      "settings": {
+        "frequency": 2401,
+        "bandwidth": 40,
+        "gain": "hardware"
+      },
+      "windows": 100,
+      "ac_power_mean": 1383.8287725491268,
+      "ac_power_p99": 4725.356414405756,
+      "endpoint_fraction_mean": 0.004308913308913309,
+      "endpoint_fraction_max": 0.07918192918192918,
+      "gated_peak_offset_mhz": -6.5625,
+      "gated_peak_over_floor_db": 18.08675913851863,
+      "gated_width_10db_mhz": 14.375,
+      "owned_decodes": 2
+    },
+    "bw67": {
+      "settings": {
+        "frequency": 2401,
+        "bandwidth": 67,
+        "gain": "hardware"
+      },
+      "windows": 100,
+      "ac_power_mean": 1310.671823187469,
+      "ac_power_p99": 3547.3304615108113,
+      "endpoint_fraction_mean": 0.002843711843711843,
+      "endpoint_fraction_max": 0.019993894993894992,
+      "gated_peak_offset_mhz": 5.40625,
+      "gated_peak_over_floor_db": 14.5682606671566,
+      "gated_width_10db_mhz": 15.265625,
+      "owned_decodes": 1
+    },
+    "g16": {
+      "settings": {
+        "frequency": 2401,
+        "bandwidth": 20,
+        "gain": "16"
+      },
+      "windows": 100,
+      "ac_power_mean": 5.76243731988741,
+      "ac_power_p99": 62.72548522942602,
+      "endpoint_fraction_mean": 0.0,
+      "endpoint_fraction_max": 0.0,
+      "gated_peak_offset_mhz": -0.125,
+      "gated_peak_over_floor_db": 11.412689822365394,
+      "gated_width_10db_mhz": 16.0,
+      "owned_decodes": 0
+    },
+    "g32": {
+      "settings": {
+        "frequency": 2401,
+        "bandwidth": 20,
+        "gain": "32"
+      },
+      "windows": 100,
+      "ac_power_mean": 152.70443532126194,
+      "ac_power_p99": 1100.7914404960193,
+      "endpoint_fraction_mean": 0.00010897435897435896,
+      "endpoint_fraction_max": 0.0037545787545787547,
+      "gated_peak_offset_mhz": -6.5625,
+      "gated_peak_over_floor_db": 9.967863352780206,
+      "gated_width_10db_mhz": 15.96875,
+      "owned_decodes": 0
+    },
+    "g48": {
+      "settings": {
+        "frequency": 2401,
+        "bandwidth": 20,
+        "gain": "48"
+      },
+      "windows": 100,
+      "ac_power_mean": 2882.06454592284,
+      "ac_power_p99": 22306.841178426,
+      "endpoint_fraction_mean": 0.015634615384615382,
+      "endpoint_fraction_max": 0.14114774114774115,
+      "gated_peak_offset_mhz": 1.34375,
+      "gated_peak_over_floor_db": 13.828530124232415,
+      "gated_width_10db_mhz": 14.875,
+      "owned_decodes": 0
+    },
+    "g64": {
+      "settings": {
+        "frequency": 2401,
+        "bandwidth": 20,
+        "gain": "64"
+      },
+      "windows": 41,
+      "ac_power_mean": 2943.0131204526306,
+      "ac_power_p99": 24773.720673817497,
+      "endpoint_fraction_mean": 0.021986956133297594,
+      "endpoint_fraction_max": 0.2007020757020757,
+      "gated_peak_offset_mhz": 5.34375,
+      "gated_peak_over_floor_db": 15.209517625387022,
+      "gated_width_10db_mhz": 11.65625,
+      "owned_decodes": 1
+    }
+  },
+  "B_missing": {
+    "g64": "capture fault after 41 windows (short UART payload 32245/32760; retained privately); analysed with 41 windows",
+    "g72": "not run (stop condition)"
+  },
+  "C_extended_tuning": "not run: stop condition after the B g64 capture fault",
+  "verdicts": {
+    "task_1_2": "not confirmed (1 of 9 pairs within 2 MHz of expected +1.8 MHz)",
+    "task_2_1": "partial (7 of 9 conditions; clipping indicators recorded; centre offset not determinable by the gated statistic)",
+    "task_2_2": "not run"
+  },
+  "limits": [
+    "Burst-gated ON-minus-OFF excess is dominated by ambient 2.4 GHz bursts at the owned source duty (~1%); it does not isolate the source.",
+    "Zero owned decodes in part A (about 6 expected on ch37 from part B rates) is unexplained.",
+    "Levels are uncalibrated ADC codes."
+  ]
+}
