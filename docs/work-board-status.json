@@ -60,9 +60,9 @@
       "lane": "in-progress",
       "source": "in-progress",
       "physical": "pending",
-      "next": "Correct the missing cost record and verify the fix, then resolve source startup timing and containment before a separately qualified radio episode.",
-      "rationale": "ESP capture, decoding examples and original-firmware restoration are accepted. Fresh read-only verification ended successfully in 68.287 seconds under its 165-second limit, with full current content verification, but exceeds the source startup allowance of 13 seconds. Independent review found five completed operations missing from the saved cost records; instrumentation tasks 5.2/5.3 are reopened and whole-cost tasks 5.4/5.5 remain unaccepted. Dependencies and whole current source readiness pass separately. Narrow exec controls and kernel-source preparation advance containment, while generic failure handling, running-kernel provenance and native/resource qualification remain open. Original failures and unknown closures stay retained. The earlier 365-waveform null has only 11 guarded ON captures and supplies no air denominator or reception rate. No producer or new RF episode started.",
-      "reviewRevision": "c740d46dd690fc3431382de2fe3ed4693041d8e9",
+      "next": "Record three source-on/source-off pairs on BLE channels 37/38/39 with the counted owned source and the ESP wideband FFT, then sweep filter and gain on that fixed source.",
+      "rationale": "The owned counted BLE source and a live ESP wideband FFT view now work on this host; the board's ~0.8 MHz carrier offset is measured. Source-on/off pairs, filter/gain sweeps and extended-tuning checks have not run yet. No calibrated RF reference is available, so results stay relative.",
+      "reviewRevision": "8b2ed9c",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -145,10 +145,10 @@
     "the-receiver-can-observe-and-decode-short-bursts": {
       "lane": "in-progress",
       "source": "in-progress",
-      "physical": "pending",
-      "next": "Correct the missing cost record and verify the fix, then resolve source startup timing and containment before a separately qualified radio episode.",
-      "rationale": "ESP capture, decoding examples and original-firmware restoration are accepted. Fresh read-only verification ended successfully in 68.287 seconds under its 165-second limit, with full current content verification, but exceeds the source startup allowance of 13 seconds. Independent review found five completed operations missing from the saved cost records; instrumentation tasks 5.2/5.3 are reopened and whole-cost tasks 5.4/5.5 remain unaccepted. Dependencies and whole current source readiness pass separately. Narrow exec controls and kernel-source preparation advance containment, while generic failure handling, running-kernel provenance and native/resource qualification remain open. Original failures and unknown closures stay retained. The earlier 365-waveform null has only 11 guarded ON captures and supplies no air denominator or reception rate. No producer or new RF episode started.",
-      "reviewRevision": "c740d46dd690fc3431382de2fe3ed4693041d8e9",
+      "physical": "verified",
+      "next": "Re-scope the remaining tasks: the parked timed-source, cost-attribution and ownership-architecture work (4.3-4.6, 5.2-5.5, 6.1-6.3) is not on the current path.",
+      "rationale": "Counted-event ground truth is now measured: in a pre-declared run, 42 complete owned packets in 3,188 ON windows and 0 in 111 OFF windows against 48,450 controller-counted events (efficiency 0.39, 95% CI 0.28-0.52), after correcting the board's ~0.8 MHz carrier offset and a controller header bit. Decoding with verified payloads was already accepted. Misses are dominated by acquisition duty (about 0.3% of events overlap a window). The ESP was restored and verified.",
+      "reviewRevision": "8b2ed9c",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"
@@ -227,7 +227,9 @@
         "docs/evidence/source004-actual-readonly-cost-004/README.md",
         "docs/evidence/source004-actual-readonly-cost-004/checks.json",
         "docs/evidence/receiver-nonleader-exec-prerequisite-002/README.md",
-        "docs/evidence/receiver-kernel-gnu-source-preparation-003/README.md"
+        "docs/evidence/receiver-kernel-gnu-source-preparation-003/README.md",
+        "docs/evidence/ble-receiver-hitrate-001/README.md",
+        "docs/evidence/ble-receiver-hitrate-002/README.md"
       ],
       "cover": {
         "path": "docs/evidence/ble-primary-zero-data-receiver-001-review/capture-opportunity.svg",
@@ -236,11 +238,11 @@
       }
     },
     "the-fpga-route-has-a-measured-feasibility-decision": {
-      "lane": "in-progress",
-      "source": "in-progress",
-      "physical": "pending",
-      "next": "Reconnect and identity-select the preserved Forgix, verify full preservation and current operator admission, then perform one bounded clock diagnostic. Register and several-rate transport qualification follow separately.",
-      "rationale": "Clock software tasks 5.1–5.3 pass after corrected finalization, fresh root runtime and independent current loading/recovery review. The whole execution binding and distinct private candidate are accepted for software preparation; registries and physical admission remain empty. The October 5, 16:35:24 UTC survey finds ESP and RTL-SDR but no matching Forgix. Prior MCU USB passes at 64 KiB/s and loses 431 records at requested 256 KiB/s; these results do not establish FPGA transport capacity. Actual clock intervals, electrical/SPI timing, register readback and several-rate FPGA transport measurements remain open. No new board loading, FPGA programming or RF integration ran.",
+      "lane": "archived",
+      "source": "archived",
+      "physical": "verified",
+      "next": "Closed decision record: the Forgix stays off the ESP sample path; improve the original chip next, or use an S3 + FPGA front end for continuous wideband.",
+      "rationale": "All 15 tasks complete with physical proof on the user's Forgix: FPGA clock measured at 32 MHz two ways (clock observer 31.92-32.13 MHz; register counter 31.99982 MHz), lossless synthetic FPGA-to-PC transport at 256 and 1,024 B/s with 153/7,680 FIFO drops at 2,048 B/s during host stalls, and a 13-command register session with scratch restore. Every episode returned to factory with original flash verified and no flash writes; failed episodes are retained. Decision: no useful Forgix route for ESP samples (no wiring; KB/s capacity versus 32-200 MB/s).",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots"
       ],
@@ -296,9 +298,13 @@
         "docs/evidence/forgix-clock-finalization-followup/README.md",
         "docs/evidence/forgix-clock-current-documentary-review/README.md",
         "docs/evidence/forgix-clock-current-documentary-review/checks.json",
-        "docs/evidence/hardware-presence-2026-10-05-1635/README.md"
+        "docs/evidence/hardware-presence-2026-10-05-1635/README.md",
+        "docs/evidence/forgix-clock-episode-001/README.md",
+        "docs/evidence/forgix-synthetic-episode-001/README.md",
+        "docs/evidence/forgix-register-episode-001/README.md",
+        "docs/evidence/fpga-feasibility-decision/README.md"
       ],
-      "reviewRevision": "c740d46dd690fc3431382de2fe3ed4693041d8e9"
+      "reviewRevision": "8b2ed9c"
     },
     "the-two-receivers-have-a-measured-division-of-labor": {
       "lane": "archived",
