@@ -70,8 +70,9 @@ legacy packets (0 at −1 MHz).
 The denominator is controller-completed events, not independently observed
 air emissions. The expected count assumes uniform event phase relative to the
 windows. Power is uncalibrated, and there is one placement and one controller.
-The receiver image was left installed for the [live console](../../../tools/live_console.py)
-session, so **restoration of the original image is still pending**.
+The receiver image stayed installed for the [live console](../../../tools/live_console.py)
+session. The original image was restored and verified after [run 002](../ble-receiver-hitrate-002/README.md),
+which confirmed these corrections under a pre-declared protocol.
 
 Machine-readable summary: [results.json](results.json). Raw IQ, the private
 AdvA reference, full source logs and the flash read stay under ignored `.scratch/`.

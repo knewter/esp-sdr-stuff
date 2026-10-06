@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-05",
+  "protocol": "docs/research/ble-receiver-hitrate-002-protocol.md",
+  "protocol_commit": "2f91853",
+  "receiver": {
+    "lo_mhz": 2401,
+    "rate_hz": 16000000,
+    "bits": 8,
+    "bandwidth_mhz": 12,
+    "gain": "hardware",
+    "batch_fsync": true,
+    "attempts": 3300,
+    "ok": 3300,
+    "mean_capture_interval_ms": 366.2371275347075,
+    "faults": 0
+  },
+  "decoder": {
+    "tool": "tools/ble_extended_primary.py",
+    "frequency_translation_hz": -1800000,
+    "accept_chsel": true,
+    "status_counts": {
+      "unsupported_or_invalid_header": 21,
+      "valid_owned_primary": 44,
+      "crc_failed": 44,
+      "truncated_packet": 18
+    }
+  },
+  "report": {
+    "schema": 1,
+    "guard_ms": 100,
+    "source_cycles": 190,
+    "source_cycles_counted": 190,
+    "controller_counted_events": 48450,
+    "source_enabled_seconds": 1193.126489324,
+    "captures_total": 3300,
+    "captures_ok": 3300,
+    "captures_on": 3188,
+    "captures_off": 111,
+    "captures_boundary_or_failed": 1,
+    "mean_event_interval_ms_from_host_brackets": 24.722886227186073,
+    "on_owned_primary_frames": 44,
+    "on_owned_complete_frames": 42,
+    "on_captures_with_owned": 44,
+    "on_other_valid_primary_frames": 0,
+    "off_owned_primary_frames": 0,
+    "off_owned_complete_frames": 0,
+    "off_captures_with_owned": 0,
+    "off_other_valid_primary_frames": 0,
+    "owned_packet_duration_us": 184,
+    "nominal_rf_window_us": 1023.7499999999999,
+    "expected_overlapping_owned_events": 155.73857213184436,
+    "expected_truncated_owned_events": 47.453359175755516,
+    "owned_truncated_frames_observed": 2,
+    "events_missed_no_window_overlap": 48294.26142786816,
+    "expected_complete_not_decoded": 66.28521295608883,
+    "expected_complete_owned_in_on_windows": 108.28521295608883,
+    "detection_efficiency": 0.38786459252780514,
+    "detection_efficiency_95ci": [
+      0.27950750385311646,
+      0.5242961751035199
+    ],
+    "hits_per_controller_counted_event": 0.0008668730650154799,
+    "limitations": "Controller-counted events, not independently observed air emissions. Host command/header brackets bound but do not timestamp each RF window. Nominal ADC rate. Expected count assumes uniform event phase relative to snapshots and the mean host-bracketed spacing."
+  },
+  "gates": {
+    "complete_owned_on_at_least_10": true,
+    "owned_off_zero": true,
+    "efficiency_interval_overlaps_run001": true,
+    "outcome": "confirmed"
+  },
+  "pooled_runs_001_002": {
+    "complete_owned_on": 72,
+    "expected_complete": 153.4413860709984,
+    "efficiency": 0.4692345516657748
+  },
+  "restoration": {
+    "readback_sha256_equals_baseline": true,
+    "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+    "reset_boot_shows_hello_world": true,
+    "reset_boot_cpu_160mhz": true,
+    "power_cycle_proven": false
+  },
+  "tool_sha256": {
+    "tools/ble_repeat_counted_source.py": "ecbc38174117c619c51c01923c1cfe0df306846ee1da4d8d56e4d11fc14e95a7",
+    "tools/ble_repeat_source_container.py": "d8c4383efb177dae985b01e1ccbe39f53d31de7c6ac4a504d06e7eb1e2d628a5",
+    "tools/ble_hitrate_report.py": "85327a9602b2df340f4b610b087c73242960923fe09b18589f6d73bcee5a2ead",
+    "tools/ble_extended_primary.py": "d33de7e9619184c5cafd2206b6ff2a8f3505cffb22efc22af2430298bc03c30a",
+    "tools/esp_sdr_capture.py": "f62b3ed4069d23bb53affdbd9c1b61dd64fdd8b8cc481988e94378ba796429a7"
+  }
+}

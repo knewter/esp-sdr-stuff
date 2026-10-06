@@ -8,7 +8,7 @@
     "bytes": 4194304
   },
   "installed_image": "550fade-uart921600 (esptool hash-verified write)",
-  "restoration": "PENDING: receiver image left installed for the live console session; restore with tools/flash_trial.py restore and verify by full readback",
+  "restoration": "Restored after run 002; see docs/evidence/ble-receiver-hitrate-002/results.json",
   "receiver": {
     "lo_mhz": 2401,
     "rate_hz": 16000000,

@@ -8,7 +8,7 @@ Decide which interference, educational DSP and short-burst applications are usef
 
 The evaluation SHALL report observed and missed controlled events against a recorded source count.
 
-<!-- UNVERIFIED: Five owned packets decode, but no usable recorded source denominator exists. Three initial finite source-only HCI trials had no termination; subsequent timer diagnostics report an actual zero field, and a 262-snapshot RF discriminator is inconclusive. Requested limits and the unvalidated zero field do not establish emitted-event counts. Hit rates and unresolved misses/truncations remain unknown. See docs/evidence/ble-counted-source-smoke/README.md and docs/evidence/ble-zero-counter-rf/README.md. -->
+*Grounding: [pre-declared run 002](docs/evidence/ble-receiver-hitrate-002/README.md) reports 42 complete owned packets in 3,188 ON / 0 in 111 OFF windows against 48,450 controller-counted events, with expected in-window, truncated and acquisition-missed events and a 95% interval (0.28–0.52). The denominator is controller-completed events, not independently observed air emissions; [run 001](docs/evidence/ble-receiver-hitrate-001/README.md) is the retained post-hoc diagnostic.*
 
 #### Scenario: Evaluation result is inspected
 - **WHEN** event detection is assessed
