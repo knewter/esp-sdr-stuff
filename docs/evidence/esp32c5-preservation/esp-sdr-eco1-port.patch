@@ -1,0 +1,38 @@
+diff --git a/main/CMakeLists.txt b/main/CMakeLists.txt
+index 8a543a9..e4fa949 100644
+--- a/main/CMakeLists.txt
++++ b/main/CMakeLists.txt
+@@ -65,3 +65,15 @@ foreach(probe IN LISTS probes)
+         target_compile_definitions(${COMPONENT_LIB} PRIVATE "${probe}=1")
+     endif()
+ endforeach()
++# ECO1 port (IDF d930a386da): the ECO1-era librftest.a(wifi.o) redefines
++# phy_enter_critical/phy_exit_critical already provided by esp_phy's
++# phy_init.c. Keep the first (IDF) definition.
++if(IDF_TARGET STREQUAL "esp32c5" AND CONFIG_ESP32C5_REV_MIN_FULL LESS 100)
++    target_link_options(${COMPONENT_LIB} INTERFACE "-Wl,--allow-multiple-definition")
++    # ECO1 librftest adctrig hands SRAM bank 2 (owner 0x400, 0x40840000..)
++    # to the RF dump, which holds heap, stacks and ROM data on this build.
++    # Link a copy patched to use bank 1 (owner 0x200, dump at 0x40830000),
++    # the bank ESP-SDR reserves. Listed before -lrftest, so it wins.
++    target_link_libraries(${COMPONENT_LIB} INTERFACE
++        "${CMAKE_CURRENT_LIST_DIR}/targets/esp32c5/mac_common_eco1_bank1.o")
++endif()
+diff --git a/main/targets/esp32c5/chip.h b/main/targets/esp32c5/chip.h
+index d3594a2..236d4dd 100644
+--- a/main/targets/esp32c5/chip.h
++++ b/main/targets/esp32c5/chip.h
+@@ -8,7 +8,13 @@
+ SOC_RESERVE_MEMORY_REGION(0x40820000, 0x40840000, c5_rf_dump);
+ extern void adctrig(uint32_t,uint32_t,uint32_t,uint32_t,uint32_t,uint32_t,uint32_t,uint32_t,uint32_t);
+ static bool stock_capture(unsigned n,unsigned divider) {
++#if CONFIG_ESP32C5_REV_MIN_FULL < 100
++    /* ECO1 port: stock adctrig with the SRAM owner patched to bank 1. */
++    extern void adctrig_eco1_bank1(uint32_t,uint32_t,uint32_t,uint32_t,uint32_t,uint32_t,uint32_t,uint32_t,uint32_t);
++    adctrig_eco1_bank1(n-1,0,0,divider*2,0,0,0,0,0);
++#else
+     adctrig(n-1,0,0,divider*2,0,0,0,0,0);
++#endif
+     return true; /* Common sentinel check detects incomplete stock captures. */
+ }
+ static bool frequency_valid(unsigned mhz) {

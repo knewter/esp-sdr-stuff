@@ -60,8 +60,61 @@ that.
 **Restored.** The original image was written back. On-device verify matched
 `890327ac…96fc`, and the original `iperf` firmware booted again.
 
-**Remaining route.** Build ESP-SDR against ESP-IDF `d930a386da` with its
-matching ECO1 Wi-Fi and PHY libraries. That needs a second IDF input with its
-own toolchain and Python environment, porting any v6-only API uses, and
-re-checking C5 tuning on ECO1. It would be an unsupported build on an
-engineering sample, so the C3 or a production C5 is the better receiver.
+The next section takes the remaining route.
+
+## Last ECO1-era ESP-IDF: ESP-SDR runs
+
+A second trial on 2026-10-06 built ESP-SDR against ESP-IDF `d930a386da`, the
+last commit that supports ECO1, **and it works**.
+
+**Toolchain.** [eco1-idf.nix](eco1-idf.nix) overrides the
+nixpkgs-esp-dev revision that the repo flake locks:
+- ESP-IDF at that commit, with its ECO1 PHY and Wi-Fi libraries;
+- GCC 14.2.0 (`esp-14.2.0_20241119`);
+- the matching Python environment.
+
+The expression lives in scratch only and permits an old `ecdsa` package that
+esptool 4.x needs. No global installs.
+
+**ESP-SDR port** ([esp-sdr-eco1-port.patch](esp-sdr-eco1-port.patch)). No API
+porting was needed; two things were:
+1. **Link flag.** The ECO1 `librftest.a` defines `phy_enter_critical` and
+   `phy_exit_critical` a second time. `--allow-multiple-definition` keeps
+   ESP-IDF's copy.
+2. **Patched vendor capture routine.** The first stock capture crashed the CPU
+   (`CPU_LOCKUP`). The cause is the ECO1 blob's `adctrig`: it gives SRAM bank 2
+   to the RF dump, and that bank holds heap and stacks. The v6.2 blob uses
+   bank 1, which ESP-SDR reserves. A copy of `mac_common.o` with exactly two
+   instructions changed to point at bank 1 fixes it. The patched object is a
+   modified Espressif binary, so it is not published; the diff describes it.
+
+**Protocol at 2 Mbaud over the CP2102N.** `INFO` answers
+`C5SDR 6 burst 16380`. The firmware reports:
+- **6 rates: 80, 40, 20, 10, 8 and 4 MS/s**;
+- 8- and 10-bit samples;
+- gain 0–79 with hardware AGC;
+- bandwidth 11–48;
+- snapshot spectra at 256–2048 bins.
+
+**First IQ.** Each row is 10 windows of 16380 10-bit samples at 20 MS/s
+(819 µs each). All 40 windows passed CRC.
+
+| Setting | Median power (codes²) | Behaviour |
+| --- | ---: | --- |
+| 2412 MHz, hardware gain | 5314 | about 400 unique codes per component |
+| 2412 MHz, manual gain 0 | 8 | almost silent |
+| 2412 MHz, manual gain 40 | 42 | bursty, 8 to 17,962 |
+| 2300 MHz, manual gain 40 | 47 | steady, AC power 3.7 |
+
+At the same fixed gain, Wi-Fi channel 1 is bursty while the off-band 2300 MHz
+setting is a steady floor. That points to real in-band reception, but it is
+not a calibrated test.
+
+**Restored.** On-device verify matched `890327ac…96fc`, and the iperf firmware
+booted again.
+
+**What it means.** The engineering sample can be a receiver, through an
+unsupported IDF snapshot and one patched vendor object. It offers lower rates
+than the C3: at 20 MS/s a window lasts 819 µs, long enough for whole BLE
+packets. Untested so far: tuning accuracy, the 5 GHz band, and reception of
+a known source. Each needs a pre-declared trial.

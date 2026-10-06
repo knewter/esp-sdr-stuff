@@ -60,5 +60,74 @@
     "last_eco1_idf_commit": "d930a386da",
     "restore": "original image rewritten; verify-flash digest matched 890327ac...; iperf boot observed",
     "device_state": "original iperf firmware"
+  },
+  "eco1_idf_trial": {
+    "date": "2026-10-06",
+    "esp_idf": "d930a386dae78cfab75f313af3df67921e748fc4 (last ECO1 commit)",
+    "nix_expression": "eco1-idf.nix (nixpkgs-esp-dev 5287d6e, scratch only)",
+    "toolchain": "riscv32-esp-elf esp-14.2.0_20241119",
+    "blobs": {
+      "esp-phy-lib": "8906b89",
+      "esp32-wifi-lib": "93c841f"
+    },
+    "esp_sdr_patch": "esp-sdr-eco1-port.patch",
+    "link_option": "-Wl,--allow-multiple-definition (C5 REV_MIN < 1.00)",
+    "adctrig_patch": {
+      "reason": "ECO1 adctrig assigns SRAM bank 2 (owner 0x400) to the RF dump; first CAP caused CPU_LOCKUP reset",
+      "change": "two instructions: owner 0x400->0x200, dump base 0x40850000->0x40830000 (ESP-SDR reserved bank 1); symbol renamed adctrig_eco1_bank1",
+      "object_sha256": {
+        "original_mac_common.o": "0f12362b478771e302e5def2fafa3f52f0f29ed7de7a9932b2d2d9e0e36e6418",
+        "patched": "e5e30c5e25e2f6c3dbad38d2ee7a4e62f4b6ca4e9ec6a4988b1e2beda2e9cdc9"
+      },
+      "published": false
+    },
+    "images_sha256": {
+      "bootloader.bin": "36c3093c81d77c026db6e28986228a1717b9bcc29d5b9dc7c1016f792ff0dc66",
+      "partition-table.bin": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+      "esp_sdr.bin": "5e61cdd43dd6fc5c29fab69d77194f9d069f5537ad5a1e413c408dd29359e1ca"
+    },
+    "protocol": {
+      "INFO": "C5SDR 6 burst 16380",
+      "rates_hz": [
+        80000000,
+        40000000,
+        20000000,
+        10000000,
+        8000000,
+        4000000
+      ],
+      "bits": [
+        8,
+        10
+      ],
+      "gain": [
+        0,
+        79,
+        1
+      ],
+      "bandwidth": [
+        11,
+        48,
+        1,
+        0
+      ],
+      "continuous": false,
+      "transport": "UART 2000000"
+    },
+    "first_iq": {
+      "windows_per_setting": 10,
+      "rate_hz": 20000000,
+      "bits": 10,
+      "crc_ok": "40/40",
+      "median_power_codes2": {
+        "2412_hardware": 5314,
+        "2412_manual0": 8,
+        "2412_manual40": 42,
+        "2300_manual40": 47
+      },
+      "note": "fixed-gain 2412 MHz bursty vs steady 2300 MHz floor; uncalibrated"
+    },
+    "restore": "verify-flash digest matched 890327ac...; iperf boot observed",
+    "device_state": "original iperf firmware"
   }
 }
