@@ -143,12 +143,12 @@
       }
     },
     "the-receiver-can-observe-and-decode-short-bursts": {
-      "lane": "in-progress",
-      "source": "in-progress",
+      "lane": "archived",
+      "source": "archived",
       "physical": "verified",
-      "next": "Re-scope the remaining tasks: the parked timed-source, cost-attribution and ownership-architecture work (4.3-4.6, 5.2-5.5, 6.1-6.3) is not on the current path.",
-      "rationale": "Counted-event ground truth is now measured: in a pre-declared run, 42 complete owned packets in 3,188 ON windows and 0 in 111 OFF windows against 48,450 controller-counted events (efficiency 0.39, 95% CI 0.28-0.52), after correcting the board's ~0.8 MHz carrier offset and a controller header bit. Decoding with verified payloads was already accepted. Misses are dominated by acquisition duty (about 0.3% of events overlap a window). The ESP was restored and verified.",
-      "reviewRevision": "8b2ed9c",
+      "next": "Closed: counted-event hit rate and payload-verified decoding accepted; improve the original chip's acquisition duty next.",
+      "rationale": "Counted-event ground truth is now measured: in a pre-declared run, 42 complete owned packets in 3,188 ON windows and 0 in 111 OFF windows against 48,450 controller-counted events (efficiency 0.39, 95% CI 0.28-0.52), after correcting the board's ~0.8 MHz carrier offset and a controller header bit. Decoding with verified payloads was already accepted. Misses are dominated by acquisition duty (about 0.3% of events overlap a window). The ESP was restored and verified. The parked timed-v2 source, source004 cost-attribution and ownership-architecture scope was dropped as superseded and is kept verbatim in the archived tasks.",
+      "reviewRevision": "5b1c41f",
       "dependencies": [
         "the-board-captures-repeatable-radio-snapshots",
         "the-spectrum-reveals-controlled-24ghz-signals"

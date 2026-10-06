@@ -343,7 +343,7 @@ declared bounded root experiment; no implicit retry is authorized by this plan.
 
 ### Recording correction after actual cost004 (UNVERIFIED)
 
-The [actual read-only cost004 review](../../../docs/evidence/source004-actual-readonly-cost-004/README.md)
+The [actual read-only cost004 review](../../../../docs/evidence/source004-actual-readonly-cost-004/README.md)
 accepts current content and natural terminal evidence, but disproves complete
 diagnostic conservation. Original phase export precedes two receipt reads and
 the completed snapshot wrapper, losing two hash, two receipt and one snapshot
