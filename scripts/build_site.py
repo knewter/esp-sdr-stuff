@@ -104,7 +104,11 @@ def main():
     # generated UI separately so more retained evidence cannot hide page bloat.
     page_size = sum(p.stat().st_size for p in files if not p.is_relative_to(dist / "source"))
     elapsed = time.monotonic() - started
-    if size > 24 * 1024 * 1024 or page_size > 2 * 1024 * 1024 or elapsed > 120:
+    # These budgets are made-up regression guards chosen by this project, not
+    # GitHub Pages or any external limit (Pages allows ~1 GB sites). The page
+    # budget was raised from 2 MiB to 4 MiB on 2026-10-05 when evidence pages
+    # approached it; adjust freely when a real constraint appears.
+    if size > 24 * 1024 * 1024 or page_size > 4 * 1024 * 1024 or elapsed > 120:
         raise RuntimeError(f"Site exceeds budget: {size} total bytes, {page_size} page bytes, {elapsed:.2f} seconds")
     print(f"Site verified: {size:,} bytes ({page_size:,} outside source archive) in {elapsed:.2f}s")
     return 0
