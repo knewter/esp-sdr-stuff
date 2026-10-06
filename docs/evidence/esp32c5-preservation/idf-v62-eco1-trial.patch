@@ -1,0 +1,307 @@
+diff --git a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_hw_support/port/esp32c5/Kconfig.hw_support b/components/esp_hw_support/port/esp32c5/Kconfig.hw_support
+index d90eb13..df7cbd6 100644
+--- a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_hw_support/port/esp32c5/Kconfig.hw_support
++++ b/components/esp_hw_support/port/esp32c5/Kconfig.hw_support
+@@ -9,6 +9,8 @@ choice ESP32C5_REV_MIN
+         The complied binary will only support chips above this revision,
+         this will also help to reduce binary size.
+ 
++    config ESP32C5_REV_MIN_0
++        bool "Rev v0.0 (ECO1 engineering sample, unsupported local patch)"
+     config ESP32C5_REV_MIN_100
+         bool "Rev v1.0 (ECO2)"
+     config ESP32C5_REV_MIN_102
+@@ -17,6 +19,7 @@ endchoice
+ 
+ config ESP32C5_REV_MIN_FULL
+     int
++    default 0 if ESP32C5_REV_MIN_0
+     default 100 if ESP32C5_REV_MIN_100
+     default 102 if ESP32C5_REV_MIN_102
+ 
+diff --git a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_rom/esp32c5/ld/esp32c5.rom.ld b/components/esp_rom/esp32c5/ld/esp32c5.rom.ld
+index f7821cf..73cf00c 100644
+--- a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_rom/esp32c5/ld/esp32c5.rom.ld
++++ b/components/esp_rom/esp32c5/ld/esp32c5.rom.ld
+@@ -258,8 +258,8 @@ rom_gpio_get_input_level = 0x4000070c;
+ rom_gpio_matrix_in = 0x40000710;
+ rom_gpio_matrix_out = 0x40000714;
+ rom_gpio_bypass_matrix_in = 0x40000718;
+-rom_gpio_output_disable = 0x4000071c;
+-rom_gpio_output_enable = 0x40000720;
++/* ECO1: absent from ECO1 ROM interface: rom_gpio_output_disable = 0x4000071c; */
++/* ECO1: absent from ECO1 ROM interface: rom_gpio_output_enable = 0x40000720; */
+ rom_gpio_pad_input_disable = 0x40000724;
+ rom_gpio_pad_input_enable = 0x40000728;
+ rom_gpio_pad_pulldown = 0x4000072c;
+@@ -435,8 +435,8 @@ usb_serial_device_tx_one_char = 0x40000ac4;
+  ***************************************/
+ 
+ /* Functions */
+-ets_get_bootloader_offset = 0x40001544;
+-ets_set_bootloader_offset = 0x40001548;
++/* ECO1: absent from ECO1 ROM interface: ets_get_bootloader_offset = 0x40001544; */
++/* ECO1: absent from ECO1 ROM interface: ets_set_bootloader_offset = 0x40001548; */
+ 
+ 
+ /***************************************
+@@ -444,7 +444,7 @@ ets_set_bootloader_offset = 0x40001548;
+  ***************************************/
+ 
+ /* Functions */
+-lldesc_build_chain = 0x4000154c;
++/* ECO1: absent from ECO1 ROM interface: lldesc_build_chain = 0x4000154c; */
+ 
+ 
+ /***************************************
+@@ -452,21 +452,21 @@ lldesc_build_chain = 0x4000154c;
+  ***************************************/
+ 
+ /* Functions */
+-sip_after_tx_complete = 0x40001550;
+-sip_alloc_to_host_evt = 0x40001554;
+-sip_download_begin = 0x40001558;
+-sip_get_ptr = 0x4000155c;
+-sip_get_state = 0x40001560;
+-sip_init_attach = 0x40001564;
+-sip_install_rx_ctrl_cb = 0x40001568;
+-sip_install_rx_data_cb = 0x4000156c;
+-sip_is_active = 0x40001570;
+-sip_post_init = 0x40001574;
+-sip_reclaim_from_host_cmd = 0x40001578;
+-sip_reclaim_tx_data_pkt = 0x4000157c;
+-sip_send = 0x40001580;
+-sip_to_host_chain_append = 0x40001584;
+-sip_to_host_evt_send_done = 0x40001588;
++/* ECO1: absent from ECO1 ROM interface: sip_after_tx_complete = 0x40001550; */
++/* ECO1: absent from ECO1 ROM interface: sip_alloc_to_host_evt = 0x40001554; */
++/* ECO1: absent from ECO1 ROM interface: sip_download_begin = 0x40001558; */
++/* ECO1: absent from ECO1 ROM interface: sip_get_ptr = 0x4000155c; */
++/* ECO1: absent from ECO1 ROM interface: sip_get_state = 0x40001560; */
++/* ECO1: absent from ECO1 ROM interface: sip_init_attach = 0x40001564; */
++/* ECO1: absent from ECO1 ROM interface: sip_install_rx_ctrl_cb = 0x40001568; */
++/* ECO1: absent from ECO1 ROM interface: sip_install_rx_data_cb = 0x4000156c; */
++/* ECO1: absent from ECO1 ROM interface: sip_is_active = 0x40001570; */
++/* ECO1: absent from ECO1 ROM interface: sip_post_init = 0x40001574; */
++/* ECO1: absent from ECO1 ROM interface: sip_reclaim_from_host_cmd = 0x40001578; */
++/* ECO1: absent from ECO1 ROM interface: sip_reclaim_tx_data_pkt = 0x4000157c; */
++/* ECO1: absent from ECO1 ROM interface: sip_send = 0x40001580; */
++/* ECO1: absent from ECO1 ROM interface: sip_to_host_chain_append = 0x40001584; */
++/* ECO1: absent from ECO1 ROM interface: sip_to_host_evt_send_done = 0x40001588; */
+ 
+ 
+ /***************************************
+@@ -474,14 +474,14 @@ sip_to_host_evt_send_done = 0x40001588;
+  ***************************************/
+ 
+ /* Functions */
+-slc_add_credits = 0x4000158c;
+-slc_enable = 0x40001590;
+-slc_from_host_chain_fetch = 0x40001594;
+-slc_from_host_chain_recycle = 0x40001598;
+-slc_has_pkt_to_host = 0x4000159c;
+-slc_init_attach = 0x400015a0;
+-slc_init_credit = 0x400015a4;
+-slc_reattach = 0x400015a8;
+-slc_send_to_host_chain = 0x400015ac;
+-slc_set_host_io_max_window = 0x400015b0;
+-slc_to_host_chain_recycle = 0x400015b4;
++/* ECO1: absent from ECO1 ROM interface: slc_add_credits = 0x4000158c; */
++/* ECO1: absent from ECO1 ROM interface: slc_enable = 0x40001590; */
++/* ECO1: absent from ECO1 ROM interface: slc_from_host_chain_fetch = 0x40001594; */
++/* ECO1: absent from ECO1 ROM interface: slc_from_host_chain_recycle = 0x40001598; */
++/* ECO1: absent from ECO1 ROM interface: slc_has_pkt_to_host = 0x4000159c; */
++/* ECO1: absent from ECO1 ROM interface: slc_init_attach = 0x400015a0; */
++/* ECO1: absent from ECO1 ROM interface: slc_init_credit = 0x400015a4; */
++/* ECO1: absent from ECO1 ROM interface: slc_reattach = 0x400015a8; */
++/* ECO1: absent from ECO1 ROM interface: slc_send_to_host_chain = 0x400015ac; */
++/* ECO1: absent from ECO1 ROM interface: slc_set_host_io_max_window = 0x400015b0; */
++/* ECO1: absent from ECO1 ROM interface: slc_to_host_chain_recycle = 0x400015b4; */
+diff --git a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_rom/esp32c5/ld/esp32c5.rom.pp.ld b/components/esp_rom/esp32c5/ld/esp32c5.rom.pp.ld
+index 9e276e1..94d8134 100644
+--- a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_rom/esp32c5/ld/esp32c5.rom.pp.ld
++++ b/components/esp_rom/esp32c5/ld/esp32c5.rom.pp.ld
+@@ -34,7 +34,7 @@ hal_mac_clr_txq_state = 0x40000c18;
+ hal_mac_get_txq_complete = 0x40000c1c;
+ hal_mac_deinit_twt_tx = 0x40000c20;
+ hal_mac_is_dma_enable = 0x40000c24;
+-hal_he_get_bss_color = 0x40000c28;
++/* ECO1: absent from ECO1 ROM interface: hal_he_get_bss_color = 0x40000c28; */
+ hal_he_set_ersu = 0x40000c2c;
+ hal_he_get_mplen_addr_start = 0x40000c30;
+ hal_he_get_mplen_addr_end = 0x40000c34;
+@@ -99,7 +99,7 @@ mac_tx_set_plcp2 = 0x40000d24;
+ mac_tx_set_len = 0x40000d28;
+ mac_tx_set_htsig = 0x40000d2c;
+ mac_tx_set_vhtsig = 0x40000d30;
+-mac_tx_set_hesig = 0x40000d34;
++/* ECO1: absent from ECO1 ROM interface: mac_tx_set_hesig = 0x40000d34; */
+ mac_tx_set_tb = 0x40000d38;
+ mac_tx_set_mplen = 0x40000d3c;
+ mac_tx_set_txop_q = 0x40000d40;
+@@ -107,7 +107,7 @@ mac_tx_set_pti = 0x40000d44;
+ /*pm_check_state = 0x40000d48;*/
+ pm_disable_dream_timer = 0x40000d4c;
+ pm_disable_sleep_delay_timer = 0x40000d50;
+-pm_dream = 0x40000d54;
++/* ECO1: absent from ECO1 ROM interface: pm_dream = 0x40000d54; */
+ pm_mac_wakeup = 0x40000d58;
+ pm_mac_sleep = 0x40000d5c;
+ //pm_enable_active_timer = 0x40000d60;
+@@ -131,13 +131,13 @@ pm_on_twt_force_tx = 0x40000da0;
+ /*pm_process_tim = 0x40000da8;*/
+ //pm_rx_beacon_process = 0x40000dac;
+ pm_rx_data_process = 0x40000db0;
+-pm_sleep = 0x40000db4;
++/* ECO1: absent from ECO1 ROM interface: pm_sleep = 0x40000db4; */
+ pm_sleep_for = 0x40000db8;
+ //pm_tbtt_process = 0x40000dbc;
+ //pm_tx_data_done_process = 0x40000dc0;
+ pm_allow_tx = 0x40000dc4;
+ pm_extend_tbtt_adaptive_servo = 0x40000dc8;
+-pm_scale_listen_interval = 0x40000dcc;
++/* ECO1: absent from ECO1 ROM interface: pm_scale_listen_interval = 0x40000dcc; */
+ pm_parse_mbssid_element = 0x40000dd0;
+ pm_disconnected_wake = 0x40000dd4;
+ /*pm_tx_data_process = 0x40000dd8;*/
+@@ -220,7 +220,7 @@ pp_coex_tx_release = 0x40000f08;
+ ppAdd2AMPDUTail = 0x40000f0c;
+ ppDirectRecycleAmpdu = 0x40000f10;
+ ppRegressAmpdu = 0x40000f14;
+-pp_timer_do_process = 0x40000f18;
++/* ECO1: absent from ECO1 ROM interface: pp_timer_do_process = 0x40000f18; */
+ rcGetAmpduSched = 0x40000f1c;
+ rcUpdateRxDone = 0x40000f20;
+ rc_get_trc = 0x40000f24;
+@@ -234,10 +234,10 @@ rcClearCurStat = 0x40000f3c;
+ rcLowerSched = 0x40000f44;
+ rcSetTxAmpduLimit = 0x40000f48;
+ rcTxUpdatePer = 0x40000f4c;
+-rcUpdateAckSnr = 0x40000f50;
++/* ECO1: absent from ECO1 ROM interface: rcUpdateAckSnr = 0x40000f50; */
+ rcUpdateRate = 0x40000f54;
+-rcUpdateTxDone = 0x40000f58;
+-rcUpdateTxDoneAmpdu2 = 0x40000f5c;
++/* ECO1: absent from ECO1 ROM interface: rcUpdateTxDone = 0x40000f58; */
++/* ECO1: absent from ECO1 ROM interface: rcUpdateTxDoneAmpdu2 = 0x40000f5c; */
+ rcUpSched = 0x40000f60;
+ rcReachRetryLimit = 0x40000f64;
+ rcGetDCMMaxRate = 0x40000f68;
+@@ -262,7 +262,7 @@ wDev_AppendRxBlocks = 0x40000fb0;
+ wDev_DiscardFrame = 0x40000fb4;
+ wDev_GetNoiseFloor = 0x40000fb8;
+ wDev_IndicateAmpdu = 0x40000fbc;
+-wDev_IndicateFrame = 0x40000fc0;
++/* ECO1: absent from ECO1 ROM interface: wDev_IndicateFrame = 0x40000fc0; */
+ wdev_mac_reg_load = 0x40000fc4;
+ wdev_mac_reg_store = 0x40000fc8;
+ wdev_mac_special_reg_load = 0x40000fcc;
+@@ -463,7 +463,7 @@ pm_coex_schm_overall_period_get = 0x40001504;
+ ppRemoveHEAMPDUflags = 0x4000150c;
+ tsf_hal_get_tbtt_interval = 0x40001510;
+ //pm_beacon_monitor_tbtt_start = 0x40001514;
+-pm_save_tbtt_info = 0x40001518;
++/* ECO1: absent from ECO1 ROM interface: pm_save_tbtt_info = 0x40001518; */
+ //pm_get_tbtt_count = 0x4000151c;
+ tsf_hal_get_time = 0x40001520;
+ tsf_hal_get_counter_value = 0x40001524;
+@@ -484,15 +484,15 @@ tsf_hal_get_counter_value = 0x40001524;
+ 
+ /* Functions */
+ /*pm_enable_max_idle_timer = 0x400015b8;*/
+-pm_beacon_offset_is_enabled = 0x400015bc;
+-pm_beacon_offset_is_sampling = 0x400015c0;
+-pm_beacon_offset_add_total_counter = 0x400015c4;
+-pm_beacon_offset_add_loss_counter = 0x400015c8;
++/* ECO1: absent from ECO1 ROM interface: pm_beacon_offset_is_enabled = 0x400015bc; */
++/* ECO1: absent from ECO1 ROM interface: pm_beacon_offset_is_sampling = 0x400015c0; */
++/* ECO1: absent from ECO1 ROM interface: pm_beacon_offset_add_total_counter = 0x400015c4; */
++/* ECO1: absent from ECO1 ROM interface: pm_beacon_offset_add_loss_counter = 0x400015c8; */
+ //pm_beacon_offset_check = 0x400015cc;
+ //pm_beacon_offset_get_average = 0x400015d0;
+ //pm_beacon_offset_get_expect = 0x400015d4;
+ //pm_beacon_offset_get_params = 0x400015d8;
+ /* Data (.data, .bss, .rodata) */
+-s_tbttstart_ptr = 0x4085fc68;
+-s_pm_beacon_offset_ptr = 0x4085fc64;
+-s_pm_beacon_offset_config_ptr = 0x4085fc60;
++/* ECO1: absent from ECO1 ROM interface: s_tbttstart_ptr = 0x4085fc68; */
++/* ECO1: absent from ECO1 ROM interface: s_pm_beacon_offset_ptr = 0x4085fc64; */
++/* ECO1: absent from ECO1 ROM interface: s_pm_beacon_offset_config_ptr = 0x4085fc60; */
+diff --git a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_rom/esp32c5/ld/esp32c5.rom.net80211.ld b/components/esp_rom/esp32c5/ld/esp32c5.rom.net80211.ld
+index 80c973a..88b26b1 100644
+--- a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_rom/esp32c5/ld/esp32c5.rom.net80211.ld
++++ b/components/esp_rom/esp32c5/ld/esp32c5.rom.net80211.ld
+@@ -35,18 +35,18 @@ ic_ebuf_alloc = 0x40000b4c;
+ //ic_reset_extra_softap_rx_ba = 0x40000b50;
+ ieee80211_align_eb = 0x40000b54;
+ ieee80211_ampdu_reorder = 0x40000b58;
+-ieee80211_ampdu_start_age_timer = 0x40000b5c;
++/* ECO1: absent from ECO1 ROM interface: ieee80211_ampdu_start_age_timer = 0x40000b5c; */
+ /*ieee80211_encap_esfbuf = 0x40000b60;*/
+ ieee80211_is_tx_allowed = 0x40000b64;
+-ieee80211_output_pending_eb = 0x40000b68;
+-ieee80211_output_process = 0x40000b6c;
++/* ECO1: absent from ECO1 ROM interface: ieee80211_output_pending_eb = 0x40000b68; */
++/* ECO1: absent from ECO1 ROM interface: ieee80211_output_process = 0x40000b6c; */
+ /*ieee80211_set_tx_desc = 0x40000b70;*/
+ //ieee80211_classify = 0x40000b74;
+ ieee80211_copy_eb_header = 0x40000b78;
+ ieee80211_recycle_cache_eb = 0x40000b7c;
+ ieee80211_search_node = 0x40000b80;
+-ieee80211_crypto_encap = 0x40000b84;
+-ieee80211_crypto_decap = 0x40000b88;
++/* ECO1: absent from ECO1 ROM interface: ieee80211_crypto_encap = 0x40000b84; */
++/* ECO1: absent from ECO1 ROM interface: ieee80211_crypto_decap = 0x40000b88; */
+ ieee80211_decap = 0x40000b8c;
+ ieee80211_set_tx_pti = 0x40000b90;
+ ieee80211_gettid = 0x40000b94;
+@@ -60,11 +60,11 @@ ieee80211_find_ext_elem = 0x40000bb0;
+ ieee80211_find_ie = 0x40000bb4;
+ ieee80211_find_ext_ie = 0x40000bb8;
+ ieee80211_merge_mbssid_profile = 0x40000bbc;
+-ieee80211_encap_esfbuf_htc = 0x40000bc0;
+-wifi_get_macaddr = 0x40000bc4;
+-wifi_rf_phy_disable = 0x40000bc8;
+-wifi_rf_phy_enable = 0x40000bcc;
+-wifi_is_started = 0x40000bd0;
++/* ECO1: absent from ECO1 ROM interface: ieee80211_encap_esfbuf_htc = 0x40000bc0; */
++/* ECO1: absent from ECO1 ROM interface: wifi_get_macaddr = 0x40000bc4; */
++/* ECO1: absent from ECO1 ROM interface: wifi_rf_phy_disable = 0x40000bc8; */
++/* ECO1: absent from ECO1 ROM interface: wifi_rf_phy_enable = 0x40000bcc; */
++/* ECO1: absent from ECO1 ROM interface: wifi_is_started = 0x40000bd0; */
+ /*sta_input = 0x40000bd4;*/
+ //sta_rx_eapol = 0x40000bd8;
+ //sta_reset_beacon_timeout = 0x40000bdc;
+diff --git a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_rom/patches/esp_rom_sys.c b/components/esp_rom/patches/esp_rom_sys.c
+index 0d3076e..9f7edbd 100644
+--- a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_rom/patches/esp_rom_sys.c
++++ b/components/esp_rom/patches/esp_rom_sys.c
+@@ -119,7 +119,7 @@ void esp_rom_set_cpu_ticks_per_us(uint32_t ticks_per_us)
+ #if SOC_RECOVERY_BOOTLOADER_SUPPORTED
+ uint32_t esp_rom_get_bootloader_offset(void)
+ {
+-#if CONFIG_IDF_TARGET_ESP32P4 && CONFIG_ESP32P4_REV_MIN_FULL < 300
++#if (CONFIG_IDF_TARGET_ESP32P4 && CONFIG_ESP32P4_REV_MIN_FULL < 300) || (CONFIG_IDF_TARGET_ESP32C5 && CONFIG_ESP32C5_REV_MIN_FULL < 100) /* ECO1 local patch */
+     // For early revisions of ESP32-P4 does not recovery bootloader feature.
+     // Return the default bootloader offset.
+     return ESP_ROM_BOOTLOADER_OFFSET_FLASH;
+diff --git a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_wifi/src/wifi_init.c b/components/esp_wifi/src/wifi_init.c
+index e50a7f4..31cfb0b 100644
+--- a/nix/store/8n6mmk274wiz0lkgx1mp69rxdl0yiv6h-esp-idf-25fe69f946311abdaf9ad56591f25fedbc20ac98/components/esp_wifi/src/wifi_init.c
++++ b/components/esp_wifi/src/wifi_init.c
+@@ -762,6 +762,14 @@ void nan_ndp_resp_timeout_process(void *p)
+ #endif /* CONFIG_ESP_WIFI_NAN_SYNC_ENABLE */
+ 
+ #if CONFIG_IDF_TARGET_ESP32C5
++#if CONFIG_ESP32C5_REV_MIN_FULL < 100
++/* ECO1 local patch: the ECO2 ROM keeps these pointers in ROM .bss at
++ * 0x4085fc60..0x4085fc68; on ECO1 that range overlaps phy_rom_phyFuns.
++ * Give the Wi-Fi library harmless RAM homes instead. */
++void *s_pm_beacon_offset_config_ptr;
++void *s_pm_beacon_offset_ptr;
++void *s_tbttstart_ptr;
++#endif
+ #if CONFIG_ESP32C5_REV_MIN_FULL <= 100
+ void esp32c5_eco3_rom_ptr_init(void)
+ {

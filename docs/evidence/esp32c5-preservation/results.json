@@ -38,5 +38,27 @@
     "install": "refused by esptool before any write: bootloader requires chip revision v1.0-v1.99; this chip is v0.2",
     "cause": "the pinned ESP-IDF offers only ESP32C5_REV_MIN 1.0 (ECO2) or 1.2; v0.x (ECO1) engineering-sample support is gone",
     "device_state": "unchanged; original iperf firmware"
+  },
+  "eco1_patch_trial": {
+    "date": "2026-10-06",
+    "idf_base": "25fe69f9 (v6.2) copy, 6 files patched",
+    "patch": "idf-v62-eco1-trial.patch",
+    "rom_symbols": {
+      "shared": 1287,
+      "shared_with_changed_address": 0,
+      "v62_linked": 1113,
+      "missing_on_eco1": 84,
+      "renamed_same_address": 25,
+      "eco2_only": 59
+    },
+    "images_sha256": {
+      "bootloader.bin": "dfad98dc31c5e305866c2ea99ccd85ff4f96cdb729c057f093982093681cf048",
+      "partition-table.bin": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+      "esp_sdr.bin": "1ec4ea824daca92b673bf612a57bccd7ea0bcc1396f3101137caaf6c735ea279"
+    },
+    "outcome": "boots through IDF startup; hangs in esp_wifi_init() after ROM pp/net80211 version prints (task watchdog, tick stopped); protocol never answered",
+    "last_eco1_idf_commit": "d930a386da",
+    "restore": "original image rewritten; verify-flash digest matched 890327ac...; iperf boot observed",
+    "device_state": "original iperf firmware"
   }
 }

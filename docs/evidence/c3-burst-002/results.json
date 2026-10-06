@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "protocol": "docs/research/c3-burst-002-protocol.md",
+  "protocol_commit": "8cf945b",
+  "session_001": {
+    "protocol": "docs/research/c3-burst-001-protocol.md",
+    "protocol_commit": "3495654",
+    "outcome": "pair 1 aborted on a UART short read (32748/32760 bytes) after about 100 windows, before the source started; host load average about 96 from unrelated work; remaining pairs skipped, no retry, no detection result"
+  },
+  "receiver": {
+    "board": "ESP32-C3 rev v0.2",
+    "firmware": "ESP-SDR 550fade, esp32c3, REV_MIN_2",
+    "lo_mhz": 2396,
+    "bandwidth": 40,
+    "gain": "hardware",
+    "rate_hz": 80000000,
+    "bits": 8,
+    "window_us": 204.75,
+    "link": "UART0 via CP2102N at 2000000 baud"
+  },
+  "captures": {
+    "p1": {
+      "completed": true,
+      "fault_recovery": {
+        "allowed": 30,
+        "recovered": 1
+      },
+      "ok": 599,
+      "failures": 1,
+      "wall_ms": 160508
+    },
+    "p2": {
+      "completed": true,
+      "fault_recovery": {
+        "allowed": 30,
+        "recovered": 0
+      },
+      "ok": 600,
+      "failures": 0,
+      "wall_ms": 154543
+    },
+    "p3": {
+      "completed": true,
+      "fault_recovery": {
+        "allowed": 30,
+        "recovered": 1
+      },
+      "ok": 599,
+      "failures": 1,
+      "wall_ms": 170251
+    }
+  },
+  "source_cycles_counted_per_pair": [
+    15,
+    15,
+    15
+  ],
+  "controller_counted_events": 11475,
+  "detector": {
+    "threshold_db": 10.0,
+    "contrast_db": 6.0,
+    "fft": 64,
+    "smooth_frames": 25,
+    "band_mhz": [
+      2399,
+      2409
+    ],
+    "lo_mhz": 2396
+  },
+  "pairs": [
+    {
+      "pair": 1,
+      "source_cycles": 15,
+      "controller_counted_events": 3825,
+      "on_windows": 366,
+      "on_detected": 0,
+      "off_windows": 231,
+      "off_detected": 0,
+      "other_windows": 2,
+      "fisher_one_sided_p": 1.0,
+      "on_detected_frequencies_mhz": [],
+      "off_detected_frequencies_mhz": []
+    },
+    {
+      "pair": 2,
+      "source_cycles": 15,
+      "controller_counted_events": 3825,
+      "on_windows": 367,
+      "on_detected": 0,
+      "off_windows": 231,
+      "off_detected": 0,
+      "other_windows": 2,
+      "fisher_one_sided_p": 1.0,
+      "on_detected_frequencies_mhz": [],
+      "off_detected_frequencies_mhz": []
+    },
+    {
+      "pair": 3,
+      "source_cycles": 15,
+      "controller_counted_events": 3825,
+      "on_windows": 363,
+      "on_detected": 0,
+      "off_windows": 235,
+      "off_detected": 0,
+      "other_windows": 1,
+      "fisher_one_sided_p": 1.0,
+      "on_detected_frequencies_mhz": [],
+      "off_detected_frequencies_mhz": []
+    }
+  ],
+  "combined": {
+    "on_windows": 1096,
+    "on_detected": 0,
+    "off_windows": 697,
+    "off_detected": 0,
+    "other_windows": 5,
+    "fisher_one_sided_p": 1.0,
+    "on_detected_frequencies_mhz": [],
+    "off_detected_frequencies_mhz": []
+  },
+  "confirmed": false,
+  "expected_on_windows_overlapping_a_burst": "about 1.2-1.6% of ON windows (14-17 of 1096)",
+  "exploratory_after_result": {
+    "strongest_on_events": "top in-band ON excesses (20.0, 18.6, 14.6 dB) are broadband level steps across the whole 2380-2412 MHz passband at window start or end (AGC settling), not narrowband bursts; none passed the contrast test",
+    "agc_reference_flaw": "a narrowband interferer at 2382-2385 MHz appears in both ON and OFF windows inside the declared 2380-2392 MHz AGC reference band",
+    "tuning_check": "150 windows each at LO 2412 and 2437 (BW 40): 25 and 4 windows with >=10 dB wideband (Wi-Fi-like) rises; the passband spans roughly LO-20 to LO+18 MHz. The C3 tunes and receives 2.4 GHz energy."
+  },
+  "private": "IQ windows, fragments and source logs stay under ignored .scratch/c3-burst-002/ and .scratch/c3-tuning-check/"
+}
