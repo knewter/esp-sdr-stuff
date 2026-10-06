@@ -60,20 +60,22 @@ Report for each condition:
 The reference is the FM station at 101.1 MHz. The RTL-SDR independently records
 its spectrum immediately before the ESP captures.
 
-ESP captures (BW 12, hardware gain, 60 windows each) at:
+ESP captures (BW 12, hardware gain, 60 windows each). The firmware tunes in
+1 MHz steps (`RANGE 100 6000 1`; this amendment was made before any data
+existed). Captures at:
 
-- LO 100.6 MHz;
-- LO 100.1 MHz;
-- LO 106.6 MHz as a control;
-- LO 100.6 MHz again with manual gain 48.
+- LO 100 MHz;
+- LO 99 MHz;
+- LO 106 MHz as a control;
+- LO 100 MHz again with manual gain 48.
 
-**Confirmed point:** the strongest narrow peak appears at +0.5 MHz and moves
-to +1.0 MHz when the LO moves down 0.5 MHz, within one 15.6 kHz FFT bin plus
-the measured board offset scaled to that frequency. Other stations in the
-RTL-SDR view may appear too, but the 101.1 peak must track the LO.
-**Rejected:** a peak that doesn't move with the LO (spur or alias), or no
-peak. The in-band points are channels 37, 38 and 39 from part A. No other
-extended point is claimed.
+**Confirmed point:** the strongest narrow peak appears at about +1.1 MHz and
+moves to about +2.1 MHz when the LO moves down 1 MHz, within two 15.6 kHz FFT
+bins plus the measured board offset scaled to that frequency. Other stations in
+the RTL-SDR view may appear too, but the 101.1 peak must track the LO.
+**Rejected:** a peak that doesn't move with the LO (spur or alias), or no peak.
+The in-band points are channels 37, 38 and 39 from part A. No other extended
+point is claimed.
 
 ## Stop conditions
 
