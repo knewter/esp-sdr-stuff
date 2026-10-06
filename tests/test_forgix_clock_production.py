@@ -35,8 +35,8 @@ class Production(unittest.TestCase):
  def test_unknown_owned_closure_prevents_further_device_access(self):
   a=Model('unknown');r=Lifecycle(a,lambda x:None,lambda:0).run();self.assertFalse(r['owned_processes_closed']);self.assertNotIn('factory',a.calls);self.assertNotIn('after',a.calls)
  def test_empty_registry_refuses_before_runtime_artifact_or_output(self):
-  self.assertEqual(b.QUALIFIED,())
-  with patch.object(c.runtime,'select',side_effect=AssertionError('must not query')),patch.object(c.backend,'artifact',side_effect=AssertionError('must not inspect')):
+  # The committed registry may hold reviewed entries; refusal is tested empty.
+  with patch.object(c.backend,'QUALIFIED',()),patch.object(c.runtime,'select',side_effect=AssertionError('must not query')),patch.object(c.backend,'artifact',side_effect=AssertionError('must not inspect')):
    with self.assertRaisesRegex(ValueError,'No committed'):c.prepare(types.SimpleNamespace())
  def test_registry_tuple_and_nonce_substitutions_refuse(self):
   temp,root,private,p=self.fixture()
