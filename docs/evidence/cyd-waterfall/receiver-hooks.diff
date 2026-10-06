@@ -1,0 +1,61 @@
+--- .scratch/esp-sdr-c5/main/targets/esp32/receiver.c	2026-10-06 12:15:46.532148587 -0500
++++ .scratch/cyd-waterfall-build/project/main/targets/esp32/receiver.c	2026-10-06 17:17:37.254204702 -0500
+@@ -9,6 +9,7 @@
+ #include "freertos/task.h"
+ #include "burst_serial.h"
+ #include "spectrum.h"
++#include "cyd_display.h"
+ #include "rx_tuning.h"
+ #include "rx_bandwidth.h"
+ #include "esp_wifi.h"
+@@ -231,6 +232,23 @@
+     } else reply("ERR command\n");
+ }
+ 
++/* CYD display hooks: the same radio routines the host commands use. */
++static bool cyd_acquire(unsigned n, const uint32_t **words) {
++    unsigned elapsed;
++    bool ok = acquire_iq(n, 0, 0, &elapsed);
++    *words = samples;
++    return ok;
++}
++static bool cyd_tune(unsigned mhz) {
++    if (!rx_frequency_valid(mhz)) return false;
++    frequency_mhz = mhz; tune_rx(mhz);
++    prepare_rx(); apply_gain();
++    return true;
++}
++static unsigned cyd_frequency(void) { return frequency_mhz; }
++static bool cyd_agc(void) { return hardware_agc; }
++static const cyd_radio_t cyd_radio = {cyd_acquire, cyd_tune, cyd_frequency, cyd_agc};
++
+ void app_main(void) {
+     esp_log_level_set("*", ESP_LOG_NONE);
+     esp_err_t e = nvs_flash_init();
+@@ -253,10 +271,12 @@
+     REG_CLR_BIT(RX_GAIN, BIT(23)); /* Hardware AGC is the default. */
+     fflush(stdout);
+     burst_serial_init();
++    cyd_display_init(&cyd_radio);
+     char line[128];
+     for (;;) {
+         int status = burst_serial_poll_line(line, sizeof(line));
+-        if (!status) { vTaskDelay(1); continue; }
++        if (!status) { cyd_display_idle(); vTaskDelay(1); continue; }
++        cyd_display_host_activity();
+         if (status < 0) reply("ERR command_length\n");
+         else command(line);
+     }
+--- .scratch/esp-sdr-c5/main/CMakeLists.txt	2026-10-06 12:15:46.528148537 -0500
++++ .scratch/cyd-waterfall-build/project/main/CMakeLists.txt	2026-10-06 17:17:37.360147175 -0500
+@@ -9,6 +9,10 @@
+ set(receiver "${target_dir}/receiver.c")
+ set(sources "common/burst_serial.c" "common/spectrum_stats.c")
+ set(dependencies esp_phy esp_wifi nvs_flash esp_timer esp_driver_uart esp-dsp)
++if(IDF_TARGET STREQUAL "esp32")
++    list(APPEND sources "targets/esp32/cyd_display.c" "targets/esp32/cyd_waterfall_logic.c")
++    list(APPEND dependencies esp_lcd esp_driver_spi esp_driver_gpio)
++endif()
+ option(RING_PROBE "Build bounded experimental ring diagnostics (never package)" OFF)
+ if(IDF_TARGET STREQUAL "esp32c61" OR IDF_TARGET STREQUAL "esp32c6" OR IDF_TARGET STREQUAL "esp32c3")
+     list(APPEND sources "common/ring_capture.c")

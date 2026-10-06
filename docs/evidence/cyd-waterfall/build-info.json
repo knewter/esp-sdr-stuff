@@ -1,0 +1,28 @@
+{
+  "version": "550fade-cyd-waterfall",
+  "source_commit": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+  "esp_dsp_commit": "a53a0756833c045311ea1d79a2badf495cdfde4c",
+  "idf_provenance": "/nix/store/l99a9f59akirlzazxavry48lkhlrawqq-esp-sdr-idf-provenance.json",
+  "overlay_sha256": {
+    "cyd_display.c": "5d8530424da9378d315c7ca971dff3c3d7afe1d76238ef4b2d20d27903d17ad9",
+    "cyd_display.h": "ae60914c48067269983f7777d08da4889c20758edd8bdda15c4484a9f6ca9be7",
+    "cyd_waterfall_logic.c": "e48316ac3204b8b7ac07ffbc444b4cd7194644277075fa1cb5e8c809383832e4",
+    "cyd_waterfall_logic.h": "4f51d8f31440304d3951042665fb23895f3b09e327fa3527028f76858406e2c1"
+  },
+  "builder_sha256": "c5db9dc5226a1ca3c3e128fbd74b94f85fb2f05cd40a4351f4f8b95ae979a21d",
+  "defaults": [
+    "CONFIG_ESP_SDR_UART_BAUD=921600",
+    "CONFIG_APP_PROJECT_VER_FROM_CONFIG=y",
+    "CONFIG_APP_PROJECT_VER=\"550fade-cyd-waterfall\""
+  ],
+  "images_sha256": {
+    "bootloader.bin@0x1000": "a48cfaef91df68c48dc2a8a7c01b05841abb97b1b8898a38cafb97565b939881",
+    "partition-table.bin@0x8000": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+    "esp_sdr.bin@0x10000": "c05fef030bd17e161d9f10b34eb3d2f7d6311ed62e14569cb41861b6a5a5e695"
+  },
+  "flash": {
+    "mode": "dio",
+    "size": "2MB",
+    "freq": "40m"
+  }
+}
