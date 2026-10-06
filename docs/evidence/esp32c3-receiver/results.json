@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "board": "ESP32-C3 board with an ESP32-C3-MINI-1 module (user-supplied)",
+  "chip": {
+    "type": "ESP32-C3 (QFN32)",
+    "revision": "v0.2",
+    "crystal_mhz": 40,
+    "features": "Wi-Fi, BT 5 LE, single core, 160 MHz, embedded 4 MB flash (XMC)"
+  },
+  "preservation": {
+    "flash_bytes": 4194304,
+    "reads": 2,
+    "reads_identical": true,
+    "sha256": "cd3517473707d59c3d915b52a3e16213cadce80d9ffb2b4371958fb7acb51a08",
+    "device_verify_against_read_a": "digest matched",
+    "transport": "on-board CP2102N USB-to-UART bridge, 921600 baud, esptool stub",
+    "original_boot_log": "not captured before the receiver install; restoring the image reproduces it"
+  },
+  "receiver_install": {
+    "esp_sdr_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+    "esp_idf": "25fe69f9 (v6.2.0), .#firmware-riscv shell",
+    "target": "esp32c3",
+    "extra_config": "CONFIG_ESP32C3_REV_MIN_2=y (ESP-IDF defaults to v0.3; v0.2 is a stock option)",
+    "images_sha256": {
+      "bootloader.bin@0x0": "498b956890e88478e4d987389392728986ea54c6faf10886950981a7da4d6437",
+      "partition-table.bin@0x8000": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+      "esp_sdr.bin@0x10000": "3c0ec3b2474c1c70a3df661012d22be54e3fb01ec995d7977d3f0dda07363956"
+    },
+    "write": "esptool write-flash at 921600, every region hash-verified"
+  },
+  "first_contact": {
+    "link": "UART0 via the CP2102N at 2000000 baud",
+    "INFO": "C3SDR 6 burst 16380",
+    "CAPS": "CAPS SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE DUALSERIAL TUNEEXT LPFANA GAIN HWAGC IQ8",
+    "LIMITS": {"gain": [0, 79, 1], "bandwidth": [14, 62, 1, 0], "rates": [80000000], "bits": [8, 10]},
+    "RANGE": "100 6000 1 (MHz, firmware claim; untested)",
+    "TRANSPORT": "UART 2000000",
+    "SPECINFO": {"continuous": false, "transports": ["USB", "UART"], "profiles_rate_hz": 80000000, "profile_bins": [256, 512, 1024, 2048]},
+    "GAIN": "HARDWARE -1 0 79 0"
+  },
+  "not_yet_shown": "No RF capture has been taken. Snapshots are 80 MS/s only (16380 samples = 204.75 us), so the 16 MS/s BLE decoder and tools/esp_sdr_capture.py (which expects INFO 'ESP32SDR') need adapting before reception claims.",
+  "private": "Flash images and device identifiers stay under ignored backups/esp32c3/"
+}
