@@ -1,7 +1,7 @@
 ## 1. Define controlled inputs
 
 - [x] 1.1 Inventory the source/reference/attenuator equipment; write settings and known limits before collecting RF data. Proof: [user equipment inventory and prospective settings/limits](docs/evidence/user-equipment-inventory/README.md). No external reference/attenuator is reported; the host BLE source remains uncalibrated and uncounted. This closes inventory only, not later RF response gates.
-- [ ] 1.2 Record at least three repeated source-on/source-off pairs at known 2.4 GHz channels; compare tone/channel location and background. Progress (not closing): [session 003](docs/evidence/spectrum-controlled-003/README.md) located ch37 by decoded packets in 2 of 3 pairs on the original ESP32. The [ESP32-C3](docs/evidence/esp32c3-receiver/README.md) receiver showed no ch37 bursts in [C3 burst sessions 001–002](docs/evidence/c3-burst-002/README.md). The [ESP32-C5 engineering sample](docs/evidence/esp32c5-preservation/README.md) cannot run ESP-SDR.
+- [ ] 1.2 Record at least three repeated source-on/source-off pairs at known 2.4 GHz channels; compare tone/channel location and background. Progress (not closing): [session 003](docs/evidence/spectrum-controlled-003/README.md) located ch37 by decoded packets in 2 of 3 pairs on the original ESP32. The [ESP32-C3](docs/evidence/esp32c3-receiver/README.md) receiver showed no ch37 bursts in [C3 burst sessions 001–002](docs/evidence/c3-burst-002/README.md). The [ESP32-C5 engineering sample](docs/evidence/esp32c5-preservation/README.md) now runs ESP-SDR on ESP-IDF `d930a386da` with a patched capture routine; reception of a known source is not yet tested.
 
 ## 2. Measure receiver limits
 
