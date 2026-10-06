@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "protocol": "docs/research/spectrum-controlled-003-protocol.md (7af66b1)",
+  "preservation_and_restoration": {
+    "pre_read_equals_baseline": true,
+    "post_restore_read_equals_baseline": true
+  },
+  "ch37": {
+    "p1": {
+      "source_cycles": 20,
+      "controller_counted_events": 5100,
+      "owned_on": 9,
+      "owned_off": 0,
+      "median_carrier_mhz": 2404.1713401673787,
+      "offset_from_nominal_khz": 2171.3401673787303,
+      "carrier_spread_khz": [
+        1976.2270751461983,
+        2460.8399884264145
+      ]
+    },
+    "p2": {
+      "source_cycles": 20,
+      "controller_counted_events": 5100,
+      "owned_on": 9,
+      "owned_off": 0,
+      "median_carrier_mhz": 2403.73559348101,
+      "offset_from_nominal_khz": 1735.5934810098006,
+      "carrier_spread_khz": [
+        1661.7354510694895,
+        1815.4284732677297
+      ]
+    },
+    "p3": {
+      "source_cycles": 20,
+      "controller_counted_events": 5100,
+      "owned_on": 0,
+      "owned_off": 0,
+      "median_carrier_mhz": null,
+      "offset_from_nominal_khz": null,
+      "carrier_spread_khz": null
+    }
+  },
+  "fault": "ch37 pair 3 capture faulted after 87 windows (short UART payload 29421/32760; retained privately); ch38/39 not run",
+  "verdict": "task 1.2 not confirmed: ch37 2 of 3 pairs decoded owned packets (9 and 9 ON, 0 OFF); ch38/39 not run"
+}
