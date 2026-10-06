@@ -1,3 +1,4 @@
+import { githubBlobUrl } from "./repository.mjs";
 import path from "node:path";
 import { isIP } from "node:net";
 
@@ -27,12 +28,11 @@ export function workMarkdownLinks(
   const docByPath = new Map(documents.map((doc) => [doc.path, doc]));
   const known = new Set(knownPaths);
   const siteBase = base.endsWith("/") ? base : `${base}/`;
-  const github = `${siteBase}source/${revision}/`;
   const pageDirectory = pagePath === undefined ? undefined
     : pagePath.endsWith("/") ? pagePath : path.posix.dirname(pagePath);
   // Templates are cloned into the work-page modal, so their URLs resolve there.
   const localUrl = (value) => {
-    if (pageDirectory === undefined) return value;
+    if (pageDirectory === undefined || /^[a-z][a-z\d+.-]*:/i.test(value)) return value;
     const [, pathname, suffix = ""] = /^([^?#]+)([?#].*)?$/.exec(value);
     let relative = path.posix.relative(pageDirectory, pathname);
     if (pathname.endsWith("/")) relative = relative ? `${relative}/` : "./";
@@ -78,7 +78,7 @@ export function workMarkdownLinks(
               } else if (localDoc) {
                 node.properties[key] = localUrl(`${siteBase}work/?work=${encodeURIComponent(localDoc.workId)}&doc=${localDoc.section}`);
               } else {
-                node.properties[key] = localUrl(`${github}${target.split("/").map(encodeURIComponent).join("/")}${suffix}`);
+                node.properties[key] = `${githubBlobUrl(revision, target)}${suffix}`;
               }
             }
           }

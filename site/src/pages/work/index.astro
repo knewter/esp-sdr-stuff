@@ -6,10 +6,12 @@ import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import work from "../../data/work.json";
 import { specs, url as siteUrl } from "../../lib/specs";
 import { rawEvidenceUrl } from "../../lib/evidence-markdown";
+import { REPOSITORY } from "../../lib/repository.mjs";
 import { workMarkdownLinks } from "../../lib/work-markdown";
 
 // Related records and cloned modal content resolve in this work-page document.
 const localUrl = (absolute: string) => {
+  if (/^[a-z][a-z\d+.-]*:/i.test(absolute)) return absolute; // GitHub link
   const [, pathname, suffix = ""] = /^([^?#]+)([?#].*)?$/.exec(absolute)!;
   let relative = path.posix.relative(siteUrl("work/"), pathname);
   if (pathname.endsWith("/")) relative = relative ? `${relative}/` : "./";
@@ -138,7 +140,7 @@ const items = await Promise.all(work.items.map(async (item) => ({
       <pre id="file-text" tabindex="0" hidden></pre>
     </div>
   </dialog>
-  <script type="application/json" id="work-artifact-index" data-revision={work.sourceRevision} data-base={url("")} set:html={JSON.stringify(artifactIndex).replace(/</g, "\\u003c")} />
+  <script type="application/json" id="work-artifact-index" data-revision={work.sourceRevision} data-base={url("")} data-repository={REPOSITORY} set:html={JSON.stringify(artifactIndex).replace(/</g, "\\u003c")} />
   {items.map((item) => <DetailTemplate id={`work-detail-${item.id}`}>
     <div class="detail-body" data-detail-id={item.id}>
       {item.media.length > 0 && <section class="detail-media" aria-label="Visual evidence">
@@ -185,8 +187,13 @@ const items = await Promise.all(work.items.map(async (item) => ({
   const artifactData = document.querySelector<HTMLElement>("#work-artifact-index");
   const artifacts: Artifact[] = (JSON.parse(artifactData?.textContent ?? "[]") as [string, string | null][]).map(([path, slug]) => {
     const encoded = path.split("/").map(encodeURIComponent).join("/");
-    const raw = `${artifactData?.dataset.base}source/${artifactData?.dataset.revision}/${encoded}`;
-    return { path, raw, href: slug ? `${artifactData?.dataset.base}evidence/${slug}/` : raw, source: raw };
+    const revision = artifactData?.dataset.revision;
+    // Images are self-hosted; other files come from GitHub at this revision.
+    const image = /\.(png|svg|jpe?g|gif|webp)$/i.test(path);
+    const raw = image ? `${artifactData?.dataset.base}source/${revision}/${encoded}`
+      : `https://raw.githubusercontent.com/${artifactData?.dataset.repository}/${revision}/${encoded}`;
+    const source = image ? raw : `https://github.com/${artifactData?.dataset.repository}/blob/${revision}/${encoded}`;
+    return { path, raw, href: slug ? `${artifactData?.dataset.base}evidence/${slug}/` : source, source };
   });
   const artifactByUrl = new Map<string, Artifact>();
   artifacts.forEach((artifact) => [artifact.href, artifact.raw, artifact.source].forEach((link) => artifactByUrl.set(new URL(link, location.href).href, artifact)));

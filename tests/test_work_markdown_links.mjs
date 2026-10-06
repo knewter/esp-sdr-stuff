@@ -43,8 +43,8 @@ for (const base of ["/", "/esp-sdr-stuff/"]) {
     ["tasks.md", "a", "./?work=example&doc=2"],
     ["docs/evidence/example/image.png?size=large#crop", "img", "../assets/example.png?size=large#crop"],
     ["docs/evidence/example/image.png#image", "a", "../evidence/docs-evidence-example-image-png/#image"],
-    [rawPath + "?download=1#bytes", "a", "../source/1234567/docs/evidence/example/raw%20samples.bin?download=1#bytes"],
-    [sourcePath + "?plain=1#method", "a", "../source/1234567/docs/research/example.md?plain=1#method"],
+    [rawPath + "?download=1#bytes", "a", "https://github.com/knewter/esp-sdr-stuff/blob/1234567/docs/evidence/example/raw%20samples.bin?download=1#bytes"],
+    [sourcePath + "?plain=1#method", "a", "https://github.com/knewter/esp-sdr-stuff/blob/1234567/docs/research/example.md?plain=1#method"],
     ["#section", "a", "#section"],
     ["https://github.com/example/project?tab=readme#usage", "a", "https://github.com/example/project?tab=readme#usage"],
   ];

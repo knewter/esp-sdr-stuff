@@ -6,6 +6,7 @@ import json
 import shutil
 import subprocess
 ROOT = Path(__file__).resolve().parents[1]
+IMAGE_SUFFIXES = (".png", ".svg", ".jpg", ".jpeg", ".gif", ".webp")
 def committed_payloads(repo, revision, paths):
     """Read exact committed blobs in one Git process, including binary images."""
     if any("\n" in path or "\r" in path for path in paths):
@@ -46,10 +47,14 @@ def export():
         if path not in known: raise ValueError(f"Uncommitted source: {path}")
         if path.endswith((".bin", ".avm")) or path.startswith("backups/"):
             raise ValueError(f"Firmware backup cannot be published: {path}")
-    for path, payload in committed_payloads(ROOT, revision, paths):
+    # Only images are copied (pages embed them). Every other cited file links
+    # to github.com/knewter/esp-sdr-stuff at this revision; the checks above
+    # still refuse uncommitted or backup paths.
+    images = [path for path in paths if path.lower().endswith(IMAGE_SUFFIXES)]
+    for path, payload in committed_payloads(ROOT, revision, images):
         dest = output / revision / path
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(payload)
     (ROOT / "site/public/revision.json").write_text(json.dumps({"revision": revision}) + "\n")
-    print(f"exported {len(requested)} committed sources at {revision[:12]}")
+    print(f"checked {len(requested)} committed sources, copied {len(images)} images at {revision[:12]}")
 if __name__ == "__main__": export()

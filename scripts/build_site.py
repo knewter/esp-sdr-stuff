@@ -100,8 +100,8 @@ def main():
     run(sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_site_output.py")
     files = [p for p in dist.rglob("*") if p.is_file()]
     size = sum(p.stat().st_size for p in files)
-    # The growing, byte-exact source archive is most of the publication. Bound
-    # generated UI separately so more retained evidence cannot hide page bloat.
+    # Self-hosted evidence images live under source/; other repository files
+    # link to GitHub. Bound generated pages separately from those images.
     page_size = sum(p.stat().st_size for p in files if not p.is_relative_to(dist / "source"))
     elapsed = time.monotonic() - started
     # These budgets are made-up regression guards chosen by this project, not
@@ -110,6 +110,6 @@ def main():
     # approached it; adjust freely when a real constraint appears.
     if size > 24 * 1024 * 1024 or page_size > 4 * 1024 * 1024 or elapsed > 120:
         raise RuntimeError(f"Site exceeds budget: {size} total bytes, {page_size} page bytes, {elapsed:.2f} seconds")
-    print(f"Site verified: {size:,} bytes ({page_size:,} outside source archive) in {elapsed:.2f}s")
+    print(f"Site verified: {size:,} bytes ({page_size:,} outside self-hosted images) in {elapsed:.2f}s")
     return 0
 if __name__ == "__main__": raise SystemExit(main())

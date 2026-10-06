@@ -1,5 +1,6 @@
 import path from "node:path";
 import { url, type EvidenceFile } from "./specs";
+import { SELF_HOSTED, githubBlobUrl } from "./repository.mjs";
 
 type Node = { type?: string; tagName?: string; properties?: Record<string, unknown>; children?: Node[] };
 
@@ -9,12 +10,16 @@ function encodedPath(value: string): string {
   return value.split("/").map(encodeURIComponent).join("/");
 }
 
+/** Images are self-hosted; every other committed file links to GitHub. */
 export function rawEvidenceUrl(revision: string, filePath: string): string {
-  return url(`source/${revision}/${encodedPath(filePath)}`);
+  return SELF_HOSTED.test(filePath)
+    ? url(`source/${revision}/${encodedPath(filePath)}`)
+    : githubBlobUrl(revision, filePath);
 }
 
 /** Serialize an internal URL relative to the document that renders it. */
 export function relativeEvidenceUrl(value: string, pagePath: string): string {
+  if (/^[a-z][a-z\d+.-]*:/i.test(value)) return value; // external (GitHub) link
   const [, pathname, suffix = ""] = /^([^?#]+)([?#].*)?$/.exec(value)!;
   const directory = pagePath.endsWith("/") ? pagePath : path.posix.dirname(pagePath);
   let relative = path.posix.relative(directory, pathname);
