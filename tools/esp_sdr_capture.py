@@ -18,6 +18,8 @@ import zlib
 SOURCE_REVISION = '550fadea4d00a9e26ce921c5832167becb3dc20c'
 STABLE_PORT = '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0'
 RATE_CODES = {80000000: 0, 40000000: 1, 16000000: 6}
+# Original ESP32 and ESP32-C3 builds of ESP-SDR 550fade; LIMITS? gives each rate set.
+KNOWN_IDENTITIES = {'ESP32SDR 6 burst 16380', 'C3SDR 6 burst 16380'}
 
 
 class ProtocolError(RuntimeError):
@@ -263,8 +265,8 @@ def open_board(path, baud=2000000, timeout=3):
 
 def queries(port):
     result = {q: command(port, q) for q in ['INFO', 'CAPS', 'LIMITS?', 'RANGE?', 'TRANSPORT?', 'SPECINFO?', 'GAIN?', 'BAUD?']}
-    if result['INFO'] != 'ESP32SDR 6 burst 16380':
-        raise RuntimeError('Unexpected firmware identity; original ESP32 protocol 6 required')
+    if result['INFO'] not in KNOWN_IDENTITIES:
+        raise RuntimeError('Unexpected firmware identity; ESP-SDR protocol 6 on a known target required')
     if not result['LIMITS?'].startswith('LIMITS '):
         raise ProtocolError('Malformed LIMITS')
     result['parsed_limits'] = json.loads(result['LIMITS?'][7:])
