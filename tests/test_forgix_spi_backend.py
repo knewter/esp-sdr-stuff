@@ -232,6 +232,23 @@ class Serial(unittest.TestCase):
         out=self.run_serial();self.assertEqual(out['status'],'registers_verified');self.assertEqual(self.device.close_calls,1)
         self.assertEqual(out['raw_bytes'],1664);self.assertEqual(self.device.scratch,0xdeadbeef)
         self.assertFalse(out['physical_qualification_proved'])
+    def test_verified_collection_survives_bridge_reboot_after_finish(self):
+        """The bridge leaves USB 1 s after FINISH; that must not fail a verified run."""
+        self.request.update(action='collect',expected_identity=self.identity);self.device=Device(native.NativeProtocol.lib)
+        original_close=self.device.close
+        def close_and_vanish():
+            original_close()
+            def gone():raise FileNotFoundError('bridge rebooted after FINISH')
+            self.select=gone
+        self.device.close=close_and_vanish
+        selects=lambda:self.select()
+        def opened(*args):self.opens+=1;return self.device
+        with patch.object(backend,'inherited_operator_lock',return_value={'fixture':True}):
+            out=backend.serial_operation(self.request,self.store,selects,opened,lambda:self.now)
+        self.assertEqual(out['status'],'registers_verified');self.assertEqual(self.device.close_calls,1)
+    def test_failed_collection_still_requires_enumeration_at_the_end(self):
+        self.request['action']='collect';self.device=Device(native.NativeProtocol.lib,fault='crc')
+        with self.assertRaises(ValueError):self.run_serial()
     def test_failed_collect_closes_and_retains_prefix(self):
         self.request['action']='collect';self.device=Device(native.NativeProtocol.lib,fault='crc')
         with self.assertRaisesRegex(ValueError,'Register collection failed'):self.run_serial()

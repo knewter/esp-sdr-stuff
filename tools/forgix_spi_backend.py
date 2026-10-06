@@ -398,7 +398,16 @@ def serial_operation(request,store,select,open_transport,clock=time.monotonic):
             if transport is not None and result.get('transport_closed') is not True:
                 transport.close();result['transport_closed']=True
             result['identity_private']=identity
-    check();require(result.get('persistence_verified') is True and result.get('transport_closed') is True,'Serial receipt incomplete')
+    if action=='collect' and result.get('status')=='registers_verified':
+        # A verified FINISH reply ends the bridge one second later by design,
+        # and the collector re-selected identity before every exchange,
+        # including FINISH. Requiring enumeration here would race that reboot
+        # (the defect class that failed clock episodes 002/004). Deadline and
+        # inherited lock still gate success.
+        require(clock()<until,'Selected identity changed or deadline expired')
+        require(inherited_operator_lock(request['lockfd'],request['lockpath'])==original_lock,'Inherited operator lock changed')
+    else:check()
+    require(result.get('persistence_verified') is True and result.get('transport_closed') is True,'Serial receipt incomplete')
     return result
 
 def ready_bridge(select,until,clock=time.monotonic,pause=time.sleep):
