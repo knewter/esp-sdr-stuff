@@ -36,7 +36,7 @@ counted cycles.
    200 windows, with the source starting 10 s in and running 15 counted
    cycles on ch39.
 2. **Search decode.** Each search capture is decoded over translations from
-   −7.4 to +7.4 MHz in 0.8 MHz steps. Together the three captures cover
+   −7.4 to +7.0 MHz in 0.8 MHz steps (19 points). Together the three captures cover
    carriers from about 16 MHz below to 16 MHz above 2480 MHz.
 3. **Selection** (`tools/spectrum_session_analysis.py search`). Take the LO
    with the most owned ON packets; ties go to the LO nearest 2479. The pair
