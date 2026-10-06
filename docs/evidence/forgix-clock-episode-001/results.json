@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-05",
+  "qualification": "rebound 2026-10-04 reviewed clock safety candidate (commit 2514834)",
+  "episodes": [
+    {
+      "id": "001",
+      "outcome": "failed before ROM entry",
+      "stage": "preserve-before",
+      "error": "factory CDC open ETIMEDOUT setting modem-control lines",
+      "device_actions": "none beyond factory query attempt",
+      "resolution": "udev ID_MM_DEVICE_IGNORE for 2e8a + physical replug; pending marker retained privately and resolved by operator; clock-trial recover: original flash and factory verified"
+    },
+    {
+      "id": "002",
+      "outcome": "failed: reply transport incomplete",
+      "lifecycle": [
+        "admit",
+        "preserve-before",
+        "enter-rom",
+        "load-ram",
+        "observe (failed)",
+        "return-factory",
+        "preserve-after"
+      ],
+      "original_flash_and_factory_verified_after": true,
+      "flash_write_operations": 0,
+      "reply_bytes_received": 256,
+      "reply_bytes_expected": 512,
+      "crc_received": false,
+      "partial_reply_checks": {
+        "magic": "FGCR",
+        "nonce_echo_matches": true,
+        "build_and_image_hash_fields_match": true
+      },
+      "firmware_config_status": 0,
+      "observer_status": 0,
+      "sample_count": 16,
+      "decrements": [
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398,
+        2398
+      ],
+      "timeline_us": {
+        "boot_us": 2702,
+        "complete_command_us": 1755998,
+        "config_begin_us": 1756001,
+        "config_end_us": 4583298,
+        "capture_begin_us": 4583302,
+        "capture_end_us": 4584528,
+        "reply_encoded_us": 4584529,
+        "drain_deadline_us": 6584529
+      },
+      "fpga_configuration_ms": 2827.297,
+      "capture_ms": 1.226,
+      "digital_ratio_interval": {
+        "lower": "256/1203",
+        "upper": "256/1195",
+        "lower_float": 0.21280133000831256,
+        "upper_float": 0.21422594142259413
+      },
+      "implied_fpga_clock_mhz_at_nominal_150mhz_rp": [
+        31.920199501246884,
+        32.13389121338912
+      ],
+      "cause": "firmware/forgix-clock-observer/main.c reboots as soon as all 512 bytes are enqueued; up to 256 bytes still in the TinyUSB TX FIFO are lost"
+    }
+  ],
+  "limits": [
+    "Partial reply lacks the end-to-end CRC; USB link-layer CRC still applied per packet.",
+    "RP clock is nominal 150 MHz, not calibrated.",
+    "Digital bound excludes pad propagation/synchronizer effects.",
+    "Tasks 3.3/3.4 stay open until a CRC-complete reply."
+  ]
+}
