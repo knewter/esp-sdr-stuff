@@ -29,11 +29,14 @@ class Gates(unittest.TestCase):
                                  'execution_sha256','environment_sha256','uid_sha256','baseline_sha256')}
     def test_registry_empty_and_booleans_cannot_admit(self):
         p=self.profile();p.update(qualification_verified=True,physical_execution_admitted=True)
-        self.assertEqual(backend.QUALIFIED,())
-        b=object.__new__(backend.Backend);b.used=False;b.profile=p
-        b.inspector=SimpleNamespace(target=lambda *args:self.fail('device queried'))
-        b.check_inputs=lambda:self.fail('inputs touched after refused registry')
-        with self.assertRaisesRegex(ValueError,'No committed physical'):b.admit(30)
+        # Refused both with an empty registry and when the profile is not one of
+        # the committed reviewed entries.
+        for registry in ((),backend.QUALIFIED):
+            with self.subTest(entries=len(registry)),patch.object(backend,'QUALIFIED',registry):
+                b=object.__new__(backend.Backend);b.used=False;b.profile=p
+                b.inspector=SimpleNamespace(target=lambda *args:self.fail('device queried'))
+                b.check_inputs=lambda:self.fail('inputs touched after refused registry')
+                with self.assertRaisesRegex(ValueError,'No committed physical'):b.admit(30)
     def test_hidden_worker_refuses_before_artifact_or_port(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)/'request.json';p.write_text(json.dumps({'profile':self.profile()}))

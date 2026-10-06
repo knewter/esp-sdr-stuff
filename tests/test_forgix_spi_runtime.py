@@ -44,7 +44,7 @@ class RegisterRuntime(unittest.TestCase):
         return profile,frozen,q,path
 
     def test_empty_registry_blocks_tool_selection_and_complete_build_source_map_is_frozen(self):
-        with patch.object(runtime,'select')as select,self.assertRaisesRegex(ValueError,'No committed qualification'):
+        with patch.object(backend,'QUALIFIED',()),patch.object(runtime,'select')as select,self.assertRaisesRegex(ValueError,'No committed qualification'):
             coordinator.prepare(SimpleNamespace())
         select.assert_not_called()
         self.assertTrue(set(backend.ARTIFACT_FILES)<=backend.EXECUTION_FILES)

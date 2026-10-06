@@ -20,7 +20,8 @@ from test_forgix_spi_lifecycle import Adapter
 
 class Preflight(unittest.TestCase):
     def test_empty_registry_refuses_before_any_artifact_or_device_access(self):
-        with patch.object(backend,'artifact',side_effect=AssertionError('artifact reached')):
+        # The committed registry may hold reviewed entries; refusal is tested empty.
+        with patch.object(backend,'QUALIFIED',()),patch.object(backend,'artifact',side_effect=AssertionError('artifact reached')):
             with self.assertRaisesRegex(ValueError,'No committed qualification'):coordinator.prepare(SimpleNamespace())
     def test_cli_has_no_qualification_bypass(self):
         with patch.object(backend,'QUALIFIED',()):
