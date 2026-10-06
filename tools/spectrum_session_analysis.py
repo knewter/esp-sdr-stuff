@@ -32,11 +32,18 @@ def main():
             stem = a.session/f'a-ch{ch}-p{n}'
             if not (stem/'results.json').exists():
                 continue
+            # Decode only complete windows: retained fault fragments share the
+            # raw directory, so link the iq-*.bin payloads into their own one.
+            iq = a.session/f'a-ch{ch}-p{n}-iq'
+            iq.mkdir(exist_ok=True)
+            for f in sorted((a.session/f'a-ch{ch}-p{n}-raw').glob('iq-*.bin')):
+                if not (iq/f.name).exists():
+                    (iq/f.name).symlink_to(f.resolve())
             decodes = []
             for k in a.grid_khz:
                 path = a.session/f'a-ch{ch}-p{n}-decode{k}.json'
                 if not path.exists():
-                    decode(['--input', str(a.session/f'a-ch{ch}-p{n}-raw'), '--output', str(path),
+                    decode(['--input', str(iq), '--output', str(path),
                             '--owned-reference', str(a.owned_reference), '--rate', '16000000',
                             '--frequency-translation-hz', str(k*1000), '--channel', str(ch), '--accept-chsel'])
                 decodes.append((path, k*1000))
