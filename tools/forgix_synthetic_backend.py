@@ -356,7 +356,9 @@ def serial_worker(path):
                 and trial.sha(trial.private_file(p['qualification_path'],'.scratch'))==p['qualification_sha256'],'Worker artifact/qualification changed')
         return {'synthetic_stream_qualified':True,'lifecycle_admitted':True,'contract_sha256':CONTRACT_SHA256,
                 'build_sha256':p['bridge_source_sha256'],'image_sha256':p['bitstream_sha256'],'rp_drain_pause_enabled':p['rp_pause']}
-    def select():admission();return select_stream(p,r['bus'])
+    # The collector's check() owns (rate-limited) admission; selection itself
+    # only re-reads the identity-bound sysfs/tty state on every call.
+    def select():return select_stream(p,r['bus'])
     if r.get('action')=='replay':
         admission()
         replay=collector.replay(path.parent/'capture',binding(p))

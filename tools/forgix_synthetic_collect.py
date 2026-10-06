@@ -70,6 +70,8 @@ class PrivateRun:
     def result(self, value):
         with self._open('result.json') as h:self.durable(h,(json.dumps(value,indent=2)+'\n').encode())
 
+ADMISSION_INTERVAL_NS=1_000_000_000
+
 def collect(path, binding, open_transport, verify_admission, select_identity,
             lockfd, lockpath, boot_host_ns, clock_ns=time.monotonic_ns, pause=time.sleep,
             host_pause=True, store_factory=PrivateRun):
@@ -95,15 +97,24 @@ def collect(path, binding, open_transport, verify_admission, select_identity,
         require(type(value) is int and value>=last_ns, 'Host clock reversed or invalid')
         last_ns=value
         return value
-    def check(deadline):
+    last_admission=None
+    def check(deadline,full=False):
+        nonlocal last_admission
         require(now()<deadline, 'Absolute collector deadline expired')
-        admission=verify_admission()
-        require(type(admission) is dict and admission.get('synthetic_stream_qualified') is True
-                and admission.get('lifecycle_admitted') is True
-                and admission.get('contract_sha256')==CONTRACT_SHA256
-                and admission.get('build_sha256')==binding.build.hex()
-                and admission.get('image_sha256')==binding.image.hex()
-                and admission.get('rp_drain_pause_enabled') is binding.rp_pause, 'Qualified synthetic lifecycle/artifacts required')
+        # Full admission re-hashes every frozen input (~250 ms on the reference
+        # host). Run per frame it throttled physical episode 001 to ~2 frames/s,
+        # overflowing the FPGA FIFO. It now runs on every command and at the end
+        # (full=True) and at most once per second while streaming; identity,
+        # lock and deadline stay checked on every call.
+        if full or last_admission is None or now()-last_admission>=ADMISSION_INTERVAL_NS:
+            admission=verify_admission()
+            require(type(admission) is dict and admission.get('synthetic_stream_qualified') is True
+                    and admission.get('lifecycle_admitted') is True
+                    and admission.get('contract_sha256')==CONTRACT_SHA256
+                    and admission.get('build_sha256')==binding.build.hex()
+                    and admission.get('image_sha256')==binding.image.hex()
+                    and admission.get('rp_drain_pause_enabled') is binding.rp_pause, 'Qualified synthetic lifecycle/artifacts required')
+            last_admission=now()
         selected=select_identity()
         require(identity is None or selected==identity, 'Selected original identity changed')
         current=inherited_operator_lock(lockfd,lockpath)
@@ -118,7 +129,7 @@ def collect(path, binding, open_transport, verify_admission, select_identity,
             raise
     def write_command(operation,deadline):
         raw=binding.command(operation);name='config' if operation==1 else 'start'
-        check(deadline);result['operation']=name+'-intent'
+        check(deadline,full=True);result['operation']=name+'-intent'
         store.command(name+'-command',raw)
         event({'operation':name,'phase':'intent','host_ns':now(),'deadline_ns':deadline,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()})
         check(deadline)
@@ -128,7 +139,7 @@ def collect(path, binding, open_transport, verify_admission, select_identity,
         ended=now()
         event({'operation':name,'phase':'write-returned','start_ns':began,'end_ns':ended,'count':count if type(count) is int else None})
         require(type(count) is int and count==128, 'Ambiguous short command write')
-        check(deadline)
+        check(deadline,full=True)
         return began
     def frame(deadline):
         prefix=bytearray();began=now();offset=store.bytes
@@ -183,7 +194,7 @@ def collect(path, binding, open_transport, verify_admission, select_identity,
             raw,stamp=frame(until);validator.accept(raw,stamp)
         result['validation']=validator.summary()
         if host_pause:require(paused,'Declared host pause did not run')
-        check(until);result['status']='lossless' if result['validation']['lossless'] else 'forensic_failed'
+        check(until,full=True);result['status']='lossless' if result['validation']['lossless'] else 'forensic_failed'
     except BaseException as exc:
         problem=exc;result['status']='failed';result['failure']={'kind':type(exc).__name__,'operation':result['operation']}
         result['validation']=validator.summary()

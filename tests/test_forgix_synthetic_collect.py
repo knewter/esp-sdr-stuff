@@ -191,4 +191,30 @@ class Collection(unittest.TestCase):
         r=self.failed(StreamError,pause=lambda seconds:None)
         self.assertEqual(r['host_pause']['duration_ns'],0);self.assertTrue(self.tx.closed)
 
+    def test_full_admission_rate_limited_but_identity_checked_every_frame(self):
+        """Episode 001 regression: per-frame full admission throttled the host."""
+        calls=[];selects=[]
+        def admission():calls.append(self.clock.value);return self.admission()
+        def select():selects.append(self.clock.value);return self.identity.copy()
+        r=self.run_trial(verify_admission=admission,select_identity=select)
+        self.assertEqual(r['status'],'lossless')
+        frames=len(self.frames)
+        # Identity is still re-read on every check (several per frame).
+        self.assertGreaterEqual(len(selects),2*frames)
+        # Full admission: commands + end + at most about one per streamed second.
+        span=(calls[-1]-calls[0])/1e9
+        self.assertLess(len(calls),frames)
+        self.assertLessEqual(len(calls),span+12)
+        gaps=[(b-a)/1e9 for a,b in zip(calls,calls[1:])]
+        self.assertLessEqual(max(gaps),2.5)  # never more than ~1s plus one frame wait
+
+    def test_admission_failure_mid_stream_still_stops(self):
+        state={'n':0}
+        def admission():
+            state['n']+=1
+            return self.admission() if state['n']<8 else {}
+        r=self.failed(StreamError,verify_admission=admission)
+        self.assertNotEqual(r['status'],'lossless');self.assertTrue(self.tx.closed)
+        self.assertLess(r['raw_bytes'],len(self.frames)*512)
+
 if __name__=='__main__':unittest.main()
