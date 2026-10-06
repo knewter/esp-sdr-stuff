@@ -1,0 +1,175 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "episodes": [
+    {
+      "id": "001",
+      "offered_rate_Bps": 256,
+      "period_cycles": 2000000,
+      "target_records": 960,
+      "artifact": "synthetic ARM002 (675080b) + FPGA candidate-004",
+      "registry_commit": "8c1feb1",
+      "lifecycle": "admit, preserve-before, enter-rom, load-ram, stream (failed), return-factory, preserve-after",
+      "original_flash_and_factory_verified_after": true,
+      "flash_write_operations": 0,
+      "received_frames": 114,
+      "received_records": 727,
+      "source_sequence_gaps": [
+        {
+          "first": 202,
+          "last": 220,
+          "count": 19
+        },
+        {
+          "first": 306,
+          "last": 314,
+          "count": 9
+        },
+        {
+          "first": 400,
+          "last": 402,
+          "count": 3
+        },
+        {
+          "first": 487,
+          "last": 505,
+          "count": 19
+        },
+        {
+          "first": 590,
+          "last": 603,
+          "count": 14
+        },
+        {
+          "first": 689,
+          "last": 709,
+          "count": 21
+        },
+        {
+          "first": 795,
+          "last": 806,
+          "count": 12
+        }
+      ],
+      "records_missing_in_gaps": 97,
+      "terminal_received": false,
+      "strict_failure": "GAP",
+      "host_start_to_last_frame_s": 64.017300103,
+      "host_read_call_ms_median": 32.2694725,
+      "host_time_between_reads_ms_median": 501.931281,
+      "cause": "host collector re-ran full admission (~250 ms each) up to 3x per frame plus in select(); host took ~2 frames/s, RP USB queue filled, FPGA FIFO overflowed, RP hit its 65 s deadline without END",
+      "fix": "commit after 8c1feb1: rate-limited full admission, per-frame identity/lock/deadline kept; independent review ACCEPT"
+    },
+    {
+      "id": "002",
+      "offered_rate_Bps": 256,
+      "period_cycles": 2000000,
+      "target_records": 960,
+      "status": "lossless",
+      "lossless": true,
+      "received_frames": 448,
+      "received_records": 960,
+      "source_sequence_gaps": [],
+      "end_status": 0,
+      "generated": 960,
+      "enqueued": 960,
+      "fpga_fifo_drops": 0,
+      "popped": 960,
+      "delivered_record_Bps": 253.2614687453773,
+      "stream_seconds": 60.648783552,
+      "reconciliation": {
+        "fresh_final_source_snapshot": true,
+        "RP_confirmed_not_received": 0,
+        "RP_confirmed_not_staged": 0,
+        "RP_encoded_not_API_accepted_frames": 0,
+        "API_accepted_DATA_frames_not_received": 0,
+        "reported_source_remaining": 0,
+        "reported_source_drops": 0,
+        "reported_source_generated": 960
+      },
+      "original_flash_and_factory_verified_after": true,
+      "flash_write_operations": 0
+    },
+    {
+      "id": "003",
+      "offered_rate_Bps": 1024,
+      "period_cycles": 500000,
+      "target_records": 3840,
+      "status": "lossless",
+      "lossless": true,
+      "received_frames": 546,
+      "received_records": 3840,
+      "source_sequence_gaps": [],
+      "end_status": 0,
+      "generated": 3840,
+      "enqueued": 3840,
+      "fpga_fifo_drops": 0,
+      "popped": 3840,
+      "delivered_record_Bps": 1021.2594601618932,
+      "stream_seconds": 60.161009417,
+      "reconciliation": {
+        "fresh_final_source_snapshot": true,
+        "RP_confirmed_not_received": 0,
+        "RP_confirmed_not_staged": 0,
+        "RP_encoded_not_API_accepted_frames": 0,
+        "API_accepted_DATA_frames_not_received": 0,
+        "reported_source_remaining": 0,
+        "reported_source_drops": 0,
+        "reported_source_generated": 3840
+      },
+      "original_flash_and_factory_verified_after": true,
+      "flash_write_operations": 0
+    },
+    {
+      "id": "004",
+      "offered_rate_Bps": 2048,
+      "period_cycles": 250000,
+      "target_records": 7680,
+      "status": "forensic_failed",
+      "lossless": false,
+      "received_frames": 525,
+      "received_records": 7527,
+      "source_sequence_gaps": [
+        {
+          "first": 499,
+          "last": 566,
+          "count": 68
+        },
+        {
+          "first": 1807,
+          "last": 1891,
+          "count": 85
+        }
+      ],
+      "end_status": 8,
+      "generated": 7680,
+      "enqueued": 7527,
+      "fpga_fifo_drops": 153,
+      "popped": 7527,
+      "delivered_record_Bps": 2007.0739441152807,
+      "stream_seconds": 60.003768348,
+      "reconciliation": {
+        "fresh_final_source_snapshot": true,
+        "RP_confirmed_not_received": 0,
+        "RP_confirmed_not_staged": 0,
+        "RP_encoded_not_API_accepted_frames": 0,
+        "API_accepted_DATA_frames_not_received": 0,
+        "reported_source_remaining": 0,
+        "reported_source_drops": 153,
+        "reported_source_generated": 7680
+      },
+      "original_flash_and_factory_verified_after": true,
+      "flash_write_operations": 0
+    }
+  ],
+  "limits": [
+    "Capacity above 2 KB/s is not measured; the 2048 B/s loss coincides with host stalls on a heavily loaded host (load average ~70-90).",
+    "Delivered rates are host-measured over ~60 s; FPGA clock is the measured ~32 MHz, RP clock nominal.",
+    "This proves the FPGA->SPIBone->RP->USB synthetic route; it does not connect ESP radio samples or measure RF."
+  ],
+  "registry_commit": "e2a3d1e (rebound after collector fix a1c3c05)",
+  "independent_review": {
+    "verdict": "ACCEPT for FPGA task 2.1",
+    "correction": "2048 B/s loss attributed to host-side USB stalls (longest 2.79 s) filling the 16-frame RP queue, halting acquire() until the 64-entry FPGA FIFO overflowed; the earlier ~125-130 records/s SPI ceiling estimate is unsupported (wire time alone allows ~210 records/s)"
+  }
+}

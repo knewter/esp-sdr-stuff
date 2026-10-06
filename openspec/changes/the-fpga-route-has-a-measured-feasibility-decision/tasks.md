@@ -5,7 +5,7 @@
 
 ## 2. Benchmark before RF integration
 
-- [ ] 2.1 Run a synthetic sequence through the selected host transport at several rates; retain counters, CRC, sustained throughput, stall/backlog and signal-timing evidence.
+- [x] 2.1 Run a synthetic sequence through the selected host transport at several rates; retain counters, CRC, sustained throughput, stall/backlog and signal-timing evidence. Proof: [synthetic episodes 001–004, independently accepted](docs/evidence/forgix-synthetic-episode-001/README.md) — lossless 960/960 at 256 B/s and 3,840/3,840 at 1,024 B/s; at 2,048 B/s 153/7,680 FPGA FIFO drops during host USB stalls, zero RP-to-host loss; failed episode 001 (host admission throttling) retained.
 - [ ] 2.2 If synthetic capacity and SRAM access pass, try a bounded RF integration and measure continuity; otherwise record the failing limit.
 - [ ] 2.3 Publish a decision: original-chip improvement, separate S3 front end, or no useful FPGA route, with evidence supporting the choice.
 
