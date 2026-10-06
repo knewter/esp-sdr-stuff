@@ -459,7 +459,7 @@ production tuples before any physical action. No task acceptance or registry
 entry is added.
 
 
-Task3.2's [complete-profile boundary](../../../docs/research/forgix-clock-observer-protocol.md)
+Task3.2's [complete-profile boundary](../../../../docs/research/forgix-clock-observer-protocol.md)
 now identifies the distinct one-request RAM USB result path, direct B4 clock
 binding, exact-image builder, dedicated ELF/startup policy, prefix-preserving
 collector and bounded preserved measurement lifecycle. This is prospective

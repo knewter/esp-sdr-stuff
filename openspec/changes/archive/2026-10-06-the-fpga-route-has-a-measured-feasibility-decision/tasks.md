@@ -423,7 +423,7 @@ tasks stay unchanged. Replacement author proof passes 63 distinct host groups
 and all three unchanged peer controls/counterexamples. Shared refusal precedes
 unknown-closure FD release; double persistence failure retains the exact held
 FD without hardware or renewed acceptance. Cancellation handling spans final
-effects. Independent replacement review passes 63 author + 8 peer groups, with 65 execution inputs and 32 actual imports; the [sanitized checkpoint](../../../docs/evidence/forgix-synthetic-finalization-review/README.md) retains both failures. The [fresh root configuration006 and register/synthetic runtime transfer](../../../docs/evidence/forgix-host-refresh-2026-10-05/README.md) now passes independent saved review. Every physical gate remains pending.
+effects. Independent replacement review passes 63 author + 8 peer groups, with 65 execution inputs and 32 actual imports; the [sanitized checkpoint](../../../../docs/evidence/forgix-synthetic-finalization-review/README.md) retains both failures. The [fresh root configuration006 and register/synthetic runtime transfer](../../../../docs/evidence/forgix-host-refresh-2026-10-05/README.md) now passes independent saved review. Every physical gate remains pending.
 
 ## 5. Correct distinct clock finalization before admission (software reviewed)
 
@@ -436,7 +436,7 @@ replay and independent whole review, followed by a separate root read-only runti
 experiment. Physical tasks1.1,2.1–2.3,3.3/3.4 and accepted hardware requirements
 remain unchanged.
 
-The [current software/documentary checkpoint](../../../docs/evidence/forgix-clock-current-documentary-review/README.md)
+The [current software/documentary checkpoint](../../../../docs/evidence/forgix-clock-current-documentary-review/README.md)
 binds the complete corrected finalization review, actual root runtime005 at
 `c740d46`, independent current whole-loading review and a distinct private
 87-input candidate. Original failures, actual kernel joins and trusted-host
