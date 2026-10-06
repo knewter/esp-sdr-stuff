@@ -15,5 +15,15 @@ flasher stub the writes timed out, and without it the ROM loader stopped after
 used the board's on-board CP2102N USB-to-UART bridge. A udev rule now keeps
 ModemManager off Espressif native-USB devices.
 
+## Receiver build: this chip revision is not supported
+
+ESP-SDR `550fade` builds cleanly for `esp32c5` with the pinned ESP-IDF
+(`25fe69f9`, v6.2), using a new `.#firmware-riscv` shell. **esptool refused the
+install before writing anything**: the bootloader requires chip revision
+v1.0–v1.99, and this board is **v0.2**. That ESP-IDF supports only C5 v1.0
+(ECO2) and v1.2; v0.x engineering samples are no longer supported, and ESP-SDR's
+C5 radio backend targets production silicon. The board needs a production
+ESP32-C5 (revision 1.0 or later) to work as a receiver.
+
 Nothing has been written to the C5. Any receiver trial must restore this image
 and confirm the `iperf` reset boot afterwards. Summary: [results.json](results.json).

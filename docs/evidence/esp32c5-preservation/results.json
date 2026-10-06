@@ -2,14 +2,41 @@
   "schema": 1,
   "recorded": "2026-10-06",
   "board": "ESP32-C5-DevKitC-1 (user-supplied)",
-  "chip": {"type": "ESP32-C5", "revision": "v0.2", "rom": "esp32c5-eco1-20240726", "crystal_mhz": 48, "cpu_mhz": 240,
-           "features": "Wi-Fi 6 dual-band, BT 5 LE, IEEE 802.15.4, single core + LP core"},
-  "flash": {"bytes": 8388608, "jedec_manufacturer": "0x20", "jedec_device": "0x4017"},
-  "preservation": {"reads": 2, "reads_identical": true,
-                   "sha256": "890327ac21f9d810374314458b5669c6688057a52b7fa8595aa3b997cb2496fc",
-                   "device_verify_against_read_a": "digest matched", "transport": "on-board CP2102N USB-to-UART bridge, 921600 baud, esptool stub"},
-  "original_firmware": {"project": "iperf", "esp_idf": "v5.5-dev-583-g35951e3f7b-dirty", "reset_boot_observed": true},
+  "chip": {
+    "type": "ESP32-C5",
+    "revision": "v0.2",
+    "rom": "esp32c5-eco1-20240726",
+    "crystal_mhz": 48,
+    "cpu_mhz": 240,
+    "features": "Wi-Fi 6 dual-band, BT 5 LE, IEEE 802.15.4, single core + LP core"
+  },
+  "flash": {
+    "bytes": 8388608,
+    "jedec_manufacturer": "0x20",
+    "jedec_device": "0x4017"
+  },
+  "preservation": {
+    "reads": 2,
+    "reads_identical": true,
+    "sha256": "890327ac21f9d810374314458b5669c6688057a52b7fa8595aa3b997cb2496fc",
+    "device_verify_against_read_a": "digest matched",
+    "transport": "on-board CP2102N USB-to-UART bridge, 921600 baud, esptool stub"
+  },
+  "original_firmware": {
+    "project": "iperf",
+    "esp_idf": "v5.5-dev-583-g35951e3f7b-dirty",
+    "reset_boot_observed": true
+  },
   "native_usb_attempts": "USB-Serial/JTAG identification worked without the stub, but full reads failed: stub write timeouts and ROM 'Packet content transfer stopped' after 8 KB; retained privately",
   "host_setup": "user udev rule 99-espressif-no-modemmanager.rules sets ID_MM_DEVICE_IGNORE for vendor 303a",
-  "private": "Flash images, boot log and device identifiers stay under ignored backups/esp32c5/"
+  "private": "Flash images, boot log and device identifiers stay under ignored backups/esp32c5/",
+  "receiver_build_attempt": {
+    "esp_sdr_revision": "550fadea4d00a9e26ce921c5832167becb3dc20c",
+    "esp_idf": "25fe69f9 (v6.2.0)",
+    "target": "esp32c5",
+    "build": "succeeded (esp-dsp submodule v1.8.2 initialised; component manager stays disabled)",
+    "install": "refused by esptool before any write: bootloader requires chip revision v1.0-v1.99; this chip is v0.2",
+    "cause": "the pinned ESP-IDF offers only ESP32C5_REV_MIN 1.0 (ECO2) or 1.2; v0.x (ECO1) engineering-sample support is gone",
+    "device_state": "unchanged; original iperf firmware"
+  }
 }

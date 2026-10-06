@@ -243,6 +243,9 @@
             --set PYTHONNOUSERSITE 1 --unset PYTHONPATH
         '';
       });
+      # Same pinned SDK for RISC-V targets (ESP32-C3/C5/C6); the ESP32 shell and
+      # its recorded provenance are unchanged.
+      espIdfRiscv = espIdf.override { toolsToInclude = [ "riscv32-esp-elf" ]; };
       idfProvenance = pkgs.writeText "esp-sdr-idf-provenance.json" (builtins.toJSON {
         revision = "25fe69f946311abdaf9ad56591f25fedbc20ac98";
         idf_path = "${espIdf}";
@@ -362,6 +365,15 @@
           BLE_SOURCE_IMAGE_TAG = "esp-sdr-ble-source:${bleSourceImageTag}";
           BLE_SOURCE_PYTHON = "${pythonBase}/bin/python3";
         });
+        firmware-riscv = firmwarePkgs.mkShell {
+          packages = [ espIdfRiscv pkgs.go-task pkgs.git ];
+          IDF_PATH = "${espIdfRiscv}";
+          ESP_SDR_IDF_REVISION = "25fe69f946311abdaf9ad56591f25fedbc20ac98";
+          PYTHONNOUSERSITE = "1";
+          IDF_COMPONENT_MANAGER = "0";
+          IDF_PYTHON_CHECK_CONSTRAINTS = "no";
+          PIP_REQUIRE_VIRTUALENV = "true";
+        };
         firmware = firmwarePkgs.mkShell {
           packages = [ espIdf pkgs.go-task pkgs.git ];
           IDF_PATH = "${espIdf}";
