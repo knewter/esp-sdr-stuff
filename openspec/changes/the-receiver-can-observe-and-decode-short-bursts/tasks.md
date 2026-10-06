@@ -1,7 +1,7 @@
 ## 1. Measure event observation
 
-- [ ] 1.1 Define a repeatable owned source with at least 100 counted emissions and documented duration/bandwidth; check the selected capture window can fit it.
-- [ ] 1.2 Record captures and compute hits, complete bursts, misses and uncertainty relative to source ground truth.
+- [x] 1.1 Define a repeatable owned source with at least 100 counted emissions and documented duration/bandwidth; check the selected capture window can fit it. Proof: [190 cycles of 255 controller-counted LE1M events (48,450), 184 µs packets inside 1.02 ms windows](docs/evidence/ble-receiver-hitrate-001/README.md).
+- [ ] 1.2 Record captures and compute hits, complete bursts, misses and uncertainty relative to source ground truth. Diagnostic: [run 001](docs/evidence/ble-receiver-hitrate-001/README.md) found 30 owned ON / 0 OFF against 45 expected, but its −1.8 MHz shift and ChSel acceptance were chosen post hoc. Remaining: one pre-declared confirmation run with those fixed settings, then restore and verify the original image.
 
 ## 2. Evaluate a bounded decoder
 

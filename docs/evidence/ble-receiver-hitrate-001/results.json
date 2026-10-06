@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-05",
+  "base_commit": "f9db9fc",
+  "preservation": {
+    "fresh_full_read_sha256_equals_preserved_baseline": true,
+    "baseline_sha256": "6e8f0793916fa1d701415abc48c6ea91756cf864de8fdbf8459c181b08fc0974",
+    "bytes": 4194304
+  },
+  "installed_image": "550fade-uart921600 (esptool hash-verified write)",
+  "restoration": "PENDING: receiver image left installed for the live console session; restore with tools/flash_trial.py restore and verify by full readback",
+  "receiver": {
+    "lo_mhz": 2401,
+    "rate_hz": 16000000,
+    "bits": 8,
+    "bandwidth_mhz": 12,
+    "gain": "hardware",
+    "samples": 16380,
+    "nominal_window_us": 1023.75,
+    "batch_fsync": true,
+    "mean_capture_interval_ms": 369.21214695864404,
+    "attempts": 1477,
+    "ok": 1476,
+    "terminal_failure": {
+      "attempt": 1476,
+      "kind": "PartialReadError",
+      "received_payload_bytes": 30908,
+      "expected_payload_bytes": 32760,
+      "note": "Short UART payload; retained privately. Concurrent offline decoding was running on the host at about this time; cause not established."
+    }
+  },
+  "source": {
+    "profile": "extended-primary-zero-data-v1-repeat255",
+    "handle": 1,
+    "interval_ms": 20,
+    "primary_channel_map": "37 only",
+    "phy": "LE1M",
+    "cycles_verified": 190,
+    "events_per_cycle": 255,
+    "controller_counted_events": 48450,
+    "termination_status_each_cycle": "0x43 count255",
+    "cleanup_success": true,
+    "controller_selected_tx_power_dbm_uncalibrated": 7,
+    "script": "tools/ble_repeat_counted_source.py"
+  },
+  "decodes": {
+    "prospective_v1_minus1MHz_strict": {
+      "primary": {
+        "crc_failed": 3,
+        "unsupported_or_invalid_header": 5
+      },
+      "legacy": {
+        "unsupported_or_invalid_header": 7,
+        "crc_failed": 1
+      },
+      "report": {
+        "schema": 1,
+        "guard_ms": 100,
+        "source_cycles": 190,
+        "source_cycles_counted": 190,
+        "controller_counted_events": 48450,
+        "source_enabled_seconds": 1193.635816145,
+        "captures_total": 1477,
+        "captures_ok": 1476,
+        "captures_on": 1330,
+        "captures_off": 146,
+        "captures_boundary_or_failed": 1,
+        "mean_event_interval_ms_from_host_brackets": 24.73344003615831,
+        "on_owned_primary_frames": 0,
+        "on_owned_complete_frames": 0,
+        "on_captures_with_owned": 0,
+        "on_other_valid_primary_frames": 0,
+        "off_owned_primary_frames": 0,
+        "off_owned_complete_frames": 0,
+        "off_captures_with_owned": 0,
+        "off_other_valid_primary_frames": 0,
+        "owned_packet_duration_us": null,
+        "assumed_packet_duration_us": 192.0,
+        "nominal_rf_window_us": 1023.7499999999999,
+        "expected_overlapping_owned_events": 65.37495381298162,
+        "expected_truncated_owned_events": 20.648967521435278,
+        "owned_truncated_frames_observed": 0,
+        "events_missed_no_window_overlap": 48384.625046187015,
+        "expected_complete_not_decoded": 44.72598629154633,
+        "expected_complete_owned_in_on_windows": 44.72598629154633,
+        "detection_efficiency": 0.0,
+        "detection_efficiency_95ci": [
+          0.0,
+          0.0824800145479913
+        ],
+        "hits_per_controller_counted_event": 0.0,
+        "limitations": "Controller-counted events, not independently observed air emissions. Host command/header brackets bound but do not timestamp each RF window. Nominal ADC rate. Expected count assumes uniform event phase relative to snapshots and the mean host-bracketed spacing."
+      }
+    },
+    "post_hoc_minus1p8MHz_strict": {
+      "primary": {
+        "truncated_packet": 5,
+        "crc_failed": 26,
+        "unsupported_or_invalid_header": 15,
+        "invalid_primary_profile": 6
+      },
+      "legacy": {
+        "unsupported_or_invalid_header": 46,
+        "truncated_packet": 2,
+        "valid_other_redacted": 3,
+        "crc_failed": 1
+      },
+      "note": "6 primary frames passed CRC and contain the owned public AdvA but have header bit5 set; v1 profile rejects it as RFU."
+    },
+    "post_hoc_minus1p8MHz_accept_chsel": {
+      "primary": {
+        "truncated_packet": 5,
+        "valid_owned_primary": 30,
+        "unsupported_or_invalid_header": 12,
+        "crc_failed": 5
+      },
+      "report": {
+        "schema": 1,
+        "guard_ms": 100,
+        "source_cycles": 190,
+        "source_cycles_counted": 190,
+        "controller_counted_events": 48450,
+        "source_enabled_seconds": 1193.635816145,
+        "captures_total": 1477,
+        "captures_ok": 1476,
+        "captures_on": 1330,
+        "captures_off": 146,
+        "captures_boundary_or_failed": 1,
+        "mean_event_interval_ms_from_host_brackets": 24.73344003615831,
+        "on_owned_primary_frames": 30,
+        "on_owned_complete_frames": 30,
+        "on_captures_with_owned": 30,
+        "on_other_valid_primary_frames": 0,
+        "off_owned_primary_frames": 0,
+        "off_owned_complete_frames": 0,
+        "off_captures_with_owned": 0,
+        "off_other_valid_primary_frames": 0,
+        "owned_packet_duration_us": 184,
+        "nominal_rf_window_us": 1023.7499999999999,
+        "expected_overlapping_owned_events": 64.94476698961839,
+        "expected_truncated_owned_events": 19.78859387470881,
+        "owned_truncated_frames_observed": 0,
+        "events_missed_no_window_overlap": 48385.05523301038,
+        "expected_complete_not_decoded": 15.15617311490957,
+        "expected_complete_owned_in_on_windows": 45.15617311490957,
+        "detection_efficiency": 0.6643609927630174,
+        "detection_efficiency_95ci": [
+          0.44815107148911787,
+          0.948455498561407
+        ],
+        "hits_per_controller_counted_event": 0.0006191950464396285,
+        "limitations": "Controller-counted events, not independently observed air emissions. Host command/header brackets bound but do not timestamp each RF window. Nominal ADC rate. Expected count assumes uniform event phase relative to snapshots and the mean host-bracketed spacing."
+      }
+    }
+  },
+  "tool_sha256": {
+    "tools/ble_repeat_counted_source.py": "ecbc38174117c619c51c01923c1cfe0df306846ee1da4d8d56e4d11fc14e95a7",
+    "tools/ble_repeat_source_container.py": "d8c4383efb177dae985b01e1ccbe39f53d31de7c6ac4a504d06e7eb1e2d628a5",
+    "tools/ble_hitrate_report.py": "85327a9602b2df340f4b610b087c73242960923fe09b18589f6d73bcee5a2ead",
+    "tools/ble_extended_primary.py": "d33de7e9619184c5cafd2206b6ff2a8f3505cffb22efc22af2430298bc03c30a",
+    "tools/ble_decode_iq.py": "834fdd78e3221d0625eaa7cf1059b9bd59d3b8b9fa929578f2555bff64130128",
+    "tools/esp_sdr_capture.py": "f62b3ed4069d23bb53affdbd9c1b61dd64fdd8b8cc481988e94378ba796429a7"
+  },
+  "limitations": [
+    "Denominator is controller-completed advertising events, not independently observed air emissions.",
+    "The -1.8 MHz translation and ChSel acceptance were selected after inspecting this run; a pre-declared confirmation run is required before treating the efficiency as qualified.",
+    "Expected in-window count assumes uniform event phase and a 184 us packet; host brackets do not timestamp each RF window.",
+    "Single placement, single controller, uncalibrated power; efficiency is not a sensitivity figure."
+  ]
+}
