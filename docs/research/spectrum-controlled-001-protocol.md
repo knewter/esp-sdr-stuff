@@ -65,12 +65,12 @@ ESP captures (BW 12, hardware gain, 60 windows each). The firmware tunes in
 existed). Captures at:
 
 - LO 100 MHz;
-- LO 99 MHz;
+- LO 102 MHz (99 MHz is below the firmware's 100 MHz minimum);
 - LO 106 MHz as a control;
 - LO 100 MHz again with manual gain 48.
 
-**Confirmed point:** the strongest narrow peak appears at about +1.1 MHz and
-moves to about +2.1 MHz when the LO moves down 1 MHz, within two 15.6 kHz FFT
+**Confirmed point:** the strongest narrow peak appears at about +1.1 MHz at
+LO 100 and moves to about −0.9 MHz at LO 102, within two 15.6 kHz FFT
 bins plus the measured board offset scaled to that frequency. Other stations in
 the RTL-SDR view may appear too, but the 101.1 peak must track the LO.
 **Rejected:** a peak that doesn't move with the LO (spur or alias), or no peak.
