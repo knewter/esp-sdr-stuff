@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "recorded": "2026-10-05",
-  "qualification": "rebound 2026-10-04 reviewed clock safety candidate (commit 2514834)",
+  "qualification": "registry entries 1-3 (2514834, 54a79a9, 86a3dca): reviewed clock safety scope, identical FPGA bitstream, rebound per firmware fix",
   "episodes": [
     {
       "id": "001",
@@ -77,6 +77,68 @@
         32.13389121338912
       ],
       "cause": "firmware/forgix-clock-observer/main.c reboots as soon as all 512 bytes are enqueued; up to 256 bytes still in the TinyUSB TX FIFO are lost"
+    },
+    {
+      "id": "003",
+      "artifact": "ARM004 (dabdd78 drain fix)",
+      "outcome": "failed before ROM entry",
+      "stage": "preserve-before",
+      "error": "factory control requests timed out (bare open/close each took ~5.1 s after episode 002); no load or write",
+      "resolution": "user power-cycle; open 0.00 s afterwards; clock-trial recover verified original flash and factory"
+    },
+    {
+      "id": "004",
+      "artifact": "ARM004",
+      "outcome": "failed: host post-reply identity check found device already rebooted",
+      "original_flash_and_factory_verified_after": true,
+      "reply_bytes": 512,
+      "crc_ok": true,
+      "config_status": 0,
+      "observer_status": 0,
+      "sample_count": 16,
+      "decrements": [
+        2398
+      ],
+      "timeline_us": {
+        "boot_us": 2701,
+        "complete_command_us": 1722433,
+        "config_begin_us": 1722436,
+        "config_end_us": 4549733,
+        "capture_begin_us": 4549737,
+        "capture_end_us": 4550961,
+        "reply_encoded_us": 4550962,
+        "drain_deadline_us": 6550962
+      },
+      "fpga_configuration_ms": 2827.297,
+      "capture_ms": 1.224
+    },
+    {
+      "id": "005",
+      "artifact": "ARM005 (f2e5622 stay enumerated until host close)",
+      "outcome": "completed: digital_ratio_observed, exit 0",
+      "lifecycle": "all stages intent+returned",
+      "original_flash_and_factory_verified_after": true,
+      "flash_write_operations": 0,
+      "reply_bytes": 512,
+      "crc_ok": true,
+      "config_status": 0,
+      "observer_status": 0,
+      "sample_count": 16,
+      "decrements": [
+        2398
+      ],
+      "timeline_us": {
+        "boot_us": 2700,
+        "complete_command_us": 2938597,
+        "config_begin_us": 2938600,
+        "config_end_us": 5765897,
+        "capture_begin_us": 5765901,
+        "capture_end_us": 5767127,
+        "reply_encoded_us": 5767128,
+        "drain_deadline_us": 7767128
+      },
+      "fpga_configuration_ms": 2827.297,
+      "capture_ms": 1.226
     }
   ],
   "limits": [
