@@ -89,7 +89,8 @@ class Policy(unittest.TestCase):
 
 class Coordinator(unittest.TestCase):
     def test_registry_refuses_before_any_artifact_environment_or_device(self):
-        with patch.object(backend,'artifact',side_effect=AssertionError('access')):
+        # The committed registry may hold reviewed entries; refusal is tested empty.
+        with patch.object(backend,'QUALIFIED',()),patch.object(backend,'artifact',side_effect=AssertionError('access')):
             with self.assertRaisesRegex(ValueError,'No committed qualification'):coordinator.prepare(SimpleNamespace())
         r=subprocess.run([sys.executable,str(ROOT/'tools/run_forgix_synthetic_trial.py'),'run',
            '--artifact','missing','--binding','missing','--baseline-a','missing','--baseline-b','missing',
