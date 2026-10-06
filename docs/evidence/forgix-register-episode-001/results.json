@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "artifact": "configuration artifact 007 (register candidate-003 image, SPI bridge firmware)",
+  "episodes": [
+    {
+      "id": "001",
+      "outcome": "failed: FPGA configured, ARM exchange timed out before any serial read",
+      "cause": "host worker re-ran full admission on every identity selection (~0.33 s each), exhausting the 2 s per-exchange budget",
+      "fix": "8a70439 rate-limited worker admission (independent re-review SAFE-TO-QUALIFY)",
+      "original_flash_and_factory_verified_after": true
+    },
+    {
+      "id": "refused",
+      "outcome": "refused before device access",
+      "cause": "pinned Pico SDK store path garbage-collected; re-realized from locked flake with identical narHash; runtime closure GC-rooted"
+    },
+    {
+      "id": "002",
+      "outcome": "completed: registers verified, exit 0",
+      "requests": 13,
+      "scratch_patterns": [
+        {
+          "expected": "0x1357ace0",
+          "observed": "0x1357ace0"
+        },
+        {
+          "expected": "0xa55a1122",
+          "observed": "0xa55a1122"
+        },
+        {
+          "expected": "0x0",
+          "observed": "0x0"
+        }
+      ],
+      "scratch_restore_verified": true,
+      "finish_reply_verified": true,
+      "counter_delta": 15125803,
+      "counter_interval_s_host_bracketed": [
+        0.4434,
+        0.4995
+      ],
+      "counter_frequency_mhz_host_bracketed": [
+        30.284,
+        34.114
+      ],
+      "original_flash_and_factory_verified_after": true,
+      "flash_write_operations": 0,
+      "counter_values": [
+        36357979,
+        51483782
+      ],
+      "device_time_interval_us": 472684,
+      "counter_frequency_mhz_device_timed": 31.99982,
+      "counter_frequency_ppm_vs_32mhz_nominal_rp": -5.6,
+      "device_timed_worst_case_mhz": [
+        30.7,
+        33.41
+      ]
+    }
+  ],
+  "cross_check": "clock episode 005: 31.92-32.13 MHz (independent method)",
+  "limits": [
+    "Host-bracketed timing includes USB/host latency; bounds are wide.",
+    "RP clock nominal; no calibrated frequency.",
+    "SPI pad timing not separately measured; register access validated functionally at ~0.97 MHz SCK."
+  ],
+  "independent_review": {
+    "verdict": "ACCEPT for FPGA task 3.4",
+    "notes": [
+      "13 responses: CRC, sequence, nonce, status and build hash verified; requests match plan and restore_and_finish byte for byte",
+      "original scratch value was 0, so the restore write is indistinguishable by value from the last pattern; nonzero patterns prove writes take effect",
+      "device-timed frequency depends on the uncalibrated RP crystal; host-bracketed bounds do not"
+    ]
+  }
+}
