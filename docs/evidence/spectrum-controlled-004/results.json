@@ -1,0 +1,207 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "protocol": "docs/research/spectrum-controlled-004-protocol.md (b94da4f)",
+  "receiver": "Cheap Yellow Display, ESP32-D0WD-V3 rev v3.1, 550fade-uart921600, CH340 at 921600",
+  "analysis": "tools/spectrum_session_analysis.py (70d068f): decodes iq-*.bin windows only",
+  "captures": {
+    "ch37-p1": {
+      "ok": 383,
+      "recovered_faults": 7
+    },
+    "ch37-p2": {
+      "ok": 382,
+      "recovered_faults": 8
+    },
+    "ch37-p3": {
+      "ok": 386,
+      "recovered_faults": 4
+    },
+    "ch38-p1": {
+      "ok": 385,
+      "recovered_faults": 5
+    },
+    "ch38-p2": {
+      "ok": 385,
+      "recovered_faults": 5
+    },
+    "ch38-p3": {
+      "ok": 388,
+      "recovered_faults": 2
+    },
+    "ch39-p1": {
+      "ok": 384,
+      "recovered_faults": 6
+    },
+    "ch39-p2": {
+      "ok": 384,
+      "recovered_faults": 6
+    },
+    "ch39-p3": {
+      "ok": 383,
+      "recovered_faults": 7
+    }
+  },
+  "grid_khz": [
+    -200,
+    -600,
+    -1000,
+    -1400,
+    -1800,
+    -2200,
+    -2600,
+    -3000,
+    -3400,
+    -3800,
+    -4200
+  ],
+  "channels": {
+    "ch37": {
+      "pairs": {
+        "p1": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": 2404.584549179006,
+          "offset_from_nominal_khz": 2584.5491790059896,
+          "carrier_spread_khz": [
+            2522.503852162572,
+            2630.8406095954524
+          ],
+          "owned_on": 3
+        },
+        "p2": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": 2404.452668202604,
+          "offset_from_nominal_khz": 2452.6682026039452,
+          "carrier_spread_khz": [
+            2438.021126792137,
+            2470.635288032554
+          ],
+          "owned_on": 5
+        },
+        "p3": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": 2404.3962265543178,
+          "offset_from_nominal_khz": 2396.2265543177637,
+          "carrier_spread_khz": [
+            2378.515061786402,
+            2417.8469860576115
+          ],
+          "owned_on": 7
+        }
+      },
+      "confirmed": true
+    },
+    "ch38": {
+      "pairs": {
+        "p1": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": null,
+          "offset_from_nominal_khz": null,
+          "carrier_spread_khz": null,
+          "owned_on": 0
+        },
+        "p2": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": null,
+          "offset_from_nominal_khz": null,
+          "carrier_spread_khz": null,
+          "owned_on": 0
+        },
+        "p3": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": null,
+          "offset_from_nominal_khz": null,
+          "carrier_spread_khz": null,
+          "owned_on": 0
+        }
+      },
+      "confirmed": false
+    },
+    "ch39": {
+      "pairs": {
+        "p1": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": null,
+          "offset_from_nominal_khz": null,
+          "carrier_spread_khz": null,
+          "owned_on": 0
+        },
+        "p2": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": null,
+          "offset_from_nominal_khz": null,
+          "carrier_spread_khz": null,
+          "owned_on": 0
+        },
+        "p3": {
+          "source_cycles": 20,
+          "controller_counted_events": 5100,
+          "owned_off_total": 0,
+          "median_carrier_mhz": null,
+          "offset_from_nominal_khz": null,
+          "carrier_spread_khz": null,
+          "owned_on": 0
+        }
+      },
+      "confirmed": false
+    }
+  },
+  "task_1_2_satisfied": false,
+  "analysis_note": "the first analysis pass (b94da4f tool) aborted on retained fault fragments in the raw directory; the fix decodes from an iq-only directory exactly as session 003 did; thresholds and grid unchanged",
+  "verdict": "ch37 confirmed (3/3 pairs, 15 owned ON, 0 OFF, carrier +2.40 to +2.59 MHz); ch38 and ch39 not confirmed (0 owned packets in any pair despite 60 counted source cycles each); task 1.2 not satisfied",
+  "exploratory_after_result": {
+    "ch38_extended_above_nominal": "pair 1 decoded no owned packets for carriers up to +6.8 MHz above nominal (translations -4.6 to -7.8 MHz)",
+    "source_channel_map_check": "one 390-window capture at LO 2401 (ch37) with the source requested on ch38 (20 counted cycles): 0 owned packets, against 3-7 per pair when the source ran on ch37; the controller honours the channel map",
+    "wideband_80msps": "captures at LO 2414 / 80 MS/s with the source on ch38 then ch37 showed narrowband bursts throughout 2393-2439 MHz in both cases; too noisy to locate the source by energy",
+    "ch38_below_nominal": {
+      "grid_khz": [
+        3800,
+        4200,
+        4600,
+        5000,
+        5400,
+        5800,
+        6200,
+        6600,
+        7000,
+        7400
+      ],
+      "pairs": {
+        "p1": {
+          "owned_on": 5,
+          "owned_off": 0,
+          "median_carrier_mhz": 2419.219
+        },
+        "p2": {
+          "owned_on": 7,
+          "owned_off": 0,
+          "median_carrier_mhz": 2419.19
+        },
+        "p3": {
+          "owned_on": 5,
+          "owned_off": 0,
+          "median_carrier_mhz": 2419.186
+        }
+      },
+      "offset_from_nominal_khz": "-6781 to -6814"
+    },
+    "ch39": "no owned packets for carriers from 8 MHz below to 6.8 MHz above nominal in pair 1; it may lie outside the +-8 MHz visible at 16 MS/s",
+    "interpretation": "the board apparent tuning error depends strongly on LO: +2.4 to +2.6 MHz at LO 2401, -5.8 MHz relative to the LO+1 target at LO 2425; not an IQ image (that would sit near 2424 MHz)"
+  }
+}
