@@ -358,7 +358,8 @@ def numerical_stats(payload, samples, bits):
             'unique_i_codes': int(len(np.unique(iq.real))), 'unique_q_codes': int(len(np.unique(iq.imag)))}
 
 
-def run_snapshots(port, output, private, count, samples, bits_list, rates, config, artifact_revision, batch_fsync=False):
+def run_snapshots(port, output, private, count, samples, bits_list, rates, config, artifact_revision, batch_fsync=False,
+                  recover_faults=0):
     output.mkdir(parents=True, exist_ok=False)
     private.mkdir(parents=True, exist_ok=False, mode=0o700)
     provenance = {'schema': 1, 'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
@@ -377,6 +378,7 @@ def run_snapshots(port, output, private, count, samples, bits_list, rates, confi
     provenance['series_start_monotonic_ns'] = series_start
     rows = []
     terminal_failure = None
+    provenance['fault_recovery'] = {'allowed': recover_faults, 'recovered': 0}
     try:
         for bits in bits_list:
             for rate in rates:
@@ -408,6 +410,22 @@ def run_snapshots(port, output, private, count, samples, bits_list, rates, confi
                             attach_capture_failure(error, context, payload or b'')
                         row['status'] = 'error'
                         row['error_kind'] = type(error).__name__
+                        # Opt-in: a UART read fault loses this window only. The
+                        # fragment stays private, and the nonce fence in
+                        # synchronize() discards any tail before the next window.
+                        if (isinstance(error, (TimeoutError, ProtocolError)) and
+                                provenance['fault_recovery']['recovered'] < recover_faults):
+                            row['command_start_ns'] = error.capture_failure.get('command_start_ns', t0)
+                            row['failure_ns'] = error.capture_failure['failure_ns']
+                            row['status'] = 'recovered_fault'
+                            retain_capture_failure(private, f'recovered-{rate}-{bits}-{attempt:04d}', error)
+                            provenance['fault_recovery']['recovered'] += 1
+                            terminal_failure = None
+                            time.sleep(.3)
+                            port.reset_input_buffer()
+                            synchronize(port)
+                            previous = None
+                            continue
                         # Never turn a failed fragment into a CRC/count row or
                         # discard its tail by resynchronizing and retrying.
                         row['command_start_ns'] = error.capture_failure.get('command_start_ns', t0)
@@ -477,6 +495,8 @@ def main():
     parser.add_argument('--batch-fsync', action='store_true',
                         help='Defer per-payload fsync to one pass at series end (slow disks); read-back checks still run per file')
     parser.add_argument('--firmware-revision', default=SOURCE_REVISION)
+    parser.add_argument('--recover-faults', type=int, default=0,
+                        help='Lose up to N windows to UART read faults, resynchronizing after each; default 0 aborts on the first')
     args = parser.parse_args()
     if not 1 <= args.count <= 10000 or not 256 <= args.samples <= 16380:
         parser.error('count 1..10000 and samples 256..16380 required')
@@ -492,7 +512,7 @@ def main():
         synchronize(port)
         ok = run_snapshots(port, args.output, private, args.count, args.samples, args.bits, args.rates,
                            {'frequency': args.frequency, 'bandwidth': args.bandwidth, 'gain': args.gain}, args.firmware_revision,
-                           args.batch_fsync)
+                           args.batch_fsync, args.recover_faults)
     except BaseException as error:
         failure = error
         raise

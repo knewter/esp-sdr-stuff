@@ -111,3 +111,53 @@ class StartupSynchronizationTests(unittest.TestCase):
         self.assertGreaterEqual(port.sync_writes,3)
 
 if __name__=='__main__':unittest.main()
+
+class FaultRecoveryTests(unittest.TestCase):
+    def run_series(self,recover,faults):
+        import tempfile
+        from unittest import mock
+        calls=[]
+        payload=bytes(512)
+        def fake_capture(port,samples,rate,bits):
+            calls.append(len(calls))
+            now=capture.time.monotonic_ns()
+            if len(calls) in faults:
+                error=capture.PartialReadError(b'x'*10,512,'empty_read')
+                capture.attach_capture_failure(error,{'stage':'payload','command_start_ns':now,'framing_uncertain':True},b'x'*10)
+                raise error
+            return payload,{'command_start_ns':now,'header_received_ns':now,'payload_received_ns':now,
+                            'crc_ok':True,'sample_count_ok':True,'returned_samples':256,'nominal_rf_window_us':3.2}
+        port=mock.Mock()
+        limits={'parsed_limits':{'rates':[80000000]}}
+        with tempfile.TemporaryDirectory() as d, \
+             mock.patch.object(capture,'capture',fake_capture), mock.patch.object(capture,'queries',lambda p:limits), \
+             mock.patch.object(capture,'settings',lambda p,**k:None), mock.patch.object(capture,'synchronize') as sync, \
+             mock.patch.object(capture.time,'sleep'):
+            out=Path(d)/'out';private=Path(d)/'.scratch'/'raw'
+            private.parent.mkdir()
+            try:
+                ok=capture.run_snapshots(port,out,private,4,256,[8],[80000000],{},'test',recover_faults=recover)
+            except TimeoutError:
+                ok=None
+            rows=list(capture.csv.DictReader((out/'snapshots.csv').read_text().splitlines()))
+            results=capture.json.loads((out/'results.json').read_text())
+            return ok,rows,results,sync.call_count,sorted(p.name for p in private.iterdir())
+
+    def test_recovery_loses_only_the_faulted_window(self):
+        ok,rows,results,syncs,files=self.run_series(1,{2})
+        self.assertFalse(ok)
+        self.assertEqual([r['status'] for r in rows],['ok','recovered_fault','ok','ok'])
+        self.assertEqual(results['fault_recovery'],{'allowed':1,'recovered':1})
+        self.assertTrue(results['completed']);self.assertEqual(syncs,1)
+        self.assertIn('recovered-80000000-8-0001.payload-prefix.bin',files)
+
+    def test_faults_beyond_the_allowance_still_abort(self):
+        ok,rows,results,syncs,files=self.run_series(1,{1,2})
+        self.assertIsNone(ok)
+        self.assertEqual([r['status'] for r in rows],['recovered_fault','error'])
+        self.assertFalse(results['completed']);self.assertIn('terminal_failure',results)
+
+    def test_default_aborts_on_first_fault(self):
+        ok,rows,results,syncs,files=self.run_series(0,{1})
+        self.assertIsNone(ok);self.assertEqual(syncs,0)
+        self.assertEqual([r['status'] for r in rows],['error'])
