@@ -1,8 +1,10 @@
+# FPGA feasibility Specification
+
 ## Purpose
 
 A measured go/no-go decision for a useful FPGA transport or processing role, not a predetermined continuous SDR.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: FPGA feasibility begins with actual hardware
 
@@ -28,7 +30,7 @@ The report SHALL distinguish sustained payload, framing overhead, backlog and da
 
 The synthetic coordinator SHALL keep lifecycle completion provisional through lease release, terminal persistence and output under the original 600-second acceptance clock. It SHALL durably establish the existing shared pending-finalization blocker before releasing its active lease and SHALL NOT qualify a failed, late or cancelled finalization from an older completed-looking receipt when corrective storage fails. All Forgix admission and access routes SHALL refuse a present or uncertain shared blocker while keeping owned resource closure available.
 
-<!-- UNVERIFIED: Prospective correction; two temporary-file counterexamples reproduced at 2ab2e7e, with no physical execution or false CLI0. -->
+*Grounding: physical synthetic episodes 002 and 003 finished normally (CLI exit 0, original flash/factory verified, owned blocker closed) and passed independent result review; failed episodes 001 and 004 remained failed ([synthetic episodes](docs/evidence/forgix-synthetic-episode-001/README.md)). Release and corrective-storage failures are proven by the retained counterexamples and the offline synthetic lifecycle tests only, not by a physical fault.*
 
 #### Scenario: Release and corrective persistence fail
 - **WHEN** synthetic lease release returns late or its post-unlink directory sync fails, followed by corrective receipt storage failure
@@ -45,12 +47,7 @@ effects under its original clock. It SHALL retain exact owner-bound shared refus
 or its already-held operator FD when uncertain closure or terminal storage failure
 prevents a trustworthy handoff. A failed correction SHALL NOT qualify older saved
 normal facts. Cancellation SHALL remain latched through the last required effect;
-uncertain FD closure SHALL NOT permit acting on a potentially reused descriptor.
-The final original operator FD SHALL remain held through fallible terminal
-effects and be released by final kernel process teardown; independent actual
-process-exit and ownership evidence SHALL complete the staged release proof.
-
-<!-- UNVERIFIED: Independent physical session/recovery proof remains pending. The original b37bd398 temporary-file/flock counterexamples are retained; corrected software, actual host exit/ownership controls, fresh runtime and current documentary candidate now pass the review recorded in docs/evidence/forgix-clock-current-documentary-review/README.md. This supplies no registry entry or physical admission. -->
+u*Grounding: clock episode 005 finished normally (CLI exit 0, original flash/factory verified, owned markers cleared) and passed independent result review; failed episodes 001–004 left the shared pending blocker, which refused later Forgix access and recovery until resolved ([clock episodes](docs/evidence/forgix-clock-episode-001/README.md)). Uncertain-closure and terminal-storage quarantine of the held operator FD are proven by the offline clock tests only, not by a physical fault.*emporary-file/flock counterexamples are retained; corrected software, actual host exit/ownership controls, fresh runtime and current documentary candidate now pass the review recorded in docs/evidence/forgix-clock-current-documentary-review/README.md. This supplies no registry entry or physical admission. -->
 
 #### Scenario: Shared refusal cannot be persisted
 - **WHEN** closure is uncertain or terminal marker cleanup fails and both marker creation and exact owned-lease fallback fail
