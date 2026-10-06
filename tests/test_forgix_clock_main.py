@@ -18,6 +18,7 @@ bool tud_cdc_connected(void);
 unsigned tud_cdc_write_available(void);
 unsigned tud_cdc_write(const void *,unsigned);
 unsigned tud_cdc_write_flush(void);
+#define CFG_TUD_CDC_TX_BUFSIZE 256
 '''
 HARNESS=r'''
 #include <assert.h>
@@ -30,20 +31,22 @@ HARNESS=r'''
 #include "rp_input.h"
 static uint64_t ticks=100;static unsigned mode,watchdog,uid,usbinit,configure_count,input_count,write_count;
 static jmp_buf finish;static uint8_t cmd[128];static bool sent;
+/* 256-byte TX FIFO drained 64 bytes per tud_task, like one full-speed packet. */
+static unsigned queued;
 uint64_t time_us_64(void){ticks+=1000;return ticks;}
 void watchdog_enable(unsigned n,bool p){assert(n==2000&&!p);watchdog++;}
 void watchdog_update(void){assert(watchdog);}
-void watchdog_reboot(unsigned a,unsigned b,unsigned c){assert(!a&&!b&&c==1);}
+void watchdog_reboot(unsigned a,unsigned b,unsigned c){assert(!a&&!b&&c==1);assert(queued==0);}
 void tight_loop_contents(void){longjmp(finish,1);}
 bool bridge_uid_init(uint64_t until){assert(watchdog&&until>ticks);uid++;return mode!=1;}
 void pico_get_unique_board_id_string(char *p,unsigned n){if(n)p[0]=0;}
 bool tud_init(unsigned n){assert(uid&&watchdog&&!n);usbinit++;return mode!=2;}
-void tud_task(void){}
+void tud_task(void){queued=queued>64?queued-64:0;}
 unsigned tud_cdc_available(void){return !sent&&mode!=3?128:0;}
 unsigned tud_cdc_read(void *p,unsigned n){assert(n==128);unsigned amount=mode==4?64:128;memcpy(p,cmd,amount);sent=true;return amount;}
 bool tud_cdc_connected(void){return true;}
-unsigned tud_cdc_write_available(void){return 512;}
-unsigned tud_cdc_write(const void *p,unsigned n){assert(p&&configure_count&&input_count);write_count+=n;return n;}
+unsigned tud_cdc_write_available(void){return 256-queued;}
+unsigned tud_cdc_write(const void *p,unsigned n){assert(p&&configure_count&&input_count);unsigned amount=n<256-queued?n:256-queued;queued+=amount;write_count+=amount;return amount;}
 unsigned tud_cdc_write_flush(void){return 1;}
 const uint8_t bridge_fpga_image[]={1},bridge_fpga_sha256[32]={[0 ... 31]=0x33};
 const uint32_t bridge_fpga_image_bytes=1,bridge_fpga_crc32=0;
