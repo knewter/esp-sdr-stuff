@@ -36,12 +36,13 @@ int main(void){
   fc_step(&clock_engine);
  }
  /* All 512 reply bytes can be queued while up to CFG_TUD_CDC_TX_BUFSIZE (256)
-  * still wait in TinyUSB's FIFO. Keep servicing USB until it drains, then let
-  * the last packet leave; both stay inside the protocol's drain deadline.
-  * Episode 002 lost the second half of its reply to an immediate reboot. */
+  * still wait in TinyUSB's FIFO. Keep servicing USB while the host holds the
+  * port open (DTR): it drains the FIFO, and the observer stays enumerated for
+  * the host's post-reply identity check until the host closes. Both loops
+  * stay inside the protocol's drain deadline. Episode 002 lost half its reply
+  * to an immediate reboot; episode 004 rebooted before the host's last check. */
  if(clock_engine.phase==FC_DONE&&clock_engine.reply_offset==512){
-  while(tud_cdc_connected()&&tud_cdc_write_available()<CFG_TUD_CDC_TX_BUFSIZE&&
-        time_us_64()<clock_engine.drain_until){service(NULL);tud_cdc_write_flush();}
+  while(tud_cdc_connected()&&time_us_64()<clock_engine.drain_until){service(NULL);tud_cdc_write_flush();}
   const uint64_t settle=time_us_64()+UINT64_C(20000);
   while(time_us_64()<settle&&time_us_64()<clock_engine.drain_until)service(NULL);
  }
