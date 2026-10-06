@@ -218,4 +218,34 @@ class RegisterRuntime(unittest.TestCase):
                     with self.assertRaises(OSError if closed else OwnedHardwareClosureError):b.preservation('before',200)
                 self.assertEqual(b.owner.runners,[runner]);self.assertEqual(b.owner.unknown,not closed)
 
+class WorkerAdmissionRate(unittest.TestCase):
+    """Register episode 001 regression: per-call full admission blew the 2 s exchange budget."""
+    def test_selector_rechecks_identity_every_call_but_full_admission_at_most_once_per_second(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);request=root/'request.json'
+            profile={'elf':str(root/'a/fw.elf'),'elf_sha256':'1'*64,'qualification_path':str(root/'q.json'),
+                     'qualification_sha256':'2'*64,'manifest_sha256':'3'*64,'backend_source_sha256':'4'*64,'uid_sha256':'5'*64}
+            request.write_text(json.dumps({'profile':profile,'environment':{},'frozen':{},'lockfd':17,
+                                           'lockpath':str(backend.ROOT/'.scratch/esp-demo.lock'),'bus':3,'until':time.monotonic()+60}))
+            digests={profile['elf']:'1'*64,profile['qualification_path']:'2'*64,str(root/'a/manifest.json'):'3'*64,
+                     str(backend.ROOT/'tools/forgix_spi_backend.py'):'4'*64}
+            counts={'admission':0,'identity':0}
+            def receipt(*a):counts['admission']+=1
+            def bridge(*a,**k):counts['identity']+=1;return {'bus':'3','port':'p'}
+            def operation(req,store,select,opened):
+                for _ in range(20):select()
+                return {'status':'registers_verified'}
+            with patch.object(trial,'reject_pending_finalization'),patch.object(trial,'private_file',side_effect=lambda p,*a:Path(p)),\
+                 patch.object(backend,'qualified'),patch.object(backend,'session_lease'),patch.object(backend,'original_profile'),\
+                 patch.object(backend,'frozen_inputs'),patch.object(backend,'qualification_receipt',side_effect=receipt),\
+                 patch.object(runtime,'check'),patch.object(backend,'inherited_operator_lock'),patch.object(backend,'artifact',return_value={}),\
+                 patch.object(trial,'sha',side_effect=lambda p:digests[str(p)]),patch.object(trial,'fresh_tty',return_value='p'),\
+                 patch.object(backend.capture,'select_bridge',side_effect=bridge),patch.object(backend,'PrivateCapture'),\
+                 patch.object(backend,'ready_bridge'),\
+                 patch.object(backend,'serial_operation',side_effect=operation),patch.object(backend.capture,'save'):
+                backend.serial_worker(request)
+            self.assertEqual(counts['identity'],20)       # every selection re-reads identity
+            self.assertLessEqual(counts['admission'],3)   # worker entry + first selection (+1 if a second elapsed)
+
 if __name__=='__main__':unittest.main()

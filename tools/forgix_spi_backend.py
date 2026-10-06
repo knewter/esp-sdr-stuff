@@ -40,6 +40,8 @@ EXECUTION_FILES=frozenset({
         'forgix_usb_ram_artifact','preserve_forgix','demo_esp_sdr','flash_trial',
         'esp_sdr_capture','esp_sdr_spectrum_bridge','forgix_synthetic_runtime'))} | set(ARTIFACT_FILES))
 
+ADMISSION_INTERVAL_S=1.0
+
 def require(value,message):
     if not value:raise ValueError(message)
 
@@ -438,12 +440,21 @@ def serial_worker(path):
                  profile['qualification_path']:profile['qualification_sha256'],
                  str(Path(profile['elf']).parent/'manifest.json'):profile['manifest_sha256'],
                  str(ROOT/'tools/forgix_spi_backend.py'):profile['backend_source_sha256']}
+    admitted={'at':None}
     def selected(ready=False):
-        session_lease(profile)
-        qualification_receipt(profile,request['environment'],request['frozen'])
-        runtime.check(request['environment'],verify_bytes=False)
-        frozen_inputs(request['frozen']);inherited_operator_lock(request['lockfd'],request['lockpath'])
-        require(all(trial.sha(Path(name))==digest for name,digest in bound_files.items()),'Worker bound artifact/source changed')
+        # Full re-admission re-hashes every frozen input and bound file. Run on
+        # every call it exceeded register episode 001's 2 s per-exchange budget
+        # before the ARM reply was read (same defect class as synthetic episode
+        # 001). It now runs at most once per second; lease, lock, USB identity
+        # and bus are still re-checked on every call.
+        session_lease(profile);inherited_operator_lock(request['lockfd'],request['lockpath'])
+        now=time.monotonic()
+        if admitted['at'] is None or now-admitted['at']>=ADMISSION_INTERVAL_S:
+            qualification_receipt(profile,request['environment'],request['frozen'])
+            runtime.check(request['environment'],verify_bytes=False)
+            frozen_inputs(request['frozen'])
+            require(all(trial.sha(Path(name))==digest for name,digest in bound_files.items()),'Worker bound artifact/source changed')
+            admitted['at']=time.monotonic()
         if ready:
             usb=Path('/sys/bus/usb/devices/3-3')
             mode=((usb/'idVendor').read_text().strip().lower(),(usb/'idProduct').read_text().strip().lower())
