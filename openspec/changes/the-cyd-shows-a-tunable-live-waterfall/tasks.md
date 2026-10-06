@@ -1,7 +1,7 @@
 ## 1. Build
 
 - [ ] 1.1 Add `firmware/cyd-waterfall/`: pinned base files from ESP-SDR `550fade`, `cyd_display.c`, a deterministic overlay and a builder; build in `.#firmware` with UART 921600. Proof: build log, image hashes, and an overlay diff limited to the display hooks.
-- [ ] 1.2 Host tests for the pure display logic (FFT row mapping, colour scale, touch-to-frequency mapping). Proof: `python3 -m unittest` for the new tests.
+- [x] 1.2 Host tests for the pure display logic (FFT row mapping, colour scale, touch-to-frequency mapping). Proof: `python3 -m unittest tests.test_cyd_waterfall_logic` (9 tests passing, including tone column, burst max-hold, DC removal and touch targets).
 
 ## 2. On-board proof (CYD, exclusive operator)
 

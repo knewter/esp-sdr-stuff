@@ -106,6 +106,14 @@ tasks:
     cmds:
       - python3 tools/build_esp_sdr_uart.py {{.CLI_ARGS}}
 
+  firmware:cyd:build:
+    desc: Build the CYD on-screen waterfall variant (Nix firmware shell; no hardware)
+    preconditions:
+      - sh: test -n "$ESP_SDR_IDF_PROVENANCE"
+        msg: Use nix develop .#firmware with --source <clean 550fade checkout> --work .scratch/<fresh>
+    cmds:
+      - python3 tools/build_cyd_waterfall.py {{.CLI_ARGS}}
+
   firmware:trial:
     desc: Install or restore ESP firmware with verified manifests and explicit arguments
     cmds:
