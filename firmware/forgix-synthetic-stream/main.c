@@ -42,6 +42,17 @@ int main(void){
   fs_step(&stream_engine);
  }
  fs_platform_safe();
+ /* FS_DONE with an empty engine queue only means bytes were handed to
+  * TinyUSB; up to its CDC TX FIFO may still be unsent. Keep servicing USB
+  * while the host holds the port (DTR) so the END frame arrives and the
+  * image stays enumerated for the host's closing identity check, bounded by
+  * the protocol's terminal window (final+2s, never past boot+120s). Same
+  * defect cost clock-observer episodes 002 and 004. */
+ if(stream_engine.phase==FS_DONE&&stream_engine.end_queued&&stream_engine.terminal_until){
+  while(tud_cdc_connected()&&time_us_64()<stream_engine.terminal_until){service(NULL);tud_cdc_write_flush();}
+  const uint64_t settle=time_us_64()+UINT64_C(20000);
+  while(time_us_64()<settle&&time_us_64()<stream_engine.terminal_until)service(NULL);
+ }
 reboot:
  watchdog_reboot(0,0,1);while(true)tight_loop_contents();
 }
