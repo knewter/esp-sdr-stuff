@@ -181,7 +181,8 @@ class ExtendedPrimaryTests(unittest.TestCase):
                     dict(REFERENCE,schema=True),dict(REFERENCE,adva_lsb_first_hex='00'*6),
                     dict(REFERENCE,adva_lsb_first_hex='ff'*6),dict(REFERENCE,adva_lsb_first_hex='bad')]:
             with self.assertRaises(ValueError):primary.validate_reference(bad)
-        with self.assertRaises(ValueError):primary.decode_primary(wire(NO_AUX),38,REFERENCE)
+        with self.assertRaises(ValueError):primary.decode_primary(wire(NO_AUX),36,REFERENCE)
+        with self.assertRaises(ValueError):primary.decode_primary(wire(NO_AUX),40,REFERENCE)
         with tempfile.TemporaryDirectory() as temp:
             path=Path(temp)/'reference.json';path.write_text(json.dumps(REFERENCE));path.chmod(0o644)
             with self.assertRaises(ValueError):primary.load_reference(path)
@@ -282,3 +283,14 @@ class AcceptChselTests(unittest.TestCase):
         pdu = bytearray(WITH_AUX); pdu[0] |= 0x20
         frames = primary.decode_primary_iq(modulate(bytes(pdu)), REFERENCE, accept_chsel=True)
         self.assertTrue(any(f['status'] == 'valid_owned_primary' for f in frames))
+
+
+class OtherAdvertisingChannels(unittest.TestCase):
+    """Channels 38/39 use their own whitening; the wrong channel never validates."""
+    def test_channels_38_and_39_decode_only_with_matching_whitening(self):
+        for channel in (38, 39):
+            bits = wire_bits(WITH_AUX)
+            whitened = register_whitening(bits+reflected_crc(bits), channel)
+            with self.subTest(channel=channel):
+                self.assertEqual(primary.decode_primary(whitened, channel, REFERENCE)['status'], 'valid_owned_primary')
+                self.assertFalse(primary.decode_primary(whitened, 37, REFERENCE)['status'].startswith('valid'))

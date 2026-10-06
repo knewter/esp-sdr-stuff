@@ -51,8 +51,8 @@ def load_reference(path):
 
 def decode_primary(bits, channel, reference, accept_chsel=False):
     address = validate_reference(reference)
-    if channel != 37:
-        raise ValueError('profile requires primary channel37 whitening')
+    if channel not in (37, 38, 39):
+        raise ValueError('primary advertising channel 37, 38 or 39 required')
     if len(bits) < 16:
         return {'status': 'truncated_header'}
     decoded = legacy.whiten(bits, channel)
@@ -147,11 +147,11 @@ def make_receiver(reference, accept_chsel=False):
     return FunctionType(legacy.decode_iq.__code__, scope, 'decode_iq', legacy.decode_iq.__defaults__)
 
 
-def decode_primary_iq(iq, reference, rate=16000000, frequency_translation_hz=-1000000, accept_chsel=False):
+def decode_primary_iq(iq, reference, rate=16000000, frequency_translation_hz=-1000000, accept_chsel=False, channel=37):
     if not math.isfinite(frequency_translation_hz) or abs(frequency_translation_hz) >= rate/2:
         raise ValueError('finite frequency translation inside Nyquist interval required')
     receiver = make_receiver(reference, accept_chsel)
-    frames = receiver(iq, rate, 37, b'', frequency_translation_hz, True)
+    frames = receiver(iq, rate, channel, b'', frequency_translation_hz, True)
     down = rate//4000000
     for frame in frames:
         if not frame['status'].startswith('valid'):
@@ -180,6 +180,7 @@ def main(argv=None):
     cli.add_argument('--bits', type=int, choices=[8, 10], default=8)
     cli.add_argument('--samples', type=int, choices=[16380], default=16380)
     cli.add_argument('--frequency-translation-hz', type=float, default=-1000000)
+    cli.add_argument('--channel', type=int, choices=[37, 38, 39], default=37)
     cli.add_argument('--accept-chsel', action='store_true',
                      help='Accept header bit5 (ChSel position) on ADV_EXT_IND; default v1 rejects it as RFU')
     args = cli.parse_args(argv)
@@ -192,7 +193,7 @@ def main(argv=None):
     started = time.monotonic()
     result = {'schema': 1, 'profile': PROFILE, 'primary_protocol_source': SPEC,
               'decoder_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-              'receiver_source_sha256': LEGACY_SHA256, 'channel': 37,
+              'receiver_source_sha256': LEGACY_SHA256, 'channel': args.channel,
               'nominal_rate_hz': args.rate, 'bits_per_component': args.bits,
               'samples_per_capture': args.samples,
               'frequency_translation_hz': args.frequency_translation_hz,
@@ -204,7 +205,7 @@ def main(argv=None):
     for index, path in enumerate(files):
         payload = path.read_bytes()
         frames = decode_primary_iq(unpack(payload, args.samples, args.bits), reference,
-                                   args.rate, args.frequency_translation_hz, args.accept_chsel)
+                                   args.rate, args.frequency_translation_hz, args.accept_chsel, args.channel)
         owned = [f for f in frames if f['status'] == 'valid_owned_primary']
         result['captures'].append({'capture_index': index, 'capture_filename': path.name,
                                    'payload_sha256': hashlib.sha256(payload).hexdigest(), 'frames': frames,

@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'tools'))
 from ble_direct_hci_source import Source
-from ble_repeat_counted_source import run_cycles, validate_cycles
+from ble_repeat_counted_source import run_cycles, validate_cycles, channel_parameters
 from ble_repeat_source_container import source_command
 
 
@@ -86,6 +86,23 @@ class RepeatCycles(unittest.TestCase):
         summary, _ = self.run_source(FakeSocket([]), 1, cycle_timeout_s=.05)
         self.assertEqual(summary['status'], 'trial_failed')
         self.assertEqual(summary['error_code'], 'event_timeout')
+
+    def test_channel_selects_only_the_primary_map_byte(self):
+        base = channel_parameters(37)
+        for channel, bit in ((38, 2), (39, 4)):
+            frame = channel_parameters(channel)
+            self.assertEqual(frame[9], bit)
+            self.assertEqual(frame[:9]+frame[10:], base[:9]+base[10:])
+        with self.assertRaises(ValueError):
+            channel_parameters(36)
+
+    def test_cycles_use_requested_channel(self):
+        sock = FakeSocket([terminated()])
+        records = []
+        with patch('time.sleep'):
+            summary = run_cycles(Source(sock, records.append, command_timeout=.05), 1, 0, channel=39)
+        self.assertEqual(summary['primary_channel'], 39)
+        self.assertEqual(sock.sent[0][4+9], 4)
 
     def test_cycle_bounds(self):
         for bad in (0, 401, 1.5, True):

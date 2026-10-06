@@ -21,6 +21,7 @@ def parse(argv):
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--cycles', type=int, required=True)
     cli.add_argument('--start-delay', type=float, default=1)
+    cli.add_argument('--channel', type=int, choices=(37, 38, 39), default=37)
     args = cli.parse_args(argv)
     try:
         validate_cycles(args.cycles)

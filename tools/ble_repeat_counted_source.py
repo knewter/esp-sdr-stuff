@@ -25,6 +25,8 @@ HANDLE = 1
 INTERVAL_MS = 20
 EVENTS_PER_CYCLE = 255
 MAX_CYCLES = 400
+# Primary advertising channel -> LE Set Extended Advertising Parameters map bit.
+CHANNEL_MAP = {37: 1, 38: 2, 39: 4}
 # Controller adds 0..10ms advDelay per event; allow 5s slack.
 CYCLE_TIMEOUT_S = EVENTS_PER_CYCLE*(INTERVAL_MS/1000+.010)+5
 
@@ -35,18 +37,28 @@ def validate_cycles(cycles):
     return cycles
 
 
-def run_cycles(source, cycles, start_delay=1.0, cycle_timeout_s=None):
+def channel_parameters(channel):
+    """Unchanged extended zero-data parameters with only the primary channel map selected."""
+    if channel not in CHANNEL_MAP:
+        raise ValueError('channel must be 37, 38 or 39')
+    frame = bytearray(parameters(INTERVAL_MS, HANDLE, True))
+    assert frame[9] == 1  # map byte follows handle, properties and two 3-byte intervals
+    frame[9] = CHANNEL_MAP[channel]
+    return bytes(frame)
+
+
+def run_cycles(source, cycles, start_delay=1.0, cycle_timeout_s=None, channel=37):
     """Drive `cycles` counted enables on one configured set; always clean up."""
     validate_cycles(cycles)
     source.handle = HANDLE
     enable_frame = enable(True, EVENTS_PER_CYCLE, 0, HANDLE)
     summary = {'kind': 'source_closed', 'profile': PROFILE, 'advertising_handle': HANDLE,
-               'cycles_requested': cycles, 'events_per_cycle': EVENTS_PER_CYCLE,
+               'cycles_requested': cycles, 'events_per_cycle': EVENTS_PER_CYCLE, 'primary_channel': channel,
                'cycles_verified': 0, 'controller_counted_events_total': 0,
                'independently_observed_air_emission_count': None,
                'automatic_restarts': 0, 'cleanup': {}}
     try:
-        source.command('set_parameters', 0x2036, parameters(INTERVAL_MS, HANDLE, True))
+        source.command('set_parameters', 0x2036, channel_parameters(channel))
         source.command('set_data', 0x2037, advertising_data(HANDLE, True))
         if source.terminations:
             raise SourceError('termination_before_enable')
@@ -98,6 +110,7 @@ def main(argv=None):
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--cycles', type=int, required=True)
     cli.add_argument('--start-delay', type=float, default=1)
+    cli.add_argument('--channel', type=int, choices=sorted(CHANNEL_MAP), default=37)
     args = cli.parse_args(argv)
     try:
         validate_cycles(args.cycles)
@@ -107,15 +120,15 @@ def main(argv=None):
         cli.error('start delay must be 0..60s')
     emit_stdout({'kind': 'configuration_requested', 'profile': PROFILE, 'advertising_handle': HANDLE,
                  'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-                 'event_properties': 0, 'primary_channel_map': 1, 'primary_phy': 1, 'secondary_phy': 1,
-                 'interval_ms': INTERVAL_MS, 'advertising_data_length': 0,
+                 'event_properties': 0, 'primary_channel_map': CHANNEL_MAP[args.channel], 'primary_phy': 1, 'secondary_phy': 1,
+                 'interval_ms': INTERVAL_MS, 'advertising_data_length': 0, 'primary_channel': args.channel,
                  'events_per_cycle': EVENTS_PER_CYCLE, 'cycles': args.cycles, 'duration_10ms_units': 0})
     sock = None
     previous = signal.signal(signal.SIGTERM, interrupt_source)
     try:
         sock = socket.socket(31, socket.SOCK_RAW, 1)
         bind_raw(sock)
-        summary = run_cycles(Source(sock, emit_stdout), args.cycles, args.start_delay)
+        summary = run_cycles(Source(sock, emit_stdout), args.cycles, args.start_delay, channel=args.channel)
     except OSError as error:
         emit_stdout({'kind': 'source_closed', 'status': 'socket_or_bind_failed', 'error_errno': error.errno})
         return 2
