@@ -19,6 +19,9 @@ SOURCE_REVISION = '550fadea4d00a9e26ce921c5832167becb3dc20c'
 STABLE_PORT = '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0'
 RATE_CODES = {80000000: 0, 40000000: 1, 16000000: 6}
 # Original ESP32 and ESP32-C3 builds of ESP-SDR 550fade; LIMITS? gives each rate set.
+# CP210x (original ESP32, C3, C5 devkits) and the CYD's single-port CH340.
+# The 1a86:55d2 dual-serial device belongs to another project.
+RECEIVER_BRIDGES = {(0x10c4, 0xea60), (0x1a86, 0x7523)}
 KNOWN_IDENTITIES = {'ESP32SDR 6 burst 16380', 'C3SDR 6 burst 16380'}
 
 
@@ -242,8 +245,8 @@ def open_board(path, baud=2000000, timeout=3):
         raise RuntimeError('Use the confirmed stable /dev/serial/by-id CP2102 path')
     actual = stable.resolve()
     matches = [p for p in list_ports.comports() if Path(p.device).resolve() == actual]
-    if len(matches) != 1 or (matches[0].vid, matches[0].pid) != (0x10c4, 0xea60):
-        raise RuntimeError('Stable path does not resolve to the expected Silicon Labs CP2102')
+    if len(matches) != 1 or (matches[0].vid, matches[0].pid) not in RECEIVER_BRIDGES:
+        raise RuntimeError('Stable path does not resolve to a known receiver USB-UART bridge')
     port = serial.Serial(port=None, baudrate=baud, timeout=timeout, exclusive=True)
     # Setting lines before opening prevents intentionally pulsing EN/BOOT.
     port.dtr = port.rts = False

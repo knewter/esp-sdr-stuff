@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-06",
+  "board": "ESP32 Cheap Yellow Display (2.8-inch, user-supplied)",
+  "chip": {"type": "ESP32-D0WD-V3", "revision": "v3.1", "crystal_mhz": 40, "flash_bytes": 4194304, "flash_jedec": "0x68 / 0x4016"},
+  "usb": {
+    "bridge": "CH340 (1a86:7523), no unique USB serial; identity confirmed by esptool chip detection",
+    "usb_c_port": "did not enumerate with a USB-A to USB-C cable on a USB-A hub port; the community documents missing CC resistors on this port",
+    "micro_usb_port": "enumerated normally"
+  },
+  "preservation": {
+    "reads_identical": 2,
+    "failed_reads": "2 of 4 reads aborted with corrupt data (one at 921600, one at 460800) under host load; their partial files were discarded",
+    "sha256": "e67287358130734bff07fc550da4937e32a6214c16e981907c6d60cb18ca28fa",
+    "device_verify_against_read_a": "digest matched",
+    "original_firmware": "stock LVGL Arduino demo (boot prints 'Hello Arduino! V8.3.3', 'I am LVGL_Arduino')"
+  },
+  "receiver_install": {
+    "image": "docs/evidence/firmware-uart921600/manifest.json (550fade-uart921600), the image the original ESP32 used",
+    "parts_sha256_match_manifest": true,
+    "write": "esptool write-flash at 460800, all regions hash-verified"
+  },
+  "first_contact": {
+    "INFO": "ESP32SDR 6 burst 16380",
+    "LIMITS": {"gain": [0, 72, 1], "bandwidth": [12, 67, 1, 0], "rates": [80000000, 40000000, 16000000], "bits": [8, 10]},
+    "TRANSPORT": "UART 921600",
+    "GAIN": "HARDWARE -1 0 72 0"
+  },
+  "tool_change": "tools/esp_sdr_capture.py accepts the CH340 (1a86:7523) as a receiver bridge; the other project's 1a86:55d2 dual-serial device stays excluded",
+  "not_yet_shown": "No RF capture yet. This board's tuning offset is unmeasured; the original board's +1.7 to +2.4 MHz ch37 offset does not transfer automatically.",
+  "private": "Flash images and the original boot log stay under ignored backups/cyd/"
+}
