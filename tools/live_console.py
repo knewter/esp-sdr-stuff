@@ -19,6 +19,7 @@ from pathlib import Path
 import queue
 from collections import deque
 import secrets
+import signal
 import subprocess
 import sys
 import threading
@@ -94,7 +95,7 @@ class EspWorker(threading.Thread):
         self.want = {'mode': 'spectrum', 'center_mhz': 2442, 'channel': 37, 'gain': 'hardware'}
         self.lock = threading.Lock()
         self.stop = threading.Event()
-        self.stats = {'snapshots': 0, 'aa_candidates': 0, 'crc_valid': 0, 'owned': 0}
+        self.stats = {'snapshots': 0, 'aa_candidates': 0, 'crc_valid': 0, 'owned': 0, 'recoveries': 0}
 
     def configure(self, **changes):
         with self.lock:
@@ -109,29 +110,46 @@ class EspWorker(threading.Thread):
         self.hub.publish('esp_status', sticky=True, text=text, **extra)
 
     def run(self):
-        port = None
-        try:
-            self.status('Opening ESP32 UART…')
-            port = open_board(self.port_path, self.baud)
-            synchronize(port)
-            info = queries(port)
-            self.status('ESP32 receiver ready', firmware=info['INFO'])
-            self.hub.publish('esp_config', sticky=True, **self.current())
-            while not self.stop.is_set():
-                want = self.current()
-                if want['mode'] == 'spectrum':
-                    self.spectrum_session(port, want)
-                else:
-                    self.decode_burst(port, want)
-        except Exception as error:  # surface, never hide, hardware failures
-            self.status(f'ESP32 stopped: {type(error).__name__}: {error}', error=True)
-        finally:
-            if port is not None:
-                try:
-                    command(port, 'RELEASE')
-                except Exception:
-                    pass
-                port.close()
+        """Keep the receiver streaming; a transport fault reopens and resyncs.
+
+        Short/garbled UART reads happen when the host is loaded (bytes are
+        dropped, framing is lost). Each fault is shown, counted and recovered
+        with backoff; nothing is retried silently.
+        """
+        failures = 0
+        while not self.stop.is_set():
+            port = None
+            try:
+                self.status('Opening ESP32 UART…', recoveries=self.stats.get('recoveries', 0))
+                port = open_board(self.port_path, self.baud)
+                synchronize(port)
+                info = queries(port)
+                self._tuned = None
+                self.status('ESP32 receiver ready', firmware=info['INFO'])
+                self.hub.publish('esp_config', sticky=True, **self.current())
+                while not self.stop.is_set():
+                    want = self.current()
+                    if want['mode'] == 'spectrum':
+                        self.spectrum_session(port, want)
+                    else:
+                        self.decode_burst(port, want)
+                    failures = 0
+            except Exception as error:  # surface, count and recover
+                failures += 1
+                self.stats['recoveries'] = self.stats.get('recoveries', 0)+1
+                self.hub.publish('esp_fault', history=True, error=f'{type(error).__name__}: {error}'[:200],
+                                 recoveries=self.stats['recoveries'])
+                delay = min(30, 2**min(failures, 5))
+                self.status(f'UART fault ({type(error).__name__}: {error}); reopening in {delay}s · '
+                            f'{self.stats["recoveries"]} recoveries', error=True)
+                self.stop.wait(delay)
+            finally:
+                if port is not None:
+                    try:
+                        command(port, 'RELEASE')
+                    except Exception:
+                        pass
+                    port.close()
 
     def spectrum_session(self, port, want, seconds=6, bins=512, rate=80000000, ffts=4):
         settings(port, want['center_mhz'], 20, want['gain'])
@@ -230,6 +248,7 @@ class RtlWorker(threading.Thread):
         self.retune = threading.Event()
         self.stop = threading.Event()
         self.audio_enabled = False
+        self.procs = []
 
     def tune(self, station_hz):
         self.station_hz = station_hz
@@ -251,6 +270,7 @@ class RtlWorker(threading.Thread):
                                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, bufsize=0)
         redsea = subprocess.Popen(['redsea', '-r', '240000', '-E'], stdin=subprocess.PIPE,
                                   stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, bufsize=0)
+        self.procs = [rtl, redsea]
         threading.Thread(target=self.rds_reader, args=(redsea, station), daemon=True).start()
         self.hub.publish('rtl_status', sticky=True, text=f'FM {station/1e6:.1f} MHz · RTL-SDR {self.RATE/1e6:.1f} MS/s',
                          station_mhz=station/1e6, span_mhz=self.RATE/1e6, center_mhz=center/1e6)
@@ -309,6 +329,13 @@ class RtlWorker(threading.Thread):
                     proc.wait(timeout=3)
                 except subprocess.TimeoutExpired:
                     proc.kill()
+
+    def kill(self):
+        """Unblock a session stuck in a pipe read/write during shutdown."""
+        self.stop.set()
+        for proc in self.procs:
+            if proc.poll() is None:
+                proc.terminate()
 
     @staticmethod
     def read_exact(stream, size):
@@ -477,12 +504,21 @@ def main():
     server = ThreadingHTTPServer(('127.0.0.1', args.port), make_handler(hub, esp, rtl, source))
     server.daemon_threads = True
     print(f'Live console on http://127.0.0.1:{args.port}  (Ctrl-C releases the radios)', flush=True)
+    def terminate(signum, frame):
+        raise KeyboardInterrupt
+    signal.signal(signal.SIGTERM, terminate)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         pass
     finally:
+        # Last resort: never leave a half-closed process holding the radios.
+        watchdog = threading.Timer(20, lambda: os._exit(3))
+        watchdog.daemon = True
+        watchdog.start()
         source.stop()
+        if rtl is not None:
+            rtl.kill()
         for worker in (esp, rtl):
             if worker is not None:
                 worker.stop.set()

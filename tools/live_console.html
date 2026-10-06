@@ -256,6 +256,8 @@ es.onmessage=ev=>{const m=JSON.parse(ev.data);switch(m.kind){
     $('sSnap').textContent=m.stats.snapshots;$('sAA').textContent=m.stats.aa_candidates;$('sCRC').textContent=m.stats.crc_valid;$('sOwn').textContent=m.stats.owned;
     break;
   case 'esp_packets':logPkt(m.packets,m.t);break;
+  case 'esp_fault':{const log=$('pktLog');if(log.querySelector('.empty'))log.innerHTML='';const d=document.createElement('div');
+    d.innerHTML=`<span class="t">${new Date(m.t*1000).toLocaleTimeString()}</span><span class="chip fail">UART FAULT</span><span class="t">${m.error} · recovery #${m.recoveries}</span>`;log.prepend(d);break}
   case 'esp_rows':{const u=b64(m.rows),key=m.center_mhz+'/'+m.span_mhz;
     if(key!==espAxisKey){espAxisKey=key;axis($('espAxis'),$('espOverlay'),m.center_mhz,m.span_mhz,BLE,WIFI)}
     for(let r=0;r<u.length/m.bins;r++)espWf.push(u.subarray(r*m.bins,(r+1)*m.bins));espWf.push(new Uint8Array(m.bins));break}
