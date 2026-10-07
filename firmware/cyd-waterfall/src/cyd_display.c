@@ -93,15 +93,17 @@ static void window(int x0, int y0, int x1, int y1) {
     command(0x2b, row, 4);
 }
 
-static void push(const uint16_t *pixels, size_t count) {
-    esp_lcd_panel_io_tx_color(io, 0x2c, pixels, count * 2);
+/* RAMWR (0x2c) restarts at the window origin; later chunks of the same
+ * window must use Memory Write Continue (0x3c). */
+static void push(const uint16_t *pixels, size_t count, bool first) {
+    esp_lcd_panel_io_tx_color(io, first ? 0x2c : 0x3c, pixels, count * 2);
     xSemaphoreTake(flushed, portMAX_DELAY);
 }
 
 static void fill(int x, int y, int w, int h, uint16_t colour) {
     for (int j = 0; j < w; j++) line[j] = colour >> 8 | colour << 8;
     window(x, y, x + w - 1, y + h - 1);
-    for (int r = 0; r < h; r++) push(line, w);
+    for (int r = 0; r < h; r++) push(line, w, r == 0);
 }
 
 static void text(int x, int y, const char *s, int size, uint16_t fg, uint16_t bg) {
@@ -116,7 +118,7 @@ static void text(int x, int y, const char *s, int size, uint16_t fg, uint16_t bg
                 line[c] = v >> 8 | v << 8;
             }
             window(x, y + r, x + w - 1, y + r);
-            push(line, w);
+            push(line, w, true);
         }
     }
 }
@@ -256,54 +258,76 @@ static void draw_row(void) {
     scroll = (scroll + SCROLL_LINES - 1) % SCROLL_LINES;
     int y = CYD_STATUS_HEIGHT + (int)scroll;
     window(0, y, CYD_COLUMNS - 1, y);
-    push(line, CYD_COLUMNS);
+    push(line, CYD_COLUMNS, true);
     uint8_t start[2] = {y >> 8, y & 255};
     command(0x37, start, 2);
 }
 
-static bool wait_tap(int *raw_x, int *raw_y) {
-    int64_t end = esp_timer_get_time() + 30000000;
-    while (!gpio_get_level(PIN_T_IRQ) && esp_timer_get_time() < end) vTaskDelay(pdMS_TO_TICKS(10));
-    while (esp_timer_get_time() < end) {
-        if (!gpio_get_level(PIN_T_IRQ)) {
-            vTaskDelay(pdMS_TO_TICKS(60));
-            int sx = 0, sy = 0, n = 0, x, y;
-            for (int k = 0; k < 8 && touch_read(&x, &y); k++, n++) {
-                sx += x; sy += y;
-                vTaskDelay(pdMS_TO_TICKS(10));
-            }
-            while (!gpio_get_level(PIN_T_IRQ)) vTaskDelay(pdMS_TO_TICKS(10));
-            if (n >= 4) { *raw_x = sx / n; *raw_y = sy / n; return true; }
-        }
-        vTaskDelay(pdMS_TO_TICKS(10));
+/* Calibration runs from the idle hook as a small state machine, so host
+ * commands keep working while it waits for taps. -1 means not calibrating. */
+static int cal_step = -1;
+static int cal_raw[3][2];
+static const int cal_points[3][2] = {{CYD_CAL_MARGIN, CYD_CAL_MARGIN},
+    {CYD_COLUMNS - CYD_CAL_MARGIN, CYD_CAL_MARGIN}, {CYD_CAL_MARGIN, CYD_SCREEN_HEIGHT - CYD_CAL_MARGIN}};
+
+/* One press: average the readings taken while it is held. */
+static bool sample_press(int *raw_x, int *raw_y) {
+    if (gpio_get_level(PIN_T_IRQ)) return false;
+    vTaskDelay(pdMS_TO_TICKS(30));
+    int sx = 0, sy = 0, n = 0, x, y;
+    for (int k = 0; k < 10 && touch_read(&x, &y); k++, n++) {
+        sx += x; sy += y;
+        vTaskDelay(pdMS_TO_TICKS(5));
     }
-    return false;
+    int64_t release = esp_timer_get_time() + 3000000;
+    while (!gpio_get_level(PIN_T_IRQ) && esp_timer_get_time() < release) vTaskDelay(pdMS_TO_TICKS(10));
+    if (n < 2) return false;
+    *raw_x = sx / n;
+    *raw_y = sy / n;
+    return true;
 }
 
 static void cross(int x, int y, uint16_t colour) {
-    fill(x - 10, y, 21, 1, colour);
-    fill(x, y - 10, 1, 21, colour);
+    int x0 = x > 15 ? x - 15 : 0, y0 = y > 15 ? y - 15 : 0;
+    fill(x0, y - 1, 31, 3, colour);
+    fill(x - 1, y0, 3, 31, colour);
 }
 
-/* Tap three crosses; store the mapping in NVS. Falls back to the default
- * guess if nobody taps within 30 s per cross. */
-static void calibrate(void) {
-    static const int points[3][2] = {{CYD_CAL_MARGIN, CYD_CAL_MARGIN},
-        {CYD_COLUMNS - CYD_CAL_MARGIN, CYD_CAL_MARGIN}, {CYD_CAL_MARGIN, CYD_SCREEN_HEIGHT - CYD_CAL_MARGIN}};
-    int raw[3][2];
+static void cal_prompt(const char *headline) {
+    char s[24];
+    fill(0, 120, CYD_COLUMNS, 60, 0x0000);
+    text(30, 124, headline, 1, 0xf800, 0x0000);
+    text(30, 140, "PRESS AND HOLD", 2, 0xffff, 0x0000);
+    snprintf(s, sizeof(s), "CROSS %d OF 3", cal_step + 1);
+    text(30, 160, s, 2, 0xffe0, 0x0000);
+    cross(cal_points[cal_step][0], cal_points[cal_step][1], 0xffff);
+}
+
+static void start_calibration(const char *headline) {
     fill(0, 0, CYD_COLUMNS, CYD_SCREEN_HEIGHT, 0x0000);
-    text(36, 140, "TAP EACH CROSS", 1, 0xffff, 0x0000);
-    text(36, 156, "WITH A FINGERNAIL", 1, 0xffff, 0x0000);
-    for (int k = 0; k < 3; k++) {
-        cross(points[k][0], points[k][1], 0xffe0);
-        if (!wait_tap(&raw[k][0], &raw[k][1])) { printf("#CYD calibration timeout\n"); return; }
-        cross(points[k][0], points[k][1], 0x0000);
-        printf("#CYD cal point %d raw %d %d\n", k, raw[k][0], raw[k][1]);
-    }
+    cal_step = 0;
+    cal_prompt(headline);
+    printf("#CYD calibration started\n");
+}
+
+static void finish_screen(void) {
+    fill(0, 0, CYD_COLUMNS, CYD_SCREEN_HEIGHT, 0x0000);
+    status_bar();
+    first_row = true;
+}
+
+static void calibration_tick(void) {
+    int x, y;
+    if (!sample_press(&x, &y)) return;
+    cal_raw[cal_step][0] = x;
+    cal_raw[cal_step][1] = y;
+    printf("#CYD cal point %d raw %d %d\n", cal_step, x, y);
+    cross(cal_points[cal_step][0], cal_points[cal_step][1], 0x0000);
+    if (++cal_step < 3) { cal_prompt(""); return; }
     cyd_cal_t c;
-    if (!cyd_touch_calibrate(raw, &c)) {
-        text(36, 180, "CALIBRATION FAILED", 1, 0xf800, 0x0000);
-        vTaskDelay(pdMS_TO_TICKS(2000));
+    if (!cyd_touch_calibrate(cal_raw, &c)) {
+        printf("#CYD calibration rejected\n");
+        start_calibration("TRY AGAIN");
         return;
     }
     cal = c;
@@ -315,6 +339,8 @@ static void calibrate(void) {
         nvs_close(h);
     }
     printf("#CYD cal swap %d u %d %d v %d %d\n", cal.swap, cal.u0, cal.u1, cal.v0, cal.v2);
+    cal_step = -1;
+    finish_screen();
 }
 
 static void load_calibration(void) {
@@ -332,12 +358,16 @@ void cyd_display_init(const cyd_radio_t *ops) {
     panel_init();
     touch_init();
     load_calibration();
-    /* First boot, or a finger held on the screen at power-up: calibrate. */
-    if (calibration == &cyd_cal_default || !gpio_get_level(PIN_T_IRQ)) calibrate();
-    fill(0, 0, CYD_COLUMNS, CYD_SCREEN_HEIGHT, 0x0000);
-    status_bar();
     active = true;
     host_at = esp_timer_get_time() - HOST_IDLE_US;
+    /* First boot, or a finger held on the screen at power-up: calibrate. */
+    if (calibration == &cyd_cal_default || !gpio_get_level(PIN_T_IRQ)) {
+        int64_t release = esp_timer_get_time() + 3000000;
+        while (!gpio_get_level(PIN_T_IRQ) && esp_timer_get_time() < release) vTaskDelay(pdMS_TO_TICKS(10));
+        start_calibration("TOUCH CALIBRATION");
+    } else {
+        finish_screen();
+    }
 }
 
 void cyd_display_host_activity(void) {
@@ -346,7 +376,9 @@ void cyd_display_host_activity(void) {
 
 void cyd_display_idle(void) {
     int64_t now = esp_timer_get_time();
-    if (!active || now - host_at < HOST_IDLE_US) return;
+    if (!active) return;
+    if (cal_step >= 0) { calibration_tick(); return; }
+    if (now - host_at < HOST_IDLE_US) return;
     handle_touch();
     if (now - row_at < ROW_PERIOD_US) return;
     row_at = now;
