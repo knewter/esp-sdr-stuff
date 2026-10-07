@@ -27,7 +27,9 @@ The files here are distributed under the same GPLv3 terms.
 | Waterfall | 172 px | Newest row on top, scrolled by the panel's own registers |
 | Controls | 56 px | `−` and `+` (repeat while held), `STEP` (1/5/10 MHz), `MENU` |
 
-Tapping the spectrum or waterfall retunes to that column.
+Tapping the spectrum or waterfall places an inspection cursor, showing that
+frequency and its level (`CUR 2404.2 +12DB  HOLD TO TUNE`). Holding for 0.6 s
+retunes there. While the menu is open, `MENU` becomes `BACK`.
 
 **MENU** replaces the waterfall with a 5×3 grid:
 - **Band presets:**
@@ -40,7 +42,10 @@ Tapping the spectrum or waterfall retunes to that column.
   - **FILT** cycles AUTO/12/20/40/67 MHz (the `BANDWIDTH` command).
   - **GAIN** switches between AGC and manual, with −/+ in steps of 4.
   - **RANGE** sets the colour range: 20/30/40/50 dB above the floor.
-  - **FREEZE**, and **CLOSE**.
+  - **FREEZE**;
+  - **FLAT**, a per-column floor that flattens filter roll-off and steady
+    carriers so bursts stand out. It is off by default, because it also hides
+    steady signals.
 
 Presets close the menu; settings stay open so they can be combined.
 
@@ -58,7 +63,26 @@ Presets close the menu; settings stay open so they can be combined.
 - **Touch.** The firmware carries this board's touch calibration (measured
   2026-10-06). Holding a finger on the screen at power-up runs a three-cross
   calibration, which is stored in NVS.
+- **Settings.** Frequency, span, filter, gain, range, step, preset and FLAT
+  persist in NVS 3 s after the last change.
+- **Picture.** The LO-leakage columns at the centre are interpolated over.
+  Peak-hold dots appear only 10 dB or more above the floor.
 - **Serial status.** Boot prints the detected panel, and retunes print
   `#CYD freq …`. A host's SYNC fence discards these lines.
+
+## Simulator (not hardware evidence)
+
+`tools/cyd_sim.py --output <dir>` compiles these sources with
+`tests/cyd_sim/sim.c`, which emulates:
+- an ILI9341 handling window, memory-write, continue, MADCTL, inversion and
+  vertical-scroll commands;
+- an XPT2046 answering the firmware's bit-banged reads;
+- simulated time and NVS;
+- a synthetic radio: noise, Wi-Fi channel 1 bursts, a CW spur, and BLE bursts
+  where this board receives them.
+
+It writes PNG screens of scripted scenarios and a contact sheet.
+`tests/test_cyd_display_sim.py` drives the same simulator through user
+interactions.
 
 Build (no hardware): `nix develop .#firmware --command task firmware:cyd:build -- --source <clean 550fade checkout> --work .scratch/<fresh>`.

@@ -145,21 +145,43 @@ static uint16_t dim(uint16_t c) {
     return (uint16_t)((c >> 1) & 0x7bef);
 }
 
-void cyd_spectrum_line(const float db[CYD_COLUMNS], const float peak[CYD_COLUMNS], float floor_db,
-                       float range_db, int row, int marker, uint16_t out[CYD_COLUMNS]) {
+void cyd_colfloor_update(float floor_db[CYD_COLUMNS], const float column_db[CYD_COLUMNS], bool reset) {
+    for (unsigned c = 0; c < CYD_COLUMNS; c++) {
+        float d = column_db[c]-floor_db[c];
+        floor_db[c] = reset ? column_db[c] : floor_db[c] + (d < 0 ? 0.2f : 0.01f)*d;
+    }
+}
+
+void cyd_mask_dc(float column_db[CYD_COLUMNS]) {
+    int lo = CYD_COLUMNS/2-2, hi = CYD_COLUMNS/2+2;
+    for (int c = lo+1; c < hi; c++)
+        column_db[c] = column_db[lo] + (column_db[hi]-column_db[lo])*(float)(c-lo)/(float)(hi-lo);
+}
+
+void cyd_spectrum_line(const float db[CYD_COLUMNS], const float peak[CYD_COLUMNS], const float floor_db[CYD_COLUMNS],
+                       float range_db, int row, int marker, int cursor, uint16_t out[CYD_COLUMNS]) {
     int h = CYD_SPECTRUM_H, from_bottom = h-1-row;
     bool grid_row = row == h/4 || row == h/2 || row == 3*h/4;
+    float span = range_db/(1.0f-CYD_BASELINE);
     for (int c = 0; c < CYD_COLUMNS; c++) {
-        uint8_t level = cyd_level(db[c], floor_db, range_db);
-        int bar = level*(h-1)/255, held = cyd_level(peak[c], floor_db, range_db)*(h-1)/255;
+        float base = floor_db[c]-CYD_BASELINE*span;
+        int bar = cyd_level(db[c], base, span)*(h-1)/255;
+        int held = cyd_level(peak[c], base, span)*(h-1)/255;
         uint16_t v = 0x0000;
         if (grid_row && c % 4 == 0) v = 0x2104;
         if (c == marker && row % 3 != 2) v = 0xf81f;
-        if (from_bottom < bar) v = dim(cyd_palette(level));
+        if (c == cursor && row % 2 == 0) v = 0x07ff;
+        if (from_bottom < bar) v = dim(cyd_palette(cyd_level(db[c], floor_db[c], range_db)) | 0x0841);
         if (from_bottom == bar) v = 0xffff;
-        if (from_bottom == held && held > bar) v = 0xffe0;
+        if (from_bottom == held && held > bar && peak[c]-floor_db[c] >= CYD_PEAK_MIN_DB) v = 0xffe0;
         out[c] = v;
     }
+}
+
+bool cyd_settings_valid(const cyd_settings_t *s) {
+    return s->version == CYD_SETTINGS_VERSION && s->span < CYD_SPANS && s->filter < CYD_FILTERS &&
+           s->range < CYD_RANGES && s->step < 3 && s->agc <= 1 && s->gain <= 127 && s->flat <= 1 &&
+           s->preset >= -1 && s->preset < CYD_PRESETS && s->lo_mhz >= 100 && s->lo_mhz <= 6000;
 }
 
 bool cyd_burst_update(cyd_burst_t *b, const float db[CYD_COLUMNS], int marker, float floor_db, float threshold_db) {

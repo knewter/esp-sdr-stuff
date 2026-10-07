@@ -40,18 +40,26 @@
 #define TOUCH_REPEAT_US 300000
 #define CAPTURE_SAMPLES 4096
 #define BURST_THRESHOLD_DB 12.0f
-#define PEAK_DECAY_DB 0.4f
+#define PEAK_DECAY_DB 1.0f
 #define STATS_PERIOD_US 300000
+#define HOLD_TO_TUNE_US 600000
+#define REPEAT_DELAY_US 500000
+#define CURSOR_TIMEOUT_US 15000000
+#define SETTINGS_DELAY_US 3000000
 
 static const cyd_radio_t *radio;
 static esp_lcd_panel_io_handle_t io;
 static SemaphoreHandle_t flushed;
 static uint16_t *line;
 static int64_t host_at, row_at, touch_at, stats_at;
-static bool active, inverted, st7789, first_row = true, host_shown, frozen, menu_open, touch_down;
+static bool active, inverted, st7789, first_row = true, host_shown, frozen, menu_open;
 static unsigned step_index, span_index, filter_index, range_index = 1, scroll;
 static int preset = -1;
-static float floor_db, db[CYD_COLUMNS], peak[CYD_COLUMNS];
+static float floor_db, db[CYD_COLUMNS], peak[CYD_COLUMNS], colfloor[CYD_COLUMNS], floors[CYD_COLUMNS];
+static bool flat, settings_dirty, press_active, press_acted;
+static int cursor = -1, press_x, press_y;
+static int64_t press_at, cursor_at, settings_at;
+static void save_settings_soon(void);
 static cyd_burst_t bursts;
 static void finish_screen(void);
 static void scroll_identity(void);
@@ -262,16 +270,21 @@ static void draw_status(void) {
     text(150, 12, s, 1, 0xbdf7, 0x0000);
 }
 
+static long column_khz(int c) {
+    return (long)(c * 2 + 1) * span() * 1000 / (2 * CYD_COLUMNS) - (long)span() * 500;
+}
+
 static void draw_stats(void) {
     char s[40];
-    int c = cyd_peak_column(db);
-    long khz = (long)(c * 2 + 1) * span() * 1000 / (2 * CYD_COLUMNS) - (long)span() * 500;
-    long f10 = (long)radio->frequency() * 10 + khz / 100;
-    int level = (int)(db[c] - floor_db);
-    int n = snprintf(s, sizeof(s), "PK %ld.%ld +%dDB", f10 / 10, f10 % 10, level < 0 ? 0 : level);
-    if (marker_column() >= 0) snprintf(s + n, sizeof(s) - n, "  BURSTS %u", bursts.count);
+    bool inspecting = cursor >= 0;
+    int c = inspecting ? cursor : cyd_peak_column(db);
+    long f10 = (long)radio->frequency() * 10 + column_khz(c) / 100;
+    int level = (int)(db[c] - floors[c]);
+    int n = snprintf(s, sizeof(s), "%s %ld.%ld %+dDB", inspecting ? "CUR" : "PK", f10 / 10, f10 % 10, level);
+    if (inspecting) snprintf(s + n, sizeof(s) - n, "  HOLD TO TUNE");
+    else if (marker_column() >= 0) snprintf(s + n, sizeof(s) - n, "  BURSTS %u", bursts.count);
     fill(0, 22, CYD_COLUMNS, 9, 0x0000);
-    text(4, 23, s, 1, 0xffe0, 0x0000);
+    text(4, 23, s, 1, inspecting ? 0x07ff : 0xffe0, 0x0000);
 }
 
 static void draw_scale(void) {
@@ -298,7 +311,7 @@ static void draw_spectrum(void) {
     float range = (float)cyd_range_db[range_index];
     window(0, CYD_SPECTRUM_Y, CYD_COLUMNS - 1, CYD_SPECTRUM_Y + CYD_SPECTRUM_H - 1);
     for (int r = 0; r < CYD_SPECTRUM_H; r++) {
-        cyd_spectrum_line(db, peak, floor_db, range, r, m, out);
+        cyd_spectrum_line(db, peak, floors, range, r, m, cursor, out);
         for (int c = 0; c < CYD_COLUMNS; c++) line[c] = swap16(out[c]);
         push(line, CYD_COLUMNS, r == 0);
     }
@@ -325,7 +338,7 @@ static void draw_controls(int pressed) {
     button(0, y, w, h, "MHZ", "-", pressed == 0 ? hot : base);
     button(w, y, w, h, "STEP", step, pressed == 1 ? hot : base);
     button(2 * w, y, w, h, "MHZ", "+", pressed == 2 ? hot : base);
-    button(3 * w, y, w, h, NULL, "MENU", pressed == 3 ? hot : menu_open ? 0x0320 : base);
+    button(3 * w, y, w, h, NULL, menu_open ? "BACK" : "MENU", pressed == 3 ? hot : menu_open ? 0x0320 : base);
 }
 
 static const char *menu_label(int item, char *buf, size_t size) {
@@ -341,7 +354,7 @@ static const char *menu_label(int item, char *buf, size_t size) {
     case 11: return "GAIN +";
     case 12: snprintf(buf, size, "RANGE %d", cyd_range_db[range_index]); return buf;
     case 13: return frozen ? "RESUME" : "FREEZE";
-    default: return "CLOSE";
+    default: return flat ? "FLAT ON" : "FLAT OFF";
     }
 }
 
@@ -362,6 +375,8 @@ static void reset_view(void) {
     first_row = true;
     bursts.count = 0;
     bursts.high = false;
+    cursor = -1;
+    save_settings_soon();
 }
 
 static void retune(int mhz) {
@@ -412,52 +427,69 @@ static void menu_action(int item) {
     }
     case 12: range_index = (range_index + 1) % CYD_RANGES; break;
     case 13: frozen = !frozen; break;
-    default: open_menu(false); draw_status(); return;
+    default: flat = !flat; reset_view(); break;
     }
+    save_settings_soon();
     draw_menu(-1);
     draw_status();
     draw_scale();
 }
 
-static void main_action(cyd_hit_t hit, int x) {
+static void main_action(cyd_hit_t hit) {
     int lo = (int)radio->frequency(), step = cyd_steps_mhz[step_index];
-    if (hit == CYD_HIT_TUNE) { retune(cyd_column_mhz(lo, x, span())); return; }
-    if (hit == CYD_HIT_NONE) return;
+    if (hit == CYD_HIT_NONE || hit == CYD_HIT_TUNE) return;
     int index = hit == CYD_HIT_DOWN ? 0 : hit == CYD_HIT_STEP ? 1 : hit == CYD_HIT_UP ? 2 : 3;
     draw_controls(index);
     vTaskDelay(pdMS_TO_TICKS(60));
     if (hit == CYD_HIT_DOWN) retune(lo - step);
     else if (hit == CYD_HIT_UP) retune(lo + step);
-    else if (hit == CYD_HIT_STEP) step_index = (step_index + 1) % 3;
-    else if (hit == CYD_HIT_MENU) { open_menu(!menu_open); return; }
+    else if (hit == CYD_HIT_STEP) { step_index = (step_index + 1) % 3; save_settings_soon(); }
+    else if (hit == CYD_HIT_MENU) { open_menu(!menu_open); draw_status(); return; }
     draw_controls(-1);
 }
 
-/* One action per press; only the +/- buttons repeat while held. */
+/* Buttons act on press (+/- repeat while held). On the spectrum or
+ * waterfall a tap places an inspection cursor; holding retunes there. */
 static void handle_touch(void) {
     int raw_x, raw_y, x, y;
     int64_t now = esp_timer_get_time();
-    if (!touch_read(&raw_x, &raw_y)) { touch_down = false; return; }
+    if (!touch_read(&raw_x, &raw_y)) { press_active = false; return; }
     cyd_touch_map(calibration, raw_x, raw_y, &x, &y);
-    if (menu_open && y >= CYD_WATERFALL_Y && y < CYD_CONTROLS_Y) {
-        if (!touch_down) menu_action(cyd_hit_menu(x, y));
-        touch_down = true;
+    bool fresh = !press_active;
+    if (fresh) { press_active = true; press_acted = false; press_at = now; press_x = x; press_y = y; }
+    if (menu_open && press_y >= CYD_WATERFALL_Y && press_y < CYD_CONTROLS_Y) {
+        /* The whole press belongs to the menu, even if it closes the menu. */
+        if (fresh) { press_acted = true; menu_action(cyd_hit_menu(press_x, press_y)); }
         return;
     }
-    cyd_hit_t hit = cyd_hit_main(x, y);
-    if (menu_open && hit == CYD_HIT_TUNE) hit = CYD_HIT_NONE;
+    cyd_hit_t hit = cyd_hit_main(press_x, press_y);
+    if (hit == CYD_HIT_TUNE) {
+        if (menu_open || press_acted) return;
+        if (fresh || x != cursor) { cursor = x; cursor_at = now; draw_stats(); }
+        if (now - press_at >= HOLD_TO_TUNE_US) {
+            press_acted = true;
+            int target = cyd_column_mhz((int)radio->frequency(), cursor, span());
+            retune(target);
+        }
+        return;
+    }
     bool repeat = hit == CYD_HIT_DOWN || hit == CYD_HIT_UP;
-    if (touch_down && !(repeat && now - touch_at >= TOUCH_REPEAT_US)) return;
-    touch_down = true;
-    touch_at = now;
-    main_action(hit, x);
+    if (fresh) { press_acted = !repeat; main_action(hit); touch_at = now; return; }
+    if (press_acted) return;
+    if (repeat && now - press_at >= REPEAT_DELAY_US && now - touch_at >= TOUCH_REPEAT_US) {
+        touch_at = now;
+        main_action(hit);
+    }
 }
 
 static void draw_row(void) {
     const uint32_t *words;
     if (!radio->acquire(CAPTURE_SAMPLES, span_index, &words)) return;
     cyd_row_db(words, CAPTURE_SAMPLES, db);
+    cyd_mask_dc(db);
     floor_db = cyd_floor_update(floor_db, db, first_row);
+    cyd_colfloor_update(colfloor, db, first_row);
+    for (int c = 0; c < CYD_COLUMNS; c++) floors[c] = flat ? colfloor[c] : floor_db;
     cyd_peak_update(peak, db, PEAK_DECAY_DB, first_row);
     first_row = false;
     int m = marker_column();
@@ -466,7 +498,7 @@ static void draw_row(void) {
     if (menu_open) return;
     float range = (float)cyd_range_db[range_index];
     for (int c = 0; c < CYD_COLUMNS; c++) {
-        uint16_t v = cyd_palette(cyd_level(db[c], floor_db, range));
+        uint16_t v = cyd_palette(cyd_level(db[c], floors[c], range));
         if (c == m && v == 0x0000) v = 0x3007;
         line[c] = swap16(v);
     }
@@ -477,6 +509,39 @@ static void draw_row(void) {
     push(line, CYD_COLUMNS, true);
     uint8_t start[2] = {y >> 8, y & 255};
     command(0x37, start, 2);
+}
+
+/* Settings persist 3 s after the last change, sparing flash wear. */
+static void save_settings_soon(void) {
+    settings_dirty = true;
+    settings_at = esp_timer_get_time();
+}
+
+static void save_settings(void) {
+    cyd_settings_t v = {CYD_SETTINGS_VERSION, (uint8_t)span_index, (uint8_t)filter_index, (uint8_t)range_index,
+                        (uint8_t)step_index, radio->hardware_agc(), (uint8_t)radio->gain_code(), flat,
+                        (int8_t)preset, (uint16_t)radio->frequency()};
+    nvs_handle_t h;
+    if (nvs_open("cyd", NVS_READWRITE, &h) != ESP_OK) return;
+    nvs_set_blob(h, "ui", &v, sizeof(v));
+    nvs_commit(h);
+    nvs_close(h);
+    settings_dirty = false;
+}
+
+static void load_settings(void) {
+    cyd_settings_t v;
+    size_t length = sizeof(v);
+    nvs_handle_t h;
+    if (nvs_open("cyd", NVS_READONLY, &h) != ESP_OK) return;
+    bool ok = nvs_get_blob(h, "ui", &v, &length) == ESP_OK && length == sizeof(v) && cyd_settings_valid(&v);
+    nvs_close(h);
+    if (!ok) return;
+    span_index = v.span; filter_index = v.filter; range_index = v.range; step_index = v.step;
+    flat = v.flat; preset = v.preset;
+    radio->set_gain(v.agc, v.gain);
+    radio->set_filter((unsigned)cyd_filter_mhz[filter_index]);
+    radio->tune(v.lo_mhz);
 }
 
 static void finish_screen(void) {
@@ -577,6 +642,7 @@ void cyd_display_init(const cyd_radio_t *ops) {
     panel_init();
     touch_init();
     load_calibration();
+    load_settings();
     active = true;
     host_at = esp_timer_get_time() - HOST_IDLE_US;
     /* The firmware carries this board's calibration; hold a finger on the
@@ -612,6 +678,8 @@ void cyd_display_idle(void) {
         draw_scale();
     }
     handle_touch();
+    if (settings_dirty && now - settings_at >= SETTINGS_DELAY_US) save_settings();
+    if (cursor >= 0 && !press_active && now - cursor_at >= CURSOR_TIMEOUT_US) cursor = -1;
     if (now - stats_at >= STATS_PERIOD_US && !first_row) {
         stats_at = now;
         draw_stats();

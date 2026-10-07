@@ -54,14 +54,31 @@ int cyd_offset_column(int offset_khz, int span_mhz);
 /* Strongest column; returns its index. */
 int cyd_peak_column(const float column_db[CYD_COLUMNS]);
 
-/* One spectrum-strip line (row 0 = top of the strip): filled trace, bright
- * edge, peak-hold dots, grid and an optional marker column (-1 for none). */
-void cyd_spectrum_line(const float db[CYD_COLUMNS], const float peak[CYD_COLUMNS], float floor_db,
-                       float range_db, int row, int marker, uint16_t out[CYD_COLUMNS]);
+/* Per-column floor for FLAT mode: falls quickly, rises slowly, so filter
+ * roll-off and steady carriers flatten while bursts stand out. */
+void cyd_colfloor_update(float floor_db[CYD_COLUMNS], const float column_db[CYD_COLUMNS], bool reset);
+/* Replace the LO-leakage columns around the centre by interpolation. */
+void cyd_mask_dc(float column_db[CYD_COLUMNS]);
+#define CYD_PEAK_MIN_DB 10.0f
+/* One spectrum-strip line (row 0 = top of the strip): filled trace with the
+ * floor sitting at CYD_BASELINE of the height, bright edge, peak-hold dots
+ * (only CYD_PEAK_MIN_DB above the floor), grid, marker and cursor columns. */
+#define CYD_BASELINE 0.15f
+void cyd_spectrum_line(const float db[CYD_COLUMNS], const float peak[CYD_COLUMNS], const float floor_db[CYD_COLUMNS],
+                       float range_db, int row, int marker, int cursor, uint16_t out[CYD_COLUMNS]);
 
 /* Rising-edge burst counter around a marker column. */
 typedef struct { bool high; unsigned count; } cyd_burst_t;
 bool cyd_burst_update(cyd_burst_t *b, const float db[CYD_COLUMNS], int marker, float floor_db, float threshold_db);
+
+/* Persisted UI settings (NVS key "ui"). */
+#define CYD_SETTINGS_VERSION 1
+typedef struct {
+    uint8_t version, span, filter, range, step, agc, gain, flat;
+    int8_t preset;
+    uint16_t lo_mhz;
+} cyd_settings_t;
+bool cyd_settings_valid(const cyd_settings_t *s);
 
 /* Presets: an LO and where this board's measured carrier lands. */
 #define CYD_MARKER_NONE (-100000)

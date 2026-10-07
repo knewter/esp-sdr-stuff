@@ -146,25 +146,43 @@ class Logic(unittest.TestCase):
         self.c.cyd_peak_update(peak, high, 1.0, False)
         self.assertAlmostEqual(peak[0], 20.0)
 
-    def test_spectrum_line_draws_trace_peak_and_marker(self):
+    def test_spectrum_line_draws_trace_peak_marker_and_cursor(self):
         db = [0.0]*COLUMNS
         db[100] = 30.0
         peak = list(db)
         peak[50] = 15.0
+        peak[60] = 5.0                                   # below CYD_PEAK_MIN_DB: hidden
         f = ctypes.c_float*COLUMNS
         out = (ctypes.c_uint16*COLUMNS)()
-        self.c.cyd_spectrum_line.argtypes = [f, f, ctypes.c_float, ctypes.c_float, ctypes.c_int, ctypes.c_int,
+        self.c.cyd_spectrum_line.argtypes = [f, f, f, ctypes.c_float, ctypes.c_int, ctypes.c_int, ctypes.c_int,
                                              ctypes.POINTER(ctypes.c_uint16)]
         rows = []
         for r in range(48):
-            self.c.cyd_spectrum_line(f(*db), f(*peak), 0.0, 30.0, r, 200, out)
+            self.c.cyd_spectrum_line(f(*db), f(*peak), f(*([0.0]*COLUMNS)), 30.0, r, 200, 20, out)
             rows.append(list(out))
         self.assertEqual(rows[0][100], 0xffff)          # full-scale trace edge at the top
         self.assertNotEqual(rows[47][100], 0x0000)      # filled to the bottom
-        held = [r for r in range(48) if rows[r][50] == 0xffe0]
-        self.assertEqual(len(held), 1)                  # one peak-hold dot
-        self.assertEqual(rows[0][200], 0xf81f)          # marker column
-        self.assertEqual(rows[2][200], 0x0000)          # dashed
+        floor_edge = [r for r in range(48) if rows[r][10] == 0xffff]
+        self.assertEqual(floor_edge, [47-int(0.15*255)*47//255])  # noise floor sits on the baseline
+        self.assertEqual(len([r for r in range(48) if rows[r][50] == 0xffe0]), 1)
+        self.assertEqual([r for r in range(48) if rows[r][60] == 0xffe0], [])
+        self.assertEqual(rows[0][200], 0xf81f)          # marker column, dashed
+        self.assertEqual(rows[2][200], 0x0000)
+        self.assertEqual(rows[0][20], 0x07ff)           # cursor column, dotted
+        self.assertNotEqual(rows[1][20], 0x07ff)
+
+    def test_flat_floor_and_dc_mask(self):
+        f = ctypes.c_float*COLUMNS
+        floor = f(*([0.0]*COLUMNS))
+        self.c.cyd_colfloor_update.argtypes = [f, f, ctypes.c_bool]
+        self.c.cyd_colfloor_update(floor, f(*([10.0]*COLUMNS)), True)
+        self.c.cyd_colfloor_update(floor, f(*([0.0]*COLUMNS)), False)
+        self.assertAlmostEqual(floor[0], 8.0, places=4)    # falls fast
+        self.c.cyd_colfloor_update(floor, f(*([108.0]*COLUMNS)), False)
+        self.assertAlmostEqual(floor[0], 9.0, places=4)    # rises slowly
+        row = f(*[50.0 if 118 < c < 122 else 0.0 for c in range(COLUMNS)])
+        self.c.cyd_mask_dc(row)
+        self.assertEqual(max(row[118:123]), 0.0)
 
     def test_burst_counter_counts_rising_edges(self):
         class Burst(ctypes.Structure):
