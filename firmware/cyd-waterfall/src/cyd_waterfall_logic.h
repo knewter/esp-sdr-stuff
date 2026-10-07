@@ -6,32 +6,75 @@
 
 #define CYD_FFT_SIZE 512
 #define CYD_COLUMNS 240
-#define CYD_SAMPLE_RATE_HZ 16000000
-#define CYD_STATUS_HEIGHT 60
 #define CYD_SCREEN_HEIGHT 320
-#define CYD_RANGE_DB 30.0f
+
+/* Screen regions, top to bottom (portrait 240x320). */
+#define CYD_STATUS_Y 0
+#define CYD_STATUS_H 32
+#define CYD_SCALE_Y 32
+#define CYD_SCALE_H 12
+#define CYD_SPECTRUM_Y 44
+#define CYD_SPECTRUM_H 48
+#define CYD_WATERFALL_Y 92
+#define CYD_WATERFALL_H 172
+#define CYD_CONTROLS_Y 264
+#define CYD_CONTROLS_H 56
+#define CYD_MENU_ROWS 5
+#define CYD_MENU_COLS 3
+
+/* Spans follow the ESP32 hardware sample rates (16/40/80 MS/s). */
+#define CYD_SPANS 3
+extern const int cyd_span_mhz[CYD_SPANS];
+extern const int cyd_steps_mhz[3];
+#define CYD_FILTERS 5
+extern const int cyd_filter_mhz[CYD_FILTERS]; /* 0 = automatic */
+#define CYD_RANGES 4
+extern const int cyd_range_db[CYD_RANGES];
 
 /* Signed 10-bit I (bits 0..9) and Q (bits 10..19) of one capture word. */
 void cyd_unpack(uint32_t word, float *i, float *q);
 
 /* Max-hold power per column, in dB, over every whole FFT_SIZE block of the
- * capture. Column 0 is the lowest frequency (LO - 8 MHz). Returns blocks used. */
+ * capture. Column 0 is the lowest frequency (LO - span/2). Returns blocks used. */
 unsigned cyd_row_db(const uint32_t *words, unsigned n, float column_db[CYD_COLUMNS]);
 
 /* Running noise floor: a slow IIR on the row's 25th-percentile column. */
 float cyd_floor_update(float floor_db, const float column_db[CYD_COLUMNS], bool first);
+/* Peak hold that decays by decay_db per row and never sits below the row. */
+void cyd_peak_update(float peak_db[CYD_COLUMNS], const float column_db[CYD_COLUMNS], float decay_db, bool reset);
 
-/* 0..255 intensity above the floor over CYD_RANGE_DB, then RGB565. */
-uint8_t cyd_level(float db, float floor_db);
+/* 0..255 intensity above the floor over range_db, then RGB565. */
+uint8_t cyd_level(float db, float floor_db, float range_db);
 uint16_t cyd_palette(uint8_t level);
 
-/* Column under a tap -> frequency in MHz, rounded to whole MHz. */
-int cyd_column_mhz(int lo_mhz, int column);
+/* Column <-> frequency for a span (MHz across CYD_COLUMNS, centred on LO). */
+int cyd_column_mhz(int lo_mhz, int column, int span_mhz);
+/* Column for an offset from LO in kHz, or -1 when outside the span. */
+int cyd_offset_column(int offset_khz, int span_mhz);
+/* Strongest column; returns its index. */
+int cyd_peak_column(const float column_db[CYD_COLUMNS]);
 
-typedef enum { CYD_TOUCH_NONE, CYD_TOUCH_DOWN, CYD_TOUCH_STEP, CYD_TOUCH_UP,
-               CYD_TOUCH_LABEL, CYD_TOUCH_WATERFALL } cyd_touch_t;
-/* Screen point (portrait, 240x320) -> control. */
-cyd_touch_t cyd_touch_target(int x, int y);
+/* One spectrum-strip line (row 0 = top of the strip): filled trace, bright
+ * edge, peak-hold dots, grid and an optional marker column (-1 for none). */
+void cyd_spectrum_line(const float db[CYD_COLUMNS], const float peak[CYD_COLUMNS], float floor_db,
+                       float range_db, int row, int marker, uint16_t out[CYD_COLUMNS]);
+
+/* Rising-edge burst counter around a marker column. */
+typedef struct { bool high; unsigned count; } cyd_burst_t;
+bool cyd_burst_update(cyd_burst_t *b, const float db[CYD_COLUMNS], int marker, float floor_db, float threshold_db);
+
+/* Presets: an LO and where this board's measured carrier lands. */
+#define CYD_MARKER_NONE (-100000)
+typedef struct { const char *label; int lo_mhz; int marker_khz; bool measured; } cyd_preset_t;
+#define CYD_PRESETS 7
+extern const cyd_preset_t cyd_presets[CYD_PRESETS];
+
+/* Touch targets. Main screen: controls row, or a tune tap on spectrum or
+ * waterfall. Menu: a CYD_MENU_ROWS x CYD_MENU_COLS grid over the waterfall. */
+typedef enum { CYD_HIT_NONE, CYD_HIT_DOWN, CYD_HIT_STEP, CYD_HIT_UP, CYD_HIT_MENU, CYD_HIT_TUNE } cyd_hit_t;
+cyd_hit_t cyd_hit_main(int x, int y);
+int cyd_hit_menu(int x, int y); /* item index, or -1 */
+
 /* Touch calibration from three taps on crosses at fixed screen points:
  * top-left (20,20), top-right (220,20) and bottom-left (20,300). It finds
  * which raw channel follows screen x (swap) and each axis direction. */
@@ -42,5 +85,3 @@ extern const cyd_cal_t cyd_cal_default;
 bool cyd_touch_calibrate(const int raw[3][2], cyd_cal_t *cal);
 /* XPT2046 raw 12-bit readings -> portrait screen point. */
 void cyd_touch_map(const cyd_cal_t *cal, int raw_x, int raw_y, int *x, int *y);
-
-extern const int cyd_steps_mhz[3];

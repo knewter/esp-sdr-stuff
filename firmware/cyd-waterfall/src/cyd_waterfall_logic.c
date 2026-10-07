@@ -6,6 +6,9 @@
 #include <string.h>
 
 const int cyd_steps_mhz[3] = {1, 5, 10};
+const int cyd_span_mhz[CYD_SPANS] = {16, 40, 80};
+const int cyd_filter_mhz[CYD_FILTERS] = {0, 12, 20, 40, 67};
+const int cyd_range_db[CYD_RANGES] = {20, 30, 40, 50};
 
 /* Measured on the user's CYD2USB (2026-10-06, read back from NVS): raw X
  * runs right-to-left, raw Y top-to-bottom. A calibration saved in NVS wins. */
@@ -94,8 +97,15 @@ float cyd_floor_update(float floor_db, const float column_db[CYD_COLUMNS], bool 
     return first ? quartile : floor_db + 0.05f*(quartile-floor_db);
 }
 
-uint8_t cyd_level(float db, float floor_db) {
-    float v = (db-floor_db)/CYD_RANGE_DB;
+void cyd_peak_update(float peak_db[CYD_COLUMNS], const float column_db[CYD_COLUMNS], float decay_db, bool reset) {
+    for (unsigned c = 0; c < CYD_COLUMNS; c++) {
+        float decayed = peak_db[c] - decay_db;
+        peak_db[c] = reset || column_db[c] > decayed ? column_db[c] : decayed;
+    }
+}
+
+uint8_t cyd_level(float db, float floor_db, float range_db) {
+    float v = (db-floor_db)/range_db;
     if (v <= 0) return 0;
     if (v >= 1) return 255;
     return (uint8_t)(v*255.0f);
@@ -114,19 +124,83 @@ uint16_t cyd_palette(uint8_t level) {
     return (uint16_t)(((r & 0xf8) << 8) | ((g & 0xfc) << 3) | (bl >> 3));
 }
 
-int cyd_column_mhz(int lo_mhz, int column) {
-    /* Column centres span LO-8 .. LO+8 MHz across CYD_COLUMNS. */
-    float offset = ((float)column+0.5f)*16.0f/(float)CYD_COLUMNS - 8.0f;
+int cyd_column_mhz(int lo_mhz, int column, int span_mhz) {
+    float offset = ((float)column+0.5f)*(float)span_mhz/(float)CYD_COLUMNS - (float)span_mhz/2.0f;
     return lo_mhz + (int)lroundf(offset);
 }
 
-cyd_touch_t cyd_touch_target(int x, int y) {
-    if (x < 0 || x >= CYD_COLUMNS || y < 0 || y >= CYD_SCREEN_HEIGHT) return CYD_TOUCH_NONE;
-    /* Left half of the frequency line toggles inversion; the right half shows
-     * the raw touch readout and is not a control. */
-    if (y < 20) return x < CYD_COLUMNS/2 ? CYD_TOUCH_LABEL : CYD_TOUCH_NONE;
-    if (y < CYD_STATUS_HEIGHT) return x < 80 ? CYD_TOUCH_DOWN : x < 160 ? CYD_TOUCH_STEP : CYD_TOUCH_UP;
-    return CYD_TOUCH_WATERFALL;
+int cyd_offset_column(int offset_khz, int span_mhz) {
+    /* Floor, not truncation: column c covers [c, c+1) in offset units. */
+    long c = CYD_COLUMNS/2 + (long)floorf((float)offset_khz*CYD_COLUMNS/((float)span_mhz*1000.0f));
+    return c < 0 || c >= CYD_COLUMNS ? -1 : (int)c;
+}
+
+int cyd_peak_column(const float column_db[CYD_COLUMNS]) {
+    int best = 0;
+    for (int c = 1; c < CYD_COLUMNS; c++) if (column_db[c] > column_db[best]) best = c;
+    return best;
+}
+
+static uint16_t dim(uint16_t c) {
+    return (uint16_t)((c >> 1) & 0x7bef);
+}
+
+void cyd_spectrum_line(const float db[CYD_COLUMNS], const float peak[CYD_COLUMNS], float floor_db,
+                       float range_db, int row, int marker, uint16_t out[CYD_COLUMNS]) {
+    int h = CYD_SPECTRUM_H, from_bottom = h-1-row;
+    bool grid_row = row == h/4 || row == h/2 || row == 3*h/4;
+    for (int c = 0; c < CYD_COLUMNS; c++) {
+        uint8_t level = cyd_level(db[c], floor_db, range_db);
+        int bar = level*(h-1)/255, held = cyd_level(peak[c], floor_db, range_db)*(h-1)/255;
+        uint16_t v = 0x0000;
+        if (grid_row && c % 4 == 0) v = 0x2104;
+        if (c == marker && row % 3 != 2) v = 0xf81f;
+        if (from_bottom < bar) v = dim(cyd_palette(level));
+        if (from_bottom == bar) v = 0xffff;
+        if (from_bottom == held && held > bar) v = 0xffe0;
+        out[c] = v;
+    }
+}
+
+bool cyd_burst_update(cyd_burst_t *b, const float db[CYD_COLUMNS], int marker, float floor_db, float threshold_db) {
+    if (marker < 0) return false;
+    float best = -1e9f;
+    for (int c = marker-2; c <= marker+2; c++)
+        if (c >= 0 && c < CYD_COLUMNS && db[c] > best) best = db[c];
+    bool high = best-floor_db >= threshold_db;
+    bool rising = high && !b->high;
+    b->high = high;
+    if (rising) b->count++;
+    return rising;
+}
+
+/* Board-specific markers from spectrum sessions 004/005 (16 MS/s): ch37 at
+ * LO 2401 lands near 2404.3 MHz, ch38 at LO 2425 near 2419.1 MHz. ch39 is
+ * unlocated, so its marker is the nominal channel. Wi-Fi markers are nominal. */
+const cyd_preset_t cyd_presets[CYD_PRESETS] = {
+    {"BLE 37", 2401, 3300, true},
+    {"BLE 38", 2425, -5900, true},
+    {"BLE 39", 2479, 1000, false},
+    {"WIFI 1", 2412, 0, false},
+    {"WIFI 6", 2437, 0, false},
+    {"WIFI 11", 2462, 0, false},
+    {"2.4 BAND", 2442, CYD_MARKER_NONE, false},
+};
+
+cyd_hit_t cyd_hit_main(int x, int y) {
+    if (x < 0 || x >= CYD_COLUMNS || y < 0 || y >= CYD_SCREEN_HEIGHT) return CYD_HIT_NONE;
+    if (y >= CYD_CONTROLS_Y) {
+        static const cyd_hit_t row[4] = {CYD_HIT_DOWN, CYD_HIT_STEP, CYD_HIT_UP, CYD_HIT_MENU};
+        return row[x*4/CYD_COLUMNS];
+    }
+    if (y >= CYD_SPECTRUM_Y) return CYD_HIT_TUNE;
+    return CYD_HIT_NONE;
+}
+
+int cyd_hit_menu(int x, int y) {
+    if (x < 0 || x >= CYD_COLUMNS || y < CYD_WATERFALL_Y || y >= CYD_WATERFALL_Y+CYD_WATERFALL_H) return -1;
+    int r = (y-CYD_WATERFALL_Y)*CYD_MENU_ROWS/CYD_WATERFALL_H, c = x*CYD_MENU_COLS/CYD_COLUMNS;
+    return r*CYD_MENU_COLS + c;
 }
 
 static int clamp(int v, int out) {

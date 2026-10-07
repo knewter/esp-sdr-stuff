@@ -24,9 +24,10 @@ RECEIVER_HOOKS = [
     ('#include "spectrum.h"\n', '#include "spectrum.h"\n#include "cyd_display.h"\n'),
     ('void app_main(void) {\n',
      '/* CYD display hooks: the same radio routines the host commands use. */\n'
-     'static bool cyd_acquire(unsigned n, const uint32_t **words) {\n'
+     'static bool cyd_acquire(unsigned n, unsigned span, const uint32_t **words) {\n'
+     '    static const unsigned clocks[3] = {0, 2, 1}; /* 16, 40, 80 MS/s */\n'
      '    unsigned elapsed;\n'
-     '    bool ok = acquire_iq(n, 0, 0, &elapsed);\n'
+     '    bool ok = span < 3 && acquire_iq(n, 0, clocks[span], &elapsed);\n'
      '    *words = samples;\n'
      '    return ok;\n'
      '}\n'
@@ -37,8 +38,22 @@ RECEIVER_HOOKS = [
      '    return true;\n'
      '}\n'
      'static unsigned cyd_frequency(void) { return frequency_mhz; }\n'
+     'static void cyd_set_gain(bool agc, unsigned code) {\n'
+     '    hardware_agc = agc;\n'
+     '    if (code <= gain_max) gain_code = code;\n'
+     '    apply_gain();\n'
+     '}\n'
      'static bool cyd_agc(void) { return hardware_agc; }\n'
-     'static const cyd_radio_t cyd_radio = {cyd_acquire, cyd_tune, cyd_frequency, cyd_agc};\n\n'
+     'static unsigned cyd_gain(void) { return gain_code; }\n'
+     'static unsigned cyd_gain_max(void) { return gain_max; }\n'
+     'static bool cyd_filter(unsigned mhz) {\n'
+     '    if (!mhz) { rx_filter = -1; return true; }\n'
+     '    if (mhz < RX_BANDWIDTH_MIN || mhz > RX_BANDWIDTH_MAX) return false;\n'
+     '    rx_filter = rx_bandwidth_dcap(mhz);\n'
+     '    return true;\n'
+     '}\n'
+     'static const cyd_radio_t cyd_radio = {cyd_acquire, cyd_tune, cyd_frequency, cyd_set_gain,\n'
+     '                                      cyd_agc, cyd_gain, cyd_gain_max, cyd_filter};\n\n'
      'void app_main(void) {\n'),
     ('    burst_serial_init();\n', '    burst_serial_init();\n    cyd_display_init(&cyd_radio);\n'),
     ('        if (!status) { vTaskDelay(1); continue; }\n',

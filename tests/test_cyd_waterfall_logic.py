@@ -10,7 +10,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT/'firmware'/'cyd-waterfall'/'src'/'cyd_waterfall_logic.c'
 COLUMNS, RATE = 240, 16_000_000
-TARGETS = ['NONE', 'DOWN', 'STEP', 'UP', 'LABEL', 'WATERFALL']
+HITS = ['NONE', 'DOWN', 'STEP', 'UP', 'MENU', 'TUNE']
 
 
 def word(i, q):
@@ -30,7 +30,7 @@ class Logic(unittest.TestCase):
         cls.c.cyd_floor_update.restype = ctypes.c_float
         cls.c.cyd_floor_update.argtypes = [ctypes.c_float, ctypes.POINTER(ctypes.c_float), ctypes.c_bool]
         cls.c.cyd_level.restype = ctypes.c_uint8
-        cls.c.cyd_level.argtypes = [ctypes.c_float, ctypes.c_float]
+        cls.c.cyd_level.argtypes = [ctypes.c_float, ctypes.c_float, ctypes.c_float]
         cls.c.cyd_palette.restype = ctypes.c_uint16
         cls.c.cyd_unpack.argtypes = [ctypes.c_uint32, ctypes.POINTER(ctypes.c_float), ctypes.POINTER(ctypes.c_float)]
 
@@ -85,27 +85,100 @@ class Logic(unittest.TestCase):
         self.assertAlmostEqual(self.c.cyd_floor_update(first, row2, False), 11.0, places=4)
 
     def test_level_and_palette_ends(self):
-        self.assertEqual(self.c.cyd_level(5.0, 10.0), 0)
-        self.assertEqual(self.c.cyd_level(40.0, 10.0), 255)
-        self.assertEqual(self.c.cyd_level(25.0, 10.0), 127)
+        self.assertEqual(self.c.cyd_level(5.0, 10.0, 30.0), 0)
+        self.assertEqual(self.c.cyd_level(40.0, 10.0, 30.0), 255)
+        self.assertEqual(self.c.cyd_level(25.0, 10.0, 30.0), 127)
+        self.assertEqual(self.c.cyd_level(20.0, 10.0, 20.0), 127)
         self.assertEqual(self.c.cyd_palette(0), 0x0000)
         self.assertEqual(self.c.cyd_palette(255), 0xffff)
 
-    def test_column_to_frequency(self):
-        self.assertEqual(self.c.cyd_column_mhz(2425, 0), 2417)
-        self.assertEqual(self.c.cyd_column_mhz(2425, 120), 2425)
-        self.assertEqual(self.c.cyd_column_mhz(2425, 239), 2433)
+    def test_column_to_frequency_per_span(self):
+        self.assertEqual(self.c.cyd_column_mhz(2425, 0, 16), 2417)
+        self.assertEqual(self.c.cyd_column_mhz(2425, 120, 16), 2425)
+        self.assertEqual(self.c.cyd_column_mhz(2425, 239, 16), 2433)
+        self.assertEqual(self.c.cyd_column_mhz(2442, 0, 80), 2402)
+        self.assertEqual(self.c.cyd_column_mhz(2442, 239, 80), 2482)
 
-    def test_touch_targets(self):
-        target = lambda x, y: TARGETS[self.c.cyd_touch_target(x, y)]
-        self.assertEqual(target(100, 5), 'LABEL')
-        self.assertEqual(target(200, 5), 'NONE')
-        self.assertEqual(target(10, 50), 'DOWN')
-        self.assertEqual(target(120, 25), 'STEP')
-        self.assertEqual(target(230, 59), 'UP')
-        self.assertEqual(target(120, 60), 'WATERFALL')
-        self.assertEqual(target(120, 200), 'WATERFALL')
-        self.assertEqual(target(-1, 200), 'NONE')
+    def test_offset_column_and_board_markers(self):
+        self.assertEqual(self.c.cyd_offset_column(0, 16), 120)
+        self.assertEqual(self.c.cyd_offset_column(3300, 16), 169)   # ch37 at LO 2401
+        self.assertEqual(self.c.cyd_offset_column(-5900, 16), 31)   # ch38 at LO 2425
+        self.assertEqual(self.c.cyd_offset_column(9000, 16), -1)
+        self.assertEqual(self.c.cyd_offset_column(30000, 80), 210)
+
+    def test_presets_match_measured_sessions(self):
+        class Preset(ctypes.Structure):
+            _fields_ = [('label', ctypes.c_char_p), ('lo_mhz', ctypes.c_int), ('marker_khz', ctypes.c_int),
+                        ('measured', ctypes.c_bool)]
+        presets = (Preset*7).in_dll(self.c, 'cyd_presets')
+        table = {p.label.decode(): (p.lo_mhz, p.marker_khz, p.measured) for p in presets}
+        self.assertEqual(table['BLE 37'], (2401, 3300, True))
+        self.assertEqual(table['BLE 38'], (2425, -5900, True))
+        self.assertFalse(table['BLE 39'][2])
+        self.assertEqual(table['2.4 BAND'][0], 2442)
+
+    def test_hit_main(self):
+        hit = lambda x, y: HITS[self.c.cyd_hit_main(x, y)]
+        self.assertEqual(hit(100, 10), 'NONE')
+        self.assertEqual(hit(100, 40), 'NONE')
+        self.assertEqual(hit(100, 50), 'TUNE')
+        self.assertEqual(hit(100, 200), 'TUNE')
+        self.assertEqual([hit(x, 300) for x in (5, 70, 130, 235)], ['DOWN', 'STEP', 'UP', 'MENU'])
+        self.assertEqual(hit(-1, 300), 'NONE')
+
+    def test_hit_menu_grid(self):
+        self.assertEqual(self.c.cyd_hit_menu(5, 95), 0)
+        self.assertEqual(self.c.cyd_hit_menu(235, 95), 2)
+        self.assertEqual(self.c.cyd_hit_menu(120, 160), 4)
+        self.assertEqual(self.c.cyd_hit_menu(235, 262), 14)
+        self.assertEqual(self.c.cyd_hit_menu(120, 80), -1)
+        self.assertEqual(self.c.cyd_hit_menu(120, 270), -1)
+
+    def test_peak_hold_decays(self):
+        peak = (ctypes.c_float*COLUMNS)(*([0.0]*COLUMNS))
+        row = (ctypes.c_float*COLUMNS)(*([10.0]*COLUMNS))
+        self.c.cyd_peak_update.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.POINTER(ctypes.c_float), ctypes.c_float, ctypes.c_bool]
+        self.c.cyd_peak_update(peak, row, 1.0, True)
+        low = (ctypes.c_float*COLUMNS)(*([0.0]*COLUMNS))
+        self.c.cyd_peak_update(peak, low, 1.0, False)
+        self.assertAlmostEqual(peak[0], 9.0)
+        high = (ctypes.c_float*COLUMNS)(*([20.0]*COLUMNS))
+        self.c.cyd_peak_update(peak, high, 1.0, False)
+        self.assertAlmostEqual(peak[0], 20.0)
+
+    def test_spectrum_line_draws_trace_peak_and_marker(self):
+        db = [0.0]*COLUMNS
+        db[100] = 30.0
+        peak = list(db)
+        peak[50] = 15.0
+        f = ctypes.c_float*COLUMNS
+        out = (ctypes.c_uint16*COLUMNS)()
+        self.c.cyd_spectrum_line.argtypes = [f, f, ctypes.c_float, ctypes.c_float, ctypes.c_int, ctypes.c_int,
+                                             ctypes.POINTER(ctypes.c_uint16)]
+        rows = []
+        for r in range(48):
+            self.c.cyd_spectrum_line(f(*db), f(*peak), 0.0, 30.0, r, 200, out)
+            rows.append(list(out))
+        self.assertEqual(rows[0][100], 0xffff)          # full-scale trace edge at the top
+        self.assertNotEqual(rows[47][100], 0x0000)      # filled to the bottom
+        held = [r for r in range(48) if rows[r][50] == 0xffe0]
+        self.assertEqual(len(held), 1)                  # one peak-hold dot
+        self.assertEqual(rows[0][200], 0xf81f)          # marker column
+        self.assertEqual(rows[2][200], 0x0000)          # dashed
+
+    def test_burst_counter_counts_rising_edges(self):
+        class Burst(ctypes.Structure):
+            _fields_ = [('high', ctypes.c_bool), ('count', ctypes.c_uint)]
+        b = Burst()
+        quiet = (ctypes.c_float*COLUMNS)(*([0.0]*COLUMNS))
+        loud = list(quiet)
+        loud[121] = 20.0
+        loud = (ctypes.c_float*COLUMNS)(*loud)
+        for row in (quiet, loud, loud, quiet, loud, quiet):
+            self.c.cyd_burst_update(ctypes.byref(b), row, 120, ctypes.c_float(0.0), ctypes.c_float(12.0))
+        self.assertEqual(b.count, 2)
+        self.c.cyd_burst_update(ctypes.byref(b), loud, -1, ctypes.c_float(0.0), ctypes.c_float(12.0))
+        self.assertEqual(b.count, 2)
 
     class Cal(ctypes.Structure):
         _fields_ = [(n, ctypes.c_int) for n in ('swap', 'u0', 'u1', 'v0', 'v2')]
