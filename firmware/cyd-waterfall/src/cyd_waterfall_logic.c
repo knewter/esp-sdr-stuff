@@ -7,8 +7,9 @@
 
 const int cyd_steps_mhz[3] = {1, 5, 10};
 
-/* Uncalibrated guess (typical CYD spans) until the user calibrates. */
-const cyd_cal_t cyd_cal_default = {0, 200, 3700, 240, 3800};
+/* Measured on the user's CYD2USB (2026-10-06, read back from NVS): raw X
+ * runs right-to-left, raw Y top-to-bottom. A calibration saved in NVS wins. */
+const cyd_cal_t cyd_cal_default = {0, 3491, 537, 470, 3636};
 
 void cyd_unpack(uint32_t word, float *i, float *q) {
     int32_t a = (int32_t)(word << 22) >> 22;
@@ -147,12 +148,6 @@ bool cyd_touch_calibrate(const int raw[3][2], cyd_cal_t *cal) {
 void cyd_touch_map(const cyd_cal_t *cal, int raw_x, int raw_y, int *x, int *y) {
     int raw[2] = {raw_x, raw_y};
     int u = raw[cal->swap], v = raw[!cal->swap];
-    if (cal == &cyd_cal_default) {
-        /* Default spans cover the whole panel, not the cross positions. */
-        *x = clamp((u-cal->u0)*CYD_COLUMNS/(cal->u1-cal->u0), CYD_COLUMNS);
-        *y = clamp((v-cal->v0)*CYD_SCREEN_HEIGHT/(cal->v2-cal->v0), CYD_SCREEN_HEIGHT);
-        return;
-    }
     int span_x = CYD_COLUMNS-2*CYD_CAL_MARGIN, span_y = CYD_SCREEN_HEIGHT-2*CYD_CAL_MARGIN;
     *x = clamp(CYD_CAL_MARGIN+(u-cal->u0)*span_x/(cal->u1-cal->u0), CYD_COLUMNS);
     *y = clamp(CYD_CAL_MARGIN+(v-cal->v0)*span_y/(cal->v2-cal->v0), CYD_SCREEN_HEIGHT);

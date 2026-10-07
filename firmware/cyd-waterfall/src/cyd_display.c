@@ -360,8 +360,9 @@ void cyd_display_init(const cyd_radio_t *ops) {
     load_calibration();
     active = true;
     host_at = esp_timer_get_time() - HOST_IDLE_US;
-    /* First boot, or a finger held on the screen at power-up: calibrate. */
-    if (calibration == &cyd_cal_default || !gpio_get_level(PIN_T_IRQ)) {
+    /* The firmware carries this board's calibration; hold a finger on the
+     * screen at power-up to redo it. */
+    if (!gpio_get_level(PIN_T_IRQ)) {
         int64_t release = esp_timer_get_time() + 3000000;
         while (!gpio_get_level(PIN_T_IRQ) && esp_timer_get_time() < release) vTaskDelay(pdMS_TO_TICKS(10));
         start_calibration("TOUCH CALIBRATION");

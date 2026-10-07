@@ -142,6 +142,14 @@ class Logic(unittest.TestCase):
         self.assertEqual(self.mapped(cal, 0, 0), (0, 0))
         self.assertEqual(self.mapped(cal, 4095, 4095), (239, 319))
 
+    def test_baked_default_matches_measured_board(self):
+        cal = self.Cal.in_dll(self.c, 'cyd_cal_default')
+        self.assertEqual((cal.swap, cal.u0, cal.u1, cal.v0, cal.v2), (0, 3491, 537, 470, 3636))
+        # The calibration taps themselves land on the crosses.
+        self.assertEqual(self.mapped(cal, 3491, 470), (20, 20))
+        self.assertEqual(self.mapped(cal, 537, 470), (220, 20))
+        self.assertEqual(self.mapped(cal, 3491, 3636), (20, 300))
+
     def test_degenerate_calibration_rejected(self):
         ok, _ = self.calibrate([(1000, 1000), (1010, 1005), (1003, 1100)])
         self.assertFalse(ok)
