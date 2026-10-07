@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-07",
+  "protocol": "docs/research/spectrum-controlled-006-protocol.md (31a9ac7)",
+  "receiver": "Cheap Yellow Display (waterfall build), 40 MS/s, BW 40",
+  "captures": {
+    "s-ch39-lo2460": {
+      "ok": 197,
+      "recovered_faults": 3
+    },
+    "s-ch39-lo2480": {
+      "ok": 196,
+      "recovered_faults": 4
+    },
+    "s-ch39-lo2500": {
+      "ok": 200,
+      "recovered_faults": 0
+    }
+  },
+  "search": {
+    "channel": 39,
+    "search_grid_khz": [
+      -19200,
+      -18000,
+      -16800,
+      -15600,
+      -14400,
+      -13200,
+      -12000,
+      -10800,
+      -9600,
+      -8400,
+      -7200,
+      -6000,
+      -4800,
+      -3600,
+      -2400,
+      -1200,
+      0,
+      1200,
+      2400,
+      3600,
+      4800,
+      6000,
+      7200,
+      8400,
+      9600,
+      10800,
+      12000,
+      13200,
+      14400,
+      15600,
+      16800,
+      18000,
+      19200
+    ],
+    "captures": [
+      {
+        "lo_mhz": 2460,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2480,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2500,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      }
+    ],
+    "selected": null
+  },
+  "decoder_statuses": {
+    "2460": {
+      "unsupported_or_invalid_header": 4
+    },
+    "2480": {
+      "unsupported_or_invalid_header": 5
+    },
+    "2500": {
+      "unsupported_or_invalid_header": 6
+    }
+  },
+  "result": "no owned packet at LO 2460/2480/2500; ch39 pairs not run; ch39 unlocated",
+  "exploratory_positive_control": {
+    "capture": "LO 2401, 40 MS/s, 200 windows, counted source on ch37 (15 cycles)",
+    "search": [
+      {
+        "lo_mhz": 2401,
+        "owned_on": 2,
+        "owned_off": 0,
+        "median_carrier_mhz": 2404.189232637297
+      }
+    ],
+    "meaning": "the 40 MS/s decode path finds owned packets (carrier 2404.19 MHz, as in sessions 004/005)"
+  },
+  "power_note": "At 40 MS/s a 409.5 us window holds a whole 184 us packet ~0.9% of the time: ~1.6 expected per 200-window capture with ch39 in view, so a zero has ~20% probability. The session 006 negative is weak; session 005 (16 MS/s, ~6 expected per capture, ~2464-2496 MHz) is the stronger negative."
+}
