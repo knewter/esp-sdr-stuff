@@ -23,10 +23,9 @@ from spectrum_decoded_location import locate
 
 CHANNELS = ((37, 2402), (38, 2426), (39, 2480))
 NOMINAL = dict(CHANNELS)
-NYQUIST_GUARD_KHZ = 7600
 
 
-def decode_capture(session, stem, channel, grid_khz, reference):
+def decode_capture(session, stem, channel, grid_khz, reference, rate=16000000):
     """Decode complete windows of one capture over a grid; return (path, Hz) pairs."""
     # Retained fault fragments share the raw directory, so link the iq-*.bin
     # payloads into their own one.
@@ -40,16 +39,17 @@ def decode_capture(session, stem, channel, grid_khz, reference):
         path = session/f'{stem}-decode{k}.json'
         if not path.exists():
             decode(['--input', str(iq), '--output', str(path),
-                    '--owned-reference', str(reference), '--rate', '16000000',
+                    '--owned-reference', str(reference), '--rate', str(rate),
                     '--frequency-translation-hz', str(k*1000), '--channel', str(channel), '--accept-chsel'])
         decodes.append((path, k*1000))
     return decodes
 
 
-def pair_grid(lo_mhz, carrier_mhz):
+def pair_grid(lo_mhz, carrier_mhz, rate=16000000):
     centre = round((lo_mhz-carrier_mhz)*5)*200
     grid = [centre+step for step in range(-2000, 2001, 400)]
-    return [k for k in grid if abs(k) <= NYQUIST_GUARD_KHZ]
+    guard_khz = rate//2000 - 400   # keep translations inside Nyquist (7600 kHz at 16 MS/s)
+    return [k for k in grid if abs(k) <= guard_khz]
 
 
 def search(a):
@@ -59,15 +59,15 @@ def search(a):
         stem = f's-ch{ch}-lo{lo}'
         if not (a.session/stem/'results.json').exists():
             continue
-        decodes = decode_capture(a.session, stem, ch, a.grid_khz, a.owned_reference)
-        r = locate(a.session/stem, a.session/f'{stem}-source.jsonl', decodes, lo, nominal)
+        decodes = decode_capture(a.session, stem, ch, a.grid_khz, a.owned_reference, a.rate)
+        r = locate(a.session/stem, a.session/f'{stem}-source.jsonl', decodes, lo, nominal, rate=a.rate)
         results.append({'lo_mhz': lo, 'owned_on': sum(p['owned_on'] for p in r['pairs']),
                         'owned_off': r['owned_off_total'], 'median_carrier_mhz': r['median_carrier_mhz']})
     found = [r for r in results if r['owned_on'] > 0]
     out = {'channel': ch, 'search_grid_khz': a.grid_khz, 'captures': results, 'selected': None}
     if found:
         best = max(found, key=lambda r: (r['owned_on'], -abs(r['lo_mhz']-(nominal-1))))
-        out['selected'] = {'lo_mhz': best['lo_mhz'], 'grid_khz': pair_grid(best['lo_mhz'], best['median_carrier_mhz'])}
+        out['selected'] = {'lo_mhz': best['lo_mhz'], 'grid_khz': pair_grid(best['lo_mhz'], best['median_carrier_mhz'], a.rate)}
     a.output.write_text(json.dumps(out, indent=2)+'\n')
     print(json.dumps(out))
 
@@ -83,8 +83,8 @@ def locate_session(a):
             stem = f'a-ch{ch}-p{n}'
             if not (a.session/stem/'results.json').exists():
                 continue
-            decodes = decode_capture(a.session, stem, ch, grid, a.owned_reference)
-            result = locate(a.session/stem, a.session/f'{stem}-source.jsonl', decodes, lo, nominal)
+            decodes = decode_capture(a.session, stem, ch, grid, a.owned_reference, a.rate)
+            result = locate(a.session/stem, a.session/f'{stem}-source.jsonl', decodes, lo, nominal, rate=a.rate)
             pairs[f'p{n}'] = {k: result[k] for k in ('source_cycles', 'controller_counted_events', 'owned_off_total',
                                                      'median_carrier_mhz', 'offset_from_nominal_khz', 'carrier_spread_khz')}
             pairs[f'p{n}']['owned_on'] = sum(p['owned_on'] for p in result['pairs'])
@@ -108,6 +108,7 @@ def main():
     cli.add_argument('--config', type=Path, help='locate: JSON {"37": {"lo_mhz": .., "grid_khz": [..]}, ..}')
     cli.add_argument('--channel', type=int, choices=[37, 38, 39], help='search: channel')
     cli.add_argument('--los', type=int, nargs='+', help='search: LOs of the s-ch{N}-lo{LO} captures')
+    cli.add_argument('--rate', type=int, choices=[16000000, 40000000], default=16000000)
     a = cli.parse_args()
     if a.mode == 'search':
         if a.channel is None or not a.los:

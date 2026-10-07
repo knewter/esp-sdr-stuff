@@ -19,7 +19,7 @@ RATE = 16_000_000
 DEDUP_SAMPLES = 4*RATE//1_000_000
 
 
-def owned_packets(decode_paths):
+def owned_packets(decode_paths, rate=RATE):
     """Deduplicated owned packets: {window: [(sample_offset, abs_carrier_hz)]}."""
     found = {}
     for path, translation in decode_paths:
@@ -31,13 +31,13 @@ def owned_packets(decode_paths):
                     continue
                 offset = f['access_address_sample_offset']
                 bucket = found.setdefault(capture['capture_filename'], [])
-                if any(abs(offset-o) < DEDUP_SAMPLES for o, _, _ in bucket):
+                if any(abs(offset-o) < 4*rate//1_000_000 for o, _, _ in bucket):
                     continue
                 bucket.append((offset, translation, f.get('estimated_carrier_offset_hz')))
     return found
 
 
-def locate(capture, source_jsonl, decode_paths, lo_mhz, nominal_mhz, guard_ms=100):
+def locate(capture, source_jsonl, decode_paths, lo_mhz, nominal_mhz, guard_ms=100, rate=RATE):
     capture = Path(capture)
     results = json.loads((capture/'results.json').read_text())
     anchor = results['series_start_monotonic_ns']
@@ -45,7 +45,7 @@ def locate(capture, source_jsonl, decode_paths, lo_mhz, nominal_mhz, guard_ms=10
     records = [json.loads(l) for l in Path(source_jsonl).read_text().splitlines() if l.startswith('{')]
     spans, counted = source_spans(records)
     merged = merge(spans)
-    packets = owned_packets(decode_paths)
+    packets = owned_packets(decode_paths, rate)
     guard = int(guard_ms*1e6)
     name = lambda r: f"iq-{r['rate_hz']}-{r['bits_per_component']}-{int(r['attempt']):04d}.bin"
     carrier = lambda t, res: (lo_mhz*1e6-t+(res or 0.0))/1e6
