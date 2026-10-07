@@ -32,6 +32,11 @@ void esp_rom_delay_us(uint32_t us);
 /* Heap */
 #define MALLOC_CAP_DMA 0
 void *heap_caps_malloc(size_t size, uint32_t caps);
+size_t heap_caps_get_free_size(uint32_t caps);
+
+/* ROM CRC (zlib-compatible) and the ESP-SDR serial transport. */
+uint32_t esp_rom_crc32_le(uint32_t crc, const uint8_t *buf, uint32_t len);
+bool burst_serial_send(const void *data, size_t size);
 
 /* GPIO */
 typedef enum { GPIO_MODE_INPUT = 1, GPIO_MODE_OUTPUT = 2 } gpio_mode_t;

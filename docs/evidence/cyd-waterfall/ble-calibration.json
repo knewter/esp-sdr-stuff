@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-07",
+  "firmware": "firmware/cyd-waterfall (550fade overlay), zone burst detector",
+  "offline_session_005": {
+    "tool": "tools/cyd_ble_calibration.py",
+    "rows": 1145,
+    "source_on_rows": 716,
+    "source_off_rows": 428,
+    "true_owned_packet_rows": 6,
+    "true_packet_excess_db": "25-32 above floor",
+    "true_packet_columns": "167-170 (marker 169)",
+    "fixed_window_pm2_cols": {
+      "detected": "6/6",
+      "source_off_rate": "1.6% at 12 dB"
+    },
+    "zone_pm30_cols": {
+      "detected": "6/6",
+      "source_off_rate": "4.7% at 15 dB"
+    },
+    "with_17_column_displacement": {
+      "fixed_window_detected": "0/6",
+      "zone_detected": "6/6"
+    }
+  },
+  "device_steady_line": "a steady carrier sat at column 199 (2406.3 MHz) in session 005 and near column 182 (2405.1 MHz) on the device: the tuning error moved by ~1.1 MHz between retunes",
+  "device_bluetooth_screen_source_test": {
+    "source": "tools/ble_repeat_source_container.py --channel 37, 20 counted cycles",
+    "off": {
+      "hits": [
+        48,
+        87,
+        160
+      ],
+      "seconds": [
+        41.0,
+        42.3,
+        40.6
+      ]
+    },
+    "on": {
+      "hits": [
+        98,
+        205,
+        336
+      ],
+      "seconds": [
+        83.0,
+        86.7,
+        82.6
+      ]
+    },
+    "result": "ch37 70.2/min off vs 70.8/min on: no detectable increase; the expected +~7/min from one advertiser (0.84% of rows) is inside counting noise against ~5% ambient narrowband activity"
+  },
+  "conclusion": "The Bluetooth screen reports overall narrowband activity per advertising channel; it detects real packets offline but cannot isolate one device. Task 2.3 stays open."
+}

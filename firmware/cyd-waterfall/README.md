@@ -17,58 +17,50 @@ The files here are distributed under the same GPLv3 terms.
   `main/targets/esp32/receiver.c`, and builds with UART 921600. It never
   changes its input or the SDK.
 
-## Screen
+## Screens
 
-| Region | Height | Content |
-| --- | --- | --- |
-| Status | 32 px | Tuned LO (large); a badge (`HOST` while the PC owns the radio, `FROZEN`, or the active preset); `EXT` outside 2400–2500 MHz; gain and span; live peak readout (`PK 2426.3 +18DB`) and, with a marked BLE channel, a burst counter |
-| Scale | 12 px | Absolute MHz ticks at ±3/8 and ±3/16 of the span; magenta marker where this board's channel lands (`?` if not yet measured) |
-| Spectrum | 48 px | Live trace (palette-filled, white edge), decaying peak-hold (yellow), grid, marker |
-| Waterfall | 172 px | Newest row on top, scrolled by the panel's own registers |
-| Controls | 56 px | `−` and `+` (repeat while held), `STEP` (1/5/10 MHz), `MENU` |
+- **HOME:** four tiles (LIVE, WI-FI, BLUETOOTH, SETTINGS) and a HOW TO USE
+  button. The radio idles here.
+- **LIVE:** status (frequency, preset or `PC`/`PAUSED` badge, `EXT` outside
+  2400–2500 MHz, gain and width), a readout (`STRONGEST …` or, after a tap,
+  `HERE … HOLD=TUNE`), a scale with a magenta *expected zone* for BLE presets,
+  the live spectrum and the waterfall.
+  - The controls are `HOME`, `−`, `+` and `MORE`; `−` and `+` repeat while
+    held.
+  - Tap the graph to measure; hold for 0.6 s to tune there.
+  - **MORE** opens a 5×3 grid:
+    - presets: BLE 37/38/39, Wi-Fi 1/6/11 and 2.4 BAND;
+    - settings: WIDTH (16/40/80 MHz), STEP, GAIN AUTO/MANUAL, GAIN −/+,
+      COLOUR (20–50 dB), FLAT and PAUSE.
+- **WI-FI:** an 80 MHz view centred on 2442 MHz.
+  - Bars show each channel's busy share: the fraction of its central 16 MHz
+    that sits 10 dB above that column's median.
+  - The screen names the quietest of 1, 6 and 11 in words (QUIET, LOW, BUSY,
+    VERY BUSY).
+- **BLUETOOTH:** cycles channels 37/38/39 (1.5 s each, 16 MS/s) and counts
+  narrowband bursts.
+  - ch37/38 search ±2 MHz around this board's measured carrier; ch39 is
+    unlocated, so its whole view counts.
+  - Rates read as `HITS/MIN` (snapshot hits, not packets), with words
+    thresholded at 5, 30 and 120.
+- **SETTINGS:** FILTER (AUTO follows the width), COLOUR, GAIN mode and level,
+  FLAT, TOUCH SETUP, RESET ALL (tap twice) and HOW TO USE.
+- **HOW TO USE:** four pages.
 
-Tapping the spectrum or waterfall places an inspection cursor, showing that
-frequency and its level (`CUR 2404.2 +12DB  HOLD TO TUNE`). Holding for 0.6 s
-retunes there. While the menu is open, `MENU` becomes `BACK`.
+The width, filter, gain, colour, step, preset, FLAT and last LIVE frequency
+persist in NVS.
 
-**MENU** replaces the waterfall with a 5×3 grid:
-- **Band presets:**
-  - **BLE 37 and BLE 38** tune to LO 2401 and 2425 MHz at 16 MHz span and mark where sessions 004/005 found the carrier: +3.3 MHz for ch37 and −5.9 MHz for ch38, relative to the LO.
-  - **BLE 39** marks the nominal channel with `?`, since ch39 is still unlocated.
-  - **Wi-Fi 1/6/11** use a 40 MHz span.
-  - **2.4 BAND** shows 2402–2482 MHz at once, at the 80 MHz span.
-- **Receiver settings:**
-  - **SPAN** cycles 16/40/80 MHz, the ESP32's hardware sample rates.
-  - **FILT** cycles AUTO/12/20/40/67 MHz (the `BANDWIDTH` command).
-  - **GAIN** switches between AGC and manual, with −/+ in steps of 4.
-  - **RANGE** sets the colour range: 20/30/40/50 dB above the floor.
-  - **FREEZE**;
-  - **FLAT**, a per-column floor that flattens filter roll-off and steady
-    carriers so bursts stand out. It is off by default, because it also hides
-    steady signals.
+## Host commands
 
-Presets close the menu; settings stay open so they can be combined.
+- **`CYDSHOT`:** streams the panel memory in display order (RGB666 plus a
+  CRC).
+- **`CYDSTAT`:** returns measurements as JSON.
+- **`CYDSTATRESET`:** clears the measurements.
+- **`CYDTAP x y ms`:** a virtual touch.
 
-## Behaviour
-
-- **Display mode.** It runs only while the host has been silent for 5 s. Any
-  host line pauses it and shows `HOST`. Host replies and captures are those of
-  the `550fade` receiver. When the host leaves, the display picks up its
-  frequency, gain and filter.
-- **Rows.** Each row comes from one 4096-sample snapshot (256 µs at 16 MS/s,
-  51 µs at 80 MS/s), with gaps between snapshots. Columns max-hold eight
-  512-point FFTs, so short bursts survive. The frequency shown is the
-  commanded LO, **not** a calibrated carrier. Session 004/005 offsets are
-  LO-dependent, and the markers apply only at their preset LOs.
-- **Touch.** The firmware carries this board's touch calibration (measured
-  2026-10-06). Holding a finger on the screen at power-up runs a three-cross
-  calibration, which is stored in NVS.
-- **Settings.** Frequency, span, filter, gain, range, step, preset and FLAT
-  persist in NVS 3 s after the last change.
-- **Picture.** The LO-leakage columns at the centre are interpolated over.
-  Peak-hold dots appear only 10 dB or more above the floor.
-- **Serial status.** Boot prints the detected panel, and retunes print
-  `#CYD freq …`. A host's SYNC fence discards these lines.
+These commands do not pause the display; every other host line does.
+`tools/cyd_device.py tour|shot|stat` uses them. Opening the CH340 port resets
+the board.
 
 ## Simulator (not hardware evidence)
 

@@ -29,6 +29,26 @@ SemaphoreHandle_t xSemaphoreCreateBinary(void) { semaphore.count = 0; return &se
 BaseType_t xSemaphoreTake(SemaphoreHandle_t s, TickType_t wait) { if (s->count) s->count--; return pdTRUE; }
 BaseType_t xSemaphoreGiveFromISR(SemaphoreHandle_t s, BaseType_t *woken) { s->count = 1; return pdTRUE; }
 void *heap_caps_malloc(size_t size, uint32_t caps) { return malloc(size); }
+size_t heap_caps_get_free_size(uint32_t caps) { return 100000; }
+
+uint32_t esp_rom_crc32_le(uint32_t crc, const uint8_t *buf, uint32_t len) {
+    crc = ~crc;
+    while (len--) {
+        crc ^= *buf++;
+        for (int k = 0; k < 8; k++) crc = crc & 1 ? (crc >> 1) ^ 0xedb88320u : crc >> 1;
+    }
+    return ~crc;
+}
+
+/* Host serial output, collected for tests and tools. */
+static uint8_t serial_out[1 << 20];
+static size_t serial_length;
+bool burst_serial_send(const void *data, size_t size) {
+    if (serial_length + size > sizeof(serial_out)) return false;
+    memcpy(serial_out + serial_length, data, size);
+    serial_length += size;
+    return true;
+}
 
 /* --- Panel (ILI9341 command subset) ----------------------------------- */
 struct sim_panel_io { esp_lcd_panel_io_color_trans_done_cb_t done; void *ctx; };
@@ -77,8 +97,21 @@ esp_err_t esp_lcd_panel_io_tx_color(esp_lcd_panel_io_handle_t io, int cmd, const
     return ESP_OK;
 }
 
+/* RAMRD (0x2e): a dummy byte, then RGB666 bytes (6 bits in 7..2) from the
+ * window start, as the ILI9341 reports them. */
 esp_err_t esp_lcd_panel_io_rx_param(esp_lcd_panel_io_handle_t io, int cmd, void *param, size_t size) {
+    uint8_t *out = param;
     memset(param, 0, size);
+    if (cmd != 0x2e) return ESP_OK;
+    int x = col0, y = row0;
+    for (size_t k = 1; k + 2 < size + 1 && k + 2 <= size; k += 3) {
+        int px = madctl & 0x40 ? W - 1 - x : x;
+        uint16_t v = y < H && x < W ? gram[y][px] : 0;
+        out[k] = (uint8_t)((v >> 11 & 31) << 3);
+        out[k + 1] = (uint8_t)((v >> 5 & 63) << 2);
+        out[k + 2] = (uint8_t)((v & 31) << 3);
+        if (++x > col1) { x = col0; y++; }
+    }
     return ESP_OK;
 }
 
@@ -254,3 +287,17 @@ void sim_screen(uint16_t *out) {
 }
 /* Test hook: change the radio as a host FREQ would, without the display. */
 void sim_tune_for_test(unsigned mhz) { lo_mhz = mhz; }
+/* Host command as the receiver loop would deliver it; returns true when the
+ * display consumed it. Output accumulates for sim_serial_take. */
+int sim_host_command(const char *line) {
+    if (cyd_display_host_line(line)) return 1;
+    cyd_display_host_activity();
+    return 0;
+}
+size_t sim_serial_take(uint8_t *out, size_t capacity) {
+    size_t n = serial_length < capacity ? serial_length : capacity;
+    memcpy(out, serial_out, n);
+    memmove(serial_out, serial_out + n, serial_length - n);
+    serial_length -= n;
+    return n;
+}

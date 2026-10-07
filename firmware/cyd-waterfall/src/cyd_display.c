@@ -1,15 +1,12 @@
-/* CYD on-screen waterfall for the ESP-SDR ESP32 receiver (GPLv3, as the
- * ESP-SDR project it extends).
- *
- * Panel: ILI9341 or ST7789 (CYD2USB), 240x320 portrait, HSPI. Layout, top to
- * bottom: status, frequency scale, live spectrum, waterfall, controls. The
- * waterfall scrolls with the panel's own vertical-scroll registers, so no
- * framebuffer is kept. MENU swaps the waterfall for a grid of presets and
- * receiver settings (span 16/40/80 MHz, RF filter, gain, colour range).
- * Touch: XPT2046 on its own pins, bit-banged. Everything runs inside the
+/* CYD display driver for the ESP-SDR ESP32 receiver (GPLv3, as the ESP-SDR
+ * project it extends): ILI9341/ST7789 panel (240x320 portrait, HSPI) and
+ * bit-banged XPT2046 touch, touch calibration, the CYD* host commands and the
+ * idle dispatch into the screens in cyd_ui.c. Everything runs inside the
  * receiver loop between host commands; the radio is never used concurrently.
  */
 #include "cyd_display.h"
+#include "cyd_gfx.h"
+#include "cyd_ui.h"
 #include "cyd_waterfall_logic.h"
 #include <stdio.h>
 #include <string.h>
@@ -22,6 +19,8 @@
 #include "esp_rom_sys.h"
 #include "esp_timer.h"
 #include "nvs.h"
+#include "esp_rom_crc.h"
+#include "burst_serial.h"
 
 #define PIN_SCLK 14
 #define PIN_MOSI 13
@@ -36,35 +35,17 @@
 #define PIN_T_IRQ 36
 
 #define HOST_IDLE_US 5000000
-#define ROW_PERIOD_US 40000
-#define TOUCH_REPEAT_US 300000
-#define CAPTURE_SAMPLES 4096
-#define BURST_THRESHOLD_DB 12.0f
-#define PEAK_DECAY_DB 1.0f
-#define STATS_PERIOD_US 300000
-#define HOLD_TO_TUNE_US 600000
-#define REPEAT_DELAY_US 500000
-#define CURSOR_TIMEOUT_US 15000000
-#define SETTINGS_DELAY_US 3000000
 
-static const cyd_radio_t *radio;
-static esp_lcd_panel_io_handle_t io;
+uint16_t *gfx_line;
+static esp_lcd_panel_io_handle_t io, io_read;
 static SemaphoreHandle_t flushed;
-static uint16_t *line;
-static int64_t host_at, row_at, touch_at, stats_at;
-static bool active, inverted, st7789, first_row = true, host_shown, frozen, menu_open;
-static unsigned step_index, span_index, filter_index, range_index = 1, scroll;
-static int preset = -1;
-static float floor_db, db[CYD_COLUMNS], peak[CYD_COLUMNS], colfloor[CYD_COLUMNS], floors[CYD_COLUMNS];
-static bool flat, settings_dirty, press_active, press_acted;
-static int cursor = -1, press_x, press_y;
-static int64_t press_at, cursor_at, settings_at;
-static void save_settings_soon(void);
-static cyd_burst_t bursts;
-static void finish_screen(void);
-static void scroll_identity(void);
+static bool active, inverted, st7789, host_shown, press_active;
+static int64_t host_at;
 static cyd_cal_t cal;
 static const cyd_cal_t *calibration = &cyd_cal_default;
+/* Virtual touch from CYDTAP, in screen coordinates. */
+static int vt_x, vt_y;
+static int64_t vt_until;
 
 static const uint8_t font[][5] = {
     {0x00,0x00,0x00,0x00,0x00}, {0x08,0x08,0x3e,0x08,0x08}, {0x08,0x08,0x08,0x08,0x08},
@@ -81,7 +62,9 @@ static const uint8_t font[][5] = {
     {0x46,0x49,0x49,0x49,0x31}, {0x01,0x01,0x7f,0x01,0x01}, {0x3f,0x40,0x40,0x40,0x3f},
     {0x1f,0x20,0x40,0x20,0x1f}, {0x3f,0x40,0x38,0x40,0x3f}, {0x63,0x14,0x08,0x14,0x63},
     {0x07,0x08,0x70,0x08,0x07}, {0x61,0x51,0x49,0x45,0x43}, {0x02,0x01,0x51,0x09,0x06},
-    {0x20,0x10,0x08,0x04,0x02},
+    {0x20,0x10,0x08,0x04,0x02}, {0x00,0x50,0x30,0x00,0x00}, {0x00,0x1c,0x22,0x41,0x00},
+    {0x00,0x41,0x22,0x1c,0x00}, {0x00,0x41,0x22,0x14,0x08}, {0x23,0x13,0x08,0x64,0x62},
+    {0x00,0x00,0x5f,0x00,0x00}, {0x14,0x14,0x14,0x14,0x14},
 };
 
 static const uint8_t *glyph(char c) {
@@ -94,6 +77,13 @@ static const uint8_t *glyph(char c) {
     if (c >= 'A' && c <= 'Z') return font[15 + c - 'A'];
     if (c == '?') return font[41];
     if (c == '/') return font[42];
+    if (c == ',') return font[43];
+    if (c == '(') return font[44];
+    if (c == ')') return font[45];
+    if (c == '>') return font[46];
+    if (c == '%') return font[47];
+    if (c == '!') return font[48];
+    if (c == '=') return font[49];
     return font[0];
 }
 
@@ -103,75 +93,109 @@ static bool IRAM_ATTR on_flushed(esp_lcd_panel_io_handle_t panel, esp_lcd_panel_
     return woken == pdTRUE;
 }
 
-static void command(uint8_t cmd, const uint8_t *data, size_t length) {
+/* Reads start a new serial transaction on a chip-select falling edge; writes
+ * are synchronous, so nothing is in flight when the pin is pulsed. */
+static void read_param(int cmd, uint8_t *data, size_t length) {
+    gpio_set_level(PIN_CS, 1);
+    esp_rom_delay_us(1);
+    gpio_set_level(PIN_CS, 0);
+    esp_lcd_panel_io_rx_param(io_read, cmd, data, length);
+    gpio_set_level(PIN_CS, 1);
+    esp_rom_delay_us(1);
+    gpio_set_level(PIN_CS, 0);
+}
+
+void gfx_command(uint8_t cmd, const uint8_t *data, size_t length) {
     esp_lcd_panel_io_tx_param(io, cmd, data, length);
 }
+#define command gfx_command
 
-static void window(int x0, int y0, int x1, int y1) {
+void gfx_window(int x0, int y0, int x1, int y1) {
     uint8_t col[4] = {x0 >> 8, x0, x1 >> 8, x1}, row[4] = {y0 >> 8, y0, y1 >> 8, y1};
-    command(0x2a, col, 4);
-    command(0x2b, row, 4);
+    gfx_command(0x2a, col, 4);
+    gfx_command(0x2b, row, 4);
 }
 
-/* RAMWR (0x2c) restarts at the window origin; later chunks of the same
- * window must use Memory Write Continue (0x3c). */
-static void push(const uint16_t *pixels, size_t count, bool first) {
+void gfx_push(const uint16_t *pixels, size_t count, bool first) {
     esp_lcd_panel_io_tx_color(io, first ? 0x2c : 0x3c, pixels, count * 2);
     xSemaphoreTake(flushed, portMAX_DELAY);
 }
 
-static void fill(int x, int y, int w, int h, uint16_t colour) {
-    for (int j = 0; j < w; j++) line[j] = colour >> 8 | colour << 8;
-    window(x, y, x + w - 1, y + h - 1);
-    for (int r = 0; r < h; r++) push(line, w, r == 0);
+void gfx_fill(int x, int y, int w, int h, uint16_t colour) {
+    if (w <= 0 || h <= 0) return;
+    int rows = CYD_LINE_ROWS * CYD_COLUMNS / w;
+    if (rows > h) rows = h;
+    for (int j = 0; j < w * rows; j++) gfx_line[j] = gfx_swap(colour);
+    gfx_window(x, y, x + w - 1, y + h - 1);
+    for (int r = 0; r < h; r += rows) gfx_push(gfx_line, (size_t)w * (h - r < rows ? h - r : rows), r == 0);
 }
 
-static void text(int x, int y, const char *s, int size, uint16_t fg, uint16_t bg) {
-    for (; *s; s++, x += 6 * size) {
+/* One glyph per window: the whole character in a single transfer. */
+void gfx_text(int x, int y, const char *s, int size, uint16_t fg, uint16_t bg) {
+    int w = 6 * size, h = 8 * size;
+    for (; *s; s++, x += w) {
         const uint8_t *g = glyph(*s);
-        int w = 6 * size, h = 8 * size;
-        for (int r = 0; r < h; r++) {
+        for (int r = 0; r < h; r++)
             for (int c = 0; c < w; c++) {
                 int gc = c / size, gr = r / size;
                 bool on = gc < 5 && gr < 7 && (g[gc] >> gr & 1);
-                uint16_t v = on ? fg : bg;
-                line[c] = v >> 8 | v << 8;
+                gfx_line[r * w + c] = gfx_swap(on ? fg : bg);
             }
-            window(x, y + r, x + w - 1, y + r);
-            push(line, w, true);
-        }
+        gfx_window(x, y, x + w - 1, y + h - 1);
+        gfx_push(gfx_line, (size_t)w * h, true);
     }
+}
+
+void gfx_text_centered(int cx, int y, const char *s, int size, uint16_t fg, uint16_t bg) {
+    gfx_text(cx - (int)strlen(s) * 3 * size, y, s, size, fg, bg);
+}
+
+void gfx_scroll_start(int line) {
+    uint8_t start[2] = {line >> 8, line & 255};
+    gfx_command(0x37, start, 2);
 }
 
 static void panel_init(void) {
     gpio_set_direction(PIN_BACKLIGHT, GPIO_MODE_OUTPUT);
     gpio_set_level(PIN_BACKLIGHT, 1);
     spi_bus_config_t bus = {.sclk_io_num = PIN_SCLK, .mosi_io_num = PIN_MOSI, .miso_io_num = PIN_MISO,
-                            .quadwp_io_num = -1, .quadhd_io_num = -1, .max_transfer_sz = CYD_COLUMNS * 2 * 2};
+                            .quadwp_io_num = -1, .quadhd_io_num = -1, .max_transfer_sz = CYD_COLUMNS * 2 * CYD_LINE_ROWS};
     ESP_ERROR_CHECK(spi_bus_initialize(SPI2_HOST, &bus, SPI_DMA_CH_AUTO));
     flushed = xSemaphoreCreateBinary();
-    esp_lcd_panel_io_spi_config_t config = {.cs_gpio_num = PIN_CS, .dc_gpio_num = PIN_DC, .spi_mode = 0,
+    /* The panel is the only device on this bus, so chip select is held low
+     * and neither SPI handle owns it: two handles sharing one CS pin would
+     * leave the pin routed to whichever was created last. */
+    gpio_set_direction(PIN_CS, GPIO_MODE_OUTPUT);
+    gpio_set_level(PIN_CS, 0);
+    esp_lcd_panel_io_spi_config_t config = {.cs_gpio_num = -1, .dc_gpio_num = PIN_DC, .spi_mode = 0,
         .pclk_hz = 40 * 1000 * 1000, .trans_queue_depth = 4, .on_color_trans_done = on_flushed,
         .lcd_cmd_bits = 8, .lcd_param_bits = 8};
     ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)SPI2_HOST, &config, &io));
-    command(0x01, NULL, 0);
+    /* Panel reads are slow (ILI9341 read cycle >= 150 ns): a second handle on
+     * the same pins at 5 MHz, used only for the ID and screenshots. */
+    esp_lcd_panel_io_spi_config_t slow = config;
+    slow.pclk_hz = 5 * 1000 * 1000;
+    slow.on_color_trans_done = NULL;
+    slow.trans_queue_depth = 1;
+    ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)SPI2_HOST, &slow, &io_read));
+    gfx_command(0x01, NULL, 0);
     vTaskDelay(pdMS_TO_TICKS(150));
     uint8_t id[4] = {0};
-    esp_lcd_panel_io_rx_param(io, 0x04, id, 4);
+    read_param(0x04, id, 4);
     /* ST7789 answers 85 85 52 (CYD2USB); ILI9341 does not. */
     st7789 = (id[1] == 0x85 && id[3] == 0x52) || (id[0] == 0x85 && id[2] == 0x52);
-    command(0x11, NULL, 0);
+    gfx_command(0x11, NULL, 0);
     vTaskDelay(pdMS_TO_TICKS(120));
     uint8_t colmod = 0x55, madctl = st7789 ? 0x00 : 0x08;
-    command(0x3a, &colmod, 1);
-    command(0x36, &madctl, 1);
+    gfx_command(0x3a, &colmod, 1);
+    gfx_command(0x36, &madctl, 1);
     inverted = st7789;
-    command(inverted ? 0x21 : 0x20, NULL, 0);
+    gfx_command(inverted ? 0x21 : 0x20, NULL, 0);
     /* Fixed top (status, scale, spectrum), scrolling waterfall, fixed controls. */
     uint8_t scroll_area[6] = {0, CYD_WATERFALL_Y, 0, CYD_WATERFALL_H, 0, CYD_CONTROLS_H};
-    command(0x33, scroll_area, 6);
-    scroll_identity();
-    command(0x29, NULL, 0);
+    gfx_command(0x33, scroll_area, 6);
+    gfx_scroll_start(CYD_WATERFALL_Y);
+    gfx_command(0x29, NULL, 0);
     printf("#CYD panel %s id %02x %02x %02x %02x\n", st7789 ? "ST7789" : "ILI9341", id[0], id[1], id[2], id[3]);
 }
 
@@ -220,339 +244,6 @@ static void touch_init(void) {
     gpio_set_level(PIN_T_CLK, 0);
 }
 
-
-static void scroll_identity(void) {
-    uint8_t start[2] = {0, CYD_WATERFALL_Y};
-    command(0x37, start, 2);
-    scroll = 0;
-}
-
-static uint16_t swap16(uint16_t v) {
-    return v >> 8 | v << 8;
-}
-
-static void text_centered(int cx, int y, const char *s, int size, uint16_t fg, uint16_t bg) {
-    text(cx - (int)strlen(s) * 3 * size, y, s, size, fg, bg);
-}
-
-static int span(void) {
-    return cyd_span_mhz[span_index];
-}
-
-static int marker_column(void) {
-    if (preset < 0 || cyd_presets[preset].marker_khz == CYD_MARKER_NONE) return -1;
-    if ((int)radio->frequency() != cyd_presets[preset].lo_mhz) return -1;
-    return cyd_offset_column(cyd_presets[preset].marker_khz, span());
-}
-
-static bool extended(void) {
-    unsigned f = radio->frequency();
-    return f < 2400 || f > 2500;
-}
-
-/* --- Regions ------------------------------------------------------------ */
-
-static void draw_status(void) {
-    char s[32];
-    fill(0, CYD_STATUS_Y, CYD_COLUMNS, CYD_STATUS_H, 0x0000);
-    snprintf(s, sizeof(s), "%u", radio->frequency());
-    text(4, 2, s, 2, 0xffff, 0x0000);
-    text(4 + 12 * (int)strlen(s) + 4, 9, "MHZ", 1, 0x8410, 0x0000);
-    const char *badge = NULL;
-    uint16_t colour = 0x07e0;
-    if (host_shown) { badge = "HOST"; colour = 0xfd20; }
-    else if (frozen) { badge = "FROZEN"; colour = 0x07ff; }
-    else if (preset >= 0 && (int)radio->frequency() == cyd_presets[preset].lo_mhz) badge = cyd_presets[preset].label;
-    if (badge) text(150, 2, badge, 1, colour, 0x0000);
-    if (extended()) text(210, 2, "EXT", 1, 0xf800, 0x0000);
-    if (radio->hardware_agc()) snprintf(s, sizeof(s), "AGC %dM", span());
-    else snprintf(s, sizeof(s), "G%u %dM", radio->gain_code(), span());
-    text(150, 12, s, 1, 0xbdf7, 0x0000);
-}
-
-static long column_khz(int c) {
-    return (long)(c * 2 + 1) * span() * 1000 / (2 * CYD_COLUMNS) - (long)span() * 500;
-}
-
-static void draw_stats(void) {
-    char s[40];
-    bool inspecting = cursor >= 0;
-    int c = inspecting ? cursor : cyd_peak_column(db);
-    long f10 = (long)radio->frequency() * 10 + column_khz(c) / 100;
-    int level = (int)(db[c] - floors[c]);
-    int n = snprintf(s, sizeof(s), "%s %ld.%ld %+dDB", inspecting ? "CUR" : "PK", f10 / 10, f10 % 10, level);
-    if (inspecting) snprintf(s + n, sizeof(s) - n, "  HOLD TO TUNE");
-    else if (marker_column() >= 0) snprintf(s + n, sizeof(s) - n, "  BURSTS %u", bursts.count);
-    fill(0, 22, CYD_COLUMNS, 9, 0x0000);
-    text(4, 23, s, 1, inspecting ? 0x07ff : 0xffe0, 0x0000);
-}
-
-static void draw_scale(void) {
-    char s[8];
-    fill(0, CYD_SCALE_Y, CYD_COLUMNS, CYD_SCALE_H, 0x0000);
-    static const int ticks[5] = {30, 75, 120, 165, 210};
-    for (int k = 0; k < 5; k++) {
-        int c = ticks[k];
-        fill(c, CYD_SCALE_Y, 1, k == 2 ? 4 : 2, 0xffff);
-        snprintf(s, sizeof(s), "%d", cyd_column_mhz((int)radio->frequency(), c, span()));
-        text_centered(c, CYD_SCALE_Y + 4, s, 1, k == 2 ? 0xffff : 0x8410, 0x0000);
-    }
-    int m = marker_column();
-    if (m >= 0) {
-        uint16_t colour = cyd_presets[preset].measured ? 0xf81f : 0x8010;
-        fill(m > 1 ? m - 1 : 0, CYD_SCALE_Y, 3, 3, colour);
-        if (!cyd_presets[preset].measured) text(m + 3 < 232 ? m + 3 : 226, CYD_SCALE_Y, "?", 1, colour, 0x0000);
-    }
-}
-
-static void draw_spectrum(void) {
-    uint16_t out[CYD_COLUMNS];
-    int m = marker_column();
-    float range = (float)cyd_range_db[range_index];
-    window(0, CYD_SPECTRUM_Y, CYD_COLUMNS - 1, CYD_SPECTRUM_Y + CYD_SPECTRUM_H - 1);
-    for (int r = 0; r < CYD_SPECTRUM_H; r++) {
-        cyd_spectrum_line(db, peak, floors, range, r, m, cursor, out);
-        for (int c = 0; c < CYD_COLUMNS; c++) line[c] = swap16(out[c]);
-        push(line, CYD_COLUMNS, r == 0);
-    }
-}
-
-static void button(int x, int y, int w, int h, const char *top, const char *big, uint16_t bg) {
-    fill(x + 1, y + 1, w - 2, h - 2, bg);
-    if (top && big) {
-        text_centered(x + w / 2, y + h / 2 - 12, top, 1, 0xbdf7, bg);
-        text_centered(x + w / 2, y + h / 2, big, 2, 0xffff, bg);
-    } else if (big) {
-        text_centered(x + w / 2, y + h / 2 - 8, big, 2, 0xffff, bg);
-    } else if (top) {
-        text_centered(x + w / 2, y + h / 2 - 4, top, 1, 0xffff, bg);
-    }
-}
-
-static void draw_controls(int pressed) {
-    char step[8];
-    snprintf(step, sizeof(step), "%d", cyd_steps_mhz[step_index]);
-    const int w = CYD_COLUMNS / 4, y = CYD_CONTROLS_Y, h = CYD_CONTROLS_H;
-    fill(0, y, CYD_COLUMNS, 1, 0x4208);
-    uint16_t base = 0x2124, hot = 0x7bef;
-    button(0, y, w, h, "MHZ", "-", pressed == 0 ? hot : base);
-    button(w, y, w, h, "STEP", step, pressed == 1 ? hot : base);
-    button(2 * w, y, w, h, "MHZ", "+", pressed == 2 ? hot : base);
-    button(3 * w, y, w, h, NULL, menu_open ? "BACK" : "MENU", pressed == 3 ? hot : menu_open ? 0x0320 : base);
-}
-
-static const char *menu_label(int item, char *buf, size_t size) {
-    switch (item) {
-    case 0: case 1: case 2: case 3: case 4: case 5: case 6: return cyd_presets[item].label;
-    case 7: snprintf(buf, size, "SPAN %d", cyd_span_mhz[span_index]); return buf;
-    case 8:
-        if (cyd_filter_mhz[filter_index]) snprintf(buf, size, "FILT %d", cyd_filter_mhz[filter_index]);
-        else snprintf(buf, size, "FILT AUTO");
-        return buf;
-    case 9: return radio->hardware_agc() ? "GAIN AGC" : "GAIN MAN";
-    case 10: return "GAIN -";
-    case 11: return "GAIN +";
-    case 12: snprintf(buf, size, "RANGE %d", cyd_range_db[range_index]); return buf;
-    case 13: return frozen ? "RESUME" : "FREEZE";
-    default: return flat ? "FLAT ON" : "FLAT OFF";
-    }
-}
-
-static void draw_menu(int pressed) {
-    char buf[16];
-    const int w = CYD_COLUMNS / CYD_MENU_COLS;
-    fill(0, CYD_WATERFALL_Y, CYD_COLUMNS, CYD_WATERFALL_H, 0x0000);
-    for (int i = 0; i < CYD_MENU_ROWS * CYD_MENU_COLS; i++) {
-        int r = i / CYD_MENU_COLS, c = i % CYD_MENU_COLS;
-        int y0 = CYD_WATERFALL_Y + r * CYD_WATERFALL_H / CYD_MENU_ROWS;
-        int y1 = CYD_WATERFALL_Y + (r + 1) * CYD_WATERFALL_H / CYD_MENU_ROWS;
-        uint16_t bg = i == pressed ? 0x7bef : i < CYD_PRESETS && i == preset ? 0x0320 : i < CYD_PRESETS ? 0x10a6 : 0x2124;
-        button(c * w, y0, w, y1 - y0, menu_label(i, buf, sizeof(buf)), NULL, bg);
-    }
-}
-
-static void reset_view(void) {
-    first_row = true;
-    bursts.count = 0;
-    bursts.high = false;
-    cursor = -1;
-    save_settings_soon();
-}
-
-static void retune(int mhz) {
-    if (mhz <= 0 || !radio->tune((unsigned)mhz)) return;
-    if (preset >= 0 && (int)radio->frequency() != cyd_presets[preset].lo_mhz) preset = -1;
-    reset_view();
-    draw_status();
-    draw_scale();
-    printf("#CYD freq %u span %d\n", radio->frequency(), span());
-}
-
-static void open_menu(bool open) {
-    menu_open = open;
-    scroll_identity();
-    if (open) draw_menu(-1);
-    else fill(0, CYD_WATERFALL_Y, CYD_COLUMNS, CYD_WATERFALL_H, 0x0000);
-    draw_controls(-1);
-}
-
-static void menu_action(int item) {
-    if (item < 0) return;
-    draw_menu(item);
-    vTaskDelay(pdMS_TO_TICKS(60));
-    if (item < CYD_PRESETS) {
-        preset = item;
-        /* Measured BLE markers come from 16 MS/s sessions; Wi-Fi fits 40 MHz;
-         * the whole 2.4 GHz band needs the 80 MHz span. */
-        span_index = item < 3 ? 0 : item < 6 ? 1 : 2;
-        retune(cyd_presets[item].lo_mhz);
-        open_menu(false);
-        return;
-    }
-    switch (item) {
-    case 7: span_index = (span_index + 1) % CYD_SPANS; reset_view(); break;
-    case 8:
-        filter_index = (filter_index + 1) % CYD_FILTERS;
-        radio->set_filter((unsigned)cyd_filter_mhz[filter_index]);
-        reset_view();
-        break;
-    case 9: radio->set_gain(!radio->hardware_agc(), radio->gain_code()); reset_view(); break;
-    case 10: case 11: {
-        int g = (int)radio->gain_code() + (item == 10 ? -4 : 4);
-        if (g < 0) g = 0;
-        if (g > (int)radio->gain_max()) g = (int)radio->gain_max();
-        radio->set_gain(false, (unsigned)g);
-        reset_view();
-        break;
-    }
-    case 12: range_index = (range_index + 1) % CYD_RANGES; break;
-    case 13: frozen = !frozen; break;
-    default: flat = !flat; reset_view(); break;
-    }
-    save_settings_soon();
-    draw_menu(-1);
-    draw_status();
-    draw_scale();
-}
-
-static void main_action(cyd_hit_t hit) {
-    int lo = (int)radio->frequency(), step = cyd_steps_mhz[step_index];
-    if (hit == CYD_HIT_NONE || hit == CYD_HIT_TUNE) return;
-    int index = hit == CYD_HIT_DOWN ? 0 : hit == CYD_HIT_STEP ? 1 : hit == CYD_HIT_UP ? 2 : 3;
-    draw_controls(index);
-    vTaskDelay(pdMS_TO_TICKS(60));
-    if (hit == CYD_HIT_DOWN) retune(lo - step);
-    else if (hit == CYD_HIT_UP) retune(lo + step);
-    else if (hit == CYD_HIT_STEP) { step_index = (step_index + 1) % 3; save_settings_soon(); }
-    else if (hit == CYD_HIT_MENU) { open_menu(!menu_open); draw_status(); return; }
-    draw_controls(-1);
-}
-
-/* Buttons act on press (+/- repeat while held). On the spectrum or
- * waterfall a tap places an inspection cursor; holding retunes there. */
-static void handle_touch(void) {
-    int raw_x, raw_y, x, y;
-    int64_t now = esp_timer_get_time();
-    if (!touch_read(&raw_x, &raw_y)) { press_active = false; return; }
-    cyd_touch_map(calibration, raw_x, raw_y, &x, &y);
-    bool fresh = !press_active;
-    if (fresh) { press_active = true; press_acted = false; press_at = now; press_x = x; press_y = y; }
-    if (menu_open && press_y >= CYD_WATERFALL_Y && press_y < CYD_CONTROLS_Y) {
-        /* The whole press belongs to the menu, even if it closes the menu. */
-        if (fresh) { press_acted = true; menu_action(cyd_hit_menu(press_x, press_y)); }
-        return;
-    }
-    cyd_hit_t hit = cyd_hit_main(press_x, press_y);
-    if (hit == CYD_HIT_TUNE) {
-        if (menu_open || press_acted) return;
-        if (fresh || x != cursor) { cursor = x; cursor_at = now; draw_stats(); }
-        if (now - press_at >= HOLD_TO_TUNE_US) {
-            press_acted = true;
-            int target = cyd_column_mhz((int)radio->frequency(), cursor, span());
-            retune(target);
-        }
-        return;
-    }
-    bool repeat = hit == CYD_HIT_DOWN || hit == CYD_HIT_UP;
-    if (fresh) { press_acted = !repeat; main_action(hit); touch_at = now; return; }
-    if (press_acted) return;
-    if (repeat && now - press_at >= REPEAT_DELAY_US && now - touch_at >= TOUCH_REPEAT_US) {
-        touch_at = now;
-        main_action(hit);
-    }
-}
-
-static void draw_row(void) {
-    const uint32_t *words;
-    if (!radio->acquire(CAPTURE_SAMPLES, span_index, &words)) return;
-    cyd_row_db(words, CAPTURE_SAMPLES, db);
-    cyd_mask_dc(db);
-    floor_db = cyd_floor_update(floor_db, db, first_row);
-    cyd_colfloor_update(colfloor, db, first_row);
-    for (int c = 0; c < CYD_COLUMNS; c++) floors[c] = flat ? colfloor[c] : floor_db;
-    cyd_peak_update(peak, db, PEAK_DECAY_DB, first_row);
-    first_row = false;
-    int m = marker_column();
-    cyd_burst_update(&bursts, db, m, floor_db, BURST_THRESHOLD_DB);
-    draw_spectrum();
-    if (menu_open) return;
-    float range = (float)cyd_range_db[range_index];
-    for (int c = 0; c < CYD_COLUMNS; c++) {
-        uint16_t v = cyd_palette(cyd_level(db[c], floors[c], range));
-        if (c == m && v == 0x0000) v = 0x3007;
-        line[c] = swap16(v);
-    }
-    /* Newest row on top: move the scroll start up one line, then draw it. */
-    scroll = (scroll + CYD_WATERFALL_H - 1) % CYD_WATERFALL_H;
-    int y = CYD_WATERFALL_Y + (int)scroll;
-    window(0, y, CYD_COLUMNS - 1, y);
-    push(line, CYD_COLUMNS, true);
-    uint8_t start[2] = {y >> 8, y & 255};
-    command(0x37, start, 2);
-}
-
-/* Settings persist 3 s after the last change, sparing flash wear. */
-static void save_settings_soon(void) {
-    settings_dirty = true;
-    settings_at = esp_timer_get_time();
-}
-
-static void save_settings(void) {
-    cyd_settings_t v = {CYD_SETTINGS_VERSION, (uint8_t)span_index, (uint8_t)filter_index, (uint8_t)range_index,
-                        (uint8_t)step_index, radio->hardware_agc(), (uint8_t)radio->gain_code(), flat,
-                        (int8_t)preset, (uint16_t)radio->frequency()};
-    nvs_handle_t h;
-    if (nvs_open("cyd", NVS_READWRITE, &h) != ESP_OK) return;
-    nvs_set_blob(h, "ui", &v, sizeof(v));
-    nvs_commit(h);
-    nvs_close(h);
-    settings_dirty = false;
-}
-
-static void load_settings(void) {
-    cyd_settings_t v;
-    size_t length = sizeof(v);
-    nvs_handle_t h;
-    if (nvs_open("cyd", NVS_READONLY, &h) != ESP_OK) return;
-    bool ok = nvs_get_blob(h, "ui", &v, &length) == ESP_OK && length == sizeof(v) && cyd_settings_valid(&v);
-    nvs_close(h);
-    if (!ok) return;
-    span_index = v.span; filter_index = v.filter; range_index = v.range; step_index = v.step;
-    flat = v.flat; preset = v.preset;
-    radio->set_gain(v.agc, v.gain);
-    radio->set_filter((unsigned)cyd_filter_mhz[filter_index]);
-    radio->tune(v.lo_mhz);
-}
-
-static void finish_screen(void) {
-    scroll_identity();
-    fill(0, 0, CYD_COLUMNS, CYD_SCREEN_HEIGHT, 0x0000);
-    draw_status();
-    draw_scale();
-    draw_controls(-1);
-    reset_view();
-}
-
 /* Calibration runs from the idle hook as a small state machine, so host
  * commands keep working while it waits for taps. -1 means not calibrating. */
 static int cal_step = -1;
@@ -579,22 +270,23 @@ static bool sample_press(int *raw_x, int *raw_y) {
 
 static void cross(int x, int y, uint16_t colour) {
     int x0 = x > 15 ? x - 15 : 0, y0 = y > 15 ? y - 15 : 0;
-    fill(x0, y - 1, 31, 3, colour);
-    fill(x - 1, y0, 3, 31, colour);
+    gfx_fill(x0, y - 1, 31, 3, colour);
+    gfx_fill(x - 1, y0, 3, 31, colour);
 }
 
 static void cal_prompt(const char *headline) {
     char s[24];
-    fill(0, 120, CYD_COLUMNS, 60, 0x0000);
-    text(30, 124, headline, 1, 0xf800, 0x0000);
-    text(30, 140, "PRESS AND HOLD", 2, 0xffff, 0x0000);
+    gfx_fill(0, 120, CYD_COLUMNS, 60, 0x0000);
+    gfx_text(30, 124, headline, 1, 0xf800, 0x0000);
+    gfx_text(30, 140, "PRESS AND HOLD", 2, 0xffff, 0x0000);
     snprintf(s, sizeof(s), "CROSS %d OF 3", cal_step + 1);
-    text(30, 160, s, 2, 0xffe0, 0x0000);
+    gfx_text(30, 160, s, 2, 0xffe0, 0x0000);
     cross(cal_points[cal_step][0], cal_points[cal_step][1], 0xffff);
 }
 
 static void start_calibration(const char *headline) {
-    fill(0, 0, CYD_COLUMNS, CYD_SCREEN_HEIGHT, 0x0000);
+    gfx_scroll_start(CYD_WATERFALL_Y);
+    gfx_fill(0, 0, CYD_COLUMNS, CYD_SCREEN_HEIGHT, 0x0000);
     cal_step = 0;
     cal_prompt(headline);
     printf("#CYD calibration started\n");
@@ -624,7 +316,7 @@ static void calibration_tick(void) {
     }
     printf("#CYD cal swap %d u %d %d v %d %d\n", cal.swap, cal.u0, cal.u1, cal.v0, cal.v2);
     cal_step = -1;
-    finish_screen();
+    cyd_ui_redraw();
 }
 
 static void load_calibration(void) {
@@ -635,24 +327,80 @@ static void load_calibration(void) {
     nvs_close(h);
 }
 
+void cyd_display_calibrate(void) {
+    start_calibration("TOUCH SETUP");
+}
+
+/* --- Host commands ------------------------------------------------------------- */
+
+/* Screen row y shows GRAM row: fixed top, scrolled waterfall, fixed bottom. */
+static int gram_row(int y) {
+    if (y < CYD_WATERFALL_Y || y >= CYD_WATERFALL_Y + CYD_WATERFALL_H) return y;
+    return CYD_WATERFALL_Y + (y - CYD_WATERFALL_Y + cyd_ui_scroll()) % CYD_WATERFALL_H;
+}
+
+static void reply(const char *text) {
+    burst_serial_send(text, strlen(text));
+}
+
+/* Rows in display order, read back from the panel's own memory: 1 dummy byte
+ * then 3 bytes per pixel (RGB666 as the panel reports it). */
+static void screenshot(void) {
+    enum { ROW = 1 + CYD_COLUMNS * 3 };
+    uint8_t *buf = heap_caps_malloc(ROW + 3, MALLOC_CAP_DMA);
+    if (!buf) { reply("CYD ERR memory\n"); return; }
+    char head[64];
+    snprintf(head, sizeof(head), "CYD SHOT %d %d %d\n", CYD_COLUMNS, CYD_SCREEN_HEIGHT, ROW);
+    reply(head);
+    uint32_t crc = 0;
+    for (int y = 0; y < CYD_SCREEN_HEIGHT; y++) {
+        int g = gram_row(y);
+        gfx_window(0, g, CYD_COLUMNS - 1, g);
+        read_param(0x2e, buf, ROW);
+        crc = esp_rom_crc32_le(crc, buf, ROW);
+        burst_serial_send(buf, ROW);
+    }
+    free(buf);
+    snprintf(head, sizeof(head), "CYD SHOT END %08lx\n", (unsigned long)crc);
+    reply(head);
+}
+
+bool cyd_display_host_line(const char *line) {
+    int x, y, ms;
+    char extra, report[512];
+    if (!active || strncmp(line, "CYD", 3)) return false;
+    if (!strcmp(line, "CYDSHOT")) screenshot();
+    else if (!strcmp(line, "CYDSTAT")) {
+        cyd_ui_report(report, sizeof(report));
+        reply("CYD STAT ");
+        reply(report);
+        reply("\n");
+    } else if (!strcmp(line, "CYDSTATRESET")) { cyd_ui_reset_stats(); reply("CYD OK\n"); }
+    else if (sscanf(line, "CYDTAP %d %d %d %c", &x, &y, &ms, &extra) == 3 && ms > 0 && ms <= 5000) {
+        vt_x = x; vt_y = y;
+        vt_until = esp_timer_get_time() + (int64_t)ms * 1000;
+        reply("CYD OK\n");
+    } else reply("CYD ERR command\n");
+    return true;
+}
+
+/* --- Entry points --------------------------------------------------------------- */
+
 void cyd_display_init(const cyd_radio_t *ops) {
-    radio = ops;
-    line = heap_caps_malloc(CYD_COLUMNS * 2, MALLOC_CAP_DMA);
-    if (!line) return;
+    gfx_line = heap_caps_malloc(CYD_COLUMNS * CYD_LINE_ROWS * 2, MALLOC_CAP_DMA);
+    if (!gfx_line) return;
     panel_init();
     touch_init();
     load_calibration();
-    load_settings();
     active = true;
     host_at = esp_timer_get_time() - HOST_IDLE_US;
+    cyd_ui_init(ops);
     /* The firmware carries this board's calibration; hold a finger on the
      * screen at power-up to redo it. */
     if (!gpio_get_level(PIN_T_IRQ)) {
         int64_t release = esp_timer_get_time() + 3000000;
         while (!gpio_get_level(PIN_T_IRQ) && esp_timer_get_time() < release) vTaskDelay(pdMS_TO_TICKS(10));
         start_calibration("TOUCH CALIBRATION");
-    } else {
-        finish_screen();
     }
 }
 
@@ -666,25 +414,16 @@ void cyd_display_idle(void) {
     if (cal_step >= 0) { calibration_tick(); return; }
     if (now - host_at < HOST_IDLE_US) {
         /* The host owns the radio; say so once instead of freezing silently. */
-        if (!host_shown) { host_shown = true; draw_status(); }
+        if (!host_shown) { host_shown = true; cyd_ui_host(true); }
         return;
     }
-    if (host_shown) {
-        host_shown = false;
-        /* The host may have retuned or changed gain and filter. */
-        if (preset >= 0 && (int)radio->frequency() != cyd_presets[preset].lo_mhz) preset = -1;
-        reset_view();
-        draw_status();
-        draw_scale();
-    }
-    handle_touch();
-    if (settings_dirty && now - settings_at >= SETTINGS_DELAY_US) save_settings();
-    if (cursor >= 0 && !press_active && now - cursor_at >= CURSOR_TIMEOUT_US) cursor = -1;
-    if (now - stats_at >= STATS_PERIOD_US && !first_row) {
-        stats_at = now;
-        draw_stats();
-    }
-    if (frozen || now - row_at < ROW_PERIOD_US) return;
-    row_at = now;
-    draw_row();
+    if (host_shown) { host_shown = false; cyd_ui_host(false); }
+    int raw_x, raw_y, x, y;
+    bool pressed = true;
+    if (now < vt_until) { x = vt_x; y = vt_y; }
+    else if (touch_read(&raw_x, &raw_y)) cyd_touch_map(calibration, raw_x, raw_y, &x, &y);
+    else pressed = false;
+    if (pressed) { cyd_ui_press(x, y, !press_active, now); press_active = true; }
+    else if (press_active) { press_active = false; cyd_ui_release(); }
+    cyd_ui_tick(now);
 }

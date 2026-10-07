@@ -54,8 +54,9 @@ int cyd_offset_column(int offset_khz, int span_mhz);
 /* Strongest column; returns its index. */
 int cyd_peak_column(const float column_db[CYD_COLUMNS]);
 
-/* Per-column floor for FLAT mode: falls quickly, rises slowly, so filter
- * roll-off and steady carriers flatten while bursts stand out. */
+/* Per-column floor (FLAT mode, Wi-Fi occupancy): each column's running
+ * median, so filter roll-off and steady carriers flatten and bursts stand out. */
+#define CYD_FLOOR_STEP_DB 0.1f
 void cyd_colfloor_update(float floor_db[CYD_COLUMNS], const float column_db[CYD_COLUMNS], bool reset);
 /* Replace the LO-leakage columns around the centre by interpolation. */
 void cyd_mask_dc(float column_db[CYD_COLUMNS]);
@@ -67,9 +68,21 @@ void cyd_mask_dc(float column_db[CYD_COLUMNS]);
 void cyd_spectrum_line(const float db[CYD_COLUMNS], const float peak[CYD_COLUMNS], const float floor_db[CYD_COLUMNS],
                        float range_db, int row, int marker, int cursor, uint16_t out[CYD_COLUMNS]);
 
-/* Rising-edge burst counter around a marker column. */
+/* Rising-edge burst counter in a zone around a marker column. This board's
+ * tuning error changes on each retune (a steady carrier moved ~17 columns
+ * between session 005 and the device), so the strongest column within
+ * +-half columns counts, measured against its own median floor. A burst must
+ * also stand CYD_BURST_CONTRAST_DB above the columns 4-6 MHz to either side
+ * at the 16 MHz span (60-90 columns), which rejects wideband Wi-Fi.
+ * Calibrated offline on session 005 (true owned packets: 6/6 with a 17-column
+ * displacement at half=30; fixed +-2 columns: 0/6). */
+#define CYD_BURST_ZONE 30
+#define CYD_BURST_THRESHOLD_DB 15.0f
+#define CYD_BURST_SIDE_NEAR 60
+#define CYD_BURST_SIDE_FAR 90
+#define CYD_BURST_CONTRAST_DB 6.0f
 typedef struct { bool high; unsigned count; } cyd_burst_t;
-bool cyd_burst_update(cyd_burst_t *b, const float db[CYD_COLUMNS], int marker, float floor_db, float threshold_db);
+bool cyd_burst_update(cyd_burst_t *b, const float db[CYD_COLUMNS], const float colfloor[CYD_COLUMNS], int marker, int half);
 
 /* Persisted UI settings (NVS key "ui"). */
 #define CYD_SETTINGS_VERSION 1
@@ -85,6 +98,29 @@ bool cyd_settings_valid(const cyd_settings_t *s);
 typedef struct { const char *label; int lo_mhz; int marker_khz; bool measured; } cyd_preset_t;
 #define CYD_PRESETS 7
 extern const cyd_preset_t cyd_presets[CYD_PRESETS];
+
+/* Wi-Fi channel occupancy (channels 1-13, 20 MHz wide, 5 MHz apart). For
+ * each channel, the share of its central 16 MHz of columns more than
+ * threshold_db above their own floor, smoothed over time. Channels outside
+ * the span keep a negative busy value (unknown). */
+#define CYD_WIFI_CHANNELS 13
+typedef struct { float busy[CYD_WIFI_CHANNELS]; } cyd_wifi_t;
+void cyd_wifi_reset(cyd_wifi_t *w);
+void cyd_wifi_update(cyd_wifi_t *w, const float db[CYD_COLUMNS], const float floor_db[CYD_COLUMNS],
+                     int lo_mhz, int span_mhz, float threshold_db, float alpha);
+/* The least busy of the non-overlapping channels 1, 6 and 11 (0 if unknown). */
+int cyd_wifi_best(const cyd_wifi_t *w);
+
+/* Plain-language activity words for beginners: QUIET, LOW, BUSY, VERY BUSY. */
+const char *cyd_activity_word(float busy_fraction);
+/* Bluetooth advertising: bursts and observed seconds per channel 37/38/39. */
+typedef struct { unsigned bursts[3]; float seconds[3]; } cyd_ble_t;
+float cyd_ble_per_minute(const cyd_ble_t *b, int index);
+const char *cyd_ble_word(float per_minute);
+
+/* Matched RF filter for each span (0 = automatic): the automatic filter only
+ * passes about 22 MHz, measured on the device at the 80 MHz span. */
+int cyd_filter_for_span(int span_mhz);
 
 /* Touch targets. Main screen: controls row, or a tune tap on spectrum or
  * waterfall. Menu: a CYD_MENU_ROWS x CYD_MENU_COLS grid over the waterfall. */

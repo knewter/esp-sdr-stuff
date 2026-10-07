@@ -58,13 +58,14 @@ RECEIVER_HOOKS = [
     ('    burst_serial_init();\n', '    burst_serial_init();\n    cyd_display_init(&cyd_radio);\n'),
     ('        if (!status) { vTaskDelay(1); continue; }\n',
      '        if (!status) { cyd_display_idle(); vTaskDelay(1); continue; }\n'
+     '        if (status > 0 && cyd_display_host_line(line)) continue;\n'
      '        cyd_display_host_activity();\n'),
 ]
 CMAKE_HOOKS = [
     ('set(dependencies esp_phy esp_wifi nvs_flash esp_timer esp_driver_uart esp-dsp)\n',
      'set(dependencies esp_phy esp_wifi nvs_flash esp_timer esp_driver_uart esp-dsp)\n'
      'if(IDF_TARGET STREQUAL "esp32")\n'
-     '    list(APPEND sources "targets/esp32/cyd_display.c" "targets/esp32/cyd_waterfall_logic.c")\n'
+     '    list(APPEND sources "targets/esp32/cyd_display.c" "targets/esp32/cyd_ui.c" "targets/esp32/cyd_waterfall_logic.c")\n'
      '    list(APPEND dependencies esp_lcd esp_driver_spi esp_driver_gpio)\n'
      'endif()\n'),
 ]

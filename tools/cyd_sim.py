@@ -24,7 +24,7 @@ def build(out_dir):
     lib = Path(out_dir)/'cyd_sim.so'
     subprocess.run(['cc', '-O2', '-shared', '-fPIC', '-std=gnu11', '-D_DEFAULT_SOURCE', '-Wall', '-Werror',
                     '-Wno-unused-function', '-I', str(SIM/'include'), '-I', str(SRC), '-o', str(lib),
-                    str(SIM/'sim.c'), str(SRC/'cyd_display.c'), str(SRC/'cyd_waterfall_logic.c'), '-lm'],
+                    str(SIM/'sim.c'), str(SRC/'cyd_display.c'), str(SRC/'cyd_ui.c'), str(SRC/'cyd_waterfall_logic.c'), '-lm'],
                    check=True)
     return Simulator(ctypes.CDLL(str(lib)))
 
@@ -89,22 +89,31 @@ def sheet(path, screens, gap=8):
     png(path, pixels, width, H, scale=2)
 
 
-# Menu cell centres (5x3 grid over the waterfall, y 92..263).
+# Touch targets (screen centres).
+HOME_TILES = {'live': (61, 96), 'wifi': (179, 96), 'bluetooth': (61, 200), 'settings': (179, 200), 'help': (120, 275)}
+HOME_BUTTON = (204, 17)       # top right on every screen but HOME and LIVE
+LIVE = {'home': (30, 292), 'down': (90, 292), 'up': (150, 292), 'more': (210, 292)}
+
+
 def menu_cell(i):
+    """Centre of item i in LIVE's MORE grid (5x3 over the waterfall)."""
     r, c = divmod(i, 3)
     return 40+c*80, 92+r*172//5+17
 
 
 SCENARIOS = [
-    ('01-boot', lambda s: s.run(3000)),
-    ('02-menu', lambda s: s.tap(210, 290)),
-    ('03-ble37', lambda s: (s.tap(*menu_cell(0)), s.run(6000))),
-    ('04-cursor', lambda s: (s.tap(169, 180), s.run(1500))),
-    ('05-band', lambda s: (s.tap(210, 290), s.tap(*menu_cell(6)), s.run(4000))),
-    ('06-flat', lambda s: (s.tap(210, 290), s.tap(*menu_cell(14)), s.tap(210, 290), s.run(4000))),
-    ('07-host', lambda s: (s.host(), s.run(50))),
+    ('01-home', lambda s: s.run(1000)),
+    ('02-live', lambda s: (s.tap(*HOME_TILES['live']), s.run(3000))),
+    ('03-more', lambda s: s.tap(*LIVE['more'])),
+    ('04-ble37', lambda s: (s.tap(*menu_cell(0)), s.run(4000))),
+    ('05-cursor', lambda s: (s.tap(169, 180), s.run(1500))),
+    ('06-wifi', lambda s: (s.tap(*LIVE['home']), s.tap(*HOME_TILES['wifi']), s.run(15000))),
+    ('07-bluetooth', lambda s: (s.tap(*HOME_BUTTON), s.tap(*HOME_TILES['bluetooth']), s.run(15000))),
+    ('08-settings', lambda s: (s.tap(*HOME_BUTTON), s.tap(*HOME_TILES['settings']))),
+    ('09-help', lambda s: (s.tap(*HOME_BUTTON), s.tap(*HOME_TILES['help']))),
+    ('10-help-2', lambda s: s.tap(180, 265)),
+    ('11-host', lambda s: (s.tap(*HOME_BUTTON), s.host(), s.run(50))),
 ]
-
 
 def main():
     cli = argparse.ArgumentParser(description=__doc__)

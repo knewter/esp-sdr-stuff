@@ -146,9 +146,12 @@ static uint16_t dim(uint16_t c) {
 }
 
 void cyd_colfloor_update(float floor_db[CYD_COLUMNS], const float column_db[CYD_COLUMNS], bool reset) {
+    /* A quantile tracker settles where half the rows sit above it: the
+     * column's median. Device data showed a minimum-tracking floor let
+     * ordinary noise peaks count as traffic in every Wi-Fi channel. */
     for (unsigned c = 0; c < CYD_COLUMNS; c++) {
         float d = column_db[c]-floor_db[c];
-        floor_db[c] = reset ? column_db[c] : floor_db[c] + (d < 0 ? 0.2f : 0.01f)*d;
+        floor_db[c] = reset ? column_db[c] : floor_db[c] + (d > 0 ? CYD_FLOOR_STEP_DB : -CYD_FLOOR_STEP_DB);
     }
 }
 
@@ -184,12 +187,28 @@ bool cyd_settings_valid(const cyd_settings_t *s) {
            s->preset >= -1 && s->preset < CYD_PRESETS && s->lo_mhz >= 100 && s->lo_mhz <= 6000;
 }
 
-bool cyd_burst_update(cyd_burst_t *b, const float db[CYD_COLUMNS], int marker, float floor_db, float threshold_db) {
+static float side_mean(const float db[CYD_COLUMNS], int from, int to) {
+    float sum = 0;
+    int n = 0;
+    for (int c = from; c <= to; c++)
+        if (c >= 0 && c < CYD_COLUMNS) { sum += db[c]; n++; }
+    return n ? sum/(float)n : -1e9f;
+}
+
+bool cyd_burst_update(cyd_burst_t *b, const float db[CYD_COLUMNS], const float colfloor[CYD_COLUMNS], int marker, int half) {
     if (marker < 0) return false;
-    float best = -1e9f;
-    for (int c = marker-2; c <= marker+2; c++)
-        if (c >= 0 && c < CYD_COLUMNS && db[c] > best) best = db[c];
-    bool high = best-floor_db >= threshold_db;
+    float excess = -1e9f;
+    int at = marker;
+    for (int c = marker-half; c <= marker+half; c++)
+        if (c >= 0 && c < CYD_COLUMNS && db[c]-colfloor[c] > excess) { excess = db[c]-colfloor[c]; at = c; }
+    float best = db[at];
+    marker = at;
+    /* Narrowband: BLE is ~2 MHz wide, Wi-Fi ~20 MHz. Measured on the device,
+     * Wi-Fi bursts covering the marker otherwise counted as BLE hits. */
+    float side = side_mean(db, marker-CYD_BURST_SIDE_FAR, marker-CYD_BURST_SIDE_NEAR);
+    float other = side_mean(db, marker+CYD_BURST_SIDE_NEAR, marker+CYD_BURST_SIDE_FAR);
+    if (other > side) side = other;
+    bool high = excess >= CYD_BURST_THRESHOLD_DB && best-side >= CYD_BURST_CONTRAST_DB;
     bool rising = high && !b->high;
     b->high = high;
     if (rising) b->count++;
@@ -247,4 +266,58 @@ void cyd_touch_map(const cyd_cal_t *cal, int raw_x, int raw_y, int *x, int *y) {
     int span_x = CYD_COLUMNS-2*CYD_CAL_MARGIN, span_y = CYD_SCREEN_HEIGHT-2*CYD_CAL_MARGIN;
     *x = clamp(CYD_CAL_MARGIN+(u-cal->u0)*span_x/(cal->u1-cal->u0), CYD_COLUMNS);
     *y = clamp(CYD_CAL_MARGIN+(v-cal->v0)*span_y/(cal->v2-cal->v0), CYD_SCREEN_HEIGHT);
+}
+
+void cyd_wifi_reset(cyd_wifi_t *w) {
+    for (int n = 0; n < CYD_WIFI_CHANNELS; n++) w->busy[n] = -1.0f;
+}
+
+void cyd_wifi_update(cyd_wifi_t *w, const float db[CYD_COLUMNS], const float floor_db[CYD_COLUMNS],
+                     int lo_mhz, int span_mhz, float threshold_db, float alpha) {
+    for (int n = 0; n < CYD_WIFI_CHANNELS; n++) {
+        int centre_khz = (2412 + 5*n - lo_mhz)*1000;
+        int a = cyd_offset_column(centre_khz-8000, span_mhz), b = cyd_offset_column(centre_khz+8000, span_mhz);
+        if (a < 0 || b < 0) continue;
+        int above = 0;
+        for (int c = a; c <= b; c++) above += db[c]-floor_db[c] >= threshold_db;
+        float occupied = (float)above/(float)(b-a+1);
+        w->busy[n] = w->busy[n] < 0 ? occupied : w->busy[n] + alpha*(occupied-w->busy[n]);
+    }
+}
+
+int cyd_wifi_best(const cyd_wifi_t *w) {
+    static const int choices[3] = {1, 6, 11};
+    int best = 0;
+    for (int k = 0; k < 3; k++) {
+        float b = w->busy[choices[k]-1];
+        if (b >= 0 && (!best || b < w->busy[best-1])) best = choices[k];
+    }
+    return best;
+}
+
+const char *cyd_activity_word(float busy) {
+    if (busy < 0) return "WAIT";
+    if (busy < 0.05f) return "QUIET";
+    if (busy < 0.20f) return "LOW";
+    if (busy < 0.50f) return "BUSY";
+    return "VERY BUSY";
+}
+
+float cyd_ble_per_minute(const cyd_ble_t *b, int index) {
+    return b->seconds[index] > 0 ? (float)b->bursts[index]*60.0f/b->seconds[index] : -1.0f;
+}
+
+const char *cyd_ble_word(float per_minute) {
+    if (per_minute < 0) return "WAIT";
+    /* Snapshot hits, not packets. Measured on the device: about 41 rows/s
+     * on this screen, a third per channel, so one advertiser every 25 ms
+     * (~1.8% of rows) is seen about 15 times a minute. */
+    if (per_minute < 5) return "QUIET";
+    if (per_minute < 30) return "LOW";
+    if (per_minute < 120) return "BUSY";
+    return "VERY BUSY";
+}
+
+int cyd_filter_for_span(int span_mhz) {
+    return span_mhz <= 16 ? 0 : span_mhz <= 40 ? 40 : 67;
 }

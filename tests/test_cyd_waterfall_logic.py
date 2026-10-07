@@ -176,10 +176,13 @@ class Logic(unittest.TestCase):
         floor = f(*([0.0]*COLUMNS))
         self.c.cyd_colfloor_update.argtypes = [f, f, ctypes.c_bool]
         self.c.cyd_colfloor_update(floor, f(*([10.0]*COLUMNS)), True)
-        self.c.cyd_colfloor_update(floor, f(*([0.0]*COLUMNS)), False)
-        self.assertAlmostEqual(floor[0], 8.0, places=4)    # falls fast
-        self.c.cyd_colfloor_update(floor, f(*([108.0]*COLUMNS)), False)
-        self.assertAlmostEqual(floor[0], 9.0, places=4)    # rises slowly
+        # A quantile tracker: equal steps up and down, settling on the median.
+        for k in range(400):
+            self.c.cyd_colfloor_update(floor, f(*([0.0 if k % 2 else 30.0]*COLUMNS)), False)
+        self.assertAlmostEqual(floor[0], 10.0, delta=0.11)   # between the alternating values
+        for _ in range(100):
+            self.c.cyd_colfloor_update(floor, f(*([0.0]*COLUMNS)), False)
+        self.assertAlmostEqual(floor[0], 0.0, delta=0.11)    # follows a quiet column down
         row = f(*[50.0 if 118 < c < 122 else 0.0 for c in range(COLUMNS)])
         self.c.cyd_mask_dc(row)
         self.assertEqual(max(row[118:123]), 0.0)
@@ -188,14 +191,29 @@ class Logic(unittest.TestCase):
         class Burst(ctypes.Structure):
             _fields_ = [('high', ctypes.c_bool), ('count', ctypes.c_uint)]
         b = Burst()
-        quiet = (ctypes.c_float*COLUMNS)(*([0.0]*COLUMNS))
-        loud = list(quiet)
-        loud[121] = 20.0
-        loud = (ctypes.c_float*COLUMNS)(*loud)
+        F = ctypes.c_float*COLUMNS
+        floor = F(*([0.0]*COLUMNS))
+        quiet = F(*([0.0]*COLUMNS))
+        loud = [0.0]*COLUMNS
+        loud[145] = 20.0                       # 25 columns off the marker: inside the zone
+        loud = F(*loud)
+        upd = lambda row, marker=120, half=30: self.c.cyd_burst_update(ctypes.byref(b), row, floor, marker, half)
         for row in (quiet, loud, loud, quiet, loud, quiet):
-            self.c.cyd_burst_update(ctypes.byref(b), row, 120, ctypes.c_float(0.0), ctypes.c_float(12.0))
+            upd(row)
         self.assertEqual(b.count, 2)
-        self.c.cyd_burst_update(ctypes.byref(b), loud, -1, ctypes.c_float(0.0), ctypes.c_float(12.0))
+        upd(loud, marker=-1)
+        self.assertEqual(b.count, 2)
+        upd(quiet)
+        upd(loud, half=2)                      # outside a narrow zone: missed
+        self.assertEqual(b.count, 2)
+        # A wideband (Wi-Fi-like) block over the zone is not a burst.
+        upd(quiet)
+        upd(F(*([20.0]*COLUMNS)))
+        self.assertEqual(b.count, 2)
+        # A steady carrier is part of its column's floor, so it never counts.
+        steady = F(*([0.0]*COLUMNS)); floor[130] = 20.0
+        steady[130] = 20.0
+        upd(quiet); upd(steady)
         self.assertEqual(b.count, 2)
 
     class Cal(ctypes.Structure):

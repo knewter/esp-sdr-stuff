@@ -21,5 +21,9 @@ typedef struct {
 void cyd_display_init(const cyd_radio_t *radio);
 /* Called when the receiver loop has no host line; draws at most one row. */
 void cyd_display_idle(void);
-/* Called for every host line; pauses the display until the host is idle. */
+/* Host lines starting with CYD are display commands (CYDSHOT, CYDSTAT,
+ * CYDSTATRESET, CYDTAP x y ms); they are answered here, return true and do
+ * not pause the display. */
+bool cyd_display_host_line(const char *line);
+/* Called for every other host line; pauses the display until the host is idle. */
 void cyd_display_host_activity(void);
