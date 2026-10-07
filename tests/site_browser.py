@@ -13,6 +13,14 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 
+
+def work_change_dirs():
+    """Every OpenSpec change shown on the work board: active and archived."""
+    changes = ROOT/'openspec'/'changes'
+    active = [d for d in changes.iterdir() if d.is_dir() and d.name != 'archive']
+    archived = [d for d in (changes/'archive').iterdir() if d.is_dir()]
+    return active+archived
+
 def check_work_evidence_menus(page):
     """Native keyboard toggles preserve every exact template proof link."""
     cards = page.locator('.card-evidence').all()
@@ -143,7 +151,7 @@ def main():
         assert page.locator("html").get_attribute("data-theme") != theme
         page.locator("#theme-toggle").click()
         assert page.goto(base + "work/", wait_until="networkidle").status == 200
-        assert page.locator("[data-work-id]").count() == 8
+        assert page.locator("[data-work-id]").count() == len(work_change_dirs())
         check_work_evidence_menus(page)
         trigger = page.locator("[data-work-id]").first
         item = trigger.get_attribute("data-work-id")
