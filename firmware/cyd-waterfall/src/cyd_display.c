@@ -123,14 +123,14 @@ static void status_bar(void) {
     fill(0, 0, CYD_COLUMNS, CYD_STATUS_HEIGHT, 0x0000);
     snprintf(s, sizeof(s), "%u MHZ", radio->frequency());
     text(4, 2, s, 2, 0xffff, 0x0000);
-    text(170, 6, radio->hardware_agc() ? "AGC" : "MAN", 1, 0x07e0, 0x0000);
-    fill(0, 20, 78, 19, 0x18e3);
-    fill(81, 20, 78, 19, 0x18e3);
-    fill(162, 20, 78, 19, 0x18e3);
-    text(30, 26, "-", 1, 0xffff, 0x18e3);
+    text(126, 6, radio->hardware_agc() ? "AGC" : "MAN", 1, 0x07e0, 0x0000);
+    fill(0, 21, 78, 37, 0x18e3);
+    fill(81, 21, 78, 37, 0x18e3);
+    fill(162, 21, 78, 37, 0x18e3);
+    text(33, 32, "-", 2, 0xffff, 0x18e3);
     snprintf(s, sizeof(s), "STEP %d", cyd_steps_mhz[step_index]);
-    text(96, 26, s, 1, 0xffe0, 0x18e3);
-    text(198, 26, "+", 1, 0xffff, 0x18e3);
+    text(90, 32, s, 1, 0xffe0, 0x18e3);
+    text(195, 32, "+", 2, 0xffff, 0x18e3);
 }
 
 static void panel_init(void) {
@@ -221,6 +221,11 @@ static void handle_touch(void) {
     cyd_touch_t target = cyd_touch_target(x, y);
     int lo = (int)radio->frequency(), step = cyd_steps_mhz[step_index];
     printf("#CYD touch raw %d %d screen %d %d target %d\n", raw_x, raw_y, x, y, (int)target);
+    /* Calibration aid: raw readings on screen and a dot where the tap mapped. */
+    char raw[24];
+    snprintf(raw, sizeof(raw), "%4d %4d", raw_x, raw_y);
+    text(156, 6, raw, 1, 0xffff, 0x0000);
+    fill(x > 2 ? x - 2 : 0, y > 2 ? y - 2 : 0, 5, 5, 0xffff);
     if (target == CYD_TOUCH_DOWN) retune(lo - step);
     else if (target == CYD_TOUCH_UP) retune(lo + step);
     else if (target == CYD_TOUCH_STEP) { step_index = (step_index + 1) % 3; status_bar(); }

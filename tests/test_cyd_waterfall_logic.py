@@ -99,9 +99,11 @@ class Logic(unittest.TestCase):
     def test_touch_targets(self):
         target = lambda x, y: TARGETS[self.c.cyd_touch_target(x, y)]
         self.assertEqual(target(100, 5), 'LABEL')
-        self.assertEqual(target(10, 30), 'DOWN')
-        self.assertEqual(target(120, 30), 'STEP')
-        self.assertEqual(target(230, 30), 'UP')
+        self.assertEqual(target(200, 5), 'NONE')
+        self.assertEqual(target(10, 50), 'DOWN')
+        self.assertEqual(target(120, 25), 'STEP')
+        self.assertEqual(target(230, 59), 'UP')
+        self.assertEqual(target(120, 60), 'WATERFALL')
         self.assertEqual(target(120, 200), 'WATERFALL')
         self.assertEqual(target(-1, 200), 'NONE')
 

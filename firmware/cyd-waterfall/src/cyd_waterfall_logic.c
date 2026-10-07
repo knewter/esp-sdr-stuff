@@ -123,7 +123,9 @@ int cyd_column_mhz(int lo_mhz, int column) {
 
 cyd_touch_t cyd_touch_target(int x, int y) {
     if (x < 0 || x >= CYD_COLUMNS || y < 0 || y >= CYD_SCREEN_HEIGHT) return CYD_TOUCH_NONE;
-    if (y < 20) return CYD_TOUCH_LABEL;
+    /* Left half of the frequency line toggles inversion; the right half shows
+     * the raw touch readout and is not a control. */
+    if (y < 20) return x < CYD_COLUMNS/2 ? CYD_TOUCH_LABEL : CYD_TOUCH_NONE;
     if (y < CYD_STATUS_HEIGHT) return x < 80 ? CYD_TOUCH_DOWN : x < 160 ? CYD_TOUCH_STEP : CYD_TOUCH_UP;
     return CYD_TOUCH_WATERFALL;
 }
