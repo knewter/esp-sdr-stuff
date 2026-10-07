@@ -32,7 +32,15 @@ typedef enum { CYD_TOUCH_NONE, CYD_TOUCH_DOWN, CYD_TOUCH_STEP, CYD_TOUCH_UP,
                CYD_TOUCH_LABEL, CYD_TOUCH_WATERFALL } cyd_touch_t;
 /* Screen point (portrait, 240x320) -> control. */
 cyd_touch_t cyd_touch_target(int x, int y);
+/* Touch calibration from three taps on crosses at fixed screen points:
+ * top-left (20,20), top-right (220,20) and bottom-left (20,300). It finds
+ * which raw channel follows screen x (swap) and each axis direction. */
+#define CYD_CAL_MARGIN 20
+typedef struct { int swap, u0, u1, v0, v2; } cyd_cal_t;
+extern const cyd_cal_t cyd_cal_default;
+/* raw[k] = {channel X (0xD0), channel Y (0x90)} for tap k. False if degenerate. */
+bool cyd_touch_calibrate(const int raw[3][2], cyd_cal_t *cal);
 /* XPT2046 raw 12-bit readings -> portrait screen point. */
-void cyd_touch_map(int raw_x, int raw_y, int *x, int *y);
+void cyd_touch_map(const cyd_cal_t *cal, int raw_x, int raw_y, int *x, int *y);
 
 extern const int cyd_steps_mhz[3];

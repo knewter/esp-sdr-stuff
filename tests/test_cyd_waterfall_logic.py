@@ -107,13 +107,44 @@ class Logic(unittest.TestCase):
         self.assertEqual(target(120, 200), 'WATERFALL')
         self.assertEqual(target(-1, 200), 'NONE')
 
-    def test_touch_map_clamps(self):
-        x, y = ctypes.c_int(), ctypes.c_int()
-        self.c.cyd_touch_map(0, 5000, ctypes.byref(x), ctypes.byref(y))
-        self.assertEqual((x.value, y.value), (0, 319))
-        self.c.cyd_touch_map(1950, 2020, ctypes.byref(x), ctypes.byref(y))
-        self.assertEqual((x.value, y.value), (120, 160))
+    class Cal(ctypes.Structure):
+        _fields_ = [(n, ctypes.c_int) for n in ('swap', 'u0', 'u1', 'v0', 'v2')]
 
+    def calibrate(self, raw):
+        cal = self.Cal()
+        arr = ((ctypes.c_int*2)*3)(*[(ctypes.c_int*2)(*r) for r in raw])
+        self.c.cyd_touch_calibrate.restype = ctypes.c_bool
+        ok = self.c.cyd_touch_calibrate(arr, ctypes.byref(cal))
+        return ok, cal
+
+    def mapped(self, cal, rx, ry):
+        x, y = ctypes.c_int(), ctypes.c_int()
+        self.c.cyd_touch_map(ctypes.byref(cal), rx, ry, ctypes.byref(x), ctypes.byref(y))
+        return x.value, y.value
+
+    def test_calibration_recovers_swapped_flipped_axes(self):
+        # Raw X channel runs down the screen (inverted), raw Y runs across.
+        raw = lambda sx, sy: (3800-sy*10, 300+sx*12)
+        ok, cal = self.calibrate([raw(20, 20), raw(220, 20), raw(20, 300)])
+        self.assertTrue(ok)
+        self.assertEqual(cal.swap, 1)
+        for sx, sy in ((20, 20), (120, 160), (220, 300), (60, 250)):
+            x, y = self.mapped(cal, *raw(sx, sy))
+            self.assertLessEqual(abs(x-sx), 1)
+            self.assertLessEqual(abs(y-sy), 1)
+
+    def test_calibration_plain_axes_and_clamp(self):
+        raw = lambda sx, sy: (200+sx*14, 240+sy*11)
+        ok, cal = self.calibrate([raw(20, 20), raw(220, 20), raw(20, 300)])
+        self.assertTrue(ok)
+        self.assertEqual(cal.swap, 0)
+        self.assertEqual(self.mapped(cal, *raw(120, 160)), (120, 160))
+        self.assertEqual(self.mapped(cal, 0, 0), (0, 0))
+        self.assertEqual(self.mapped(cal, 4095, 4095), (239, 319))
+
+    def test_degenerate_calibration_rejected(self):
+        ok, _ = self.calibrate([(1000, 1000), (1010, 1005), (1003, 1100)])
+        self.assertFalse(ok)
 
 if __name__ == '__main__':
     unittest.main()

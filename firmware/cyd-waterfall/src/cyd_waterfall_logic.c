@@ -2,15 +2,13 @@
  * ESP-SDR project it extends). */
 #include "cyd_waterfall_logic.h"
 #include <math.h>
+#include <stdlib.h>
 #include <string.h>
 
 const int cyd_steps_mhz[3] = {1, 5, 10};
 
-/* Typical CYD XPT2046 span; first on-board proof may refine these. */
-#define TOUCH_RAW_MIN_X 200
-#define TOUCH_RAW_MAX_X 3700
-#define TOUCH_RAW_MIN_Y 240
-#define TOUCH_RAW_MAX_Y 3800
+/* Uncalibrated guess (typical CYD spans) until the user calibrates. */
+const cyd_cal_t cyd_cal_default = {0, 200, 3700, 240, 3800};
 
 void cyd_unpack(uint32_t word, float *i, float *q) {
     int32_t a = (int32_t)(word << 22) >> 22;
@@ -130,12 +128,32 @@ cyd_touch_t cyd_touch_target(int x, int y) {
     return CYD_TOUCH_WATERFALL;
 }
 
-static int scale(int v, int lo, int hi, int out) {
-    int s = (v-lo)*out/(hi-lo);
-    return s < 0 ? 0 : s >= out ? out-1 : s;
+static int clamp(int v, int out) {
+    return v < 0 ? 0 : v >= out ? out-1 : v;
 }
 
-void cyd_touch_map(int raw_x, int raw_y, int *x, int *y) {
-    *x = scale(raw_x, TOUCH_RAW_MIN_X, TOUCH_RAW_MAX_X, CYD_COLUMNS);
-    *y = scale(raw_y, TOUCH_RAW_MIN_Y, TOUCH_RAW_MAX_Y, CYD_SCREEN_HEIGHT);
+bool cyd_touch_calibrate(const int raw[3][2], cyd_cal_t *cal) {
+    /* Top-left -> top-right moves only screen x: the raw channel that
+     * changes most there is the x channel. */
+    int dx = abs(raw[1][0]-raw[0][0]), dy = abs(raw[1][1]-raw[0][1]);
+    int swap = dy > dx;
+    int u = swap, v = !swap;
+    cyd_cal_t c = {swap, raw[0][u], raw[1][u], raw[0][v], raw[2][v]};
+    if (abs(c.u1-c.u0) < 300 || abs(c.v2-c.v0) < 300) return false;
+    *cal = c;
+    return true;
+}
+
+void cyd_touch_map(const cyd_cal_t *cal, int raw_x, int raw_y, int *x, int *y) {
+    int raw[2] = {raw_x, raw_y};
+    int u = raw[cal->swap], v = raw[!cal->swap];
+    if (cal == &cyd_cal_default) {
+        /* Default spans cover the whole panel, not the cross positions. */
+        *x = clamp((u-cal->u0)*CYD_COLUMNS/(cal->u1-cal->u0), CYD_COLUMNS);
+        *y = clamp((v-cal->v0)*CYD_SCREEN_HEIGHT/(cal->v2-cal->v0), CYD_SCREEN_HEIGHT);
+        return;
+    }
+    int span_x = CYD_COLUMNS-2*CYD_CAL_MARGIN, span_y = CYD_SCREEN_HEIGHT-2*CYD_CAL_MARGIN;
+    *x = clamp(CYD_CAL_MARGIN+(u-cal->u0)*span_x/(cal->u1-cal->u0), CYD_COLUMNS);
+    *y = clamp(CYD_CAL_MARGIN+(v-cal->v0)*span_y/(cal->v2-cal->v0), CYD_SCREEN_HEIGHT);
 }
