@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "recorded": "2026-10-07",
+  "protocol": "docs/research/spectrum-controlled-007-protocol.md (f564002)",
+  "receiver": "Cheap Yellow Display (waterfall build), 16 MS/s, BW 12, 600 windows per LO",
+  "captures": {
+    "lo2443": {
+      "ok": 596,
+      "recovered_faults": 4
+    },
+    "lo2455": {
+      "ok": 587,
+      "recovered_faults": 13
+    },
+    "lo2467": {
+      "ok": 593,
+      "recovered_faults": 7
+    },
+    "lo2479": {
+      "ok": 593,
+      "recovered_faults": 7
+    },
+    "lo2491": {
+      "ok": 592,
+      "recovered_faults": 8
+    },
+    "lo2503": {
+      "ok": 592,
+      "recovered_faults": 8
+    },
+    "lo2515": {
+      "ok": 578,
+      "recovered_faults": 22
+    }
+  },
+  "search": {
+    "channel": 39,
+    "search_grid_khz": [
+      -7400,
+      -6600,
+      -5800,
+      -5000,
+      -4200,
+      -3400,
+      -2600,
+      -1800,
+      -1000,
+      -200,
+      600,
+      1400,
+      2200,
+      3000,
+      3800,
+      4600,
+      5400,
+      6200,
+      7000
+    ],
+    "captures": [
+      {
+        "lo_mhz": 2443,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2455,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2467,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2479,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2491,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2503,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      },
+      {
+        "lo_mhz": 2515,
+        "owned_on": 0,
+        "owned_off": 0,
+        "median_carrier_mhz": null
+      }
+    ],
+    "selected": null
+  },
+  "decoder_statuses": {
+    "2443": {
+      "unsupported_or_invalid_header": 24
+    },
+    "2455": {
+      "unsupported_or_invalid_header": 21,
+      "truncated_header": 2
+    },
+    "2467": {
+      "unsupported_or_invalid_header": 15,
+      "truncated_packet": 1
+    },
+    "2479": {
+      "unsupported_or_invalid_header": 18
+    },
+    "2491": {
+      "unsupported_or_invalid_header": 14
+    },
+    "2503": {
+      "unsupported_or_invalid_header": 19,
+      "truncated_packet": 4
+    },
+    "2515": {
+      "unsupported_or_invalid_header": 17,
+      "truncated_header": 1
+    }
+  },
+  "result": "no owned ch39 packet at any LO (about 2436-2522 MHz; ~18 expected per LO if received); pairs not run; ch39 not received",
+  "exploratory_crosschecks": {
+    "ch39_requested_listen_ch37": {
+      "lo_mhz": 2401,
+      "source_cycles": 20,
+      "owned_on": 0,
+      "owned_off": 0
+    },
+    "ch39_requested_listen_ch38": {
+      "lo_mhz": 2425,
+      "source_cycles": 20,
+      "owned_on": 0,
+      "owned_off": 0
+    },
+    "meaning": "with ch39 requested the source leaves ch37 and ch38 (0 owned at each, against 5-11 per pair when requested there), so it is presumably on ch39; the board does not decode it anywhere in 2436-2522 MHz"
+  },
+  "task_1_2": "not satisfied: ch37 and ch38 confirmed (session 005); ch39 not received by this board"
+}
